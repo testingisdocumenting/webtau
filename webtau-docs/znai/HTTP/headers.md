@@ -115,7 +115,12 @@ Java:
 
 To validate values from response header use `header` object.
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "header assertion with shortcut", bodyOnly: true}
+```tabs
+
+Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {title: "header assertion with shortcut", entry: "header assertion with shortcut", bodyOnly: true}
+Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {title: "header assertion with shortcut", entry: "headerAssertionWithShortcut", bodyOnly: true}
+
+```
 
 At the moment only `location`, `contentLocation`, `contentLength` have camelCase shortcuts.
 All the other header values you need to use `['Header-Name']` syntax.

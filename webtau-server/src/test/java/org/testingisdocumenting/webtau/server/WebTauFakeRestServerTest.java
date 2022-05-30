@@ -42,7 +42,7 @@ public class WebTauFakeRestServerTest {
             });
 
             http.get(restServer.getBaseUrl() + "/abcd", (header, body) -> {
-                header.statusCode().should(equal(404));
+                header.statusCode.should(equal(404));
             });
         }
     }
@@ -90,27 +90,27 @@ public class WebTauFakeRestServerTest {
 
         try (WebTauServer restServer = server.fake("route-crud-status-code", router)) {
             http.get(restServer.getBaseUrl() + "/customer/11", (header, body) -> {
-                header.statusCode().should(equal(203));
+                header.statusCode.should(equal(203));
                 body.get("getId").should(equal("11"));
             });
 
             http.post(restServer.getBaseUrl() + "/customer/22", (header, body) -> {
-                header.statusCode().should(equal(203));
+                header.statusCode.should(equal(203));
                 body.get("postId").should(equal("22"));
             });
 
             http.put(restServer.getBaseUrl() + "/customer/33", (header, body) -> {
-                header.statusCode().should(equal(203));
+                header.statusCode.should(equal(203));
                 body.get("putId").should(equal("33"));
             });
 
             http.delete(restServer.getBaseUrl() + "/customer/44", (header, body) -> {
-                header.statusCode().should(equal(203));
+                header.statusCode.should(equal(203));
                 body.get("deleteId").should(equal("44"));
             });
 
             http.patch(restServer.getBaseUrl() + "/customer/55", (header, body) -> {
-                header.statusCode().should(equal(203));
+                header.statusCode.should(equal(203));
                 body.get("patchId").should(equal("55"));
             });
         }
