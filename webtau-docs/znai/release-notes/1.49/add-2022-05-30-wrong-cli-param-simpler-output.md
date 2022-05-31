@@ -1,0 +1,1 @@
+* Better error message in case of wrong `webtau` CLI argument name
