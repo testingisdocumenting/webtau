@@ -25,6 +25,8 @@ import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Options
 import org.apache.commons.cli.ParseException
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.version.WebTauVersion
 
 import java.nio.file.Paths
@@ -122,7 +124,11 @@ class WebTauCliArgsConfig {
         try {
             return parser.parse(options, args)
         } catch (ParseException e) {
-            throw new RuntimeException(e)
+            ConsoleOutputs.out(Color.RED, e.getMessage())
+            ConsoleOutputs.out(Color.BLUE, "use --help to list all available parameters")
+            System.exit(2)
+
+            return null
         }
     }
 
