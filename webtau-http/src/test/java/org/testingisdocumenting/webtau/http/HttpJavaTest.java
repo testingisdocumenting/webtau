@@ -121,6 +121,24 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
+    public void findOnListAndAssert() {
+        http.get("/end-point", ((header, body) -> {
+            DataNode found = body.get("complexList").find(node -> node.get("id").get().equals("id1"));
+            found.get("k1").should(equal("v1"));
+            found.get("k2").should(equal(30));
+        }));
+    }
+
+    @Test
+    public void findOnListAndReturn() {
+        Map<String, ?> found = http.get("/end-point", ((header, body) -> {
+            return body.get("complexList").find(node -> node.get("id").get().equals("id1"));
+        }));
+
+        actual(found).should(equal(aMapOf("id", "id1", "k1", "v1", "k2", 30)));  // doc-exclude
+    }
+
+    @Test
     public void equalityMatcher() {
         http.get("/end-point", (header, body) -> {
             body.get("id").shouldNot(equal(0));

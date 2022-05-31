@@ -586,13 +586,23 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "find on list"() {
-        def found = http.get("/end-point") {
-            return list.find { it > 1 }
+    void "find on list and assert"() {
+        http.get("/end-point") {
+            def found = complexList.find { it.id.get() == "id1" }
+            found.k1.should == "v1"
+            found.k2.should == 30
         }
 
-        assert found == 2
-        assert found.getClass() == Integer
+        http.doc.capture("find-on-list-and-assert") // doc-exclude
+    }
+
+    @Test
+    void "find on list and return"() {
+        def found = http.get("/end-point") {
+            return complexList.find { it.id == "id1" }
+        }
+
+        found.should == [id: "id1", k1: "v1", k2: 30] // doc-exclude
     }
 
     @Test
@@ -602,7 +612,7 @@ class HttpGroovyTest extends HttpTestBase {
         }
 
         def listElements = http.lastValidationResult.bodyNode.get("list").elements()
-        listElements.get(0).traceableValue.checkLevel.should == CheckLevel.None
+        listElements.get(0).traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
         listElements.get(1).traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
         listElements.get(2).traceableValue.checkLevel.should == CheckLevel.None
     }
@@ -628,12 +638,12 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "findAll on list should mark values as fuzzy checked"() {
-        def found = http.get("/end-point") {
+        http.get("/end-point") {
             return list.findAll { it > 1 }
         }
 
         def listElements = http.lastValidationResult.bodyNode.get("list").elements()
-        listElements.get(0).traceableValue.checkLevel.should == CheckLevel.None
+        listElements.get(0).traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
         listElements.get(1).traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
         listElements.get(2).traceableValue.checkLevel.should == CheckLevel.FuzzyPassed
     }
@@ -651,7 +661,6 @@ class HttpGroovyTest extends HttpTestBase {
     void "find on list of objects"() {
         def id = http.get("/end-point") {
             def found = complexList.find {
-                assert k1.getClass() == String
                 k1 == 'v1'
             }
             assert found.getClass() == GroovyDataNode
@@ -694,8 +703,8 @@ class HttpGroovyTest extends HttpTestBase {
     void "findAll, collect, and sum"() {
         def sum = http.get("/end-point") {
             return complexList
-                    .findAll { k1.startsWith('v1') }
-                    .collect { k2 }
+                    .findAll { k1.get().startsWith('v1') }
+                    .collect { k2.get() }
                     .sum()
         }
 
@@ -707,6 +716,8 @@ class HttpGroovyTest extends HttpTestBase {
         http.get("/end-point") {
             complexList.k2.should == [30, 40]
         }
+
+        http.doc.capture("properties-on-list") // doc-exclude
     }
 
     @Test

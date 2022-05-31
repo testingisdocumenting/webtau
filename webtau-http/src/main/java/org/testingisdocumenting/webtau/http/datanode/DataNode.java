@@ -27,6 +27,7 @@ import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
@@ -50,6 +51,8 @@ public interface DataNode extends DataNodeExpectations, Comparable<Object>, Iter
     List<DataNode> elements();
 
     Collection<DataNode> children();
+
+    DataNode find(Predicate<DataNode> predicate);
 
     int numberOfChildren();
 
