@@ -149,6 +149,11 @@ public class HeaderDataNode implements DataNode {
     }
 
     @Override
+    public DataNode findAll(Predicate<DataNode> predicate) {
+        return dataNode.findAll(predicate);
+    }
+
+    @Override
     public String toString() {
         return dataNode.toString();
     }

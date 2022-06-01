@@ -627,13 +627,23 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "findAll on list"() {
+    void "findAll on complex list"() {
+        http.get("/end-point") {
+            def found = complexList.findAll { it.k2 > 20 }
+            found.k1.should containAll("v1", "v11")
+        }
+    }
+
+    @Test
+    void "findAll on null node"() {
         def found = http.get("/end-point") {
-            return list.findAll { it > 1 }
+            def found = wrongName.findAll { true }
+            assert found.isNull()
+
+            return found
         }
 
-        assert found == [2, 3]
-        assert found[0].getClass() == Integer
+        assert found == null
     }
 
     @Test
@@ -658,7 +668,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "find on list of objects"() {
+    void "types of find all on list of objects"() {
         def id = http.get("/end-point") {
             def found = complexList.find {
                 k1 == 'v1'

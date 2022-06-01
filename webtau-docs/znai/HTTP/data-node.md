@@ -171,11 +171,23 @@ will not participate in data coverage. Use returned values for further test logi
 
 Use `findAll` to find a list of `DataNode`s based on a provided predicate
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "findAll on list", bodyOnly: true}
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  entry: "findAll on complex list",
+  bodyOnly: true 
+}
 
-Note: The result of `find` and `findAll` is of type `DataNode`
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "find and assert on value",
+  entry: "findAllOnComplexList", 
+  bodyOnly: true
+}
+```
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "find on list of objects", bodyOnly: true}
+
+Note: The result of `findAll` is of type `DataNode` and you can leverage [Properties On Lists](#properties-on-lists)
 
 # Collect
 
