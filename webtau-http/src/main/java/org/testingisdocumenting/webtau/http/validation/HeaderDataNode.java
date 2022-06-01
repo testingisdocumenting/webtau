@@ -27,6 +27,7 @@ import org.testingisdocumenting.webtau.http.datanode.NullDataNode;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -140,6 +141,11 @@ public class HeaderDataNode implements DataNode {
     @Override
     public int numberOfElements() {
         return dataNode.numberOfElements();
+    }
+
+    @Override
+    public DataNode find(Predicate<DataNode> predicate) {
+        return dataNode.find(predicate);
     }
 
     @Override

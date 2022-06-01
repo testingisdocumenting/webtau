@@ -22,7 +22,7 @@ import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
+import java.util.function.Predicate;
 
 public class NullDataNode implements DataNode {
     private final DataNodeId id;
@@ -99,6 +99,11 @@ public class NullDataNode implements DataNode {
     @Override
     public boolean isNull() {
         return true;
+    }
+
+    @Override
+    public DataNode find(Predicate<DataNode> predicate) {
+        return new NullDataNode(id.child("<find>"));
     }
 
     @Override

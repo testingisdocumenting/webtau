@@ -20,12 +20,13 @@ package org.testingisdocumenting.webtau.http.datanode
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue
 import org.testingisdocumenting.webtau.expectation.ActualPath
-import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter
+
+import java.util.function.Predicate
 
 import static org.testingisdocumenting.webtau.groovy.ast.ShouldAstTransformation.SHOULD_BE_REPLACED_MESSAGE
 
 class GroovyDataNode implements DataNodeExpectations, DataNode {
-    private DataNode node
+    private final DataNode node
 
     GroovyDataNode(final DataNode node) {
         this.node = node
@@ -99,6 +100,11 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     @Override
+    DataNode find(Predicate<DataNode> predicate) {
+        return find((Closure) predicate)
+    }
+
+    @Override
     Iterator<DataNode> iterator() {
         return elements().iterator()
     }
@@ -118,7 +124,7 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     DataNode find(Closure predicate) {
-        def result = node.elements().find(delegateToNodeAndRemovedDataNodeFromClosure(predicate))
+        def result = node.elements().find(delegateToDataNodeClosure(predicate))
 
         if (result instanceof DataNode) {
             if (result.singleValue) {
@@ -131,19 +137,12 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     DataNode findAll(Closure predicate) {
-        def list = node.elements().findAll(delegateToNodeAndRemovedDataNodeFromClosure(predicate))
-
-        list.each {
-            if (it.isSingleValue()) {
-                it.traceableValue.updateCheckLevel(CheckLevel.FuzzyPassed)
-            }
-        }
-
-        return wrapIntoDataNode('findAll', list)
+        def list = node.elements().findAll(delegateToDataNodeClosure(predicate))
+        return wrapIntoDataNode('<findAll>', list)
     }
 
     List collect(Closure transformation) {
-        return node.elements().collect(delegateToNodeAndRemovedDataNodeFromClosure(transformation))
+        return node.elements().collect(delegateToDataNodeClosure(transformation))
     }
 
     @Override
@@ -160,25 +159,11 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
         return new GroovyDataNode(new StructuredDataNode(node.id().child(operationId), list))
     }
 
-    private static Closure delegateToNodeAndRemovedDataNodeFromClosure(Closure original) {
-        def newClosure = { dataNode ->
-            def converter = new DataNodeToMapOfValuesConverter({ id, traceableValue ->
-                traceableValue.getValue()
-            })
-
-            def convertedToSimple = converter.convert(dataNode)
-            Closure cloned = cloneAndAssignDelegate(original, convertedToSimple)
-
-            return cloned.call(convertedToSimple)
-        }
-
-        return newClosure
-    }
-
     private static Closure delegateToDataNodeClosure(Closure original) {
         def newClosure = { dataNode ->
-            Closure cloned = cloneAndAssignDelegate(original, dataNode)
-            return cloned.call(dataNode)
+            def groovyNode = new GroovyDataNode(dataNode)
+            Closure cloned = cloneAndAssignDelegate(original, groovyNode)
+            return cloned.call(groovyNode)
         }
 
         return newClosure
