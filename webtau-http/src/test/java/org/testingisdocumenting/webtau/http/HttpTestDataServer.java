@@ -59,6 +59,8 @@ public class HttpTestDataServer {
         handler.registerPost("/echo", new TestServerResponseEcho(201));
         handler.registerPut("/echo", new TestServerResponseEcho(200));
         handler.registerPatch("/echo", new TestServerResponseEcho(200));
+        handler.registerGet("/full-echo", new TestServerRequestFullEcho(200));
+        handler.registerGet("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
         handler.registerPut("/full-echo", new TestServerRequestFullEcho(200));
         handler.registerPut("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
         handler.registerPost("/full-echo", new TestServerRequestFullEcho(201));

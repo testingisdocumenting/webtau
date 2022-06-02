@@ -41,6 +41,9 @@ public class HttpOverloadsTestCommon {
     public static final String HEADER_KEY = "v";
     public static final String HEADER_EXPECTED_RETURN = "42";
 
+    public static final String QUERY_PARAMS_KEY = "urlQuery";
+    public static final String QUERY_PARAMS_EXPECTED_RETURN = "a=1&b=text";
+
     public static final String PATH_KEY = "urlPath";
     public static final String PATH_EXPECTED_RETURN = "/full-echo";
 
