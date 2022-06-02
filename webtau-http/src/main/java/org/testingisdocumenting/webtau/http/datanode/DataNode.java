@@ -54,6 +54,8 @@ public interface DataNode extends DataNodeExpectations, Comparable<Object>, Iter
 
     DataNode find(Predicate<DataNode> predicate);
 
+    DataNode findAll(Predicate<DataNode> predicate);
+
     int numberOfChildren();
 
     int numberOfElements();

@@ -208,6 +208,12 @@ public class StructuredDataNode implements DataNode {
     }
 
     @Override
+    public DataNode findAll(Predicate<DataNode> predicate) {
+        return new StructuredDataNode(id().child("<finsAll>"),
+                elements().stream().filter(predicate).collect(toList()));
+    }
+
+    @Override
     public boolean equals(Object obj) {
         throw new UnsupportedOperationException("Use .get() to access DataNode underlying value");
     }

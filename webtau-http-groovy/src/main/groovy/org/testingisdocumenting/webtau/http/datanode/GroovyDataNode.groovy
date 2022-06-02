@@ -105,6 +105,11 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     @Override
+    DataNode findAll(Predicate<DataNode> predicate) {
+        return findAll((Closure) predicate)
+    }
+
+    @Override
     Iterator<DataNode> iterator() {
         return elements().iterator()
     }
@@ -124,6 +129,10 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     DataNode find(Closure predicate) {
+        if (node.isNull()) {
+            return node.findAll(predicate)
+        }
+
         def result = node.elements().find(delegateToDataNodeClosure(predicate))
 
         if (result instanceof DataNode) {
@@ -137,11 +146,19 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     DataNode findAll(Closure predicate) {
+        if (node.isNull()) {
+            return node.findAll((Predicate<DataNode>)predicate)
+        }
+
         def list = node.elements().findAll(delegateToDataNodeClosure(predicate))
         return wrapIntoDataNode('<findAll>', list)
     }
 
     List collect(Closure transformation) {
+        if (node.isNull()) {
+            return node.collect(transformation)
+        }
+
         return node.elements().collect(delegateToDataNodeClosure(transformation))
     }
 

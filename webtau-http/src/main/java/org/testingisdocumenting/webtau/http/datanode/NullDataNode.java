@@ -107,6 +107,11 @@ public class NullDataNode implements DataNode {
     }
 
     @Override
+    public DataNode findAll(Predicate<DataNode> predicate) {
+        return new NullDataNode(id.child("<findAll>"));
+    }
+
+    @Override
     public String toString() {
         return "[null node]@" + id;
     }
