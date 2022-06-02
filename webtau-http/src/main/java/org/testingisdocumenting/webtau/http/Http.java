@@ -131,7 +131,15 @@ public class Http {
                 header, null, validator);
     }
 
+    public <E> E get(String url, Map<CharSequence, ?> queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+        return get(url, new HttpQueryParams(queryParams), header, validator);
+    }
+
     public void get(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidator validator) {
+        get(url, queryParams, header, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void get(String url, Map<CharSequence, ?> queryParams, HttpHeader header, HttpResponseValidator validator) {
         get(url, queryParams, header, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -139,12 +147,28 @@ public class Http {
         get(url, queryParams, header, EMPTY_RESPONSE_VALIDATOR);
     }
 
+    public void get(String url, Map<CharSequence, ?> queryParams, HttpHeader header) {
+        get(url, queryParams, header, EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public <E> E get(String url, Map<CharSequence, ?> queryParams, HttpResponseValidatorWithReturn validator) {
+        return get(url, queryParams, HttpHeader.EMPTY, validator);
+    }
+
     public <E> E get(String url, HttpQueryParams queryParams, HttpResponseValidatorWithReturn validator) {
         return get(url, queryParams, HttpHeader.EMPTY, validator);
     }
 
+    public void get(String url, Map<CharSequence, ?> queryParams, HttpResponseValidator validator) {
+        get(url, queryParams, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void get(String url, HttpQueryParams queryParams, HttpResponseValidator validator) {
         get(url, queryParams, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void get(String url, Map<CharSequence, ?> queryParams) {
+        get(url, queryParams, HttpHeader.EMPTY, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public void get(String url, HttpQueryParams queryParams) {
@@ -797,11 +821,11 @@ public class Http {
         return new HttpHeader().with(properties);
     }
 
-    public HttpQueryParams query(String... params) {
-        return new HttpQueryParams(CollectionUtils.aMapOf((Object[]) params));
+    public HttpQueryParams query(Object... params) {
+        return new HttpQueryParams(CollectionUtils.aMapOf(params));
     }
 
-    public HttpQueryParams query(Map<String, ?> params) {
+    public HttpQueryParams query(Map<CharSequence, ?> params) {
         return new HttpQueryParams(params);
     }
 
@@ -1033,7 +1057,7 @@ public class Http {
                     }
 
                     // originally an exception happened,
-                    // so we combine it's message with status code failure
+                    // so we combine its message with status code failure
                     throw new AssertionError('\n' + message +
                             "\n\nadditional exception message:\n" + e.getMessage(), e);
 

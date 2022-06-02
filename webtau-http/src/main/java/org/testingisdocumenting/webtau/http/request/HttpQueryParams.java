@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.http.request;
 
+import org.testingisdocumenting.webtau.utils.StringUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.Collections;
@@ -28,11 +30,13 @@ import java.util.stream.Collectors;
 public class HttpQueryParams {
     public static final HttpQueryParams EMPTY = new HttpQueryParams(Collections.emptyMap());
 
-    private final Map<String, ?> params;
+    private final Map<String, Object> params;
     private final String asString;
 
-    public HttpQueryParams(Map<String, ?> params) {
-        this.params = new LinkedHashMap<>(params);
+    public HttpQueryParams(Map<?, ?> params) {
+        this.params = new LinkedHashMap<>();
+        params.forEach((k, v) -> this.params.put(StringUtils.toStringOrNull(k), v));
+
         this.asString = this.params.entrySet().stream()
                 .map(e -> encode(e.getKey()) + "=" + encode(e.getValue().toString()))
                 .collect(Collectors.joining("&"));

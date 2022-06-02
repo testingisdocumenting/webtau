@@ -34,6 +34,7 @@ public class HttpTestDataServer {
         TestServerJsonResponse objectTestResponse = jsonResponse("objectTestResponse.json");
 
         handler.registerGet("/end-point", objectTestResponse);
+        handler.registerGet("/end-point?a=1&b=text", objectTestResponse);
         handler.registerGet("/end-point?queryParam1=queryParamValue1", objectTestResponse);
 
         handler.registerPost("/end-point", jsonResponse("objectTestResponse.json", 201,
@@ -84,11 +85,13 @@ public class HttpTestDataServer {
         handler.registerPatch("/empty", new TestServerJsonResponse(null, 204));
         handler.registerPost("/file-upload", new TestServerFakeFileUpload());
         handler.registerDelete("/resource", new TestServerTextResponse("abc"));
-        handler.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
-        handler.registerPost("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}", 201));
-        handler.registerGet("/params?message=hello+world+%21", new TestServerJsonResponse("{}", 200));
+        handler.registerGet("/path?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
+        handler.registerPost("/path?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}", 201));
+        handler.registerGet("/path?message=hello+world+%21", new TestServerJsonResponse("{}", 200));
         handler.registerGet("/integer", new TestServerJsonResponse("123"));
         handler.registerPost("/json-derivative", new TestServerJsonDerivativeResponse());
+
+        handler.registerPost("/chat?a=1&b=text", new TestServerJsonDerivativeResponse());
 
         handler.registerGet("/address", jsonResponse("addressResponse.json"));
         registerRedirects();

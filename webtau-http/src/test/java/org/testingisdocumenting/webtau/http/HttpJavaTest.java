@@ -346,19 +346,48 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
+    public void queryParamsInUrlExample() {
+        http.get("/path?a=1&b=text", ((header, body) -> {
+            // assertions go here
+        }));
+    }
+
+    @Test
+    public void queryParamsUsingQueryAsMapExample() {
+        http.get("/path", aMapOf("a", 1, "b", "text"), ((header, body) -> {
+            // assertions go here
+        }));
+    }
+
+    @Test
+    public void queryParamsUsingQueryMethodExample() {
+        http.post("/chat", http.query("a", 1, "b", "text"), http.header("x-param", "value"), aMapOf("message", "hello"),
+                (header, body) -> {
+                    // assertions go here
+                });
+    }
+
+    @Test
+    public void queryParamsEncoding() {
+        http.get("/path", http.query("message", "hello world !"), (header, body) -> {
+            // assertions go here
+        });
+    }
+
+    @Test
     public void queryParams() {
-        http.get("/params?a=1&b=text", (header, body) -> {
+        http.get("/path?a=1&b=text", (header, body) -> {
             body.get("a").should(equal(1));
             body.get("b").should(equal("text"));
         });
 
         Map<String, String> queryParams = CollectionUtils.aMapOf("a", 1, "b", "text");
-        http.get("/params", http.query(queryParams), (header, body) -> {
+        http.get("/path", http.query(queryParams), (header, body) -> {
             body.get("a").should(equal(1));
             body.get("b").should(equal("text"));
         });
 
-        http.get("/params", http.query("a", "1", "b", "text"), (header, body) -> {
+        http.get("/path", http.query("a", "1", "b", "text"), (header, body) -> {
             body.get("a").should(equal(1));
             body.get("b").should(equal("text"));
         });
