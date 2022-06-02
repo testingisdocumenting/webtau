@@ -24,11 +24,69 @@ import static org.testingisdocumenting.webtau.http.HttpOverloadsTestCommon.*
 
 class HttpGroovyOverloadsTest extends HttpTestBase {
     @Test
-    void "get without validation syntax check"() {
-        http.get("/end-point")
-        http.get("/end-point", [queryParam1: "queryParamValue1"])
-        http.get("/end-point", [queryParam1: "queryParamValue1"], http.header("h1", "v1"))
-        http.get("/end-point", http.header("h1", "v1"))
+    void "get without return overloads"() {
+        http.get("/full-echo", requestHeader) {
+            headerValidation.accept(body)
+        }
+
+        http.get("/full-echo", query, requestHeader) {
+            urlValidation.accept(body)
+            headerValidation.accept(body)
+        }
+
+        http.get("/full-echo", queryAsMap, requestHeader) {
+            urlValidation.accept(body)
+            headerValidation.accept(body)
+        }
+
+        http.get("/full-echo", query) {
+            urlValidation.accept(body)
+        }
+
+        http.get("/full-echo", queryAsMap) {
+            urlValidation.accept(body)
+        }
+    }
+
+    @Test
+    void "get with return overloads"() {
+        def v
+        v = http.get("/full-echo", requestHeader) {
+            headerValidation.accept(body)
+
+            return body[HEADER_KEY]
+        }
+        v.should == HEADER_EXPECTED_RETURN
+
+        v = http.get("/full-echo", query, requestHeader) {
+            urlValidation.accept(body)
+            headerValidation.accept(body)
+
+            return body[HEADER_KEY]
+        }
+        v.should == HEADER_EXPECTED_RETURN
+
+        v = http.get("/full-echo", queryAsMap, requestHeader) {
+            urlValidation.accept(body)
+            headerValidation.accept(body)
+
+            return body[HEADER_KEY]
+        }
+        v.should == HEADER_EXPECTED_RETURN
+
+        v = http.get("/full-echo", query) {
+            urlValidation.accept(body)
+
+            return body[QUERY_PARAMS_KEY]
+        }
+        v.should == QUERY_PARAMS_EXPECTED_RETURN
+
+        v = http.get("/full-echo", queryAsMap) {
+            urlValidation.accept(body)
+
+            return body[QUERY_PARAMS_KEY]
+        }
+        v.should == QUERY_PARAMS_EXPECTED_RETURN
     }
 
     @Test
@@ -515,6 +573,14 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
             return header.statusCode
         }
         number.should == expected
+    }
+
+    @Test
+    void "get without validation"() {
+        http.get("/end-point")
+        http.get("/end-point", [queryParam1: "queryParamValue1"])
+        http.get("/end-point", [queryParam1: "queryParamValue1"], http.header("h1", "v1"))
+        http.get("/end-point", http.header("h1", "v1"))
     }
 
     @Test
