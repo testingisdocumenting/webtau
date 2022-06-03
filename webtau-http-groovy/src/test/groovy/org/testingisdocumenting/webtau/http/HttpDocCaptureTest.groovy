@@ -130,40 +130,40 @@ class HttpDocCaptureTest extends HttpTestBase {
 
     @Test
     void "url doc capture includes query params when part of url"() {
-        http.get('/params?a=1&b=text') {}
+        http.get('/path?a=1&b=text') {}
 
         String artifactName = 'url-capture'
         http.doc.capture(artifactName)
 
-        readAndAssertCapturedFileTextContents(artifactName, 'request.url.txt', '/params?a=1&b=text')
-        readAndAssertCapturedFileTextContents(artifactName, 'request.fullurl.txt', "${testServer.uri}/params?a=1&b=text")
+        readAndAssertCapturedFileTextContents(artifactName, 'request.url.txt', '/path?a=1&b=text')
+        readAndAssertCapturedFileTextContents(artifactName, 'request.fullurl.txt', "${testServer.uri}/path?a=1&b=text")
     }
 
     @Test
     void "url doc capture includes query params specified as HttpQueryParams"() {
-        http.get('/params', http.query([a: 1, b: 'text'])) {}
+        http.get('/path', http.query([a: 1, b: 'text'])) {}
 
         String artifactName = 'url-capture-with-query-params'
         http.doc.capture(artifactName)
 
-        readAndAssertCapturedFileTextContents(artifactName, 'request.url.txt', '/params?a=1&b=text')
-        readAndAssertCapturedFileTextContents(artifactName, 'request.fullurl.txt', "${testServer.uri}/params?a=1&b=text")
+        readAndAssertCapturedFileTextContents(artifactName, 'request.url.txt', '/path?a=1&b=text')
+        readAndAssertCapturedFileTextContents(artifactName, 'request.fullurl.txt', "${testServer.uri}/path?a=1&b=text")
     }
 
     @Test
     void "http method and operation are captured for docs"() {
-        http.get('/params', http.query([a: 1, b: 'text'])) {}
+        http.get('/path', http.query([a: 1, b: 'text'])) {}
 
         String artifactName = 'operation-capture'
         http.doc.capture(artifactName)
 
         readAndAssertCapturedFileTextContents(artifactName, 'request.method.txt', 'GET')
-        readAndAssertCapturedFileTextContents(artifactName, "request.operation.txt", 'GET /params?a=1&b=text')
+        readAndAssertCapturedFileTextContents(artifactName, "request.operation.txt", 'GET /path?a=1&b=text')
     }
 
     @Test
     void "doc capture checks that artifact name is not being re-used"() {
-        http.get('/params', http.query([a: 1, b: 'text'])) {}
+        http.get('/path', http.query([a: 1, b: 'text'])) {}
 
         String artifactName = 'name-reuse-check'
         http.doc.capture(artifactName)
