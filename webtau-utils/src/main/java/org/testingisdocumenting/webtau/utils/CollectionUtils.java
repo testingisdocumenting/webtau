@@ -57,7 +57,7 @@ public class CollectionUtils {
      * @param <K> type of key
      * @return map with preserved order
      */
-    public static <K> Map<K, Object> aMapOf(Map<K, Object> original, K firstKey, Object firstValue, Object... restKv) {
+    public static <K> Map<K, Object> aMapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
         Map<K, Object> result = new LinkedHashMap<>(original);
         Map<K, Object> overrides = aMapOf(firstKey, firstValue, restKv);
 
