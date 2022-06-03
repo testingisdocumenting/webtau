@@ -26,22 +26,24 @@ public class CollectionUtils {
     }
 
     /**
-     * creates a map from var args key value
-     * @param kvs key value pairs
+     * creates a map from var args key value with enforced first key type
+     * @param firstKey first key
+     * @param firstValue first value
+     * @param rest rest of the values
      * @param <K> type of key
-     * @param <V> type of value
      * @return map with preserved order
      */
     @SuppressWarnings("unchecked")
-    public static <K, V> Map<K, V> aMapOf(Object... kvs) {
-        Map<K, V> result = new LinkedHashMap<>();
-
-        if (kvs.length % 2 != 0) {
+    public static <K> Map<K, Object> aMapOf(K firstKey, Object firstValue, Object... rest) {
+        if (rest.length % 2 != 0) {
             throw new IllegalArgumentException("key value sequence must have even number of values");
         }
 
-        for (int idx = 0; idx < kvs.length; idx += 2) {
-            result.put((K) kvs[idx], (V) kvs[idx + 1]);
+        Map<K, Object> result = new LinkedHashMap<>();
+        result.put(firstKey, firstValue);
+
+        for (int idx = 0; idx < rest.length; idx += 2) {
+            result.put((K) rest[idx], rest[idx+1]);
         }
 
         return result;
@@ -50,16 +52,30 @@ public class CollectionUtils {
     /**
      * creates a map from original map and var args key value overrides
      * @param original original map
-     * @param kvs key value pairs
+     * @param firstKey first key
+     * @param firstValue first value
      * @param <K> type of key
-     * @param <V> type of value
      * @return map with preserved order
      */
-    public static <K, V> Map<K, V> aMapOf(Map<K, V> original, Object... kvs) {
-        Map<K, V> result = new LinkedHashMap<>(original);
-        Map<K, V> overrides = aMapOf(kvs);
+    public static <K> Map<K, Object> aMapOf(Map<K, Object> original, K firstKey, Object firstValue, Object... restKv) {
+        Map<K, Object> result = new LinkedHashMap<>(original);
+        Map<K, Object> overrides = aMapOf(firstKey, firstValue, restKv);
 
         result.putAll(overrides);
+        return result;
+    }
+
+    public static Map<String, Object> toStringObjectMap(Map<?, ?> original) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        original.forEach((k, v) -> result.put(StringUtils.toStringOrNull(k), v));
+
+        return result;
+    }
+
+    public static Map<String, String> toStringStringMap(Map<?, ?> original) {
+        Map<String, String> result = new LinkedHashMap<>();
+        original.forEach((k, v) -> result.put(StringUtils.toStringOrNull(k), StringUtils.toStringOrNull(v)));
+
         return result;
     }
 

@@ -159,7 +159,7 @@ public class HttpTestDataServer {
         return new TestServerJsonResponse(ResourceUtils.textContent(resourceName), statusCode, Collections.emptyMap());
     }
 
-    private static TestServerJsonResponse jsonResponse(String resourceName, int statusCode, Map<String, String> headerResponse) {
+    private static TestServerJsonResponse jsonResponse(String resourceName, int statusCode, Map<String, Object> headerResponse) {
         return new TestServerJsonResponse(ResourceUtils.textContent(resourceName), statusCode, headerResponse);
     }
 }

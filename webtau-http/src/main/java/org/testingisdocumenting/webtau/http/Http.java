@@ -813,20 +813,20 @@ public class Http {
         delete(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY, EMPTY_RESPONSE_VALIDATOR);
     }
 
-    public HttpHeader header(CharSequence... properties) {
-        return new HttpHeader().with(properties);
+    public HttpHeader header(CharSequence firstKey, CharSequence firstValue, CharSequence... restKv) {
+        return new HttpHeader().with(firstKey, firstValue, restKv);
     }
 
     public HttpHeader header(Map<CharSequence, CharSequence> properties) {
         return new HttpHeader().with(properties);
     }
 
-    public HttpQueryParams query(Object... params) {
-        return new HttpQueryParams(CollectionUtils.aMapOf(params));
+    public HttpQueryParams query(Map<?, ?> params) {
+        return new HttpQueryParams(params);
     }
 
-    public HttpQueryParams query(Map<CharSequence, ?> params) {
-        return new HttpQueryParams(params);
+    public HttpQueryParams query(CharSequence firstKey, Object firstValue, Object... restKv) {
+        return new HttpQueryParams(CollectionUtils.aMapOf(firstKey, firstValue, restKv));
     }
 
     public HttpRequestBody body(String mimeType, String content) {

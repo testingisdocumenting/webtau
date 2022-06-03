@@ -107,11 +107,13 @@ public class HttpHeader {
 
     /**
      * Creates a new header from the current one with an additional key-value
-     * @param keyValues vararg key value sequence, e.g. "HEADER_ONE", "value_one", "HEADER_TWO", "value_two"
+     * @param firstKey first key
+     * @param firstValue first value
+     * @param restKv vararg key value sequence, e.g. "HEADER_ONE", "value_one", "HEADER_TWO", "value_two"
      * @return new header
      */
-    public HttpHeader with(CharSequence... keyValues) {
-        Map<Object, Object> mapFromVararg = CollectionUtils.aMapOf((Object[]) keyValues);
+    public HttpHeader with(CharSequence firstKey, CharSequence firstValue, CharSequence... restKv) {
+        Map<Object, Object> mapFromVararg = CollectionUtils.aMapOf(firstKey, firstValue, (Object[]) restKv);
 
         Map<String, String> copy = new LinkedHashMap<>(this.header);
         mapFromVararg.forEach((k, v) -> copy.put(toStringOrNull(k), toStringOrNull(v)));

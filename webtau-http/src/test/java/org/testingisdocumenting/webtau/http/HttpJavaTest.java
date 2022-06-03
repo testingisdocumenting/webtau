@@ -381,7 +381,7 @@ public class HttpJavaTest extends HttpTestBase {
             body.get("b").should(equal("text"));
         });
 
-        Map<String, String> queryParams = CollectionUtils.aMapOf("a", 1, "b", "text");
+        Map<String, ?> queryParams = CollectionUtils.aMapOf("a", 1, "b", "text");
         http.get("/path", http.query(queryParams), (header, body) -> {
             body.get("a").should(equal(1));
             body.get("b").should(equal("text"));
