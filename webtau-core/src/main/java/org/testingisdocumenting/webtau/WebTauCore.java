@@ -66,25 +66,27 @@ public class WebTauCore extends Matchers {
 
     /**
      * creates a map from var args key value
-     * @param kvs key value pairs
+     * @param firstKey first key
+     * @param firstValue first value
+     * @param restKv key value pairs
      * @param <K> type of key
-     * @param <V> type of value
      * @return map with preserved order
      */
-    public static <K, V> Map<K, V> aMapOf(Object... kvs) {
-        return CollectionUtils.aMapOf(kvs);
+    public static <K> Map<K, Object> aMapOf(K firstKey, Object firstValue, Object... restKv) {
+        return CollectionUtils.aMapOf(firstKey, firstValue, restKv);
     }
 
     /**
      * creates a map from original map and var args key value overrides
      * @param original original map
-     * @param kvs key value pairs
+     * @param firstKey first key
+     * @param firstValue first value
+     * @param restKv key value pairs
      * @param <K> type of key
-     * @param <V> type of value
      * @return map with preserved order
      */
-    public static <K, V> Map<K, V> aMapOf(Map<K, V> original, Object... kvs) {
-        return CollectionUtils.aMapOf(original, kvs);
+    public static <K> Map<K, Object> aMapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
+        return CollectionUtils.aMapOf(original, firstKey, firstValue, restKv);
     }
 
     public static ActualPath createActualPath(String path) {
@@ -166,10 +168,12 @@ public class WebTauCore extends Matchers {
     /**
      * outputs provided key-values to console and web report
      * @param label label to print
-     * @param keyValues key-values as vararg
+     * @param firstKey first key
+     * @param firstValue first value
+     * @param restKv key-values as vararg
      */
-    public static void trace(String label, Object... keyValues) {
-        trace(label, CollectionUtils.aMapOf(keyValues));
+    public static void trace(String label, String firstKey, Object firstValue, Object... restKv) {
+        trace(label, CollectionUtils.aMapOf(firstKey, firstValue, restKv));
     }
 
     /**

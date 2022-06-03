@@ -59,10 +59,10 @@ class HttpGroovyTest extends HttpTestBase {
             http.post("/echo", [a: null]) {
                 a.shouldNot == null
             }
-        } should throwException('\nmismatches:\n' +
-            '\n' +
-            'body.a:   actual: null\n' +
-            '        expected: not null')
+        } should throwException("\nmismatches:\n" +
+            "\n" +
+            "body.a:   actual: null\n" +
+            "        expected: not null")
     }
 
     @Test
@@ -157,7 +157,7 @@ class HttpGroovyTest extends HttpTestBase {
             return object
         }
 
-        assert object == [k1: 'v1', k2: 'v2', k3: 'v3']
+        assert object == [k1: "v1", k2: "v2", k3: "v3"]
         assert object.getClass() == LinkedHashMap
         assert object.k1.getClass() == String
     }
@@ -168,68 +168,68 @@ class HttpGroovyTest extends HttpTestBase {
             return complexList
         }
 
-        assert complexList == [[id: 'id1', k1: 'v1', k2: 30], [id: 'id2', k1: 'v11', k2: 40]]
+        assert complexList == [[id: "id1", k1: "v1", k2: 30], [id: "id2", k1: "v11", k2: 40]]
         assert complexList.getClass() == ArrayList
         assert complexList[0].getClass() == LinkedHashMap
     }
 
     @Test
     void "query params in url example"() {
-        http.get("params?a=1&b=text") {
+        http.get("/path?a=1&b=text") {
             // assertions go here
         }
     }
 
     @Test
     void "query params using query as map example"() {
-        http.get("params", [a: 1, b: 'text']) {
+        http.get("/path", [a: 1, b: "text"]) {
             // assertions go here
         }
     }
 
     @Test
     void "query params using query method example"() {
-        http.get("params", http.query([a: 1, b: 'text']), http.header(['x-param': 'value'])) {
+        http.post("/chat", http.query([a: 1, b: "text"]), http.header(["x-param": "value"]), [message: "hello"]) {
             // assertions go here
         }
     }
 
     @Test
     void "query params using query method and comma example"() {
-        http.get("params", http.query('a', '1', 'b', 'text')) {
+        http.get("/path", http.query("a", "1", "b", "text")) {
             // assertions go here
         }
     }
 
     @Test
     void "query params encoding"() {
-        // query params encoding snippet start
-        http.get("params", http.query([message: 'hello world !'])) {
+        // query-params-encoding
+        http.get("/path", http.query([message: "hello world !"])) {
             // assertions go here
         }
-        // query params encoding snippet end
-        http.doc.capture('query-params-encoding')
+        // query-params-encoding
+        http.doc.capture("query-params-encoding")
     }
 
     @Test
     void "build query params from the map"() {
-        http.get("params", [a: 1, b: 'text']) {
+        http.get("/path", [a: 1, b: "text"]) {
             a.should == 1
-            b.should == 'text'
+            b.should == "text"
         }
     }
 
     @Test
     void "query params in url"() {
-        http.get("params?a=1&b=text") {
+        http.get("/path?a=1&b=text") {
             a.should == 1
-            b.should == 'text'
+            b.should == "text"
         }
     }
 
     @Test
     void "build query params from the map and return a single value from closure"() {
-        def a = http.get("params", [a: 1, b: 'text']) {
+        def a = http.get("/path", [a: 1, b: "text"]) {
             return a
         }
 
@@ -238,39 +238,39 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "build query params using map helper"() {
-        http.get("params", http.query([a: 1, b: 'text'])) {
+        http.get("/path", http.query([a: 1, b: "text"])) {
             a.should == 1
-            b.should == 'text'
+            b.should == "text"
         }
     }
 
     @Test
     void "build query params using var arg helper"() {
-        http.get("params", http.query('a', '1', 'b', 'text')) {
+        http.get("/path", http.query("a", "1", "b", "text")) {
             a.should == 1
-            b.should == 'text'
+            b.should == "text"
         }
     }
 
     @Test
     void "query param creation"() {
         def varArgQuery = http.query(
-            'param1', 'value1',
-            'param2', 'value2'
+            "param1", "value1",
+            "param2", "value2"
         )
 
         def mapBasedQuery = http.query([
-            'param1': 'value1',
-            'param2': 'value2'])
+            "param1": "value1",
+            "param2": "value2"])
 
         assert varArgQuery == mapBasedQuery
     }
 
     @Test
     void "post with query params"() {
-        http.post("params", http.query('a', '1', 'b', 'text')) {
+        http.post("/path", http.query("a", "1", "b", "text")) {
             a.should == 1
-            b.should == 'text'
+            b.should == "text"
         }
     }
 
@@ -284,8 +284,8 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "default user agent"() {
-        http.get('/echo-header') {
-            body['User-Agent'].should == ~/^webtau\//
+        http.get("/echo-header") {
+            body["User-Agent"].should == ~/^webtau\//
         }
     }
 
@@ -294,8 +294,8 @@ class HttpGroovyTest extends HttpTestBase {
         try {
             cfg.userAgent = "custom"
 
-            http.get('/echo-header') {
-                body['User-Agent'].should == ~/^custom \(webtau\/.*\)$/
+            http.get("/echo-header") {
+                body["User-Agent"].should == ~/^custom \(webtau\/.*\)$/
             }
         } finally {
             cfg.userAgentConfigValue.reset()
@@ -308,8 +308,8 @@ class HttpGroovyTest extends HttpTestBase {
             cfg.userAgent = "custom"
             cfg.removeWebTauFromUserAgent = true
 
-            http.get('/echo-header') {
-                body['User-Agent'].should == ~/^custom$/
+            http.get("/echo-header") {
+                body["User-Agent"].should == ~/^custom$/
             }
         } finally {
             cfg.userAgentConfigValue.reset()
@@ -319,7 +319,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "explicitly access header and body "() {
-        def a = http.get("params", [a: 1, b: 'text']) { header, body ->
+        def a = http.get("/path", [a: 1, b: "text"]) { header, body ->
             return body.a
         }
 
@@ -331,7 +331,7 @@ class HttpGroovyTest extends HttpTestBase {
         http.get("/example") {
             year.shouldNot == 2000
             year.should != 2000  // alternative shortcut
-            genres.should contain('RPG')
+            genres.should contain("RPG")
             rating.shouldBe > 7
         }
     }
@@ -339,8 +339,8 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "explicit header passing"() {
         def headerPayload = [
-                'Custom-Header-One': 'custom-value-one',
-                'Custom-Header-Two': 'custom-value-two']
+                "Custom-Header-One": "custom-value-one",
+                "Custom-Header-Two": "custom-value-two"]
 
         def requestHeader = http.header(headerPayload)
         def expectations = {
@@ -349,7 +349,7 @@ class HttpGroovyTest extends HttpTestBase {
         }
 
         http.get("/echo-header", requestHeader, expectations)
-        http.get("/echo-header", [qp1: 'v1'], requestHeader, expectations)
+        http.get("/echo-header", [qp1: "v1"], requestHeader, expectations)
         http.patch("/echo-header", requestHeader, [:], expectations)
         http.post("/echo-header", requestHeader, [:], expectations)
         http.put("/echo-header", requestHeader, [:], expectations)
@@ -407,7 +407,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "explicit binary mime types combined with request body"() {
-        def content = binaryFileContent('path')
+        def content = binaryFileContent("path")
         http.post("/end-point", http.body("application/octet-stream", content)) {
             // assertions go here
         }
@@ -415,7 +415,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "explicit text mime types combined with request body"() {
-        def content = binaryFileContent('path')
+        def content = binaryFileContent("path")
         http.post("/end-point", http.body("application/octet-stream", content)) {
             // assertions go here
         }
@@ -423,7 +423,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "post implicit binary mime types combined with request body"() {
-        def content = binaryFileContent('path')
+        def content = binaryFileContent("path")
         http.post("/end-point", http.application.octetStream(content)) {
             // assertions go here
         }
@@ -431,7 +431,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "put implicit binary mime types combined with request body"() {
-        def content = binaryFileContent('path')
+        def content = binaryFileContent("path")
         http.put("/end-point", http.application.octetStream(content)) {
             // assertions go here
         }
@@ -439,7 +439,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "implicit text mime types combined with request body"() {
-        def content = 'text content'
+        def content = "text content"
         http.post("/end-point", http.text.plain(content)) {
             // assertions go here
         }
@@ -481,7 +481,7 @@ class HttpGroovyTest extends HttpTestBase {
         http.post("/echo", noBodyExpectation)
         http.put("/echo", noBodyExpectation << { statusCode.should == 200 })
 
-        def headerValues = [Custom: 'Value']
+        def headerValues = [Custom: "Value"]
         def header = http.header(headerValues)
 
         http.post("/echo-header", header) {
@@ -496,9 +496,9 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "header as gstring"() {
-        def term = 'my-term'
+        def term = "my-term"
         http.post("/echo-header", http.header([myKey: "my-value-${term}"])) {
-            body.myKey.should == 'my-value-my-term'
+            body.myKey.should == "my-value-my-term"
         }
     }
 
@@ -526,7 +526,7 @@ class HttpGroovyTest extends HttpTestBase {
         testServer.registerPost("/no-body", responseCounter(201))
         testServer.registerPut("/no-body", responseCounter(204))
 
-        def header = http.header('Custom', 'Value')
+        def header = http.header("Custom", "Value")
         http.post("/no-body", header)
         http.post("/no-body")
         http.put("/no-body", header)
@@ -671,7 +671,7 @@ class HttpGroovyTest extends HttpTestBase {
     void "types of find all on list of objects"() {
         def id = http.get("/end-point") {
             def found = complexList.find {
-                k1 == 'v1'
+                k1 == "v1"
             }
             assert found.getClass() == GroovyDataNode
 
@@ -687,7 +687,7 @@ class HttpGroovyTest extends HttpTestBase {
             return list.collect { "world#${it}" }
         }
 
-        assert transformed == ['world#1', 'world#2', 'world#3']
+        assert transformed == ["world#1", "world#2", "world#3"]
         assert transformed[0] instanceof GString
     }
 
@@ -697,7 +697,7 @@ class HttpGroovyTest extends HttpTestBase {
             return complexList.collect { it.id }
         }
 
-        assert ids == ['id1', 'id2']
+        assert ids == ["id1", "id2"]
     }
 
     @Test
@@ -713,7 +713,7 @@ class HttpGroovyTest extends HttpTestBase {
     void "findAll, collect, and sum"() {
         def sum = http.get("/end-point") {
             return complexList
-                    .findAll { k1.get().startsWith('v1') }
+                    .findAll { k1.get().startsWith("v1") }
                     .collect { k2.get() }
                     .sum()
         }
@@ -743,36 +743,36 @@ class HttpGroovyTest extends HttpTestBase {
     void "send form data"() {
         byte[] content = [0, 1, 2, 101, 102, 103, 0] as byte[]
 
-        http.post("/echo-multipart-content-part-one", http.formData(http.formField('file', content))) {
+        http.post("/echo-multipart-content-part-one", http.formData(http.formField("file", content))) {
             body.should == content
         }
 
         http.post("/echo-multipart-content-part-two", http.formData(
-            http.formField('file', content),
-            http.formField('saveAs', 'second-form-parameter'))) {
+            http.formField("file", content),
+            http.formField("saveAs", "second-form-parameter"))) {
 
-            body.should == 'second-form-parameter'.getBytes()
+            body.should == "second-form-parameter".getBytes()
         }
 
         http.post("/echo-multipart-meta", http.formData(
-            http.formField('file', content),
-            http.formField('additionalField', 'hello'))) {
+            http.formField("file", content),
+            http.formField("additionalField", "hello"))) {
 
             body.should contain([
-                    fieldName: 'file',
+                    fieldName: "file",
                     fileName: null])
 
             body.should contain([
-                    fieldName: 'additionalField',
+                    fieldName: "additionalField",
                     fileName: null])
         }
 
         http.post("/echo-multipart-meta", http.formData(
-            http.formField('file', content, 'myFileName'))) {
+            http.formField("file", content, "myFileName"))) {
 
             body.should contain([
-                fieldName: 'file',
-                fileName: 'myFileName'])
+                fieldName: "file",
+                fileName: "myFileName"])
         }
     }
 
@@ -780,21 +780,21 @@ class HttpGroovyTest extends HttpTestBase {
     void "send form file data from specified path"() {
         def imagePath = testResourcePath("src/test/resources/image.png")
 
-        http.post("/echo-multipart-content-part-one", http.formData(http.formField('file', imagePath))) {
+        http.post("/echo-multipart-content-part-one", http.formData(http.formField("file", imagePath))) {
             body.should == imagePath.readBytes()
         }
 
 
-        http.post("/echo-multipart-meta", http.formData(http.formField('file', imagePath))) {
+        http.post("/echo-multipart-meta", http.formData(http.formField("file", imagePath))) {
             body.should contain([
-                fieldName: 'file',
-                fileName: 'image.png'])
+                fieldName: "file",
+                fileName: "image.png"])
         }
 
-        http.post("/echo-multipart-meta", http.formData(http.formField('file', imagePath, 'nameOverride'))) {
+        http.post("/echo-multipart-meta", http.formData(http.formField("file", imagePath, "nameOverride"))) {
             body.should contain([
-                fieldName: 'file',
-                fileName: 'nameOverride'])
+                fieldName: "file",
+                fileName: "nameOverride"])
         }
     }
 
@@ -802,9 +802,9 @@ class HttpGroovyTest extends HttpTestBase {
     void "send form map based syntax with default file name"() {
         byte[] fileContent = [1, 2, 3, 4] as byte[]
 
-        http.post("/echo-multipart-meta", http.formData(file: fileContent, userName: 'userName')) {
+        http.post("/echo-multipart-meta", http.formData(file: fileContent, userName: "userName")) {
             body.should contain([
-                fieldName: 'file',
+                fieldName: "file",
                 fileName: null])
         }
     }
@@ -814,14 +814,14 @@ class HttpGroovyTest extends HttpTestBase {
         byte[] content = [1] as byte[]
 
         http.post("/echo-multipart-meta", http.formData(
-                file: http.formFile('myFileName', content),
-                userName: 'userName')) {
+                file: http.formFile("myFileName", content),
+                userName: "userName")) {
             body.should contain([
-                fieldName: 'file',
-                fileName: 'myFileName'])
+                fieldName: "file",
+                fileName: "myFileName"])
 
             body.should contain([
-                fieldName: 'userName',
+                fieldName: "userName",
                 fileName: null])
         }
     }
@@ -831,7 +831,7 @@ class HttpGroovyTest extends HttpTestBase {
         def imagePath = testResourcePath("src/test/resources/image.png")
 
         http.post("/file-upload", http.formData(file: imagePath)) {
-            fileName.should == 'image.png'
+            fileName.should == "image.png"
         }
     }
 
@@ -839,8 +839,8 @@ class HttpGroovyTest extends HttpTestBase {
     void "file upload example with file name override"() {
         def imagePath = testResourcePath("src/test/resources/image.png")
 
-        http.post("/file-upload", http.formData(file: http.formFile('myFileName.png', imagePath))) {
-            fileName.should == 'myFileName.png'
+        http.post("/file-upload", http.formData(file: http.formFile("myFileName.png", imagePath))) {
+            fileName.should == "myFileName.png"
         }
     }
 
@@ -848,9 +848,9 @@ class HttpGroovyTest extends HttpTestBase {
     void "file upload example multiple fields"() {
         def imagePath = testResourcePath("src/test/resources/image.png")
 
-        http.post("/file-upload", http.formData(file: imagePath, fileDescription: 'new report')) {
-            fileName.should == 'image.png'
-            description.should == 'new report'
+        http.post("/file-upload", http.formData(file: imagePath, fileDescription: "new report")) {
+            fileName.should == "image.png"
+            description.should == "new report"
         }
     }
 
@@ -859,7 +859,7 @@ class HttpGroovyTest extends HttpTestBase {
         byte[] fileContent = [1, 2, 3, 4] as byte[]
 
         http.post("/file-upload", http.formData(file: fileContent)) {
-            fileName.should == 'backend-generated-name-as-no-name-provided'
+            fileName.should == "backend-generated-name-as-no-name-provided"
         }
     }
 
@@ -868,8 +868,8 @@ class HttpGroovyTest extends HttpTestBase {
         byte[] fileContent = [1, 2, 3, 4] as byte[]
 
         http.post("/file-upload", http.formData(
-                file: http.formFile('myFileName.dat', fileContent))) {
-            fileName.should == 'myFileName.dat'
+                file: http.formFile("myFileName.dat", fileContent))) {
+            fileName.should == "myFileName.dat"
         }
     }
 
@@ -878,10 +878,10 @@ class HttpGroovyTest extends HttpTestBase {
         def imagePath = testResourcePath("src/test/resources/image.png")
 
         http.post("/file-upload", http.formData(
-                file: http.formFile('myFileName.dat', imagePath),
-                fileDescription: 'new report')) {
-            fileName.should == 'myFileName.dat'
-            description.should == 'new report'
+                file: http.formFile("myFileName.dat", imagePath),
+                fileDescription: "new report")) {
+            fileName.should == "myFileName.dat"
+            description.should == "new report"
         }
     }
 
@@ -902,12 +902,12 @@ class HttpGroovyTest extends HttpTestBase {
         byte[] expectedImage = ResourceUtils.binaryContent("image.png")
 
         http.post("/echo", http.application.octetStream(expectedImage)) {
-            header.contentType.should == 'application/octet-stream'
+            header.contentType.should == "application/octet-stream"
             body.should == expectedImage
         }
 
         http.post("/echo", http.application.pdf(expectedImage)) {
-            header.contentType.should == 'application/pdf'
+            header.contentType.should == "application/pdf"
             body.should == expectedImage
         }
     }
@@ -915,14 +915,14 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "simple object mapping example"() {
         http.get("/end-point-simple-object") {
-            k1.should == 'v1'
+            k1.should == "v1"
         }
     }
 
     @Test
     void "simple list mapping example"() {
         http.get("/end-point-simple-list") {
-            body[0].k1.should == 'v1'
+            body[0].k1.should == "v1"
         }
     }
 
@@ -936,7 +936,7 @@ class HttpGroovyTest extends HttpTestBase {
 
             object.k1.should == ~/v\d/ // regular expression matching
 
-            object.should == [k1: 'v1', k3: 'v3'] // matching only specified fields and can be nested multiple times
+            object.should == [k1: "v1", k3: "v3"] // matching only specified fields and can be nested multiple times
 
             complexList.should == ["k1"   | "k2"] { // matching only specified fields, but number of entries must be exact
                                    ________________
@@ -977,7 +977,7 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "contain matcher"() {
         http.get("/end-point-list") {
-            body.should contain([k1: 'v1', k2: 'v2'])
+            body.should contain([k1: "v1", k2: "v2"])
             body[1].k2.shouldNot contain(22)
         }
 
@@ -1025,10 +1025,10 @@ class HttpGroovyTest extends HttpTestBase {
     void "implicit status code check when no explicit check present"() {
         code {
             def id = http.get("/no-resource") { id }
-        } should throwException('\nmismatches:\n' +
-            '\n' +
-            'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
-            '                   expected: 200 <java.lang.Integer>')
+        } should throwException("\nmismatches:\n" +
+            "\n" +
+            "header.statusCode:   actual: 404 <java.lang.Integer>\n" +
+            "                   expected: 200 <java.lang.Integer>")
 
         assertStatusCodeMismatchRegistered()
 
@@ -1044,10 +1044,10 @@ class HttpGroovyTest extends HttpTestBase {
                 id.should == 0
                 message.shouldBe == 10
             }
-        } should throwException('\nmismatches:\n' +
-                    '\n' +
-                    'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
-                    '                   expected: 200 <java.lang.Integer>')
+        } should throwException("\nmismatches:\n" +
+                    "\n" +
+                    "header.statusCode:   actual: 404 <java.lang.Integer>\n" +
+                    "                   expected: 200 <java.lang.Integer>")
 
         assertStatusCodeMismatchRegistered()
     }
@@ -1056,15 +1056,15 @@ class HttpGroovyTest extends HttpTestBase {
     void "implicit status code should happen even if there is runtime exception"() {
         code {
             http.get("/no-resource") {
-                throw new RuntimeException('error')
+                throw new RuntimeException("error")
             }
-        } should throwException('\nmismatches:\n' +
-                '\n' +
-                'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
-                '                   expected: 200 <java.lang.Integer>\n' +
-                '\n' +
-                'additional exception message:\n' +
-                'error')
+        } should throwException("\nmismatches:\n" +
+                "\n" +
+                "header.statusCode:   actual: 404 <java.lang.Integer>\n" +
+                "                   expected: 200 <java.lang.Integer>\n" +
+                "\n" +
+                "additional exception message:\n" +
+                "error")
 
         assertStatusCodeMismatchRegistered()
     }
@@ -1075,10 +1075,10 @@ class HttpGroovyTest extends HttpTestBase {
             http.get("/no-resource") {
                 statusCode.should == 401
             }
-        } should throwException('\nmismatches:\n' +
-                '\n' +
-                'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
-                '                   expected: 401 <java.lang.Integer>')
+        } should throwException("\nmismatches:\n" +
+                "\n" +
+                "header.statusCode:   actual: 404 <java.lang.Integer>\n" +
+                "                   expected: 401 <java.lang.Integer>")
 
         assertStatusCodeMismatchRegistered()
     }
@@ -1088,12 +1088,12 @@ class HttpGroovyTest extends HttpTestBase {
         http.get("/end-point-mixed") {
             list.should contain(lessThanOrEqual(2)) // lessThanOrEqual will be matched against each value
 
-            object.should == [k1: 'v1', k3: ~/v\d/] // regular expression match against k3
+            object.should == [k1: "v1", k3: ~/v\d/] // regular expression match against k3
 
-            complexList[0].should == [k1: 'v1', k2: lessThan(120)] // lessThen match against k2
+            complexList[0].should == [k1: "v1", k2: lessThan(120)] // lessThen match against k2
 
             complexList[1].should == [
-                k1: notEqual('v1'), // any value but v1
+                k1: notEqual("v1"), // any value but v1
                 k2: greaterThanOrEqual(120)]
 
             complexList.should == ["k1"   | "k2"] {
@@ -1108,7 +1108,7 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "captures failed assertions"() {
         code {
-            http.get("params", [a: 1, b: 'text']) {
+            http.get("/path", [a: 1, b: "text"]) {
                 a.should == 2
             }
         } should throwException(AssertionError, ~/body\.a:/)
@@ -1127,7 +1127,7 @@ class HttpGroovyTest extends HttpTestBase {
                 httpCallForcedStartTime + httpElapsedTime,
                 httpCallForcedStartTime + httpElapsedTime + 200])) {
             code {
-                http.get('mailto://demo', [a: 1, b: 'text']) {
+                http.get("mailto://demo", [a: 1, b: "text"]) {
                 }
             } should throwException(HttpException, ~/error during http\.get/)
         }
@@ -1153,7 +1153,7 @@ class HttpGroovyTest extends HttpTestBase {
                 statusCodeValidationStartTime + 20,
                 stepEndTime
         ])) {
-            http.get('/end-point') {
+            http.get("/end-point") {
             }
         }
 
@@ -1175,11 +1175,11 @@ class HttpGroovyTest extends HttpTestBase {
         HttpValidationHandlers.withAdditionalHandler(handler, closure)
     }
 
-    static String expected404 = '\n' +
-        'mismatches:\n' +
-        '\n' +
-        'header.statusCode:   actual: 404 <java.lang.Integer>\n' +
-        '                   expected: 200 <java.lang.Integer>'
+    static String expected404 = "\n" +
+        "mismatches:\n" +
+        "\n" +
+        "header.statusCode:   actual: 404 <java.lang.Integer>\n" +
+        "                   expected: 200 <java.lang.Integer>"
 
     @Test
     void "reports implicit status code mismatch instead of additional validator errors"() {
@@ -1206,7 +1206,7 @@ class HttpGroovyTest extends HttpTestBase {
         withFailingHandler {
             code {
                 http.get("/notfound") {
-                    id.should == 'foo'
+                    id.should == "foo"
                 }
             } should throwException(AssertionError, expected404)
         }
@@ -1218,13 +1218,13 @@ class HttpGroovyTest extends HttpTestBase {
             code {
                 http.get("/notfound") {
                     statusCode.should == 404
-                    id.should == 'foo'
+                    id.should == "foo"
                 }
-            } should throwException(AssertionError, '\n' +
-                'mismatches:\n' +
-                '\n' +
-                'body.id:   actual: null\n' +
-                '         expected: "foo" <java.lang.String>')
+            } should throwException(AssertionError, "\n" +
+                "mismatches:\n" +
+                "\n" +
+                "body.id:   actual: null\n" +
+                "         expected: \"foo\" <java.lang.String>")
         }
     }
 
@@ -1235,13 +1235,13 @@ class HttpGroovyTest extends HttpTestBase {
                 http.get("/notfound") {
                     statusCode.should == 404
                 }
-            } should throwException(AssertionError, 'schema validation error')
+            } should throwException(AssertionError, "schema validation error")
         }
     }
 
     @Test
     void "handles integer json responses"() {
-        def ret = http.get('/integer') {
+        def ret = http.get("/integer") {
             body.should == 123
             return body
         }
@@ -1283,7 +1283,7 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "text content response"() {
         http.get("/text-end-point") {
-            body.should == 'hello world'
+            body.should == "hello world"
         }
     }
 

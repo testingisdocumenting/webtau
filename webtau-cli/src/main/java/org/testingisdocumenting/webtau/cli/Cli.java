@@ -35,12 +35,12 @@ public class Cli {
     private Cli() {
     }
 
-    public CliProcessConfig env(Map<String, CharSequence> env) {
+    public CliProcessConfig env(Map<String, Object> env) {
         return new CliProcessConfig().env(env);
     }
 
-    public CliProcessConfig env(CharSequence... keyValue) {
-        return new CliProcessConfig().env(CollectionUtils.aMapOf((Object[]) keyValue));
+    public CliProcessConfig env(String firstKey, CharSequence firstValue, Object... restKv) {
+        return new CliProcessConfig().env(CollectionUtils.aMapOf(firstKey, firstValue, restKv));
     }
 
     public CliProcessConfig timeout(long millis) {

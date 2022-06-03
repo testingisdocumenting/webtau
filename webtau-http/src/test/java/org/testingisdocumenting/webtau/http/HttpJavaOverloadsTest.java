@@ -28,11 +28,83 @@ import static org.testingisdocumenting.webtau.http.HttpOverloadsTestCommon.*;
 
 public class HttpJavaOverloadsTest extends HttpTestBase {
     @Test
-    public void getWithoutValidationSyntaxCheck() {
-        http.get("/end-point");
-        http.get("/end-point", http.query("queryParam1", "queryParamValue1"));
-        http.get("/end-point", http.query("queryParam1", "queryParamValue1"), http.header("h1", "v1"));
-        http.get("/end-point", http.header("h1", "v1"));
+    public void getWithoutReturnOverloads() {
+        http.get("/full-echo", query, requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.get("/full-echo", queryAsMap, requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            urlValidation.accept(body);
+        });
+
+        http.get("/full-echo", requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            pathValidation.accept(body);
+        });
+
+        http.get("/full-echo", query, (header, body) -> {
+            pathValidation.accept(body);
+        });
+
+        http.get("/full-echo", queryAsMap, (header, body) -> {
+            pathValidation.accept(body);
+        });
+
+        http.get("/full-echo", (header, body) -> {
+            pathValidation.accept(body);
+        });
+    }
+
+    @Test
+    public void getWithReturnOverloads() {
+        String text;
+
+        text = http.get("/full-echo", query, requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(HEADER_KEY);
+        });
+        actual(text).should(equal(HEADER_EXPECTED_RETURN));
+
+        text = http.get("/full-echo", queryAsMap, requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            urlValidation.accept(body);
+
+            return body.get(HEADER_KEY);
+        });
+        actual(text).should(equal(HEADER_EXPECTED_RETURN));
+
+        text = http.get("/full-echo", requestHeader, (header, body) -> {
+            headerValidation.accept(body);
+            pathValidation.accept(body);
+
+            return body.get(PATH_KEY);
+        });
+        actual(text).should(equal(PATH_EXPECTED_RETURN));
+
+        text = http.get("/full-echo", query, (header, body) -> {
+            pathValidation.accept(body);
+
+            return body.get(PATH_KEY);
+        });
+        actual(text).should(equal(PATH_EXPECTED_RETURN));
+
+        text = http.get("/full-echo", queryAsMap, (header, body) -> {
+            pathValidation.accept(body);
+
+            return body.get(PATH_KEY);
+        });
+        actual(text).should(equal(PATH_EXPECTED_RETURN));
+
+        text = http.get("/full-echo", (header, body) -> {
+            pathValidation.accept(body);
+
+            return body.get(PATH_KEY);
+        });
+        actual(text).should(equal(PATH_EXPECTED_RETURN));
     }
 
     @Test
@@ -820,6 +892,16 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
             return header.statusCode;
         });
         actual(number).should(equal(expected));
+    }
+
+    @Test
+    public void getWithoutValidationSyntaxCheck() {
+        http.get("/end-point");
+        http.get("/end-point", queryAsMap);
+        http.get("/end-point", query);
+        http.get("/end-point", queryAsMap, http.header("h1", "v1"));
+        http.get("/end-point", query, http.header("h1", "v1"));
+        http.get("/end-point", http.header("h1", "v1"));
     }
 
     @Test

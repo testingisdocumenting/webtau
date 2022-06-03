@@ -2,48 +2,77 @@
 
 WebTau offers a number of ways of specifying query parameters:
 
+```tabs
+Groovy:
 :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
     title: "embedding query params directly in url",
     entry: "query params in url example",
     bodyOnly: true
 }
 
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+    title: "embedding query params directly in url",
+    entry: "queryParamsInUrlExample",
+    bodyOnly: true
+}
+```
+
 Use `Map` as a second parameter to pass query parameters. Suitable for languages that support in-line creation of `Map`.
 
-
+```tabs
+Groovy:
 :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
     title: "pass query parameters as Map",
     entry: "query params using query as map example",
     bodyOnly: true
 }
 
-Only `http.get` has a `Map` variant, for `http.put`, `http.post`, etc you must use `http.query`. 
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+    title: "pass query parameters as Map",
+    entry: "queryParamsUsingQueryAsMapExample",
+    bodyOnly: true
+}
+```
 
+Only `http.get` has a `Map` variant, for `http.put`, `http.post`, etc you need to pass `http.query`. 
+
+```tabs
+Groovy:
 :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
     title: "pass query parameters using http.query",
     entry: "query params using query method example",
     bodyOnly: true
 }
 
-Additionally `http.query` has a vararg variant which is more convenient for `Java`. 
-
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
-    title: "http.query vararg variant",
-    entry: "query params using query method and comma example",
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+    title: "pass query parameters as Map",
+    entry: "queryParamsUsingQueryMethodExample",
     bodyOnly: true
 }
+```
 
 # Parameters Encoding
 
 All query parameters are encoded automatically. 
 
+```tabs
+Groovy:
 :include-file: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
-    title: "query parameter with url forbidden characters",
+    title: "query parameter with url incompatible characters",
     entry: "query params encoding",
-    startLine: "query params encoding snippet start",
-    endLine: "query params encoding snippet end",
-    excludeStartEnd: true
+    surroundedBy: "query-params-encoding"
 }
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+    title: "query parameter with url incompatible characters",
+    entry: "queryParamsEncoding",
+    bodyOnly: true
+}
+```
 
 :include-file: doc-artifacts/query-params-encoding/request.url.txt {title: "automatic encoding"}
 

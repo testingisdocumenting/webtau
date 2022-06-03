@@ -50,7 +50,7 @@ class CliProcessConfig {
         CliConfig.getCliEnv().forEach((k, v) -> env.put(k, v.toString()));
     }
 
-    public CliProcessConfig env(Map<String, CharSequence> env) {
+    public CliProcessConfig env(Map<String, Object> env) {
         env.forEach((k, v) -> this.env.put(k, v.toString()));
 
         return this;
