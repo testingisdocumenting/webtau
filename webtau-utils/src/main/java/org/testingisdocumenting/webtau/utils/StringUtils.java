@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -89,7 +90,7 @@ public class StringUtils {
         return !nullOrEmpty(s);
     }
 
-    public static boolean isNumeric(String text) {
+    public static boolean isNumeric(NumberFormat numberFormat, String text) {
         text = text.trim();
 
         if (text.isEmpty()) {
@@ -97,14 +98,14 @@ public class StringUtils {
         }
 
         ParsePosition pos = new ParsePosition(0);
-        getNumberFormat().parse(text, pos);
+        numberFormat.parse(text, pos);
 
         return text.length() == pos.getIndex();
     }
 
-    public static Number convertToNumber(String text) {
+    public static Number convertToNumber(NumberFormat numberFormat, String text) {
         try {
-            return getNumberFormat().parse(text);
+            return numberFormat.parse(text);
         } catch (ParseException e) {
             throw new RuntimeException(e);
         }
@@ -124,6 +125,10 @@ public class StringUtils {
         }
 
         return str;
+    }
+
+    public static String toStringOrNull(Object o) {
+        return o == null ? null : o.toString();
     }
 
     private static String joinWithIndentAllButFirstLine(String indentation, String[] lines) {
@@ -155,7 +160,7 @@ public class StringUtils {
         int b = firstNonEmptyLineIdx(lines);
         int e = firstFromEndNonEmptyLineIdx(lines);
 
-        return lines.subList(b > 0 ? b : 0, e > 0 ? e + 1 : lines.size());
+        return lines.subList(Math.max(b, 0), e > 0 ? e + 1 : lines.size());
     }
 
     private static int firstNonEmptyLineIdx(List<String> lines) {

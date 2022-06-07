@@ -1,33 +1,56 @@
 # Special Values
 
+Values that you access inside the `http` call validation block are special values of `DataNode` type.
+`DataNode` has methods to assert and traverse the response.
+
+All assertions made on `DataNode` are tracked and are available as part of the generated report. 
+
+```tabs
+Groovy:
 :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "use groovy closure as validation", bodyOnly: true}
 
-Values that you access inside validation block are special values of `DataNode` type. When you assert them using `should` statement
-they act as proxies that record every assertion that you do. 
-
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "useClosureAsValidation", bodyOnly: true}
+```
 
 # Extracting Values
 
 As you have seen in [CRUD example](HTTP/CRUD) you can return values back from a validation block.
 
+```tabs
+Groovy:
 :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "can return simple value from get", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "canReturnSimpleValueFromGet", bodyOnly: true}
+```
 
 When you return a value from a validation block, it automatically gets converted to its correspondent primitive. 
 
-Note: asserting that value after returning will not track and associated assertions with the call anymore. Use it only
-to get values required for consequent test calls.  
+Note: WebTau will not be able to track returned value assertion. 
+Return values for consequent calls only. Make assertions on `DataNode` instance to generate useful report information such as data coverage.  
 
 # Properties On Lists
 
-:include-json: objectTestResponse.json
+If you have a list of objects like `complexList` below, you can access all its children property value with `complexList.k2`.
 
-If you have a list of objects like `complexList` above, you can access all its children property value with `complexList.k2`.
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  entry: "children key shortcut", 
+  bodyOnly: true,
+  excludeRegexp: "doc-exclude"
+}
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "children key shortcut", bodyOnly: true}
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "childrenKeyShortcut", bodyOnly: true}
+```
+
+:include-json: objectTestResponse.json {title: "response", pathsFile: "doc-artifacts/properties-on-list/paths.json"}
 
 # Path based properties access
 
-Primarily for Java users, webtau supports the ability to query properties of a `DataNode` via a path instead of chaining
+Primarily for Java users, WebTau supports the ability to query properties of a `DataNode` via a path instead of chaining
 `get(String name)` calls.  For example, to obtain a simple property:
 
 :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "canQueryNodeByPath", bodyOnly: true}
@@ -44,37 +67,127 @@ all children property values:
 # If-Else Logic
 
 Even though values that you access inside validation block are special values of `DataNode` type, you can still
-perform simple `if-else` like logic checks on them. Accessing the values will mark them as "touched" for data coverage statistic. 
+perform simple `if-else` like logic checks on them. 
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "if-else logic", bodyOnly: true, title: "simple if-else logic"}
+In case of Groovy, accessing a value during if-else will mark the value as *accessed* for reporting.
 
-Warning: Comparison of complex values is not properly implemented due to current Groovy API implementation details
+In case of Java, use `.get()` to access underlying value. No marking of the value will during comparison. 
 
-# Each
+:include-json: addressResponse.json {title: "response"}
 
-Special values inside assertion block have convenient methods
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  entry: "if-else logic", 
+  bodyOnly: true,
+  excludeRegexp: "doc-exclude" 
+}
+  
+ Warning: Comparison of complex values is not properly implemented due to current Groovy API implementation details
 
-`each` to iterate over a list
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  entry: "ifElseLogic", 
+  bodyOnly: true,
+  excludeRegexp: "doc-exclude" 
+}
+```
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "each on simple list", bodyOnly: true, title: "List of simple values"}
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "each on complex list", bodyOnly: true, title: "List of complex values"}
+# Iteration
 
+`DataNode` have convenient methods to iterate over values and make assertions.
+
+:include-json: objectTestResponse.json {title: "response", highlight: "amount"}
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  entry: "each on simple list",
+  bodyOnly: true,
+  title: "List of simple values"
+}
+
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  entry: "each on complex list",
+  bodyOnly: true, 
+  title: "List of complex values"
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  entry: "eachOnSimpleList", 
+  bodyOnly: true,
+  title: "List of simple values"
+}
+
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  entry: "eachOnComplexList", 
+  bodyOnly: true,
+  title: "List of complex values"
+}
+```
 
 # Find
 
-`find` to find a single value
+Use `find` to find a `DataNode` based on a provided predicate
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "find on list", bodyOnly: true}
+:include-json: objectTestResponse.json {title: "response", pathsFile: "doc-artifacts/find-on-list-and-assert/paths.json"}
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "find and assert on value",
+  entry: "find on list and assert",
+  bodyOnly: true 
+}
+
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "find and return a complex value",
+  entry: "find on list and return",
+  excludeRegexp: "doc-exclude",
+  bodyOnly: true 
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "find and assert on value",
+  entry: "findOnListAndAssert", 
+  bodyOnly: true
+}
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "find and return a complex value",
+  entry: "findOnListAndReturn", 
+  excludeRegexp: "doc-exclude",
+  bodyOnly: true
+}
+```
+
+Note: WebTau will not track assertion on returned values and it will not show in reports and
+will not participate in data coverage. Use returned values for further test logic.
 
 
-and `findAll` to find all the values matching predicate
+# Find All 
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "findAll on list", bodyOnly: true}
+Use `findAll` to find a list of `DataNode`s based on a provided predicate
 
-Note: While values inside a predicate are normal values, the result of `find` and `findAll` is still `DataNode`
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  entry: "findAll on complex list",
+  bodyOnly: true 
+}
 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "find on list of objects", bodyOnly: true}
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "find and assert on value",
+  entry: "findAllOnComplexList", 
+  bodyOnly: true
+}
+```
+
+
+Note: The result of `findAll` is of type `DataNode` and you can leverage [Properties On Lists](#properties-on-lists)
 
 # Collect
 

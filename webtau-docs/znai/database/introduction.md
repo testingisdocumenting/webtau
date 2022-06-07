@@ -1,4 +1,4 @@
-Webtau provides database access layer `db.` to help with data setup, validation and manipulation.
+WebTau provides database access layer `db.` to help with data setup, validation and manipulation.
 Use it in conjunction with other layers like `http.` to write more powerful tests.
 
 * [Data Setup](database/data-setup)

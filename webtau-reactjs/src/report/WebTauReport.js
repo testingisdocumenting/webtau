@@ -35,7 +35,7 @@ import { HttpCallDetails } from './details/http/HttpCallDetails';
 import StatusEnum from './StatusEnum';
 
 import FullScreenHttpPayload from './full-screen-payload/FullScreenHttpPayload';
-import { WebtauPoweredBy } from './powered-and-theme/WebtauPoweredBy';
+import { WebTauPoweredBy } from './powered-and-theme/WebTauPoweredBy';
 
 import './webtau-dark.css';
 import './webtau-light.css';
@@ -93,8 +93,8 @@ class WebTauReport extends Component {
 
         <div className="test-details-area">{this.renderDetailsArea()}</div>
 
-        <div className="znai-powered-and-theme-area">
-          <WebtauPoweredBy report={report} />
+        <div className="webtau-powered-and-theme-area">
+          <WebTauPoweredBy report={report} />
         </div>
 
         {this.renderPayloadPopup()}

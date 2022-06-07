@@ -27,6 +27,7 @@ import org.testingisdocumenting.webtau.http.datanode.NullDataNode;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -40,6 +41,13 @@ public class HeaderDataNode implements DataNode {
     private final DataNode dataNode;
     private final HttpHeader responseHeader;
 
+    public final DataNode statusCode;
+    public final DataNode location;
+    public final DataNode contentType;
+    public final DataNode contentLength;
+    public final DataNode contentLocation;
+    public final DataNode contentEncoding;
+
     public HeaderDataNode(HttpResponse response) {
         Map<String, Object> headerData = new HashMap<>();
 
@@ -52,6 +60,13 @@ public class HeaderDataNode implements DataNode {
 
         this.dataNode = DataNodeBuilder.fromMap(new DataNodeId("header"), headerData);
         this.responseHeader = response.getHeader();
+
+        statusCode = get("statusCode");
+        contentType = get("contentType");
+        location = get("location");
+        contentLocation = get("contentLocation");
+        contentLength = get("contentLength");
+        contentEncoding = get("contentEncoding");
     }
 
     public HttpHeader getResponseHeader() {
@@ -129,10 +144,24 @@ public class HeaderDataNode implements DataNode {
     }
 
     @Override
+    public DataNode find(Predicate<DataNode> predicate) {
+        return dataNode.find(predicate);
+    }
+
+    @Override
+    public DataNode findAll(Predicate<DataNode> predicate) {
+        return dataNode.findAll(predicate);
+    }
+
+    @Override
     public String toString() {
         return dataNode.toString();
     }
 
+    /**
+     * @deprecated see {@link HeaderDataNode#statusCode}
+     * @return status code data node
+     */
     public DataNode statusCode() {
         return dataNode.get("statusCode");
     }

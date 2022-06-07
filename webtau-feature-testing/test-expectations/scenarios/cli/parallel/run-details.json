@@ -1,0 +1,52 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "run one",
+    "shortContainerId" : "a.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "run two",
+    "shortContainerId" : "a.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "run one",
+    "shortContainerId" : "b.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "run two",
+    "shortContainerId" : "b.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "run one",
+    "shortContainerId" : "c.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "run two",
+    "shortContainerId" : "c.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "run one",
+    "shortContainerId" : "d.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "run two",
+    "shortContainerId" : "d.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  } ],
+  "exitCode" : 0
+}

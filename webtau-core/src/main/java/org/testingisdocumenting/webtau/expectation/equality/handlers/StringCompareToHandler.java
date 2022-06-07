@@ -23,10 +23,8 @@ import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.ACTUAL_PREFIX;
-import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.expected;
+import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.*;
 import static org.testingisdocumenting.webtau.utils.TraceUtils.*;
 
 public class StringCompareToHandler implements CompareToHandler {
@@ -167,9 +165,9 @@ public class StringCompareToHandler implements CompareToHandler {
                 String expectedLine = expectedLines[idx];
                 if (!actualLine.equals(expectedLine)) {
                     return "first mismatch at line idx " + idx + ":\n" +
-                            actualLine + "\n" +
-                            expectedLine + "\n" +
-                            renderCaretIfRequired("", false,
+                            ACTUAL_PREFIX + actualLine + "\n" +
+                            EXPECTED_PREFIX + expectedLine + "\n" +
+                            renderCaretIfRequired(ACTUAL_PREFIX, false,
                                     indexOfFirstMismatch(actualLine, expectedLine));
                 }
             }
@@ -190,9 +188,9 @@ public class StringCompareToHandler implements CompareToHandler {
             mismatchDetails.add(message);
         }
 
-        private String renderCaretIfRequired(String prefix, boolean adjustForQuote, int idx) {
+        private String renderCaretIfRequired(String prefixAdjustment, boolean adjustForQuote, int idx) {
             return idx != -1 ? String.format("%" + (idx + (adjustForQuote ? 1 : 0) + 1 /*for 0-based index*/ +
-                    prefix.length()) + "s", "^") : "";
+                    prefixAdjustment.length()) + "s", "^") : "";
         }
 
         private String createLongestLineUnderscore() {

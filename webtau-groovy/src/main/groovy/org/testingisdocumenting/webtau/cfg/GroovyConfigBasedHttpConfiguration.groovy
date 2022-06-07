@@ -18,21 +18,16 @@
 package org.testingisdocumenting.webtau.cfg
 
 import org.testingisdocumenting.webtau.http.HttpHeader
-import org.testingisdocumenting.webtau.http.config.HttpConfiguration
-import org.testingisdocumenting.webtau.http.config.HttpConfigurations
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 
 import java.util.concurrent.atomic.AtomicReference
 
-class GroovyConfigBasedHttpConfiguration implements HttpConfiguration {
+class GroovyConfigBasedHttpConfiguration implements WebTauHttpConfiguration {
     private static AtomicReference<Closure> headerProvider = new AtomicReference<>()
 
     GroovyConfigBasedHttpConfiguration() {
-    }
-
-    @Override
-    String fullUrl(String url) {
-        return url
     }
 
     static void setHeaderProvider(Closure headerProvider) {
@@ -49,7 +44,7 @@ class GroovyConfigBasedHttpConfiguration implements HttpConfiguration {
             return given
         }
 
-        return HttpConfigurations.withDisabledConfigurations {
+        return WebTauHttpConfigurations.withDisabledConfigurations {
             HttpValidationHandlers.withDisabledHandlers {
                 return headerProvider.get().call(fullUrl, passedUrl, given) as HttpHeader
             }

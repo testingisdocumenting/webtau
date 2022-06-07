@@ -41,6 +41,14 @@ class CollectionUtilsTest {
     }
 
     @Test
+    void "should convert a map to string string map"() {
+        def original = CollectionUtils.aMapOf("key1", 10, "key2", 20, "key3", 30, "key4", 40)
+        def converted = CollectionUtils.toStringStringMap(original)
+
+        assert converted == [key1: "10", key2: "20", key3: "30", key4: "40"]
+    }
+
+    @Test
     void "should convert array of boolean to list of Boolean"() {
         boolean[] array = [true, false]
         List<Boolean> converted = CollectionUtils.convertArrayToList(array)

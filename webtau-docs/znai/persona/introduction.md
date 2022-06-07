@@ -1,6 +1,6 @@
 # Persona Context
 
-Webtau `persona` defines a user of your system with a context associated with that user.
+WebTau `persona` defines a user of your system with a context associated with that user.
 Example of context: authentication credentials, browser, custom config parameters.
 
 :include-file: scenarios/concept/personaContext.groovy {

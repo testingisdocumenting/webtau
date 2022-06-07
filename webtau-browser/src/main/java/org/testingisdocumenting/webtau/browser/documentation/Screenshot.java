@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,9 @@
 
 package org.testingisdocumenting.webtau.browser.documentation;
 
+import org.openqa.selenium.Dimension;
 import org.openqa.selenium.OutputType;
+import org.openqa.selenium.Point;
 import org.openqa.selenium.TakesScreenshot;
 
 import javax.imageio.ImageIO;
@@ -26,11 +29,16 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 public class Screenshot {
-    private TakesScreenshot screenshotTaker;
+    private final TakesScreenshot screenshotTaker;
+    private final Number pixelRatio;
+    private final WebElementLocationAndSizeProvider rootLocationAndSizeProvider;
     private BufferedImage bufferedImage;
 
-    public Screenshot(TakesScreenshot screenshotTaker) {
+    public Screenshot(TakesScreenshot screenshotTaker, Number pixelRatio,
+                      WebElementLocationAndSizeProvider rootLocationAndSizeProvider) {
         this.screenshotTaker = screenshotTaker;
+        this.pixelRatio = pixelRatio;
+        this.rootLocationAndSizeProvider = rootLocationAndSizeProvider;
         take();
     }
 
@@ -41,7 +49,48 @@ public class Screenshot {
     private BufferedImage takeBufferedImage() {
         byte[] screenshotBytes = screenshotTaker.getScreenshotAs(OutputType.BYTES);
         try {
-            return ImageIO.read(new ByteArrayInputStream(screenshotBytes));
+            BufferedImage bufferedImage = ImageIO.read(new ByteArrayInputStream(screenshotBytes));
+
+            if (rootLocationAndSizeProvider == null) {
+                return bufferedImage;
+            }
+
+            Point location = rootLocationAndSizeProvider.getLocation();
+            Dimension size = rootLocationAndSizeProvider.getSize();
+
+            /*
+
+                image width
+                ---------
+                |       |
+                |(rx,ry)|
+                |   *******  -- real width
+                |   *   | *
+                ----*---- *\
+                    ******* \
+                              real height
+
+             */
+
+            double ratio = pixelRatio.doubleValue();
+            int realX = (int) (location.getX() * ratio);
+            int realY = (int) (location.getY() * ratio);
+            int realWidth = (int) (size.getWidth() * ratio);
+            int realHeight = (int) (size.getHeight() * ratio);
+
+            int imageWidth = bufferedImage.getWidth();
+            int imageHeight = bufferedImage.getHeight();
+
+            int maxCropWidth = Math.max(0, imageWidth - realX);
+            int maxCropHeight = Math.max(0, imageHeight - realY);
+
+            if (maxCropWidth == 0 || maxCropHeight == 0) {
+                throw new IllegalArgumentException("element to crop from screenshot is outside of viewport");
+            }
+
+            return bufferedImage.getSubimage(
+                    Math.min(imageWidth, realX), Math.min(imageHeight, realY),
+                    Math.min(maxCropWidth, realWidth), Math.min(maxCropHeight, realHeight));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

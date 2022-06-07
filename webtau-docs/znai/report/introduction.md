@@ -1,4 +1,4 @@
-Webtau tracks all actions and assertions tests perform. 
+WebTau tracks all actions and assertions tests perform. 
 Actions and assertions are printed to console as well as available in the generated HTML report.
 
 In a test details screen, there are multiple tabs.  
@@ -9,5 +9,5 @@ In a test details screen, there are multiple tabs.
 
 :include-image: doc-artifacts/reports/report-crud-steps.png {border: true, fit: true}
 
-Every webtau standard action generates `WebtauStep`. You can use webtau API to wrap your repeating actions 
-into webtau compatible steps. 
+Every WebTau standard action generates `WebTauStep`. You can use WebTau API to wrap your repeating actions 
+into WebTau compatible steps. 

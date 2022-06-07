@@ -189,6 +189,11 @@ class WebTauCliFeaturesTest {
         }
     }
 
+    @Test
+    void "parallel cli run execution"() {
+        runCli('parallel', 'webtau.parallel.cfg.groovy', "--parallel")
+    }
+
     private static void runCli(String cliTestName, String configFileName, String... additionalArgs) {
         supportedPlatformOnly {
             testRunner.runCli("scenarios/cli/$cliTestName",

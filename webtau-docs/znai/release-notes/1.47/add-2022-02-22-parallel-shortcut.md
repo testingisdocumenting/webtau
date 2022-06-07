@@ -1,0 +1,1 @@
+* Add scenario level elapsed time to Web Report in addition to suite level elapsed time  

@@ -10,8 +10,8 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single 
 
 @RunWith(WebTauRunner.class) // runner is required to have this test to be a part of generated html report
 public class CustomerCrudSingleJavaTest {
-    private Map<String, Object> customerPayload = createCustomerPayload();
-    private Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();
+    private final Map<String, Object> customerPayload = createCustomerPayload();
+    private final Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();
 
     @Test
     public void crud() {
@@ -32,11 +32,11 @@ public class CustomerCrudSingleJavaTest {
         }));
 
         http.delete("/customers/" + id, ((header, body) -> {
-            header.statusCode().should(equal(204));
+            header.statusCode.should(equal(204));
         }));
 
         http.get("/customers/" + id, ((header, body) -> {
-            header.statusCode().should(equal(404));
+            header.statusCode.should(equal(404));
         }));
     }
 

@@ -16,6 +16,8 @@
 
 package org.testingisdocumenting.webtau.http.testserver;
 
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collections;
 import java.util.Map;
@@ -23,7 +25,7 @@ import java.util.Map;
 public class TestServerJsonResponse implements TestServerResponse {
     private final String response;
     private final int statusCode;
-    private final Map<String, String> headerResponse;
+    private final Map<String, Object> headerResponse;
 
     public TestServerJsonResponse(String response, int statusCode) {
         this(response, statusCode, Collections.emptyMap());
@@ -33,7 +35,7 @@ public class TestServerJsonResponse implements TestServerResponse {
         this(response, 200);
     }
 
-    public TestServerJsonResponse(String response, int statusCode, Map<String, String> headerResponse) {
+    public TestServerJsonResponse(String response, int statusCode, Map<String, Object> headerResponse) {
         this.response = response;
         this.statusCode = statusCode;
         this.headerResponse = headerResponse;
@@ -56,6 +58,6 @@ public class TestServerJsonResponse implements TestServerResponse {
 
     @Override
     public Map<String, String> responseHeader(HttpServletRequest request) {
-        return headerResponse;
+        return CollectionUtils.toStringStringMap(headerResponse);
     }
 }

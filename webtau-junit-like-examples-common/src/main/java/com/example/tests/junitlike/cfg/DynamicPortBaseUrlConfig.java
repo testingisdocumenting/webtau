@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,10 +19,10 @@ package com.example.tests.junitlike.cfg;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.http.HttpHeader;
-import org.testingisdocumenting.webtau.http.config.HttpConfiguration;
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 
-public class DynamicPortBaseUrlConfig implements HttpConfiguration {
+public class DynamicPortBaseUrlConfig implements WebTauHttpConfiguration {
     private static final String SPRING_BOOT_EXAMPLE_URL_PREFIX = "/customers";
     private static final String DEFAULT_SPRINGBOOT_APP_PORT = "8080";
 

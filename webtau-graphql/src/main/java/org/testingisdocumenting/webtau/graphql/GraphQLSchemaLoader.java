@@ -27,7 +27,7 @@ import org.testingisdocumenting.webtau.graphql.model.GraphQLRequest;
 import org.testingisdocumenting.webtau.graphql.model.GraphQLResponse;
 import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.HttpResponse;
-import org.testingisdocumenting.webtau.http.config.HttpConfigurations;
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 
 import java.util.Arrays;
@@ -57,8 +57,8 @@ public class GraphQLSchemaLoader {
 
     private static HttpResponse sendIntrospectionQuery() {
         HttpRequestBody requestBody = new GraphQLRequest(IntrospectionQuery.INTROSPECTION_QUERY).toHttpRequestBody();
-        String fullUrl = HttpConfigurations.fullUrl(GRAPHQL_URL);
-        HttpHeader header = HttpConfigurations.fullHeader(fullUrl, GRAPHQL_URL, HttpHeader.EMPTY);
+        String fullUrl = WebTauHttpConfigurations.fullUrl(GRAPHQL_URL);
+        HttpHeader header = WebTauHttpConfigurations.fullHeader(fullUrl, GRAPHQL_URL, HttpHeader.EMPTY);
 
         return http.postToFullUrl(fullUrl, header, requestBody);
     }

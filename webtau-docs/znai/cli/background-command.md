@@ -1,4 +1,4 @@
-Webtau can run commands in `foreground` and in `background`. When command is ran in `background` webtau  
+WebTau can run commands in `foreground` and in `background`. When command is ran in `background` WebTau  
 will continue execution, leaving command to run its course.
 
 # Run In Background
@@ -39,7 +39,7 @@ You can use `<<` instead of `.send` for extra syntax sugar:
 
 # Wait Timeout
 
-By default, webtau `waitTo` waits 5 seconds for a condition to become true.
+By default, WebTau `waitTo` waits 5 seconds for a condition to become true.
 This value can be changed either globally by using `:identifier: waitTimeout {validationPath: "org/testingisdocumenting/webtau/cfg/WebTauConfig.java"}` config value
 
 ```groovy {title: "webtau.cfg.groovy"}

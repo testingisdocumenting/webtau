@@ -22,14 +22,14 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.47-SNAPSHOT</version>
+        <version>1.49-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-browser</artifactId>
-    <version>1.47-SNAPSHOT</version>
+    <version>1.49-SNAPSHOT</version>
 
     <properties>
-        <selenium.version>3.141.59</selenium.version>
+        <selenium.version>4.1.4</selenium.version>
     </properties>
 
     <dependencies>

@@ -71,7 +71,7 @@ public class GraphQLJavaTest extends GraphQLTestBase {
         int successStatusCode = 201;
         testServer.getHandler().withSuccessStatusCode(successStatusCode, () -> {
             graphql.execute("{ allTasks { id }  }", (header, body) -> {
-                header.statusCode().should(equal(successStatusCode));
+                header.statusCode.should(equal(successStatusCode));
             });
         });
     }

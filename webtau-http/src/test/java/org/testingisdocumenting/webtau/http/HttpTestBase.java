@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,8 +18,8 @@
 package org.testingisdocumenting.webtau.http;
 
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
-import org.testingisdocumenting.webtau.http.config.HttpConfiguration;
-import org.testingisdocumenting.webtau.http.config.HttpConfigurations;
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration;
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 import org.junit.After;
 import org.junit.AfterClass;
@@ -28,7 +29,7 @@ import org.junit.BeforeClass;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-public class HttpTestBase implements HttpConfiguration {
+public class HttpTestBase implements WebTauHttpConfiguration {
     protected static final HttpTestDataServer testServer = new HttpTestDataServer();
     private static Path existingDocRoot;
 
@@ -55,12 +56,12 @@ public class HttpTestBase implements HttpConfiguration {
 
     @Before
     public void initCfg() {
-        HttpConfigurations.add(this);
+        WebTauHttpConfigurations.add(this);
     }
 
     @After
     public void cleanCfg() {
-        HttpConfigurations.remove(this);
+        WebTauHttpConfigurations.remove(this);
     }
 
 

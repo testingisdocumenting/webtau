@@ -6,7 +6,7 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*
 class PersonaAuth {
     static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {
         def token = generateTokenBasedOnPersona()
-        return original.merge([Authorization: "Bearer $token"])
+        return original.with([Authorization: "Bearer $token"])
     }
 
     static String generateTokenBasedOnPersona() {

@@ -26,7 +26,7 @@ import java.util.Set;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-class BrowserLocalStorage {
+public class BrowserLocalStorage {
     private final WebDriver driver;
 
     BrowserLocalStorage(WebDriver driver) {

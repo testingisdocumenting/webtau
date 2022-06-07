@@ -446,7 +446,7 @@ export const withCliDataReport = {
 };
 
 export const withRestDataReport = {
-  version: '1.4',
+  version: '1.55-SNAPSHOT',
   name: 'my report name',
   summary: {
     total: 5,

@@ -1,0 +1,1 @@
+* Disable scenarios by [file name convention](groovy-standalone-runner/skipping-tests#unconditionally-skipping-tests)

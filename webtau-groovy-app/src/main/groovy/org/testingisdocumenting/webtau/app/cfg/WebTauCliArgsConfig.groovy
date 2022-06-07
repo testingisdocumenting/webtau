@@ -25,7 +25,9 @@ import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.HelpFormatter
 import org.apache.commons.cli.Options
 import org.apache.commons.cli.ParseException
-import org.testingisdocumenting.webtau.version.WebtauVersion
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.version.WebTauVersion
 
 import java.nio.file.Paths
 
@@ -34,8 +36,10 @@ class WebTauCliArgsConfig {
     private static final String REPL_EXPERIMENTAL = "replexp"
 
     private static final String CLI_SOURCE = "command line argument"
-    private static final String HELP_OPTION = "help"
-    private static final String EXAMPLE_OPTION = "example"
+
+    private static final String HELP_KEY = "help"
+    private static final String VERSION_KEY = "version"
+    private static final String EXAMPLE_KEY = "example"
 
     private static final Set<String> COMMANDS = [REPL, REPL_EXPERIMENTAL]
 
@@ -84,9 +88,11 @@ class WebTauCliArgsConfig {
         Options options = createOptions()
         commandLine = createCommandLine(args, options)
 
-        if (commandLine.hasOption(EXAMPLE_OPTION)) {
+        if (commandLine.hasOption(EXAMPLE_KEY)) {
             scaffoldExamples()
-        } else if (commandLine.hasOption(HELP_OPTION) ||
+        } else if (commandLine.hasOption(VERSION_KEY)) {
+            printVersion()
+        } else if (commandLine.hasOption(HELP_KEY) ||
                 commandLine.argList.isEmpty() &&
                 !isReplMode(args) && !isExperimentalReplMode(args)) {
             printHelp(options)
@@ -103,8 +109,13 @@ class WebTauCliArgsConfig {
     private void printHelp(Options options) {
         HelpFormatter helpFormatter = new HelpFormatter()
 
-        WebtauVersion.print()
+        WebTauVersion.print()
         helpFormatter.printHelp("webtau [options] [testFile1] [testFile2]", "", options, "")
+        exitHandler.exit(1)
+    }
+
+    private void printVersion() {
+        WebTauVersion.print()
         exitHandler.exit(1)
     }
 
@@ -113,7 +124,11 @@ class WebTauCliArgsConfig {
         try {
             return parser.parse(options, args)
         } catch (ParseException e) {
-            throw new RuntimeException(e)
+            ConsoleOutputs.out(Color.RED, e.getMessage())
+            ConsoleOutputs.out(Color.BLUE, "use --help to list all available parameters")
+            System.exit(2)
+
+            return null
         }
     }
 
@@ -125,8 +140,9 @@ class WebTauCliArgsConfig {
 
     private Options createOptions() {
         def options = new Options()
-        options.addOption(null, HELP_OPTION, false, "print help")
-        options.addOption(null, EXAMPLE_OPTION, false, "generate basic examples")
+        options.addOption(null, HELP_KEY, false, "print help")
+        options.addOption(null, VERSION_KEY, false, "print version")
+        options.addOption(null, EXAMPLE_KEY, false, "generate basic examples")
 
         cfg.getEnumeratedCfgValuesStream().each {
             options.addOption(null, it.key, !it.isBoolean(), it.description)

@@ -1,4 +1,4 @@
-Webtau can run commands in `foreground` and in `background`. When command is ran in `foreground` webtau will 
+WebTau can run commands in `foreground` and in `background`. When command is ran in `foreground` WebTau will 
 wait for the command to finish.
 
 # Run
@@ -26,7 +26,7 @@ all its arguments:
 
 # Implicit Exit Code Validation
 
-Webtau performs implicit exit code validation and adds `exitCode` equals zero when 
+WebTau performs implicit exit code validation and adds `exitCode` equals zero when 
 you don't specify explicit `exitCode` validation. 
 
 :include-file: doc-artifacts/snippets/foreground-cli/withoutValidation.groovy {
@@ -36,7 +36,7 @@ you don't specify explicit `exitCode` validation.
 Example above is equivalent to 
 
 :include-file: doc-artifacts/snippets/foreground-cli/implicitExitCodeBehindScenes.groovy {
-  title: "exit code check webtau performs if you don't write explicit validation"
+  title: "WebTau performs exit code check if you don't write explicit validation"
 }
 
 # Run Result
@@ -48,7 +48,7 @@ Use the result of `cli.run` if you need to process the output of the command.
   excludeRegexp: "hide-docs"
 }
 
-Warning: Perform validation inside validation block so webtau can track what was checked.
+Warning: Perform validation inside validation block so WebTau can track what was checked.
 
 :include-file: doc-artifacts/snippets/foreground-cli/runResultExtractOutput.groovy {
   title: "extract from output by regexp",

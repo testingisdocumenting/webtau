@@ -29,7 +29,7 @@ import org.testingisdocumenting.webtau.reporter.WebTauTest;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
-import org.testingisdocumenting.webtau.version.WebtauVersion;
+import org.testingisdocumenting.webtau.version.WebTauVersion;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -68,7 +68,7 @@ public class HtmlReportGenerator implements ReportGenerator {
         reportAsMap.put("config", configAsListOfMaps(getCfg().getEnumeratedCfgValuesStream()));
         reportAsMap.put("envVars", envVarsAsListOfMaps());
         reportAsMap.put("summary", reportSummaryToMap(report));
-        reportAsMap.put("version", WebtauVersion.getVersion());
+        reportAsMap.put("version", WebTauVersion.getVersion());
         reportAsMap.put("tests", report.getTests().stream()
                 .map(WebTauTest::toMap).collect(Collectors.toList()));
 

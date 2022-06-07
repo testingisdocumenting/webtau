@@ -1,0 +1,1 @@
+* Improve message for `expected exception` message when no exception is thrown  

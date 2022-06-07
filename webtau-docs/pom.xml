@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.47-SNAPSHOT</version>
+        <version>1.49-SNAPSHOT</version>
     </parent>
 
     <properties>
@@ -59,7 +59,7 @@
             <plugin>
                 <groupId>org.testingisdocumenting.znai</groupId>
                 <artifactId>znai-maven-plugin</artifactId>
-                <version>1.55</version>
+                <version>1.57</version>
                 <executions>
                     <execution>
                         <id>guide</id>

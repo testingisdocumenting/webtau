@@ -1,4 +1,4 @@
-Webtau `http.` module lets you exercise and validate HTTP endpoints.
+WebTau `http.` module lets you exercise and validate HTTP endpoints.
 It provides a simplified way to access JSON response of an end-point and simplifies REST API tests.
 
 ``````tabs

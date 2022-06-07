@@ -1,12 +1,12 @@
 # Read Eval Print Loop
 
-Webtau command line tool comes with a `REPL` mode that stands for 'read-eval-print-loop'. REPL is an established way to 
+WebTau command line tool comes with a `REPL` mode that stands for 'read-eval-print-loop'. REPL is an established way to 
 perform interactive execution of an API for the purpose of learning or experimenting. 
 The REPL preserves the context of execution and each new command you run can rely on the established context.
 
 # Start REPL
 
-To run webtau in REPL mode run
+To run WebTau in REPL mode run
 
 :include-cli-command: webtau repl 
 

@@ -4,7 +4,7 @@ type: two-sides
 
 # Finders
 
-Finders in webtau is the initial web element selection that could select one or more elements.
+Finders in WebTau is the initial web element selection that could select one or more elements.
 
 # CSS Finder
 

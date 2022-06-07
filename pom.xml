@@ -21,7 +21,7 @@
 
     <groupId>org.testingisdocumenting.webtau</groupId>
     <artifactId>webtau-parent</artifactId>
-    <version>1.47-SNAPSHOT</version>
+    <version>1.49-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>WebTau</name>
@@ -116,6 +116,7 @@
         <module>webtau-cli-groovy</module>
         <module>webtau-groovy-ast</module>
         <module>webtau-groovy</module>
+        <module>webtau-termui</module>
         <module>webtau-groovy-app</module>
         <module>webtau-repl</module>
         <module>webtau-reactjs</module>
@@ -294,7 +295,7 @@
             <dependency>
                 <groupId>io.github.bonigarcia</groupId>
                 <artifactId>webdrivermanager</artifactId>
-                <version>4.4.3</version>
+                <version>5.1.1</version>
             </dependency>
 
             <dependency>
@@ -606,7 +607,7 @@
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
-                <version>29.0-jre</version>
+                <version>31.1-jre</version>
             </dependency>
 
             <dependency>
