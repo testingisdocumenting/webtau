@@ -73,8 +73,30 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
 
     @Override
     public String mismatchedMessage(CodeBlock codeBlock) {
+        if (thrownClass == null) {
+            return generateExpectedExceptionButNoneWasThrown();
+        }
+
         return comparator.generateEqualMismatchReport() +
                 (thrownExceptionStackTrace != null ? "\nstack trace:\n" + thrownExceptionStackTrace : "");
+    }
+
+    @Override
+    public Stream<Object> expectedValues() {
+        if (expectedMessage != null) {
+            return Stream.of(expectedMessage);
+        }
+
+        if (expectedClass != null) {
+            return Stream.of(expectedClass);
+        }
+
+        return Stream.empty();
+    }
+
+    @Override
+    public Object actualValue() {
+        return thrownMessage;
     }
 
     @Override
@@ -94,7 +116,7 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
         }
 
         if (expectedMessageRegexp != null) {
-            isEqual =  comparator.compareIsEqual(createActualPath("expected exception message"),
+            isEqual = comparator.compareIsEqual(createActualPath("expected exception message"),
                     thrownMessage, expectedMessageRegexp) && isEqual;
         }
 
@@ -123,21 +145,15 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
         }
     }
 
-    @Override
-    public Stream<Object> expectedValues() {
-        if (expectedMessage != null) {
-            return Stream.of(expectedMessage);
-        }
-
+    private String generateExpectedExceptionButNoneWasThrown() {
+        String result = "expected exception but none was thrown";
         if (expectedClass != null) {
-            return Stream.of(expectedClass);
+            result += " <" + expectedClass.getSimpleName() + ">";
+        }
+        if (expectedMessage != null) {
+            result += ": " + expectedMessage;
         }
 
-        return Stream.empty();
-    }
-
-    @Override
-    public Object actualValue() {
-        return thrownMessage;
+        return result;
     }
 }

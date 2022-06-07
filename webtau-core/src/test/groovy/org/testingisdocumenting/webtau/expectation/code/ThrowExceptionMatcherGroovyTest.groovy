@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.expectation.code
 
+import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
@@ -94,19 +95,6 @@ class ThrowExceptionMatcherGroovyTest {
     }
 
     @Test
-    void "should fail if no exception was thrown"() {
-        thrown.expectMessage('\nmismatches:\n' +
-                '\n' +
-                'expected exception message:   actual: null\n' +
-                '                            expected: "error message1" <java.lang.String>\n' +
-                'expected exception class:   actual: null\n' +
-                '                          expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
-
-        code {
-        } should throwException(UnsupportedOperationException, 'error message1')
-    }
-
-    @Test
     void "should add exception stack trace when mismatched"() {
         thrown.expectMessage('stack trace:\n' +
                 'java.lang.RuntimeException: java.lang.IllegalArgumentException: negative not allowed\n')
@@ -117,16 +105,27 @@ class ThrowExceptionMatcherGroovyTest {
     }
 
     @Test
-    void "should not add exception stack trace when mismatched but no exception"() {
+    void "should clearly report expected exception message when none is thrown"() {
+        thrown.expectMessage('\nexpected exception but none was thrown: negative numbers are not supported')
+
         code {
-            code {
-            } should throwException(NullPointerException, 'error message1')
-        } should throwException("\nmismatches:\n" +
-                "\n" +
-                "expected exception message:   actual: null\n" +
-                "                            expected: \"error message1\" <java.lang.String>\n" +
-                "expected exception class:   actual: null\n" +
-                "                          expected: class java.lang.NullPointerException <java.lang.Class>")
+        } should throwException("negative numbers are not supported")
+    }
+
+    @Test
+    void "should clearly report expected exception message and class when none is thrown"() {
+        thrown.expectMessage('\nexpected exception but none was thrown <IllegalArgumentException>: negative numbers are not supported')
+
+        code {
+        } should throwException(IllegalArgumentException, 'negative numbers are not supported')
+    }
+
+    @Test
+    void "should clearly report expected exception class when none is thrown"() {
+        thrown.expectMessage('\nexpected exception but none was thrown <IllegalArgumentException>')
+
+        code {
+        } should throwException(IllegalArgumentException)
     }
 
     @Test
