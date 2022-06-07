@@ -10,11 +10,11 @@ HTTP
     data-node
     headers
     query-parameters
+    HTTP-calls
     ping
     proxy
     files
     documentation
-    complex-types
     openAPI-spec
     JSON-schema
     report

@@ -941,4 +941,205 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
         http.put("/full-echo", requestBodyMap);
         http.put("/full-echo", requestHeader, requestBodyMap);
     }
+
+    @Test
+    public void getFullReturnSyntaxExample() {
+        String id = http.get("/query", http.query("q1", "v1"), http.header("h1", "v1"), ((header, body) -> {
+            body.get("price").should(equal(100)); // validation
+            return body.get("id"); // optional return
+        }));
+    }
+
+    @Test
+    public void getNoHeaderSyntaxExample() {
+        http.get("/query", http.query("q1", "v1"), ((header, body) -> {
+            body.get("price").should(equal(100));
+        }));
+    }
+
+    @Test
+    public void getNoQuerySyntaxExample() {
+        http.get("/query", http.header("h1", "v1"), ((header, body) -> {
+            body.get("price").should(equal(100));
+        }));
+    }
+
+    @Test
+    public void getOnlyValidationSyntaxExample() {
+        http.get("/query", ((header, body) -> {
+            body.get("price").should(equal(100));
+        }));
+    }
+
+    @Test
+    public void getOnlySyntaxExample() {
+        http.get("/query");
+    }
+
+    @Test
+    public void postFullReturnSyntaxExample() {
+        String id = http.post("/chat", http.query("q1", "v1"), http.header("h1", "v1"), aMapOf("message", "hello"),
+                (header, body) -> {
+            body.get("status").should(equal("SUCCESS")); // validation
+            return body.get("id"); // optional return
+        });
+    }
+
+    @Test
+    public void postNoHeaderSyntaxExample() {
+        http.post("/chat", http.query("q1", "v1"), aMapOf("message", "hello"), (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void postNoQuerySyntaxExample() {
+        http.post("/chat", http.header("h1", "v1"), aMapOf("message", "hello"), (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void postBodyOnlySyntaxExample() {
+        http.post("/chat", aMapOf("message", "hello"), (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void postValidationOnlySyntaxExample() {
+        http.post("/chat", (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void postStatusCodeSyntaxExample() {
+        http.post("/resource", (header, body) -> {
+            header.statusCode.should(equal(200)); // explicit check that override default 201 (for POST) implicit check
+        });
+    }
+
+    @Test
+    public void postNoValidationSyntaxExample() {
+        http.post("/chat");
+    }
+
+    @Test
+    public void putFullReturnSyntaxExample() {
+        String id = http.put("/chat/id1", http.query("q1", "v1"), http.header("h1", "v1"), aMapOf("message", "hello"),
+                (header, body) -> {
+            body.get("status").should(equal("SUCCESS")); // validation
+            return body.get("id"); // optional return
+        });
+    }
+
+    @Test
+    public void putNoHeaderSyntaxExample() {
+        http.put("/chat/id1", http.query("q1", "v1"), aMapOf("message", "hello"), (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void putNoQuerySyntaxExample() {
+        http.put("/chat/id1", http.header("h1", "v1"), aMapOf("message", "hello"), (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void putBodyOnlySyntaxExample() {
+        http.put("/chat/id1", aMapOf("message", "hello"), (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void putValidationOnlySyntaxExample() {
+        http.put("/chat/id1", (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void putNoValidationSyntaxExample() {
+        http.put("/chat/id1");
+    }
+
+    @Test
+    public void deleteFullReturnSyntaxExample() {
+        String id = http.delete("/chat/id1", http.query("q1", "v1"), http.header("h1", "v1"), ((header, body) -> {
+            body.get("status").should(equal("SUCCESS")); // validation
+            return body.get("id"); // optional return
+        }));
+    }
+
+    @Test
+    public void deleteNoHeaderSyntaxExample() {
+        http.delete("/chat/id1", http.query("q1", "v1"), ((header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        }));
+    }
+
+    @Test
+    public void deleteNoQuerySyntaxExample() {
+        http.delete("/chat/id1", http.header("h1", "v1"), ((header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        }));
+    }
+
+    @Test
+    public void deleteOnlyValidationSyntaxExample() {
+        http.delete("/chat/id1", ((header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        }));
+    }
+
+    @Test
+    public void deleteOnlySyntaxExample() {
+        http.delete("/chat/id1");
+    }
+
+    @Test
+    public void patchFullReturnSyntaxExample() {
+        String id = http.patch("/chat/id1", http.query("q1", "v1"), http.header("h1", "v1"), aMapOf("message", "hello"),
+                (header, body) -> {
+            body.get("status").should(equal("SUCCESS")); // validation
+            return body.get("id"); // optional return
+        });
+    }
+
+    @Test
+    public void patchNoHeaderSyntaxExample() {
+        http.patch("/chat/id1", http.query("q1", "v1"), aMapOf("message", "hello"), (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void patchNoQuerySyntaxExample() {
+        http.patch("/chat/id1", http.header("h1", "v1"), aMapOf("message", "hello"), (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void patchBodyOnlySyntaxExample() {
+        http.patch("/chat/id1", aMapOf("message", "hello"), (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void patchValidationOnlySyntaxExample() {
+        http.patch("/chat/id1", (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void patchNoValidationSyntaxExample() {
+        http.patch("/chat/id1");
+    }
 }
