@@ -125,7 +125,10 @@ public class Http {
         return UrlUtils.concat(baseUrl, relativeUrl);
     }
 
-    public <E> E get(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+    public <E> E get(String url,
+                     HttpQueryParams queryParams,
+                     HttpHeader header,
+                     HttpResponseValidatorWithReturn validator) {
         return executeAndValidateHttpCall("GET", queryParams.attachToUrl(url),
                 this::getToFullUrl,
                 header, null, validator);

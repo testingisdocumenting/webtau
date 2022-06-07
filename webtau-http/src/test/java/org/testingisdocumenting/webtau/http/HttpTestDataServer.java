@@ -31,6 +31,7 @@ public class HttpTestDataServer {
     private final TestServer testServer = new TestServer(handler);
 
     public HttpTestDataServer() {
+        TestServerJsonResponse queryTestResponse = jsonResponse("queryTestResponse.json");
         TestServerJsonResponse objectTestResponse = jsonResponse("objectTestResponse.json");
 
         handler.registerGet("/end-point", objectTestResponse);
@@ -41,6 +42,9 @@ public class HttpTestDataServer {
                 CollectionUtils.aMapOf(
                         "Content-Location", "/url/23",
                         "Location", "http://www.example.org/url/23")));
+
+        handler.registerGet("/query", queryTestResponse);
+        handler.registerGet("/query?q1=v1", queryTestResponse);
 
         handler.registerGet("/example", jsonResponse("matcherExampleResponse.json"));
         handler.registerGet("/customer/123", objectTestResponse);
@@ -91,7 +95,16 @@ public class HttpTestDataServer {
         handler.registerGet("/integer", new TestServerJsonResponse("123"));
         handler.registerPost("/json-derivative", new TestServerJsonDerivativeResponse());
 
-        handler.registerPost("/chat?a=1&b=text", new TestServerJsonDerivativeResponse());
+        handler.registerPost("/resource", jsonResponse("chatPostResponse.json", 200));
+        handler.registerPost("/chat", jsonResponse("chatPostResponse.json", 201));
+        handler.registerPost("/chat?a=1&b=text", jsonResponse("chatPostResponse.json", 201));
+        handler.registerPost("/chat?q1=v1", jsonResponse("chatPostResponse.json", 201));
+        handler.registerPut("/chat/id1", jsonResponse("chatPostResponse.json", 200));
+        handler.registerPut("/chat/id1?q1=v1", jsonResponse("chatPostResponse.json", 200));
+        handler.registerPatch("/chat/id1", jsonResponse("chatPostResponse.json", 200));
+        handler.registerPatch("/chat/id1?q1=v1", jsonResponse("chatPostResponse.json", 200));
+        handler.registerDelete("/chat/id1", jsonResponse("chatPostResponse.json", 200));
+        handler.registerDelete("/chat/id1?q1=v1", jsonResponse("chatPostResponse.json", 200));
 
         handler.registerGet("/address", jsonResponse("addressResponse.json"));
         registerRedirects();

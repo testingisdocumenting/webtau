@@ -17,6 +17,7 @@
 ../../webtau-feature-testing/target
 ../../webtau-feature-testing/target/classes
 ../../webtau-http/
+../../webtau-http/src/main/java
 ../../webtau-http/target/test-classes
 ../../webtau-http-groovy/
 ../../webtau-http-groovy/target/test-classes
