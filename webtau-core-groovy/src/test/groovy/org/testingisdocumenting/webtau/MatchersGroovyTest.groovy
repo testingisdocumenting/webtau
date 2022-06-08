@@ -18,6 +18,12 @@ package org.testingisdocumenting.webtau
 
 import org.junit.Test
 
+import java.time.LocalDate
+
+import static org.testingisdocumenting.webtau.Matchers.anyOf
+import static org.testingisdocumenting.webtau.Matchers.contain
+import static org.testingisdocumenting.webtau.Matchers.greaterThan
+
 class MatchersGroovyTest {
     @Test
     void "list of strings"() {
@@ -49,6 +55,21 @@ class MatchersGroovyTest {
                 id: "ac1",
                 name: "My Account"] // only specified properties will be compared
         // bean-map-example
+    }
+
+    @Test
+    void "any of matcher example"() {
+        def dateAsText = "2018-06-10"
+        dateAsText.shouldBe anyOf("2018-06-11", LocalDate.of(2018, 6, 10))
+    }
+
+    @Test
+    void "any of matcher with other matcher example"() {
+        def dateAsText = "2018-06-10"
+        dateAsText.shouldBe anyOf("2018-06-11", greaterThan(LocalDate.of(2018, 1, 1)))
+
+        def message = "hello world"
+        message.shouldNotBe anyOf("hello", contain("super"))
     }
 
     private static String generateErrorMessage() {

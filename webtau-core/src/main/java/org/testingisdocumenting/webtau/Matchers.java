@@ -205,6 +205,30 @@ public class Matchers {
     }
 
     /**
+     * Any of matcher
+     * <pre>
+     * actual(value).shouldBe(anyOf(3, greaterThan(8)));
+     * </pre>
+     * @param expected list of expected values or matchers
+     * @return matcher instance
+     */
+    public static AnyOfMatcher anyOf(Object... expected) {
+        return new AnyOfMatcher(Arrays.asList(expected));
+    }
+
+    /**
+     * Any of matcher
+     * <pre>
+     * actual(value).shouldBe(anyOf(3, greaterThan(8)));
+     * </pre>
+     * @param expected list of expected values or matchers
+     * @return matcher instance
+     */
+    public static AnyOfMatcher anyOf(Collection<Object> expected) {
+        return new AnyOfMatcher(expected);
+    }
+
+    /**
      * Throw exception <code>code</code> matcher.
      * <pre>
      * code(() -&gt; {
@@ -248,7 +272,7 @@ public class Matchers {
      * @param expectedClass expected exception class
      * @return matcher instance
      */
-    public static ThrowExceptionMatcher throwException(Class expectedClass) {
+    public static ThrowExceptionMatcher throwException(Class<?> expectedClass) {
         return new ThrowExceptionMatcher(expectedClass);
     }
 
@@ -265,7 +289,7 @@ public class Matchers {
      * @param expectedMessageRegexp regular pattern to match expected exception message
      * @return matcher instance
      */
-    public static ThrowExceptionMatcher throwException(Class expectedClass, Pattern expectedMessageRegexp) {
+    public static ThrowExceptionMatcher throwException(Class<?> expectedClass, Pattern expectedMessageRegexp) {
         return new ThrowExceptionMatcher(expectedClass, expectedMessageRegexp);
     }
 
@@ -282,7 +306,7 @@ public class Matchers {
      * @param expectedMessage expected exception message
      * @return matcher instance
      */
-    public static ThrowExceptionMatcher throwException(Class expectedClass, String expectedMessage) {
+    public static ThrowExceptionMatcher throwException(Class<?> expectedClass, String expectedMessage) {
         return new ThrowExceptionMatcher(expectedClass, expectedMessage);
     }
 

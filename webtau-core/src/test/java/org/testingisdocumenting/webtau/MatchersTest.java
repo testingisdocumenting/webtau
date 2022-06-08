@@ -18,6 +18,8 @@ package org.testingisdocumenting.webtau;
 
 import org.junit.Test;
 
+import java.time.LocalDate;
+
 // import-dsl
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 // import-dsl
@@ -47,6 +49,21 @@ public class MatchersTest {
                 "id", "ac1",
                 "name", "My Account"))); // only specified properties will be compared
         // bean-map-example
+    }
+
+    @Test
+    public void anyOfMatcherExample() {
+        String dateAsText = "2018-06-10";
+        actual(dateAsText).shouldBe(anyOf("2018-06-11", LocalDate.of(2018, 6, 10)));
+    }
+
+    @Test
+    public void anyOfMatcherWithOtherMatcherExample() {
+        String dateAsText = "2018-06-10";
+        actual(dateAsText).shouldBe(anyOf("2018-06-11", greaterThan(LocalDate.of(2018, 1, 1))));
+
+        String message = "hello world";
+        actual(message).shouldNotBe(anyOf("hello", contain("super")));
     }
 
     private static String generateErrorMessage() {
