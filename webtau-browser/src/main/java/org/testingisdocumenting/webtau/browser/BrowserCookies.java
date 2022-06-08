@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
-class BrowserCookies {
+public class BrowserCookies {
     private final WebDriver driver;
 
     BrowserCookies(WebDriver driver) {

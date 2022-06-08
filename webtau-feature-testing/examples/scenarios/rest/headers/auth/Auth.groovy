@@ -1,11 +1,14 @@
 package scenarios.rest.headers.auth
 
-import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.http.HttpHeader
 
 class Auth {
     static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {
-        ConsoleOutputs.out('auth header injection point')
-        return original.merge([Authorization: 'Bearer <token>'])
+        def token = generateToken()
+        return original.with([Authorization: "Bearer $token"])
+    }
+
+    private static String generateToken() {
+        return "jwt-token"
     }
 }

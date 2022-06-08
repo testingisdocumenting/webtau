@@ -17,7 +17,10 @@
 
 package org.testingisdocumenting.webtau.http;
 
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
+
 import static java.util.stream.Collectors.joining;
+import static org.testingisdocumenting.webtau.utils.StringUtils.*;
 
 import java.util.Arrays;
 import java.util.Collections;
@@ -37,33 +40,36 @@ public class HttpHeader {
 
     public static final HttpHeader EMPTY = new HttpHeader(Collections.emptyMap());
 
-    private final Map<String, CharSequence> header;
+    private final Map<String, String> header;
 
     public HttpHeader() {
         this.header = new LinkedHashMap<>();
     }
 
-    public HttpHeader(Map<String, CharSequence> header) {
+    HttpHeader(Map<String, String> header) {
         this.header = header;
     }
 
     public void forEachProperty(BiConsumer<String, String> consumer) {
-        header.forEach((k, v) -> consumer.accept(k, v.toString()));
+        header.forEach((k, v) -> consumer.accept(toStringOrNull(k), toStringOrNull(v)));
     }
 
-    public <T> Stream<T> mapProperties(BiFunction<String, CharSequence, T> mapper) {
-        return header.entrySet().stream().map(e -> mapper.apply(e.getKey(), e.getValue()));
+    public <T> Stream<T> mapProperties(BiFunction<String, String, T> mapper) {
+        return header.entrySet().stream().map(e -> mapper.apply(toStringOrNull(e.getKey()),
+                toStringOrNull(e.getValue())));
     }
 
-    public HttpHeader merge(Map<String, CharSequence> properties) {
-        Map<String, CharSequence> copy = new LinkedHashMap<>(this.header);
-        copy.putAll(properties);
+    /**
+     * This method is now deprecated use {@link HttpHeader#with(Map)} instead
+     * @deprecated
+     * @param properties properties to merge with
+     * @return new instance of header with merged properties
+     */
+    public HttpHeader merge(Map<CharSequence, CharSequence> properties) {
+        Map<String, String> copy = new LinkedHashMap<>(this.header);
+        properties.forEach((k, v) -> copy.put(toStringOrNull(k), toStringOrNull(v)));
 
         return new HttpHeader(copy);
-    }
-
-    public HttpHeader merge(HttpHeader otherHeaders) {
-        return merge(otherHeaders.header);
     }
 
     public boolean containsKey(String key) {
@@ -71,15 +77,14 @@ public class HttpHeader {
     }
 
     public String get(String key) {
-        CharSequence charSequence = header.get(key);
-        return charSequence == null ? null : charSequence.toString();
+        return toStringOrNull(header.get(key));
     }
 
     public String caseInsensitiveGet(String key) {
         return header.entrySet().stream()
                 .filter(entry -> key.equalsIgnoreCase(entry.getKey()))
                 .findFirst()
-                .map(e -> e.getValue().toString())
+                .map(Map.Entry::getValue)
                 .orElse(null);
     }
 
@@ -89,12 +94,11 @@ public class HttpHeader {
      * was constructed.
      *
      * For that reason, this method is deprecated and you should use either
-     * <code>with(String key, String value)</code> or one of the <code>merge</code>
+     * <code>with("MY_HEADER", "my_value")</code> or one of the <code>merge</code>
      * methods which are non-mutating.
      *
-     * @deprecated use <code>with(String key, String value)</code>
-     *             or <code>merge(HttpHeader otherHeader)</code>
-     *             or <code>merge(Map&lt;String, String&gt; properties)</code>
+     * @deprecated use <code>with</code>
+     *             or <code>merge</code>
      */
     @Deprecated
     public void add(String key, String value) {
@@ -103,13 +107,16 @@ public class HttpHeader {
 
     /**
      * Creates a new header from the current one with an additional key-value
-     * @param key additional key
-     * @param value additional value
+     * @param firstKey first key
+     * @param firstValue first value
+     * @param restKv vararg key value sequence, e.g. "HEADER_ONE", "value_one", "HEADER_TWO", "value_two"
      * @return new header
      */
-    public HttpHeader with(String key, CharSequence value) {
-        Map<String, CharSequence> copy = new LinkedHashMap<>(this.header);
-        copy.put(key, value);
+    public HttpHeader with(CharSequence firstKey, CharSequence firstValue, CharSequence... restKv) {
+        Map<Object, Object> mapFromVararg = CollectionUtils.aMapOf(firstKey, firstValue, (Object[]) restKv);
+
+        Map<String, String> copy = new LinkedHashMap<>(this.header);
+        mapFromVararg.forEach((k, v) -> copy.put(toStringOrNull(k), toStringOrNull(v)));
 
         return new HttpHeader(copy);
     }
@@ -117,18 +124,40 @@ public class HttpHeader {
     /**
      * Creates a new header from the current one with an additional key values
      * @param additionalValues additional values
-     * @return new header
+     * @return new header with combined values
      */
-    public HttpHeader with(Map<String, CharSequence> additionalValues) {
-        Map<String, CharSequence> copy = new LinkedHashMap<>(this.header);
-        copy.putAll(additionalValues);
+    public HttpHeader with(Map<CharSequence, CharSequence> additionalValues) {
+        Map<String, String> copy = new LinkedHashMap<>(this.header);
+        additionalValues.forEach((k, v) -> copy.put(toStringOrNull(k), toStringOrNull(v)));
+
+        return new HttpHeader(copy);
+    }
+
+    /**
+     * Creates a new header from the current one with an additional key values copied from a given header
+     * @deprecated use {@link HttpHeader#with(HttpHeader)}
+     * @param otherHeader other header to take values from
+     * @return new header with combined values
+     */
+    public HttpHeader merge(HttpHeader otherHeader) {
+        return with(otherHeader);
+    }
+
+    /**
+     * Creates a new header from the current one with an additional key values copied from a given header
+     * @param otherHeader other header to take values from
+     * @return new header with combined values
+     */
+    public HttpHeader with(HttpHeader otherHeader) {
+        Map<String, String> copy = new LinkedHashMap<>(this.header);
+        copy.putAll(otherHeader.header);
 
         return new HttpHeader(copy);
     }
 
     public HttpHeader redactSecrets() {
-        Map<String, CharSequence> redacted = new LinkedHashMap<>();
-        for (Map.Entry<String, CharSequence> entry : header.entrySet()) {
+        Map<String, String> redacted = new LinkedHashMap<>();
+        for (Map.Entry<String, String> entry : header.entrySet()) {
             redacted.put(entry.getKey(), redactValueIfRequired(entry.getKey(), entry.getValue()));
         }
 
@@ -139,7 +168,7 @@ public class HttpHeader {
         return mapProperties((k, v) -> {
             Map<String, String> entry = new LinkedHashMap<>();
             entry.put("key", k);
-            entry.put("value", v.toString());
+            entry.put("value", v);
 
             return entry;
         }).collect(Collectors.toList());
@@ -172,7 +201,7 @@ public class HttpHeader {
                 .collect(joining("\n"));
     }
 
-    private CharSequence redactValueIfRequired(String key, CharSequence value) {
+    private String redactValueIfRequired(String key, String value) {
         if (key == null) {
             return value;
         }

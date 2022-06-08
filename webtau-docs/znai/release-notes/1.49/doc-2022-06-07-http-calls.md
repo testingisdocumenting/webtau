@@ -1,0 +1,1 @@
+* Doc: Added [HTTP Calls](HTTP/HTTP-calls) and example snippets now have links to referenced method  

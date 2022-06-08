@@ -21,8 +21,8 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.testingisdocumenting.webtau.http.HttpHeader;
-import org.testingisdocumenting.webtau.http.config.HttpConfiguration;
-import org.testingisdocumenting.webtau.http.config.HttpConfigurations;
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration;
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn;
@@ -35,7 +35,7 @@ import java.util.function.Consumer;
 import static org.testingisdocumenting.webtau.Matchers.actual;
 import static org.testingisdocumenting.webtau.Matchers.equal;
 
-public class GraphQLTestBase implements HttpConfiguration {
+public class GraphQLTestBase implements WebTauHttpConfiguration {
     protected static final GraphQLTestDataServer testServer = new GraphQLTestDataServer();
 
     protected final static String QUERY = "{ taskById(id: \"a\") { id } }";
@@ -75,12 +75,12 @@ public class GraphQLTestBase implements HttpConfiguration {
 
     @Before
     public void initCfg() {
-        HttpConfigurations.add(this);
+        WebTauHttpConfigurations.add(this);
     }
 
     @After
     public void cleanCfg() {
-        HttpConfigurations.remove(this);
+        WebTauHttpConfigurations.remove(this);
     }
 
     @Override

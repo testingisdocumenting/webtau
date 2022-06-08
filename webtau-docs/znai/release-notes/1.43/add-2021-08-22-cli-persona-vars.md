@@ -1,0 +1,1 @@
+* Add persona specific `cliEnv` config value to set [persona's common CLI environment variables](persona/CLI-persona)

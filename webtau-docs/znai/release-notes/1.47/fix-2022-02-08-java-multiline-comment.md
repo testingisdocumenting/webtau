@@ -1,0 +1,1 @@
+* Fix report code highlight lines when multiline comment is present (e.g. `/* */`) 

@@ -18,6 +18,8 @@ package org.testingisdocumenting.webtau;
 
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
 
+import java.util.List;
+
 /**
  * Lowest common denominator for Groovy Standalone Tests, JUnit4, JUnit5
  */
@@ -57,4 +59,10 @@ public interface TestListener {
      * @param test test
      */
     default void afterLastTestStatement(WebTauTest test) {}
+
+    /**
+     * after all the tests are discovered
+     * @param tests stream of discovered tests
+     */
+    default void afterTestsRegistration(List<WebTauTest> tests) {}
 }

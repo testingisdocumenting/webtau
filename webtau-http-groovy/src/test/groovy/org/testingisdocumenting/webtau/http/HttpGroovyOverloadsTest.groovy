@@ -24,11 +24,69 @@ import static org.testingisdocumenting.webtau.http.HttpOverloadsTestCommon.*
 
 class HttpGroovyOverloadsTest extends HttpTestBase {
     @Test
-    void "get without validation syntax check"() {
-        http.get("/end-point")
-        http.get("/end-point", [queryParam1: "queryParamValue1"])
-        http.get("/end-point", [queryParam1: "queryParamValue1"], http.header("h1", "v1"))
-        http.get("/end-point", http.header("h1", "v1"))
+    void "get without return overloads"() {
+        http.get("/full-echo", requestHeader) {
+            headerValidation.accept(body)
+        }
+
+        http.get("/full-echo", query, requestHeader) {
+            urlValidation.accept(body)
+            headerValidation.accept(body)
+        }
+
+        http.get("/full-echo", queryAsMap, requestHeader) {
+            urlValidation.accept(body)
+            headerValidation.accept(body)
+        }
+
+        http.get("/full-echo", query) {
+            urlValidation.accept(body)
+        }
+
+        http.get("/full-echo", queryAsMap) {
+            urlValidation.accept(body)
+        }
+    }
+
+    @Test
+    void "get with return overloads"() {
+        def v
+        v = http.get("/full-echo", requestHeader) {
+            headerValidation.accept(body)
+
+            return body[HEADER_KEY]
+        }
+        v.should == HEADER_EXPECTED_RETURN
+
+        v = http.get("/full-echo", query, requestHeader) {
+            urlValidation.accept(body)
+            headerValidation.accept(body)
+
+            return body[HEADER_KEY]
+        }
+        v.should == HEADER_EXPECTED_RETURN
+
+        v = http.get("/full-echo", queryAsMap, requestHeader) {
+            urlValidation.accept(body)
+            headerValidation.accept(body)
+
+            return body[HEADER_KEY]
+        }
+        v.should == HEADER_EXPECTED_RETURN
+
+        v = http.get("/full-echo", query) {
+            urlValidation.accept(body)
+
+            return body[QUERY_PARAMS_KEY]
+        }
+        v.should == QUERY_PARAMS_EXPECTED_RETURN
+
+        v = http.get("/full-echo", queryAsMap) {
+            urlValidation.accept(body)
+
+            return body[QUERY_PARAMS_KEY]
+        }
+        v.should == QUERY_PARAMS_EXPECTED_RETURN
     }
 
     @Test
@@ -518,6 +576,14 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
     }
 
     @Test
+    void "get without validation"() {
+        http.get("/end-point")
+        http.get("/end-point", [queryParam1: "queryParamValue1"])
+        http.get("/end-point", [queryParam1: "queryParamValue1"], http.header("h1", "v1"))
+        http.get("/end-point", http.header("h1", "v1"))
+    }
+
+    @Test
     void "post without validation"() {
         http.post("/full-echo", query, requestHeader, requestBody)
         http.post("/full-echo", query, requestHeader)
@@ -561,5 +627,220 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
         http.put("/full-echo", requestBodyList)
         http.put("/full-echo", requestHeader, requestBodyMap)
         http.put("/full-echo", requestHeader, requestBodyList)
+    }
+
+    @Test
+    void "get query capture response"() {
+        http.get("/query") {
+            price.should == 100
+        }
+
+        http.doc.capture("get-full-syntax-assertion") // doc-exclude
+    }
+
+    @Test
+    void "get full return syntax example"() {
+        def id = http.get("/query", [q1: "v1"], http.header([h1: "v1"])) {
+            price.should == 100 // validation
+            return id // optional return
+        }
+    }
+
+    @Test
+    void "get no header syntax example"() {
+        http.get("/query", [q1: "v1"]) {
+            price.should == 100
+        }
+    }
+
+    @Test
+    void "get no query syntax example"() {
+        http.get("/query", http.header([h1: "v1"])) {
+            price.should == 100
+        }
+    }
+
+    @Test
+    void "get only validation syntax example"() {
+        http.get("/query") {
+            price.should == 100
+        }
+    }
+
+    @Test
+    void "get only syntax example"() {
+        http.get("/query")
+    }
+
+    @Test
+    void "post chat capture response"() {
+        http.post("/chat") {
+            status.should == "SUCCESS"
+        }
+        http.doc.capture("post-full-syntax-assertion")
+    }
+
+    @Test
+    void "post full return syntax example"() {
+        def id = http.post("/chat", http.query([q1: "v1"]), http.header([h1: "v1"]), [message: "hello"]) {
+            status.should == "SUCCESS" // validation
+            return id // optional return
+        }
+    }
+
+    @Test
+    void "post no header syntax example"() {
+        http.post("/chat", http.query([q1: "v1"]), [message: "hello"]) {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "post no query syntax example"() {
+        http.post("/chat", http.header([h1: "v1"]), [message: "hello"]) {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "post body only syntax example"() {
+        http.post("/chat", [message: "hello"]) {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "post validation only syntax example"() {
+        http.post("/chat") {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "post statusCode syntax example"() {
+        http.post("/resource") {
+            statusCode.should == 200 // explicit check that override default 201 (for POST) implicit check
+        }
+    }
+
+    @Test
+    void "post only syntax example"() {
+        http.post("/chat")
+    }
+    
+    @Test
+    void "put full return syntax example"() {
+        def id = http.put("/chat/id1", http.query([q1: "v1"]), http.header([h1: "v1"]), [message: "hello"]) {
+            status.should == "SUCCESS" // validation
+            return id // optional return
+        }
+    }
+
+    @Test
+    void "put no header syntax example"() {
+        http.put("/chat/id1", http.query([q1: "v1"]), [message: "hello"]) {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "put no query syntax example"() {
+        http.put("/chat/id1", http.header([h1: "v1"]), [message: "hello"]) {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "put body only syntax example"() {
+        http.put("/chat/id1", [message: "hello"]) {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "put validation only syntax example"() {
+        http.put("/chat/id1") {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "put only syntax example"() {
+        http.put("/chat/id1")
+    }
+
+    @Test
+    void "delete full return syntax example"() {
+        def id = http.delete("/chat/id1", [q1: "v1"], http.header([h1: "v1"])) {
+            status.should == "SUCCESS" // validation
+            return id // optional return
+        }
+    }
+
+    @Test
+    void "delete no header syntax example"() {
+        http.delete("/chat/id1", [q1: "v1"]) {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "delete no query syntax example"() {
+        http.delete("/chat/id1", http.header([h1: "v1"])) {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "delete only validation syntax example"() {
+        http.delete("/chat/id1") {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "delete only syntax example"() {
+        http.delete("/chat/id1")
+    }
+
+    @Test
+    void "patch full return syntax example"() {
+        def id = http.patch("/chat/id1", http.query([q1: "v1"]), http.header([h1: "v1"]), [message: "hello"]) {
+            status.should == "SUCCESS" // validation
+            return id // optional return
+        }
+    }
+
+    @Test
+    void "patch no header syntax example"() {
+        http.patch("/chat/id1", http.query([q1: "v1"]), [message: "hello"]) {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "patch no query syntax example"() {
+        http.patch("/chat/id1", http.header([h1: "v1"]), [message: "hello"]) {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "patch body only syntax example"() {
+        http.patch("/chat/id1", [message: "hello"]) {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "patch validation only syntax example"() {
+        http.patch("/chat/id1") {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "patch only syntax example"() {
+        http.patch("/chat/id1")
     }
 }

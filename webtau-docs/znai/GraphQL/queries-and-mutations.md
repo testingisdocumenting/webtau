@@ -1,6 +1,6 @@
 # Executing Queries and Mutations
 
-Webtau follows GraphQL's [Serving over HTTP best practices](https://graphql.org/learn/serving-over-http/) when invoking
+WebTau follows GraphQL's [Serving over HTTP best practices](https://graphql.org/learn/serving-over-http/) when invoking
 GraphQL servers over HTTP.
 
 It therefore assumes the server responds to requests to `/graphql` so you do not need to specify that in the URL in your configuration.
@@ -9,7 +9,7 @@ Requests allow providing:
 * variables
 * an operation name
 
-Webtau will default to issuing `POST` requests according to the [best practices](https://graphql.org/learn/serving-over-http/#post-request)
+WebTau will default to issuing `POST` requests according to the [best practices](https://graphql.org/learn/serving-over-http/#post-request)
 and will expect a 200 status code and a response with a `data` or `errors` field.
 
 The following example demonstrates most of these query features:

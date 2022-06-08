@@ -31,15 +31,20 @@ public class HttpTestDataServer {
     private final TestServer testServer = new TestServer(handler);
 
     public HttpTestDataServer() {
+        TestServerJsonResponse queryTestResponse = jsonResponse("queryTestResponse.json");
         TestServerJsonResponse objectTestResponse = jsonResponse("objectTestResponse.json");
 
         handler.registerGet("/end-point", objectTestResponse);
+        handler.registerGet("/end-point?a=1&b=text", objectTestResponse);
         handler.registerGet("/end-point?queryParam1=queryParamValue1", objectTestResponse);
 
         handler.registerPost("/end-point", jsonResponse("objectTestResponse.json", 201,
                 CollectionUtils.aMapOf(
                         "Content-Location", "/url/23",
                         "Location", "http://www.example.org/url/23")));
+
+        handler.registerGet("/query", queryTestResponse);
+        handler.registerGet("/query?q1=v1", queryTestResponse);
 
         handler.registerGet("/example", jsonResponse("matcherExampleResponse.json"));
         handler.registerGet("/customer/123", objectTestResponse);
@@ -59,6 +64,8 @@ public class HttpTestDataServer {
         handler.registerPost("/echo", new TestServerResponseEcho(201));
         handler.registerPut("/echo", new TestServerResponseEcho(200));
         handler.registerPatch("/echo", new TestServerResponseEcho(200));
+        handler.registerGet("/full-echo", new TestServerRequestFullEcho(200));
+        handler.registerGet("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
         handler.registerPut("/full-echo", new TestServerRequestFullEcho(200));
         handler.registerPut("/full-echo?a=1&b=text", new TestServerRequestFullEcho(200));
         handler.registerPost("/full-echo", new TestServerRequestFullEcho(201));
@@ -82,11 +89,22 @@ public class HttpTestDataServer {
         handler.registerPatch("/empty", new TestServerJsonResponse(null, 204));
         handler.registerPost("/file-upload", new TestServerFakeFileUpload());
         handler.registerDelete("/resource", new TestServerTextResponse("abc"));
-        handler.registerGet("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
-        handler.registerPost("/params?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}", 201));
-        handler.registerGet("/params?message=hello+world+%21", new TestServerJsonResponse("{}", 200));
+        handler.registerGet("/path?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}"));
+        handler.registerPost("/path?a=1&b=text", new TestServerJsonResponse("{\"a\": 1, \"b\": \"text\"}", 201));
+        handler.registerGet("/path?message=hello+world+%21", new TestServerJsonResponse("{}", 200));
         handler.registerGet("/integer", new TestServerJsonResponse("123"));
         handler.registerPost("/json-derivative", new TestServerJsonDerivativeResponse());
+
+        handler.registerPost("/resource", jsonResponse("chatPostResponse.json", 200));
+        handler.registerPost("/chat", jsonResponse("chatPostResponse.json", 201));
+        handler.registerPost("/chat?a=1&b=text", jsonResponse("chatPostResponse.json", 201));
+        handler.registerPost("/chat?q1=v1", jsonResponse("chatPostResponse.json", 201));
+        handler.registerPut("/chat/id1", jsonResponse("chatPostResponse.json", 200));
+        handler.registerPut("/chat/id1?q1=v1", jsonResponse("chatPostResponse.json", 200));
+        handler.registerPatch("/chat/id1", jsonResponse("chatPostResponse.json", 200));
+        handler.registerPatch("/chat/id1?q1=v1", jsonResponse("chatPostResponse.json", 200));
+        handler.registerDelete("/chat/id1", jsonResponse("chatPostResponse.json", 200));
+        handler.registerDelete("/chat/id1?q1=v1", jsonResponse("chatPostResponse.json", 200));
 
         handler.registerGet("/address", jsonResponse("addressResponse.json"));
         registerRedirects();
@@ -154,7 +172,7 @@ public class HttpTestDataServer {
         return new TestServerJsonResponse(ResourceUtils.textContent(resourceName), statusCode, Collections.emptyMap());
     }
 
-    private static TestServerJsonResponse jsonResponse(String resourceName, int statusCode, Map<String, String> headerResponse) {
+    private static TestServerJsonResponse jsonResponse(String resourceName, int statusCode, Map<String, Object> headerResponse) {
         return new TestServerJsonResponse(ResourceUtils.textContent(resourceName), statusCode, headerResponse);
     }
 }

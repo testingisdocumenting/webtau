@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +27,7 @@ import java.util.Map;
 public class MapAndBeanCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
-        return isMapOfProps(expected) && isBean(actual);
+        return isMapOfProps(expected) && isBean(actual); // only handles equality if actual is a java bean and expected is a map
     }
 
     @SuppressWarnings("unchecked")
@@ -35,7 +36,7 @@ public class MapAndBeanCompareToHandler implements CompareToHandler {
             return false;
         }
 
-        return ((Map) o).keySet().stream().allMatch(k -> k instanceof String);
+        return ((Map<?, Object>) o).keySet().stream().allMatch(k -> k instanceof String); // making sure all the keys are strings
     }
 
     private boolean isBean(Object o) {
@@ -44,16 +45,20 @@ public class MapAndBeanCompareToHandler implements CompareToHandler {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator,
+                                 ActualPath actualPath, Object actual,
+                                 Object expected) {
         Map<String, ?> expectedMap = (Map<String, ?>) expected;
         Map<String, ?> actualAsMap = JavaBeanUtils.convertBeanToMap(actual);
 
-        expectedMap.keySet().forEach(p -> {
+        expectedMap.keySet().forEach(p -> { // going only through expected keys, ignoring all other bean properties
             ActualPath propertyPath = actualPath.property(p);
 
             if (actualAsMap.containsKey(p)) {
+                // use provided comparator to delegate comparison of properties
                 comparator.compareUsingEqualOnly(propertyPath, actualAsMap.get(p), expectedMap.get(p));
             } else {
+                // report missing properties
                 comparator.reportMissing(this, propertyPath, expectedMap.get(p));
             }
         });

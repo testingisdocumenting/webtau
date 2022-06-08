@@ -97,8 +97,12 @@ public class HttpResponse {
         return header;
     }
 
-    public void addHeader(String key, String value) {
+    public void addHeader(CharSequence key, CharSequence value) {
         header = header.with(key, value);
+    }
+
+    public void addHeader(Map<CharSequence, CharSequence> values) {
+        header = header.with(values);
     }
 
     public boolean isRedirect() {

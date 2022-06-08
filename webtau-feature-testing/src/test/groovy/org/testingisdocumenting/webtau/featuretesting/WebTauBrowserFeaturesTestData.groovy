@@ -34,9 +34,11 @@ class WebTauBrowserFeaturesTestData {
         handler.registerGet("/local-storage", htmlResponse('local-storage.html'))
         handler.registerGet("/logged-in-user", htmlResponse('logged-in-user.html'))
         handler.registerGet("/flicking-element", htmlResponse('flicking-element.html'))
+        handler.registerGet("/flicking-element-collection", htmlResponse('flicking-elements-collection.html'))
         handler.registerGet("/resource-creation", htmlResponse('resource-creation.html'))
         handler.registerGet("/ag-grid-multi-select", htmlResponse('ag-grid-multi-select.html'))
         handler.registerGet("/scrolls", htmlResponse('scrolls.html'))
+        handler.registerGet("/links", htmlResponse('links.html'))
     }
 
     private static TestServerHtmlResponse htmlResponse(String resourceName) {

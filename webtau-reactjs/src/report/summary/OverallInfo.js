@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,25 +15,25 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import HttpCallsTiming from './overal-info/HttpCallsTiming'
-import HttpOperationCoverageSummary from './overal-info/HttpOperationCoverageSummary'
-import TestsOverallTiming from './overal-info/TestsOverallTiming'
+import HttpCallsTiming from './overal-info/HttpCallsTiming';
+import HttpOperationCoverageSummary from './overal-info/HttpOperationCoverageSummary';
+import TestsOverallTiming from './overal-info/TestsOverallTiming';
 
-import TestsSuccessRatio from './overal-info/TestsSuccessRatio'
-import TestsRanRatio from './overal-info/TestsRanRatio'
+import TestsSuccessRatio from './overal-info/TestsSuccessRatio';
+import TestsRanRatio from './overal-info/TestsRanRatio';
 
-import './OverallInfo.css'
+import './OverallInfo.css';
 
-export default function OverallInfo({report, onSwitchToHttpCalls, onSwitchToSkippedHttpCalls}) {
-    return (
-        <div className="overall-info">
-            <TestsOverallTiming report={report}/>
-            <TestsSuccessRatio report={report}/>
-            <HttpOperationCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}/>
-            <TestsRanRatio report={report}/>
-            <HttpCallsTiming report={report} onSwitchToHttpCalls={onSwitchToHttpCalls}/>
-        </div>
-    )
+export default function OverallInfo({ report, onSwitchToHttpCalls, onSwitchToSkippedHttpCalls }) {
+  return (
+    <div className="overall-info">
+      <TestsOverallTiming report={report} />
+      <TestsSuccessRatio report={report} />
+      <HttpOperationCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls} />
+      <TestsRanRatio report={report} />
+      <HttpCallsTiming report={report} onSwitchToHttpCalls={onSwitchToHttpCalls} />
+    </div>
+  );
 }

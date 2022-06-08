@@ -156,12 +156,17 @@ public class ConfigValue {
         }
 
         Object first = getAsObject();
-        return first.toString().toLowerCase().equals("true");
+        return first.toString().equalsIgnoreCase("true");
     }
 
     @SuppressWarnings("unchecked")
     public <T> List<T> getAsList() {
         return (List<T>) getAsObject();
+    }
+
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> getAsMap() {
+        return (Map<String, Object>) getAsObject();
     }
 
     @Override
@@ -225,7 +230,7 @@ public class ConfigValue {
 
         public Value(String sourceId, Object value) {
             this.sourceId = sourceId;
-            this.value = value;
+            this.value = makeCopyIfRequired(value);
         }
 
         public String getSourceId() {
@@ -239,6 +244,18 @@ public class ConfigValue {
         @Override
         public String toString() {
             return value + " (" + sourceId + ")";
+        }
+
+        private static Object makeCopyIfRequired(Object value) {
+            if (value instanceof Map) {
+                return new LinkedHashMap<Object, Object>((Map<?, ?>) value);
+            }
+
+            if (value instanceof List) {
+                return new ArrayList<Object>((List<?>) value);
+            }
+
+            return value;
         }
     }
 }

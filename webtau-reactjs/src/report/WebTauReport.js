@@ -26,16 +26,19 @@ import TestDetails from './details/TestDetails';
 import WebTauReportStateCreator from './WebTauReportStateCreator';
 import OverallSummary from './summary/OverallSummary';
 
-import EntriesTypeSelection from './navigation/EntriesTypeSelection';
+import { EntriesTypeSelection } from './navigation/EntriesTypeSelection';
 
 import ListOfHttpCalls from './navigation/ListOfHttpCalls';
 import NavigationEntriesType from './navigation/NavigationEntriesType';
 
-import HttpCallDetails from './details/http/HttpCallDetails';
+import { HttpCallDetails } from './details/http/HttpCallDetails';
 import StatusEnum from './StatusEnum';
 
 import FullScreenHttpPayload from './full-screen-payload/FullScreenHttpPayload';
+import { WebTauPoweredBy } from './powered-and-theme/WebTauPoweredBy';
 
+import './webtau-dark.css';
+import './webtau-light.css';
 import './WebTauReport.css';
 
 class WebTauReport extends Component {
@@ -60,9 +63,19 @@ class WebTauReport extends Component {
       <div className="report">
         <div className="report-name-area">
           <EntriesTypeSelection
+            reportName={report.name}
+            reportNameUrl={report.nameUrl}
             selectedType={entriesType}
             onSelect={this.onEntriesTypeSelection}
-            webtauVersion={report.version}
+          />
+        </div>
+
+        <div className="status-filter-area">
+          <StatusFilter
+            summary={this.summary}
+            onTitleClick={this.onHeaderTitleClick}
+            selectedStatusFilter={statusFilter}
+            onStatusSelect={this.onEntriesStatusSelect}
           />
         </div>
 
@@ -76,17 +89,12 @@ class WebTauReport extends Component {
           />
         </div>
 
-        <div className="items-lists-area">{this.renderListOEntries()}</div>
+        <div className="webtau-items-lists-area">{this.renderListOEntries()}</div>
 
         <div className="test-details-area">{this.renderDetailsArea()}</div>
 
-        <div className="status-filter-area">
-          <StatusFilter
-            summary={this.summary}
-            onTitleClick={this.onHeaderTitleClick}
-            selectedStatusFilter={statusFilter}
-            onStatusSelect={this.onEntriesStatusSelect}
-          />
+        <div className="webtau-powered-and-theme-area">
+          <WebTauPoweredBy report={report} />
         </div>
 
         {this.renderPayloadPopup()}
@@ -285,6 +293,7 @@ class WebTauReport extends Component {
   componentDidMount() {
     this.subscribeToUrlChanges();
     this.updateStateFromUrl();
+    document.title = this.props.report.name;
   }
 
   subscribeToUrlChanges() {

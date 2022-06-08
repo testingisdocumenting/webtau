@@ -1,6 +1,6 @@
 # Location
 
-By default report is generated at `<workingdir>/webtau.report.html`. To change the location use `--reportPath` option. 
+By default, report is generated at `<workingdir>/webtau.report.html`. To change the location use `--reportPath` option. 
 
 # Summary
 
@@ -22,9 +22,9 @@ Url tracks your navigation through screens, so you can share url with your teamm
 
 To generate custom reports or upload report data to your server, specify a `reportGenerator` config property.
 
-:include-file: examples/scenarios/rest/report/webtau.cfg.groovy {title: "webtau.cfg.groovy", excludeRegexp: "package"}
+:include-file: scenarios/rest/report/webtau.cfg.groovy {title: "webtau.cfg.groovy", excludeRegexp: "package"}
 
 Where `Report.&generateReport` is implemented as following
 
-:include-file: examples/scenarios/rest/report/Report.groovy {title: "scenarios/rest/report/Report.groovy"}
+:include-file: scenarios/rest/report/Report.groovy {title: "scenarios/rest/report/Report.groovy"}
 

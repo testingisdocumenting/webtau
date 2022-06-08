@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "shell source and script run",
+    "shortContainerId" : "linuxShell.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  } ],
+  "exitCode" : 0
+}

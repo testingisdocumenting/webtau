@@ -21,23 +21,40 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*
 class Report {
     def fullScreenIcon = $(".fullscreen-icon")
     def collapsedHeader = $(".collapsed-http-header")
+    def reportName = $(".webtau-report-name")
     def groupNames = $(".group-of-tests .navigation-entry-group-label").all()
     def testNames = $(".navigation-entry .label")
-    def testSummaryMetaKey = $(".test-summary-metadata th").get("METADATA KEY")
+    def testSummaryMetaKey = $(".test-metadata th").get("METADATA KEY")
 
     def responseData = $(".response .data")
 
     def steps = $(".step")
-    def personaId = $(".step .persona-id")
+    def stepPersonaId = $(".step .persona-id")
 
     def tabNames = $(".tab-selection .tab-name")
+    def stepsTab = tabNames.get("Steps")
+    def httpCallsTab = tabNames.get("HTTP calls")
+    def serversTab = tabNames.get("Servers")
 
     def cellValues = $("td").all()
+
+    def stepsShowChildren = $(".show-children")
 
     private def httpCalls = $(".test-http-call")
     private def cliCalls = $(".test-cli-call")
 
     def testSummaryHttpCallWarnings = $(".webtau-http-calls-warning")
+
+    def stdCliOutput = $(".cli-output.standard")
+    def errCliOutput = $(".cli-output.error")
+
+    def cliPersonaIds = $(".test-cli-call .persona")
+
+    def screenshot = $(".image img")
+
+    def keyValuesKeys = $(".webtau-key-value-grid-key")
+
+    def tableUrlCells = $(".webtau-url-cell").all()
 
     def openGroovyStandaloneReport(String reportName) {
         openReportFile(ReportLocation.groovyFeatureTestingFullUrl(reportName))
@@ -54,15 +71,23 @@ class Report {
     }
 
     def selectHttpCalls() {
-        selectTab('HTTP calls')
+        httpCallsTab.click()
+    }
+
+    def selectServers() {
+        serversTab.click()
     }
 
     def selectCliCalls() {
         selectTab('CLI calls')
     }
 
+    def selectScreenshot() {
+        selectTab('Screenshot')
+    }
+
     def selectSteps() {
-        selectTab('Steps')
+        stepsTab.click()
     }
 
     def selectConfiguration() {
@@ -73,8 +98,12 @@ class Report {
         selectTab('Environment Variables')
     }
 
+    def tabByName(String tabName) {
+        return tabNames.get(tabName)
+    }
+
     def selectTab(String tabName) {
-        tabNames.get(tabName).click()
+        return tabByName(tabName).click()
     }
 
     def expandHttpCall(callNumber) {
@@ -85,10 +114,6 @@ class Report {
     def expandCliCall(callNumber) {
         cliCalls.waitTo beVisible()
         cliCalls.get(callNumber).find(".collapse-toggle").click()
-    }
-
-    def standardCliOutput() {
-        return $(".cli-output.standard")
     }
 
     private static def openReportFile(String fileName) {

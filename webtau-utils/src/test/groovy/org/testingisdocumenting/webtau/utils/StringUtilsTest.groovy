@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,8 +17,9 @@
 
 package org.testingisdocumenting.webtau.utils
 
-import org.junit.Assert
 import org.junit.Test
+
+import java.text.NumberFormat
 
 class StringUtilsTest {
     @Test
@@ -61,19 +63,21 @@ line #_3\r""")
 
     @Test
     void "check if text is a number"() {
-        assert StringUtils.isNumeric("123")
-        assert StringUtils.isNumeric("123.0")
-        assert StringUtils.isNumeric(".0")
-        assert StringUtils.isNumeric("123,000")
+        def formatter = NumberFormat.getNumberInstance()
+        assert StringUtils.isNumeric(formatter, "123")
+        assert StringUtils.isNumeric(formatter, "123.0")
+        assert StringUtils.isNumeric(formatter, ".0")
+        assert StringUtils.isNumeric(formatter, "123,000")
 
-        assert ! StringUtils.isNumeric("")
-        assert ! StringUtils.isNumeric("d.0")
-        assert ! StringUtils.isNumeric("123 L")
+        assert !StringUtils.isNumeric(formatter, "")
+        assert !StringUtils.isNumeric(formatter, "d.0")
+        assert !StringUtils.isNumeric(formatter, "123 L")
     }
 
     @Test
     void "converts text to a number"() {
-        def number = StringUtils.convertToNumber("123,000")
+        def formatter = NumberFormat.getNumberInstance()
+        def number = StringUtils.convertToNumber(formatter, "123,000")
         assert number == 123000
     }
 
@@ -87,5 +91,11 @@ line #_3\r""")
     void "strip trailing"() {
         assert StringUtils.stripTrailing("foo/", '/' as char) == "foo"
         assert StringUtils.stripTrailing("foo", '/' as char) == "foo"
+    }
+
+    @Test
+    void "chat sequence to string or null"() {
+        assert StringUtils.toStringOrNull(null) == null
+        assert StringUtils.toStringOrNull("hello") == "hello"
     }
 }

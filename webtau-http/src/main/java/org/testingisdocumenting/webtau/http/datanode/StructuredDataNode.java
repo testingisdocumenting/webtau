@@ -17,10 +17,12 @@
 
 package org.testingisdocumenting.webtau.http.datanode;
 
+import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
@@ -184,6 +186,36 @@ public class StructuredDataNode implements DataNode {
     @Override
     public int numberOfElements() {
         return isList() ? values.size() : 0;
+    }
+
+    @Override
+    public DataNode find(Predicate<DataNode> predicate) {
+        DataNode result = elements().stream()
+                .filter(predicate)
+                .findFirst()
+                .orElseGet(() -> {
+                    DataNodeId nullId = id.child("<find>");
+                    return new NullDataNode(nullId);
+                });
+
+        if (!result.isNull()) {
+            if (result.isSingleValue()) {
+                result.getTraceableValue().updateCheckLevel(CheckLevel.FuzzyPassed);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
+    public DataNode findAll(Predicate<DataNode> predicate) {
+        return new StructuredDataNode(id().child("<finsAll>"),
+                elements().stream().filter(predicate).collect(toList()));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        throw new UnsupportedOperationException("Use .get() to access DataNode underlying value");
     }
 
     @Override

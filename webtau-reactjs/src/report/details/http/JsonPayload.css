@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -21,11 +22,11 @@
 }
 
 .json-value-highlight.passed {
-    background-color: var(--webtau-match-color);
-    color: #444;
+    color: var(--webtau-match-color);
+    background-color: var(--webtau-match-background-color);
 }
 
 .json-value-highlight.failed {
-    background-color: rgba(215, 84, 80, 0.2);
-    color: #444;
+    background-color: var(--webtau-mismatch-background-color);
+    color: var(--webtau-mismatch-color);
 }

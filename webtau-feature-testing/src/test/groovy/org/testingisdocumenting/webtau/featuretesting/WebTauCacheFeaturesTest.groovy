@@ -44,6 +44,11 @@ class WebTauCacheFeaturesTest {
         runCli('cachedValue.groovy', 'webtau.cfg.groovy', "--url=${testRunner.testServer.uri}")
     }
 
+    @Test
+    void "cached path value"() {
+        runCli('cachedPathValue.groovy', 'webtau.cfg.groovy', "--url=${testRunner.testServer.uri}")
+    }
+
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/cache/$testName",
                 configFileName.isEmpty() ? "" : "scenarios/cache/$configFileName", additionalArgs)

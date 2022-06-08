@@ -25,6 +25,7 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
+import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
 class WebTauConceptFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
@@ -60,6 +61,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "setup fail all tests skip"() {
+        runCli('setupFailSkipTests.groovy', 'webtau-setup-fail-skip.cfg.groovy')
+    }
+
+    @Test
     void "run selected tests only"() {
         runCli('runOnlySelected.groovy', 'webtau.cfg.groovy')
     }
@@ -67,6 +73,11 @@ class WebTauConceptFeaturesTest {
     @Test
     void "disable tests"() {
         runCli('skipTests.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "disable tests by file name convention"() {
+        runCli('skipTestsByFileName.disabled.groovy', 'webtau.cfg.groovy')
     }
 
     @Test
@@ -120,8 +131,23 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "trace"() {
+        runCli('trace.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "step group"() {
+        runCli('stepGroup.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "do not sleep as sync mechanism"() {
         runCli('sleepAntiPattern.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "persona context"() {
+        runCli('personaContext.groovy', 'webtau.persona.cfg.groovy')
     }
 
     @Test
@@ -145,6 +171,11 @@ class WebTauConceptFeaturesTest {
         if (!Files.exists(failedReportPath)) {
             throw new AssertionError("failed report should be generated at $failedReportPath")
         }
+    }
+
+    @Test
+    void "report name"() {
+        runCli('simpleScenarioReportName.groovy', 'webtau.reportname.cfg.groovy')
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {

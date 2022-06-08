@@ -19,7 +19,6 @@ package org.testingisdocumenting.webtau.browser.documentation;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
 import org.testingisdocumenting.webtau.browser.BrowserConfig;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 
@@ -112,21 +111,22 @@ public abstract class ImageAnnotation {
         return this;
     }
 
-    public abstract void addAnnotationData(Map<String, Object> data, WebElement webElement);
+    public abstract void addAnnotationData(Map<String, Object> data,
+                                           WebElementLocationAndSizeProvider locationAndSizeProvider);
 
-    protected Point position(WebElement webElement) {
+    protected Point position(WebElementLocationAndSizeProvider locationAndSizeProvider) {
         switch (position) {
             case Above:
-                return above(webElement.getLocation(), webElement.getSize());
+                return above(locationAndSizeProvider.getLocation(), locationAndSizeProvider.getSize());
             case Below:
-                return below(webElement.getLocation(), webElement.getSize());
+                return below(locationAndSizeProvider.getLocation(), locationAndSizeProvider.getSize());
             case ToTheLeft:
-                return toTheLeft(webElement.getLocation(), webElement.getSize());
+                return toTheLeft(locationAndSizeProvider.getLocation(), locationAndSizeProvider.getSize());
             case ToTheRight:
-                return toTheRight(webElement.getLocation(), webElement.getSize());
+                return toTheRight(locationAndSizeProvider.getLocation(), locationAndSizeProvider.getSize());
             case Center:
             default:
-                return center(webElement.getLocation(), webElement.getSize());
+                return center(locationAndSizeProvider.getLocation(), locationAndSizeProvider.getSize());
         }
     }
 

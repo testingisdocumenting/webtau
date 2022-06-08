@@ -47,7 +47,7 @@ import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
-import org.testingisdocumenting.webtau.version.WebtauVersion;
+import org.testingisdocumenting.webtau.version.WebTauVersion;
 
 public class WebTauConfig implements PrettyPrintable {
     private static final String SOURCE_MANUAL = "manual";
@@ -57,11 +57,13 @@ public class WebTauConfig implements PrettyPrintable {
 
     private static final List<WebTauConfigHandler> handlers = discoverConfigHandlers();
 
-    private static final Supplier<Object> NO_DEFAULT = () -> null;
+    private static final Supplier<Object> NULL_DEFAULT = () -> null;
 
     private final ConfigValue config = declare("config", "config file path", () -> CONFIG_FILE_NAME_DEFAULT);
     private final ConfigValue env = declare("env", "environment id", () -> "local");
-    private final ConfigValue url = declare("url", "base url for application under test", NO_DEFAULT);
+    private final ConfigValue url = declare("url", "base url for application under test", NULL_DEFAULT);
+
+    private final ConfigValue httpProxy = declare("httpProxy", "http proxy host:port", NULL_DEFAULT);
 
     private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
             "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
@@ -78,8 +80,8 @@ public class WebTauConfig implements PrettyPrintable {
     private final ConfigValue disableFollowingRedirects = declareBoolean("disableRedirects", "disable following of redirects from HTTP calls", false);
     private final ConfigValue maxRedirects = declare("maxRedirects", "Maximum number of redirects to follow for an HTTP call", () -> 20);
     private final ConfigValue userAgent = declare("userAgent", "User agent to send on HTTP requests",
-            () -> "webtau/" + WebtauVersion.getVersion());
-    private final ConfigValue removeWebtauFromUserAgent = declare("removeWebtauFromUserAgent",
+            () -> "webtau/" + WebTauVersion.getVersion());
+    private final ConfigValue removeWebTauFromUserAgent = declare("removeWebTauFromUserAgent",
             "By default webtau appends webtau and its version to the user-agent, this disables that part",
             () -> false);
     private final ConfigValue workingDir = declare("workingDir", "logical working dir", () -> Paths.get(""));
@@ -91,6 +93,8 @@ public class WebTauConfig implements PrettyPrintable {
     private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors", false);
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue failedReportPath = declare("failedReportPath", "failed report file path", () -> null);
+    private final ConfigValue reportName = declare("reportName", "report name to show", () -> "webtau report");
+    private final ConfigValue reportNameUrl = declare("reportNameUrl", "report name url to navigate to when clicked", () -> "");
 
     private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
 
@@ -223,6 +227,14 @@ public class WebTauConfig implements PrettyPrintable {
         return url;
     }
 
+    public ConfigValue getHttpProxyConfigValue() {
+        return httpProxy;
+    }
+
+    public boolean isHttpProxySet() {
+        return !httpProxy.isDefault();
+    }
+
     public int getWaitTimeout() {
         return waitTimeout.getAsInt();
     }
@@ -245,7 +257,7 @@ public class WebTauConfig implements PrettyPrintable {
         }
 
         String finalUserAgent = userAgent.getAsString();
-        if (!removeWebtauFromUserAgent.getAsBoolean()) {
+        if (!removeWebTauFromUserAgent.getAsBoolean()) {
             String defaultValue = userAgent.getDefaultValue().toString();
             finalUserAgent += " (" + defaultValue + ")";
         }
@@ -261,12 +273,12 @@ public class WebTauConfig implements PrettyPrintable {
         this.userAgent.set(SOURCE_MANUAL, userAgent);
     }
 
-    public void setRemoveWebtauFromUserAgent(boolean remove) {
-        this.removeWebtauFromUserAgent.set(SOURCE_MANUAL, remove);
+    public void setRemoveWebTauFromUserAgent(boolean remove) {
+        this.removeWebTauFromUserAgent.set(SOURCE_MANUAL, remove);
     }
 
     public ConfigValue getRemoveWebtauFromUserAgentConfigValue() {
-        return removeWebtauFromUserAgent;
+        return removeWebTauFromUserAgent;
     }
 
     public ConfigValue getDocArtifactsPathConfigValue() {
@@ -305,6 +317,10 @@ public class WebTauConfig implements PrettyPrintable {
         return cachePath.getAsPath();
     }
 
+    public ConfigValue getCachePathValue() {
+        return cachePath;
+    }
+
     public Path getReportPath() {
         return fullPath(reportPath.getAsPath());
     }
@@ -319,6 +335,14 @@ public class WebTauConfig implements PrettyPrintable {
 
     public ConfigValue getReportPathConfigValue() {
         return reportPath;
+    }
+
+    public String getReportName() {
+        return reportName.getAsString();
+    }
+
+    public String getReportNameUrl() {
+        return reportNameUrl.getAsString();
     }
 
     public String getWorkingDirConfigName() {
@@ -411,6 +435,7 @@ public class WebTauConfig implements PrettyPrintable {
                 config,
                 env,
                 url,
+                httpProxy,
                 verbosityLevel,
                 fullStackTrace,
                 workingDir,
@@ -419,9 +444,11 @@ public class WebTauConfig implements PrettyPrintable {
                 disableFollowingRedirects,
                 maxRedirects,
                 userAgent,
-                removeWebtauFromUserAgent,
+                removeWebTauFromUserAgent,
                 docPath,
                 reportPath,
+                reportName,
+                reportNameUrl,
                 failedReportPath,
                 noColor,
                 consolePayloadOutputLimit,

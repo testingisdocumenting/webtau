@@ -24,13 +24,14 @@ import './CardLabelAndNumber.css';
 interface Props {
   label: string;
   secondaryLabel?: string;
-  number: string;
+  number: number | string;
   unit?: string;
+  onClick?: () => void;
 }
 
-export function CardLabelAndNumber({ label, secondaryLabel, number, unit }: Props) {
+export function CardLabelAndNumber({ label, onClick, secondaryLabel, number, unit }: Props) {
   return (
-    <Card className="card-label-and-number">
+    <Card className="card-label-and-number" onClick={onClick}>
       <div className="card-number">
         {number} {unit}
       </div>

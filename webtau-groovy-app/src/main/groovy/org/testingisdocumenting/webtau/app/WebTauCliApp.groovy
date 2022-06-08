@@ -21,6 +21,7 @@ import org.fusesource.jansi.AnsiConsole
 import org.testingisdocumenting.webtau.TestListener
 import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.WebTauGroovyDsl
+import org.testingisdocumenting.webtau.app.cfg.WebTauNumberOfThreadsConfigHandler
 import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedHttpConfiguration
 import org.testingisdocumenting.webtau.GroovyRunner
 import org.testingisdocumenting.webtau.app.cfg.WebTauCliArgsConfig
@@ -34,12 +35,12 @@ import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.console.ansi.NoAnsiConsoleOutput
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
-import org.testingisdocumenting.webtau.repl.WebtauRepl
+import org.testingisdocumenting.webtau.repl.WebTauRepl
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.*
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
-import org.testingisdocumenting.webtau.version.WebtauVersion
+import org.testingisdocumenting.webtau.version.WebTauVersion
 
 import java.nio.file.Files
 import java.util.function.Consumer
@@ -57,8 +58,6 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     private WebTauGroovyCliArgsConfigHandler cliConfigHandler
 
     WebTauCliApp(String[] args) {
-        System.setProperty("java.awt.headless", "true")
-
         cliConfigHandler = new WebTauGroovyCliArgsConfigHandler(args)
         WebTauConfig.registerConfigHandlerAsFirstHandler(cliConfigHandler)
         WebTauConfig.registerConfigHandlerAsLastHandler(cliConfigHandler)
@@ -110,7 +109,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
 
     void startReplExperimental() {
         prepareTestsAndRun() {
-            def repl = new WebtauRepl(runner)
+            def repl = new WebTauRepl(runner)
             repl.run()
         }
     }
@@ -125,7 +124,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
             def testFiles = cliConfigHandler.testFilesWithFullPath()
             def missing = testFiles.findAll { testFile -> !Files.exists(testFile.path)}
             if (!missing.isEmpty()) {
-                throw new RuntimeException('Missing test files:\n  ' + missing.join('  \n'))
+                throw new RuntimeException('Missing test files:\n  ' + missing.path.join('  \n'))
             }
 
             testFiles.forEach {
@@ -169,7 +168,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     }
 
     private void runTests() {
-        def numThreads = WebTauGroovyCliArgsConfigHandler.getNumberOfThreads()
+        def numThreads = WebTauNumberOfThreadsConfigHandler.getNumberOfThreads()
         if (numThreads > 1 || numThreads == -1) {
             runner.runTestsInParallel(numThreads)
         } else {
@@ -182,7 +181,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
             return
         }
 
-        WebtauVersion.print()
+        WebTauVersion.print()
     }
 
     @Override

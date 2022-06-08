@@ -1,12 +1,12 @@
 ![build](https://github.com/testingisdocumenting/webtau/workflows/Build%20webtau/badge.svg)
 
-# Webtau
+# WebTau
 
 Web Test Automation [User Guide](https://testingisdocumenting.org/webtau/)
 
 ![logo](webtau-docs/znai/webtau-logo.png)
 
-Webtau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
+WebTau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
 
 Test your application across multiple layers:
 * REST API
@@ -15,6 +15,15 @@ Test your application across multiple layers:
 * CLI
 * Database
 * Business Logic (JVM only)
+
+[REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction):
+```groovy
+scenario("check weather") {
+    http.get("/weather") {
+        temperature.shouldBe < 100
+    }
+}
+```
 
 Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer
 to validate GraphQL API.
@@ -39,15 +48,6 @@ Tests can be written in any JVM language. Language specific syntactic sugar is a
 * [Multiple layers testing example blog](https://testingisdocumenting.org/blog/entry/ultimate-end-to-end-test)
 
 --------
-
-[REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction):
-```groovy
-scenario("check weather") {
-    http.get("/weather") {
-        temperature.shouldBe < 100
-    }
-}
-```
 
 [Browser test Java example](https://testingisdocumenting.org/webtau/browser/introduction):
 ```java
@@ -76,7 +76,7 @@ public class SearchPage {
 
 [GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction):
 ```groovy
-@Webtau
+@WebTau
 public class GraphQLWeatherJavaIT {
     @Test
     public void checkWeather() {

@@ -52,6 +52,7 @@ public class CliForegroundCommand {
 
     private CliRunResult cliStep(String command, CliProcessConfig config, Consumer<CliValidationResult> validationCode) {
         CliValidationResult validationResult = new CliValidationResult(command);
+        validationResult.setConfig(config);
 
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("running cli command "), stringValue(command)),
@@ -59,6 +60,7 @@ public class CliForegroundCommand {
                 () -> runAndValidate(validationResult, command, config, validationCode));
 
         try {
+            step.setInput(config.createStepInput());
             step.setOutputSupplier(() -> validationResult);
             step.execute(StepReportOptions.REPORT_ALL);
             return new CliRunResult(command,
@@ -79,6 +81,19 @@ public class CliForegroundCommand {
             ProcessRunResult runResult = ProcessUtils.run(command, config);
             long endTime = System.currentTimeMillis();
 
+            if (!runResult.isTimeOut()) {
+                validationResult.setExitCode(exitCode(runResult.getExitCode()));
+            }
+
+            validationResult.setOut(runResult.getOutput());
+            validationResult.setErr(runResult.getError());
+            validationResult.setStartTime(startTime);
+            validationResult.setElapsedTime(endTime - startTime);
+
+            if (runResult.isTimeOut()) {
+                throw new RuntimeException("process timed-out");
+            }
+
             if (runResult.getErrorReadingException() != null) {
                 throw runResult.getErrorReadingException();
             }
@@ -86,12 +101,6 @@ public class CliForegroundCommand {
             if (runResult.getOutputReadingException() != null) {
                 throw runResult.getOutputReadingException();
             }
-
-            validationResult.setExitCode(exitCode(runResult.getExitCode()));
-            validationResult.setOut(runResult.getOutput());
-            validationResult.setErr(runResult.getError());
-            validationResult.setStartTime(startTime);
-            validationResult.setElapsedTime(endTime - startTime);
 
             ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
                 @Override

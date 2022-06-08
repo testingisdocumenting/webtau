@@ -25,10 +25,11 @@
 }
 
 .cli-output-line.matched {
-    background-color: var(--webtau-match-color);
+    color: var(--webtau-match-color);
+    background-color: var(--webtau-match-background-color);
 }
 
 .cli-output-label {
-    color: #333;
+    color: var(--webtau-text-color);
     margin-bottom: 4px;
 }

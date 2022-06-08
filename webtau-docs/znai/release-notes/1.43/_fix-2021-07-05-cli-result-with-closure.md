@@ -1,0 +1,1 @@
+* Fix: [cli.run](cli/foreground-command#run-result) results are properly returned when validation block is present

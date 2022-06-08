@@ -33,11 +33,10 @@ import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHa
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.reporter.WebTauStepInput;
+import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
@@ -248,10 +247,18 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public void dragAndDropOver(PageElement pageElement) {
-        execute(tokenizedMessage(action("dragging")).add(pathDescription).add(OVER).add(pageElement.locationDescription()),
-                () -> tokenizedMessage(action("dropped")).add(pathDescription).add(OVER).add(pageElement.locationDescription()),
-                () -> dragAndDropOverStep(pageElement));
+    public void dragAndDropOver(PageElement target) {
+        execute(tokenizedMessage(action("dragging")).add(pathDescription).add(OVER).add(target.locationDescription()),
+                () -> tokenizedMessage(action("dropped")).add(pathDescription).add(OVER).add(target.locationDescription()),
+                () -> dragAndDropOverStep(target));
+    }
+
+    @Override
+    public void dragAndDropBy(int offsetX, int offsetY) {
+        execute(tokenizedMessage(action("dragging")).add(pathDescription),
+                aMapOf("offsetX", offsetX, "offsetY", offsetY),
+                () -> tokenizedMessage(action("dropped")).add(pathDescription),
+                () -> dragAndDropByStep(offsetX, offsetY));
     }
 
     @Override
@@ -328,56 +335,50 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public void scrollIntoView() {
-        execute(tokenizedMessage(action("scrolling into view ")).add(pathDescription),
+        execute(tokenizedMessage(action("scrolling into view")).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled into view")).add(pathDescription),
-                () -> ((JavascriptExecutor)driver).executeScript(
-                        "arguments[0].scrollIntoView(true);", findElement())
-        );
+                () -> checkNotNullAndExecuteScriptOnElement("scroll into view",
+                        "arguments[0].scrollIntoView(true);"));
     }
 
     @Override
     public void scrollToTop() {
         execute(tokenizedMessage(action("scrolling to top"), OF).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled to top"), OF).add(pathDescription),
-                () -> ((JavascriptExecutor)driver).executeScript(
-                        "arguments[0].scrollTo(arguments[0].scrollLeft, 0);", findElement())
-        );
+                () -> checkNotNullAndExecuteScriptOnElement("scroll to top",
+                        "arguments[0].scrollTo(arguments[0].scrollLeft, 0);"));
     }
 
     @Override
     public void scrollToBottom() {
         execute(tokenizedMessage(action("scrolling to bottom"), OF).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled to bottom"), OF).add(pathDescription),
-                () -> ((JavascriptExecutor)driver).executeScript(
-                        "arguments[0].scrollTo(arguments[0].scrollLeft, arguments[0].scrollHeight);", findElement())
-        );
+                () -> checkNotNullAndExecuteScriptOnElement("scroll to bottom",
+                        "arguments[0].scrollTo(arguments[0].scrollLeft, arguments[0].scrollHeight);"));
     }
 
     @Override
     public void scrollToLeft() {
         execute(tokenizedMessage(action("scrolling to left"), OF).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled to left"), OF).add(pathDescription),
-                () -> ((JavascriptExecutor)driver).executeScript(
-                        "arguments[0].scrollTo(0, arguments[0].scrollTop);", findElement())
-        );
+                () -> checkNotNullAndExecuteScriptOnElement("scroll to left",
+                        "arguments[0].scrollTo(0, arguments[0].scrollTop);"));
     }
 
     @Override
     public void scrollToRight() {
         execute(tokenizedMessage(action("scrolling to right"), OF).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled to right"), OF).add(pathDescription),
-                () -> ((JavascriptExecutor)driver).executeScript(
-                        "arguments[0].scrollTo(arguments[0].scrollWidth, arguments[0].scrollTop);", findElement())
-        );
+                () -> checkNotNullAndExecuteScriptOnElement("scroll to right",
+                        "arguments[0].scrollTo(arguments[0].scrollWidth, arguments[0].scrollTop);"));
     }
 
     @Override
     public void scrollTo(int x, int y) {
         execute(tokenizedMessage(action("scrolling to"), numberValue(x), COMMA, numberValue(y), OF).add(pathDescription),
                 () -> tokenizedMessage(action("scrolled to"), numberValue(x), COMMA, numberValue(y), OF).add(pathDescription),
-                () -> ((JavascriptExecutor)driver).executeScript(
-                        "arguments[0].scrollTo(arguments[1], arguments[2]);", findElement(), x, y)
-        );
+                () -> checkNotNullAndExecuteScriptOnElement("scroll to position",
+                        "arguments[0].scrollTo(arguments[1], arguments[2]);", x, y));
     }
 
     private void clickWithKey(String label, CharSequence key) {
@@ -427,8 +428,10 @@ public class GenericPageElement implements PageElement {
     }
 
     private Integer getNumberOfElements() {
-        List<WebElement> webElements = path.find(driver);
-        return webElements.size();
+        return getValueForStaleElement(() -> {
+            List<WebElement> webElements = path.find(driver);
+            return webElements.size();
+        }, -1);
     }
 
     private PageElementValueFetcher<Integer> fetchIntElementPropertyFunc(String prop) {
@@ -441,10 +444,14 @@ public class GenericPageElement implements PageElement {
             return null;
         }
 
-        Long scrollTop = (Long) ((JavascriptExecutor) driver).executeScript(
+        Object value = ((JavascriptExecutor) driver).executeScript(
                 "return arguments[0]." + prop + ";", elements.get(0));
+        if (value instanceof Long) {
+            Long scrollTop = (Long) value;
+            return Math.toIntExact(scrollTop);
+        }
 
-        return Math.toIntExact(scrollTop);
+        return ((Double) value).intValue();
     }
 
     private void setValueBasedOnType(Object value) {
@@ -459,7 +466,20 @@ public class GenericPageElement implements PageElement {
     private void execute(TokenizedMessage inProgressMessage,
                          Supplier<TokenizedMessage> completionMessageSupplier,
                          Runnable action) {
-        createAndExecuteStep(inProgressMessage, completionMessageSupplier,
+        execute(inProgressMessage, Collections.emptyMap(), completionMessageSupplier, action);
+    }
+
+    private void execute(TokenizedMessage inProgressMessage,
+                         Map<String, Object> stepInputData,
+                         Supplier<TokenizedMessage> completionMessageSupplier,
+                         Runnable action) {
+        WebTauStepInput stepInput = stepInputData.isEmpty() ?
+                WebTauStepInput.EMPTY :
+                WebTauStepInputKeyValue.stepInput(stepInputData);
+
+        createAndExecuteStep(inProgressMessage,
+                stepInput,
+                completionMessageSupplier,
                 () -> repeatForStaleElement(() -> {
                     action.run();
                     return null;
@@ -528,6 +548,14 @@ public class GenericPageElement implements PageElement {
         actions.dragAndDrop(source, target).build().perform();
     }
 
+    private void dragAndDropByStep(int offsetX, int offsetY) {
+        WebElement source = findElement();
+        ensureNotNullElement(source, "drag source");
+
+        Actions actions = new Actions(driver);
+        actions.dragAndDropBy(source, offsetX, offsetY).build().perform();
+    }
+
     private void ensureNotNullElement(WebElement element, String actionLabel) {
         if (element instanceof NullWebElement) {
             ((NullWebElement) element).error(actionLabel);
@@ -536,6 +564,17 @@ public class GenericPageElement implements PageElement {
 
     private NullWebElement createNullElement() {
         return new NullWebElement(path.toString());
+    }
+
+    private void checkNotNullAndExecuteScriptOnElement(String actionLabel, String script, Object... args) {
+        WebElement element = findElement();
+        ensureNotNullElement(element, actionLabel);
+
+        ArrayList<Object> argsList = new ArrayList<>();
+        argsList.add(element);
+        argsList.addAll(Arrays.asList(args));
+
+        ((JavascriptExecutor) driver).executeScript(script, argsList.toArray(new Object[0]));
     }
 
     private interface ActionsProvider {

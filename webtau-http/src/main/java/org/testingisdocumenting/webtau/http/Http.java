@@ -32,7 +32,7 @@ import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.http.binary.BinaryRequestBody;
-import org.testingisdocumenting.webtau.http.config.HttpConfigurations;
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
@@ -60,16 +60,12 @@ import org.testingisdocumenting.webtau.utils.JsonParseException;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UncheckedIOException;
 import java.lang.reflect.Field;
-import java.net.HttpURLConnection;
-import java.net.ProtocolException;
-import java.net.URL;
+import java.net.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 import java.util.zip.GZIPInputStream;
 import javax.net.ssl.HttpsURLConnection;
@@ -102,7 +98,7 @@ public class Http {
     }
 
     public boolean ping(String url, HttpQueryParams queryParams, HttpHeader header) {
-        String fullUrl = HttpConfigurations.fullUrl(queryParams.attachToUrl(url));
+        String fullUrl = WebTauHttpConfigurations.fullUrl(queryParams.attachToUrl(url));
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("pinging"), urlValue(fullUrl)),
                 () -> tokenizedMessage(action("pinged"), urlValue(fullUrl)),
@@ -129,13 +125,24 @@ public class Http {
         return UrlUtils.concat(baseUrl, relativeUrl);
     }
 
-    public <E> E get(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+    public <E> E get(String url,
+                     HttpQueryParams queryParams,
+                     HttpHeader header,
+                     HttpResponseValidatorWithReturn validator) {
         return executeAndValidateHttpCall("GET", queryParams.attachToUrl(url),
                 this::getToFullUrl,
                 header, null, validator);
     }
 
+    public <E> E get(String url, Map<CharSequence, ?> queryParams, HttpHeader header, HttpResponseValidatorWithReturn validator) {
+        return get(url, new HttpQueryParams(queryParams), header, validator);
+    }
+
     public void get(String url, HttpQueryParams queryParams, HttpHeader header, HttpResponseValidator validator) {
+        get(url, queryParams, header, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void get(String url, Map<CharSequence, ?> queryParams, HttpHeader header, HttpResponseValidator validator) {
         get(url, queryParams, header, new HttpResponseValidatorIgnoringReturn(validator));
     }
 
@@ -143,12 +150,28 @@ public class Http {
         get(url, queryParams, header, EMPTY_RESPONSE_VALIDATOR);
     }
 
+    public void get(String url, Map<CharSequence, ?> queryParams, HttpHeader header) {
+        get(url, queryParams, header, EMPTY_RESPONSE_VALIDATOR);
+    }
+
+    public <E> E get(String url, Map<CharSequence, ?> queryParams, HttpResponseValidatorWithReturn validator) {
+        return get(url, queryParams, HttpHeader.EMPTY, validator);
+    }
+
     public <E> E get(String url, HttpQueryParams queryParams, HttpResponseValidatorWithReturn validator) {
         return get(url, queryParams, HttpHeader.EMPTY, validator);
     }
 
+    public void get(String url, Map<CharSequence, ?> queryParams, HttpResponseValidator validator) {
+        get(url, queryParams, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
     public void get(String url, HttpQueryParams queryParams, HttpResponseValidator validator) {
         get(url, queryParams, HttpHeader.EMPTY, new HttpResponseValidatorIgnoringReturn(validator));
+    }
+
+    public void get(String url, Map<CharSequence, ?> queryParams) {
+        get(url, queryParams, HttpHeader.EMPTY, EMPTY_RESPONSE_VALIDATOR);
     }
 
     public void get(String url, HttpQueryParams queryParams) {
@@ -793,20 +816,20 @@ public class Http {
         delete(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY, EMPTY_RESPONSE_VALIDATOR);
     }
 
-    public HttpHeader header(String... properties) {
-        return new HttpHeader(CollectionUtils.aMapOf((Object[]) properties));
+    public HttpHeader header(CharSequence firstKey, CharSequence firstValue, CharSequence... restKv) {
+        return new HttpHeader().with(firstKey, firstValue, restKv);
     }
 
-    public HttpHeader header(Map<String, CharSequence> properties) {
-        return new HttpHeader(properties);
+    public HttpHeader header(Map<CharSequence, CharSequence> properties) {
+        return new HttpHeader().with(properties);
     }
 
-    public HttpQueryParams query(String... params) {
-        return new HttpQueryParams(CollectionUtils.aMapOf((Object[]) params));
-    }
-
-    public HttpQueryParams query(Map<String, ?> params) {
+    public HttpQueryParams query(Map<?, ?> params) {
         return new HttpQueryParams(params);
+    }
+
+    public HttpQueryParams query(CharSequence firstKey, Object firstValue, Object... restKv) {
+        return new HttpQueryParams(CollectionUtils.aMapOf(firstKey, firstValue, restKv));
     }
 
     public HttpRequestBody body(String mimeType, String content) {
@@ -894,8 +917,8 @@ public class Http {
                                              HttpHeader requestHeader,
                                              HttpRequestBody requestBody,
                                              HttpResponseValidatorWithReturn validator) {
-        String fullUrl = HttpConfigurations.fullUrl(url);
-        HttpHeader fullHeader = HttpConfigurations.fullHeader(fullUrl, url, requestHeader);
+        String fullUrl = WebTauHttpConfigurations.fullUrl(url);
+        HttpHeader fullHeader = WebTauHttpConfigurations.fullHeader(fullUrl, url, requestHeader);
 
         HttpValidationResult validationResult = new HttpValidationResult(Persona.getCurrentPersona().getId(),
                 requestMethod, url, fullUrl, fullHeader, requestBody);
@@ -1037,7 +1060,7 @@ public class Http {
                     }
 
                     // originally an exception happened,
-                    // so we combine it's message with status code failure
+                    // so we combine its message with status code failure
                     throw new AssertionError('\n' + message +
                             "\n\nadditional exception message:\n" + e.getMessage(), e);
 
@@ -1075,7 +1098,7 @@ public class Http {
     }
 
     private void validateStatusCode(HttpValidationResult validationResult) {
-        DataNode statusCode = validationResult.getHeaderNode().statusCode();
+        DataNode statusCode = validationResult.getHeaderNode().statusCode;
         if (statusCode.getTraceableValue().getCheckLevel() != CheckLevel.None) {
             return;
         }
@@ -1084,7 +1107,7 @@ public class Http {
     }
 
     private void validateErrorsOnlyStatusCode(HttpValidationResult validationResult) {
-        DataNode statusCode = validationResult.getHeaderNode().statusCode();
+        DataNode statusCode = validationResult.getHeaderNode().statusCode;
         if (statusCode.getTraceableValue().getCheckLevel() != CheckLevel.None) {
             return;
         }
@@ -1119,7 +1142,7 @@ public class Http {
         }
 
         try {
-            HttpURLConnection connection = (HttpURLConnection) new URL(fullUrl).openConnection();
+            HttpURLConnection connection = createConnection(fullUrl);
             connection.setInstanceFollowRedirects(false);
             setRequestMethod(method, connection);
             connection.setConnectTimeout(getCfg().getHttpTimeout());
@@ -1142,6 +1165,21 @@ public class Http {
             return extractHttpResponse(connection);
         } catch (IOException e) {
             throw new RuntimeException("couldn't " + method + ": " + fullUrl, e);
+        }
+    }
+
+    private HttpURLConnection createConnection(String fullUrl) {
+        try {
+            if (getCfg().isHttpProxySet()) {
+                HostPort hostPort = new HostPort(getCfg().getHttpProxyConfigValue().getAsString());
+
+                return (HttpURLConnection) new URL(fullUrl).openConnection(new Proxy(Proxy.Type.HTTP,
+                        new InetSocketAddress(hostPort.host, hostPort.port)));
+            }
+
+            return (HttpURLConnection) new URL(fullUrl).openConnection();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
     }
 
@@ -1196,11 +1234,15 @@ public class Http {
     }
 
     private void populateResponseHeader(HttpResponse httpResponse, HttpURLConnection connection) {
+        Map<CharSequence, CharSequence> header = new LinkedHashMap<>();
+
         connection.getHeaderFields().forEach((key, values) -> {
             if (!values.isEmpty()) {
-                httpResponse.addHeader(key, values.get(0));
+                header.put(key, values.get(0));
             }
         });
+
+        httpResponse.addHeader(header);
     }
 
     /**
@@ -1228,6 +1270,21 @@ public class Http {
 
     private interface HttpCall {
         HttpResponse execute(String fullUrl, HttpHeader fullHeader);
+    }
+
+    private static class HostPort {
+        private final String host;
+        private final int port;
+
+        private HostPort(String hostPort) {
+            String[] parts = hostPort.split(":");
+            if (parts.length != 2) {
+                throw new IllegalArgumentException("expect host:port format for proxy, given: " + hostPort);
+            }
+
+            host = parts[0];
+            port = Integer.parseInt(parts[1]);
+        }
     }
 
     private static class BeforeFirstHttpCallListenerTrigger {

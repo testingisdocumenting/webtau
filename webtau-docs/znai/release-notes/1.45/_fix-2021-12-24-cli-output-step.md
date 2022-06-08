@@ -1,0 +1,1 @@
+* Fix: remove internal info of [CLI run](cli/foreground-command) from web report  

@@ -21,7 +21,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.42-SNAPSHOT</version>
+        <version>1.49-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-repl</artifactId>
@@ -97,7 +97,7 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>org.testingisdocumenting.webtau.repl.WebtauRepl</mainClass>
+                    <mainClass>org.testingisdocumenting.webtau.repl.WebTauRepl</mainClass>
                 </configuration>
             </plugin>
         </plugins>

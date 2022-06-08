@@ -1,4 +1,4 @@
-Webtau can run commands in `foreground` and in `background`. When command is ran in `background` webtau  
+WebTau can run commands in `foreground` and in `background`. When command is ran in `background` WebTau  
 will continue execution, leaving command to run its course.
 
 # Run In Background
@@ -37,6 +37,22 @@ You can use `<<` instead of `.send` for extra syntax sugar:
   title: "use << as .send"
 }
 
+# Wait Timeout
+
+By default, WebTau `waitTo` waits 5 seconds for a condition to become true.
+This value can be changed either globally by using `:identifier: waitTimeout {validationPath: "org/testingisdocumenting/webtau/cfg/WebTauConfig.java"}` config value
+
+```groovy {title: "webtau.cfg.groovy"}
+waitTimeout = 20000
+```
+
+To override wait timeout locally, use
+
+:include-file: scenarios/cli/outputWait.groovy {
+  title: "local timeout",
+  surroundedBy: "local-timeout"
+}
+
 # Working Dir
 
 Use `cli.workingDir` as a second parameter to `cli.runInBackground` to set a working dir:
@@ -49,8 +65,23 @@ Use `cli.workingDir` as a second parameter to `cli.runInBackground` to set a wor
 
 Use `cli.env` as a second parameter to `cli.runInBackground` to set the environment variables:
 
+:include-file: scripts/hello-env-var {autoTitle: true}
+
 :include-file: doc-artifacts/snippets/background-cli-cfg/envVar.groovy {
   title: "set environment variable"
+}
+
+# Common Environment Variables
+
+Set `cliEnv` config value with environment values that needs to be passed to each `cli.runInBackground`:
+
+:include-file: scenarios/cli/webtau-cli-env-vars.cfg.groovy {
+  title: "webtau.cfg.groovy",
+  surroundedBy: "default-my-var"
+}
+
+:include-file: doc-artifacts/snippets/common-env-vars/background.groovy {
+  title: "use environment variable from config"
 }
 
 # Chain Cli Run Config
@@ -65,5 +96,5 @@ Combine configs by using `cli.env(...).workingDir(...)` in any order to set both
 
 To specify `PATH` to use for CLI commands lookup use
 
-:include-file: scenarios/cli/webtau-with-path.cfg.groovy {title: "webtau.config.groovy"}
+:include-file: scenarios/cli/webtau-with-path.cfg.groovy {title: "webtau.cfg.groovy"}
 

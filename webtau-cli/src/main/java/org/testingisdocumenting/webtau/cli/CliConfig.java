@@ -20,7 +20,9 @@ import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 
 import java.util.Collections;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.*;
@@ -31,6 +33,9 @@ public class CliConfig implements WebTauConfigHandler {
 
     private static final ConfigValue cliTimeout = declare("cliTimeout", "cli foreground command run timeout (ms)",
             () -> 30000L);
+
+    private static final ConfigValue cliEnv = declare("cliEnv", "cli common environment variables",
+            Collections::emptyMap);
 
     public static List<String> getPath() {
         return cliPath.getAsList();
@@ -48,8 +53,19 @@ public class CliConfig implements WebTauConfigHandler {
         return cliTimeout;
     }
 
+    public static ConfigValue getCliEnvValue() {
+        return cliEnv;
+    }
+
+    public static Map<String, CharSequence> getCliEnv() {
+        Map<String, CharSequence> env = new LinkedHashMap<>();
+        cliEnv.getAsMap().forEach((k, v) -> env.put(k, v.toString()));
+
+        return env;
+    }
+
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
-        return Stream.of(cliPath, cliTimeout);
+        return Stream.of(cliPath, cliTimeout, cliEnv);
     }
 }

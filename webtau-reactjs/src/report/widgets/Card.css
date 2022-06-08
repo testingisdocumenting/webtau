@@ -16,12 +16,17 @@
  */
 
 .webtau-card {
-    background-color: #fff;
+    background-color: var(--webtau-card-background-color);
     box-shadow: var(--webtau-card-shadow);
     border: 1px solid var(--webtau-card-border-color);
 }
 
 .webtau-card.warning {
+    color: var(--webtau-card-warning-text-color);
+    background-color: var(--webtau-card-warning-background-color);
     box-shadow: var(--webtau-card-warning-shadow);
-    background-color: #ffffd0;
+}
+
+.webtau-card.clickable {
+    cursor: pointer;
 }

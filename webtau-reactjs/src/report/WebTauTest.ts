@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
+import { CliBackgroundCall, CliForegroundCall } from './details/cli/CliCalls';
+
 export interface WebTauTest {
   id: string;
   containerId: string;
   scenario: string;
   steps: WebTauStep[];
   httpCalls?: HttpCall[];
+  cliCalls?: CliForegroundCall[];
+  servers?: WebTauServer[];
+  cliBackground?: CliBackgroundCall[];
   metadata?: { [key: string]: string };
   startTime: number;
   elapsedTime: number;
@@ -35,6 +40,7 @@ export interface WebTauStep {
   startTime: number;
   personaId?: string;
   input?: WebTauStepInput;
+  output?: WebTauStepOutput;
 }
 
 export interface TokenizedMessageToken {
@@ -47,10 +53,58 @@ export interface WebTauStepInput {
   data: any;
 }
 
-export type WebTauStepInputKeyValue = { [key: string]: string };
+export interface WebTauStepOutput {
+  type: string;
+  data: any;
+}
+
+export type WebTauStepInputOutputKeyValue = { [key: string]: string | number };
+
+export interface StringKeyValue {
+  key: string;
+  value: string;
+}
 
 export interface HttpCall {
+  id: string;
+  personaId?: string;
+  label: string;
+  method: string;
+  url: string;
+  startTime: number;
+  elapsedTime: number;
+  requestType: string;
+  requestBody: any;
+  requestHeader: StringKeyValue[];
+  responseHeader: StringKeyValue[];
+  responseType: string;
+  responseBody: any;
+  responseStatusCode: number;
+  errorMessage?: string;
+  mismatches: string[];
   warnings?: string[];
+  responseBodyChecks: {
+    failedPaths: string[];
+    passedPaths: string[];
+  };
+  test?: WebTauTest;
+}
+
+export interface WebTauServer {
+  serverId: string;
+  capturedCalls: WebTauServerCapturedCall[];
+}
+
+export interface WebTauServerCapturedCall {
+  method: string;
+  url: string;
+  requestType: string;
+  responseType: string;
+  capturedRequest: string;
+  capturedResponse: string;
+  startTime: number;
+  elapsedTime: number;
+  statusCode: number;
 }
 
 export interface FailedCodeSnippet {

@@ -33,8 +33,8 @@ public class WebTauStepInputKeyValue implements WebTauStepInput {
         return new WebTauStepInputKeyValue(data);
     }
 
-    public static WebTauStepInput stepInput(Object... keyValues) {
-        return new WebTauStepInputKeyValue(CollectionUtils.aMapOf(keyValues));
+    public static WebTauStepInput stepInput(String firstKey, Object firstValue, Object... restKv) {
+        return new WebTauStepInputKeyValue(CollectionUtils.aMapOf(firstKey, firstValue, restKv));
     }
 
     @Override

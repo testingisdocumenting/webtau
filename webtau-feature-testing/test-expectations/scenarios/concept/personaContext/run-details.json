@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "context example",
+    "shortContainerId" : "personaContext.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "config validation",
+    "shortContainerId" : "personaContext.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 8
+    }
+  } ],
+  "exitCode" : 0
+}

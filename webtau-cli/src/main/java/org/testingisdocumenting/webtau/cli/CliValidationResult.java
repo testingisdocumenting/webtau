@@ -19,7 +19,6 @@ package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
-import org.testingisdocumenting.webtau.reporter.WebTauStepPayload;
 
 import java.util.*;
 
@@ -34,10 +33,15 @@ public class CliValidationResult implements WebTauStepOutput {
     private long elapsedTime;
 
     private String errorMessage;
+    private CliProcessConfig config;
 
     public CliValidationResult(String command) {
         this.command = command;
         this.mismatches = new ArrayList<>();
+    }
+
+    public void setConfig(CliProcessConfig config) {
+        this.config = config;
     }
 
     public String getCommand() {
@@ -107,6 +111,7 @@ public class CliValidationResult implements WebTauStepOutput {
     @Override
     public Map<String, ?> toMap() {
         Map<String, Object> result = new LinkedHashMap<>();
+        result.put("personaId", config.getPersonaId());
         result.put("command", command);
         result.put("out", out != null ? out.get() : "");
         result.put("err", err != null ? err.get() : "");
@@ -121,6 +126,9 @@ public class CliValidationResult implements WebTauStepOutput {
         result.put("elapsedTime", elapsedTime);
         result.put("mismatches", mismatches);
         result.put("errorMessage", errorMessage);
+        result.put("config", config != null ?
+                config.createStepInput().toMap():
+                Collections.emptyMap());
 
         return result;
     }

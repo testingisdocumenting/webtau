@@ -29,7 +29,7 @@ import org.testingisdocumenting.webtau.reporter.WebTauTest;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
-import org.testingisdocumenting.webtau.version.WebtauVersion;
+import org.testingisdocumenting.webtau.version.WebTauVersion;
 
 import java.nio.file.Path;
 import java.util.*;
@@ -38,6 +38,7 @@ import java.util.stream.Stream;
 
 public class HtmlReportGenerator implements ReportGenerator {
     private final ReactJsBundle reactJsBundle;
+    private final String themeCode = ResourceUtils.textContent("webtau-theme.js");
 
     public HtmlReportGenerator() {
         reactJsBundle = new ReactJsBundle();
@@ -62,10 +63,12 @@ public class HtmlReportGenerator implements ReportGenerator {
 
     private String generateHtml(WebTauReport report) {
         Map<String, Object> reportAsMap = new LinkedHashMap<>();
+        reportAsMap.put("name", report.getReportName().getName());
+        reportAsMap.put("nameUrl", report.getReportName().getUrl());
         reportAsMap.put("config", configAsListOfMaps(getCfg().getEnumeratedCfgValuesStream()));
         reportAsMap.put("envVars", envVarsAsListOfMaps());
         reportAsMap.put("summary", reportSummaryToMap(report));
-        reportAsMap.put("version", WebtauVersion.getVersion());
+        reportAsMap.put("version", WebTauVersion.getVersion());
         reportAsMap.put("tests", report.getTests().stream()
                 .map(WebTauTest::toMap).collect(Collectors.toList()));
 
@@ -97,8 +100,9 @@ public class HtmlReportGenerator implements ReportGenerator {
                 genFavIconBase64() + "\n" +
                 "<title>WebTau Report</title>" +
                 "\n</head>\n" +
-                "<body><div id=\"root\"/>\n" +
+                "<body class=\"webtau-light\"><div id=\"root\"/>\n" +
                 "<script>\n" +
+                themeCode + "\n" +
                 reportAssignmentJavaScript + "\n" +
                 reactJsBundle.getJavaScript() + "\n" +
                 "</script>\n" +

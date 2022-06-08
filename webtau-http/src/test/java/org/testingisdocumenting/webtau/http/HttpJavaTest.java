@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.http;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 import org.junit.*;
 
@@ -36,6 +37,55 @@ import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class HttpJavaTest extends HttpTestBase {
+    private static final byte[] sampleFile = {1, 2, 3};
+
+    @Test
+    public void useClosureAsValidation() {
+        http.get("/end-point", ((header, body) -> {
+            DataNode price = body.get("price");
+            price.should(equal(100));
+        }));
+    }
+
+    @Test
+    public void canReturnSimpleValueFromGet() {
+        Integer id = http.get("/end-point", ((header, body) -> {
+            return body.get("id");
+        }));
+
+        assert id == 10;
+    }
+
+    @Test
+    public void childrenKeyShortcut() {
+        http.get("/end-point", ((header, body) -> {
+            body.get("complexList").get("k2").should(equal(Arrays.asList(30, 40)));
+        }));
+    }
+
+    @Test
+    public void ifElseLogic() {
+        String zipCode = http.get("/address", ((header, body) -> {
+            return body.get("addressType").get().equals("complex") ? body.get("address.zipCode") : "NA";
+        }));
+
+        actual(zipCode).should(equal("12345")); // doc-exclude
+    }
+
+    @Test
+    public void eachOnSimpleList() {
+        http.get("/end-point", (header, body) -> {
+            body.get("list").forEach(node -> node.shouldBe(greaterThan(0)));
+        });
+    }
+
+    @Test
+    public void eachOnComplexList() {
+        http.get("/end-point", (header, body) -> {
+            body.get("complexList").forEach(node -> node.get("k2").shouldBe(greaterThan(0)));
+        });
+    }
+
     @Test
     public void ping() {
         actual(http.ping("/end-point-simple-object")).should(equal(true));
@@ -68,6 +118,44 @@ public class HttpJavaTest extends HttpTestBase {
             body.get("genres").should(contain("RPG"));
             body.get("rating").shouldBe(greaterThan(7));
         });
+    }
+
+    @Test
+    public void findOnListAndAssert() {
+        http.get("/end-point", ((header, body) -> {
+            DataNode found = body.get("complexList").find(node -> node.get("id").get().equals("id1"));
+            found.get("k1").should(equal("v1"));
+            found.get("k2").should(equal(30));
+        }));
+    }
+
+    @Test
+    public void findAllOnComplexList() {
+        http.get("/end-point", ((header, body) -> {
+            DataNode found = body.get("complexList").findAll(node -> {
+                int k2 = node.get("k2").get();
+                return k2 > 20;
+            });
+
+            found.get("k1").should(containAll("v1", "v11"));
+        }));
+    }
+
+    @Test
+    public void findAllOnMissingProperty() {
+        http.get("/end-point", ((header, body) -> {
+            DataNode found = body.get("wrongName").findAll(node -> true);
+            assert found.isNull();
+        }));
+    }
+
+    @Test
+    public void findOnListAndReturn() {
+        Map<String, ?> found = http.get("/end-point", ((header, body) -> {
+            return body.get("complexList").find(node -> node.get("id").get().equals("id1"));
+        }));
+
+        actual(found).should(equal(aMapOf("id", "id1", "k1", "v1", "k2", 30)));  // doc-exclude
     }
 
     @Test
@@ -232,7 +320,7 @@ public class HttpJavaTest extends HttpTestBase {
         maxRedirects.set("test", 3);
         try {
             http.get("/recursive", (header, body) -> {
-                header.statusCode().should(equal(302));
+                header.statusCode.should(equal(302));
             });
         } finally {
             maxRedirects.reset();
@@ -258,22 +346,114 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
+    public void queryParamsInUrlExample() {
+        http.get("/path?a=1&b=text", ((header, body) -> {
+            // assertions go here
+        }));
+    }
+
+    @Test
+    public void queryParamsUsingQueryAsMapExample() {
+        http.get("/path", aMapOf("a", 1, "b", "text"), ((header, body) -> {
+            // assertions go here
+        }));
+    }
+
+    @Test
+    public void queryParamsUsingQueryMethodExample() {
+        http.post("/chat", http.query("a", 1, "b", "text"), http.header("x-param", "value"), aMapOf("message", "hello"),
+                (header, body) -> {
+                    // assertions go here
+                });
+    }
+
+    @Test
+    public void queryParamsEncoding() {
+        http.get("/path", http.query("message", "hello world !"), (header, body) -> {
+            // assertions go here
+        });
+    }
+
+    @Test
     public void queryParams() {
-        http.get("/params?a=1&b=text", (header, body) -> {
+        http.get("/path?a=1&b=text", (header, body) -> {
             body.get("a").should(equal(1));
             body.get("b").should(equal("text"));
         });
 
-        Map<String, String> queryParams = CollectionUtils.aMapOf("a", 1, "b", "text");
-        http.get("/params", http.query(queryParams), (header, body) -> {
+        Map<String, ?> queryParams = CollectionUtils.aMapOf("a", 1, "b", "text");
+        http.get("/path", http.query(queryParams), (header, body) -> {
             body.get("a").should(equal(1));
             body.get("b").should(equal("text"));
         });
 
-        http.get("/params", http.query("a", "1", "b", "text"), (header, body) -> {
+        http.get("/path", http.query("a", "1", "b", "text"), (header, body) -> {
             body.get("a").should(equal(1));
             body.get("b").should(equal("text"));
         });
+    }
+
+    @Test
+    public void explicitHeaderPassingExample() {
+        http.get("/end-point", http.header("Accept", "application/octet-stream"), (header, body) -> {
+            // assertions go here
+        });
+
+        http.get("/end-point", http.query("queryParam1", "queryParamValue1"),
+            http.header("Accept", "application/octet-stream"), (header, body) -> {
+            // assertions go here
+        });
+
+        http.patch("/end-point", http.header("Accept", "application/octet-stream"),
+                aMapOf("fileId", "myFile"), (header, body) -> {
+            // assertions go here
+        });
+
+        http.post("/end-point", http.header("Accept", "application/octet-stream"),
+                aMapOf("fileId", "myFile"), (header, body) -> {
+            // assertions go here
+        });
+
+        http.put("/end-point", http.header("Accept", "application/octet-stream"),
+                aMapOf("fileId", "myFile", "file", sampleFile), (header, body) -> {
+            // assertions go here
+        });
+
+        http.delete("/end-point", http.header("Custom-Header", "special-value"));
+    }
+
+    @Test
+    public void headerCreation() {
+        HttpHeader varArgHeader = http.header(
+                "My-Header1", "Value1",
+                "My-Header2", "Value2");
+
+        Map<CharSequence, CharSequence> headerValues = new HashMap<>();
+        headerValues.put("My-Header1", "Value1");
+        headerValues.put("My-Header2", "Value2");
+        HttpHeader mapBasedHeader = http.header(headerValues);
+
+        actual(varArgHeader).should(equal(mapBasedHeader)); // doc-exclude
+    }
+
+    @Test
+    public void headerWith() {
+        HttpHeader header = http.header(
+                "My-Header1", "Value1",
+                "My-Header2", "Value2");
+
+        // example
+        HttpHeader newHeaderVarArg = header.with(
+                "Additional-1", "AdditionalValue1",
+                "Additional-2", "AdditionalValue2");
+
+        Map<CharSequence, CharSequence> additionalValues = new HashMap<>();
+        additionalValues.put("Additional-1", "AdditionalValue1");
+        additionalValues.put("Additional-2", "AdditionalValue2");
+        HttpHeader newHeaderMap = header.with(additionalValues);
+        // example
+
+        actual(newHeaderVarArg).should(equal(newHeaderMap));
     }
 
     @Test
@@ -307,5 +487,48 @@ public class HttpJavaTest extends HttpTestBase {
             body.get("complexList[0].k1").should(equal("v1"));
             body.get("complexList[-1].k1").should(equal("v11"));
         });
+    }
+
+    @Test
+    public void explicitBinaryMimeTypesCombinedWithRequestBody() {
+        byte[] content = binaryFileContent("path");
+        http.post("/end-point", http.body("application/octet-stream", content), (header, body) -> {
+            // assertions go here
+        });
+    }
+
+    @Test
+    public void postImplicitBinaryMimeTypesCombinedWithRequestBody() {
+        byte[] content = binaryFileContent("path");
+        http.post("/end-point", http.application.octetStream(content), (header, body) -> {
+            // assertions go here
+        });
+    }
+
+    @Test
+    public void postImplicitTextMimeTypesCombinedWithRequestBody() {
+        String content = "text content";
+
+        http.post("/end-point", http.text.plain(content), (header, body) -> {
+            // assertions go here
+        });
+    }
+
+    @Test
+    public void headerAssertionWithShortcut() {
+        http.post("/end-point", (header, body) -> {
+            header.location.should(equal("http://www.example.org/url/23"));
+            header.get("Location").should(equal("http://www.example.org/url/23"));
+
+            header.contentLocation.should(equal("/url/23"));
+            header.get("Content-Location").should(equal("/url/23"));
+
+            header.contentLength.shouldBe(greaterThan(300));
+            header.get("Content-Length").shouldBe(greaterThan(300));
+        });
+    }
+
+    private static byte[] binaryFileContent(String path) {
+        return new byte[]{1, 2, 3};
     }
 }

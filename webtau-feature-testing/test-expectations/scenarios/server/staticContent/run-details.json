@@ -3,13 +3,32 @@
     "scenario" : "after all tests",
     "shortContainerId" : "Teardown",
     "stepsSummary" : {
-      "numberOfSuccessful" : 1
+      "numberOfSuccessful" : 6
     }
   }, {
     "scenario" : "static content server",
     "shortContainerId" : "staticContent.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 11
+      "numberOfSuccessful" : 16
+    }
+  }, {
+    "scenario" : "slow down",
+    "shortContainerId" : "staticContent.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4,
+      "numberOfFailed" : 1
+    }
+  }, {
+    "scenario" : "broken",
+    "shortContainerId" : "staticContent.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  }, {
+    "scenario" : "response override",
+    "shortContainerId" : "staticContent.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
     }
   }, {
     "scenario" : "same server id re-use is not allowed",

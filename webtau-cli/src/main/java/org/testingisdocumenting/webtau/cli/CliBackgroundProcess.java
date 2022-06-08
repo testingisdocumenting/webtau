@@ -122,8 +122,9 @@ class CliBackgroundProcess {
         return consumeOutThread;
     }
 
-    public ProcessRunResult createRunResult() {
-        return new ProcessRunResult(process.exitValue(), output, error);
+    public ProcessRunResult createRunResult(boolean isTimeOut) {
+        return new ProcessRunResult(isTimeOut ? -1 : process.exitValue(),
+                output, error, isTimeOut);
     }
 
     void closeGlobbers() {

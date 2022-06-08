@@ -24,14 +24,15 @@ import { WebTauTest } from '../WebTauTest';
 interface Props {
   test: WebTauTest;
   onTestClick?(id: string): void;
+  className?: string;
 }
 
-export function TestName({ test, onTestClick }: Props) {
+export function TestName({ test, onTestClick, className }: Props) {
   const onClick = onTestClick ? () => onTestClick(test.id) : undefined;
-  const className = 'test-name' + (onClick ? ' clickable' : '');
+  const fullClassName = 'test-name' + (className ? ' ' + className : '') + (onClick ? ' clickable' : '');
 
   return (
-    <div className={className} onClick={onClick}>
+    <div className={fullClassName} onClick={onClick}>
       <div className="container-id">{test.containerId}</div>
 
       <div className="scenario">{test.scenario}</div>

@@ -22,6 +22,8 @@ import java.util.List;
 import java.util.stream.Stream;
 
 public class WebTauReport {
+    private final WebTauReportName reportName;
+
     private final long startTime;
     private final long stopTime;
     private final WebTauTestList tests;
@@ -36,7 +38,8 @@ public class WebTauReport {
     private final List<WebTauReportCustomData> customDataList;
     private final WebTauReportLog reportLog;
 
-    public WebTauReport(WebTauTestList tests, long startTime, long stopTime) {
+    public WebTauReport(WebTauReportName reportName, WebTauTestList tests, long startTime, long stopTime) {
+        this.reportName = reportName;
         this.startTime = startTime;
         this.stopTime = stopTime;
         this.tests = tests;
@@ -58,6 +61,10 @@ public class WebTauReport {
 
     public boolean isFailed() {
         return failed > 0 || errored > 0;
+    }
+
+    public WebTauReportName getReportName() {
+        return reportName;
     }
 
     public WebTauTestList getTests() {

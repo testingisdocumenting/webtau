@@ -25,10 +25,7 @@ import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.documentation.CoreDocumentation;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.persona.Persona;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
-import org.testingisdocumenting.webtau.reporter.WebTauStepContext;
-import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
+import org.testingisdocumenting.webtau.reporter.*;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Arrays;
@@ -69,25 +66,27 @@ public class WebTauCore extends Matchers {
 
     /**
      * creates a map from var args key value
-     * @param kvs key value pairs
+     * @param firstKey first key
+     * @param firstValue first value
+     * @param restKv key value pairs
      * @param <K> type of key
-     * @param <V> type of value
      * @return map with preserved order
      */
-    public static <K, V> Map<K, V> aMapOf(Object... kvs) {
-        return CollectionUtils.aMapOf(kvs);
+    public static <K> Map<K, Object> aMapOf(K firstKey, Object firstValue, Object... restKv) {
+        return CollectionUtils.aMapOf(firstKey, firstValue, restKv);
     }
 
     /**
      * creates a map from original map and var args key value overrides
      * @param original original map
-     * @param kvs key value pairs
+     * @param firstKey first key
+     * @param firstValue first value
+     * @param restKv key value pairs
      * @param <K> type of key
-     * @param <V> type of value
      * @return map with preserved order
      */
-    public static <K, V> Map<K, V> aMapOf(Map<K, V> original, Object... kvs) {
-        return CollectionUtils.aMapOf(original, kvs);
+    public static <K> Map<K, Object> aMapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
+        return CollectionUtils.aMapOf(original, firstKey, firstValue, restKv);
     }
 
     public static ActualPath createActualPath(String path) {
@@ -163,6 +162,35 @@ public class WebTauCore extends Matchers {
 
     public static void repeatStep(String label, int numberOfAttempts, Function<WebTauStepContext, Object> action) {
         WebTauStep step = WebTauStep.createRepeatStep(label, numberOfAttempts, action);
+        step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    /**
+     * outputs provided key-values to console and web report
+     * @param label label to print
+     * @param firstKey first key
+     * @param firstValue first value
+     * @param restKv key-values as vararg
+     */
+    public static void trace(String label, String firstKey, Object firstValue, Object... restKv) {
+        trace(label, CollectionUtils.aMapOf(firstKey, firstValue, restKv));
+    }
+
+    /**
+     * outputs provided key-values to console and web report
+     * @param label label to print
+     * @param info key-values as a map
+     */
+    public static void trace(String label, Map<String, Object> info) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action(label)),
+                () -> tokenizedMessage(action(label)),
+                () -> {});
+
+        if (!info.isEmpty()) {
+            step.setInput(WebTauStepInputKeyValue.stepInput(info));
+        }
+
         step.execute(StepReportOptions.REPORT_ALL);
     }
 

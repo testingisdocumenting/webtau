@@ -16,14 +16,13 @@
  */
 
 import React from 'react';
-import SourceCode from './SourceCode';
+import { SourceCode } from '../snippet/SourceCode';
 
 import { CardLabelAndNumber } from '../widgets/CardLabelAndNumber';
 import NumberOfHttpCalls from '../dashboard/NumberOfHttpCalls';
 
 import Report from '../Report';
 
-import { TestNameCard } from './TestNameCard';
 import { Card } from '../widgets/Card';
 import { CardWithTime } from '../widgets/CardWithTime';
 
@@ -35,6 +34,8 @@ import { TestMetadata } from './metadata/TestMetadata';
 import { WebTauTest } from '../WebTauTest';
 
 import './TestSummary.css';
+import CardList from '../widgets/CardList';
+import { TestName } from './TestName';
 
 interface TestProps {
   test: WebTauTest;
@@ -44,33 +45,31 @@ export function TestSummary({ test }: TestProps) {
   const numberOfHttpCalls = test.httpCalls ? test.httpCalls.length : 0;
 
   return (
-    <div className="test-summary">
-      <TestNameCard test={test} />
+    <div className="webtau-test-summary">
+      <div className="webtau-test-summary-cards">
+        <CardList label={<TestName test={test} />}>
+          <CardWithTime label="Start Time (Local)" time={test.startTime} />
 
-      <HttpCallsWarning test={test} />
+          <CardWithTime label="Start Time (UTC)" utc={true} time={test.startTime} />
 
-      <div className="test-summary-metadata">
+          <CardWithElapsedTime label="Execution time" millis={test.elapsedTime} />
+        </CardList>
+
+        <HttpCallsWarning test={test} />
+
         <TestMetadata metadata={test.metadata} />
+
+        {numberOfHttpCalls > 0 ? (
+          <CardList label="HTTP Summary">
+            <NumberOfHttpCalls number={numberOfHttpCalls} />
+            <AverageHttpCallsTime test={test} />
+            <OverallHttpCallsTime test={test} />
+          </CardList>
+        ) : null}
+
+        <OptionalPreBlock className="context-description" message={test.contextDescription} />
+        <CardPreMessage message={test.exceptionMessage} />
       </div>
-
-      <div className="test-summary-timing">
-        <CardWithTime label="Start Time (Local)" time={test.startTime} />
-
-        <CardWithTime label="Start Time (UTC)" utc={true} time={test.startTime} />
-
-        <CardWithElapsedTime label="Execution time" millis={test.elapsedTime} />
-      </div>
-
-      {numberOfHttpCalls > 0 ? (
-        <div className="test-summary-http-dashboard">
-          <NumberOfHttpCalls number={numberOfHttpCalls} />
-          <AverageHttpCallsTime test={test} />
-          <OverallHttpCallsTime test={test} />
-        </div>
-      ) : null}
-
-      <OptionalPreBlock className="context-description" message={test.contextDescription} />
-      <CardPreMessage message={test.exceptionMessage} />
 
       {test.failedCodeSnippets && test.failedCodeSnippets.map((cs, idx) => <SourceCode key={idx} {...cs} />)}
     </div>

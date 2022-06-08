@@ -16,6 +16,8 @@
 
 package org.testingisdocumenting.webtau.cache;
 
+import java.nio.file.Path;
+
 public class CachedValue<E> {
     private final Cache cache;
     private final String id;
@@ -27,6 +29,14 @@ public class CachedValue<E> {
 
     public E get() {
         return cache.get(id);
+    }
+
+    public boolean exists() {
+        return cache.exists(id);
+    }
+
+    public Path getAsPath() {
+        return cache.getAsPath(id);
     }
 
     public void set(E value) {

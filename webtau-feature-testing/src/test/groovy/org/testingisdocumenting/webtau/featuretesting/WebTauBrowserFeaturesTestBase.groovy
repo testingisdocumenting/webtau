@@ -154,6 +154,7 @@ class WebTauBrowserFeaturesTestBase {
                 'saveUrl.groovy': 'save url',
                 'loadUrl.groovy': 'load url',
                 'waitOnUrl.groovy': 'wait on url',
+                'backForward.groovy': 'back and forward',
         ])
     }
 
@@ -306,6 +307,7 @@ class WebTauBrowserFeaturesTestBase {
                 'doc-capture',
                 'examples/scenarios/ui/docCapture.groovy', [
                 'captureBadges.groovy': 'search and capture with badges',
+                'captureSpecificElement.groovy': 'search and capture results area',
                 'captureBadgesPlacement.groovy': 'search and capture with badges placed in non center position',
                 'captureBadgesInvertedColors.groovy': 'badge with inverted colors',
                 'captureHighlightCover.groovy': 'capture with highlight and cover',
@@ -324,6 +326,11 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
+    void "scrolling no element"() {
+        runCli('scrollsNoElement.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "personas searching"() {
         runCli('searchWithPersonas.groovy', 'webtau.cfg.groovy')
     }
@@ -331,6 +338,11 @@ class WebTauBrowserFeaturesTestBase {
     @Test
     void "ag grid multi select"() {
         runCli('agGridMultiSelect.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "screenshot of currently failed page"() {
+        runCli('failedAssertion.groovy', 'webtau.cfg.groovy')
     }
 
     private void runCli(String uiTestName, String configFileName) {

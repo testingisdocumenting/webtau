@@ -12,8 +12,8 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 @RunWith(WebTauRunner.class)
 public class CustomerCrudBeforeAfterJavaTest {
-    private Map<String, Object> customerPayload = createCustomerPayload();
-    private Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();
+    private final Map<String, Object> customerPayload = createCustomerPayload();
+    private final Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();
     private int customerId;
 
     @Before
@@ -44,11 +44,11 @@ public class CustomerCrudBeforeAfterJavaTest {
     @After
     public void deleteCustomer() {
         http.delete("/customers/" + customerId, (header, body) -> {
-            header.statusCode().should(equal(204));
+            header.statusCode.should(equal(204));
         });
 
         http.get("/customers/" + customerId, ((header, body) -> {
-            header.statusCode().should(equal(404));
+            header.statusCode.should(equal(404));
         }));
     }
 

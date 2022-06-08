@@ -1,0 +1,1 @@
+* Doc: add links to individual [Options and Environment Variables](configuration/options#browserHeight) and update default values

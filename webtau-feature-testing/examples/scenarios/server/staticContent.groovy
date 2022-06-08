@@ -18,24 +18,93 @@ package scenarios.server
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
+def expectedHtml = "<body>\n" +
+        "<p>hello</p>\n" +
+        "</body>"
+
 scenario("static content server") {
-    def server = server.serve("my-server", "data/staticcontent")
+    // static-server-create
+    def myServer = server.serve("my-server", "data/staticcontent")
+    // static-server-create
 
-    def expected = "<body>\n" +
-            "<p>hello</p>\n" +
-            "</body>"
-
-    http.get("http://localhost:${server.port}/hello.html") {
-        body.should == expected
+    http.get("http://localhost:${myServer.port}/hello.html") {
+        body.should == expectedHtml
     }
 
-    http.get("${server.baseUrl}/hello.html") {
-        body.should == expected
+    http.get("${myServer.baseUrl}/hello.html") {
+        body.should == expectedHtml
     }
 
-    server.setAsBaseUrl()
+    // static-server-json
+    http.get("${myServer.baseUrl}/data.json") {
+        body.type == "person"
+    }
+    // static-server-json
+
+    // static-server-html
+    browser.open("${myServer.baseUrl}/hello.html")
+    $("p").should == "hello"
+    // static-server-html
+
+    myServer.setAsBaseUrl()
     http.get("/hello.html") {
-        body.should == expected
+        body.should == expectedHtml
+    }
+}
+
+scenario("slow down") {
+    def staticServer = server.serve("my-server-slown-down", "data/staticcontent")
+
+    // mark-unresponsive
+    staticServer.markUnresponsive()
+
+    code {
+        http.get("${staticServer.baseUrl}/hello.html")
+    } should throwException(~/Read timed out/)
+    // mark-unresponsive
+
+    staticServer.fix()
+    http.get("${staticServer.baseUrl}/hello.html") {
+        body.should == expectedHtml
+    }
+}
+
+scenario("broken") {
+    def staticServer = server.serve("my-server-broken", "data/staticcontent")
+
+    // mark-broken
+    staticServer.markBroken()
+
+    http.get("${staticServer.baseUrl}/hello.html") {
+        statusCode.should == 500
+        body.should == null
+    }
+    // mark-broken
+
+    // mark-fix
+    staticServer.fix()
+    // mark-fix
+
+    http.get("${staticServer.baseUrl}/hello.html") {
+        body.should == expectedHtml
+    }
+}
+
+scenario("response override") {
+    def myServer = server.serve("my-server-override", "data/staticcontent")
+
+    // override-example
+    def router = server.router()
+            .get("/hello/:name") {request -> server.response([message: "hello ${request.param("name")}"]) }
+    myServer.addOverride(router)
+    // override-example
+
+    http.get("${myServer.baseUrl}/hello/world") {
+        message.should == "hello world"
+    }
+
+    http.get("${myServer.baseUrl}/hello.html") {
+        body.should == expectedHtml
     }
 }
 

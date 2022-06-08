@@ -57,7 +57,7 @@ public class WebDriverCreator {
                 tokenizedMessage(action("initializing"), classifier("webdriver"), FOR, id(BrowserConfig.getBrowserId())),
                 () -> tokenizedMessage(action("initialized"), classifier("webdriver"), FOR, id(BrowserConfig.getBrowserId())),
                 () -> {
-                    WebDriver driver = createDriver();
+                    WebDriver driver = createDriverWithAutoRetry();
                     initState(driver);
                     register(driver);
 
@@ -92,11 +92,28 @@ public class WebDriverCreator {
         WebDriverCreatorListeners.afterDriverQuit(driver);
     }
 
+    // after selenium 4 upgrade driver is not being created 100% of the time in GitHub CI
+    // maybe there is a hidden race condition in webtau feature tests
+    // for now we add auto retry
+    private static WebDriver createDriverWithAutoRetry() {
+        int numberOfAttempts = 5;
+        int attemptNumber = 1;
+        while (attemptNumber < numberOfAttempts) {
+            try {
+                return createDriver();
+            } catch (RuntimeException e) {
+                // ignore
+            }
+            attemptNumber++;
+        }
+
+        return createDriver();
+    }
+
     private static WebDriver createDriver() {
         return BrowserConfig.isRemoteDriver() ?
                 createRemoteDriver() :
                 createLocalDriver();
-
     }
 
     private static WebDriver createRemoteDriver() {

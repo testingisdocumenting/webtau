@@ -1,1 +1,1 @@
-cliPath = ['../scripts/more']
+cliPath = ['scripts/more']

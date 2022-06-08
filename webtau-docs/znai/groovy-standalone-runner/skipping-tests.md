@@ -25,3 +25,5 @@ Instead of `scenario`, use `dscenario` or `disabledScenario` to always skip a te
 Junit's `@Ignore` or `@Disabled`.
 
 :include-file: scenarios/concept/skipTests.groovy {title: "Disable tests"}
+
+Alternatively, if you name file as `<fileName>.disabled.groovy` WebTau will skip all the scenarios inside.  

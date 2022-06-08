@@ -19,7 +19,10 @@ package org.testingisdocumenting.webtau.runner.standalone
 
 import org.testingisdocumenting.webtau.TestFile
 import org.testingisdocumenting.webtau.TestListeners
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.reporter.WebTauReport
+import org.testingisdocumenting.webtau.reporter.WebTauReportName
 import org.testingisdocumenting.webtau.reporter.WebTauTestList
 import org.testingisdocumenting.webtau.reporter.WebTauTestMetadata
 import org.testingisdocumenting.webtau.time.Time
@@ -29,6 +32,8 @@ import java.util.concurrent.ForkJoinPool
 import java.util.concurrent.atomic.AtomicBoolean
 import java.util.function.Function
 import java.util.stream.Stream
+
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
 class StandaloneTestRunner {
     private RegisteredTests registeredTests
@@ -117,6 +122,11 @@ class StandaloneTestRunner {
     }
 
     void sscenario(String description, Closure code) {
+        if (isReplMode) {
+            scenario(description, code)
+            return
+        }
+
         handleDisabledByCondition(description, code) { test ->
             registeredTests.addExclusive(test)
         }
@@ -127,6 +137,11 @@ class StandaloneTestRunner {
     }
 
     void dscenario(String scenarioDescription, String reason, Closure scenarioCode) {
+        if (isReplMode) {
+            scenario(scenarioDescription, scenarioCode)
+            return
+        }
+
         def test = createTest(scenarioDescription, scenarioCode)
         test.disable(reason)
         registeredTests.add(test)
@@ -172,18 +187,34 @@ class StandaloneTestRunner {
 
     void resetAndWithListeners(Closure codeToRunTests) {
         isTerminated.set(false)
+
+        def beforeFirstTestAsTest = createBeforeFirstTestListenersAsTest()
+        def afterAllTestsAsTest = createAfterAllTestListenersAsTest()
+
         try {
             startTime = Time.currentTimeMillis()
             webTauTestList = new WebTauTestList()
 
-            runBeforeFirstTestListenersAsTest()
+            def allTestsToNotifyAbout = [
+                    beforeFirstTestAsTest.test,
+                    *getTests().collect { it.test },
+                    afterAllTestsAsTest.test]
+
+            TestListeners.afterTestsRegistration(allTestsToNotifyAbout)
+
+            boolean isSetupSuccessful = runBeforeFirstTestListenersAsTest(beforeFirstTestAsTest)
+            if (!isSetupSuccessful) {
+                notifySetupErrorAndSkipAllTheTests()
+                return
+            }
 
             codeToRunTests()
         } finally {
             endTime = Time.currentTimeMillis()
-            runAfterAllTestListenersAsTest()
+            runAfterAllTestListenersAsTest(afterAllTestsAsTest)
 
-            report = new WebTauReport(webTauTestList, startTime, endTime)
+            report = new WebTauReport(new WebTauReportName(cfg.getReportName(), cfg.getReportNameUrl()),
+                    webTauTestList, startTime, endTime)
         }
     }
 
@@ -195,12 +226,21 @@ class StandaloneTestRunner {
         return webTauTestList
     }
 
-    private void runBeforeFirstTestListenersAsTest() {
-        if (isReplMode && isBeforeFirstRan) {
-            return
+    private void notifySetupErrorAndSkipAllTheTests() {
+        registeredTests.getTestsAndExclusiveTestsStream().each { standaloneTest ->
+            handleTestAndNotifyListeners(standaloneTest) {
+                webTauTestList.add(standaloneTest.test)
+            }
         }
 
-        def beforeFirstTestAsTest = createBeforeFirstTestListenersAsTest()
+        ConsoleOutputs.out(Color.RED, "Setup has failed, skipping all the tests")
+        ConsoleOutputs.out()
+    }
+
+    private boolean runBeforeFirstTestListenersAsTest(StandaloneTest beforeFirstTestAsTest) {
+        if (isReplMode && isBeforeFirstRan) {
+            return true
+        }
 
         handleTestAndNotifyListeners(beforeFirstTestAsTest) {
             beforeFirstTestAsTest.run()
@@ -209,14 +249,14 @@ class StandaloneTestRunner {
         registerIfFailedOrHasSteps(beforeFirstTestAsTest)
 
         isBeforeFirstRan = true
+
+        return beforeFirstTestAsTest.isSucceeded()
     }
 
-    private void runAfterAllTestListenersAsTest() {
+    private void runAfterAllTestListenersAsTest(StandaloneTest afterAllTestsAsTest) {
         if (isReplMode) {
             return
         }
-
-        def afterAllTestsAsTest = createAfterAllTestListenersAsTest()
 
         handleTestAndNotifyListeners(afterAllTestsAsTest) {
             afterAllTestsAsTest.run()
@@ -271,13 +311,15 @@ class StandaloneTestRunner {
 
     private void handleDisabledByCondition(String scenarioDescription, Closure scenarioCode, Closure registrationCode) {
         def runCondition = runCondition.get()
-        if (runCondition.isConditionMet) {
+        def disabledByFileNameConvention = currentTestPath.fileName.toString().contains(".disabled.")
+
+        if (disabledByFileNameConvention || !runCondition.isConditionMet) {
+            dscenario(scenarioDescription, runCondition.skipReason, scenarioCode)
+        } else {
             def test = createTest(scenarioDescription, scenarioCode)
             test.test.metadata.add(currentTestMetadata.get())
 
             registrationCode(test)
-        } else {
-            dscenario(scenarioDescription, runCondition.skipReason, scenarioCode)
         }
     }
 

@@ -1,0 +1,1 @@
+* Server support for other than `application/json` content type responses 

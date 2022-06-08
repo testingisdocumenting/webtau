@@ -57,11 +57,11 @@ class HttpHeaderTest {
     }
 
     @Test
-    void "merge with map"() {
+    void "create new header with map"() {
         def header = new HttpHeader([
             'foo': 'bar'
         ])
-        def mergedHeader = header.merge(['other': 'value'])
+        def mergedHeader = header.with(['other': 'value'])
         mergedHeader.should == new HttpHeader([
             'foo': 'bar',
             'other': 'value'
@@ -76,7 +76,7 @@ class HttpHeaderTest {
         def otherHeader = new HttpHeader([
             'other': 'value'
         ])
-        def mergedHeader = header.merge(otherHeader)
+        def mergedHeader = header.with(otherHeader)
         mergedHeader.should == new HttpHeader([
             'foo': 'bar',
             'other': 'value'
@@ -88,6 +88,14 @@ class HttpHeaderTest {
         def header = HttpHeader.EMPTY
         def newHeader = header.with('foo', 'bar')
         newHeader.should == new HttpHeader(['foo': 'bar'])
+    }
+
+    @Test
+    void "build from empty header with multiple values"() {
+        def header = HttpHeader.EMPTY
+        def newHeader = header.with('h1', 'v1',
+                'h2', 'v2')
+        newHeader.should == new HttpHeader(['h1': 'v1', 'h2': 'v2'])
     }
 
     @Test

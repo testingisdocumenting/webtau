@@ -1,4 +1,4 @@
-Webtau provides `cli.` module to run and validate command line tools.
+WebTau provides `cli.` module to run and validate command line tools.
 Combine it with other modules to create powerful tests: use `cli` to run a tool, and 
 `http`, `graphql`, `browser`, or `db` to validate the outcome.
 

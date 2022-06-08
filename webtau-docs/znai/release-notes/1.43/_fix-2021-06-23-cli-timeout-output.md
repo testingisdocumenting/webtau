@@ -1,0 +1,1 @@
+* Fix: [cli.run](cli/foreground-command#run) now captures output in case of timeout

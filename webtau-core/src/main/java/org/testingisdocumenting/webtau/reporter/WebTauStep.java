@@ -49,7 +49,7 @@ public class WebTauStep {
     private WebTauStepInput input = WebTauStepInput.EMPTY;
     private WebTauStepOutput output = WebTauStepOutput.EMPTY;
 
-    private Supplier<WebTauStepOutput> outputSupplier = () -> WebTauStepOutput.EMPTY;
+    private Supplier<WebTauStepOutput> outputSupplier = null;
 
     private long startTime;
     private long elapsedTime;
@@ -203,6 +203,10 @@ public class WebTauStep {
         this.outputSupplier = outputSupplier;
     }
 
+    public void setOutput(WebTauStepOutput output) {
+        this.output = output;
+    }
+
     public WebTauStepOutput getOutput() {
         return output;
     }
@@ -299,7 +303,14 @@ public class WebTauStep {
             complete(completionMessageFunc.apply(result));
             stopClock();
 
-            output = outputSupplier.get();
+            if (!output.isEmpty() && outputSupplier != null) {
+                throw new IllegalStateException("output and outputSupplier is provided before test is executed, only one is allowed");
+            }
+
+            if (outputSupplier != null) {
+                output = outputSupplier.get();
+            }
+
             if (stepReportOptions != StepReportOptions.SKIP_ALL) {
                 StepReporters.onSuccess(this);
             }
@@ -309,7 +320,9 @@ public class WebTauStep {
             stopClock();
 
             fail(e);
-            output = outputSupplier.get();
+            if (outputSupplier != null) {
+                output = outputSupplier.get();
+            }
             StepReporters.onFailure(this);
             throw e;
         } finally {
@@ -414,6 +427,13 @@ public class WebTauStep {
             inputMap.put("type", input.getClass().getSimpleName());
             inputMap.put("data", input.toMap());
             result.put("input", inputMap);
+        }
+
+        if (output != WebTauStepOutput.EMPTY) {
+            Map<String, Object> outputMap = new LinkedHashMap<>();
+            outputMap.put("type", output.getClass().getSimpleName());
+            outputMap.put("data", output.toMap());
+            result.put("output", outputMap);
         }
 
         return result;

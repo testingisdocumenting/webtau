@@ -10,11 +10,11 @@ HTTP
     data-node
     headers
     query-parameters
+    HTTP-calls
     ping
-    files-upload
-    PDF
+    proxy
+    files
     documentation
-    complex-types
     openAPI-spec
     JSON-schema
     report
@@ -41,15 +41,27 @@ browser
     page-open-handlers
     finders-and-filters
     matchers
+servers
+    introduction
+    static-server
+    proxy-server
+    fake-server
+cli
+    introduction
+    foreground-command
+    background-command
+persona
+    introduction
+    HTTP-persona
+    CLI-persona
 database
     introduction
     data-setup
     data-query
     config
-cli
+report
     introduction
-    foreground-command
-    background-command
+    steps
 REPL
     experiments
     test-runs
@@ -58,6 +70,9 @@ utilities
     data
     file-system
     cache
+matchers
+    universal-compare
+    custom-compare-to-handler
 groovy-standalone-runner
     introduction
     data-driven-scenarios
@@ -68,7 +83,7 @@ groovy-standalone-runner
     test-listeners
     test-execution
 configuration
-    environments
+    groovy-config-file
     options
 generic-runners
     JUnit-4
@@ -78,3 +93,6 @@ JVM-business-logic
     documentation-artifacts
 reference
     table-data
+release-notes
+    2022
+    2021

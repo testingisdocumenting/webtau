@@ -24,6 +24,7 @@ import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.RegexpUtils;
 
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
 
@@ -44,6 +45,10 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAndDe
      * @return current file text content
      */
     public String getData() {
+        if (!Files.exists(path)) {
+            return null;
+        }
+
         return FileUtils.fileTextContent(path);
     }
 

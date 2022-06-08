@@ -1,0 +1,29 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "fake rest server",
+    "shortContainerId" : "fakeRest.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  }, {
+    "scenario" : "slow down",
+    "shortContainerId" : "fakeRest.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4,
+      "numberOfFailed" : 1
+    }
+  }, {
+    "scenario" : "broken",
+    "shortContainerId" : "fakeRest.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  } ],
+  "exitCode" : 0
+}

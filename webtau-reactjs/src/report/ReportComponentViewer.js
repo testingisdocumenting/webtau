@@ -35,6 +35,9 @@ import Loading from './loading/Loading';
 import { testSummaryDemo } from './details/TestSummary.demo';
 import { testCliBackgroundCallsDemo } from './details/cli/TestCliBackgroundCalls.demo';
 import { aggregatedOperationsPerformanceTableDemo } from './perf/AggregatedOperationsPerformanceTable.demo';
+import { testServerJournalsDemo } from './details/servers/TestServerJournals.demo';
+import { sourceCodeDemo } from './snippet/SourceCode.demo';
+import { testsPerformanceDemo } from './summary/TestsPerformance.demo';
 
 const registries = new Registries();
 
@@ -43,7 +46,8 @@ registries
   .registerAsRows('table', sortableTableDemo)
   .registerAsRows('card with elapsed time', cardWithElapsedTimeDemo)
   .registerAsRows('card list', cardListDemo)
-  .registerAsRows('test error message', testErrorMessageDemo);
+  .registerAsRows('test error message', testErrorMessageDemo)
+  .registerAsRows('code snippet', sourceCodeDemo);
 
 registries.add('core').registerAsGrid('steps', 0, stepsDemo).registerAsGrid('test metadata', 0, testMetadataDemo);
 
@@ -59,7 +63,12 @@ registries
   .registerAsTabs('cli calls', testCliCallsDemo)
   .registerAsTabs('cli background calls', testCliBackgroundCallsDemo);
 
-registries.add('panels').registerAsTabs('test summary', testSummaryDemo);
+registries.add('server').registerAsTabs('server calls', testServerJournalsDemo);
+
+registries
+  .add('panels')
+  .registerAsTabs('test summary', testSummaryDemo)
+  .registerAsTabs('tests performance', testsPerformanceDemo);
 
 registries
   .add('full reports')

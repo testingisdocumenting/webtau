@@ -1,0 +1,1 @@
+* Implemented `markBroken` on static, proxy and fake servers

@@ -1,0 +1,1 @@
+* Improved code snippet rendering in web report

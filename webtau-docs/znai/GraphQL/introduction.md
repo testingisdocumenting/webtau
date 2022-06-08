@@ -1,4 +1,4 @@
-The Webtau `graphql.` module lets you exercise and validate a GraphQL API.
+WebTau `graphql.` module lets you exercise and validate a GraphQL API.
 It provides a simplified way to access the JSON response of an end-point and provides a DSL to execute queries and mutations.
 
 ``````tabs

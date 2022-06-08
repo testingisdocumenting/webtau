@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.featuretesting
 import org.junit.BeforeClass
 import org.junit.Test
 
+import static org.testingisdocumenting.webtau.cli.CliTestUtils.linuxOnly
 import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly
 import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
@@ -107,6 +108,15 @@ class WebTauCliFeaturesTest {
     }
 
     @Test
+    void "run config with global working dir "() {
+        supportedPlatformOnly {
+            testRunner.runCliWithWorkingDir("../../examples/scenarios/cli/cliRunConfigGlobalWorkingDir.groovy",
+                    'examples/scripts',
+                    "scenarios/cli/webtau.cfg.groovy")
+        }
+    }
+
+    @Test
     void "run config extract snippets"() {
         extractCodeSnippets(
                 'foreground-cli-cfg', 'examples/scenarios/cli/cliRunConfig.groovy', [
@@ -128,6 +138,22 @@ class WebTauCliFeaturesTest {
                 'workingDir.groovy': 'working dir',
                 'envVar.groovy': 'environment var',
                 'envVarAndWorkingDir.groovy': 'env var and working dir'
+        ])
+    }
+
+    @Test
+    void "common env vars"() {
+        runCli('cliCommonEnvVars.groovy', 'webtau-cli-env-vars.cfg.groovy')
+    }
+
+    @Test
+    void "common env vars extract code snippets"() {
+        extractCodeSnippets(
+                'common-env-vars', 'examples/scenarios/cli/cliCommonEnvVars.groovy', [
+                'foreground.groovy': 'foreground process var from config',
+                'background.groovy': 'background process var from config',
+                'personaOverridesForeground.groovy': 'persona foreground process var from config',
+                'personaOverridesBackground.groovy': 'persona background process var from config',
         ])
     }
 
@@ -156,9 +182,21 @@ class WebTauCliFeaturesTest {
         runCli('cliTimeoutLocalOverride.groovy', 'webtau-cli-timeout-large.cfg.groovy')
     }
 
-    private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
+    @Test
+    void "linux shell source"() {
+        linuxOnly {
+            runCli('linuxShell.groovy', 'webtau.cfg.groovy')
+        }
+    }
+
+    @Test
+    void "parallel cli run execution"() {
+        runCli('parallel', 'webtau.parallel.cfg.groovy', "--parallel")
+    }
+
+    private static void runCli(String cliTestName, String configFileName, String... additionalArgs) {
         supportedPlatformOnly {
-            testRunner.runCli("scenarios/cli/$restTestName",
+            testRunner.runCli("scenarios/cli/$cliTestName",
                     "scenarios/cli/$configFileName", additionalArgs)
         }
     }

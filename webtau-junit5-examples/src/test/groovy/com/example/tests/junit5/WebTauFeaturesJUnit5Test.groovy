@@ -54,7 +54,22 @@ class WebTauFeaturesJUnit5Test {
     }
 
     @Test
+    void implicitJavaHeader() {
+        testRunner.runAndValidate(HttpImplicitJavaTest, testServer.uri.toString())
+    }
+
+    @Test
     void searchByQuery() {
         testRunner.runAndValidate(WebSearchJavaTest, testServer.uri.toString())
+    }
+
+    @Test
+    void browserCookies() {
+        testRunner.runAndValidate(BrowserCookieJavaTest, testServer.uri.toString())
+    }
+
+    @Test
+    void browserLocalStorage() {
+        testRunner.runAndValidate(BrowserLocalStorageJavaTest, testServer.uri.toString())
     }
 }

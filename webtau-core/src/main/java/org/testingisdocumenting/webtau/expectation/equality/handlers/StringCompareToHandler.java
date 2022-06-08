@@ -23,12 +23,9 @@ import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.ACTUAL_PREFIX;
-import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.expected;
-import static org.testingisdocumenting.webtau.utils.TraceUtils.renderType;
-import static org.testingisdocumenting.webtau.utils.TraceUtils.renderValueAndType;
+import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.*;
+import static org.testingisdocumenting.webtau.utils.TraceUtils.*;
 
 public class StringCompareToHandler implements CompareToHandler {
     @Override
@@ -129,10 +126,15 @@ public class StringCompareToHandler implements CompareToHandler {
         private String renderActualExpected() {
             if (actualLines.length == 1 && expectedLines.length == 1) {
                 int indexOfFirstMismatch = indexOfFirstMismatch(actualString, expectedString);
-                return ACTUAL_PREFIX + renderValueAndType(actualString) + additionalTypeInfo(actual, actualString) + "\n" +
+
+                int assertionModePaddingSize = assertionModePaddingSize();
+                return ACTUAL_PREFIX + renderValueAndTypeWithPadding(
+                        assertionModePaddingSize,
+                        actualString) +
+                        additionalTypeInfo(actual, actualString) + "\n" +
                         expected(compareToComparator.getAssertionMode(), renderValueAndType(expectedString) +
                                 additionalTypeInfo(expected, expectedString)) +
-                        renderCaretIfRequired(ACTUAL_PREFIX, true, indexOfFirstMismatch);
+                        renderCaretIfRequired(ACTUAL_PREFIX, true, indexOfFirstMismatch + assertionModePaddingSize);
             } else {
                 return ACTUAL_PREFIX + renderType(actualString) + additionalTypeInfo(actual, actualString) + "\n" +
                         renderMultilineString(actualString) + "\n" +
@@ -140,6 +142,16 @@ public class StringCompareToHandler implements CompareToHandler {
                                 additionalTypeInfo(expected, expectedString)) +
                         renderMultilineString(expectedString);
             }
+        }
+
+        // we need to pad actual string to match number of spaces from expected assertionMode rendered
+        // to make caret that shows first mismatch aligned
+        //   actual:     "hello"
+        // expected: not "help"
+        //                   ^
+        private int assertionModePaddingSize() {
+            int modeLength = compareToComparator.getAssertionMode().getMessage().length();
+            return modeLength > 0 ? modeLength + 1 /* space */: 0;
         }
 
         private String renderFirstLineMismatch() {
@@ -153,9 +165,9 @@ public class StringCompareToHandler implements CompareToHandler {
                 String expectedLine = expectedLines[idx];
                 if (!actualLine.equals(expectedLine)) {
                     return "first mismatch at line idx " + idx + ":\n" +
-                            actualLine + "\n" +
-                            expectedLine + "\n" +
-                            renderCaretIfRequired("", false,
+                            ACTUAL_PREFIX + actualLine + "\n" +
+                            EXPECTED_PREFIX + expectedLine + "\n" +
+                            renderCaretIfRequired(ACTUAL_PREFIX, false,
                                     indexOfFirstMismatch(actualLine, expectedLine));
                 }
             }
@@ -176,9 +188,9 @@ public class StringCompareToHandler implements CompareToHandler {
             mismatchDetails.add(message);
         }
 
-        private String renderCaretIfRequired(String prefix, boolean adjustForQuote, int idx) {
+        private String renderCaretIfRequired(String prefixAdjustment, boolean adjustForQuote, int idx) {
             return idx != -1 ? String.format("%" + (idx + (adjustForQuote ? 1 : 0) + 1 /*for 0-based index*/ +
-                    prefix.length()) + "s", "^") : "";
+                    prefixAdjustment.length()) + "s", "^") : "";
         }
 
         private String createLongestLineUnderscore() {

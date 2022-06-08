@@ -31,6 +31,6 @@ org.testingisdocumenting.webtau.expectation.equality.handlers.IterableCompareToH
 org.testingisdocumenting.webtau.expectation.equality.handlers.RecordAndMapCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.MapAndBeanCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.MapsCompareToHandler
-org.testingisdocumenting.webtau.expectation.equality.handlers.DateAndStringCompareToHandler
+org.testingisdocumenting.webtau.expectation.equality.handlers.DatesCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.ValueMatcherCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.NumberAndStringCompareToHandler

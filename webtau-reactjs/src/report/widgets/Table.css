@@ -1,4 +1,5 @@
 /*
+ * Copyright 2021 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,29 +17,56 @@
 
 .table {
     width: 100%;
-    background-color: #fff;
-    box-shadow:var(--webtau-card-shadow);
-    border: 1px solid var(--webtau-card-border-color);
+
+    color: var(--webtau-text-color);
+    background-color: var(--webtau-table-body-background-color);
+
+    border: 1px solid var(--webtau-table-border-color);
     border-collapse: collapse;
 }
 
 .table th {
-    color: #979da9;
+    background-color: var(--webtau-table-header-background-color);
 
     text-align: left;
 
     font-weight: normal;
     text-transform: uppercase;
-    border-bottom:  1px solid #dce0e4;
+    border-bottom:  1px solid var(--webtau-table-border-color);
 }
 
 .table td {
-    color: #555;
-
-    border-bottom:  1px solid #dce0e4;
+    border-bottom:  1px solid var(--webtau-table-border-color);
 }
 
 .table td,
 .table th {
     padding: 0.75rem;
+}
+
+.webtau-method-cell {
+    color: var(--webtau-text-light-color);
+    text-align: right;
+    margin-right: 15px;
+}
+
+.webtau-status-code-cell {
+    color: var(--webtau-property-key-color);
+    margin-right: var(--webtau-spacing-double);
+    text-align: right;
+}
+
+.webtau-url-cell {
+    color: var(--webtau-url-color);
+    max-width: 0;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    margin-right: var(--webtau-spacing-double);
+    cursor: auto;
+}
+
+.expanded  > .webtau-url-cell {
+    white-space: normal;
+    overflow: visible;
 }
