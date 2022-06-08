@@ -72,6 +72,7 @@ utilities
     cache
 matchers
     universal-compare
+    any-of
     custom-compare-to-handler
 groovy-standalone-runner
     introduction

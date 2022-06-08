@@ -40,6 +40,6 @@ public class DatesCompareToHandlerJavaExamplesTest {
     public void shouldCompareLocalDateAgainstLocalDateTime() {
         LocalDateTime withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4);
         LocalDate withDate = LocalDate.of(2022, 3, 16);
-        actual(withTime).should(equal(withDate)); // comparison ignores time portion
+        actual(withTime).should(equal(withDate)); // comparison ignores time portion when not provided
     }
 }
