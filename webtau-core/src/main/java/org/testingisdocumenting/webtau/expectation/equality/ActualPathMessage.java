@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,9 +21,9 @@ import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 public class ActualPathMessage {
-    private ActualPath actualPath;
-    private String message;
-    private String fullMessage;
+    private final ActualPath actualPath;
+    private final String message;
+    private final String fullMessage;
 
     public ActualPathMessage(ActualPath actualPath, String message) {
         this.actualPath = actualPath;

@@ -42,6 +42,6 @@ class DatesCompareToHandlerGroovyExamplesTest {
     void "should compare local date against local date time"() {
         def withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4)
         def dateOnly = LocalDate.of(2022, 3, 16)
-        withTime.should == dateOnly // comparison ignores time portion
+        withTime.should == dateOnly // comparison ignores time portion when not provided
     }
 }

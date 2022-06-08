@@ -40,9 +40,9 @@ class ValueMatcherCompareToHandlerTest {
         CompareToComparator comparator = CompareToComparator.comparator()
         assert comparator.compareIsEqual(actualPath, 100, new DummyValueMatcher(true))
 
-        assertEquals('matches:\n' +
-            '\n' +
-            'value: matchedMessage', comparator.generateEqualMatchReport())
+        assertEquals("matches:\n" +
+            "\n" +
+            "value: matchedMessage", comparator.generateEqualMatchReport())
     }
 
     @Test
@@ -50,9 +50,10 @@ class ValueMatcherCompareToHandlerTest {
         CompareToComparator comparator = CompareToComparator.comparator()
         assert !comparator.compareIsEqual(actualPath, 100, new DummyValueMatcher(false))
 
-        assertEquals('mismatches:\n' +
-            '\n' +
-            'value: mismatchedMessage', comparator.generateEqualMismatchReport())
+        assertEquals("mismatches:\n" +
+            "\n" +
+            "value: matchingMessage:\n" +
+                "       mismatchedMessage", comparator.generateEqualMismatchReport())
     }
 
     @Test
@@ -60,9 +61,9 @@ class ValueMatcherCompareToHandlerTest {
         CompareToComparator comparator = CompareToComparator.comparator()
         assert comparator.compareIsNotEqual(actualPath, 100, new DummyValueMatcher(true))
 
-        assertEquals('mismatches:\n' +
-            '\n' +
-            'value: negativeMatchedMessage', comparator.generateEqualMismatchReport())
+        assertEquals("mismatches:\n" +
+            "\n" +
+            "value: negativeMatchedMessage", comparator.generateEqualMismatchReport())
     }
 
     @Test
@@ -70,25 +71,26 @@ class ValueMatcherCompareToHandlerTest {
         CompareToComparator comparator = CompareToComparator.comparator()
         assert !comparator.compareIsNotEqual(actualPath, 100, new DummyValueMatcher(false))
 
-        assertEquals('matches:\n' +
-            '\n' +
-            'value: negativeMismatchedMessage', comparator.generateEqualMatchReport())
+        assertEquals("matches:\n" +
+            "\n" +
+            "value: negativeMatchingMessage:\n" +
+                "       negativeMismatchedMessage", comparator.generateEqualMatchReport())
     }
 
     @Test
     void "should work in combination with contain matcher"() {
         code {
             actual([1, 3, 8]).shouldNot(contain(greaterThan(7)))
-        } should(throwException('\n[value] expects to not contain <greater than 7>\n' +
-            '[value][2]: equals 8'))
+        } should(throwException("\n[value] expects to not contain <greater than 7>\n" +
+            "[value][2]: equals 8"))
     }
 
     @Test
     void "should work in combination with nested contain matcher"() {
-        actual(['hello', 'world', 'of matchers']).should(contain(containing('of')))
+        actual(["hello", "world", "of matchers"]).should(contain(containing("of")))
 
         code {
-            actual(['hello', 'world', 'of matchers']).shouldNot(contain(containing('of')))
+            actual(["hello", "world", "of matchers"]).shouldNot(contain(containing("of")))
         } should(throwException('\n[value] expects to not contain <contain "of">\n' +
             '[value][2]: equals "of matchers"'))
     }
@@ -102,17 +104,17 @@ class ValueMatcherCompareToHandlerTest {
 
         @Override
         String matchingMessage() {
-            return null
+            return "matchingMessage"
         }
 
         @Override
         String matchedMessage(ActualPath actualPath, Object actual) {
-            return 'matchedMessage'
+            return "matchedMessage"
         }
 
         @Override
         String mismatchedMessage(ActualPath actualPath, Object actual) {
-            return 'mismatchedMessage'
+            return "mismatchedMessage"
         }
 
         @Override
@@ -122,17 +124,17 @@ class ValueMatcherCompareToHandlerTest {
 
         @Override
         String negativeMatchingMessage() {
-            return null
+            return "negativeMatchingMessage"
         }
 
         @Override
         String negativeMatchedMessage(ActualPath actualPath, Object actual) {
-            return 'negativeMatchedMessage'
+            return "negativeMatchedMessage"
         }
 
         @Override
         String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
-            return 'negativeMismatchedMessage'
+            return "negativeMismatchedMessage"
         }
 
         @Override
