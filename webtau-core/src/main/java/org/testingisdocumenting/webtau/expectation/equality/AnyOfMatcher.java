@@ -39,12 +39,12 @@ public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String matchingMessage() {
-        return "to equal any of " + DataRenderers.render(expectedList);
+        return "to match any of " + DataRenderers.render(expectedList);
     }
 
     @Override
     public String matchedMessage(ActualPath actualPath, Object actual) {
-        return "equals any of " + DataRenderers.render(expectedList) + "\n" +
+        return "matches any of " + DataRenderers.render(expectedList) + "\n" +
                 comparator.generateEqualMatchReport();
     }
 
@@ -67,12 +67,12 @@ public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String negativeMatchingMessage() {
-        return "to not equal any of " + DataRenderers.render(expectedList);
+        return "to not match any of " + DataRenderers.render(expectedList);
     }
 
     @Override
     public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
-        return "doesn't equal any of " + DataRenderers.render(expectedList) + "\n" +
+        return "doesn't match any of " + DataRenderers.render(expectedList) + "\n" +
                 comparator.generateNotEqualMatchReport();
     }
 

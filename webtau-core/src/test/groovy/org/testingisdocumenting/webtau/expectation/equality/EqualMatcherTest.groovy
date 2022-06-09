@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.expectation.equality
 
 import org.testingisdocumenting.webtau.expectation.ActualPath
 import org.junit.Test
+import org.testingisdocumenting.webtau.expectation.ValueMatcher
 
 import static org.testingisdocumenting.webtau.expectation.equality.ActualExpectedTestReportExpectations.simpleActualExpectedWithIntegers
 
@@ -69,5 +70,64 @@ class EqualMatcherTest {
     @Test
     void "negative matching message"() {
         assert matcher.negativeMatchingMessage() == "to not equal $expected"
+    }
+
+    @Test
+    void "delegates to value matcher as expected to streamline messages"() {
+        int actual = 8
+        EqualMatcher matcher = new EqualMatcher(new DummyMatcher())
+
+        assert matcher.matchingMessage() == "matchingMessage"
+        assert matcher.matchedMessage(actualPath, actual) == "matchedMessage:value:8"
+        assert matcher.mismatchedMessage(actualPath, actual) == "mismatchedMessage:value:8"
+
+        assert matcher.negativeMatchingMessage() == "negativeMatchingMessage"
+        assert matcher.negativeMatchedMessage(actualPath, actual) == "negativeMatchedMessage:value:8"
+        assert matcher.negativeMismatchedMessage(actualPath, actual) == "negativeMismatchedMessage:value:8"
+
+        assert matcher.matches(actualPath, actual)
+        assert matcher.negativeMatches(actualPath, actual)
+    }
+
+    private static class DummyMatcher implements ValueMatcher {
+        @Override
+        String matchingMessage() {
+            return "matchingMessage"
+        }
+
+        @Override
+        String matchedMessage(ActualPath actualPath, Object actual) {
+            return "matchedMessage:" + actualPath + ":" + actual
+        }
+
+        @Override
+        String mismatchedMessage(ActualPath actualPath, Object actual) {
+            return "mismatchedMessage:" + actualPath + ":" + actual
+        }
+
+        @Override
+        boolean matches(ActualPath actualPath, Object actual) {
+            return true
+        }
+
+        @Override
+        String negativeMatchingMessage() {
+            return "negativeMatchingMessage"
+        }
+
+        @Override
+        String negativeMatchedMessage(ActualPath actualPath, Object actual) {
+            return "negativeMatchedMessage:" + actualPath + ":" + actual
+        }
+
+        @Override
+        String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
+            return "negativeMismatchedMessage:" + actualPath + ":" + actual
+        }
+
+        @Override
+        boolean negativeMatches(ActualPath actualPath, Object actual) {
+            return true
+        }
     }
 }

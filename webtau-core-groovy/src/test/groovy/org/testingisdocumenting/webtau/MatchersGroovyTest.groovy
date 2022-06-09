@@ -60,16 +60,16 @@ class MatchersGroovyTest {
     @Test
     void "any of matcher example"() {
         def dateAsText = "2018-06-10"
-        dateAsText.shouldBe anyOf("2018-06-11", LocalDate.of(2018, 6, 10))
+        dateAsText.should == anyOf("2018-06-11", LocalDate.of(2018, 6, 10))
     }
 
     @Test
     void "any of matcher with other matcher example"() {
         def dateAsText = "2018-06-10"
-        dateAsText.shouldBe anyOf("2018-06-11", greaterThan(LocalDate.of(2018, 1, 1)))
+        dateAsText.should == anyOf("2018-06-11", greaterThan(LocalDate.of(2018, 1, 1)))
 
         def message = "hello world"
-        message.shouldNotBe anyOf("hello", contain("super"))
+        message.shouldNot == anyOf("hello", contain("super"))
     }
 
     private static String generateErrorMessage() {
