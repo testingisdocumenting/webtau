@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,62 +27,106 @@ import java.util.stream.Stream;
 public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     private CompareToComparator comparator;
     private final Object expected;
+    private final ValueMatcher expectedMatcher;
 
     public EqualMatcher(Object expected) {
         this.expected = expected;
+        this.expectedMatcher = expected instanceof ValueMatcher ?
+                (ValueMatcher) expected :
+                null;
     }
 
     @Override
     public String matchingMessage() {
+        if (expectedMatcher != null) {
+            return expectedMatcher.matchingMessage();
+        }
+
         return "to equal " + DataRenderers.render(expected);
     }
 
     @Override
     public String matchedMessage(ActualPath actualPath, Object actual) {
+        if (expectedMatcher != null) {
+            return expectedMatcher.matchedMessage(actualPath, actual);
+        }
+
         return "equals " + DataRenderers.render(expected) + "\n" +
                 comparator.generateEqualMatchReport();
     }
 
     @Override
     public String mismatchedMessage(ActualPath actualPath, Object actual) {
+        if (expectedMatcher != null) {
+            return expectedMatcher.mismatchedMessage(actualPath, actual);
+        }
+
         return comparator.generateEqualMismatchReport();
     }
 
     @Override
     public boolean matches(ActualPath actualPath, Object actual) {
+        if (expectedMatcher != null) {
+            return expectedMatcher.matches(actualPath, actual);
+        }
+
         comparator = CompareToComparator.comparator();
         return comparator.compareIsEqual(actualPath, actual, expected);
     }
 
     @Override
     public String negativeMatchingMessage() {
+        if (expectedMatcher != null) {
+            return expectedMatcher.negativeMatchingMessage();
+        }
+
         return "to not equal " + DataRenderers.render(expected);
     }
 
     @Override
     public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
+        if (expectedMatcher != null) {
+            return expectedMatcher.negativeMatchedMessage(actualPath, actual);
+        }
+
         return "doesn't equal " + DataRenderers.render(expected) + "\n" +
                 comparator.generateNotEqualMatchReport();
     }
 
     @Override
     public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
+        if (expectedMatcher != null) {
+            return expectedMatcher.negativeMismatchedMessage(actualPath, actual);
+        }
+
         return comparator.generateNotEqualMismatchReport();
     }
 
     @Override
     public boolean negativeMatches(ActualPath actualPath, Object actual) {
+        if (expectedMatcher != null) {
+            return expectedMatcher.negativeMatches(actualPath, actual);
+        }
+
         comparator = CompareToComparator.comparator();
         return comparator.compareIsNotEqual(actualPath, actual, expected);
     }
 
     @Override
     public String toString() {
+        if (expectedMatcher != null) {
+            return expectedMatcher.toString();
+        }
+
         return EqualNotEqualMatcherRenderer.render(this, comparator, expected);
     }
 
     @Override
     public Stream<Object> expectedValues() {
+        if (expectedMatcher instanceof ExpectedValuesAware) {
+            return ((ExpectedValuesAware) expectedMatcher).expectedValues();
+        }
+
         return Stream.of(expected);
     }
 }
