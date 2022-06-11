@@ -86,8 +86,7 @@ Java:
   bodyOnly: true}
 ```
 
-
-# Mime Type Combined With Payload
+# Content Type Shortcut 
 
 Use `http.body` to combine `Content-Type` and payload.
 
@@ -96,20 +95,7 @@ Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.gro
 Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {title: "combined type and payload", entry: "explicitBinaryMimeTypesCombinedWithRequestBody", bodyOnly: true}
 ```
 
-Standard types have shortcuts  
-
-```tabs
-Groovy:
- 
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {title: "binary content shortuct", entry: "post implicit binary mime types combined with request body", bodyOnly: true}
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {title: "text content shortcut", entry: "implicit text mime types combined with request body", bodyOnly: true}
-
-Java: 
-
-:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {title: "combined type and payload", entry: "postImplicitBinaryMimeTypesCombinedWithRequestBody", bodyOnly: true}
-:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {title: "combined type and payload", entry: "postImplicitTextMimeTypesCombinedWithRequestBody", bodyOnly: true}
-```
-
+More examples are in [HTTP Body Standard Shortcuts](HTTP/body#standard-shortcuts)
   
 # Response Header
 

@@ -1,0 +1,1 @@
+* Doc: consolidate and introduce [HTTP Body](HTTP/body) page 

@@ -1,3 +1,70 @@
+# JSON Request
+
+Methods `http.post`, `http.put`, `http.delete` automatically converts `java.util.Map` or `java.util.List` into 
+`application/json` request 
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyOverloadsTest.groovy {
+  title: "implicit application/json",
+  entry: "post body only syntax example",
+  bodyOnly: true
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaOverloadsTest.java {
+  title: "implicit application/json",
+  entry: "postBodyOnlySyntaxExample", 
+  bodyOnly: true
+}
+```
+
+# Generic Request
+
+Use `http.body` to create generic body request.
+
+```tabs
+Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {title: "combined type and payload", entry: "explicit binary mime types combined with request body", bodyOnly: true}
+Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {title: "combined type and payload", entry: "explicitBinaryMimeTypesCombinedWithRequestBody", bodyOnly: true}
+```
+
+
+# Standard Shortcuts
+
+WebTau provides shortcuts for Standard MIME types
+
+```tabs
+Groovy:
+ 
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "binary content shortuct", 
+  entry: "shortcut binary mime types combined with request body", 
+  bodyOnly: true
+}
+
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "text content shortcut", 
+  entry: "shortcut text mime types combined with request body", 
+  bodyOnly: true
+}
+
+Java: 
+
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "binary content shortuct", 
+  entry: "shortcutBinaryMimeTypesCombinedWithRequestBody", 
+  bodyOnly: true
+}
+
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "text content shortcut", 
+  entry: "shortcutTextMimeTypesCombinedWithRequestBody", 
+  bodyOnly: true
+}
+```
+
+
+
 # Parsed Response 
 
 Special [Data Node](HTTP/data-node) `body` represents parsed response. Use it to validate response values.

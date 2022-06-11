@@ -82,8 +82,8 @@ public class Http {
 
     private final ThreadLocal<HttpValidationResult> lastValidationResult = new ThreadLocal<>();
 
-    public HttpApplicationMime application = new HttpApplicationMime();
-    public HttpTextMime text = new HttpTextMime();
+    public final HttpApplicationMime application = new HttpApplicationMime();
+    public final HttpTextMime text = new HttpTextMime();
 
     public boolean ping(String url) {
         return ping(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY);
