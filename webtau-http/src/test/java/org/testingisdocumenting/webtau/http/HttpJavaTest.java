@@ -57,6 +57,15 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
+    public void canReturnComplexValueFromGet() {
+        Map<String, ?> bodyAsMap = http.get("/end-point", ((header, body) -> {
+            return body;
+        }));
+
+        System.out.println(bodyAsMap);
+    }
+
+    @Test
     public void childrenKeyShortcut() {
         http.get("/end-point", ((header, body) -> {
             body.get("complexList").get("k2").should(equal(Arrays.asList(30, 40)));
@@ -526,6 +535,20 @@ public class HttpJavaTest extends HttpTestBase {
             header.contentLength.shouldBe(greaterThan(300));
             header.get("Content-Length").shouldBe(greaterThan(300));
         });
+    }
+
+    @Test
+    public void accessToRawTextContent() {
+        // doc-snippet
+        String rawContent = http.post("/chat", aMapOf("message", "hello world"), (header, body) -> {
+            return body.getTextContent();
+        });
+        // doc-snippet
+
+        actual(rawContent).should(equal("{\n" +
+                "  \"id\": \"id1\",\n" +
+                "  \"status\": \"SUCCESS\"\n" +
+                "}"));
     }
 
     private static byte[] binaryFileContent(String path) {
