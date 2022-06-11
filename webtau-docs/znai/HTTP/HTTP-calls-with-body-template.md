@@ -5,7 +5,7 @@ http.${method}(url, [queryParams], [header], [body], [validationBlock])
 ```api-parameters
 url, String, [relative](getting-started/configuration#config-file) or absolute URL to send `GET` request to
 queryParams, HttpQueryParams | Map, [query parameters](HTTP/query-parameters) to attach to URL 
-header, HttpHeader, [request header](HTTP/headers) to send 
+header, HttpHeader, [request header](HTTP/header) to send 
 body, HttpRequestBody | Map | List, request body to send with a request 
 validationBlock, HttpResponseValidator, validation block of code to [assert](HTTP/matchers) and access response body and header
 ```

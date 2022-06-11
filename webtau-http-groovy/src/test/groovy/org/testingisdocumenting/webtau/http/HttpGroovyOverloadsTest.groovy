@@ -668,6 +668,13 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
     }
 
     @Test
+    void "get only validation with body syntax example"() {
+        http.get("/query") {
+            body.price.should == 100
+        }
+    }
+
+    @Test
     void "get only syntax example"() {
         http.get("/query")
     }

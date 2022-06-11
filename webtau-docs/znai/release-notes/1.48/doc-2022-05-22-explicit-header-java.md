@@ -1,1 +1,1 @@
-* Doc: add java examples for [explicit header creation](HTTP/headers#explicit-header) and example `.with` usage
+* Doc: add java examples for [explicit header creation](HTTP/header#explicit-header) and example `.with` usage

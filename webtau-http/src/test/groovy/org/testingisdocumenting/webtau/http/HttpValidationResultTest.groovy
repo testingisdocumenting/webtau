@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,6 +23,7 @@ import org.testingisdocumenting.webtau.http.binary.BinaryRequestBody
 import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId
 import org.testingisdocumenting.webtau.http.datanode.StructuredDataNode
+import org.testingisdocumenting.webtau.http.validation.BodyDataNode
 import org.testingisdocumenting.webtau.http.validation.HeaderDataNode
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 import org.testingisdocumenting.webtau.persona.Persona
@@ -53,7 +55,7 @@ class HttpValidationResultTest {
 
         def validationResult = createValidationResult(null)
         validationResult.setResponse(new HttpResponse(textContent: responseAsJson, contentType: 'application/json', statusCode: 200))
-        validationResult.setResponseBodyNode(n)
+        validationResult.setResponseBodyNode(new BodyDataNode(null, n))
 
         validationResult.toMap().should == [
                 *: commonExpectation,
@@ -71,7 +73,7 @@ class HttpValidationResultTest {
         def validationResult = createValidationResult(BinaryRequestBody.withType('application/octet-stream', binaryContent))
 
         validationResult.setResponse(new HttpResponse(binaryContent: binaryContent, contentType: 'application/octet-stream', statusCode: 200))
-        validationResult.setResponseBodyNode(binaryNode)
+        validationResult.setResponseBodyNode(new BodyDataNode(null, binaryNode))
 
         validationResult.toMap().should == [
                 *: commonExpectation,

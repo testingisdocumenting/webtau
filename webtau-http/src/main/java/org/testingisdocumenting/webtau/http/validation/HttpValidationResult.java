@@ -59,7 +59,7 @@ public class HttpValidationResult implements WebTauStepOutput {
 
     private HttpResponse response;
     private HeaderDataNode responseHeaderNode;
-    private DataNode responseBodyNode;
+    private BodyDataNode responseBodyNode;
     private long startTime;
 
     private boolean elapsedTimeCalculated = false;
@@ -107,7 +107,7 @@ public class HttpValidationResult implements WebTauStepOutput {
         this.responseHeaderNode = responseHeader;
     }
 
-    public void setResponseBodyNode(DataNode responseBody) {
+    public void setResponseBodyNode(BodyDataNode responseBody) {
         this.responseBodyNode = responseBody;
     }
 
@@ -230,7 +230,7 @@ public class HttpValidationResult implements WebTauStepOutput {
         return responseHeaderNode;
     }
 
-    public DataNode getBodyNode() {
+    public BodyDataNode getBodyNode() {
         return responseBodyNode;
     }
 
