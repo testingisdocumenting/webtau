@@ -1287,6 +1287,20 @@ class HttpGroovyTest extends HttpTestBase {
         }
     }
 
+    @Test
+    void "access to raw text content"() {
+        // doc-snippet
+        def rawContent = http.post("/chat", [message: "hello world"]) {
+            return body.getTextContent()
+        }
+        // doc-snippet
+
+        rawContent.should == "{\n" +
+                "  \"id\": \"id1\",\n" +
+                "  \"status\": \"SUCCESS\"\n" +
+                "}"
+    }
+
     private static void assertStatusCodeMismatchRegistered() {
         http.lastValidationResult.mismatches.should contain(~/statusCode/)
     }

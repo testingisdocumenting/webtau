@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.graphql
 import org.testingisdocumenting.webtau.http.HttpHeader
 import org.testingisdocumenting.webtau.http.datanode.DataNode
 import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
+import org.testingisdocumenting.webtau.http.validation.BodyDataNode
 import org.testingisdocumenting.webtau.http.validation.HeaderDataNode
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn
 
@@ -59,7 +60,7 @@ class GraphQLExtensions {
     private static HttpResponseValidatorWithReturn closureToHttpResponseValidator(String query, String operationName, validation) {
         return new HttpResponseValidatorWithReturn() {
             @Override
-            def validate(final HeaderDataNode header, final DataNode body) {
+            def validate(final HeaderDataNode header, final BodyDataNode body) {
                 def cloned = validation.clone() as Closure
                 cloned.delegate = new ValidatorDelegate(query, operationName, header, body)
                 cloned.resolveStrategy = Closure.OWNER_FIRST

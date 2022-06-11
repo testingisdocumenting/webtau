@@ -17,11 +17,12 @@
 
 package org.testingisdocumenting.webtau.http
 
-import org.testingisdocumenting.webtau.http.datanode.DataNode
+import org.testingisdocumenting.webtau.http.datanode.GroovyBodyDataNode
 import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody
 import org.testingisdocumenting.webtau.http.request.HttpQueryParams
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody
+import org.testingisdocumenting.webtau.http.validation.BodyDataNode
 import org.testingisdocumenting.webtau.http.validation.HeaderDataNode
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn
 
@@ -281,12 +282,12 @@ class HttpExtensions {
     private static HttpResponseValidatorWithReturn closureToHttpResponseValidator(Closure validation) {
         return new HttpResponseValidatorWithReturn() {
             @Override
-            def validate(final HeaderDataNode header, final DataNode body) {
+            def validate(final HeaderDataNode header, final BodyDataNode body) {
                 def cloned = validation.clone() as Closure
                 cloned.delegate = new ValidatorDelegate(header, body)
                 cloned.resolveStrategy = Closure.OWNER_FIRST
                 return cloned.maximumNumberOfParameters == 2 ?
-                        cloned.call(header, new GroovyDataNode(body)):
+                        cloned.call(header, createGroovyBodyDataNode(body)):
                         cloned.call()
             }
         }
@@ -294,9 +295,9 @@ class HttpExtensions {
 
     private static class ValidatorDelegate {
         private HeaderDataNode header
-        private DataNode body
+        private BodyDataNode body
 
-        ValidatorDelegate(HeaderDataNode header, DataNode body) {
+        ValidatorDelegate(HeaderDataNode header, BodyDataNode body) {
             this.body = body
             this.header = header
         }
@@ -306,12 +307,16 @@ class HttpExtensions {
                 case "header":
                     return new GroovyDataNode(header)
                 case "body":
-                    return new GroovyDataNode(body)
+                    return createGroovyBodyDataNode(body)
                 case "statusCode":
                     return new GroovyDataNode(header).get("statusCode")
                 default:
                     return new GroovyDataNode(body).get(name)
             }
         }
+    }
+
+    private static GroovyBodyDataNode createGroovyBodyDataNode(BodyDataNode bodyDataNode) {
+        return new GroovyBodyDataNode(bodyDataNode.textContent, bodyDataNode.binaryContent, bodyDataNode)
     }
 }

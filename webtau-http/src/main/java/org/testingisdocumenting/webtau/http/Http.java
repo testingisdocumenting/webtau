@@ -1016,7 +1016,7 @@ public class Http {
                                     HttpResponseValidatorWithReturn validator) {
 
         HeaderDataNode header = new HeaderDataNode(validationResult.getResponse());
-        DataNode body = createBodyDataNode(validationResult.getResponse());
+        BodyDataNode body = new BodyDataNode(validationResult.getResponse(), createBodyDataNode(validationResult.getResponse()));
 
         validationResult.setResponseHeaderNode(header);
         validationResult.setResponseBodyNode(body);
@@ -1246,7 +1246,7 @@ public class Http {
     }
 
     /**
-     * Response consist of DataNode and Traceable values but we need to return back a simple value that can be used for
+     * Response consist of DataNode and Traceable values, but we need to return a simple value that can be used for
      * regular calculations and to drive test flow
      *
      * @param v value returned from a validation callback

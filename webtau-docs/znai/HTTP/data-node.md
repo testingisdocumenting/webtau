@@ -7,10 +7,16 @@ All assertions made on `DataNode` are tracked and are available as part of the g
 
 ```tabs
 Groovy:
-:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "use groovy closure as validation", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  entry: "use groovy closure as validation",
+  bodyOnly: true
+}
 
 Java:
-:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "useClosureAsValidation", bodyOnly: true}
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  entry: "useClosureAsValidation", 
+  bodyOnly: true
+}
 ```
 
 # Extracting Values

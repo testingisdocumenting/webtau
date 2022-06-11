@@ -1,1 +1,1 @@
-* Doc: Add Java examples to [HTTP Response Header](HTTP/headers#response-header) 
+* Doc: Add Java examples to [HTTP Response Header](HTTP/header#response-header) 

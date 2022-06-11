@@ -1,6 +1,6 @@
 # Authorization
 
-In [http headers](HTTP/headers#implicit-header) section we defined how to use
+In [http headers](HTTP/header#implicit-header) section we defined how to use
 an implicit header provider to enable authentication/authorization
 
 :include-file: scenarios/rest/headers/webtau.cfg.groovy {title: "webtau.cfg.groovy"}
