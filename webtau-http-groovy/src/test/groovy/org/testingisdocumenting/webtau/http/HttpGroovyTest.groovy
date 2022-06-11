@@ -416,13 +416,13 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "explicit text mime types combined with request body"() {
         def content = binaryFileContent("path")
-        http.post("/end-point", http.body("application/octet-stream", content)) {
+        http.post("/end-point", http.body("text/plain", content)) {
             // assertions go here
         }
     }
 
     @Test
-    void "post implicit binary mime types combined with request body"() {
+    void "shortcut binary mime types combined with request body"() {
         def content = binaryFileContent("path")
         http.post("/end-point", http.application.octetStream(content)) {
             // assertions go here
@@ -430,15 +430,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
-    void "put implicit binary mime types combined with request body"() {
-        def content = binaryFileContent("path")
-        http.put("/end-point", http.application.octetStream(content)) {
-            // assertions go here
-        }
-    }
-
-    @Test
-    void "implicit text mime types combined with request body"() {
+    void "shortcut text mime types combined with request body"() {
         def content = "text content"
         http.post("/end-point", http.text.plain(content)) {
             // assertions go here
