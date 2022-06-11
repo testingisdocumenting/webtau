@@ -1,1 +1,1 @@
-* Doc: Add Java examples to [HTTP Headers mime type combined](HTTP/header#mime-type-combined-with-payload) 
+* Doc: Add Java examples to [HTTP Content Type shorcuts](HTTP/header#content-type-shortcut) 

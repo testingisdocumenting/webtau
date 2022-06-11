@@ -507,7 +507,7 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
-    public void postImplicitBinaryMimeTypesCombinedWithRequestBody() {
+    public void shortcutBinaryMimeTypesCombinedWithRequestBody() {
         byte[] content = binaryFileContent("path");
         http.post("/end-point", http.application.octetStream(content), (header, body) -> {
             // assertions go here
@@ -515,7 +515,7 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
-    public void postImplicitTextMimeTypesCombinedWithRequestBody() {
+    public void shortcutTextMimeTypesCombinedWithRequestBody() {
         String content = "text content";
 
         http.post("/end-point", http.text.plain(content), (header, body) -> {
