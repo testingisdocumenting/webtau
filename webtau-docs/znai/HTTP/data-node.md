@@ -9,7 +9,8 @@ All assertions made on `DataNode` are tracked and are available as part of the g
 Groovy:
 :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
   entry: "use groovy closure as validation",
-  bodyOnly: true
+  bodyOnly: true,
+  excludeRegexp: "doc-exclude"
 }
 
 Java:
@@ -19,6 +20,11 @@ Java:
 }
 ```
 
+:include-json: objectTestResponse.json {
+  title: "GET /end-point response",
+  pathsFile: "doc-artifacts/data-node-price-access/paths.json"
+}
+
 # Extracting Values
 
 As you have seen in [CRUD example](HTTP/CRUD) you can return values back from a validation block.
@@ -26,15 +32,18 @@ As you have seen in [CRUD example](HTTP/CRUD) you can return values back from a 
 ```tabs
 Groovy:
 :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "can return simple value from get", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "can return complex value from get", bodyOnly: true}
 
 Java:
 :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "canReturnSimpleValueFromGet", bodyOnly: true}
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "canReturnComplexValueFromGet", bodyOnly: true}
 ```
 
-When you return a value from a validation block, it automatically gets converted to its correspondent primitive. 
+WebTau automatically converts leaf value to its correspondent primitive.
+It converts List and object to  `java.util.List` and `java.util.Map`.
 
-Note: WebTau will not be able to track returned value assertion. 
-Return values for consequent calls only. Make assertions on `DataNode` instance to generate useful report information such as data coverage.  
+Note: WebTau will not be able to associate assertions on returned values with a specific call. 
+Avoid using returned values for validation. Make assertions on `DataNode` instance to generate useful report information such as data coverage.  
 
 # Properties On Lists
 
