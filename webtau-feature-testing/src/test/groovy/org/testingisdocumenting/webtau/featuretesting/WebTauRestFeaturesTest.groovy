@@ -46,126 +46,131 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "simple get"() {
-        runCli('simpleGet.groovy', 'urlOnly.cfg.groovy', "--url=${testRunner.testServer.uri}")
+        runCli("simpleGet.groovy", "urlOnly.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "simple post"() {
-        runCli('simplePost.groovy', 'docArtifacts.cfg.groovy', "--url=${testRunner.testServer.uri}")
+        runCli("simplePost.groovy", "docArtifacts.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "simple get text"() {
-        runCli('simpleGetText.groovy', 'urlOnly.cfg.groovy', "--url=${testRunner.testServer.uri}")
+        runCli("simpleGetText.groovy", "urlOnly.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "ping"() {
-        runCli('ping.groovy', 'docArtifacts.cfg.groovy', "--url=${testRunner.testServer.uri}")
+        runCli("ping.groovy", "docArtifacts.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "ping extract snippets"() {
         extractCodeSnippets(
-                'ping', 'examples/scenarios/rest/ping.groovy', [
-                'pingIfCheck.groovy': 'ping',
-                'pingOverloads.groovy': 'ping overloads',
+                "ping", "examples/scenarios/rest/ping.groovy", [
+                "pingIfCheck.groovy": "ping",
+                "pingOverloads.groovy": "ping overloads",
         ])
     }
 
     @Test
     void "persona get"() {
-        runCli('headers/personaGet.groovy', 'headers/webtau.persona.cfg.groovy', "--url=${testRunner.testServer.uri}")
+        runCli("headers/personaGet.groovy", "headers/webtau.persona.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "schema validation"() {
-        runCli('jsonSchema/validateSchema.groovy', 'jsonSchema/webtau.cfg.groovy', "--url=${testRunner.testServer.uri}")
+        runCli("jsonSchema/validateSchema.groovy", "jsonSchema/webtau.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "schema validation extract snippets"() {
         extractCodeSnippets(
-                'json-schema', 'examples/scenarios/rest/jsonSchema/validateSchema.groovy', [
-                'validateBody.groovy': 'valid schema',
-                'validateField.groovy': 'validate specific field',
+                "json-schema", "examples/scenarios/rest/jsonSchema/validateSchema.groovy", [
+                "validateBody.groovy": "valid schema",
+                "validateField.groovy": "validate specific field",
         ])
     }
 
     @Test
     void "redirect"() {
-        runCli('redirect/redirectOn.groovy', 'urlOnly.cfg.groovy', "--url=${testRunner.testServer.uri}")
+        runCli("redirect/redirectOn.groovy", "urlOnly.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "redirect disabled"() {
-        runCli('redirect/redirectOff.groovy', 'urlOnly.cfg.groovy', "--url=${testRunner.testServer.uri}", '--disableRedirects')
+        runCli("redirect/redirectOff.groovy", "urlOnly.cfg.groovy", "--url=${testRunner.testServer.uri}", "--disableRedirects")
     }
 
     @Test
     void "open api http spec"() {
-        runCli('openapi/openApiHttpSpec.groovy', 'openapi/webtau.httpspec.cfg.groovy',
+        runCli("openapi/openApiHttpSpec.groovy", "openapi/webtau.httpspec.cfg.groovy",
                 "--url=${customersBaseUrl}",
                 "--openApiSpecUrl=/v3/api-docs")
     }
 
     @Test
     void "open api unspecified url"() {
-        runCli('openapi/unspecifiedUrl.groovy', 'openapi/webtau.httpspec.cfg.groovy',
+        runCli("openapi/unspecifiedUrl.groovy", "openapi/webtau.httpspec.cfg.groovy",
                 "--url=${customersBaseUrl}",
                 "--openApiSpecUrl=scenarios/rest/openapi/not-full-spec.json")
     }
 
     @Test
     void "open api disable"() {
-        runCli('openapi/disableOpenApiValidation.groovy', 'openapi/webtau.cfg.groovy', "--url=${testRunner.testServer.uri}")
+        runCli("openapi/disableOpenApiValidation.groovy", "openapi/webtau.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test
     void "open api extract snippets"() {
         extractCodeSnippets(
-                'openapi', 'examples/scenarios/rest/openapi/disableOpenApiValidation.groovy', [
-                'disableAll.groovy': 'disable all validation',
-                'disableRequest.groovy': 'disable request validation',
-                'disableResponse.groovy': 'disable response validation',
+                "openapi", "examples/scenarios/rest/openapi/disableOpenApiValidation.groovy", [
+                "disableAll.groovy": "disable all validation",
+                "disableRequest.groovy": "disable request validation",
+                "disableResponse.groovy": "disable response validation",
         ])
     }
 
     @Test
     void "crud"() {
-        runCli('springboot/customerCrud.groovy', 'springboot/webtau.cfg.groovy', "--url=$customersBaseUrl")
+        runCli("springboot/customerCrud.groovy", "springboot/webtau.cfg.groovy", "--url=$customersBaseUrl")
     }
 
     @Test
     void "crud separated"() {
-        runCli('springboot/customerCrudSeparated.groovy', 'springboot/webtau.cfg.groovy', "--url=$customersBaseUrl")
+        runCli("springboot/customerCrudSeparated.groovy", "springboot/webtau.cfg.groovy", "--url=$customersBaseUrl")
     }
 
     @Test
     void "crud separated missing method"() {
-        runCli('springboot/customerCrudSeparatedMissingMethod.groovy', 'springboot/withSpec.cfg.groovy',
+        runCli("springboot/customerCrudSeparatedMissingMethod.groovy", "springboot/withSpec.cfg.groovy",
                 "--url=$customersBaseUrl")
     }
 
     @Test
     void "list contain"() {
         OpenApi.withoutValidation {
-            http.post(customersUrl(), [firstName: 'FN1', lastName: 'LN1'])
+            http.post(customersUrl(), [firstName: "FN1", lastName: "LN1"])
         }
 
-        runCli('springboot/listContain.groovy', 'springboot/webtau.cfg.groovy', "--url=$customersBaseUrl")
+        runCli("springboot/listContain.groovy", "springboot/webtau.cfg.groovy", "--url=$customersBaseUrl")
     }
 
     @Test
     void "list match"() {
         deleteCustomers()
-        runCli('springboot/listMatch.groovy', 'springboot/webtau.cfg.groovy', "--url=$customersBaseUrl")
+        runCli("springboot/listMatch.groovy", "springboot/webtau.cfg.groovy", "--url=$customersBaseUrl")
     }
 
     @Test
     void "list match by key"() {
         deleteCustomers()
-        runCli('springboot/listMatchByKey.groovy', 'springboot/webtau.cfg.groovy', "--url=$customersBaseUrl")
+        runCli("springboot/listMatchByKey.groovy", "springboot/webtau.cfg.groovy", "--url=$customersBaseUrl")
+    }
+
+    @Test
+    void "handle invalid json request and response in report"() {
+        runCli("invalidJsonRequestResponse.groovy", "webtau.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test

@@ -27,6 +27,7 @@ class Report {
     def testSummaryMetaKey = $(".test-metadata th").get("METADATA KEY")
 
     def responseData = $(".response .data")
+    def jsonParseErrorMessage = $(".data.json.error")
 
     def steps = $(".step")
     def stepPersonaId = $(".step .persona-id")

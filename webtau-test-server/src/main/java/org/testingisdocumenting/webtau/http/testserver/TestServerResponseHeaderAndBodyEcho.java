@@ -1,6 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2022 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,44 +16,25 @@
 
 package org.testingisdocumenting.webtau.http.testserver;
 
-import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.apache.commons.io.IOUtils;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
-import java.util.Collections;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 import static org.testingisdocumenting.webtau.http.testserver.ResponseUtils.echoHeaders;
 
-public class TestServerRequestFullEcho implements TestServerResponse {
+public class TestServerResponseHeaderAndBodyEcho implements TestServerResponse {
     private final int statusCode;
 
-    public TestServerRequestFullEcho(int statusCode) {
+    public TestServerResponseHeaderAndBodyEcho(int statusCode) {
         this.statusCode = statusCode;
     }
 
     @Override
     public byte[] responseBody(HttpServletRequest request) {
         try {
-            String json = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
-            Object parsedRequest = json.equals("") ? Collections.emptyMap() :
-                    json.startsWith("[") ?
-                            JsonUtils.deserializeAsList(json) :
-                            JsonUtils.deserializeAsMap(json);
-
-            Map<String, Object> response = new LinkedHashMap<>();
-            response.put("request", parsedRequest);
-            response.put("urlPath", request.getRequestURI());
-            response.put("urlQuery", request.getQueryString());
-
-            response.putAll(echoHeaders(request));
-
-            return IOUtils.toByteArray(new StringReader(JsonUtils.serializePrettyPrint(response)),
-                    StandardCharsets.UTF_8);
+            return IOUtils.toByteArray(request.getInputStream());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

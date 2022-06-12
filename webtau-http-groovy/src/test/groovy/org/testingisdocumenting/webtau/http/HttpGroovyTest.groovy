@@ -431,8 +431,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "shortcut json text mime types combined with request body"() {
-        http.post("/end-point", http.application.json(
-                "{\"key1\": \"value1\", \"key2\": \"value2\"}")) {
+        http.post("/end-point", http.application.json('{"key1": "value1", "key2": "value2"}')) {
             // assertions go here
         }
     }

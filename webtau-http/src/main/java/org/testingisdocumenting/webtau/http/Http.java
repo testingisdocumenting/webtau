@@ -1024,7 +1024,8 @@ public class Http {
                                     HttpResponseValidatorWithReturn validator) {
 
         HeaderDataNode header = new HeaderDataNode(validationResult.getResponse());
-        BodyDataNode body = new BodyDataNode(validationResult.getResponse(), createBodyDataNode(validationResult.getResponse()));
+        BodyDataNode body = new BodyDataNode(validationResult.getResponse(),
+                createBodyDataNodeAndMarkResponseInvalidWhenParsingError(validationResult));
 
         validationResult.setResponseHeaderNode(header);
         validationResult.setResponseBodyNode(body);
@@ -1082,26 +1083,38 @@ public class Http {
         }
     }
 
-    private DataNode createBodyDataNode(HttpResponse response) {
+    private DataNode createBodyDataNodeAndMarkResponseInvalidWhenParsingError(HttpValidationResult validationResult) {
+        DataNodeId id = new DataNodeId("body");
+        HttpResponse response = validationResult.getResponse();
+
+        if (!response.isBinary() && response.nullOrEmptyTextContent()) {
+            return new StructuredDataNode(id, new TraceableValue(null));
+        }
+
+        if (response.isText()) {
+            return new StructuredDataNode(id, new TraceableValue(response.getTextContent()));
+        }
+
+        if (response.isJson()) {
+            return tryParseJsonAndReturnTextIfFails(validationResult, id, response.getTextContent());
+        }
+
+        return new StructuredDataNode(id, new TraceableValue(response.getBinaryContent()));
+    }
+
+    private DataNode tryParseJsonAndReturnTextIfFails(HttpValidationResult validationResult,
+                                                      DataNodeId id,
+                                                      String textContent) {
         try {
-            DataNodeId id = new DataNodeId("body");
-
-            if (!response.isBinary() && response.nullOrEmptyTextContent()) {
-                return new StructuredDataNode(id, new TraceableValue(null));
-            }
-
-            if (response.isText()) {
-                return new StructuredDataNode(id, new TraceableValue(response.getTextContent()));
-            }
-
-            if (response.isJson()) {
-                Object object = JsonUtils.deserialize(response.getTextContent());
-                return DataNodeBuilder.fromValue(id, object);
-            }
-
-            return new StructuredDataNode(id, new TraceableValue(response.getBinaryContent()));
+            Object object = JsonUtils.deserialize(textContent);
+            return DataNodeBuilder.fromValue(id, object);
         } catch (JsonParseException e) {
-            throw new RuntimeException("error parsing body: " + response.getTextContent(), e);
+            validationResult.setBodyParseErrorMessage(e.getMessage());
+            validationResult.addMismatch("can't parse JSON response of " + validationResult.getFullUrl()
+                    + ": " + e.getMessage());
+
+            return new StructuredDataNode(id,
+                    new TraceableValue("invalid JSON:\n" + textContent));
         }
     }
 
@@ -1161,6 +1174,7 @@ public class Http {
             requestHeader.forEachProperty(connection::setRequestProperty);
 
             if (! (requestBody instanceof EmptyRequestBody)) {
+                validateRequestContent(requestBody);
                 connection.setDoOutput(true);
 
                 if (requestBody.isBinary()) {
@@ -1174,6 +1188,16 @@ public class Http {
         } catch (IOException e) {
             throw new RuntimeException("couldn't " + method + ": " + fullUrl, e);
         }
+    }
+
+    private void validateRequestContent(HttpRequestBody requestBody) {
+        if (requestBody.type().contains("/json")) {
+            validateJsonRequestContent(requestBody.asString());
+        }
+    }
+
+    private void validateJsonRequestContent(String json) {
+        JsonUtils.deserialize(json);
     }
 
     private HttpURLConnection createConnection(String fullUrl) {

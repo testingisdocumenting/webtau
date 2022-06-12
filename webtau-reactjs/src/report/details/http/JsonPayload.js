@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,49 +15,61 @@
  * limitations under the License.
  */
 
-import React from 'react'
-import JSONTree from 'react-json-tree'
+import React from 'react';
+import JSONTree from 'react-json-tree';
 
-import './JsonPayload.css'
+import './JsonPayload.css';
 
-const expandNode = () => true
-const jsonTheme = {tree: ({ style }) => ({style: { ...style, backgroundColor: undefined }})}
+const expandNode = () => true;
+const jsonTheme = { tree: ({ style }) => ({ style: { ...style, backgroundColor: undefined } }) };
 
-function JsonPayload({json, checks}) {
+function JsonPayload({ jsonText, checks }) {
+  try {
+    const json = JSON.parse(jsonText);
     return (
-        <div className="data json">
-            <JSONTree data={json}
-                      theme={jsonTheme}
-                      valueRenderer={jsonValueRenderer(checks)}
-                      shouldExpandNode={expandNode}/>
-        </div>
-    )
+      <div className="data json">
+        <JSONTree
+          data={json}
+          theme={jsonTheme}
+          valueRenderer={jsonValueRenderer(checks)}
+          shouldExpandNode={expandNode}
+        />
+      </div>
+    );
+  } catch (e) {
+    return (
+      <div className="data json error">
+        <div>can't parse JSON: {e.message}</div>
+        <div>{jsonText}</div>
+      </div>
+    );
+  }
 }
 
 function jsonValueRenderer(checks) {
-    checks = checks || {}
-    checks.failedPaths = checks.failedPaths || []
-    checks.passedPaths = checks.passedPaths || []
+  checks = checks || {};
+  checks.failedPaths = checks.failedPaths || [];
+  checks.passedPaths = checks.passedPaths || [];
 
-    return (pretty, raw, ...pathParts) => {
-        const fullPath = buildPath(pathParts)
-        const isFailed = checks.failedPaths.indexOf(fullPath) !== -1
-        const isPassed = checks.passedPaths.indexOf(fullPath) !== -1
+  return (pretty, raw, ...pathParts) => {
+    const fullPath = buildPath(pathParts);
+    const isFailed = checks.failedPaths.indexOf(fullPath) !== -1;
+    const isPassed = checks.passedPaths.indexOf(fullPath) !== -1;
 
-        const isHighlighted = isFailed || isPassed
-        const className = isHighlighted ?
-            'json-value-highlight' + (isFailed ? ' failed' : ' passed') : null
+    const isHighlighted = isFailed || isPassed;
+    const className = isHighlighted ? 'json-value-highlight' + (isFailed ? ' failed' : ' passed') : null;
 
-        return isHighlighted ? <span className={className}>{pretty}</span> : pretty;
-    }
+    return isHighlighted ? <span className={className}>{pretty}</span> : pretty;
+  };
 }
 
 function buildPath(parts) {
-    return parts.reverse().slice(1).reduce((prev, curr) => {
-        return prev + (typeof curr === 'number' ?
-            '[' + curr + ']':
-            '.' + curr)
-    }, 'root')
+  return parts
+    .reverse()
+    .slice(1)
+    .reduce((prev, curr) => {
+      return prev + (typeof curr === 'number' ? '[' + curr + ']' : '.' + curr);
+    }, 'root');
 }
 
-export default JsonPayload
+export default JsonPayload;
