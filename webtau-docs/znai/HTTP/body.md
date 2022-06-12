@@ -17,6 +17,8 @@ Java:
   entry: "postBodyOnlySyntaxExample", 
   bodyOnly: true
 }
+
+ Note: For Java example uses a `http.json` shortcut but Map/List also works. 
 ```
 
 # Generic Request
@@ -37,6 +39,18 @@ WebTau provides shortcuts for Standard MIME types
 Groovy:
  
 :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "json content as vararg", 
+  entry: "shortcut json mime types combined with request body", 
+  bodyOnly: true
+}
+ 
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "json content as text", 
+  entry: "shortcut json text mime types combined with request body", 
+  bodyOnly: true
+}
+ 
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
   title: "binary content shortuct", 
   entry: "shortcut binary mime types combined with request body", 
   bodyOnly: true
@@ -51,6 +65,18 @@ Groovy:
 Java: 
 
 :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "json content as vararg", 
+  entry: "shortcutJsonMimeTypesCombinedWithRequestBody", 
+  bodyOnly: true
+}
+
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "json content as text", 
+  entry: "shortcutJsonTextMimeTypesCombinedWithRequestBody", 
+  bodyOnly: true
+}
+
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
   title: "binary content shortuct", 
   entry: "shortcutBinaryMimeTypesCombinedWithRequestBody", 
   bodyOnly: true
@@ -63,6 +89,12 @@ Java:
 }
 ```
 
+Note: `:identifier: http.application.json {validationPath: "org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy"}` 
+is long a form of `:identifier: http.json {validationPath: "org/testingisdocumenting/webtau/http/HttpJavaTest.java"}` 
+and is there for completeness purpose. 
+\
+\
+There is no behavior difference between passing an instance of `java.util.Map` and `http.json`
 
 
 # Parsed Response 
