@@ -51,6 +51,8 @@ class HttpGroovyTest extends HttpTestBase {
             price.should == 100
             assert price instanceof DataNode
         }
+
+        http.doc.capture("data-node-price-access") // doc-exclude
     }
 
     @Test
@@ -89,8 +91,17 @@ class HttpGroovyTest extends HttpTestBase {
             return id
         }
 
-        assert id == 10
-        assert id.getClass() == Integer
+        id.should == 10
+        id.getClass().should == Integer
+    }
+
+    @Test
+    void "can return complex value from get"() {
+        List<Map<String, ?>> complexList = http.get("/end-point") {
+            return complexList
+        }
+
+        complexList[0].k2.should == 30
     }
 
     @Test

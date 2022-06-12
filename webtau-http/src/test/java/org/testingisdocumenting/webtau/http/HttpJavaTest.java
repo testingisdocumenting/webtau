@@ -29,6 +29,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -53,16 +54,17 @@ public class HttpJavaTest extends HttpTestBase {
             return body.get("id");
         }));
 
-        assert id == 10;
+        actual(id).should(equal(10));
     }
 
     @Test
     public void canReturnComplexValueFromGet() {
-        Map<String, ?> bodyAsMap = http.get("/end-point", ((header, body) -> {
-            return body;
+        List<Map<String, ?>> complexList = http.get("/end-point", ((header, body) -> {
+            return body.get("complexList");
         }));
 
-        System.out.println(bodyAsMap);
+        Number k2 = (Number) complexList.get(0).get("k2");
+        actual(k2).should(equal(30));
     }
 
     @Test
