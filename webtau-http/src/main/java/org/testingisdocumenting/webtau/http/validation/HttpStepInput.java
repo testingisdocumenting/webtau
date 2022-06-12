@@ -73,8 +73,9 @@ public class HttpStepInput implements WebTauStepInput {
                         JsonUtils.deserialize(requestBody.asString()));
                 new DataNodeAnsiPrinter(console).print(dataNode, getCfg().getConsolePayloadOutputLimit());
             } catch (JsonParseException e) {
-                console.out(Color.RED, "invalid json:", e.getMessage());
+                console.out(Color.RED, "can't parse request:");
                 console.out(requestBody.asString());
+                console.out(Color.RED, e.getMessage());
             }
         } else {
             console.out(requestBody.asString());

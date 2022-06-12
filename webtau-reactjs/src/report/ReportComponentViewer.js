@@ -38,6 +38,7 @@ import { aggregatedOperationsPerformanceTableDemo } from './perf/AggregatedOpera
 import { testServerJournalsDemo } from './details/servers/TestServerJournals.demo';
 import { sourceCodeDemo } from './snippet/SourceCode.demo';
 import { testsPerformanceDemo } from './summary/TestsPerformance.demo';
+import { httpCallsDemo } from './details/http/httpCallsDemo';
 
 const registries = new Registries();
 
@@ -53,6 +54,7 @@ registries.add('core').registerAsGrid('steps', 0, stepsDemo).registerAsGrid('tes
 
 registries
   .add('http')
+  .registerAsRows('http calls', httpCallsDemo)
   .registerAsRows('http header', httpHeaderDemo)
   .registerAsRows('collapsible http header', collapsibleHttpHeaderDemo)
   .registerAsRows('performance', aggregatedOperationsPerformanceTableDemo);

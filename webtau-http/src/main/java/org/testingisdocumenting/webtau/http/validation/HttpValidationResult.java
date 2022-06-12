@@ -69,6 +69,8 @@ public class HttpValidationResult implements WebTauStepOutput {
 
     private String operationId;
 
+    private String bodyParseErrorMessage;
+
     public HttpValidationResult(String personaId,
                                 String requestMethod,
                                 String url,
@@ -214,6 +216,10 @@ public class HttpValidationResult implements WebTauStepOutput {
         return errorMessage;
     }
 
+    public void setBodyParseErrorMessage(String bodyParseErrorMessage) {
+        this.bodyParseErrorMessage = bodyParseErrorMessage;
+    }
+
     public String getUrl() {
         return url;
     }
@@ -259,6 +265,7 @@ public class HttpValidationResult implements WebTauStepOutput {
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
         result.put("errorMessage", errorMessage);
+        result.put("bodyParseErrorMessage", bodyParseErrorMessage);
         result.put("mismatches", mismatches);
         result.put("warnings", warnings);
 
@@ -327,7 +334,13 @@ public class HttpValidationResult implements WebTauStepOutput {
             console.out(Color.YELLOW, "[binary content]");
         } else {
             console.out(Color.YELLOW, "response", Color.CYAN, " (", response.getContentType(), "):");
-            new DataNodeAnsiPrinter(console).print(responseBodyNode, getCfg().getConsolePayloadOutputLimit());
+            if (bodyParseErrorMessage != null) {
+                console.out(Color.RED, "can't parse response:");
+                console.out(response.getTextContent());
+                console.out(Color.RED, bodyParseErrorMessage);
+            } else {
+                new DataNodeAnsiPrinter(console).print(responseBodyNode, getCfg().getConsolePayloadOutputLimit());
+            }
         }
     }
 }

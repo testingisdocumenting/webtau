@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23,10 +24,10 @@ import java.util.Map;
 
 import static org.testingisdocumenting.webtau.http.testserver.ResponseUtils.echoHeaders;
 
-public class TestServerRequestHeaderEcho implements TestServerResponse {
+public class TestServerResponseHeaderEcho implements TestServerResponse {
     private final int statusCode;
 
-    public TestServerRequestHeaderEcho(int statusCode) {
+    public TestServerResponseHeaderEcho(int statusCode) {
         this.statusCode = statusCode;
     }
 

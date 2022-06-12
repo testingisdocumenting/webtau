@@ -1,0 +1,17 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "send invalid request and getting invalid response",
+    "shortContainerId" : "invalidJsonRequestResponse.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 1
+    }
+  }, {
+    "scenario" : "receive invalid response",
+    "shortContainerId" : "invalidJsonRequestResponse.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2,
+      "numberOfFailed" : 1
+    }
+  } ],
+  "exitCode" : 1
+}
