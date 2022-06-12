@@ -1,0 +1,1 @@
+* Fix: Web report entries and icons center alignment   
