@@ -370,7 +370,7 @@ public class HttpJavaTest extends HttpTestBase {
 
     @Test
     public void queryParamsUsingQueryMethodExample() {
-        http.post("/chat", http.query("a", 1, "b", "text"), http.header("x-param", "value"), aMapOf("message", "hello"),
+        http.post("/chat", http.query("a", 1, "b", "text"), http.header("x-param", "value"), http.json("message", "hello"),
                 (header, body) -> {
                     // assertions go here
                 });
@@ -414,17 +414,17 @@ public class HttpJavaTest extends HttpTestBase {
         });
 
         http.patch("/end-point", http.header("Accept", "application/octet-stream"),
-                aMapOf("fileId", "myFile"), (header, body) -> {
+                http.json("fileId", "myFile"), (header, body) -> {
             // assertions go here
         });
 
         http.post("/end-point", http.header("Accept", "application/octet-stream"),
-                aMapOf("fileId", "myFile"), (header, body) -> {
+                http.json("fileId", "myFile"), (header, body) -> {
             // assertions go here
         });
 
         http.put("/end-point", http.header("Accept", "application/octet-stream"),
-                aMapOf("fileId", "myFile", "file", sampleFile), (header, body) -> {
+                http.json("fileId", "myFile", "file", sampleFile), (header, body) -> {
             // assertions go here
         });
 
@@ -507,6 +507,31 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
+    public void shortcutJsonMimeTypesCombinedWithRequestBody() {
+        http.post("/end-point", http.application.json(
+                "key1", "value1",
+                "key2", "value2"), (header, body) -> {
+            // assertions go here
+        });
+    }
+
+    @Test
+    public void shortcutJsonTextMimeTypesCombinedWithRequestBody() {
+        http.post("/end-point", http.application.json(
+                "{\"key1\": \"value1\", \"key2\": \"value2\"}"), (header, body) -> {
+            // assertions go here
+        });
+    }
+
+    @Test
+    public void shortcutJsonTextMimeInvalidRequestBody() {
+        http.post("/end-point", http.application.json(
+                "{\"key1\": \"value1\", \"key2\": \"value2"), (header, body) -> {
+            // assertions go here
+        });
+    }
+
+    @Test
     public void shortcutBinaryMimeTypesCombinedWithRequestBody() {
         byte[] content = binaryFileContent("path");
         http.post("/end-point", http.application.octetStream(content), (header, body) -> {
@@ -517,7 +542,6 @@ public class HttpJavaTest extends HttpTestBase {
     @Test
     public void shortcutTextMimeTypesCombinedWithRequestBody() {
         String content = "text content";
-
         http.post("/end-point", http.text.plain(content), (header, body) -> {
             // assertions go here
         });
@@ -540,7 +564,7 @@ public class HttpJavaTest extends HttpTestBase {
     @Test
     public void accessToRawTextContent() {
         // doc-snippet
-        String rawContent = http.post("/chat", aMapOf("message", "hello world"), (header, body) -> {
+        String rawContent = http.post("/chat", http.json("message", "hello world"), (header, body) -> {
             return body.getTextContent();
         });
         // doc-snippet

@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.http.json;
 
+import org.testingisdocumenting.webtau.http.request.HttpApplicationMime;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
@@ -44,16 +45,12 @@ public class JsonRequestBody implements HttpRequestBody {
 
     @Override
     public String type() {
-        return "application/json";
+        return HttpApplicationMime.JSON;
     }
 
     @Override
     public boolean isEmpty() {
         return asString.isEmpty();
-    }
-
-    public Object getOriginal() {
-        return original;
     }
 
     @Override

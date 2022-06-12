@@ -23,8 +23,11 @@ import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
 import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
+import org.testingisdocumenting.webtau.http.request.HttpApplicationMime;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.reporter.WebTauStepInput;
+import org.testingisdocumenting.webtau.utils.JsonParseException;
+import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.util.Collections;
 import java.util.Map;
@@ -64,9 +67,15 @@ public class HttpStepInput implements WebTauStepInput {
     }
 
     private void renderRequestBody(ConsoleOutput console, HttpRequestBody requestBody) {
-        if (requestBody instanceof JsonRequestBody) {
-            DataNode dataNode = DataNodeBuilder.fromValue(new DataNodeId("request"), ((JsonRequestBody) requestBody).getOriginal());
-            new DataNodeAnsiPrinter(console).print(dataNode, getCfg().getConsolePayloadOutputLimit());
+        if (requestBody.type().equals(HttpApplicationMime.JSON)) {
+            try {
+                DataNode dataNode = DataNodeBuilder.fromValue(new DataNodeId("request"),
+                        JsonUtils.deserialize(requestBody.asString()));
+                new DataNodeAnsiPrinter(console).print(dataNode, getCfg().getConsolePayloadOutputLimit());
+            } catch (JsonParseException e) {
+                console.out(Color.RED, "invalid json:", e.getMessage());
+                console.out(requestBody.asString());
+            }
         } else {
             console.out(requestBody.asString());
         }

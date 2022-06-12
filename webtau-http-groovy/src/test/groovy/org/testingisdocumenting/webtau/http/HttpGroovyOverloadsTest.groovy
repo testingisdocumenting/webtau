@@ -711,7 +711,7 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
 
     @Test
     void "post body only syntax example"() {
-        http.post("/chat", [message: "hello"]) {
+        http.post("/chat", [message: "hello", priority: "HIGH"]) {
             status.should == "SUCCESS"
         }
     }

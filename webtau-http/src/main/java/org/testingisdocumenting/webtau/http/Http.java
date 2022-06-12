@@ -125,6 +125,14 @@ public class Http {
         return UrlUtils.concat(baseUrl, relativeUrl);
     }
 
+    public HttpRequestBody json(String firstKey, Object firstValue, Object... rest) {
+        return application.json(firstKey, firstValue, rest);
+    }
+
+    public HttpRequestBody json(String json) {
+        return application.json(json);
+    }
+
     public <E> E get(String url,
                      HttpQueryParams queryParams,
                      HttpHeader header,
