@@ -265,7 +265,6 @@ public class HttpValidationResult implements WebTauStepOutput {
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
         result.put("errorMessage", errorMessage);
-        result.put("bodyParseErrorMessage", bodyParseErrorMessage);
         result.put("mismatches", mismatches);
         result.put("warnings", warnings);
 
