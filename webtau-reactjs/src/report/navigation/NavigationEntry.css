@@ -18,6 +18,8 @@
 .navigation-entry {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+
     padding: var(--webtau-spacing) var(--webtau-spacing-double);
     border-bottom: 1px var(--webtau-panels-border-color) solid;
     user-select: none;
