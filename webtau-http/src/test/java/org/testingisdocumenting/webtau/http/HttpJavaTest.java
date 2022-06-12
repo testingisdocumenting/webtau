@@ -517,16 +517,7 @@ public class HttpJavaTest extends HttpTestBase {
 
     @Test
     public void shortcutJsonTextMimeTypesCombinedWithRequestBody() {
-        http.post("/end-point", http.application.json(
-                "{\"key1\": \"value1\", \"key2\": \"value2\"}"), (header, body) -> {
-            // assertions go here
-        });
-    }
-
-    @Test
-    public void shortcutJsonTextMimeInvalidRequestBody() {
-        http.post("/end-point", http.application.json(
-                "{\"key1\": \"value1\", \"key2\": \"value2"), (header, body) -> {
+        http.post("/end-point", http.application.json("{\"key1\": \"value1\", \"key2\": \"value2\"}"), (header, body) -> {
             // assertions go here
         });
     }

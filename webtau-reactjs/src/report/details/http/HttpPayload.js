@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,49 +15,56 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import TextPayload from './TextPayload'
-import JsonPayload from './JsonPayload'
+import TextPayload from './TextPayload';
+import JsonPayload from './JsonPayload';
 
-import './HttpPayload.css'
+import './HttpPayload.css';
 
-function PayloadData({type, data, checks}) {
-    return type.indexOf('json') !== -1 ?
-        <JsonPayload json={JSON.parse(data)} checks={checks}/> :
-        <TextPayload text={data}/>
+function PayloadData({ type, data, checks }) {
+  return type.indexOf('json') !== -1 ? <JsonPayload jsonText={data} checks={checks} /> : <TextPayload text={data} />;
 }
 
-function HttpPayload({caption, type, data, checks, httpCallId, payloadType, onZoom}) {
-    if (!data) {
-        return null
-    }
+function HttpPayload({ caption, type, data, checks, httpCallId, payloadType, onZoom }) {
+  if (!data) {
+    return null;
+  }
 
-    const fullScreenToggle = onZoom && (
-        <div className="fullscreen-icon" onClick={() => onZoom({httpCallId, payloadType})}>
-            <FullScreenIcon/>
-        </div>
-    )
+  const fullScreenToggle = onZoom && (
+    <div className="fullscreen-icon" onClick={() => onZoom({ httpCallId, payloadType })}>
+      <FullScreenIcon />
+    </div>
+  );
 
-    return (
-        <div className="http-payload">
-            <div className="caption-and-fullscreen">
-                <div className="caption">{caption}</div>
-                {fullScreenToggle}
-            </div>
-            <PayloadData type={type} data={data} checks={checks}/>
-        </div>
-    )
+  return (
+    <div className="http-payload">
+      <div className="caption-and-fullscreen">
+        <div className="caption">{caption}</div>
+        {fullScreenToggle}
+      </div>
+      <PayloadData type={type} data={data} checks={checks} />
+    </div>
+  );
 }
 
 function FullScreenIcon() {
-    return (
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-             stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-             className="feather feather-maximize">
-            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
-        </svg>
-    )
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="feather feather-maximize"
+    >
+      <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+    </svg>
+  );
 }
 
-export default HttpPayload
+export default HttpPayload;

@@ -22,7 +22,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.testingisdocumenting.webtau.utils.json.JsonSerializationModuleProvider;
 
-import java.io.IOException;
 import java.nio.file.Path;
 import java.util.List;
 import java.util.Map;
@@ -89,8 +88,8 @@ public class JsonUtils {
 
         try {
             return mapper.readValue(json, Map.class);
-        } catch (IOException e) {
-            throw new JsonParseException(e.getMessage());
+        } catch (Exception e) {
+            throw createParseException(e);
         }
     }
 
@@ -105,8 +104,8 @@ public class JsonUtils {
 
         try {
             return mapper.readValue(json, List.class);
-        } catch (IOException e) {
-            throw new JsonParseException(e.getMessage());
+        } catch (Exception e) {
+            throw createParseException(e);
         }
     }
 
@@ -125,9 +124,15 @@ public class JsonUtils {
 
         try {
             return mapper.readValue(json, valueType);
-        } catch (IOException e) {
-            throw new JsonParseException(e.getMessage());
+        } catch (Exception e) {
+            throw createParseException(e);
         }
+    }
+
+    private static JsonParseException createParseException(Exception e) {
+        // we remove new lines here to avoid confusion later with
+        // stack trace filters that remove " at " statements from multiline stack trace
+        return new JsonParseException(e.getMessage().replaceAll("\n", ""));
     }
 
     public static JsonNode convertToTree(Object object) {

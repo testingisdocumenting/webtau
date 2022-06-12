@@ -1,6 +1,5 @@
 /*
  * Copyright 2022 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,24 +14,17 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.testserver;
+package scenarios.rest
 
-import javax.servlet.http.HttpServletRequest;
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-public class TestServerTextResponse implements TestServerResponse {
-    private final String response;
-
-    public TestServerTextResponse(String response) {
-        this.response = response;
+scenario('send invalid request and getting invalid response') {
+    http.put("/employee", http.json('{"key1": "value1", "key2": "value2')) {
     }
+}
 
-    @Override
-    public byte[] responseBody(HttpServletRequest request) {
-        return response.getBytes();
-    }
-
-    @Override
-    public String responseType(HttpServletRequest request) {
-        return "text/html";
+scenario('receive invalid response') {
+    http.put("/invalid-json-response", [message: "hello"]) {
+        key.should == null
     }
 }
