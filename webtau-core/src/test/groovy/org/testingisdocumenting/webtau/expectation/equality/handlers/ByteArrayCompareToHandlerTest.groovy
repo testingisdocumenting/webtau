@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,8 +45,7 @@ class ByteArrayCompareToHandlerTest {
         def comparator = CompareToComparator.comparator()
         assert comparator.compareIsEqual(actualPath, a, a)
 
-        assertEquals('matches:\n' +
-            '\n' +
+        assertEquals(
             'value: binary content of size 20\n' +
             '         actual: 0102030405060708090A0B0C0D0E0F10...\n' +
             '       expected: 0102030405060708090A0B0C0D0E0F10...', comparator.generateEqualMatchReport())
@@ -58,8 +58,7 @@ class ByteArrayCompareToHandlerTest {
         def comparator = CompareToComparator.comparator()
         assert comparator.compareIsEqual(actualPath, a, a)
 
-        assertEquals('matches:\n' +
-            '\n' +
+        assertEquals(
             'value: binary content of size 16\n' +
             '         actual: 0102030405060708090A0B0C0D0E0F10\n' +
             '       expected: 0102030405060708090A0B0C0D0E0F10', comparator.generateEqualMatchReport())

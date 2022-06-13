@@ -1,0 +1,1 @@
+* Reduce messaging in case of [matchers match](matchers/universal-compare) event by removing "Matches:" prefix  
