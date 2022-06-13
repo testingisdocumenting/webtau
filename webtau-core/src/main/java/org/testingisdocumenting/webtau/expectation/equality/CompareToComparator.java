@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -149,6 +150,10 @@ public class CompareToComparator {
     }
 
     public String generateNotEqualMatchReport() {
+        if (missingMessages.isEmpty() && extraMessages.isEmpty()) {
+            return generateReportPartWithoutLabel(Collections.singletonList(notEqualMessages));
+        }
+
         return combineReportParts(
                 generateReportPart(MATCHES_LABEL, Collections.singletonList(notEqualMessages)),
                 generateReportPart("missing values", Collections.singletonList(missingMessages)),
@@ -156,23 +161,23 @@ public class CompareToComparator {
     }
 
     public String generateGreaterThanMatchReport() {
-        return generateReportPart(MATCHES_LABEL, Collections.singletonList(greaterMessages));
+        return generateReportPartWithoutLabel(Collections.singletonList(greaterMessages));
     }
 
     public String generateGreaterThanOrEqualMatchReport() {
-        return generateReportPart(MATCHES_LABEL, Arrays.asList(greaterMessages, equalMessages));
+        return generateReportPartWithoutLabel(Arrays.asList(greaterMessages, equalMessages));
     }
 
     public String generateLessThanMatchReport() {
-        return generateReportPart(MATCHES_LABEL, Collections.singletonList(lessMessages));
+        return generateReportPartWithoutLabel(Collections.singletonList(lessMessages));
     }
 
     public String generateLessThanOrEqualToMatchReport() {
-        return generateReportPart(MATCHES_LABEL, Arrays.asList(equalMessages, lessMessages));
+        return generateReportPartWithoutLabel(Arrays.asList(equalMessages, lessMessages));
     }
 
     public String generateEqualMatchReport() {
-        return generateReportPart(MATCHES_LABEL, Collections.singletonList(equalMessages));
+        return generateReportPartWithoutLabel(Collections.singletonList(equalMessages));
     }
 
     public void reportMissing(CompareToHandler reporter, ActualPath actualPath, Object value) {
@@ -279,9 +284,16 @@ public class CompareToComparator {
             return "";
         }
 
-        return Stream.concat(Stream.of(label + ":\n"),
-                messagesGroups.stream()
-                        .flatMap(messages -> messages.stream().map(ActualPathMessage::getFullMessage)))
+        return label + ":\n\n" + generateReportPartWithoutLabel(messagesGroups);
+    }
+
+    private String generateReportPartWithoutLabel(List<List<ActualPathMessage>> messagesGroups) {
+        if (messagesGroups.stream().allMatch(List::isEmpty)) {
+            return "";
+        }
+
+        return messagesGroups.stream()
+                .flatMap(messages -> messages.stream().map(ActualPathMessage::getFullMessage))
                 .collect(joining("\n"));
     }
 
