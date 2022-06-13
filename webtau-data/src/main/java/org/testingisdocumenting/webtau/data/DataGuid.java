@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.data;
 
-class DataGuid {
+public class DataGuid {
     /**
      * Use <code>data.guid.generate</code> to generate unique identifier.
      * @return new GUID

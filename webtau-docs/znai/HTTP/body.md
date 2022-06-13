@@ -21,6 +21,26 @@ Java:
  Note: For Java example uses a `http.json` shortcut but Map/List also works. 
 ```
 
+# JSON Request From File
+
+[Data JSON](utilities/data#json-read) module has convenient methods to read JSON from resource/file as list/map/object
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyOverloadsTest.groovy {
+  title: "implicit application/json",
+  entry: "post body from file syntax example",
+  bodyOnly: true
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaOverloadsTest.java {
+  title: "implicit application/json",
+  entry: "postBodyFromFileSyntaxExample", 
+  bodyOnly: true
+}
+```
+
 # Generic Request
 
 Use `http.body` to create generic body request.

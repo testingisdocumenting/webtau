@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.http
 
 import org.junit.Test
 
+import static org.testingisdocumenting.webtau.data.Data.data
 import static org.testingisdocumenting.webtau.http.Http.http
 import static org.testingisdocumenting.webtau.http.HttpOverloadsTestCommon.*
 
@@ -712,6 +713,13 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
     @Test
     void "post body only syntax example"() {
         http.post("/chat", [message: "hello", priority: "HIGH"]) {
+            status.should == "SUCCESS"
+        }
+    }
+
+    @Test
+    void "post body from file syntax example"() {
+        http.post("/chat", data.json.map("chat-message.json")) {
             status.should == "SUCCESS"
         }
     }
