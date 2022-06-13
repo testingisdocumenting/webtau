@@ -18,11 +18,13 @@
 package org.testingisdocumenting.webtau.http;
 
 import org.junit.Test;
+import org.testingisdocumenting.webtau.data.Data;
 
 import java.util.List;
 import java.util.Map;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.data.Data.*;
 import static org.testingisdocumenting.webtau.http.Http.http;
 import static org.testingisdocumenting.webtau.http.HttpOverloadsTestCommon.*;
 
@@ -1002,6 +1004,13 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
     @Test
     public void postBodyOnlySyntaxExample() {
         http.post("/chat", http.json("message", "hello", "priority", "high"), (header, body) -> {
+            body.get("status").should(equal("SUCCESS"));
+        });
+    }
+
+    @Test
+    public void postBodyFromFileSyntaxExample() {
+        http.post("/chat", data.json.map("chat-message.json"), (header, body) -> {
             body.get("status").should(equal("SUCCESS"));
         });
     }
