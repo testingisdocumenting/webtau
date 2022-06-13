@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -44,8 +45,7 @@ class IterableCompareToHandlerTest {
         CompareToComparator comparator = CompareToComparator.comparator(AssertionMode.EQUAL)
         comparator.compareUsingEqualOnly(actualPath, [1, 2, 5], [1, 2, 5])
 
-        assertEquals("matches:\n" +
-                "\n" +
+        assertEquals(
                 "value[0]:   actual: 1 <java.lang.Integer>\n" +
                 "          expected: 1 <java.lang.Integer>\n" +
                 "value[1]:   actual: 2 <java.lang.Integer>\n" +

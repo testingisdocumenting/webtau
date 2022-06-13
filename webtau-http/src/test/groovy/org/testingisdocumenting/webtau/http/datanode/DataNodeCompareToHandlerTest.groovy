@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -79,8 +80,7 @@ class DataNodeCompareToHandlerTest {
         def node = DataNodeBuilder.fromMap(new DataNodeId('node'), [node: [k1: 'v1', k2: 'v2']])
 
         assert comparator.compareIsNotEqual(node.actualPath(), node, "hello")
-        comparator.generateNotEqualMatchReport().should == 'matches:\n' +
-            '\n' +
+        comparator.generateNotEqualMatchReport().should ==
             'node:   actual: [{k1: v1, k2: v2}] <java.util.Collections.UnmodifiableCollection>\n' +
             '      expected: not "hello" <java.lang.String>'
     }
@@ -91,8 +91,7 @@ class DataNodeCompareToHandlerTest {
         def node = DataNodeBuilder.fromMap(new DataNodeId('node'), [node: [k1: 'v1', k2: 'v2']])
 
         assert comparator.compareIsNotEqual(node.actualPath(), node, null)
-        comparator.generateNotEqualMatchReport().should == 'matches:\n' +
-            '\n' +
+        comparator.generateNotEqualMatchReport().should ==
             'node:   actual: [{k1: v1, k2: v2}] <java.util.Collections.UnmodifiableCollection>\n' +
             '      expected: not null'
     }

@@ -40,9 +40,7 @@ class ValueMatcherCompareToHandlerTest {
         CompareToComparator comparator = CompareToComparator.comparator()
         assert comparator.compareIsEqual(actualPath, 100, new DummyValueMatcher(true))
 
-        assertEquals("matches:\n" +
-            "\n" +
-            "value: matchedMessage", comparator.generateEqualMatchReport())
+        assertEquals("value: matchedMessage", comparator.generateEqualMatchReport())
     }
 
     @Test
@@ -71,10 +69,8 @@ class ValueMatcherCompareToHandlerTest {
         CompareToComparator comparator = CompareToComparator.comparator()
         assert !comparator.compareIsNotEqual(actualPath, 100, new DummyValueMatcher(false))
 
-        assertEquals("matches:\n" +
-            "\n" +
-            "value: negativeMatchingMessage:\n" +
-                "       negativeMismatchedMessage", comparator.generateEqualMatchReport())
+        assertEquals("value: negativeMatchingMessage:\n" +
+                     "       negativeMismatchedMessage", comparator.generateEqualMatchReport())
     }
 
     @Test
