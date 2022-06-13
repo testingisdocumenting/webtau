@@ -98,7 +98,7 @@ public class HtmlReportGenerator implements ReportGenerator {
                 reactJsBundle.getCss() + "\n" +
                 "</style>" +
                 genFavIconBase64() + "\n" +
-                "<title>WebTau Report</title>" +
+                "<title>" + getCfg().getReportName() + "</title>" +
                 "\n</head>\n" +
                 "<body class=\"webtau-light\"><div id=\"root\"/>\n" +
                 "<script>\n" +

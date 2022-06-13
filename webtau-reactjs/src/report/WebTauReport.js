@@ -293,7 +293,6 @@ class WebTauReport extends Component {
   componentDidMount() {
     this.subscribeToUrlChanges();
     this.updateStateFromUrl();
-    document.title = this.props.report.name;
   }
 
   subscribeToUrlChanges() {
