@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +33,7 @@ class NotEqualMatcherTest {
 
         assert matcher.matches(actualPath, actual)
         assert matcher.matchedMessage(actualPath, actual) == "doesn't equal $expected\n" +
-            'matches:\n\n' + simpleActualExpectedWithIntegers(actual, "not", expected)
+            simpleActualExpectedWithIntegers(actual, "not", expected)
     }
 
     @Test
@@ -51,7 +52,6 @@ class NotEqualMatcherTest {
         def actual = expected
         assert matcher.negativeMatches(actualPath, actual)
         assert matcher.negativeMatchedMessage(actualPath, actual) == "equals $expected\n" +
-            "matches:\n\n" +
             simpleActualExpectedWithIntegers(actual, expected)
     }
 

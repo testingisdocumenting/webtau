@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -49,7 +50,6 @@ class LessThanOrEqualMatcherTest {
         def actual = expected + 1
         assert matcher.negativeMatches(actualPath, actual)
         assert matcher.negativeMatchedMessage(actualPath, actual) == "greater than $expected\n" +
-            'matches:\n\n' +
             simpleActualExpectedWithIntegers(actual, 'greater than', expected)
     }
 
@@ -83,7 +83,6 @@ class LessThanOrEqualMatcherTest {
     private void assertPositiveMatch(int actual) {
         assert matcher.matches(actualPath, actual)
         assert matcher.matchedMessage(actualPath, actual) == "less than or equal $expected\n" +
-                'matches:\n\n' +
                 simpleActualExpectedWithIntegers(actual, 'less than or equal to', expected)
     }
 
