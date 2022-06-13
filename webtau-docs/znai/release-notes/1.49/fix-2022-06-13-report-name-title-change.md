@@ -1,0 +1,1 @@
+* Fix: Make web report tab title stable (was changing name after javascript load) 

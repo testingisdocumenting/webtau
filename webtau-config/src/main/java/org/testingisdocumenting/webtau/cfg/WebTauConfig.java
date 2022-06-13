@@ -93,7 +93,7 @@ public class WebTauConfig implements PrettyPrintable {
     private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors", false);
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue failedReportPath = declare("failedReportPath", "failed report file path", () -> null);
-    private final ConfigValue reportName = declare("reportName", "report name to show", () -> "webtau report");
+    private final ConfigValue reportName = declare("reportName", "report name to show", () -> "WebTau report");
     private final ConfigValue reportNameUrl = declare("reportNameUrl", "report name url to navigate to when clicked", () -> "");
 
     private final Map<String, ConfigValue> enumeratedCfgValues = enumerateRegisteredConfigValues();
