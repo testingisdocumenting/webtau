@@ -9,3 +9,4 @@ http.patch,HTTP/HTTP-calls#patch
 http.query,HTTP/query-parameters
 http.header,HTTP/header
 http.json,HTTP/body#json-request
+data.json,utilities/data#json-read

@@ -30,7 +30,7 @@ import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.data.DataContentUtils.*;
 
-class DataCsv {
+public class DataCsv {
     /**
      * Use <code>data.csv.table</code> to read data as {@link TableData} from CSV file.
      * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.

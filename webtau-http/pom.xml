@@ -67,6 +67,13 @@
 
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
+            <artifactId>webtau-data</artifactId>
+            <version>${project.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-core-groovy</artifactId>
             <scope>test</scope>
             <version>${project.version}</version>

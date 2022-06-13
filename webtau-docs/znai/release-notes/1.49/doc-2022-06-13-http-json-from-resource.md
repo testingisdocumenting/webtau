@@ -1,0 +1,1 @@
+* Doc: [HTTP JSON Body](HTTP/body#json-request-from-file) example from external file   
