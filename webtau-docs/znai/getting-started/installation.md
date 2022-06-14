@@ -33,7 +33,7 @@ To integrate CLI run into maven build use:
 
 :include-file: maven/groovy-dep.xml {title: "WebTau Dependency"}
 
-:include-file: maven/plugin-wildcard.xml {title: "WebTau Plugin"}
+:include-file: maven/plugin-all-parameters.xml {title: "WebTau Plugin"}
 
 [Learn more about Groovy Runner features](groovy-standalone-runner/introduction)
 

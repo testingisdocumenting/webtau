@@ -37,8 +37,16 @@ class WebTauMavenRepl extends AbstractMojo {
     @Parameter
     private String workingDir
 
+    @Parameter
+    private String config
+
     @Override
     void execute() throws MojoExecutionException, MojoFailureException {
-        WebTauMaven.runTests(getLog(), tests, [env: env, url: url, workingDir: workingDir, repl: true])
+        WebTauMaven.runTests(getLog(), tests, [
+                repl: true,
+                env: env,
+                url: url,
+                workingDir: workingDir,
+                config: config])
     }
 }
