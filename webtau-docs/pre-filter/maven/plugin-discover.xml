@@ -12,8 +12,6 @@
     </executions>
     <configuration>
         <workingDir>\${project.basedir}/src/main/groovy</workingDir>
-        <env>integration</env>
-        <url>http://optional-base-url</url>
         <tests>
             <directory>\${project.basedir}/src/main/groovy</directory>
         </tests>

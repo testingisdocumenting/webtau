@@ -56,6 +56,7 @@
                         </goals>
                         <configuration>
                             <workingDir>${project.basedir}/src/test/groovy/one</workingDir>
+                            <noColor>true</noColor>
                             <tests>
                                 <directory>${project.basedir}/src/test/groovy/one</directory>
                                 <includes>
@@ -74,6 +75,24 @@
                             <workingDir>${project.basedir}/src/test/groovy/two</workingDir>
                             <tests>
                                 <directory>${project.basedir}/src/test/groovy/two</directory>
+                                <includes>
+                                    <include>scenarios/*.groovy</include>
+                                </includes>
+                            </tests>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>run-three</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <workingDir>${project.basedir}/src/test/groovy/three</workingDir>
+                            <config>webtau.another.cfg.groovy</config>
+                            <reportPath>test-report.html</reportPath>
+                            <tests>
+                                <directory>${project.basedir}/src/test/groovy/three</directory>
                                 <includes>
                                     <include>scenarios/*.groovy</include>
                                 </includes>
