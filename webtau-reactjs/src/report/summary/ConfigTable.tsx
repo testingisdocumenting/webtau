@@ -16,39 +16,13 @@
  */
 
 import React from 'react';
-
-import '../widgets/Table.css';
-import './ConfigTable.css';
+import { SortableTable } from '../widgets/SortableTable';
 
 interface Props {
   report: any;
 }
 
 export function ConfigTable({ report }: Props) {
-  return (
-    <table className="config-table table">
-      <thead>
-        <tr>
-          <th>Key</th>
-          <th>Value</th>
-          <th>Source</th>
-        </tr>
-      </thead>
-      <tbody>
-        {report.config.map((e: any) => (
-          <ConfigEntry key={e.key} entry={e} />
-        ))}
-      </tbody>
-    </table>
-  );
-}
-
-function ConfigEntry({ entry }: { entry: any }) {
-  return (
-    <tr>
-      <td>{entry.key}</td>
-      <td>{entry.value}</td>
-      <td>{entry.source}</td>
-    </tr>
-  );
+  const tableData = report.config.map((e: any) => [e.key, e.value, e.source]);
+  return <SortableTable header={['key', 'value', 'source']} data={tableData} />;
 }

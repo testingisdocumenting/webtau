@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-.env-vars-table {
-    max-width: 1200px;
-}
-
 .env-vars-table td:nth-child(2) {
     word-break: break-all;
 }

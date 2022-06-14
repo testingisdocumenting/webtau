@@ -16,7 +16,7 @@
 
 import React from 'react';
 
-import '../widgets/Table.css';
+import { SortableTable } from '../widgets/SortableTable';
 import './EnvVarsTable.css';
 
 interface Props {
@@ -24,33 +24,6 @@ interface Props {
 }
 
 export function EnvVarsTable({ report }: Props) {
-  return (
-    <table className="env-vars-table table">
-      <thead>
-        <tr>
-          <th>Key</th>
-          <th>Value</th>
-        </tr>
-      </thead>
-      <tbody>
-        {report.envVars.map((e: any) => (
-          <EnvVarEntry key={e.key} label={e.key} value={e.value} />
-        ))}
-      </tbody>
-    </table>
-  );
-}
-
-interface EnvVarProp {
-  label: string;
-  value: string;
-}
-
-function EnvVarEntry({ label, value }: EnvVarProp) {
-  return (
-    <tr>
-      <td>{label}</td>
-      <td>{value}</td>
-    </tr>
-  );
+  const tableData = report.envVars.map((e: any) => [e.key, e.value]);
+  return <SortableTable className="env-vars-table" header={['key', 'value']} data={tableData} />;
 }
