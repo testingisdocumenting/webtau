@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -37,6 +38,24 @@ class WebTauMavenRun extends AbstractMojo {
     @Parameter
     private String workingDir
 
+    @Parameter
+    private String config
+
+    @Parameter
+    private String reportPath
+
+    @Parameter
+    private String failedReportPath
+
+    @Parameter
+    private String reportName
+
+    @Parameter
+    private String reportNameUrl
+
+    @Parameter(property = "noColor", defaultValue = "false")
+    private boolean noColor
+
     @Parameter(property = "skipTests", defaultValue = "false")
     protected boolean skipTests
 
@@ -48,7 +67,16 @@ class WebTauMavenRun extends AbstractMojo {
         if (skipTests()) {
             getLog().info("Skipping webtau tests")
         } else {
-            WebTauMaven.runTests(getLog(), tests, [env: env, url: url, workingDir: workingDir])
+            WebTauMaven.runTests(getLog(), tests, [
+                    env: env,
+                    url: url,
+                    workingDir: workingDir,
+                    config: config,
+                    reportPath: reportPath,
+                    failedReportPath: failedReportPath,
+                    reportName: reportName,
+                    reportNameUrl: reportNameUrl,
+                    noColor: noColor])
         }
     }
 

@@ -73,6 +73,7 @@ class WebTauMaven {
         return params.entrySet()
                 .findAll { e -> e.value != null }
                 .collect { e -> argKeyValue(e.key, e.value) }
+                .findAll(arg -> !arg.isEmpty())
     }
 
     private static String argKeyValue(key, value) {
