@@ -289,14 +289,19 @@ function shortenClassName(className) {
 }
 
 function groupWithFailedTestsAtTheTop(groups) {
-  const failed = groups.filter((g) => hasFailedOrErrored(g));
-  const rest = groups.filter((g) => !hasFailedOrErrored(g));
+  const beforeAllTestsGroup = groups.filter((g) => isBeforeAllTestsGroup(g));
+  const failed = groups.filter((g) => hasFailedOrErrored(g) && !isBeforeAllTestsGroup(g));
+  const rest = groups.filter((g) => !hasFailedOrErrored(g) && !isBeforeAllTestsGroup(g));
 
-  return [...failed, ...rest];
+  return [...beforeAllTestsGroup, ...failed, ...rest];
 }
 
 function hasFailedOrErrored(group) {
   return group.tests.some((t) => isFailedOrErrored(t));
+}
+
+function isBeforeAllTestsGroup(group) {
+  return group.tests.every((t) => t.synthetic && t.shortContainerId === 'Setup');
 }
 
 function isFailedOrErrored(test) {

@@ -126,6 +126,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "before all test listener and failed test"() {
+        runCli('beforeAllAndFailedTest.groovy', 'beforeAllAfterAllTestListener.cfg.groovy')
+    }
+
+    @Test
     void "repeat step"() {
         runCli('repeatStep.groovy', 'webtau.cfg.groovy')
     }
