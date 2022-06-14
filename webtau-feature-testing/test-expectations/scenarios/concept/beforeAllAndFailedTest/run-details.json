@@ -1,0 +1,22 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "before first test",
+    "shortContainerId" : "Setup",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "test",
+    "shortContainerId" : "beforeAllAndFailedTest.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 1
+    }
+  } ],
+  "exitCode" : 1
+}

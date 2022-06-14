@@ -465,6 +465,15 @@ export const withRestDataReport = {
   envVars: envVars,
   tests: [
     {
+      id: 'customerCrudSeparated.groovy-1',
+      scenario: 'before first test',
+      status: 'Passed',
+      startTime: 1534456916484,
+      elapsedTime: 283,
+      shortContainerId: 'Setup',
+      synthetic: true,
+    },
+    {
       id: 'another.groovy-1',
       className: 'com.example.tests.rest.AnotherIT',
       scenario: 'customer super read',
