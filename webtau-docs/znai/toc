@@ -63,6 +63,7 @@ database
 report
     introduction
     steps
+    configuration
 REPL
     experiments
     test-runs

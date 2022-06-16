@@ -12,14 +12,10 @@
     </executions>
     <configuration>
         <workingDir>\${project.basedir}/src/main/groovy</workingDir>
-        <env>integration</env>
-        <url>http://optional-base-url</url>
-        <config>optional-config-file-name-override.cfg.groovy</config>
-        <reportPath>optional-report-path-override.html</reportPath>
-        <failedReportPath>optional-failed-report-path-override.html</failedReportPath>
+        <reportPath>my-report-name.html</reportPath>
+        <failedReportPath>my-failed-report-name.html</failedReportPath>
         <reportName>my service</reportName>
         <reportNameUrl>https://service-under-test</reportNameUrl>
-        <noColor>false</noColor>
         <tests>
             <directory>\${project.basedir}/src/main/groovy</directory>
             <includes>
