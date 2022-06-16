@@ -59,4 +59,4 @@ Maven:
 }
 ```
 
-:include-image: doc-artifacts/report-name.png {fit: true, annotate: true}
+:include-image: doc-artifacts/reports/report-name.png {fit: true, annotate: true}
