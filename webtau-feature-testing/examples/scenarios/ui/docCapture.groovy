@@ -15,6 +15,12 @@ scenario("search and capture with badges") {
             browser.doc.badge(search.results)).capture("search")
 }
 
+scenario("search and capture with badges shortcut") {
+    search.submit("search this")
+
+    browser.doc.withAnnotations(search.box, search.results).capture("search-with-shortcut")
+}
+
 scenario("search and capture results area") {
     search.submit("search this")
 

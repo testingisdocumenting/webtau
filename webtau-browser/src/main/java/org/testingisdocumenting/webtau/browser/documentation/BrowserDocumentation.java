@@ -61,6 +61,12 @@ public class BrowserDocumentation {
         return browserDocumentation;
     }
 
+    public BrowserDocumentation withAnnotations(PageElement... pageElements) {
+        return withAnnotations(Arrays.stream(pageElements)
+                .map(this::badge)
+                .toArray(ImageAnnotation[]::new));
+    }
+
     public BrowserDocumentation withAnnotations(ImageAnnotation... annotations) {
         BrowserDocumentation browserDocumentation = new BrowserDocumentation(driver, assignDefaultText(Arrays.asList(annotations)));
         browserDocumentation.rootElement = rootElement;
