@@ -175,7 +175,7 @@ export const basicReport = {
 export const withCliDataReport = {
   version: '1.43',
   name: 'my cli tool name',
-  nameUrl: 'http://github.com/testingisdocumenting/webtau',
+  nameUrl: '#my-cli-tool-name',
   summary: {
     total: 1,
     passed: 0,

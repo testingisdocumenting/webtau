@@ -29,16 +29,14 @@ interface Props {
 }
 
 export function EntriesTypeSelection({ reportName, reportNameUrl, selectedType, onSelect }: Props) {
+  reportNameUrl = reportNameUrl || "https://github.com/testingisdocumenting/webtau"
+
   return (
     <div className="entries-type-selection">
       <div className="webtau-report-name">
-        {reportNameUrl ? (
-          <a href="https://github.com/testingisdocumenting/webtau" target="_blank" rel="noopener noreferrer">
-            {reportName}
-          </a>
-        ) : (
-          reportName
-        )}
+        <a href={reportNameUrl} target="_blank" rel="noopener noreferrer">
+          {reportName}
+        </a>
       </div>
       <div className="selection-area">
         <EntryType selectedType={selectedType} type={NavigationEntriesType.TESTS} label="tests" onSelect={onSelect} />
