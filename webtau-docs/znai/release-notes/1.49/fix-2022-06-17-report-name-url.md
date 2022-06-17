@@ -1,0 +1,1 @@
+* Fix: Report properly use [reportNameUrl](report/configuration#report-name-and-url) parameter    
