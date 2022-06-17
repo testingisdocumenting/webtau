@@ -77,3 +77,14 @@ Pass system property via java `-D` option:
 ```
 -Durl=http://another-server
 ```
+
+# Disable ANSI Colors 
+
+By default, WebTau renders output using colors.  
+Use `noColor` option to disable it.
+
+```
+export WEBTAU_NO_COLOR=true
+-DnoColor=true
+webtau --noColor ...
+```
