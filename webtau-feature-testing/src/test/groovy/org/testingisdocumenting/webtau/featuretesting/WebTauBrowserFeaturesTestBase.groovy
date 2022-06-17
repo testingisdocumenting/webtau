@@ -307,6 +307,7 @@ class WebTauBrowserFeaturesTestBase {
                 'doc-capture',
                 'examples/scenarios/ui/docCapture.groovy', [
                 'captureBadges.groovy': 'search and capture with badges',
+                'captureBadgesDefault.groovy': 'search and capture with badges shortcut',
                 'captureSpecificElement.groovy': 'search and capture results area',
                 'captureBadgesPlacement.groovy': 'search and capture with badges placed in non center position',
                 'captureBadgesInvertedColors.groovy': 'badge with inverted colors',
