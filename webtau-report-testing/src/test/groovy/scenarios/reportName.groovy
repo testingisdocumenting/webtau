@@ -22,5 +22,9 @@ import static pages.Pages.*
 scenario('check report name') {
     report.openGroovyStandaloneReport('concept/simpleScenarioReportName-webtau-report.html')
     report.reportName.should == 'my service'
+
+    browser.doc
+            .withAnnotations(browser.doc.badge(report.reportName))
+            .capture("report-name")
 }
 
