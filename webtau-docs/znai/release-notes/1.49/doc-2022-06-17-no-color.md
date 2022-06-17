@@ -1,0 +1,1 @@
+* Doc: Added [Disable Anti Colors](getting-started/configuration#disable-ansi-colors)  
