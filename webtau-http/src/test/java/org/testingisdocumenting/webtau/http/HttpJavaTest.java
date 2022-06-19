@@ -23,6 +23,8 @@ import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 import org.junit.*;
 
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
@@ -566,6 +568,60 @@ public class HttpJavaTest extends HttpTestBase {
                 "  \"id\": \"id1\",\n" +
                 "  \"status\": \"SUCCESS\"\n" +
                 "}"));
+    }
+
+    @Test
+    public void fileUploadExampleSimple() {
+        Path imagePath = testResourcePath("src/test/resources/image.png");
+
+        http.post("/file-upload", http.formData(aMapOf("file", imagePath)), (header, body) -> {
+            body.get("fileName").should(equal("image.png"));
+        });
+    }
+
+    @Test
+    public void fileUploadExampleWithFileNameOverride() {
+        Path imagePath = testResourcePath("src/test/resources/image.png");
+
+        http.post("/file-upload", http.formData(aMapOf(
+                "file", http.formFile("myFileName.png", imagePath))), (header, body) -> {
+            body.get("fileName").should(equal("myFileName.png"));
+        });
+    }
+
+    @Test
+    public void fileUploadExampleMultipleFields() {
+        Path imagePath = testResourcePath("src/test/resources/image.png");
+
+        http.post("/file-upload", http.formData(aMapOf(
+                "file", imagePath,
+                "fileDescription", "new report")), (header, body) -> {
+            body.get("fileName").should(equal("image.png"));
+            body.get("description").should(equal("new report"));
+        });
+    }
+
+    @Test
+    public void fileUploadExampleWithInMemoryContent() {
+        byte[] fileContent = new byte[] {1, 2, 3, 4};
+
+        http.post("/file-upload", http.formData(aMapOf("file", fileContent)), (header, body) -> {
+            body.get("fileName").should(equal("backend-generated-name-as-no-name-provided"));
+        });
+    }
+
+    @Test
+    public void fileUploadExampleWithInMemoryContentAndFileName() {
+        byte[] fileContent = new byte[] {1, 2, 3, 4};
+
+        http.post("/file-upload", http.formData(aMapOf(
+                "file", http.formFile("myFileName.dat", fileContent))), (header, body) -> {
+            body.get("fileName").should(equal("myFileName.dat"));
+        });
+    }
+
+    private static Path testResourcePath(String relativePath) {
+        return Paths.get(relativePath);
     }
 
     private static byte[] binaryFileContent(String path) {
