@@ -3,7 +3,9 @@
   "type": "Guide",
   "viewOn": {
     "link": "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
-    "title": "View On GitHub"
+    "title": "View Markdown"
   },
-  "allowedGroups": ["admin"]
+  "support": {
+    "link": "https://github.com/testingisdocumenting/webtau/discussions"
+  }
 }
