@@ -95,7 +95,7 @@ Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.gro
 Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {title: "combined type and payload", entry: "explicitBinaryMimeTypesCombinedWithRequestBody", bodyOnly: true}
 ```
 
-More examples are in [HTTP Body Standard Shortcuts](HTTP/body#standard-shortcuts)
+More examples are in [HTTP Body Content-Type Shortcuts](HTTP/body#content-type-shortcuts)
   
 # Response Header
 
