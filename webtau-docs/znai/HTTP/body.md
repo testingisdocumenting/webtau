@@ -51,7 +51,7 @@ Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {tit
 ```
 
 
-# Standard Shortcuts
+# Content-Type Shortcuts
 
 WebTau provides shortcuts for Standard MIME types
 
@@ -110,12 +110,109 @@ Java:
 ```
 
 Note: `:identifier: http.application.json {validationPath: "org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy"}` 
-is long a form of `:identifier: http.json {validationPath: "org/testingisdocumenting/webtau/http/HttpJavaTest.java"}` 
+is a long form of `:identifier: http.json {validationPath: "org/testingisdocumenting/webtau/http/HttpJavaTest.java"}` 
 and is there for completeness purpose. 
 \
 \
 There is no behavior difference between passing an instance of `java.util.Map` and `http.json`
 
+# Form File Data
+
+Consider example where backend expects a file as `multipart/form-data`.
+Field `file` defines content.  
+Backend responds with file name and file description it received.
+
+To send `multipart/form-data`, use `http.formData` to build a request body. 
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "file upload",
+  entry: "file upload example simple",
+  bodyOnly: true
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "file upload",
+  entry: "fileUploadExampleSimple", 
+  bodyOnly: true
+}
+```
+
+Use `http.formFile` to override file name.
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "file name override",
+  entry: "file upload example with file name override", 
+  bodyOnly: true
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "file upload",
+  entry: "fileUploadExampleWithFileNameOverride", 
+  bodyOnly: true
+}
+```
+
+Multiple form fields can be specified:
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "multiple form fields",
+  entry: "file upload example multiple fields", 
+  bodyOnly: true
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "file upload",
+  entry: "fileUploadExampleMultipleFields", 
+  bodyOnly: true
+}
+```
+
+To pass a file content directly, use
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "file upload in-memory content",
+  entry: "file upload example with in-memory content", 
+  bodyOnly: true
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "file upload in-memory content",
+  entry: "fileUploadExampleWithInMemoryContent", 
+  bodyOnly: true
+}
+```
+
+Note: no file name is passed and this particular backend generated file name on your behalf.
+
+Use `http.formFile` to provide a file name
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "providing name",
+  entry: "file upload example with in-memory content and file name",
+  bodyOnly: true
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "file upload in-memory content",
+  entry: "fileUploadExampleWithInMemoryContentAndFileName", 
+  bodyOnly: true
+}
+```
 
 # Parsed Response 
 

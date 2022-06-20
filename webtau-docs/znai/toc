@@ -14,7 +14,6 @@ HTTP
     HTTP-calls
     ping
     proxy
-    files
     documentation
     openAPI-spec
     JSON-schema

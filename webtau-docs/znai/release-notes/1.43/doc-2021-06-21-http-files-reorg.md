@@ -1,1 +1,1 @@
-* Doc: combined "files upload" and "PDF" section under [files](HTTP/files). Edited text.
+* Doc: combined "files upload" and "PDF" section under `HTTP/files`. Edited text.
