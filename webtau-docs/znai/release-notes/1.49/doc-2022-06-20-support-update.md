@@ -1,0 +1,1 @@
+* Doc: Add [GitHub discussions](https://github.com/testingisdocumenting/webtau/discussions) to footer and support link  
