@@ -5,6 +5,9 @@ If you have documentation suggestions, features or bugs to report, please create
 Head over to [GitHub Discussions](https://github.com/testingisdocumenting/webtau/discussions) to ask questions and 
 share your thoughts!
 
+Ask questions on [StackOverflow](https://stackoverflow.com/questions/tagged/webtau). 
+Tag your questions with `#webtau` and WebTau maintainers will try to answer them.  
+
 **Contributions are welcome**
 
 right:
