@@ -111,6 +111,13 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
+    public void pingIfElseExample() {
+        if (!http.ping("/end-point")) {
+            http.post("/cluster-master", http.json("restart", "server-one"));
+        }
+    }
+
+    @Test
     public void simpleObjectMappingExample() {
         http.get("/end-point-simple-object", (header, body) -> {
             body.get("k1").should(equal("v1"));

@@ -1151,4 +1151,24 @@ public class HttpJavaOverloadsTest extends HttpTestBase {
     public void patchNoValidationSyntaxExample() {
         http.patch("/chat/id1");
     }
+
+    @Test
+    public void pingAllParams() {
+        http.ping("/end-point", http.query("queryParam1", "queryParamValue1"), http.header("X-flag", "test"));
+    }
+
+    @Test
+    public void pingNoQuery() {
+        http.ping("/end-point", http.header("X-flag", "test"));
+    }
+
+    @Test
+    public void pingNoHeader() {
+        http.ping("/end-point", http.query("queryParam1", "queryParamValue1"));
+    }
+
+    @Test
+    public void pingUrlOnly() {
+        http.ping("/end-point");
+    }
 }

@@ -858,4 +858,24 @@ class HttpGroovyOverloadsTest extends HttpTestBase {
     void "patch only syntax example"() {
         http.patch("/chat/id1")
     }
+
+    @Test
+    void "ping all params"() {
+        http.ping("/end-point", [queryParam1: "queryParamValue1"], http.header(["X-flag": "test"]))
+    }
+
+    @Test
+    void "ping no query"() {
+        http.ping("/end-point", http.header(["X-flag": "test"]))
+    }
+
+    @Test
+    void "ping no header"() {
+        http.ping("/end-point", [queryParam1: "queryParamValue1"])
+    }
+
+    @Test
+    void "ping url only"() {
+        http.ping("/end-point")
+    }
 }
