@@ -20,8 +20,8 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
 scenario('no warning') {
-    report.openGroovyStandaloneReport('rest/ping-webtau-report.html')
-    report.selectTest('ping')
+    report.openGroovyStandaloneReport('rest/simpleGet-webtau-report.html')
+    report.selectTest('check weather')
 
     report.testSummaryHttpCallWarnings.shouldNot beVisible
 }
