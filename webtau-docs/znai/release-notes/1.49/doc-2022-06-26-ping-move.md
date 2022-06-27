@@ -1,0 +1,1 @@
+* Doc: Add [ping](HTTP/HTTP-calls#ping) reference documentation  
