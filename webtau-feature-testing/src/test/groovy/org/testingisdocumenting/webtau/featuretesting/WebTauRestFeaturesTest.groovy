@@ -60,20 +60,6 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
-    void "ping"() {
-        runCli("ping.groovy", "docArtifacts.cfg.groovy", "--url=${testRunner.testServer.uri}")
-    }
-
-    @Test
-    void "ping extract snippets"() {
-        extractCodeSnippets(
-                "ping", "examples/scenarios/rest/ping.groovy", [
-                "pingIfCheck.groovy": "ping",
-                "pingOverloads.groovy": "ping overloads",
-        ])
-    }
-
-    @Test
     void "persona get"() {
         runCli("headers/personaGet.groovy", "headers/webtau.persona.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }

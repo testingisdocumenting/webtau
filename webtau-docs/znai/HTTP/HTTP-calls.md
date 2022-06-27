@@ -100,3 +100,87 @@ method:patch
 responseArtifact:post-full-syntax-assertion
 responseTitle:PATCH /chat/id1 response
 ```
+
+# PING {style: "api"}
+
+Use `ping` to check if an end point responds `200` to `GET` method
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "if else ping example",
+  entry: "ping if else example", 
+  bodyOnly: true
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "if else ping example",
+  entry: "pingIfElseExample", 
+  bodyOnly: true
+}
+```
+
+```java {title: "full signature"}
+boolean http.ping(url, [queryParams], [header]) 
+```
+
+```api-parameters
+url, String, [relative](getting-started/configuration#config-file) or absolute URL to send `GET` request to
+queryParams, HttpQueryParams | Map, [query parameters](HTTP/query-parameters) to attach to URL 
+header, HttpHeader, [request header](HTTP/header) to send 
+```
+
+```tabs 
+Groovy: 
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyOverloadsTest.groovy {
+  title: "full signature with query and header",
+  entry: "ping all params", 
+  bodyOnly: true,
+  commentsType: "inline"
+}
+
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyOverloadsTest.groovy {
+  title: "without header",
+  entry: "ping no header",
+  bodyOnly: true 
+}
+
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyOverloadsTest.groovy {
+  title: "without query",
+  entry: "ping no query",
+  bodyOnly: true
+}
+
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyOverloadsTest.groovy {
+  title: "url only",
+  entry: "ping url only",
+  bodyOnly: true
+}
+
+Java: 
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaOverloadsTest.java {
+  title: "full signature with query and header", 
+  entry: "pingAllParams", 
+  bodyOnly: true,
+  commentsType: "inline"
+}
+
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaOverloadsTest.java {
+  title: "without header",
+  entry: "pingNoHeader", 
+  bodyOnly: true
+}
+
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaOverloadsTest.java {
+  title: "without query",
+  entry: "pingNoQuery", 
+  bodyOnly: true
+}
+
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaOverloadsTest.java {
+  title: "url only",
+  entry: "pingUrlOnly", 
+  bodyOnly: true
+}
+``` 

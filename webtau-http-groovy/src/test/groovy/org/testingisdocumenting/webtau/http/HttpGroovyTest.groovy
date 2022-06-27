@@ -76,6 +76,13 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "ping if else example"() {
+        if (!http.ping("/end-point")) {
+            http.post("/cluster-master", [restart: "server-one"])
+        }
+    }
+
+    @Test
     void "use table data as expected"() {
         http.get("/end-point") {
             complexList.should == ["k1"   | "k2"] {
