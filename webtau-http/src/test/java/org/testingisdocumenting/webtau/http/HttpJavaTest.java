@@ -230,6 +230,21 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
+    public void conversionOfNumbers() {
+        Map<String, ?> bodyAsMap = http.get("/large-numbers", (header, body) -> {
+            body.get("longValue").should(equal(9223372036854775807L));
+            body.get("doubleValue").should(equal(100.43));
+            body.get("intValue").should(equal(30000));
+
+            return body;
+        });
+
+        actual(bodyAsMap.get("longValue").getClass()).should(equal(Long.class));
+        actual(bodyAsMap.get("doubleValue").getClass()).should(equal(Double.class));
+        actual(bodyAsMap.get("intValue").getClass()).should(equal(Integer.class));
+    }
+
+    @Test
     public void containMatcher() {
         http.get("/end-point-list", (header, body) -> {
             body.should(contain(aMapOf(
