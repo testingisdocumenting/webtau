@@ -52,6 +52,19 @@ class JsonUtilsTest {
     }
 
     @Test
+    void "should deserialize numbers"() {
+        def map = JsonUtils.deserializeAsMap("""{
+              "value": 10.43,
+              "anotherValue": ${Long.MAX_VALUE}}""")
+
+        assert map.value.getClass() == Double
+        assert map.value == 10.43d
+
+        assert map.anotherValue.getClass() == Long
+        assert map.anotherValue == Long.MAX_VALUE
+    }
+
+    @Test
     void "should serialize single value"() {
         def asText = JsonUtils.serialize("hello")
         assert asText == '"hello"'
