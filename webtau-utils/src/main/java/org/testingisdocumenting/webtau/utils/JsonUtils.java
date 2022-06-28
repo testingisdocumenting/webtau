@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 public class JsonUtils {
+    // to handle other core types like Groovy GString that may not be part of a testing (to avoid direct dependency)
     private static final List<JsonSerializationModuleProvider> moduleProviders =
             ServiceLoaderUtils.load(JsonSerializationModuleProvider.class);
 

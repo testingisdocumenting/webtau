@@ -59,6 +59,7 @@ public class HttpTestDataServer {
         handler.registerGet("/end-point-numbers", jsonResponse("numbersTestResponse.json"));
         handler.registerGet("/end-point-list", jsonResponse("listTestResponse.json"));
         handler.registerGet("/end-point-dates", jsonResponse("datesTestResponse.json"));
+        handler.registerGet("/large-numbers", jsonResponse("largeNumbersTestResponse.json"));
         handler.registerGet("/prices", jsonResponse("prices.json"));
         handler.registerGet("/binary", new TestServerBinaryResponse(ResourceUtils.binaryContent("image.png")));
         handler.registerPost("/echo", new TestServerResponseEcho(201));
