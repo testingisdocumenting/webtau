@@ -1,0 +1,1 @@
+* Fix: Web report tab names overflow ellipsis   
