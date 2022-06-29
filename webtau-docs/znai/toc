@@ -17,7 +17,6 @@ HTTP
     openAPI-spec
     JSON-schema
     report
-    maven
     matchers
 GraphQL
     introduction
