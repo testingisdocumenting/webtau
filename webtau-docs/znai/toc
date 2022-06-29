@@ -12,12 +12,12 @@ HTTP
     body
     query-parameters
     HTTP-calls
-    proxy
     documentation
     openAPI-spec
     JSON-schema
     report
     matchers
+    configuration
 GraphQL
     introduction
     queries-and-mutations
