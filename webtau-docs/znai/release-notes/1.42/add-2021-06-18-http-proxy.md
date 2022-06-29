@@ -1,1 +1,1 @@
-* [http proxy](HTTP/proxy) via config
+* httpProxy via config
