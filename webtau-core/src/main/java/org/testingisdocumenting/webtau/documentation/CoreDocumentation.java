@@ -45,6 +45,11 @@ public class CoreDocumentation {
     public final CoreDocumentationAssertionValue expected = new CoreDocumentationAssertionValue(assertion::expectedValue);
 
     /**
+     * console output capture
+     */
+    public final CoreDocumentationConsole console = new CoreDocumentationConsole();
+
+    /**
      * Captures value to a text or JSON file (based on the content) in parent location defined by {@link DocumentationArtifactsLocation}
      *
      * @param artifactName artifact name (file name without extension)
