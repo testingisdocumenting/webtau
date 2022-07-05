@@ -1,0 +1,1 @@
+* Add [doc.console.capture](JVM-business-logic/documentation-artifacts#capture-console-output) to capture console output of a provided JVM code block   
