@@ -15,11 +15,16 @@ Test your application across multiple layers:
 Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer
 to validate GraphQL API.
 
+Use [Persona](persona/introduction) concept to test API Authorization and collaboration Web Apps like chats and editors.
+
+:include-file: scenarios/rest/headers/personaGet.groovy {
+  title: "persona authorization",
+  excludeRegexp: ["package", "import"]
+}
+
 Use powerful [REPL](REPL/experiments) mode to significantly speed up end-to-end tests development.
 
 :include-cli-output: cli-tests/browser-repl-select/out.txt {title: "trying css selectors"}
-
-Use [Persona](persona/introduction) concept to test API Authorization and collaboration Web Apps like chats and editors. 
 
 Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.
 
