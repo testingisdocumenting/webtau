@@ -25,6 +25,23 @@ scenario("check weather") {
 }
 ```
 
+Use [Persona Concept](https://testingisdocumenting.org/webtau/persona/introduction) to streamline Authorization testing
+```groovy
+scenario("my bank balance") {
+    Alice {
+        http.get("/statement") {
+            balance.shouldBe > 100
+        }
+    }
+
+    Bob {
+        http.get("/statement") {
+            balance.shouldBe < 50
+        }
+    }
+}
+```
+
 Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer
 to validate GraphQL API.
 
@@ -75,7 +92,7 @@ public class SearchPage {
 ```
 
 [GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction):
-```groovy
+```java
 @WebTau
 public class GraphQLWeatherJavaIT {
     @Test
