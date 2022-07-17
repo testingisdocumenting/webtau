@@ -81,6 +81,12 @@ public class WebTauDsl extends WebTauCore {
         return WebTauConfig.getCfg();
     }
 
+    /**
+     * @deprecated use data.pdf from webtau-data module or through WebTauDsl
+     * @param node data node to read binary content from
+     * @return parsed pdf to assert on the content
+     */
+    @Deprecated
     public static Pdf pdf(DataNode node) {
         return Pdf.pdf(node);
     }
@@ -132,12 +138,18 @@ public class WebTauDsl extends WebTauCore {
         return visible;
     }
 
+    /**
+     * check if DataNode complies with schema
+     * @param schemaFileName schema file name
+     * @return schema matcher
+     */
     public static SchemaMatcher complyWithSchema(String schemaFileName) {
         return new SchemaMatcher(schemaFileName);
     }
 
     /**
      * @deprecated use {@link #complyWithSchema(String)} ()}
+     * @param schemaFileName schema file name
      * @return schema matcher
      */
     @Deprecated

@@ -17,9 +17,10 @@
 package org.testingisdocumenting.webtau.pdf;
 
 import org.testingisdocumenting.webtau.expectation.ActualPath;
-import org.testingisdocumenting.webtau.http.datanode.DataNodeExpectations;
+import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
+import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 
-public class PdfText implements DataNodeExpectations {
+public class PdfText implements ActualValueExpectations, ActualPathAndDescriptionAware {
     private final String id;
     private final String text;
 

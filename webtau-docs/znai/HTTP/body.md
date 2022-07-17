@@ -242,6 +242,46 @@ Java:
 }
 ```
 
+# PDF Response
+
+Use `data.pdf.parse(body)` to parse and assert PDF content from binary response.
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "single PDF assertion",
+  entry: "download pdf and assert page text using contains", 
+  bodyOnly: true
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "single PDF assertion",
+  entry: "downloadPdfAndAssertPageTextUsingContains", 
+  bodyOnly: true
+}
+```
+
+Assign `parse` result to a local variable to make multiple assertions
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "multiple PDF assertions",
+  entry: "download pdf and assert page text using equal and contains", 
+  bodyOnly: true
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "multiple PDF assertions",
+  entry: "downloadPdfAndAssertPageTextUsingEqualAndContains", 
+  bodyOnly: true
+}
+```
+
+Note: Use pdf assertions for sanity checks, i.e. presence of a correct client name or an account number. Implement comprehensive PDF generation logic tests as unit tests.
+
 # Raw Response
 
 Use `:identifier: body.getTextContent() {validationPath: "org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy"}` to access original text content
