@@ -15,7 +15,6 @@ HTTP
     documentation
     openAPI-spec
     JSON-schema
-    report
     matchers
     configuration
 GraphQL
@@ -61,6 +60,7 @@ report
     introduction
     steps
     configuration
+    custom-reports
 REPL
     experiments
     test-runs
