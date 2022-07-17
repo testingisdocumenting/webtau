@@ -81,6 +81,12 @@ public class WebTauDsl extends WebTauCore {
         return WebTauConfig.getCfg();
     }
 
+    /**
+     * @deprecated use {@link data.pdf}
+     * @param node data node to read binary content from
+     * @return parsed pdf to assert on the content
+     */
+    @Deprecated
     public static Pdf pdf(DataNode node) {
         return Pdf.pdf(node);
     }

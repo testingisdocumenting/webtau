@@ -17,8 +17,7 @@
 package org.testingisdocumenting.webtau.pdf;
 
 import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
-import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
-import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.data.BinaryDataProvider;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
 
@@ -40,26 +39,14 @@ public class Pdf {
         openedPdfs.add(this);
     }
 
-    public static Pdf pdf(byte[] content) {
-        try {
-            return new Pdf(content);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+    public static Pdf pdf(BinaryDataProvider dataProvider) {
+        return pdf(dataProvider.getBinaryContent());
     }
 
-    public static Pdf pdf(DataNode node) {
-        if (!node.isBinary()) {
-            throw new AssertionError("response is not binary content");
-        }
-
+    public static Pdf pdf(byte[] data) {
         try {
-            Pdf pdf = Pdf.pdf((byte[]) node.get());
-            node.getTraceableValue().updateCheckLevel(CheckLevel.FuzzyPassed);
-
-            return pdf;
+            return new Pdf(data);
         } catch (Exception e) {
-            node.getTraceableValue().updateCheckLevel(CheckLevel.ExplicitFailed);
             throw new AssertionError("Failed to parse pdf: " + e.getMessage());
         }
     }
@@ -75,7 +62,7 @@ public class Pdf {
             reader.setStartPage(pageIdx + 1);
             reader.setEndPage(pageIdx + 1);
 
-            return new PdfText("body.pdf.pageIdx(" + pageIdx + ").text", reader.getText(document));
+            return new PdfText("pdf.pageIdx(" + pageIdx + ").text", reader.getText(document));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }

@@ -1,0 +1,1 @@
+* Deprecate `pdf` method in favor of [data.pdf.read](HTTP/body#pdf-response) 

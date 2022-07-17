@@ -1,6 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2022 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,15 +16,7 @@
 
 package org.testingisdocumenting.webtau.data;
 
-public class Data {
-    public static final Data data = new Data();
-
-    public final DataCsv csv = new DataCsv();
-    public final DataJson json = new DataJson();
-    public final DataPdf pdf = new DataPdf();
-
-    public final DataGuid guid = new DataGuid();
-
-    private Data() {
-    }
+public interface BinaryDataProvider {
+    byte[] getBinaryContent();
+    String binaryDataSource();
 }
