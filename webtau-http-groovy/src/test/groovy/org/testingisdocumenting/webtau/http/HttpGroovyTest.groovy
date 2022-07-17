@@ -40,6 +40,7 @@ import java.time.ZonedDateTime
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
+import static org.testingisdocumenting.webtau.data.Data.data
 import static org.testingisdocumenting.webtau.http.Http.http
 
 class HttpGroovyTest extends HttpTestBase {
@@ -1325,6 +1326,22 @@ class HttpGroovyTest extends HttpTestBase {
                 "  \"id\": \"id1\",\n" +
                 "  \"status\": \"SUCCESS\"\n" +
                 "}"
+    }
+
+    @Test
+    void "download pdf and assert page text using contains"() {
+        http.get("/report") {
+            data.pdf.read(body).pageText(0).should contain("Quarterly earnings:")
+        }
+    }
+
+    @Test
+    void "download pdf and assert page text using equal and contains"() {
+        http.get("/report") {
+            def pdf = data.pdf.read(body)
+            pdf.pageText(0).should contain("Quarterly earnings:")
+            pdf.pageText(1).should == "Intentional blank page\n"
+        }
     }
 
     private static void assertStatusCodeMismatchRegistered() {

@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.http;
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.pdf.Pdf;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 import org.junit.*;
 
@@ -37,6 +38,7 @@ import java.util.regex.Pattern;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.data.Data.*;
 import static org.testingisdocumenting.webtau.http.Http.http;
 
 public class HttpJavaTest extends HttpTestBase {
@@ -650,6 +652,22 @@ public class HttpJavaTest extends HttpTestBase {
                 "file", http.formFile("myFileName.dat", fileContent))), (header, body) -> {
             body.get("fileName").should(equal("myFileName.dat"));
         });
+    }
+
+    @Test
+    public void downloadPdfAndAssertPageTextUsingContains() {
+        http.get("/report", ((header, body) -> {
+            data.pdf.read(body).pageText(0).should(contain("Quarterly earnings:"));
+        }));
+    }
+
+    @Test
+    public void downloadPdfAndAssertPageTextUsingEqualAndContains() {
+        http.get("/report", ((header, body) -> {
+            Pdf pdf = data.pdf.read(body);
+            pdf.pageText(0).should(contain("Quarterly earnings:"));
+            pdf.pageText(1).should(equal("Intentional blank page\n"));
+        }));
     }
 
     private static Path testResourcePath(String relativePath) {

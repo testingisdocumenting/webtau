@@ -108,6 +108,10 @@ public class HttpTestDataServer {
         handler.registerDelete("/chat/id1?q1=v1", jsonResponse("chatPostResponse.json", 200));
 
         handler.registerGet("/address", jsonResponse("addressResponse.json"));
+
+        handler.registerGet("/report",
+                new TestServerBinaryResponse(ResourceUtils.binaryContent("report.pdf")));
+
         registerRedirects();
     }
 

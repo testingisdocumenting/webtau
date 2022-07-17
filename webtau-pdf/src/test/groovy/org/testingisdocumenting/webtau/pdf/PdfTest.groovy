@@ -16,41 +16,17 @@
 
 package org.testingisdocumenting.webtau.pdf
 
-import org.testingisdocumenting.webtau.data.traceable.CheckLevel
-import org.testingisdocumenting.webtau.data.traceable.TraceableValue
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId
-import org.testingisdocumenting.webtau.http.datanode.StructuredDataNode
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Test
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 
-import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.testingisdocumenting.webtau.pdf.Pdf.pdf
+import static org.testingisdocumenting.webtau.Matchers.*
 
 class PdfTest {
     static byte[] pdfContent = ResourceUtils.binaryContent('sample.pdf')
 
     @Test
     void "should extract text from a page by index"() {
-        def pdf = pdf(ResourceUtils.binaryContent('sample.pdf'))
+        def pdf = Pdf.pdf(pdfContent)
         pdf.pageText(0).should contain('Test text paragraph Test')
-    }
-
-    @Test
-    void "should mark binary node as fuzzy passed when pdf is successfully parsed"() {
-        def node = new StructuredDataNode(new DataNodeId('body'), new TraceableValue(pdfContent))
-
-        pdf(node)
-        node.getTraceableValue().checkLevel.should == CheckLevel.FuzzyPassed
-    }
-
-    @Test
-    void "should mark binary node as failed when pdf cannot be parsed"() {
-        def node = new StructuredDataNode(new DataNodeId('body'), new TraceableValue([1, 2, 3] as byte[]))
-
-        code {
-            pdf(node)
-        } should throwException(AssertionError, ~/Failed to parse pdf: java.io.IOException:/)
-
-        node.getTraceableValue().checkLevel.should == CheckLevel.ExplicitFailed
     }
 }
