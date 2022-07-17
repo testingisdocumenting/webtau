@@ -6,7 +6,7 @@ import static pages.Pages.*
 scenario("wait for element to appear") {
     calculation.start()
 
-    calculation.feedback.waitTo beVisible()
+    calculation.feedback.waitToBe visible
     calculation.results.should == [100, 230]
 }
 
@@ -18,30 +18,30 @@ scenario("wait for match") {
 scenario("wait for element to be enabled") {
     calculation.open()
 
-    calculation.input.waitTo beEnabled()
+    calculation.input.waitToBe enabled
     calculation.input.setValue(100)
 }
 
 scenario("wait for element to be hidden") {
     calculation.open()
-    calculation.input.waitTo beEnabled()
+    calculation.input.waitToBe enabled
 
     calculation.input.setValue('abc')
     calculation.calculate()
 
-    calculation.error.waitTo beVisible()
+    calculation.error.waitTo visible
     calculation.dismissError()
-    calculation.error.waitTo beHidden()
+    calculation.error.waitToBe hidden
 }
 
 scenario("wait for element to be hidden reversed") {
     calculation.open()
-    calculation.input.waitToNot beDisabled()
+    calculation.input.waitToNotBe disabled
 
     calculation.input.setValue('abc')
     calculation.calculate()
 
-    calculation.error.waitToNot beHidden()
+    calculation.error.waitToNotBe hidden
     calculation.dismissError()
-    calculation.error.waitToNot beVisible()
+    calculation.error.waitToNotBe visible
 }

@@ -23,7 +23,7 @@ scenario('no warning') {
     report.openGroovyStandaloneReport('rest/simpleGet-webtau-report.html')
     report.selectTest('check weather')
 
-    report.testSummaryHttpCallWarnings.shouldNot beVisible
+    report.testSummaryHttpCallWarnings.shouldNotBe visible
 }
 
 scenario('test summary http warning') {
