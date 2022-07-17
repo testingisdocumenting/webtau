@@ -52,6 +52,31 @@ public class WebTauDsl extends WebTauCore {
     public static final GraphQL graphql = GraphQL.graphql;
     public static final WebTauServerFacade server = WebTauServerFacade.server;
 
+    /**
+     * visible matcher to check if UI element is visible
+     * @see #hidden
+     */
+    public static final ValueMatcher visible = new VisibleValueMatcher();
+
+
+    /**
+     * hidden matcher to check if UI element is hidden
+     * @see #visible
+     */
+    public static final ValueMatcher hidden = new HiddenValueMatcher();
+
+    /**
+     * enabled matcher to check if UI element is enabled
+     * @see #disabled
+     */
+    public static final ValueMatcher enabled = new EnabledValueMatcher();
+
+    /**
+     * disabled matcher to check if UI element is disabled
+     * @see #enabled
+     */
+    public static final ValueMatcher disabled = new DisabledValueMatcher();
+
     public static WebTauConfig getCfg() {
         return WebTauConfig.getCfg();
     }
@@ -64,30 +89,58 @@ public class WebTauDsl extends WebTauCore {
         return browser.$(css);
     }
 
+
+    /**
+     * @deprecated use {@link #visible}
+     * @return visible value matcher
+     */
+    @Deprecated
     public static ValueMatcher beVisible() {
-        return new VisibleValueMatcher();
+        return visible;
     }
 
+    /**
+     * @deprecated use {@link #hidden}
+     * @return hidden value matcher
+     */
+    @Deprecated
     public static ValueMatcher beHidden() {
-        return new HiddenValueMatcher();
+        return hidden;
     }
 
+    /**
+     * @deprecated use {@link #enabled}
+     * @return enabled value matcher
+     */
     public static ValueMatcher beEnabled() {
-        return new EnabledValueMatcher();
+        return enabled;
     }
 
+    /**
+     * @deprecated use {@link #disabled}
+     * @return disabled value matcher
+     */
     public static ValueMatcher beDisabled() {
-        return new DisabledValueMatcher();
+        return disabled;
     }
 
+    /**
+     * @deprecated use {@link #visible}
+     * @return visible value matcher
+     */
     public static ValueMatcher getBeVisible() {
-        return beVisible();
+        return visible;
     }
 
     public static SchemaMatcher complyWithSchema(String schemaFileName) {
         return new SchemaMatcher(schemaFileName);
     }
 
+    /**
+     * @deprecated use {@link #complyWithSchema(String)} ()}
+     * @return schema matcher
+     */
+    @Deprecated
     public static SchemaMatcher beCompliantWithSchema(String schemaFileName) {
         return complyWithSchema(schemaFileName);
     }

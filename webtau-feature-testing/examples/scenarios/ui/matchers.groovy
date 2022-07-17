@@ -63,12 +63,12 @@ scenario("less equal list mix of numbers") {
 
 scenario("enable state") {
     def button = $("#action")
-    button.should beDisabled()
-    button.shouldNot beEnabled()
+    button.shouldBe disabled
+    button.shouldNotBe enabled
 }
 
 scenario("visible state") {
     def feedback = $("#feedback")
-    feedback.should beHidden()
-    feedback.shouldNot beVisible()
+    feedback.shouldBe hidden
+    feedback.shouldNotBe visible
 }
