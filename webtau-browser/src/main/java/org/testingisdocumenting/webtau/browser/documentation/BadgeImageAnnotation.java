@@ -19,21 +19,22 @@ package org.testingisdocumenting.webtau.browser.documentation;
 
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class BadgeImageAnnotation extends ImageAnnotation {
     public BadgeImageAnnotation(PageElement pageElement, String text) {
-        super(pageElement, "badge", text);
+        super(Stream.of(pageElement), "badge", text);
     }
 
     @Override
-    public void addAnnotationData(Map<String, Object> data, WebElementLocationAndSizeProvider locationAndSizeProvider) {
-        Point location = position(locationAndSizeProvider);
+    public void addAnnotationData(Map<String, Object> data, List<WebElementLocationAndSizeProvider> locationAndSizeProviders) {
+        Point location = position(locationAndSizeProviders.get(0));
 
         data.put("x", location.getX());
         data.put("y", location.getY());
-        data.put("align", position);
+        data.put("align", placement);
     }
 }

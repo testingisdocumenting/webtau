@@ -45,26 +45,15 @@ scenario("search and capture with badges placed in non center position") {
             .shapes.align.should == ["ToTheRight", "Above"]
 }
 
-scenario("badge with inverted colors") {
-    search.submit("search this")
-
+scenario("capture with rectangles") {
     browser.doc.withAnnotations(
-            browser.doc.badge(search.header).invertedColors(),
-            browser.doc.badge(search.box)).capture("search-inverted-colors")
-    // example-end
-    data.json.map("doc-artifacts/search-inverted-colors.json")
-            .shapes.darkFriendly.should == [true, false]
-}
-
-scenario("capture with highlight and cover") {
-    browser.doc.withAnnotations(
-            browser.doc.highlight(search.box),
-            browser.doc.cover(search.results, "covering text")).capture("search-highlight-cover")
+            browser.doc.rect(search.box),
+            browser.doc.rect(search.results, "covering text")).capture("search-rectangles")
 }
 
 scenario("capture with arrow") {
     browser.doc.withAnnotations(
-            browser.doc.arrow(search.box, "type to search")).capture("search-arrow")
+            browser.doc.arrow(search.box, search.results, "search result")).capture("search-arrow")
 }
 
 scenario("capture not found element") {

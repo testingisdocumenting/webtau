@@ -1,0 +1,1 @@
+* Remove `highlight` and `cover` from [browser.doc.capture](browser/documentation-artifacts)   

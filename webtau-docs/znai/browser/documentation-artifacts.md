@@ -36,10 +36,13 @@ When annotation type is not specified, badge is used as the default.
 # Annotation Types
 
 :include-file: doc-artifacts/snippets/doc-capture/captureBadges.groovy {title: "badges"}
-:include-image: doc-artifacts/search.png {annotationsPath: "doc-artifacts/search.json"}
+:include-image: doc-artifacts/search.png {annotate: true}
 
-:include-file: doc-artifacts/snippets/doc-capture/captureHighlightCover.groovy {title: "cover and highlight"}
-:include-image: doc-artifacts/search-highlight-cover.png {annotationsPath: "doc-artifacts/search-highlight-cover.json"}
+:include-file: doc-artifacts/snippets/doc-capture/captureRectangles.groovy {title: "rectangles"}
+:include-image: doc-artifacts/search-rectangles.png {annotate: true}
+
+:include-file: doc-artifacts/snippets/doc-capture/captureArrow.groovy {title: "arrow"}
+:include-image: doc-artifacts/search-arrow.png {annotate: true}
 
 # Annotation Placement
 
@@ -57,33 +60,3 @@ to limit screenshot to a specific element
 :include-image: doc-artifacts/search-results-area.png {annotationsPath: "doc-artifacts/search-results-area.json"}
 
 :include-file: doc-artifacts/snippets/doc-capture/captureSpecificElement.groovy {title: "specific element"}
-
-
-# Inverted Colors
-
-By default, annotation colors assume light theme of an UI you document. 
-Use `invertedColors()` to change an annotation color to be dark theme compatible.
-
-:include-image: doc-artifacts/search-inverted-colors.png {annotationsPath: "doc-artifacts/search-inverted-colors.json"}
-
-:include-file: doc-artifacts/snippets/doc-capture/captureBadgesInvertedColors.groovy {
-  title: "inverted colors",
-  highlight: "invertedColors",
-  endLine: "example-end", 
-  excludeStartEnd: true
-}
-
-To change all annotations to be dark theme compatible by default, use webtau config file
-
-:include-file: scenarios/ui/docCaptureInvertedColors.cfg.groovy {
-  title: "webtau.cfg.groovy",
-  includeRegexp: "browserAnnotations" }
-
-In this case `invertedColors` will flip from light annotations to dark one  
-
-:include-file: scenarios/ui/docCaptureInvertedColors.groovy {
-  title: "dark theme friendly by default",
-  startLine: "example-start",
-  endLine: "example-end",
-  excludeStartEnd: true
-}

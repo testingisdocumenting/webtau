@@ -20,20 +20,23 @@ package org.testingisdocumenting.webtau.browser.documentation;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.openqa.selenium.Point;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class ArrowImageAnnotation extends ImageAnnotation {
-    public ArrowImageAnnotation(PageElement pageElement, String text) {
-        super(pageElement, "arrow", text);
+    public ArrowImageAnnotation(PageElement begin, PageElement end, String text) {
+        super(Stream.of(begin, end), "arrow", text);
     }
 
     @Override
-    public void addAnnotationData(Map<String, Object> data, WebElementLocationAndSizeProvider locationAndSizeProvider) {
-        Point location = position(locationAndSizeProvider);
+    public void addAnnotationData(Map<String, Object> data, List<WebElementLocationAndSizeProvider> locationAndSizeProviders) {
+        Point begin = position(locationAndSizeProviders.get(0));
+        Point end = position(locationAndSizeProviders.get(1));
 
-        data.put("beginX", location.getX() - 50);
-        data.put("beginY", location.getY() + 90);
-        data.put("endX", location.getX());
-        data.put("endY", location.getY() + 8);
+        data.put("beginX", begin.getX());
+        data.put("beginY", begin.getY());
+        data.put("endX", end.getX());
+        data.put("endY", end.getY());
     }
 }

@@ -19,14 +19,17 @@ package org.testingisdocumenting.webtau.browser.documentation;
 
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
-import org.testingisdocumenting.webtau.browser.BrowserConfig;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public abstract class ImageAnnotation {
-    public enum Position {
+    public enum Placement {
         Center,
         Above,
         Below,
@@ -39,18 +42,15 @@ public abstract class ImageAnnotation {
     private final String id;
     private final String type;
     private String text;
-    private String color = "a";
-    private final PageElement pageElement;
-    protected Position position;
+    private final List<PageElement> pageElements;
+    protected Placement placement;
 
-    private boolean isDarkFriendly = BrowserConfig.isAnnotationsDarkFriendly();
-
-    public ImageAnnotation(PageElement pageElement, String type, String text) {
+    public ImageAnnotation(Stream<PageElement> pageElements, String type, String text) {
         this.id = type + idGen.incrementAndGet();
-        this.pageElement = pageElement;
+        this.pageElements = pageElements.collect(Collectors.toList());
         this.type = type;
         this.text = text;
-        this.position = Position.Center;
+        this.placement = Placement.Center;
     }
 
     public String getId() {
@@ -61,8 +61,8 @@ public abstract class ImageAnnotation {
         return type;
     }
 
-    public PageElement getPageElement() {
-        return pageElement;
+    public List<PageElement> getPageElements() {
+        return Collections.unmodifiableList(pageElements);
     }
 
     public String getText() {
@@ -73,49 +73,31 @@ public abstract class ImageAnnotation {
         this.text = text;
     }
 
-    public String getColor() {
-        return color;
-    }
-
-    public boolean isDarkFriendly() {
-        return isDarkFriendly;
-    }
-
     public ImageAnnotation above() {
-        position = Position.Above;
+        placement = Placement.Above;
         return this;
     }
 
     public ImageAnnotation below() {
-        position = Position.Below;
+        placement = Placement.Below;
         return this;
     }
 
     public ImageAnnotation toTheLeft() {
-        position = Position.ToTheLeft;
+        placement = Placement.ToTheLeft;
         return this;
     }
 
     public ImageAnnotation toTheRight() {
-        position = Position.ToTheRight;
-        return this;
-    }
-
-    public ImageAnnotation invertedColors() {
-        isDarkFriendly = !isDarkFriendly;
-        return this;
-    }
-
-    public ImageAnnotation withColor(String color) {
-        this.color = color;
+        placement = Placement.ToTheRight;
         return this;
     }
 
     public abstract void addAnnotationData(Map<String, Object> data,
-                                           WebElementLocationAndSizeProvider locationAndSizeProvider);
+                                           List<WebElementLocationAndSizeProvider> locationAndSizeProviders);
 
     protected Point position(WebElementLocationAndSizeProvider locationAndSizeProvider) {
-        switch (position) {
+        switch (placement) {
             case Above:
                 return above(locationAndSizeProvider.getLocation(), locationAndSizeProvider.getSize());
             case Below:

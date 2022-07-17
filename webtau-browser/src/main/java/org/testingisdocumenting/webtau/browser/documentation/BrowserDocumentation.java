@@ -78,20 +78,20 @@ public class BrowserDocumentation {
         return new BadgeImageAnnotation(pageElement, "");
     }
 
-    public ImageAnnotation highlight(PageElement pageElement) {
-        return new HighlighterImageAnnotation(pageElement);
-    }
-
-    public ImageAnnotation cover(PageElement pageElement) {
+    public ImageAnnotation rect(PageElement pageElement) {
         return new RectangleImageAnnotation(pageElement, "");
     }
 
-    public ImageAnnotation cover(PageElement pageElement, String text) {
+    public ImageAnnotation rect(PageElement pageElement, String text) {
         return new RectangleImageAnnotation(pageElement, text);
     }
 
-    public ImageAnnotation arrow(PageElement pageElement, String text) {
-        return new ArrowImageAnnotation(pageElement, text);
+    public ImageAnnotation arrow(PageElement begin, PageElement end, String text) {
+        return new ArrowImageAnnotation(begin, end, text);
+    }
+
+    public ImageAnnotation arrow(PageElement begin, PageElement end) {
+        return new ArrowImageAnnotation(begin, end, "");
     }
 
     public void capture(String screenshotName) {
@@ -176,19 +176,17 @@ public class BrowserDocumentation {
 
     private Map<String, ?> createAnnotationData(ImageAnnotation annotation, Point rootPoint) {
         Map<String, Object> data = new LinkedHashMap<>();
-        data.put("id", annotation.getId());
         data.put("type", annotation.getType());
         data.put("text", annotation.getText());
-        data.put("color", annotation.getColor());
-        data.put("darkFriendly", annotation.isDarkFriendly());
-        // TODO this is temporary for znai compatibility - remove after znai new version release
-        data.put("invertedColors", annotation.isDarkFriendly());
 
-        PageElement pageElement = annotation.getPageElement();
+        List<PageElement> pageElements = annotation.getPageElements();
 
-        pageElement.should(new VisibleValueMatcher());
-        annotation.addAnnotationData(data, createAdjustedForRootLocationAndSizeProvider(rootPoint,
-                pageElement.findElement()));
+        pageElements.forEach(pageElement -> pageElement.should(new VisibleValueMatcher()));
+
+        List<WebElementLocationAndSizeProvider> locationAndSizeProviders = pageElements.stream()
+                .map(pe -> createAdjustedForRootLocationAndSizeProvider(rootPoint, pe.findElement()))
+                .collect(toList());
+        annotation.addAnnotationData(data, locationAndSizeProviders);
 
         return data;
     }

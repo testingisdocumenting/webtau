@@ -62,7 +62,6 @@ All query parameters are encoded automatically.
 Groovy:
 :include-file: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
     title: "query parameter with url incompatible characters",
-    entry: "query params encoding",
     surroundedBy: "query-params-encoding"
 }
 
