@@ -1,3 +1,22 @@
+# Summary
+
+Out of the box report provides high level information like number of failed tests and HTTP Operations coverage.
+
+:include-image: doc-artifacts/reports/report-summary.png {fit: true}
+
+# Test Summary
+
+Selected a test to see summary information about the test run
+
+:include-image: doc-artifacts/reports/report-test-summary.png {fit: true}
+
+# Permalinks
+
+Report is a self-contained single page application. You can email it, upload to slack, put on a shared drive without an HTTP server. 
+Url tracks your navigation through screens, so you can share url to a specific problem. 
+
+# Data Tracking 
+
 WebTau tracks all actions and assertions tests perform. 
 Actions and assertions are printed to console as well as available in the generated HTML report.
 
