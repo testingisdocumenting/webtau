@@ -8,6 +8,7 @@
 ../../webtau-groovy/src/main/groovy
 ../../webtau-config/src/main/java
 ../../webtau-config-groovy/src/test/groovy
+../../webtau/src/test/groovy
 ../../webtau-groovy-app/
 ../../webtau-groovy-app/src/main/groovy
 ../../webtau-groovy-app/src/main/resources
@@ -43,6 +44,8 @@
 ../../webtau-db/target/test-classes
 ../../webtau-db/src/test
 ../../webtau-data/src/main/java
+../../webtau-data/src/test/java
+../../webtau-data/src/test/groovy
 ../../webtau-cli-testing/src/test/groovy
 ../../webtau-cli-testing/target/doc-artifacts
 ../../webtau-graphql-groovy/src/test/groovy
