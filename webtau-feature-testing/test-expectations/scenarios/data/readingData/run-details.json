@@ -1,5 +1,11 @@
 {
   "scenarioDetails" : [ {
+    "scenario" : "csv table data console capture",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
     "scenario" : "csv table data",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {

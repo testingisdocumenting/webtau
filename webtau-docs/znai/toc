@@ -64,9 +64,13 @@ report
 REPL
     experiments
     test-runs
+data
+    introduction
+    json
+    csv
+    pdf
 utilities
     introduction
-    data
     file-system
     cache
 matchers

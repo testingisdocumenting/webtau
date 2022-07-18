@@ -28,6 +28,7 @@ import static org.testingisdocumenting.webtau.data.DataContentUtils.readAndConve
 public class DataJson {
     /**
      * Use <code>data.json.map</code> to read data as {@link java.util.Map} from JSON file.
+     * <p>
      * Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.
      * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
      * @return list of primitive values or maps/list
@@ -38,6 +39,7 @@ public class DataJson {
 
     /**
      * Use <code>data.json.map</code> to read data as {@link java.util.Map} from JSON file.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path
      * @param filePath relative file path or absolute file path
      * @return list of primitive values or maps/list
@@ -48,6 +50,7 @@ public class DataJson {
 
     /**
      * Use <code>data.json.list</code> to read data as {@link java.util.List} from JSON file.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
      * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
      * @return list of primitive values or maps/list
@@ -58,6 +61,7 @@ public class DataJson {
 
     /**
      * Use <code>data.json.object</code> to read data as either {@link java.util.List} or  {@link java.util.Map} from JSON file.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
      * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
      * @return list of primitive values or maps/list
@@ -68,6 +72,7 @@ public class DataJson {
 
     /**
      * Use <code>data.json.object</code> to read data as either {@link java.util.List} or  {@link java.util.Map} from JSON file.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path.
      * @param filePath relative file path or absolute file path
      * @return list of primitive values or maps/list

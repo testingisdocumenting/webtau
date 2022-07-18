@@ -38,7 +38,6 @@ class WebTauDataFeaturesTest {
     void "reading data extract snippets"() {
         extractCodeSnippets(
                 'readingData', 'examples/scenarios/data/readingData.groovy', [
-                'csvTable.groovy': 'csv table data',
                 'csvTableAutoConverted.groovy': 'csv table data auto converted',
                 'listOfMaps.groovy': 'csv list of maps data',
                 'listOfMapsAutoConverted.groovy': 'csv list of maps data auto converted',

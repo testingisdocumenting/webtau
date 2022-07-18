@@ -31,7 +31,7 @@ experiment with API and write a test in incremental fashion.
 
 # Utilities
 
-WebTau provides many utility functions to simplify data organization and setup. [Data](utilities/data) module provides
+WebTau provides many utility functions to simplify data organization and setup. [Data](data/introduction) module provides
 shortcuts to deal with `CSV` and `JSON` based data. [File System](utilities/file-system) module provides shortcuts to 
 deal with file system related things.
 
