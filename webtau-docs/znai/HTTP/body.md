@@ -23,7 +23,7 @@ Java:
 
 # JSON Request From File
 
-[Data JSON](utilities/data#json-read) module has convenient methods to read JSON from resource/file as list/map/object
+[Data JSON](data/json#read-list) module has convenient methods to read JSON from resource/file as list/map/object
 
 ```tabs
 Groovy:

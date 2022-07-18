@@ -33,6 +33,7 @@ import static org.testingisdocumenting.webtau.data.DataContentUtils.*;
 public class DataCsv {
     /**
      * Use <code>data.csv.table</code> to read data as {@link TableData} from CSV file.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
      * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
      * @return table data with CSV content
@@ -44,6 +45,7 @@ public class DataCsv {
 
     /**
      * Use <code>data.csv.table</code> to read data as {@link TableData} from CSV file.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path.
      * @param filePath relative file path or absolute file path
      * @return table data with CSV content
@@ -55,6 +57,7 @@ public class DataCsv {
 
     /**
      * Use <code>data.csv.tableAutoConverted</code> to read data as {@link TableData} from CSV file. Numeric values become values of Numeric type instead of String type.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
      * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
      * @return table data with CSV content
@@ -66,6 +69,7 @@ public class DataCsv {
 
     /**
      * Use <code>data.csv.tableAutoConverted</code> to read data as {@link TableData} from CSV file. Numeric values become values of Numeric type instead of String type.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path.
      * @param filePath relative file path or absolute file path
      * @return table data with CSV content
@@ -77,6 +81,7 @@ public class DataCsv {
 
     /**
      * Use <code>data.csv.listOfMaps</code> to read data as {@link java.util.List} of {@link java.util.Map} from CSV file.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
      * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
      * @return list of maps
@@ -87,6 +92,7 @@ public class DataCsv {
 
     /**
      * Use <code>data.csv.listOfMaps</code> to read data as {@link java.util.List} of {@link java.util.Map} from CSV file.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path.
      * @param filePath relative file path or absolute file path
      * @return list of maps
@@ -98,6 +104,7 @@ public class DataCsv {
     /**
      * Use <code>data.csv.listOfMapsAutoConverted</code> to read data as {@link java.util.List} of {@link java.util.Map} from CSV file.
      * Numeric values become values of Numeric type instead of String type.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
      * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
      * @return list of maps
@@ -110,6 +117,7 @@ public class DataCsv {
     /**
      * Use <code>data.csv.listOfMapsAutoConverted</code> to read data as {@link java.util.List} of {@link java.util.Map} from CSV file.
      * Numeric values become values of Numeric type instead of String type.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path.
      * @param filePath relative file path or absolute file path
      * @return list of maps
@@ -121,7 +129,9 @@ public class DataCsv {
 
     /**
      * Use <code>data.csv.listOfMaps(header, path)</code> to read data as {@link java.util.List} of {@link java.util.Map} from CSV file.
+     * <p>
      * Header will be taken from first parameter and first row of CSV file will not be treated as header.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
      * @param header header values
      * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
@@ -134,7 +144,9 @@ public class DataCsv {
 
     /**
      * Use <code>data.csv.listOfMaps(header, path)</code> to read data as {@link java.util.List} of {@link java.util.Map} from CSV file.
+     * <p>
      * Header will be taken from first parameter and first row of CSV file will not be treated as header.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path.
      * @param header header values
      * @param filePath relative file path or absolute file path
@@ -147,8 +159,10 @@ public class DataCsv {
 
     /**
      * Use <code>data.csv.listOfMapsAutoConverted(header, path)</code> to read data as {@link java.util.List} of {@link java.util.Map} from CSV file.
+     * <p>
      * Header will be taken from first parameter and first row of CSV file will not be treated as header.
      * Numeric values become values of Numeric type instead of String type.
+     * <p>
      * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
      * @param header header values
      * @param fileOrResourcePath relative file path, absolute file path or classpath resource path

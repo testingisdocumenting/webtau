@@ -7,7 +7,7 @@ Define scenarios in a loop to have dynamic scenarios based on provided data.
 
 # CSV 
 
-Use [data.csv](utilities/data#csv-read) to conveniently build your scenarios from an external `CSV` data set.
+Use [data.csv](data/csv#list-of-map) to conveniently build your scenarios from an external `CSV` data set.
 
 :include-file: examples/use-cases.csv {title: "examples/use-cases.csv"}
  
