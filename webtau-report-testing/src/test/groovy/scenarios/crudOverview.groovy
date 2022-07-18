@@ -30,8 +30,6 @@ scenario('http calls') {
 
     report.selectSteps()
     report.steps.count.shouldBe > 2
-    browser.doc.withAnnotations(
-            browser.doc.badge(report.httpCallsTab),
-            browser.doc.badge(report.stepsTab))
+    browser.doc.withAnnotations(report.httpCallsTab, report.stepsTab)
             .capture('report-crud-steps')
 }
