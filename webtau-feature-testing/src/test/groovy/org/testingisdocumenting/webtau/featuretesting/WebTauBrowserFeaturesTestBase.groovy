@@ -310,15 +310,9 @@ class WebTauBrowserFeaturesTestBase {
                 'captureBadgesDefault.groovy': 'search and capture with badges shortcut',
                 'captureSpecificElement.groovy': 'search and capture results area',
                 'captureBadgesPlacement.groovy': 'search and capture with badges placed in non center position',
-                'captureBadgesInvertedColors.groovy': 'badge with inverted colors',
-                'captureHighlightCover.groovy': 'capture with highlight and cover',
+                'captureRectangles.groovy': 'capture with rectangles',
                 'captureArrow.groovy': 'capture with arrow',
         ])
-    }
-
-    @Test
-    void "doc capture inverted colors from config"() {
-        runCli('docCaptureInvertedColors.groovy', 'docCaptureInvertedColors.cfg.groovy')
     }
 
     @Test

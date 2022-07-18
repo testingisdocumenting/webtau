@@ -43,9 +43,6 @@ public class BrowserConfig implements WebTauConfigHandler {
     private static final ConfigValue browserVersion = declare("browserVersion", "browser version for automatic driver download", () -> "");
     private static final ConfigValue browserRemoteDriverUrl = declare("browserRemoteDriverUrl", "browser remote driver url", () -> "");
 
-    private static final ConfigValue browserAnnotationsDarkFriendly = declare("browserAnnotationsDarkFriendly",
-            "browser doc capture to use light colors annotations by default (for dark theme UI)", () -> false);
-
     private static final ConfigValue disableExtensions = declare("browserDisableExtensions", "run browser without extensions", () -> false);
 
     private static final ConfigValue staleElementRetry = declare("browserStaleElementRetry", "number of times to automatically retry for browser stale element actions", () -> 5);
@@ -113,10 +110,6 @@ public class BrowserConfig implements WebTauConfigHandler {
         browserHeadless.set("manual", isHeadless);
     }
 
-    public static boolean isAnnotationsDarkFriendly() {
-        return browserAnnotationsDarkFriendly.getAsBoolean();
-    }
-
     public static Path getChromeBinPath() {
         return chromeBinPath.getAsPath();
     }
@@ -143,7 +136,6 @@ public class BrowserConfig implements WebTauConfigHandler {
                 browserWidth,
                 browserHeight,
                 browserHeadless,
-                browserAnnotationsDarkFriendly,
                 staleElementRetry,
                 staleElementRetryWait,
                 disableExtensions,

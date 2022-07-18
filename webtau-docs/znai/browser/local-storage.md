@@ -9,6 +9,6 @@ Lets consider a simple web page that displays a value from a local storage.
 :include-file: scenarios/ui/localStorage.groovy {title: "Setting storage after opening page"}
 
 :include-java: org/testingisdocumenting/webtau/browser/BrowserLocalStorage.java {
-    entries: ["getItem", "setItem", "removeItem", "clear", "size"],
+    entry: ["getItem", "setItem", "removeItem", "clear", "size"],
     title: "Local Storage methods", 
     signatureOnly: true}
