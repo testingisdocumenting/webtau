@@ -139,5 +139,11 @@ Groovy:
 :include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableDataWithAboveRefAndMathExtracted", bodyOnly: true}
 
 Java:
-:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entries: ["createIncrementExample", "createTableDataWithAboveRefAndMathExtracted"], bodyOnly: true, removeReturn: true, removeSemicolon: true}
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {
+  entry: ["createIncrementExample", "createTableDataWithAboveRefAndMathExtracted"],
+  entrySeparator: "", 
+  bodyOnly: true,
+  removeReturn: true,
+  removeSemicolon: true
+}
 ```

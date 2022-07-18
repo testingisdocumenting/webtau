@@ -1,0 +1,1 @@
+* Add [browser.doc.arrow](browser/documentation-artifacts#annotation-types) that connects two elements   

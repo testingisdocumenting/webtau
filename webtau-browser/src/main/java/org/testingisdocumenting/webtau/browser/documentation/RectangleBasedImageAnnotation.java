@@ -20,23 +20,24 @@ package org.testingisdocumenting.webtau.browser.documentation;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.Point;
-import org.openqa.selenium.WebElement;
 
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 
 public class RectangleBasedImageAnnotation extends ImageAnnotation {
     public RectangleBasedImageAnnotation(PageElement pageElement, String type, String text) {
-        super(pageElement, type, text);
+        super(Stream.of(pageElement), type, text);
     }
 
     @Override
-    public void addAnnotationData(Map<String, Object> data, WebElementLocationAndSizeProvider locationAndSizeProvider) {
-        Point location = locationAndSizeProvider.getLocation();
-        Dimension size = locationAndSizeProvider.getSize();
+    public void addAnnotationData(Map<String, Object> data, List<WebElementLocationAndSizeProvider> locationAndSizeProviders) {
+        Point location = locationAndSizeProviders.get(0).getLocation();
+        Dimension size = locationAndSizeProviders.get(0).getSize();
 
-        data.put("x", location.getX());
-        data.put("y", location.getY());
-        data.put("width", size.getWidth());
-        data.put("height", size.getHeight());
+        data.put("beginX", location.getX());
+        data.put("beginY", location.getY());
+        data.put("endX", location.getX() + size.getWidth());
+        data.put("endY", location.getY() + size.getHeight());
     }
 }
