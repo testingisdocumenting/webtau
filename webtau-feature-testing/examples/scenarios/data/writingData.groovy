@@ -3,10 +3,12 @@ package scenarios.data
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario('csv table data') {
+    // list-data
     def list = [
         ['colA': 1, 'colB': 'R1'],
         ['colA': 2, 'colB': 'R2']
     ]
+    // list-data
 
     def path = data.csv.write('generated/from-list-maps.csv', list)
     path.should == cfg.workingDir.resolve('generated/from-list-maps.csv').toAbsolutePath()

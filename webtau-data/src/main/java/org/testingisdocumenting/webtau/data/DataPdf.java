@@ -24,6 +24,11 @@ import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBu
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class DataPdf {
+    /**
+     * Use <code>data.pdf.read(BinaryDataProvider)</code> to read PDF data from an instance that implements <code>BinaryDataProvider</code> (e.g. <code>DataNode</code>)
+     * @param binaryDataProvider instance of <code>BinaryDataProvider</code>
+     * @return pdf instance to use to access parsed data
+     */
     public Pdf read(BinaryDataProvider binaryDataProvider) {
         return readPdfAsStep(binaryDataProvider);
     }
