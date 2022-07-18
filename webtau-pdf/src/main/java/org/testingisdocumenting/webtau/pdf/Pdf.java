@@ -74,7 +74,7 @@ public class Pdf {
     }
 
     private static void registerCleanup() {
-        CleanupRegistration.registerForCleanup("closing", "close", "pdfs",
+        CleanupRegistration.registerForCleanup("closing", "closed", "pdfs",
                 () -> !openedPdfs.isEmpty(),
                 Pdf::closeAll);
     }

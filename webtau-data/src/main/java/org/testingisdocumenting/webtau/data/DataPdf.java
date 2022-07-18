@@ -20,10 +20,29 @@ import org.testingisdocumenting.webtau.pdf.Pdf;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
+import java.util.function.Supplier;
+
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class DataPdf {
+    /**
+     * Use <code>data.pdf.read(String)</code> to read and parse PDF from a path.
+     * <p>
+     * Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.
+     * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
+     * @return pdf instance to use to access parsed data
+     */
+    public Pdf read(String fileOrResourcePath) {
+        DataPath dataPath = DataPath.fromFileOrResourcePath(fileOrResourcePath);
+        FileOrResourceBinaryDataProvider binaryDataProvider = new FileOrResourceBinaryDataProvider(
+                dataPath);
+
+        return readPdfAsStep(binaryDataProvider, fileOrResourcePath,
+                () -> dataPath.isResource() ? "classpath resource" : "file",
+                () -> dataPath.isResource() ? fileOrResourcePath : dataPath.getFullFilePath().toString());
+    }
+
     /**
      * Use <code>data.pdf.read(BinaryDataProvider)</code> to read PDF data from an instance that implements <code>BinaryDataProvider</code> (e.g. <code>DataNode</code>)
      * @param binaryDataProvider instance of <code>BinaryDataProvider</code>
@@ -65,6 +84,20 @@ public class DataPdf {
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("parsing"), classifier("pdf"), FROM, urlValue(binaryDataProvider.binaryDataSource())),
                 (result) -> tokenizedMessage(action("parsed"), classifier("pdf"), FROM, urlValue(binaryDataProvider.binaryDataSource())),
+                () -> Pdf.pdf(binaryDataProvider)
+        );
+
+        return step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    private Pdf readPdfAsStep(BinaryDataProvider binaryDataProvider,
+                              String givenPath,
+                              Supplier<String> pathSourceSupplier,
+                              Supplier<String> fullPathSupplier) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("parsing"), classifier("pdf"), FROM, classifier("file or resource"), urlValue(givenPath)),
+                (result) -> tokenizedMessage(action("parsed"), classifier("pdf"), FROM, classifier(pathSourceSupplier.get()),
+                        urlValue(fullPathSupplier.get())),
                 () -> Pdf.pdf(binaryDataProvider)
         );
 

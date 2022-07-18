@@ -16,5 +16,28 @@
 
 package org.testingisdocumenting.webtau.data
 
+import org.junit.Test
+import org.testingisdocumenting.webtau.pdf.Pdf
+import org.testingisdocumenting.webtau.utils.ResourceUtils
+
+import static org.testingisdocumenting.webtau.Matchers.contain
+import static org.testingisdocumenting.webtau.data.Data.data
+
 class DataPdfTest {
+    @Test
+    void "read pdf from resource"() {
+        Pdf pdf = data.pdf.read("sample.pdf")
+        pdf.pageText(0).should contain('Test text paragraph Test')
+    }
+
+    @Test
+    void "read pdf from bytes"() {
+        byte[] pdfContent = pdfBinaryContent()
+        Pdf pdf = data.pdf.read(pdfContent)
+        pdf.pageText(0).should contain('Test text paragraph Test')
+    }
+
+    private static byte[] pdfBinaryContent() {
+        ResourceUtils.binaryContent("sample.pdf")
+    }
 }

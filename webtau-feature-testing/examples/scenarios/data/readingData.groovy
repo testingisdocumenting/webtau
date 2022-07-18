@@ -1,5 +1,7 @@
 package scenarios.data
 
+import org.testingisdocumenting.webtau.data.table.TableData
+
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("csv table data console capture") {
@@ -8,7 +10,7 @@ scenario("csv table data console capture") {
 
     doc.console.captureNoStep("csv-table-data-output") {
         // read
-        def table = data.csv.table("data/table.csv")
+        TableData table = data.csv.table("data/table.csv")
         // read
     }
 }
