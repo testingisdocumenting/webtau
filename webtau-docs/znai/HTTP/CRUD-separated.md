@@ -1,4 +1,4 @@
-# Lazy Resource
+# HTTP Calls Separation
 
 ```tabs
 Groovy:

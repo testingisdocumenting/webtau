@@ -1,17 +1,58 @@
-# Scenarios
+# Happy Paths
 
-You document `REST endpoints` so users can use them to achieve various goals.
-You also need to make sure that documented scenarios work as advertised.
-
-To automate the process, capture executed scenarios and use them inside your documentation.
+Use happy paths test scenarios to document your API. Capture requests performed and response received. Use it as part of your documentation.
+Benefits:
+* No manual copy-pasting of requests/responses
+* Documentation is up-to-date
+* Happy paths API is working as intended
 
 # Capturing Test Artifacts
 
-To capture `REST` artifacts use `http.doc.capture`:
+Use `http.doc.capture` to capture REST API artifacts 
 
-:include-file: scenarios/rest/simplePost.groovy {title: "test.groovy", commentsType: "inline"}
+```tabs
+Groovy:
+:include-file: scenarios/rest/simplePost.groovy {title: "happy path", commentsType: "inline"}
+
+Java:
+:include-file: com/example/tests/junit5/CustomerDocCaptureTest.java {title: "happy path", commentsType: "inline"}
+```
 
 An `employee-get` directory will be created containing a number of test artifacts.
+
+# Documentation Pipeline
+
+Documentation pipeline can look like
+
+:include-flow-chart: documentation-flow.json
+
+Example of using captured artifacts using [Znai](https://github.com/testingisdocumenting/znai)
+
+`````markdown {title: "znai example"}
+left: 
+:include-json: doc-artifacts/employee-post/request.json { title: "request payload" }
+
+right: 
+:include-json: doc-artifacts/employee-post/response.json { 
+  title: "response payload", 
+  pathsFile: "doc-artifacts/employee-post/paths.json" 
+}
+`````
+
+# Create Employee
+
+:include-open-api: scenarios/rest/openapi/api-spec.json {operationId: "createEmployee" }
+
+```columns
+left: 
+:include-json: doc-artifacts/employee-post/request.json { title: "request payload" }
+
+right: 
+:include-json: doc-artifacts/employee-post/response.json { 
+  title: "response payload", 
+  pathsFile: "doc-artifacts/employee-post/paths.json" 
+}
+```
 
 # Test Artifacts Location
 
@@ -49,7 +90,6 @@ contains an array with the list of paths within the body whose values were asser
 
 :include-json: doc-artifacts/employee-get/paths.json {title: "employee-get/paths.json" }
 
-
 ## Request URLs
 
 The actual request URL is captured in two forms into two different files:
@@ -59,12 +99,3 @@ The actual request URL is captured in two forms into two different files:
 :include-file: doc-artifacts/url-capture/request.url.txt {title: "request.url.txt"}
 
 :include-file: doc-artifacts/url-capture/request.fullurl.txt {title: "request.fullurl.txt"}
-
-# Document REST calls
-
-If you have user facing scenario tests, capture them and refer to them inside your documentation.
-Set your documentation build pipeline like below.
-
-:include-flow-chart: documentation-flow.json     
-
-Combine REST requests and responses with Open API generated specs for complete documentation. 

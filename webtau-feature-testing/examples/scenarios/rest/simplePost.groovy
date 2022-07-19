@@ -1,13 +1,13 @@
 package scenarios.rest
 
-import static org.testingisdocumenting.webtau.WebTauDsl.http
-import static org.testingisdocumenting.webtau.WebTauGroovyDsl.scenario
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("extracting id after POST to use inside GET request") {
     def id = http.post("/employee", [firstName: 'FN', lastName: 'LN']) {
+        id.shouldNot == ""
         return id
     }
-    http.doc.capture('employee-post')
+    http.doc.capture('employee-post') // capture previous HTTP call into <docDir>/employee-post
 
     http.get("/employee/$id") {
         firstName.should == 'FN'
