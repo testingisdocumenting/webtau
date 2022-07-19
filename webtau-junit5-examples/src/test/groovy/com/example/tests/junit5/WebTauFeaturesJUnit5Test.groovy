@@ -54,6 +54,11 @@ class WebTauFeaturesJUnit5Test {
     }
 
     @Test
+    void fakeServersJavaTest() {
+        testRunner.runAndValidate(FakeServerJavaTest, testServer.uri.toString())
+    }
+
+    @Test
     void implicitJavaHeader() {
         testRunner.runAndValidate(HttpImplicitJavaTest, testServer.uri.toString())
     }
