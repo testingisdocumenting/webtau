@@ -3,7 +3,7 @@
     "scenario" : "extracting id after POST to use inside GET request",
     "shortContainerId" : "simplePost.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 8
+      "numberOfSuccessful" : 9
     }
   } ],
   "exitCode" : 0

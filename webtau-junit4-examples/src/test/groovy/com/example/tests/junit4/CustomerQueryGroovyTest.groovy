@@ -6,7 +6,7 @@ import org.junit.BeforeClass
 import org.junit.Test
 import org.junit.runner.RunWith
 
-import static org.testingisdocumenting.webtau.WebTauDsl.http
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 @RunWith(WebTauRunner.class)
 class CustomerQueryGroovyTest {

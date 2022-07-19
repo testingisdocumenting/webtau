@@ -23,6 +23,7 @@
       },
       "post": {
         "summary": "Create new employee",
+        "description": "Create a new employee, by sending details and get back the id of a newly created employee",
         "operationId": "createEmployee",
         "consumes": [
           "application/json"
@@ -66,10 +67,12 @@
       ],
       "properties": {
         "firstName": {
-          "type": "string"
+          "type": "string",
+          "description": "first name of an employee"
         },
         "lastName": {
-          "type": "string"
+          "type": "string",
+          "description": "last name of an employee"
         }
       }
     },
@@ -80,7 +83,8 @@
       ],
       "properties": {
         "id": {
-          "type": "string"
+          "type": "string",
+          "description": "employee unique identifier"
         }
       }
     }

@@ -12,7 +12,7 @@ HTTP
     body
     query-parameters
     HTTP-calls
-    documentation
+    documentation-artifacts
     openAPI-spec
     JSON-schema
     matchers
