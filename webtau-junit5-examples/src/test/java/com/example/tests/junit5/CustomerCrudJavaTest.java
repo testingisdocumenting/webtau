@@ -1,10 +1,8 @@
 package com.example.tests.junit5;
 
+import org.junit.jupiter.api.Test;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.junit5.WebTau;
-import org.junit.jupiter.api.Test;
-
-import java.util.Map;
 
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
@@ -14,7 +12,7 @@ public class CustomerCrudJavaTest {
     public void crud() {
         HttpRequestBody customerPayload = http.json( // new customer data
                 "firstName", "FN",
-                "lastName", "LN" );
+                "lastName", "LN");
 
         int id = http.post("/customers", customerPayload, ((header, body) -> {
             return body.get("id"); // return id value from response body
@@ -25,9 +23,9 @@ public class CustomerCrudJavaTest {
         }));
 
         String changedLastName = "NLN";
-        Map<String, ?> changedCustomerPayload = aMapOf(
+        HttpRequestBody changedCustomerPayload = http.json(
                 "firstName", "FN",
-                "lastName", changedLastName);
+                "lastName", "NLN");
 
         http.put("/customers/" + id, changedCustomerPayload, ((header, body) -> {
             body.get("firstName").should(equal("FN"));

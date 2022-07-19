@@ -1,5 +1,6 @@
 package com.example.tests.junit4;
 
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.junit4.WebTauRunner;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -10,8 +11,13 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single 
 
 @RunWith(WebTauRunner.class) // runner is required to have this test to be a part of generated html report
 public class CustomerCrudSingleJavaTest {
-    private final Map<String, Object> customerPayload = createCustomerPayload();
-    private final Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();
+    private final HttpRequestBody customerPayload = http.json(
+            "firstName", "FN",
+            "lastName", "LN");
+
+    private final HttpRequestBody changedCustomerPayload = http.json(
+            "firstName", "FN",
+            "lastName", "NLN");
 
     @Test
     public void crud() {
@@ -38,18 +44,5 @@ public class CustomerCrudSingleJavaTest {
         http.get("/customers/" + id, ((header, body) -> {
             header.statusCode.should(equal(404));
         }));
-    }
-
-    private Map<String, Object> createCustomerPayload() {
-        return aMapOf(
-                "firstName", "FN",
-                "lastName", "LN");
-    }
-
-    private Map<String, Object> createChangedCustomerPayload() {
-        Map<String, Object> payload = createCustomerPayload();
-        payload.put("lastName", "NLN");
-
-        return payload;
     }
 }

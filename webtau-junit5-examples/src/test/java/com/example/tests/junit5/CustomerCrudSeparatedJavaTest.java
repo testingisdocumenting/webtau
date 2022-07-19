@@ -4,8 +4,6 @@ import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.junit5.WebTau;
 import org.junit.jupiter.api.*;
 
-import java.util.Map;
-
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 @WebTau
@@ -14,7 +12,7 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*;
 public class CustomerCrudSeparatedJavaTest {
     private static final HttpRequestBody customerPayload = http.json(
             "firstName", "FN",
-            "lastName", "LN" );
+            "lastName", "LN");
 
     private static final HttpRequestBody changedCustomerPayload = http.json(
             "firstName", "FN",
@@ -24,7 +22,7 @@ public class CustomerCrudSeparatedJavaTest {
 
     @BeforeAll
     @DisplayName("create customer") // optional friendly name for reporting purposes
-    static void createCustomer() {
+    public static void createCustomer() {
         id = http.post("/customers", customerPayload, ((header, body) -> {
             return body.get("id");
         }));
@@ -35,7 +33,7 @@ public class CustomerCrudSeparatedJavaTest {
     @Test
     @Order(1)
     @DisplayName("read customer")
-    void read() {
+    public void read() {
         http.get("/customers/" + id, ((header, body) -> {
             body.should(equal(customerPayload));
         }));
@@ -44,7 +42,7 @@ public class CustomerCrudSeparatedJavaTest {
     @Test
     @Order(2) // order dependence saves from creating customer on every test
     @DisplayName("update customer")
-    void update() {
+    public void update() {
         http.put("/customers/" + id, changedCustomerPayload, ((header, body) -> {
             body.should(equal(changedCustomerPayload));
         }));
@@ -57,7 +55,7 @@ public class CustomerCrudSeparatedJavaTest {
     @Test
     @Order(3) // but you can still run each method independently
     @DisplayName("delete customer")
-    void delete() {
+    public void delete() {
         http.delete("/customers/" + id, ((header, body) -> {
             header.statusCode.should(equal(204));
         }));
@@ -70,7 +68,7 @@ public class CustomerCrudSeparatedJavaTest {
     }
 
     @AfterAll
-    static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean
+    public static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean
         if (id == -1) {
             return;
         }
