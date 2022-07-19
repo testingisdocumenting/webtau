@@ -1,5 +1,6 @@
 package com.example.tests.junit5;
 
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.junit5.WebTau;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*;
 public class CustomerCrudJavaTest {
     @Test
     public void crud() {
-        Map<String, ?> customerPayload = aMapOf( // new customer data
+        HttpRequestBody customerPayload = http.json( // new customer data
                 "firstName", "FN",
                 "lastName", "LN" );
 

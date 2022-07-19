@@ -19,8 +19,7 @@ package scenarios.graphql
 
 import org.testingisdocumenting.webtau.http.HttpHeader
 
-import static org.testingisdocumenting.webtau.WebTauDsl.getCfg
-import static org.testingisdocumenting.webtau.WebTauDsl.http
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 class HeaderProvider {
     static provide(String fullUrl, String url, HttpHeader httpHeaders) {

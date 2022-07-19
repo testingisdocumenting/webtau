@@ -16,23 +16,26 @@
 
 package com.example.tests.junit5;
 
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.junit5.WebTau;
 import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Stream;
 
-import static org.testingisdocumenting.webtau.WebTauDsl.equal;
-import static org.testingisdocumenting.webtau.WebTauDsl.http;
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*;
 import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 
 @WebTau
 public class CustomerCrudSeparatedTestFactoryIT {
-    private static final Map<String, Object> customerPayload = createCustomerPayload(); // creating payload as a map
-    private static final Map<String, Object> changedCustomerPayload = createChangedCustomerPayload();
+    private static final HttpRequestBody customerPayload = http.json(
+            "firstName", "FN",
+            "lastName", "LN" );
+
+    private static final HttpRequestBody changedCustomerPayload = http.json(
+            "firstName", "FN",
+            "lastName", "NLN");
 
     @TestFactory
     public Stream<DynamicTest> crud() {
@@ -71,20 +74,5 @@ public class CustomerCrudSeparatedTestFactoryIT {
                     }));
                 })
         );
-    }
-
-    private static Map<String, Object> createCustomerPayload() {
-        Map<String, Object> payload = new LinkedHashMap<>();
-        payload.put("firstName", "FN");
-        payload.put("lastName", "LN");
-
-        return payload;
-    }
-
-    private static Map<String, Object> createChangedCustomerPayload() {
-        Map<String, Object> payload = createCustomerPayload();
-        payload.put("lastName", "NLN");
-
-        return payload;
     }
 }

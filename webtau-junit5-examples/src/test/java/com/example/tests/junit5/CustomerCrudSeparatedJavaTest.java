@@ -1,5 +1,6 @@
 package com.example.tests.junit5;
 
+import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.junit5.WebTau;
 import org.junit.jupiter.api.*;
 
@@ -11,12 +12,12 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*;
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order
 @DisplayName("customer CRUD")
 public class CustomerCrudSeparatedJavaTest {
-    private static final Map<String, ?> customerPayload = aMapOf(
+    private static final HttpRequestBody customerPayload = http.json(
             "firstName", "FN",
             "lastName", "LN" );
 
-    private static final Map<String, ?> changedCustomerPayload = aMapOf(
-            customerPayload,
+    private static final HttpRequestBody changedCustomerPayload = http.json(
+            "firstName", "FN",
             "lastName", "NLN");
 
     private static int id;
