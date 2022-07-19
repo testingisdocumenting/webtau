@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
@@ -34,6 +35,7 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
  */
 public class CleanupRegistration implements TestListener {
     private static final List<CleanupEntry> registered = Collections.synchronizedList(new ArrayList<>());
+    private static final AtomicBoolean isCleanedUp = new AtomicBoolean(false);
 
     @Override
     public void afterAllTests() {
@@ -52,7 +54,11 @@ public class CleanupRegistration implements TestListener {
         ShutdownHook.INSTANCE.noOp();
     }
 
-    private static void cleanup() {
+    private synchronized static void cleanup() {
+        if (isCleanedUp.compareAndSet(true, true)) {
+            return;
+        }
+
         registered.stream()
                 .filter(CleanupEntry::isValid)
                 .forEach(CleanupRegistration::cleanup);
