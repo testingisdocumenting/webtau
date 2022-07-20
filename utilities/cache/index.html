@@ -101,7 +101,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -127,8 +126,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "cached-value",
-      "type" : "Section",
       "title" : "Cached Value",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -170,36 +169,36 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef createdId = cache.value(\"cli-heavy-created-id\") // declare cached value with distinct id\n\nscenario(\"heavy setup operation\") {\n    def cliResult = cli.run(\"scripts/cli-heavy-process\") // long running process that you don't want to re-run as you write your tests\n    createdId.set(cliResult.extractFromOutputByRegexp(\"id=(\\\\S+)\")) // caching the extracted id from CLI run\n}\n\nscenario(\"using previous setup id even after restart\") {\n    def id = createdId.get() // using cached value from previous test run. value will be preserved between restarts and re-compile\n    http.get(\"/resource/${id}\") {\n        message.should == \"hello\"\n    }\n}",
+        "title" : "cached value",
         "surroundedBy" : "example",
         "commentsType" : "inline",
-        "type" : "Snippet",
-        "title" : "cached value",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Note: Use ",
           "type" : "SimpleText"
         }, {
+          "url" : "/webtau/groovy-standalone-runner/selective-run",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Selective Run",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/groovy-standalone-runner/selective-run"
+          } ]
         }, {
           "text" : " or ",
           "type" : "SimpleText"
         }, {
+          "url" : "/webtau/REPL/test-runs",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "REPL mode",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/REPL/test-runs"
+          } ]
         }, {
           "text" : "",
           "type" : "SimpleText"
@@ -212,18 +211,18 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "fs-path-type",
-      "type" : "Section",
       "title" : "FS Path type",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
+          "url" : "/webtau/utilities/file-system",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "File System module",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/utilities/file-system"
+          } ]
         }, {
           "text" : " return values of type ",
           "type" : "SimpleText"
@@ -255,17 +254,17 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "InlinedCode"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef deployDirCache = cache.value(\"deploy-dir\")\n\nscenario(\"caching of path value\") {\n    def path = fs.tempDir(\"my-dir\")\n    deployDirCache.set(path)\n}\n\nscenario(\"accessing path value\") {\n    def deployDir = deployDirCache.getAsPath()\n    fs.writeText(deployDir.resolve(\"file.txt\"), \"hello\")\n}",
+        "title" : "cached path value",
         "surroundedBy" : "example",
         "commentsType" : "inline",
-        "type" : "Snippet",
-        "title" : "cached path value",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "presence-check",
-      "type" : "Section",
       "title" : "Presence Check",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -284,11 +283,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def prevGenerated = cache.value(\"zip-unpacked-path\")\n// ...\nif (!prevGenerated.exists()) {\n    // recreate content\n}",
-        "surroundedBy" : "exists-example",
-        "type" : "Snippet",
         "title" : "cached value",
-        "lang" : "groovy"
+        "surroundedBy" : "exists-example",
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -297,7 +296,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658328071402,
+    "lastModifiedTime" : 1658346107246,
     "tocItem" : {
       "sectionTitle" : "Utilities",
       "pageTitle" : "Cache",

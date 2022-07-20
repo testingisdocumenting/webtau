@@ -101,7 +101,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -127,8 +126,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "grouping-actions",
-      "type" : "Section",
       "title" : "Grouping Actions",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -142,22 +141,22 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "step(\"group of actions\") {\n    actionOne()\n    actionTwo()\n}",
-        "surroundedBy" : "wrap-step",
-        "type" : "Snippet",
-        "title" : "step group",
-        "lang" : "groovy"
-      }, {
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
-        "type" : "Snippet",
-        "title" : "core methods import",
         "lang" : "groovy",
-        "includeRegexp" : "WebTauGroovyDsl"
+        "snippet" : "step(\"group of actions\") {\n    actionOne()\n    actionTwo()\n}",
+        "title" : "step group",
+        "surroundedBy" : "wrap-step",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
+        "title" : "core methods import",
+        "includeRegexp" : "WebTauGroovyDsl",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "tracing-values",
-      "type" : "Section",
       "title" : "Tracing Values",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -182,22 +181,22 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "trace(\"trace label\", [k1: \"v1\", k2: \"v2\"])",
-        "surroundedBy" : "trace-map",
-        "type" : "Snippet",
-        "title" : "trace key values",
-        "lang" : "groovy"
-      }, {
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
-        "type" : "Snippet",
-        "title" : "core methods import",
         "lang" : "groovy",
-        "includeRegexp" : "WebTauGroovyDsl"
+        "snippet" : "trace(\"trace label\", [k1: \"v1\", k2: \"v2\"])",
+        "title" : "trace key values",
+        "surroundedBy" : "trace-map",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
+        "title" : "core methods import",
+        "includeRegexp" : "WebTauGroovyDsl",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "grouping-with-trace",
-      "type" : "Section",
       "title" : "Grouping With Trace",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -217,23 +216,23 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "step(\"group of actions\", [url: baseUrl, port: myPort]) {\n    actionThree(myPort, baseUrl)\n}",
-        "surroundedBy" : "wrap-step-key-value",
-        "type" : "Snippet",
         "title" : "step group with key values",
-        "lang" : "groovy"
+        "surroundedBy" : "wrap-step-key-value",
+        "type" : "Snippet"
       }, {
-        "fit" : true,
         "border" : true,
+        "fit" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-step-key-value.png",
+        "timestamp" : 1658346922936,
         "shapes" : [ ],
         "width" : 1310.0,
-        "imageSrc" : "/webtau/doc-artifacts/reports/report-step-key-value.png",
-        "type" : "AnnotatedImage",
         "height" : 802.0,
-        "timestamp" : 1658328890150
+        "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071402,
+    "lastModifiedTime" : 1658346107246,
     "tocItem" : {
       "sectionTitle" : "Report",
       "pageTitle" : "Steps",

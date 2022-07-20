@@ -111,7 +111,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -137,173 +136,173 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "clicks",
-      "type" : "Section",
       "title" : "Clicks",
+      "type" : "Section",
       "content" : [ {
+        "lang" : "groovy",
         "snippet" : "payments.confirmation.click()",
-        "type" : "Snippet",
         "title" : "click",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "expandArea.doubleClick()",
-        "type" : "Snippet",
         "title" : "double click",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "paymentsTable.rightClick()",
-        "type" : "Snippet",
         "title" : "right click",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "payments.confirmation.shiftClick()",
-        "type" : "Snippet",
         "title" : "shift click",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "payments.confirmation.altClick()",
-        "type" : "Snippet",
         "title" : "alt click",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "payments.confirmation.controlClick()",
-        "type" : "Snippet",
         "title" : "control click",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "payments.confirmation.commandClick()",
-        "type" : "Snippet",
         "title" : "command click",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "payments.confirmation.commandOrControlClick()",
-        "type" : "Snippet",
         "title" : "command or control click",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "modifications",
-      "type" : "Section",
       "title" : "Modifications",
+      "type" : "Section",
       "content" : [ {
+        "lang" : "groovy",
         "snippet" : "payments.dollarAmount.clear()",
-        "type" : "Snippet",
         "title" : "clear",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "payments.dollarAmount.sendKeys(\"104.5\")",
-        "type" : "Snippet",
         "title" : "send keys",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Generic way to set a form element value. Will be covered more in ",
           "type" : "SimpleText"
         }, {
+          "url" : "/webtau/browser/forms",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "forms",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/browser/forms"
+          } ]
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "payments.dollarAmount.setValue(\"104.5\")",
-        "type" : "Snippet",
         "title" : "set value",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "move-over",
-      "type" : "Section",
       "title" : "Move over",
+      "type" : "Section",
       "content" : [ {
+        "lang" : "groovy",
         "snippet" : "menu.hover()",
-        "type" : "Snippet",
         "title" : "hover",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "drag-and-drop",
-      "type" : "Section",
       "title" : "Drag And Drop",
+      "type" : "Section",
       "content" : [ {
+        "lang" : "groovy",
         "snippet" : "def draggable = $(\"#draggable\")\ndef dropZone = $(\"#drop-zone\")\n\ndraggable.dragAndDropOver(dropZone)",
-        "surroundedBy" : "// drag-and-drop-over",
-        "type" : "Snippet",
         "title" : "drag element over element",
-        "lang" : "groovy"
+        "surroundedBy" : "// drag-and-drop-over",
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "def draggable = $(\"#draggable\")\ndraggable.dragAndDropBy(50, 50)",
-        "surroundedBy" : "// drag-and-drop-by",
-        "type" : "Snippet",
         "title" : "drag element by offset",
-        "lang" : "groovy"
+        "surroundedBy" : "// drag-and-drop-by",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "scrolling",
-      "type" : "Section",
       "title" : "Scrolling",
+      "type" : "Section",
       "content" : [ {
-        "endLine" : "// scrollIntoView-example",
+        "lang" : "groovy",
         "snippet" : "sectionTwo.scrollIntoView()",
-        "excludeStartEnd" : true,
-        "startLine" : "// scrollIntoView-example",
-        "type" : "Snippet",
         "title" : "scroll into view",
-        "lang" : "groovy"
+        "startLine" : "// scrollIntoView-example",
+        "endLine" : "// scrollIntoView-example",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
       }, {
-        "endLine" : "// scrollToBottom-example",
+        "lang" : "groovy",
         "snippet" : "container.scrollToBottom()",
-        "excludeStartEnd" : true,
-        "startLine" : "// scrollToBottom-example",
-        "type" : "Snippet",
         "title" : "scroll to bottom",
-        "lang" : "groovy"
+        "startLine" : "// scrollToBottom-example",
+        "endLine" : "// scrollToBottom-example",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
       }, {
-        "endLine" : "// scrollToTop-example",
+        "lang" : "groovy",
         "snippet" : "container.scrollToTop()",
-        "excludeStartEnd" : true,
-        "startLine" : "// scrollToTop-example",
-        "type" : "Snippet",
         "title" : "scroll to top",
-        "lang" : "groovy"
-      }, {
-        "endLine" : "// scrollToRight-example",
-        "snippet" : "container.scrollToRight()",
+        "startLine" : "// scrollToTop-example",
+        "endLine" : "// scrollToTop-example",
         "excludeStartEnd" : true,
-        "startLine" : "// scrollToRight-example",
-        "type" : "Snippet",
-        "title" : "scroll to right",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
-        "endLine" : "// scrollToRight-example",
+        "lang" : "groovy",
         "snippet" : "container.scrollToRight()",
-        "excludeStartEnd" : true,
-        "startLine" : "// scrollToRight-example",
-        "type" : "Snippet",
         "title" : "scroll to right",
-        "lang" : "groovy"
+        "startLine" : "// scrollToRight-example",
+        "endLine" : "// scrollToRight-example",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
       }, {
-        "endLine" : "// scrollToLeft-example",
+        "lang" : "groovy",
+        "snippet" : "container.scrollToRight()",
+        "title" : "scroll to right",
+        "startLine" : "// scrollToRight-example",
+        "endLine" : "// scrollToRight-example",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
         "snippet" : "container.scrollToLeft()",
-        "excludeStartEnd" : true,
-        "startLine" : "// scrollToLeft-example",
-        "type" : "Snippet",
         "title" : "scroll to left",
-        "lang" : "groovy"
-      }, {
-        "endLine" : "// scrollTo-example",
-        "snippet" : "container.scrollTo(100, 50)",
+        "startLine" : "// scrollToLeft-example",
+        "endLine" : "// scrollToLeft-example",
         "excludeStartEnd" : true,
-        "startLine" : "// scrollTo-example",
-        "type" : "Snippet",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "container.scrollTo(100, 50)",
         "title" : "scroll to x, y",
-        "lang" : "groovy"
+        "startLine" : "// scrollTo-example",
+        "endLine" : "// scrollTo-example",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Element Actions",

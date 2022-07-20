@@ -90,7 +90,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -128,8 +127,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "bulletMarker" : "*",
-      "type" : "BulletList",
       "tight" : true,
+      "type" : "BulletList",
       "content" : [ {
         "type" : "ListItem",
         "content" : [ {
@@ -159,24 +158,24 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "snippet" : "def myServer = server.serve(\"my-server\", \"data/staticcontent\")",
-      "surroundedBy" : "static-server-create",
-      "type" : "Snippet",
-      "title" : "static server creation example",
-      "lang" : "groovy"
-    }, {
-      "snippet" : "def router = server.router() // router-example\n        .get(\"/hello/:name\") { request -> server.response([message: \"hello ${request.param(\"name\")}\"]) } // router-example\n        .get(\"/bye/:name\") { request -> server.response([message: \"bye ${request.param(\"name\")}\"]) } // router-example\n// router-example\ndef myServer = server.fake(\"my-rest-server\", router) // router-example",
-      "commentsType" : "remove",
-      "type" : "Snippet",
-      "title" : "fake server creation example",
       "lang" : "groovy",
-      "includeRegexp" : "router-example"
+      "snippet" : "def myServer = server.serve(\"my-server\", \"data/staticcontent\")",
+      "title" : "static server creation example",
+      "surroundedBy" : "static-server-create",
+      "type" : "Snippet"
     }, {
+      "lang" : "groovy",
+      "snippet" : "def router = server.router() // router-example\n        .get(\"/hello/:name\") { request -> server.response([message: \"hello ${request.param(\"name\")}\"]) } // router-example\n        .get(\"/bye/:name\") { request -> server.response([message: \"bye ${request.param(\"name\")}\"]) } // router-example\n// router-example\ndef myServer = server.fake(\"my-rest-server\", router) // router-example",
+      "title" : "fake server creation example",
+      "includeRegexp" : "router-example",
+      "commentsType" : "remove",
+      "type" : "Snippet"
+    }, {
+      "lang" : "groovy",
       "snippet" : "def proxyServer = server.proxy(\"test-proxy-server\", targetServer.baseUrl)",
-      "surroundedBy" : "proxy-server-creation",
-      "type" : "Snippet",
       "title" : "proxy server creation example",
-      "lang" : "groovy"
+      "surroundedBy" : "proxy-server-creation",
+      "type" : "Snippet"
     }, {
       "type" : "Paragraph",
       "content" : [ {
@@ -184,19 +183,19 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "SimpleText"
       } ]
     }, {
+      "lang" : "groovy",
       "snippet" : "proxyServer.markUnresponsive()",
-      "surroundedBy" : "mark-unresponsive-example",
-      "type" : "Snippet",
       "title" : "unresponsive server",
-      "lang" : "groovy"
+      "surroundedBy" : "mark-unresponsive-example",
+      "type" : "Snippet"
     }, {
+      "lang" : "groovy",
       "snippet" : "def router = server.router()\n        .get(\"/hello/:name\") {request -> server.response([message: \"hello ${request.param(\"name\")}\"]) }\nmyServer.addOverride(router)",
-      "surroundedBy" : "override-example",
-      "type" : "Snippet",
       "title" : "content override",
-      "lang" : "groovy"
+      "surroundedBy" : "override-example",
+      "type" : "Snippet"
     } ],
-    "lastModifiedTime" : 1658328071402,
+    "lastModifiedTime" : 1658346107246,
     "tocItem" : {
       "sectionTitle" : "Servers",
       "pageTitle" : "Introduction",

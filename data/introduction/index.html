@@ -90,7 +90,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -132,33 +131,33 @@ ReactDOM.render(React.createElement(Documentation, {
         "text" : "Data access generates ",
         "type" : "SimpleText"
       }, {
+        "url" : "/webtau/report/steps",
         "isFile" : false,
         "type" : "Link",
         "content" : [ {
           "text" : "Report Steps",
           "type" : "SimpleText"
-        } ],
-        "url" : "/webtau/report/steps"
+        } ]
       }, {
         "text" : " to help with tests investigation.",
         "type" : "SimpleText"
       } ]
     }, {
       "bulletMarker" : "*",
-      "type" : "BulletList",
       "tight" : true,
+      "type" : "BulletList",
       "content" : [ {
         "type" : "ListItem",
         "content" : [ {
           "type" : "Paragraph",
           "content" : [ {
+            "url" : "/webtau/data/json",
             "isFile" : false,
             "type" : "Link",
             "content" : [ {
               "text" : "json",
               "type" : "SimpleText"
-            } ],
-            "url" : "/webtau/data/json"
+            } ]
           }, {
             "text" : " - access JSON test data",
             "type" : "SimpleText"
@@ -169,13 +168,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "content" : [ {
           "type" : "Paragraph",
           "content" : [ {
+            "url" : "/webtau/data/csv",
             "isFile" : false,
             "type" : "Link",
             "content" : [ {
               "text" : "csv",
               "type" : "SimpleText"
-            } ],
-            "url" : "/webtau/data/csv"
+            } ]
           }, {
             "text" : " - access CSV test data",
             "type" : "SimpleText"
@@ -186,13 +185,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "content" : [ {
           "type" : "Paragraph",
           "content" : [ {
+            "url" : "/webtau/data/pdf",
             "isFile" : false,
             "type" : "Link",
             "content" : [ {
               "text" : "pdf",
               "type" : "SimpleText"
-            } ],
-            "url" : "/webtau/data/pdf"
+            } ]
           }, {
             "text" : " - access PDF data to validate",
             "type" : "SimpleText"
@@ -200,17 +199,17 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
+      "lang" : "groovy",
       "snippet" : "TableData table = data.csv.table(\"data/table.csv\")",
-      "surroundedBy" : "// read",
-      "type" : "Snippet",
       "title" : "read table data from csv",
-      "lang" : "groovy"
+      "surroundedBy" : "// read",
+      "type" : "Snippet"
     }, {
-      "type" : "CliOutput",
+      "title" : "console output",
       "lines" : [ "\u001B[33m> \u001B[34mreading \u001B[36mcsv \u001B[33mfrom \u001B[36mfile or resource \u001B[35mdata/table.csv\u001B[0m", "\u001B[32m. \u001B[34mread \u001B[34m2 \u001B[36mlines of csv \u001B[33mfrom \u001B[36mfile \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
-      "title" : "console output"
+      "type" : "CliOutput"
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Data",
       "pageTitle" : "Introduction",

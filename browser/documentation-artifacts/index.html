@@ -116,7 +116,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -142,8 +141,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "usage-scenarios",
-      "type" : "Section",
       "title" : "Usage Scenarios",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -164,8 +163,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "capturing-screenshots-with-annotations",
-      "type" : "Section",
       "title" : "Capturing Screenshots With Annotations",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -179,10 +178,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "search.submit(\"search this\")\n\nbrowser.doc.withAnnotations(\n        browser.doc.badge(search.box),\n        browser.doc.badge(search.results)).capture(\"search\")",
-        "type" : "Snippet",
         "title" : "screenshot capture with badge annotations",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -197,8 +196,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "type" : "BulletList",
         "tight" : true,
+        "type" : "BulletList",
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -219,31 +218,31 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         } ]
       }, {
+        "lang" : "json",
         "snippet" : "{\n  \"shapes\" : [ {\n    \"type\" : \"badge\",\n    \"text\" : \"1\",\n    \"x\" : 104,\n    \"y\" : 76,\n    \"align\" : \"Center\"\n  }, {\n    \"type\" : \"badge\",\n    \"text\" : \"2\",\n    \"x\" : 442,\n    \"y\" : 161,\n    \"align\" : \"Center\"\n  } ],\n  \"pixelRatio\" : 1\n}",
-        "type" : "Snippet",
         "title" : "search.json",
-        "lang" : "json"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
+          "url" : "https://testingisdocumenting.org/webtau",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "WebTau",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://testingisdocumenting.org/webtau"
+          } ]
         }, {
           "text" : " documentation site is generated using ",
           "type" : "SimpleText"
         }, {
+          "url" : "https://github.com/testingisdocumenting/znai",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Znai",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://github.com/testingisdocumenting/znai"
+          } ]
         }, {
           "text" : ".",
           "type" : "SimpleText"
@@ -266,36 +265,38 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "",
         "snippet" : ":include-image: doc-artifacts/search.png {fit: true, annotate: true}\n",
-        "type" : "Snippet",
         "lineNumber" : "",
-        "lang" : ""
+        "type" : "Snippet"
       }, {
         "fit" : true,
+        "annotate" : true,
+        "imageSrc" : "/webtau/doc-artifacts/search.png",
+        "timestamp" : 1658346730302,
         "shapes" : [ {
+          "type" : "badge",
+          "text" : "1",
           "x" : 104,
           "y" : 76,
-          "text" : "1",
           "align" : "Center",
-          "type" : "badge"
+          "invertedColors" : false
         }, {
+          "type" : "badge",
+          "text" : "2",
           "x" : 442,
           "y" : 161,
-          "text" : "2",
           "align" : "Center",
-          "type" : "badge"
+          "invertedColors" : false
         } ],
         "width" : 900.0,
-        "imageSrc" : "/webtau/doc-artifacts/search.png",
-        "annotate" : true,
-        "type" : "AnnotatedImage",
         "height" : 322.0,
-        "timestamp" : 1658328694036
+        "type" : "AnnotatedImage"
       } ]
     }, {
       "id" : "badge-shortcut",
-      "type" : "Section",
       "title" : "Badge Shortcut",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -314,92 +315,111 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "search.submit(\"search this\")\n\nbrowser.doc.withAnnotations(search.box, search.results).capture(\"search-with-shortcut\")",
-        "type" : "Snippet",
         "title" : "default badge annotation type",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "annotation-types",
-      "type" : "Section",
       "title" : "Annotation Types",
+      "type" : "Section",
       "content" : [ {
+        "lang" : "groovy",
         "snippet" : "search.submit(\"search this\")\n\nbrowser.doc.withAnnotations(\n        browser.doc.badge(search.box),\n        browser.doc.badge(search.results)).capture(\"search\")",
-        "type" : "Snippet",
         "title" : "badges",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "annotate" : true,
+        "imageSrc" : "/webtau/doc-artifacts/search.png",
+        "timestamp" : 1658346730302,
         "shapes" : [ {
+          "type" : "badge",
+          "text" : "1",
           "x" : 104,
           "y" : 76,
-          "text" : "1",
           "align" : "Center",
-          "type" : "badge"
+          "invertedColors" : false
         }, {
+          "type" : "badge",
+          "text" : "2",
           "x" : 442,
           "y" : 161,
-          "text" : "2",
           "align" : "Center",
-          "type" : "badge"
+          "invertedColors" : false
         } ],
         "width" : 900.0,
-        "imageSrc" : "/webtau/doc-artifacts/search.png",
-        "annotate" : true,
-        "type" : "AnnotatedImage",
         "height" : 322.0,
-        "timestamp" : 1658328694036
+        "type" : "AnnotatedImage"
       }, {
+        "lang" : "groovy",
         "snippet" : "browser.doc.withAnnotations(\n        browser.doc.rect(search.box),\n        browser.doc.rect(search.results, \"covering text\")).capture(\"search-rectangles\")",
-        "type" : "Snippet",
         "title" : "rectangles",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "annotate" : true,
+        "imageSrc" : "/webtau/doc-artifacts/search-rectangles.png",
+        "timestamp" : 1658346731950,
         "shapes" : [ {
-          "endY" : 87,
-          "endX" : 193,
+          "type" : "rectangle",
+          "text" : "",
           "beginX" : 16,
           "beginY" : 66,
-          "text" : "",
-          "type" : "rectangle"
+          "endX" : 193,
+          "endY" : 87,
+          "invertedColors" : false
         }, {
-          "endY" : 179,
-          "endX" : 865,
+          "type" : "rectangle",
+          "text" : "covering text",
           "beginX" : 20,
           "beginY" : 143,
-          "text" : "covering text",
-          "type" : "rectangle"
+          "endX" : 865,
+          "endY" : 179,
+          "invertedColors" : false,
+          "tooltip" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "covering text",
+              "type" : "SimpleText"
+            } ]
+          } ]
         } ],
         "width" : 900.0,
-        "imageSrc" : "/webtau/doc-artifacts/search-rectangles.png",
-        "annotate" : true,
-        "type" : "AnnotatedImage",
         "height" : 322.0,
-        "timestamp" : 1658328695536
+        "type" : "AnnotatedImage"
       }, {
+        "lang" : "groovy",
         "snippet" : "browser.doc.withAnnotations(\n        browser.doc.arrow(search.box, search.results, \"search result\")).capture(\"search-arrow\")",
-        "type" : "Snippet",
         "title" : "arrow",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "annotate" : true,
+        "imageSrc" : "/webtau/doc-artifacts/search-arrow.png",
+        "timestamp" : 1658346732138,
         "shapes" : [ {
-          "endY" : 161,
-          "endX" : 442,
+          "type" : "arrow",
+          "text" : "search result",
           "beginX" : 104,
           "beginY" : 76,
-          "text" : "search result",
-          "type" : "arrow"
+          "endX" : 442,
+          "endY" : 161,
+          "invertedColors" : false,
+          "tooltip" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "search result",
+              "type" : "SimpleText"
+            } ]
+          } ]
         } ],
         "width" : 900.0,
-        "imageSrc" : "/webtau/doc-artifacts/search-arrow.png",
-        "annotate" : true,
-        "type" : "AnnotatedImage",
         "height" : 322.0,
-        "timestamp" : 1658328695744
+        "type" : "AnnotatedImage"
       } ]
     }, {
       "id" : "annotation-placement",
-      "type" : "Section",
       "title" : "Annotation Placement",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -431,37 +451,39 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "endLine" : "example-end",
+        "lang" : "groovy",
         "snippet" : "search.submit(\"search this\")\n\nbrowser.doc.withAnnotations(\n        browser.doc.badge(search.box).toTheRight(),\n        browser.doc.badge(search.results).above()).capture(\"search-diff-placement\")",
-        "excludeStartEnd" : true,
-        "type" : "Snippet",
         "title" : "badge placement",
-        "lang" : "groovy"
+        "endLine" : "example-end",
+        "excludeStartEnd" : true,
+        "type" : "Snippet"
       }, {
         "annotationsPath" : "doc-artifacts/search-diff-placement.json",
+        "imageSrc" : "/webtau/doc-artifacts/search.png",
+        "timestamp" : 1658346730302,
         "shapes" : [ {
+          "type" : "badge",
+          "text" : "1",
           "x" : 193,
           "y" : 76,
-          "text" : "1",
           "align" : "ToTheRight",
-          "type" : "badge"
+          "invertedColors" : false
         }, {
+          "type" : "badge",
+          "text" : "2",
           "x" : 442,
           "y" : 143,
-          "text" : "2",
           "align" : "Above",
-          "type" : "badge"
+          "invertedColors" : false
         } ],
         "width" : 900.0,
-        "imageSrc" : "/webtau/doc-artifacts/search.png",
-        "type" : "AnnotatedImage",
         "height" : 322.0,
-        "timestamp" : 1658328694036
+        "type" : "AnnotatedImage"
       } ]
     }, {
       "id" : "screenshot-of-a-specific-element",
-      "type" : "Section",
       "title" : "Screenshot Of A Specific Element",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -481,26 +503,27 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "annotationsPath" : "doc-artifacts/search-results-area.json",
+        "imageSrc" : "/webtau/doc-artifacts/search-results-area.png",
+        "timestamp" : 1658346731074,
         "shapes" : [ {
+          "type" : "badge",
+          "text" : "1",
           "x" : 426,
           "y" : 18,
-          "text" : "1",
           "align" : "Center",
-          "type" : "badge"
+          "invertedColors" : false
         } ],
         "width" : 853.0,
-        "imageSrc" : "/webtau/doc-artifacts/search-results-area.png",
-        "type" : "AnnotatedImage",
         "height" : 179.0,
-        "timestamp" : 1658328694772
+        "type" : "AnnotatedImage"
       }, {
+        "lang" : "groovy",
         "snippet" : "search.submit(\"search this\")\n\nbrowser.doc.withRoot(search.resultsArea)\n        .withAnnotations(browser.doc.badge(search.results))\n        .capture(\"search-results-area\")",
-        "type" : "Snippet",
         "title" : "specific element",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Documentation Artifacts",

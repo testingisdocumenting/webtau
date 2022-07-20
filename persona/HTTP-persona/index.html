@@ -96,7 +96,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -122,21 +121,21 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "authorization",
-      "type" : "Section",
       "title" : "Authorization",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "In ",
           "type" : "SimpleText"
         }, {
+          "url" : "/webtau/HTTP/header#implicit-header",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "http headers",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/HTTP/header#implicit-header"
+          } ]
         }, {
           "text" : " section we defined how to use",
           "type" : "SimpleText"
@@ -147,20 +146,20 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.rest.headers\n\nimport scenarios.rest.headers.auth.Auth\n\nurl = \"http://localhost:8080\"\n\nhttpHeaderProvider = Auth.&authHeader",
-        "type" : "Snippet",
         "title" : "webtau.cfg.groovy",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\n\nclass Auth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateToken()\n        return original.with([Authorization: \"Bearer $token\"])\n    }\n\n    private static String generateToken() {\n        return \"jwt-token\"\n    }\n}",
-        "type" : "Snippet",
         "title" : "scenarios/rest/headers/auth/Auth.groovy",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "persona-authorization",
-      "type" : "Section",
       "title" : "Persona Authorization",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -169,22 +168,22 @@ ReactDOM.render(React.createElement(Documentation, {
         }, {
           "type" : "SoftLineBreak"
         }, {
+          "url" : "/webtau/persona/introduction#context-definition",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Previously",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/persona/introduction#context-definition"
+          } ]
         }, {
           "text" : " we defined two personas",
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package personas\n\nimport static org.testingisdocumenting.webtau.WebTauCore.persona\n\nclass Personas {\n    public static def Alice = persona(\"Alice\", [authId: \"alice-user-id\"])\n    public static def Bob = persona(\"Bob\", [authId: \"bob-user-id\"])\n}",
-        "type" : "Snippet",
         "title" : "Alice and Bob",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -192,10 +191,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.rest.headers\n\nimport static personas.Personas.*\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"my bank balance\") {\n    Alice {\n        http.get(\"/statement\") {\n            balance.shouldBe > 100\n        }\n    }\n\n    Bob {\n        http.get(\"/statement\") {\n            balance.shouldBe < 50\n        }\n    }\n}",
-        "type" : "Snippet",
         "title" : "persona http call",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -203,14 +202,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass PersonaAuth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateTokenBasedOnPersona()\n        return original.with([Authorization: \"Bearer $token\"])\n    }\n\n    static String generateTokenBasedOnPersona() {\n        if (currentPersona.isDefault()) { // check if we are inside persona context or outside\n            return generateDefaultToken()\n        }\n\n        return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token\n    }\n\n    static String generateTokenForSystemUserId(String systemUserId) {\n        return \"dummy:$systemUserId\" // this is where you generate specific user auth token\n    }\n\n    static String generateDefaultToken() {\n        return \"dummy:default-user\" // this is where you generate default user auth token\n    }\n}",
-        "commentsType" : "inline",
-        "type" : "Snippet",
         "title" : "scenarios/rest/headers/auth/PersonaAuth.groovy",
-        "lang" : "groovy"
+        "commentsType" : "inline",
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071394,
+    "lastModifiedTime" : 1658346107242,
     "tocItem" : {
       "sectionTitle" : "Persona",
       "pageTitle" : "HTTP Persona",

@@ -90,7 +90,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -164,23 +163,23 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "SimpleText"
       } ]
     }, {
+      "lang" : "groovy",
       "snippet" : "scenario(\"example of ls run\") {\n    cli.run('ls') {\n        output.should contain('scripts')\n    }\n}",
-      "excludeRegexp" : [ "package", "import", "doc.capture" ],
-      "type" : "Snippet",
       "title" : "basicLs.groovy",
-      "lang" : "groovy"
+      "excludeRegexp" : [ "package", "import", "doc.capture" ],
+      "type" : "Snippet"
     }, {
+      "command" : "webtau basicLs.groovy",
       "paramsToHighlight" : [ ],
-      "type" : "CliCommand",
-      "command" : "webtau basicLs.groovy"
+      "type" : "CliCommand"
     }, {
+      "lang" : "txt",
       "snippet" : "data\ndbproviders\nformHandlers\nlisteners\npages\npersonas\nscenarios\nschemas\nscripts\nuse-cases.csv\nwebtau.graphql-report.json",
-      "highlight" : [ 8 ],
       "highlightPath" : "doc-artifacts/ls-run/out.matched.txt",
-      "type" : "Snippet",
-      "lang" : "txt"
+      "highlight" : [ 8 ],
+      "type" : "Snippet"
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Cli",
       "pageTitle" : "Introduction",

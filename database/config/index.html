@@ -96,7 +96,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -122,21 +121,21 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "jdbc",
-      "type" : "Section",
       "title" : "JDBC",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "WebTau is JVM based API and it uses ",
           "type" : "SimpleText"
         }, {
+          "url" : "https://en.wikipedia.org/wiki/Java_Database_Connectivity#:~:text=Java%20Database%20Connectivity%20(JDBC)%20is,used%20for%20Java%20database%20connectivity.",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "JDBC",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://en.wikipedia.org/wiki/Java_Database_Connectivity#:~:text=Java%20Database%20Connectivity%20(JDBC)%20is,used%20for%20Java%20database%20connectivity."
+          } ]
         }, {
           "type" : "SoftLineBreak"
         }, {
@@ -157,8 +156,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "primary-database",
-      "type" : "Section",
       "title" : "Primary Database",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -178,15 +177,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "import groovy.grape.Grape\n\nGrape.grab(group:'com.h2database', module: 'h2', version: '1.4.200', // auto download DB driver dependency (in this case H2 db)\n        classLoader: ClassLoader.getSystemClassLoader())\n\ndbUrl = \"jdbc:h2:file:~/h2db/test-db\" // primary DB JDBC connection url\ndbDriverClassName = \"org.h2.Driver\" // JDBC driver class name\ndbUserName = \"sa\"\ndbPassword = \"password\"",
+        "title" : "Primary DB config",
         "excludeRegexp" : "package",
         "commentsType" : "inline",
-        "type" : "Snippet",
-        "title" : "Primary DB config",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Database",
       "pageTitle" : "Config",

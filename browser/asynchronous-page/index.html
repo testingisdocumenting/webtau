@@ -111,7 +111,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -137,8 +136,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "synchronization",
-      "type" : "Section",
       "title" : "Synchronization",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -170,8 +169,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "visiblehidden-element",
-      "type" : "Section",
       "title" : "Visible/Hidden Element",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -179,15 +178,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "calculation.start()\n\ncalculation.feedback.waitToBe visible\ncalculation.results.should == [100, 230]",
-        "type" : "Snippet",
-        "title" : "beVisible matcher",
-        "lang" : "groovy"
+        "title" : "visible matcher",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "enableddisabled-element",
-      "type" : "Section",
       "title" : "Enabled/Disabled Element",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -195,15 +194,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "calculation.open()\n\ncalculation.input.waitToBe enabled\ncalculation.input.setValue(100)",
-        "type" : "Snippet",
-        "title" : "beEnabled matcher",
-        "lang" : "groovy"
+        "title" : "enabled matcher",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "wait-to-match",
-      "type" : "Section",
       "title" : "Wait to match",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -211,10 +210,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "calculation.start()\ncalculation.results.waitTo == [100, 230]",
-        "type" : "Snippet",
         "title" : "waitTo any matcher",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -245,8 +244,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "wait-on-url",
-      "type" : "Section",
       "title" : "Wait on url",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -254,26 +253,26 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "browser.open('/resource-creation')\n\n$('#new').click()\nbrowser.url.ref.waitTo == 'created-id'",
-        "type" : "Snippet",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Note: url exposes other parts that you can ",
           "type" : "SimpleText"
         }, {
+          "url" : "/webtau/browser/navigation#assert-url",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "read more about here",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/browser/navigation#assert-url"
+          } ]
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Asynchronous Page",

@@ -101,7 +101,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -127,8 +126,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "dynamic-scenarios",
-      "type" : "Section",
       "title" : "Dynamic Scenarios",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -147,28 +146,28 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n[1, 2, 3].each { number ->\n    scenario(\"number $number\") {\n        println number\n    }\n}",
-        "type" : "Snippet",
         "title" : "dynamic scenarios",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "csv",
-      "type" : "Section",
       "title" : "CSV",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Use ",
           "type" : "SimpleText"
         }, {
+          "url" : "/webtau/data/csv#list-of-map",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "data.csv",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/data/csv#list-of-map"
+          } ]
         }, {
           "text" : " to conveniently build your scenarios from an external ",
           "type" : "SimpleText"
@@ -180,20 +179,20 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "csv",
         "snippet" : "title, input, output\nhello, 10, 20\nworld, 30, 40",
-        "type" : "Snippet",
         "title" : "examples/use-cases.csv",
-        "lang" : "csv"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndata.csv.table('use-cases.csv').each { row ->\n    scenario(\"use case ${row.title}\") {\n        println row.input\n        println row.output\n    }\n}",
-        "type" : "Snippet",
         "title" : "CSV-driven tests",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "table-data",
-      "type" : "Section",
       "title" : "Table Data",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -207,13 +206,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef lever = 10\n\ndef useCases = ['title'  | 'input'    | 'output'] {\n               ____________________________________\n                'hello'  | lever      | lever + 10\n                'world'  | lever + 30 | lever + 40 }\n\nuseCases.each { row ->\n    scenario(\"use case ${row.title}\") {\n        println row.input\n        println row.output\n    }\n}",
-        "type" : "Snippet",
         "title" : "TableData-driven tests",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107242,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Data Driven Scenarios",

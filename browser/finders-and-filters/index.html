@@ -106,7 +106,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -132,8 +131,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "finders",
-      "type" : "Section",
       "title" : "Finders",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -143,8 +142,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "css-finder",
-      "type" : "Section",
       "title" : "CSS Finder",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -163,22 +162,22 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : " selector (",
           "type" : "SimpleText"
         }, {
+          "url" : "https://www.w3schools.com/cssref/css_selectors.asp",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Read W3Schools CSS selectors",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://www.w3schools.com/cssref/css_selectors.asp"
+          } ]
         }, {
           "text" : " to learn all kind of CSS selection techniques).",
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def welcomeMessage = $('#welcome')\nwelcomeMessage.should == 'hello'",
-        "type" : "Snippet",
         "title" : "example of selecting by id",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -186,10 +185,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def menu = $('ul li a')\nmenu.should == 'book'",
-        "type" : "Snippet",
         "title" : "example of selecting by nested tags",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -209,9 +208,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def menu = $('ul li a')\nmenu.should == ['book', 'orders', 'help']",
-        "type" : "Snippet",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -226,122 +225,122 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "paths" : [ "div" ],
         "xmlAsJson" : {
-          "children" : [ {
-            "text" : "hello",
-            "tagName" : ""
-          } ],
+          "tagName" : "div",
           "attributes" : [ {
             "name" : "id",
             "value" : "\"welcome\""
           } ],
-          "tagName" : "div"
+          "children" : [ {
+            "tagName" : "",
+            "text" : "hello"
+          } ]
         },
         "type" : "Xml"
       }, {
         "paths" : [ "ul.li[0].a" ],
         "xmlAsJson" : {
+          "tagName" : "ul",
+          "attributes" : [ ],
           "children" : [ {
+            "tagName" : "li",
+            "attributes" : [ ],
             "children" : [ {
-              "children" : [ {
-                "text" : "book",
-                "tagName" : ""
-              } ],
+              "tagName" : "a",
               "attributes" : [ {
                 "name" : "href",
                 "value" : "\"/book\""
               } ],
-              "tagName" : "a"
-            } ],
-            "attributes" : [ ],
-            "tagName" : "li"
-          }, {
-            "children" : [ {
               "children" : [ {
-                "text" : "orders",
-                "tagName" : ""
-              } ],
+                "tagName" : "",
+                "text" : "book"
+              } ]
+            } ]
+          }, {
+            "tagName" : "li",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "a",
               "attributes" : [ {
                 "name" : "href",
                 "value" : "\"/orders\""
               } ],
-              "tagName" : "a"
-            } ],
-            "attributes" : [ ],
-            "tagName" : "li"
-          }, {
-            "children" : [ {
               "children" : [ {
-                "text" : "help",
-                "tagName" : ""
-              } ],
+                "tagName" : "",
+                "text" : "orders"
+              } ]
+            } ]
+          }, {
+            "tagName" : "li",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "a",
               "attributes" : [ {
                 "name" : "href",
                 "value" : "\"/help\""
               } ],
-              "tagName" : "a"
-            } ],
-            "attributes" : [ ],
-            "tagName" : "li"
-          } ],
-          "attributes" : [ ],
-          "tagName" : "ul"
+              "children" : [ {
+                "tagName" : "",
+                "text" : "help"
+              } ]
+            } ]
+          } ]
         },
         "type" : "Xml"
       }, {
         "paths" : [ "ul.li[0].a", "ul.li[1].a", "ul.li[2].a" ],
         "xmlAsJson" : {
+          "tagName" : "ul",
+          "attributes" : [ ],
           "children" : [ {
+            "tagName" : "li",
+            "attributes" : [ ],
             "children" : [ {
-              "children" : [ {
-                "text" : "book",
-                "tagName" : ""
-              } ],
+              "tagName" : "a",
               "attributes" : [ {
                 "name" : "href",
                 "value" : "\"/book\""
               } ],
-              "tagName" : "a"
-            } ],
-            "attributes" : [ ],
-            "tagName" : "li"
-          }, {
-            "children" : [ {
               "children" : [ {
-                "text" : "orders",
-                "tagName" : ""
-              } ],
+                "tagName" : "",
+                "text" : "book"
+              } ]
+            } ]
+          }, {
+            "tagName" : "li",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "a",
               "attributes" : [ {
                 "name" : "href",
                 "value" : "\"/orders\""
               } ],
-              "tagName" : "a"
-            } ],
-            "attributes" : [ ],
-            "tagName" : "li"
-          }, {
-            "children" : [ {
               "children" : [ {
-                "text" : "help",
-                "tagName" : ""
-              } ],
+                "tagName" : "",
+                "text" : "orders"
+              } ]
+            } ]
+          }, {
+            "tagName" : "li",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "a",
               "attributes" : [ {
                 "name" : "href",
                 "value" : "\"/help\""
               } ],
-              "tagName" : "a"
-            } ],
-            "attributes" : [ ],
-            "tagName" : "li"
-          } ],
-          "attributes" : [ ],
-          "tagName" : "ul"
+              "children" : [ {
+                "tagName" : "",
+                "text" : "help"
+              } ]
+            } ]
+          } ]
         },
         "type" : "Xml"
       } ]
     }, {
       "id" : "filters",
-      "type" : "Section",
       "title" : "Filters",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -362,8 +361,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "type" : "BulletList",
         "tight" : true,
+        "type" : "BulletList",
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -393,78 +392,78 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def ordersMenu = $('ul li a').get(2)\nordersMenu.should == 'orders'",
-        "type" : "Snippet",
         "title" : "Number",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "def ordersMenu = $('ul li a').get('orders')\nordersMenu.should == 'orders'",
-        "type" : "Snippet",
         "title" : "Text",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "def ordersMenu = $('ul li a').get(~/ord/)\nordersMenu.should == 'orders'",
-        "type" : "Snippet",
         "title" : "Regexp",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "paths" : [ "ul.li[1].a" ],
         "meta" : {
           "rightSide" : true
         },
-        "paths" : [ "ul.li[1].a" ],
         "xmlAsJson" : {
+          "tagName" : "ul",
+          "attributes" : [ ],
           "children" : [ {
+            "tagName" : "li",
+            "attributes" : [ ],
             "children" : [ {
-              "children" : [ {
-                "text" : "book",
-                "tagName" : ""
-              } ],
+              "tagName" : "a",
               "attributes" : [ {
                 "name" : "href",
                 "value" : "\"/book\""
               } ],
-              "tagName" : "a"
-            } ],
-            "attributes" : [ ],
-            "tagName" : "li"
-          }, {
-            "children" : [ {
               "children" : [ {
-                "text" : "orders",
-                "tagName" : ""
-              } ],
+                "tagName" : "",
+                "text" : "book"
+              } ]
+            } ]
+          }, {
+            "tagName" : "li",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "a",
               "attributes" : [ {
                 "name" : "href",
                 "value" : "\"/orders\""
               } ],
-              "tagName" : "a"
-            } ],
-            "attributes" : [ ],
-            "tagName" : "li"
-          }, {
-            "children" : [ {
               "children" : [ {
-                "text" : "help",
-                "tagName" : ""
-              } ],
+                "tagName" : "",
+                "text" : "orders"
+              } ]
+            } ]
+          }, {
+            "tagName" : "li",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "a",
               "attributes" : [ {
                 "name" : "href",
                 "value" : "\"/help\""
               } ],
-              "tagName" : "a"
-            } ],
-            "attributes" : [ ],
-            "tagName" : "li"
-          } ],
-          "attributes" : [ ],
-          "tagName" : "ul"
+              "children" : [ {
+                "tagName" : "",
+                "text" : "help"
+              } ]
+            } ]
+          } ]
         },
         "type" : "Xml"
       } ]
     }, {
       "id" : "chaining",
-      "type" : "Section",
       "title" : "Chaining",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -472,66 +471,66 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def ordersMenu = $('ul li').get(2).find('a')\nordersMenu.should == 'orders'",
-        "type" : "Snippet",
         "title" : "Nested css selector",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "paths" : [ "ul.li[1].a" ],
         "meta" : {
           "rightSide" : true
         },
-        "paths" : [ "ul.li[1].a" ],
         "xmlAsJson" : {
+          "tagName" : "ul",
+          "attributes" : [ ],
           "children" : [ {
+            "tagName" : "li",
+            "attributes" : [ ],
             "children" : [ {
-              "children" : [ {
-                "text" : "book",
-                "tagName" : ""
-              } ],
+              "tagName" : "a",
               "attributes" : [ {
                 "name" : "href",
                 "value" : "\"/book\""
               } ],
-              "tagName" : "a"
-            } ],
-            "attributes" : [ ],
-            "tagName" : "li"
-          }, {
-            "children" : [ {
               "children" : [ {
-                "text" : "orders",
-                "tagName" : ""
-              } ],
+                "tagName" : "",
+                "text" : "book"
+              } ]
+            } ]
+          }, {
+            "tagName" : "li",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "a",
               "attributes" : [ {
                 "name" : "href",
                 "value" : "\"/orders\""
               } ],
-              "tagName" : "a"
-            } ],
-            "attributes" : [ ],
-            "tagName" : "li"
-          }, {
-            "children" : [ {
               "children" : [ {
-                "text" : "help",
-                "tagName" : ""
-              } ],
+                "tagName" : "",
+                "text" : "orders"
+              } ]
+            } ]
+          }, {
+            "tagName" : "li",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "a",
               "attributes" : [ {
                 "name" : "href",
                 "value" : "\"/help\""
               } ],
-              "tagName" : "a"
-            } ],
-            "attributes" : [ ],
-            "tagName" : "li"
-          } ],
-          "attributes" : [ ],
-          "tagName" : "ul"
+              "children" : [ {
+                "tagName" : "",
+                "text" : "help"
+              } ]
+            } ]
+          } ]
         },
         "type" : "Xml"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Finders And Filters",

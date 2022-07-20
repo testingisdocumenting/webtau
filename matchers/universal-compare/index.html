@@ -101,7 +101,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -127,8 +126,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "cross-types-comparison",
-      "type" : "Section",
       "title" : "Cross Types Comparison",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -144,30 +143,30 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def errorMessage = generateErrorMessage()\nerrorMessage.should == \"insufficient disk space\" // string and string equality comparison\n\ndef numberAsText = \"200\"\nnumberAsText.shouldBe > 150 // text and number relative comparison",
             "surroundedBy" : [ "string-string-example", "string-number-example" ],
-            "commentsType" : "inline",
-            "type" : "Snippet",
             "surroundedBySeparator" : "",
-            "lang" : "groovy"
+            "commentsType" : "inline",
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "String errorMessage = generateErrorMessage();\nactual(errorMessage).should(equal(\"insufficient disk space\")); // string and string equality comparison\n\nString numberAsText = \"200\";\nactual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison",
             "surroundedBy" : [ "string-string-example", "string-number-example" ],
-            "commentsType" : "inline",
-            "type" : "Snippet",
             "surroundedBySeparator" : "",
-            "lang" : "java"
+            "commentsType" : "inline",
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
       "id" : "static-import",
-      "type" : "Section",
       "title" : "Static Import",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -186,15 +185,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "java",
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
         "surroundedBy" : "import-dsl",
-        "type" : "Snippet",
-        "lang" : "java"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "java-beans-and-maps",
-      "type" : "Section",
       "title" : "Java Beans And Maps",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -205,34 +204,34 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def account = new Account(\"ac1\", \"My Account\", \"test account\")\naccount.should == [\n        id: \"ac1\",\n        name: \"My Account\"] // only specified properties will be compared",
             "surroundedBy" : "bean-map-example",
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "Account account = new Account(\"ac1\", \"My Account\", \"test account\");\nactual(account).should(equal(aMapOf( // utility function from WebTauCore static import\n        \"id\", \"ac1\",\n        \"name\", \"My Account\"))); // only specified properties will be compared",
             "surroundedBy" : "bean-map-example",
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       }, {
+        "lang" : "java",
         "snippet" : "public class Account {\n    private final String id;\n    private final String name;\n    private final String description;\n\n    public Account(String id, String name, String description) {\n        this.id = id;\n        this.name = name;\n        this.description = description;\n    }\n\n    public String getId() {\n        return id;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public String getDescription() {\n        return description;\n    }\n}",
         "surroundedBy" : "account",
-        "type" : "Snippet",
         "title" : "Account Bean",
-        "lang" : "java"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "dates",
-      "type" : "Section",
       "title" : "Dates",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -243,32 +242,32 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def dateAsText = \"2018-06-10\"\ndateAsText.shouldBe > LocalDate.of(2018, 6, 9)\n\ndef timeAsText = \"2018-01-02T00:00:00Z\"\ntimeAsText.shouldBe > LocalDate.of(2018, 1, 1) // date/time will be converted to local timezone\n\ndef withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4)\ndef dateOnly = LocalDate.of(2022, 3, 16)\nwithTime.should == dateOnly // comparison ignores time portion when not provided",
-            "entry" : [ "actual local date string greater than expected local date instance", "actual zoned date time string greater than expected local date instance", "should compare local date against local date time" ],
-            "bodyOnly" : true,
-            "entrySeparator" : "",
-            "commentsType" : "inline",
-            "type" : "Snippet",
             "title" : "text and date",
-            "lang" : "groovy"
+            "entry" : [ "actual local date string greater than expected local date instance", "actual zoned date time string greater than expected local date instance", "should compare local date against local date time" ],
+            "entrySeparator" : "",
+            "bodyOnly" : true,
+            "commentsType" : "inline",
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "String dateAsText = \"2018-06-10\";\nactual(dateAsText).shouldBe(greaterThan(LocalDate.of(2018, 6, 9)));\n\nString timeAsText = \"2018-01-02T00:00:00Z\";\nactual(timeAsText).shouldBe(greaterThan(LocalDate.of(2018, 1, 1))); // date/time will be converted to local timezone\n\nLocalDateTime withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4);\nLocalDate withDate = LocalDate.of(2022, 3, 16);\nactual(withTime).should(equal(withDate)); // comparison ignores time portion when not provided",
-            "entry" : [ "actualLocalDateStringGreaterThanExpectedLocalDateInstance", "actualZonedDateTimeStringGreaterThanExpectedLocalDateInstance", "shouldCompareLocalDateAgainstLocalDateTime" ],
-            "bodyOnly" : true,
-            "entrySeparator" : "",
-            "commentsType" : "inline",
-            "type" : "Snippet",
             "title" : "text and date",
-            "lang" : "groovy"
+            "entry" : [ "actualLocalDateStringGreaterThanExpectedLocalDateInstance", "actualZonedDateTimeStringGreaterThanExpectedLocalDateInstance", "shouldCompareLocalDateAgainstLocalDateTime" ],
+            "entrySeparator" : "",
+            "bodyOnly" : true,
+            "commentsType" : "inline",
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071394,
+    "lastModifiedTime" : 1658346107242,
     "tocItem" : {
       "sectionTitle" : "Matchers",
       "pageTitle" : "Universal Compare",

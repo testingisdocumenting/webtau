@@ -96,7 +96,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -122,8 +121,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "handler-vs-matcher",
-      "type" : "Section",
       "title" : "Handler vs Matcher",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -145,8 +144,8 @@ ReactDOM.render(React.createElement(Documentation, {
     }, {
       "style" : "api",
       "id" : "comparetohandler",
-      "type" : "Section",
       "title" : "CompareToHandler",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -155,8 +154,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "type" : "BulletList",
         "tight" : true,
+        "type" : "BulletList",
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -180,21 +179,21 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         } ]
       }, {
-        "level" : 2,
         "id" : "comparetohandler-interface",
-        "type" : "SubHeading",
-        "title" : "Interface"
-      }, {
-        "snippet" : "public interface CompareToHandler {\n    /**\n     * determines whether supports equality comparison\n     * @param actual actual value\n     * @param expected expected value\n     * @return true if comparison can be handled\n     */\n    boolean handleEquality(Object actual, Object expected);\n\n    /**\n     * determines whether supports greater/less than comparison family\n     * @param actual actual value\n     * @param expected expected value\n     * @return true if comparison can be handled\n     */\n    default boolean handleGreaterLessEqual(Object actual, Object expected) {\n        return false;\n    }\n\n    /**\n     * determines whether handler can handle nulls. usually left unimplemented\n     * @return true if handler can match nulls\n     */\n    default boolean handleNulls() {\n        return false;\n    }\n\n    /**\n     * implementation logic of equality only\n     * @param comparator comparator to delegate comparison to\n     * @param actualPath path to use for reporting\n     * @param actual actual value\n     * @param expected expected value\n     */\n    void compareEqualOnly(CompareToComparator comparator,\n                          ActualPath actualPath, Object actual,\n                          Object expected);\n\n    /**\n     * implementation logic of greater/less than family\n     * @param comparator comparator to delegate comparison to\n     * @param actualPath path to use for reporting\n     * @param actual actual value\n     * @param expected expected value\n     */\n    default void compareGreaterLessEqual(CompareToComparator comparator,\n                                         ActualPath actualPath, Object actual,\n                                         Object expected) {\n        throw new UnsupportedOperationException(\"greater-less comparison is not implemented\");\n    }\n}",
-        "entry" : "CompareToHandler",
-        "type" : "Snippet",
-        "title" : "interface to implement",
-        "lang" : "java"
-      }, {
         "level" : 2,
+        "title" : "Interface",
+        "type" : "SubHeading"
+      }, {
+        "lang" : "java",
+        "snippet" : "public interface CompareToHandler {\n    /**\n     * determines whether supports equality comparison\n     * @param actual actual value\n     * @param expected expected value\n     * @return true if comparison can be handled\n     */\n    boolean handleEquality(Object actual, Object expected);\n\n    /**\n     * determines whether supports greater/less than comparison family\n     * @param actual actual value\n     * @param expected expected value\n     * @return true if comparison can be handled\n     */\n    default boolean handleGreaterLessEqual(Object actual, Object expected) {\n        return false;\n    }\n\n    /**\n     * determines whether handler can handle nulls. usually left unimplemented\n     * @return true if handler can match nulls\n     */\n    default boolean handleNulls() {\n        return false;\n    }\n\n    /**\n     * implementation logic of equality only\n     * @param comparator comparator to delegate comparison to\n     * @param actualPath path to use for reporting\n     * @param actual actual value\n     * @param expected expected value\n     */\n    void compareEqualOnly(CompareToComparator comparator,\n                          ActualPath actualPath, Object actual,\n                          Object expected);\n\n    /**\n     * implementation logic of greater/less than family\n     * @param comparator comparator to delegate comparison to\n     * @param actualPath path to use for reporting\n     * @param actual actual value\n     * @param expected expected value\n     */\n    default void compareGreaterLessEqual(CompareToComparator comparator,\n                                         ActualPath actualPath, Object actual,\n                                         Object expected) {\n        throw new UnsupportedOperationException(\"greater-less comparison is not implemented\");\n    }\n}",
+        "title" : "interface to implement",
+        "entry" : "CompareToHandler",
+        "type" : "Snippet"
+      }, {
         "id" : "comparetohandler-example-implementation",
-        "type" : "SubHeading",
-        "title" : "Example Implementation"
+        "level" : 2,
+        "title" : "Example Implementation",
+        "type" : "SubHeading"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -202,30 +201,30 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "java",
         "snippet" : "public class MapAndBeanCompareToHandler implements CompareToHandler {\n    @Override\n    public boolean handleEquality(Object actual, Object expected) {\n        return isMapOfProps(expected) && isBean(actual); // only handles equality if actual is a java bean and expected is a map\n    }\n\n    @SuppressWarnings(\"unchecked\")\n    private boolean isMapOfProps(Object o) {\n        if (!(o instanceof Map)) {\n            return false;\n        }\n\n        return ((Map<?, Object>) o).keySet().stream().allMatch(k -> k instanceof String); // making sure all the keys are strings\n    }\n\n    private boolean isBean(Object o) {\n        return !(o instanceof Iterable || o instanceof Map);\n    }\n\n    @Override\n    @SuppressWarnings(\"unchecked\")\n    public void compareEqualOnly(CompareToComparator comparator,\n                                 ActualPath actualPath, Object actual,\n                                 Object expected) {\n        Map<String, ?> expectedMap = (Map<String, ?>) expected;\n        Map<String, ?> actualAsMap = JavaBeanUtils.convertBeanToMap(actual);\n\n        expectedMap.keySet().forEach(p -> { // going only through expected keys, ignoring all other bean properties\n            ActualPath propertyPath = actualPath.property(p);\n\n            if (actualAsMap.containsKey(p)) {\n                // use provided comparator to delegate comparison of properties\n                comparator.compareUsingEqualOnly(propertyPath, actualAsMap.get(p), expectedMap.get(p));\n            } else {\n                // report missing properties\n                comparator.reportMissing(this, propertyPath, expectedMap.get(p));\n            }\n        });\n    }\n}",
+        "title" : "map and bean comparison handler",
         "entry" : "MapAndBeanCompareToHandler",
         "commentsType" : "inline",
-        "type" : "Snippet",
-        "title" : "map and bean comparison handler",
-        "lang" : "java"
+        "type" : "Snippet"
       }, {
-        "level" : 2,
         "id" : "comparetohandler-registration",
-        "type" : "SubHeading",
-        "title" : "Registration"
+        "level" : 2,
+        "title" : "Registration",
+        "type" : "SubHeading"
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "WebTau uses ",
           "type" : "SimpleText"
         }, {
+          "url" : "https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Service Loaders",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html"
+          } ]
         }, {
           "text" : " to discover implementations of handlers.",
           "type" : "SimpleText"
@@ -236,10 +235,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "",
         "snippet" : "META-INF/services/org.testingisdocumenting.webtau.expectation.equality.CompareToHandler\n",
-        "type" : "Snippet",
         "lineNumber" : "",
-        "lang" : ""
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -247,15 +246,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "org.testingisdocumenting.webtau.expectation.equality.handlers.MapAndBeanCompareToHandler",
-        "type" : "Snippet",
-        "title" : "src/main/resources/META-INF/services/org.testingisdocumenting.webtau.expectation.equality.CompareToHandler",
-        "autoTitle" : true,
         "lang" : "CompareToHandler",
-        "includeRegexp" : "MapAndBeanCompareToHandler"
+        "snippet" : "org.testingisdocumenting.webtau.expectation.equality.handlers.MapAndBeanCompareToHandler",
+        "autoTitle" : true,
+        "includeRegexp" : "MapAndBeanCompareToHandler",
+        "title" : "src/main/resources/META-INF/services/org.testingisdocumenting.webtau.expectation.equality.CompareToHandler",
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071394,
+    "lastModifiedTime" : 1658346107242,
     "tocItem" : {
       "sectionTitle" : "Matchers",
       "pageTitle" : "Custom Compare To Handler",
@@ -268,7 +267,8 @@ ReactDOM.render(React.createElement(Documentation, {
         "id" : "handler-vs-matcher"
       }, {
         "title" : "CompareToHandler",
-        "id" : "comparetohandler"
+        "id" : "comparetohandler",
+        "style" : "api"
       } ]
     }
   }

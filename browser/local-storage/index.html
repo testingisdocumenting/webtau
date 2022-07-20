@@ -91,7 +91,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -117,8 +116,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "access-local-storage",
-      "type" : "Section",
       "title" : "Access Local Storage",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -138,25 +137,25 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "html",
         "snippet" : "<div id=\"favorite-color\"> \n</div> \n<script>\n    const element = document.getElementById('favorite-color');\n    element.innerHTML = localStorage.getItem('favoriteColor');\n</script>",
-        "type" : "Snippet",
         "title" : "Sample web page",
-        "lang" : "html"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"local storage api\") {\n    browser.open('/local-storage')\n    browser.localStorage.setItem('favoriteColor', 'clean')\n\n    def color = $('#favorite-color')\n\n    browser.reopen('/local-storage')\n    color.should == 'clean'\n\n    browser.localStorage.clear()\n    browser.reopen('/local-storage')\n    color.should == ''\n}",
-        "type" : "Snippet",
         "title" : "Setting storage after opening page",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "java",
         "snippet" : "public String getItem(String key)\npublic void setItem(String key, String value)\npublic void removeItem(String key)\npublic void clear()\npublic int size()",
         "entry" : [ "getItem", "setItem", "removeItem", "clear", "size" ],
-        "type" : "Snippet",
-        "signatureOnly" : true,
         "title" : "Local Storage methods",
-        "lang" : "java"
+        "signatureOnly" : true,
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Local Storage",

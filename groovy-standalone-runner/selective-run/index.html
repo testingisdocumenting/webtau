@@ -91,7 +91,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -117,8 +116,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "sscenario",
-      "type" : "Section",
       "title" : "sscenario",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -143,11 +142,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('step one') {\n    http.post('/reset') {\n        // ...\n    }\n}\n\nsscenario('step two') {\n    // test that you want to focus on\n}\n\nsingleScenario('step three') {\n    // test that you want to focus on\n}\n\nscenario('step four') {\n    http.put('/extra') {\n        // ...\n    }\n}",
-        "highlight" : [ 10, 14 ],
-        "type" : "Snippet",
         "title" : "Selective tests run",
-        "lang" : "groovy"
+        "highlight" : [ 10, 14 ],
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -168,7 +167,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107242,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Selective Run",

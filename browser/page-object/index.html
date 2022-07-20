@@ -101,7 +101,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -127,8 +126,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "test-encapsulation",
-      "type" : "Section",
       "title" : "Test Encapsulation",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -142,8 +141,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "type" : "BulletList",
         "tight" : true,
+        "type" : "BulletList",
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -187,8 +186,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "definition",
-      "type" : "Section",
       "title" : "Definition",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -202,14 +201,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass SearchPage {\n    def header = $(\"#header\")\n    def welcomeMessage = $(\"#welcome\")\n    def searchMessage = $(\"#message\")\n    def box = $(\"#search-box\")\n\n    def resultsArea = $(\"#results\")\n    def results = $(\"#results .result\")\n    def numberOfResults = results.count\n\n    def submit(query) {\n        browser.open(\"/search\")\n\n        box.setValue(query)\n        box.sendKeys(browser.keys.enter)\n    }\n}",
-        "type" : "Snippet",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "grouping",
-      "type" : "Section",
       "title" : "Grouping",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -223,9 +222,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package pages\n\nclass Pages {\n    static final def search = new SearchPage()\n    static final def calculation = new CalculationPage()\n    static final def form = new FormPage()\n    static final def payments = new PaymentsPage()\n}",
-        "type" : "Snippet",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -233,12 +232,12 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\nimport static pages.Pages.*\n\nscenario(\"search by specific query\") {\n    search.submit(\"search this\")\n    search.numberOfResults.should == 2\n}",
-        "type" : "Snippet",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Page Object",

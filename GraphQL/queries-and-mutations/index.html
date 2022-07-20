@@ -96,7 +96,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -122,21 +121,21 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "executing-queries-and-mutations",
-      "type" : "Section",
       "title" : "Executing Queries and Mutations",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "WebTau follows GraphQL's ",
           "type" : "SimpleText"
         }, {
+          "url" : "https://graphql.org/learn/serving-over-http/",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Serving over HTTP best practices",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://graphql.org/learn/serving-over-http/"
+          } ]
         }, {
           "text" : " when invoking",
           "type" : "SimpleText"
@@ -165,8 +164,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "type" : "BulletList",
         "tight" : true,
+        "type" : "BulletList",
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -207,13 +206,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : " requests according to the ",
           "type" : "SimpleText"
         }, {
+          "url" : "https://graphql.org/learn/serving-over-http/#post-request",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "best practices",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://graphql.org/learn/serving-over-http/#post-request"
+          } ]
         }, {
           "type" : "SoftLineBreak"
         }, {
@@ -239,16 +238,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.graphql\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef listAllQuery = '''\n{\n    allTasks(uncompletedOnly: false) {\n        id\n        description\n    }\n}\n'''\n\ndef taskByIdQuery = '''\nquery taskById($id: ID!) {\n    taskById(id: $id) {\n        id\n        description\n        completed\n    }\n}\n'''\n\ndef completeMutation = '''\nmutation complete($id: ID!) {\n    complete(id: $id)\n}\n'''\n\nscenario(\"list all tasks\") {\n    graphql.execute(listAllQuery) { // Execute a simple query with no variables\n        errors.should == null // Validate there were no errors\n        body.data.allTasks.id.should == [\"a\", \"b\", \"c\"] // Access response data with the full path\n        allTasks.id.should == [\"a\", \"b\", \"c\"] // Access response data via a shortcut allowing omitting of `body.data`\n        id.should == [\"a\", \"b\", \"c\"] // For single query requests, access response data via a shortcut allowing omitting of `body.data` and the query name\n    }\n}\n\nscenario(\"complete a task\") {\n    graphql.execute(completeMutation, [id: \"a\"]) { // Execute a mutation with a variables map\n        errors.should == null\n        complete.should == true\n    }\n\n    graphql.execute(taskByIdQuery, [id: \"a\"]) {\n        errors.should == null\n        taskById.id.should == \"a\"\n        taskById.completed.should == true\n    }\n}\n\nscenario(\"cannot complete a completed task\") {\n    graphql.execute(completeMutation, [id: \"b\"]) { // Execute a mutation with a variables map\n        errors.should == null\n        complete.should == true\n    }\n    graphql.execute(completeMutation, [id: \"b\"]) { // force an error\n        errors[0].message.shouldNot == null\n        complete.should == null\n    }\n}",
-        "commentsType" : "inline",
-        "type" : "Snippet",
         "title" : "GraphQL example with a query, a mutation and variables",
-        "lang" : "groovy"
+        "commentsType" : "inline",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "response-assertions",
-      "type" : "Section",
       "title" : "Response Assertions",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -280,7 +279,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658328071382,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "GraphQL",
       "pageTitle" : "Queries And Mutations",

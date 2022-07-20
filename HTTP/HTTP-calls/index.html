@@ -126,7 +126,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -152,8 +151,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "overloaded-calls",
-      "type" : "Section",
       "title" : "Overloaded Calls",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -165,8 +164,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "type" : "BulletList",
         "tight" : true,
+        "type" : "BulletList",
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -235,40 +234,40 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/query\", http.header([h1: \"v1\"])) {\n    price.should == 100\n}",
+            "title" : "GET request with passed header",
             "entry" : "get no query syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "GET request with passed header",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.get(\"/query\", http.header(\"h1\", \"v1\"), ((header, body) -> {\n    body.get(\"price\").should(equal(100));\n}));",
+            "title" : "GET request with passed header",
             "entry" : "getNoQuerySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "GET request with passed header",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       }, {
+        "title" : "GET /query response",
+        "pathsFile" : "doc-artifacts/get-full-syntax-assertion/paths.json",
         "data" : {
-          "amount" : 30,
+          "id" : "id1",
           "price" : 100,
-          "id" : "id1"
+          "amount" : 30
         },
         "paths" : [ "root.price" ],
-        "pathsFile" : "doc-artifacts/get-full-syntax-assertion/paths.json",
-        "type" : "Json",
-        "title" : "GET /query response"
+        "type" : "Json"
       } ]
     }, {
       "id" : "implicit-statuscode-check",
-      "type" : "Section",
       "title" : "Implicit statusCode Check",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -282,8 +281,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "type" : "Table",
         "table" : {
+          "columns" : [ {
+            "title" : "Method",
+            "align" : "left"
+          }, {
+            "title" : "Implicitly Expected Code",
+            "align" : "left"
+          } ],
           "data" : [ [ [ {
             "text" : "GET",
             "type" : "SimpleText"
@@ -320,15 +325,9 @@ ReactDOM.render(React.createElement(Documentation, {
           } ], [ {
             "text" : "204",
             "type" : "SimpleText"
-          } ] ] ],
-          "columns" : [ {
-            "align" : "left",
-            "title" : "Method"
-          }, {
-            "align" : "left",
-            "title" : "Implicitly Expected Code"
-          } ]
-        }
+          } ] ] ]
+        },
+        "type" : "Table"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -345,24 +344,24 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.post(\"/resource\") {\n    statusCode.should == 200 // explicit check that override default 201 (for POST) implicit check\n}",
+            "title" : "explicit statusCode check",
             "entry" : "post statusCode syntax example",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "explicit statusCode check",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.post(\"/resource\", (header, body) -> {\n    header.statusCode.should(equal(200)); // explicit check that override default 201 (for POST) implicit check\n});",
+            "title" : "explicit statusCode check",
             "entry" : "postStatusCodeSyntaxExample",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "explicit statusCode check",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -370,28 +369,32 @@ ReactDOM.render(React.createElement(Documentation, {
     }, {
       "style" : "api",
       "id" : "get",
-      "type" : "Section",
       "title" : "GET",
+      "type" : "Section",
       "content" : [ {
+        "lang" : "java",
         "snippet" : "http.get(url, [queryParams], [header], [validationBlock])\n",
-        "type" : "Snippet",
-        "title" : "full signature",
         "lineNumber" : "",
-        "lang" : "java"
+        "title" : "full signature",
+        "type" : "Snippet"
       }, {
-        "type" : "ApiParameters",
         "parameters" : [ {
           "name" : "url",
+          "type" : [ {
+            "text" : "String",
+            "url" : ""
+          } ],
+          "anchorId" : "url",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/getting-started/configuration#config-file",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "relative",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/getting-started/configuration#config-file"
+              } ]
             }, {
               "text" : " or absolute URL to send ",
               "type" : "SimpleText"
@@ -402,170 +405,166 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " request to",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "url",
-          "type" : [ {
-            "refId" : "",
-            "text" : "String"
           } ]
         }, {
           "name" : "queryParams",
+          "type" : [ {
+            "text" : "HttpQueryParams | Map",
+            "url" : ""
+          } ],
+          "anchorId" : "queryParams",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/query-parameters",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "query parameters",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/query-parameters"
+              } ]
             }, {
               "text" : " to attach to URL",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "queryParams",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpQueryParams | Map"
           } ]
         }, {
           "name" : "header",
+          "type" : [ {
+            "text" : "HttpHeader",
+            "url" : ""
+          } ],
+          "anchorId" : "header",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/header",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "request header",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/header"
+              } ]
             }, {
               "text" : " to send",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "header",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpHeader"
           } ]
         }, {
           "name" : "validationBlock",
+          "type" : [ {
+            "text" : "HttpResponseValidator",
+            "url" : ""
+          } ],
+          "anchorId" : "validationBlock",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "validation block of code to ",
               "type" : "SimpleText"
             }, {
+              "url" : "/webtau/HTTP/matchers",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "assert",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/matchers"
+              } ]
             }, {
               "text" : " and access response body and header",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "validationBlock",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpResponseValidator"
           } ]
-        } ]
+        } ],
+        "type" : "ApiParameters"
       }, {
+        "title" : "GET /query response",
+        "pathsFile" : "doc-artifacts/get-full-syntax-assertion/paths.json",
         "data" : {
-          "amount" : 30,
+          "id" : "id1",
           "price" : 100,
-          "id" : "id1"
+          "amount" : 30
         },
         "paths" : [ "root.price" ],
-        "pathsFile" : "doc-artifacts/get-full-syntax-assertion/paths.json",
-        "type" : "Json",
-        "title" : "GET /query response"
+        "type" : "Json"
       }, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def id = http.get(\"/query\", [q1: \"v1\"], http.header([h1: \"v1\"])) {\n    price.should == 100 // validation\n    return id // optional return\n}",
+            "title" : "full signature with query, header and validation block",
             "entry" : "get full return syntax example",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "full signature with query, header and validation block",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/query\", [q1: \"v1\"]) {\n    price.should == 100\n}",
+            "title" : "without header",
             "entry" : "get no header syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without header",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/query\", http.header([h1: \"v1\"])) {\n    price.should == 100\n}",
+            "title" : "without query",
             "entry" : "get no query syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without query",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/query\") {\n    price.should == 100\n}",
+            "title" : "only validation",
             "entry" : "get only validation syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "only validation",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/query\")",
+            "title" : "no validation",
             "entry" : "get only syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "no validation",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "String id = http.get(\"/query\", http.query(\"q1\", \"v1\"), http.header(\"h1\", \"v1\"), ((header, body) -> {\n    body.get(\"price\").should(equal(100)); // validation\n    return body.get(\"id\"); // optional return\n}));",
+            "title" : "full signature with query, header and validation block",
             "entry" : "getFullReturnSyntaxExample",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "full signature with query, header and validation block",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.get(\"/query\", http.query(\"q1\", \"v1\"), ((header, body) -> {\n    body.get(\"price\").should(equal(100));\n}));",
+            "title" : "without header",
             "entry" : "getNoHeaderSyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without header",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.get(\"/query\", http.header(\"h1\", \"v1\"), ((header, body) -> {\n    body.get(\"price\").should(equal(100));\n}));",
+            "title" : "without query",
             "entry" : "getNoQuerySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without query",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.get(\"/query\", ((header, body) -> {\n    body.get(\"price\").should(equal(100));\n}));",
+            "title" : "only validation",
             "entry" : "getOnlyValidationSyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "only validation",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.get(\"/query\");",
+            "title" : "no validation",
             "entry" : "getOnlySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "no validation",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -573,28 +572,32 @@ ReactDOM.render(React.createElement(Documentation, {
     }, {
       "style" : "api",
       "id" : "post",
-      "type" : "Section",
       "title" : "POST",
+      "type" : "Section",
       "content" : [ {
+        "lang" : "java",
         "snippet" : "http.post(url, [queryParams], [header], [body], [validationBlock])\n",
-        "type" : "Snippet",
-        "title" : "full signature",
         "lineNumber" : "",
-        "lang" : "java"
+        "title" : "full signature",
+        "type" : "Snippet"
       }, {
-        "type" : "ApiParameters",
         "parameters" : [ {
           "name" : "url",
+          "type" : [ {
+            "text" : "String",
+            "url" : ""
+          } ],
+          "anchorId" : "url",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/getting-started/configuration#config-file",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "relative",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/getting-started/configuration#config-file"
+              } ]
             }, {
               "text" : " or absolute URL to send ",
               "type" : "SimpleText"
@@ -605,205 +608,201 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " request to",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "url",
-          "type" : [ {
-            "refId" : "",
-            "text" : "String"
           } ]
         }, {
           "name" : "queryParams",
+          "type" : [ {
+            "text" : "HttpQueryParams | Map",
+            "url" : ""
+          } ],
+          "anchorId" : "queryParams",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/query-parameters",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "query parameters",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/query-parameters"
+              } ]
             }, {
               "text" : " to attach to URL",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "queryParams",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpQueryParams | Map"
           } ]
         }, {
           "name" : "header",
+          "type" : [ {
+            "text" : "HttpHeader",
+            "url" : ""
+          } ],
+          "anchorId" : "header",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/header",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "request header",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/header"
+              } ]
             }, {
               "text" : " to send",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "header",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpHeader"
           } ]
         }, {
           "name" : "body",
+          "type" : [ {
+            "text" : "HttpRequestBody | Map | List",
+            "url" : ""
+          } ],
+          "anchorId" : "body",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/body",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "request body",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/body"
+              } ]
             }, {
               "text" : " to send with a request",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "body",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpRequestBody | Map | List"
           } ]
         }, {
           "name" : "validationBlock",
+          "type" : [ {
+            "text" : "HttpResponseValidator",
+            "url" : ""
+          } ],
+          "anchorId" : "validationBlock",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "validation block of code to ",
               "type" : "SimpleText"
             }, {
+              "url" : "/webtau/HTTP/matchers",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "assert",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/matchers"
+              } ]
             }, {
               "text" : " and access response body and header",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "validationBlock",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpResponseValidator"
           } ]
-        } ]
+        } ],
+        "type" : "ApiParameters"
       }, {
+        "title" : "POST /chat response",
+        "pathsFile" : "doc-artifacts/post-full-syntax-assertion/paths.json",
         "data" : {
           "id" : "id1",
           "status" : "SUCCESS"
         },
         "paths" : [ "root.status" ],
-        "pathsFile" : "doc-artifacts/post-full-syntax-assertion/paths.json",
-        "type" : "Json",
-        "title" : "POST /chat response"
+        "type" : "Json"
       }, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def id = http.post(\"/chat\", http.query([q1: \"v1\"]), http.header([h1: \"v1\"]), [message: \"hello\"]) {\n    status.should == \"SUCCESS\" // validation\n    return id // optional return\n}",
+            "title" : "full signature with query, header, body and validation block",
             "entry" : "post full return syntax example",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "full signature with query, header, body and validation block",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.post(\"/chat\", http.query([q1: \"v1\"]), [message: \"hello\"]) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "without header",
             "entry" : "post no header syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without header",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.post(\"/chat\", http.header([h1: \"v1\"]), [message: \"hello\"]) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "without query",
             "entry" : "post no query syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without query",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.post(\"/chat\", [message: \"hello\", priority: \"HIGH\"]) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "body only",
             "entry" : "post body only syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "body only",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.post(\"/chat\") {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "validation only",
             "entry" : "post validation only syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "validation only",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.post(\"/chat\")",
+            "title" : "no validation",
             "entry" : "post only syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "no validation",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "String id = http.post(\"/chat\", http.query(\"q1\", \"v1\"), http.header(\"h1\", \"v1\"), http.json(\"message\", \"hello\"),\n        (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\")); // validation\n    return body.get(\"id\"); // optional return\n});",
+            "title" : "full signature with query, header, body and validation block",
             "entry" : "postFullReturnSyntaxExample",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "full signature with query, header, body and validation block",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.post(\"/chat\", http.query(\"q1\", \"v1\"), http.json(\"message\", \"hello\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "without header",
             "entry" : "postNoHeaderSyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without header",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.post(\"/chat\", http.header(\"h1\", \"v1\"), http.json(\"message\", \"hello\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "without query",
             "entry" : "postNoQuerySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without query",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.post(\"/chat\", http.json(\"message\", \"hello\", \"priority\", \"high\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "body only",
             "entry" : "postBodyOnlySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "body only",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.post(\"/chat\", (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "validation only",
             "entry" : "postValidationOnlySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "validation only",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.post(\"/chat\");",
+            "title" : "no validation",
             "entry" : "postNoValidationSyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "no validation",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -811,28 +810,32 @@ ReactDOM.render(React.createElement(Documentation, {
     }, {
       "style" : "api",
       "id" : "put",
-      "type" : "Section",
       "title" : "PUT",
+      "type" : "Section",
       "content" : [ {
+        "lang" : "java",
         "snippet" : "http.put(url, [queryParams], [header], [body], [validationBlock])\n",
-        "type" : "Snippet",
-        "title" : "full signature",
         "lineNumber" : "",
-        "lang" : "java"
+        "title" : "full signature",
+        "type" : "Snippet"
       }, {
-        "type" : "ApiParameters",
         "parameters" : [ {
           "name" : "url",
+          "type" : [ {
+            "text" : "String",
+            "url" : ""
+          } ],
+          "anchorId" : "url",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/getting-started/configuration#config-file",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "relative",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/getting-started/configuration#config-file"
+              } ]
             }, {
               "text" : " or absolute URL to send ",
               "type" : "SimpleText"
@@ -843,205 +846,201 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " request to",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "url",
-          "type" : [ {
-            "refId" : "",
-            "text" : "String"
           } ]
         }, {
           "name" : "queryParams",
+          "type" : [ {
+            "text" : "HttpQueryParams | Map",
+            "url" : ""
+          } ],
+          "anchorId" : "queryParams",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/query-parameters",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "query parameters",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/query-parameters"
+              } ]
             }, {
               "text" : " to attach to URL",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "queryParams",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpQueryParams | Map"
           } ]
         }, {
           "name" : "header",
+          "type" : [ {
+            "text" : "HttpHeader",
+            "url" : ""
+          } ],
+          "anchorId" : "header",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/header",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "request header",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/header"
+              } ]
             }, {
               "text" : " to send",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "header",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpHeader"
           } ]
         }, {
           "name" : "body",
+          "type" : [ {
+            "text" : "HttpRequestBody | Map | List",
+            "url" : ""
+          } ],
+          "anchorId" : "body",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/body",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "request body",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/body"
+              } ]
             }, {
               "text" : " to send with a request",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "body",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpRequestBody | Map | List"
           } ]
         }, {
           "name" : "validationBlock",
+          "type" : [ {
+            "text" : "HttpResponseValidator",
+            "url" : ""
+          } ],
+          "anchorId" : "validationBlock",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "validation block of code to ",
               "type" : "SimpleText"
             }, {
+              "url" : "/webtau/HTTP/matchers",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "assert",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/matchers"
+              } ]
             }, {
               "text" : " and access response body and header",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "validationBlock",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpResponseValidator"
           } ]
-        } ]
+        } ],
+        "type" : "ApiParameters"
       }, {
+        "title" : "PUT /chat/id1 response",
+        "pathsFile" : "doc-artifacts/post-full-syntax-assertion/paths.json",
         "data" : {
           "id" : "id1",
           "status" : "SUCCESS"
         },
         "paths" : [ "root.status" ],
-        "pathsFile" : "doc-artifacts/post-full-syntax-assertion/paths.json",
-        "type" : "Json",
-        "title" : "PUT /chat/id1 response"
+        "type" : "Json"
       }, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def id = http.put(\"/chat/id1\", http.query([q1: \"v1\"]), http.header([h1: \"v1\"]), [message: \"hello\"]) {\n    status.should == \"SUCCESS\" // validation\n    return id // optional return\n}",
+            "title" : "full signature with query, header, body and validation block",
             "entry" : "put full return syntax example",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "full signature with query, header, body and validation block",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.put(\"/chat/id1\", http.query([q1: \"v1\"]), [message: \"hello\"]) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "without header",
             "entry" : "put no header syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without header",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.put(\"/chat/id1\", http.header([h1: \"v1\"]), [message: \"hello\"]) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "without query",
             "entry" : "put no query syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without query",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.put(\"/chat/id1\", [message: \"hello\"]) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "body only",
             "entry" : "put body only syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "body only",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.put(\"/chat/id1\") {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "validation only",
             "entry" : "put validation only syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "validation only",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.put(\"/chat/id1\")",
+            "title" : "no validation",
             "entry" : "put only syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "no validation",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "String id = http.put(\"/chat/id1\", http.query(\"q1\", \"v1\"), http.header(\"h1\", \"v1\"), http.json(\"message\", \"hello\"),\n        (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\")); // validation\n    return body.get(\"id\"); // optional return\n});",
+            "title" : "full signature with query, header, body and validation block",
             "entry" : "putFullReturnSyntaxExample",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "full signature with query, header, body and validation block",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.put(\"/chat/id1\", http.query(\"q1\", \"v1\"), http.json(\"message\", \"hello\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "without header",
             "entry" : "putNoHeaderSyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without header",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.put(\"/chat/id1\", http.header(\"h1\", \"v1\"), http.json(\"message\", \"hello\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "without query",
             "entry" : "putNoQuerySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without query",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.put(\"/chat/id1\", http.json(\"message\", \"hello\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "body only",
             "entry" : "putBodyOnlySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "body only",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.put(\"/chat/id1\", (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "validation only",
             "entry" : "putValidationOnlySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "validation only",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.put(\"/chat/id1\");",
+            "title" : "no validation",
             "entry" : "putNoValidationSyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "no validation",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -1049,28 +1048,32 @@ ReactDOM.render(React.createElement(Documentation, {
     }, {
       "style" : "api",
       "id" : "delete",
-      "type" : "Section",
       "title" : "DELETE",
+      "type" : "Section",
       "content" : [ {
+        "lang" : "java",
         "snippet" : "http.delete(url, [queryParams], [header], [validationBlock])\n",
-        "type" : "Snippet",
-        "title" : "full signature",
         "lineNumber" : "",
-        "lang" : "java"
+        "title" : "full signature",
+        "type" : "Snippet"
       }, {
-        "type" : "ApiParameters",
         "parameters" : [ {
           "name" : "url",
+          "type" : [ {
+            "text" : "String",
+            "url" : ""
+          } ],
+          "anchorId" : "url",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/getting-started/configuration#config-file",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "relative",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/getting-started/configuration#config-file"
+              } ]
             }, {
               "text" : " or absolute URL to send ",
               "type" : "SimpleText"
@@ -1081,169 +1084,165 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " request to",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "url",
-          "type" : [ {
-            "refId" : "",
-            "text" : "String"
           } ]
         }, {
           "name" : "queryParams",
+          "type" : [ {
+            "text" : "HttpQueryParams | Map",
+            "url" : ""
+          } ],
+          "anchorId" : "queryParams",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/query-parameters",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "query parameters",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/query-parameters"
+              } ]
             }, {
               "text" : " to attach to URL",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "queryParams",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpQueryParams | Map"
           } ]
         }, {
           "name" : "header",
+          "type" : [ {
+            "text" : "HttpHeader",
+            "url" : ""
+          } ],
+          "anchorId" : "header",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/header",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "request header",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/header"
+              } ]
             }, {
               "text" : " to send",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "header",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpHeader"
           } ]
         }, {
           "name" : "validationBlock",
+          "type" : [ {
+            "text" : "HttpResponseValidator",
+            "url" : ""
+          } ],
+          "anchorId" : "validationBlock",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "validation block of code to ",
               "type" : "SimpleText"
             }, {
+              "url" : "/webtau/HTTP/matchers",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "assert",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/matchers"
+              } ]
             }, {
               "text" : " and access response body and header",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "validationBlock",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpResponseValidator"
           } ]
-        } ]
+        } ],
+        "type" : "ApiParameters"
       }, {
+        "title" : "DELETE /chat/id1 response",
+        "pathsFile" : "doc-artifacts/post-full-syntax-assertion/paths.json",
         "data" : {
           "id" : "id1",
           "status" : "SUCCESS"
         },
         "paths" : [ "root.status" ],
-        "pathsFile" : "doc-artifacts/post-full-syntax-assertion/paths.json",
-        "type" : "Json",
-        "title" : "DELETE /chat/id1 response"
+        "type" : "Json"
       }, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def id = http.delete(\"/chat/id1\", [q1: \"v1\"], http.header([h1: \"v1\"])) {\n    status.should == \"SUCCESS\" // validation\n    return id // optional return\n}",
+            "title" : "full signature with query, header and validation block",
             "entry" : "delete full return syntax example",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "full signature with query, header and validation block",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.delete(\"/chat/id1\", [q1: \"v1\"]) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "without header",
             "entry" : "delete no header syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without header",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.delete(\"/chat/id1\", http.header([h1: \"v1\"])) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "without query",
             "entry" : "delete no query syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without query",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.delete(\"/chat/id1\") {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "only validation",
             "entry" : "delete only validation syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "only validation",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.delete(\"/chat/id1\")",
+            "title" : "no validation",
             "entry" : "delete only syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "no validation",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "String id = http.delete(\"/chat/id1\", http.query(\"q1\", \"v1\"), http.header(\"h1\", \"v1\"), ((header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\")); // validation\n    return body.get(\"id\"); // optional return\n}));",
+            "title" : "full signature with query, header and validation block",
             "entry" : "deleteFullReturnSyntaxExample",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "full signature with query, header and validation block",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.delete(\"/chat/id1\", http.query(\"q1\", \"v1\"), ((header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n}));",
+            "title" : "without header",
             "entry" : "deleteNoHeaderSyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without header",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.delete(\"/chat/id1\", http.header(\"h1\", \"v1\"), ((header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n}));",
+            "title" : "without query",
             "entry" : "deleteNoQuerySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without query",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.delete(\"/chat/id1\", ((header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n}));",
+            "title" : "only validation",
             "entry" : "deleteOnlyValidationSyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "only validation",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.delete(\"/chat/id1\");",
+            "title" : "no validation",
             "entry" : "deleteOnlySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "no validation",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -1251,28 +1250,32 @@ ReactDOM.render(React.createElement(Documentation, {
     }, {
       "style" : "api",
       "id" : "patch",
-      "type" : "Section",
       "title" : "PATCH",
+      "type" : "Section",
       "content" : [ {
+        "lang" : "java",
         "snippet" : "http.patch(url, [queryParams], [header], [body], [validationBlock])\n",
-        "type" : "Snippet",
-        "title" : "full signature",
         "lineNumber" : "",
-        "lang" : "java"
+        "title" : "full signature",
+        "type" : "Snippet"
       }, {
-        "type" : "ApiParameters",
         "parameters" : [ {
           "name" : "url",
+          "type" : [ {
+            "text" : "String",
+            "url" : ""
+          } ],
+          "anchorId" : "url",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/getting-started/configuration#config-file",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "relative",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/getting-started/configuration#config-file"
+              } ]
             }, {
               "text" : " or absolute URL to send ",
               "type" : "SimpleText"
@@ -1283,205 +1286,201 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " request to",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "url",
-          "type" : [ {
-            "refId" : "",
-            "text" : "String"
           } ]
         }, {
           "name" : "queryParams",
+          "type" : [ {
+            "text" : "HttpQueryParams | Map",
+            "url" : ""
+          } ],
+          "anchorId" : "queryParams",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/query-parameters",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "query parameters",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/query-parameters"
+              } ]
             }, {
               "text" : " to attach to URL",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "queryParams",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpQueryParams | Map"
           } ]
         }, {
           "name" : "header",
+          "type" : [ {
+            "text" : "HttpHeader",
+            "url" : ""
+          } ],
+          "anchorId" : "header",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/header",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "request header",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/header"
+              } ]
             }, {
               "text" : " to send",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "header",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpHeader"
           } ]
         }, {
           "name" : "body",
+          "type" : [ {
+            "text" : "HttpRequestBody | Map | List",
+            "url" : ""
+          } ],
+          "anchorId" : "body",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/body",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "request body",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/body"
+              } ]
             }, {
               "text" : " to send with a request",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "body",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpRequestBody | Map | List"
           } ]
         }, {
           "name" : "validationBlock",
+          "type" : [ {
+            "text" : "HttpResponseValidator",
+            "url" : ""
+          } ],
+          "anchorId" : "validationBlock",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "validation block of code to ",
               "type" : "SimpleText"
             }, {
+              "url" : "/webtau/HTTP/matchers",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "assert",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/matchers"
+              } ]
             }, {
               "text" : " and access response body and header",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "validationBlock",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpResponseValidator"
           } ]
-        } ]
+        } ],
+        "type" : "ApiParameters"
       }, {
+        "title" : "PATCH /chat/id1 response",
+        "pathsFile" : "doc-artifacts/post-full-syntax-assertion/paths.json",
         "data" : {
           "id" : "id1",
           "status" : "SUCCESS"
         },
         "paths" : [ "root.status" ],
-        "pathsFile" : "doc-artifacts/post-full-syntax-assertion/paths.json",
-        "type" : "Json",
-        "title" : "PATCH /chat/id1 response"
+        "type" : "Json"
       }, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def id = http.patch(\"/chat/id1\", http.query([q1: \"v1\"]), http.header([h1: \"v1\"]), [message: \"hello\"]) {\n    status.should == \"SUCCESS\" // validation\n    return id // optional return\n}",
+            "title" : "full signature with query, header, body and validation block",
             "entry" : "patch full return syntax example",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "full signature with query, header, body and validation block",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.patch(\"/chat/id1\", http.query([q1: \"v1\"]), [message: \"hello\"]) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "without header",
             "entry" : "patch no header syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without header",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.patch(\"/chat/id1\", http.header([h1: \"v1\"]), [message: \"hello\"]) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "without query",
             "entry" : "patch no query syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without query",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.patch(\"/chat/id1\", [message: \"hello\"]) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "body only",
             "entry" : "patch body only syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "body only",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.patch(\"/chat/id1\") {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "validation only",
             "entry" : "patch validation only syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "validation only",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.patch(\"/chat/id1\")",
+            "title" : "no validation",
             "entry" : "patch only syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "no validation",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "String id = http.patch(\"/chat/id1\", http.query(\"q1\", \"v1\"), http.header(\"h1\", \"v1\"), http.json(\"message\", \"hello\"),\n        (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\")); // validation\n    return body.get(\"id\"); // optional return\n});",
+            "title" : "full signature with query, header, body and validation block",
             "entry" : "patchFullReturnSyntaxExample",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "full signature with query, header, body and validation block",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.patch(\"/chat/id1\", http.query(\"q1\", \"v1\"), http.json(\"message\", \"hello\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "without header",
             "entry" : "patchNoHeaderSyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without header",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.patch(\"/chat/id1\", http.header(\"h1\", \"v1\"), http.json(\"message\", \"hello\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "without query",
             "entry" : "patchNoQuerySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without query",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.patch(\"/chat/id1\", http.json(\"message\", \"hello\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "body only",
             "entry" : "patchBodyOnlySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "body only",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.patch(\"/chat/id1\", (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "validation only",
             "entry" : "patchValidationOnlySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "validation only",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.patch(\"/chat/id1\");",
+            "title" : "no validation",
             "entry" : "patchNoValidationSyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "no validation",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -1489,8 +1488,8 @@ ReactDOM.render(React.createElement(Documentation, {
     }, {
       "style" : "api",
       "id" : "ping",
-      "type" : "Section",
       "title" : "PING",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -1519,45 +1518,49 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "if (!http.ping(\"/end-point\")) {\n    http.post(\"/cluster-master\", [restart: \"server-one\"])\n}",
+            "title" : "if else ping example",
             "entry" : "ping if else example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "if else ping example",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "if (!http.ping(\"/end-point\")) {\n    http.post(\"/cluster-master\", http.json(\"restart\", \"server-one\"));\n}",
+            "title" : "if else ping example",
             "entry" : "pingIfElseExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "if else ping example",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       }, {
+        "lang" : "java",
         "snippet" : "boolean http.ping(url, [queryParams], [header]) \n",
-        "type" : "Snippet",
-        "title" : "full signature",
         "lineNumber" : "",
-        "lang" : "java"
+        "title" : "full signature",
+        "type" : "Snippet"
       }, {
-        "type" : "ApiParameters",
         "parameters" : [ {
           "name" : "url",
+          "type" : [ {
+            "text" : "String",
+            "url" : ""
+          } ],
+          "anchorId" : "url",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/getting-started/configuration#config-file",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "relative",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/getting-started/configuration#config-file"
+              } ]
             }, {
               "text" : " or absolute URL to send ",
               "type" : "SimpleText"
@@ -1568,127 +1571,123 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " request to",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "url",
-          "type" : [ {
-            "refId" : "",
-            "text" : "String"
           } ]
         }, {
           "name" : "queryParams",
+          "type" : [ {
+            "text" : "HttpQueryParams | Map",
+            "url" : ""
+          } ],
+          "anchorId" : "queryParams",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/query-parameters",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "query parameters",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/query-parameters"
+              } ]
             }, {
               "text" : " to attach to URL",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "queryParams",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpQueryParams | Map"
           } ]
         }, {
           "name" : "header",
+          "type" : [ {
+            "text" : "HttpHeader",
+            "url" : ""
+          } ],
+          "anchorId" : "header",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
+              "url" : "/webtau/HTTP/header",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "request header",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/header"
+              } ]
             }, {
               "text" : " to send",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "header",
-          "type" : [ {
-            "refId" : "",
-            "text" : "HttpHeader"
           } ]
-        } ]
+        } ],
+        "type" : "ApiParameters"
       }, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.ping(\"/end-point\", [queryParam1: \"queryParamValue1\"], http.header([\"X-flag\": \"test\"]))",
+            "title" : "full signature with query and header",
             "entry" : "ping all params",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "full signature with query and header",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.ping(\"/end-point\", [queryParam1: \"queryParamValue1\"])",
+            "title" : "without header",
             "entry" : "ping no header",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without header",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.ping(\"/end-point\", http.header([\"X-flag\": \"test\"]))",
+            "title" : "without query",
             "entry" : "ping no query",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without query",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.ping(\"/end-point\")",
+            "title" : "url only",
             "entry" : "ping url only",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "url only",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.ping(\"/end-point\", http.query(\"queryParam1\", \"queryParamValue1\"), http.header(\"X-flag\", \"test\"));",
+            "title" : "full signature with query and header",
             "entry" : "pingAllParams",
             "bodyOnly" : true,
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "title" : "full signature with query and header",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.ping(\"/end-point\", http.query(\"queryParam1\", \"queryParamValue1\"));",
+            "title" : "without header",
             "entry" : "pingNoHeader",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without header",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.ping(\"/end-point\", http.header(\"X-flag\", \"test\"));",
+            "title" : "without query",
             "entry" : "pingNoQuery",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "without query",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.ping(\"/end-point\");",
+            "title" : "url only",
             "entry" : "pingUrlOnly",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "url only",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071382,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "HTTP Calls",
@@ -1704,22 +1703,28 @@ ReactDOM.render(React.createElement(Documentation, {
         "id" : "implicit-statuscode-check"
       }, {
         "title" : "GET",
-        "id" : "get"
+        "id" : "get",
+        "style" : "api"
       }, {
         "title" : "POST",
-        "id" : "post"
+        "id" : "post",
+        "style" : "api"
       }, {
         "title" : "PUT",
-        "id" : "put"
+        "id" : "put",
+        "style" : "api"
       }, {
         "title" : "DELETE",
-        "id" : "delete"
+        "id" : "delete",
+        "style" : "api"
       }, {
         "title" : "PATCH",
-        "id" : "patch"
+        "id" : "patch",
+        "style" : "api"
       }, {
         "title" : "PING",
-        "id" : "ping"
+        "id" : "ping",
+        "style" : "api"
       } ]
     }
   }

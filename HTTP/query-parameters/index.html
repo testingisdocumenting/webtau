@@ -96,7 +96,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -122,8 +121,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "passing-query-parameters",
-      "type" : "Section",
       "title" : "Passing Query Parameters",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -134,22 +133,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/path?a=1&b=text\") {\n    // assertions go here\n}",
+            "title" : "embedding query params directly in url",
             "entry" : "query params in url example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "embedding query params directly in url",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.get(\"/path?a=1&b=text\", ((header, body) -> {\n    // assertions go here\n}));",
+            "title" : "embedding query params directly in url",
             "entry" : "queryParamsInUrlExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "embedding query params directly in url",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -175,22 +174,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/path\", [a: 1, b: \"text\"]) {\n    // assertions go here\n}",
+            "title" : "pass query parameters as Map",
             "entry" : "query params using query as map example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "pass query parameters as Map",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.get(\"/path\", aMapOf(\"a\", 1, \"b\", \"text\"), ((header, body) -> {\n    // assertions go here\n}));",
+            "title" : "pass query parameters as Map",
             "entry" : "queryParamsUsingQueryAsMapExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "pass query parameters as Map",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -234,30 +233,30 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.post(\"/chat\", http.query([a: 1, b: \"text\"]), http.header([\"x-param\": \"value\"]), [message: \"hello\"]) {\n    // assertions go here\n}",
+            "title" : "pass query parameters using http.query",
             "entry" : "query params using query method example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "pass query parameters using http.query",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.post(\"/chat\", http.query(\"a\", 1, \"b\", \"text\"), http.header(\"x-param\", \"value\"), http.json(\"message\", \"hello\"),\n        (header, body) -> {\n            // assertions go here\n        });",
+            "title" : "pass query parameters as Map",
             "entry" : "queryParamsUsingQueryMethodExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "pass query parameters as Map",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
       "id" : "parameters-encoding",
-      "type" : "Section",
       "title" : "Parameters Encoding",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -268,32 +267,32 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/path\", http.query([message: \"hello world !\"])) {\n    // assertions go here\n}",
-            "surroundedBy" : "query-params-encoding",
-            "type" : "Snippet",
             "title" : "query parameter with url incompatible characters",
-            "lang" : "groovy"
+            "surroundedBy" : "query-params-encoding",
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.get(\"/path\", http.query(\"message\", \"hello world !\"), (header, body) -> {\n    // assertions go here\n});",
+            "title" : "query parameter with url incompatible characters",
             "entry" : "queryParamsEncoding",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "query parameter with url incompatible characters",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       }, {
+        "lang" : "txt",
         "snippet" : "/path?message=hello+world+%21",
-        "type" : "Snippet",
         "title" : "automatic encoding",
-        "lang" : "txt"
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Query Parameters",

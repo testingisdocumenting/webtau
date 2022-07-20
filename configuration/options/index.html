@@ -96,7 +96,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -122,12 +121,13 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "cli-and-configuration-file-options",
-      "type" : "Section",
       "title" : "CLI and configuration file options",
+      "type" : "Section",
       "content" : [ {
-        "type" : "ApiParameters",
         "parameters" : [ {
           "name" : "browserDisableExtensions",
+          "type" : [ ],
+          "anchorId" : "browserDisableExtensions",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -146,11 +146,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "browserDisableExtensions",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "browserHeadless",
+          "type" : [ ],
+          "anchorId" : "browserHeadless",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -169,11 +169,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "browserHeadless",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "browserHeight",
+          "type" : [ ],
+          "anchorId" : "browserHeight",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -192,11 +192,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 0",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "browserHeight",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "browserId",
+          "type" : [ ],
+          "anchorId" : "browserId",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -215,22 +215,22 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": chrome",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "browserId",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "browserRemoteDriverUrl",
+          "type" : [ ],
+          "anchorId" : "browserRemoteDriverUrl",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser remote driver url",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "browserRemoteDriverUrl",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "browserStaleElementRetry",
+          "type" : [ ],
+          "anchorId" : "browserStaleElementRetry",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -249,11 +249,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 5",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "browserStaleElementRetry",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "browserStaleElementRetryWait",
+          "type" : [ ],
+          "anchorId" : "browserStaleElementRetryWait",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -272,33 +272,33 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 100",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "browserStaleElementRetryWait",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "browserUrl",
+          "type" : [ ],
+          "anchorId" : "browserUrl",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser base url for application under test. It is being used instead of url when provided",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "browserUrl",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "browserVersion",
+          "type" : [ ],
+          "anchorId" : "browserVersion",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser version for automatic driver download",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "browserVersion",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "browserWidth",
+          "type" : [ ],
+          "anchorId" : "browserWidth",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -317,11 +317,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 0",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "browserWidth",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "cachePath",
+          "type" : [ ],
+          "anchorId" : "cachePath",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -340,33 +340,33 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": ${workingDir}/.webtau-cache",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "cachePath",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "chromeBinPath",
+          "type" : [ ],
+          "anchorId" : "chromeBinPath",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to chrome binary",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "chromeBinPath",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "chromeDriverPath",
+          "type" : [ ],
+          "anchorId" : "chromeDriverPath",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to chrome driver binary",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "chromeDriverPath",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "cliEnv",
+          "type" : [ ],
+          "anchorId" : "cliEnv",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -385,11 +385,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": {}",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "cliEnv",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "cliPath",
+          "type" : [ ],
+          "anchorId" : "cliPath",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -408,11 +408,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": []",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "cliPath",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "cliTimeout",
+          "type" : [ ],
+          "anchorId" : "cliTimeout",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -431,11 +431,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 30000",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "cliTimeout",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "config",
+          "type" : [ ],
+          "anchorId" : "config",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -454,11 +454,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": webtau.cfg.groovy",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "config",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "consolePayloadOutputLimit",
+          "type" : [ ],
+          "anchorId" : "consolePayloadOutputLimit",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -477,55 +477,55 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 500",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "consolePayloadOutputLimit",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "dbDriverClassName",
+          "type" : [ ],
+          "anchorId" : "dbDriverClassName",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database driver class name",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "dbDriverClassName",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "dbPassword",
+          "type" : [ ],
+          "anchorId" : "dbPassword",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database password",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "dbPassword",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "dbUrl",
+          "type" : [ ],
+          "anchorId" : "dbUrl",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database url",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "dbUrl",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "dbUserName",
+          "type" : [ ],
+          "anchorId" : "dbUserName",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database user name",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "dbUserName",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "disableRedirects",
+          "type" : [ ],
+          "anchorId" : "disableRedirects",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -544,11 +544,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "disableRedirects",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "docPath",
+          "type" : [ ],
+          "anchorId" : "docPath",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -567,11 +567,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": ${workingDir}/doc-artifacts",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "docPath",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "env",
+          "type" : [ ],
+          "anchorId" : "env",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -590,44 +590,44 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": local",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "env",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "failedReportPath",
+          "type" : [ ],
+          "anchorId" : "failedReportPath",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "failed report file path",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "failedReportPath",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "firefoxBinPath",
+          "type" : [ ],
+          "anchorId" : "firefoxBinPath",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to firefox binary",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "firefoxBinPath",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "firefoxDriverPath",
+          "type" : [ ],
+          "anchorId" : "firefoxDriverPath",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to firefox driver binary",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "firefoxDriverPath",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "fullStackTrace",
+          "type" : [ ],
+          "anchorId" : "fullStackTrace",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -646,11 +646,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "fullStackTrace",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "graphQLEndpoint",
+          "type" : [ ],
+          "anchorId" : "graphQLEndpoint",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -669,11 +669,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": /graphql",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "graphQLEndpoint",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "graphQLIgnoreIntrospectionFailures",
+          "type" : [ ],
+          "anchorId" : "graphQLIgnoreIntrospectionFailures",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -692,11 +692,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": true",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "graphQLIgnoreIntrospectionFailures",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "graphQLShowOperationAsQueryParam",
+          "type" : [ ],
+          "anchorId" : "graphQLShowOperationAsQueryParam",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -718,22 +718,22 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": true",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "graphQLShowOperationAsQueryParam",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "httpProxy",
+          "type" : [ ],
+          "anchorId" : "httpProxy",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "http proxy host:port",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "httpProxy",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "httpTimeout",
+          "type" : [ ],
+          "anchorId" : "httpTimeout",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -752,11 +752,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 30000",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "httpTimeout",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "jsonSchemasDir",
+          "type" : [ ],
+          "anchorId" : "jsonSchemasDir",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -775,11 +775,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": /home/runner/work/webtau/webtau/webtau-groovy-app",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "jsonSchemasDir",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "maxRedirects",
+          "type" : [ ],
+          "anchorId" : "maxRedirects",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -798,11 +798,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 20",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "maxRedirects",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "noColor",
+          "type" : [ ],
+          "anchorId" : "noColor",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -821,11 +821,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "noColor",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "numberOfThreads",
+          "type" : [ ],
+          "anchorId" : "numberOfThreads",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -844,11 +844,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 1",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "numberOfThreads",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "openApiIgnoreAdditionalProperties",
+          "type" : [ ],
+          "anchorId" : "openApiIgnoreAdditionalProperties",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -867,22 +867,22 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "openApiIgnoreAdditionalProperties",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "openApiSpecUrl",
+          "type" : [ ],
+          "anchorId" : "openApiSpecUrl",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "url of OpenAPI 2 spec against which to validate http calls",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "openApiSpecUrl",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "parallel",
+          "type" : [ ],
+          "anchorId" : "parallel",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -901,11 +901,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "parallel",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "removeWebTauFromUserAgent",
+          "type" : [ ],
+          "anchorId" : "removeWebTauFromUserAgent",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -924,11 +924,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "removeWebTauFromUserAgent",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "reportName",
+          "type" : [ ],
+          "anchorId" : "reportName",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -947,22 +947,22 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": WebTau report",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "reportName",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "reportNameUrl",
+          "type" : [ ],
+          "anchorId" : "reportNameUrl",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "report name url to navigate to when clicked",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "reportNameUrl",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "reportPath",
+          "type" : [ ],
+          "anchorId" : "reportPath",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -981,11 +981,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": ${workingDir}/webtau.report.html",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "reportPath",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "serverProxyMaxThreads",
+          "type" : [ ],
+          "anchorId" : "serverProxyMaxThreads",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1004,11 +1004,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 4",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "serverProxyMaxThreads",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "termui",
+          "type" : [ ],
+          "anchorId" : "termui",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1027,22 +1027,22 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "termui",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "url",
+          "type" : [ ],
+          "anchorId" : "url",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "base url for application under test",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "url",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "userAgent",
+          "type" : [ ],
+          "anchorId" : "userAgent",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1061,11 +1061,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": webtau/1.49",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "userAgent",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "verbosityLevel",
+          "type" : [ ],
+          "anchorId" : "verbosityLevel",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1084,11 +1084,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 2147483647",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "verbosityLevel",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "waitTimeout",
+          "type" : [ ],
+          "anchorId" : "waitTimeout",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1107,11 +1107,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 5000",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "waitTimeout",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "workingDir",
+          "type" : [ ],
+          "anchorId" : "workingDir",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1130,19 +1130,19 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": ",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "workingDir",
-          "type" : [ ]
-        } ]
+          } ]
+        } ],
+        "type" : "ApiParameters"
       } ]
     }, {
       "id" : "environment-variable-options",
-      "type" : "Section",
       "title" : "Environment variable options",
+      "type" : "Section",
       "content" : [ {
-        "type" : "ApiParameters",
         "parameters" : [ {
           "name" : "WEBTAU_BROWSER_DISABLE_EXTENSIONS",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_BROWSER_DISABLE_EXTENSIONS",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1161,11 +1161,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_BROWSER_DISABLE_EXTENSIONS",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_BROWSER_HEADLESS",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_BROWSER_HEADLESS",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1184,11 +1184,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_BROWSER_HEADLESS",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_BROWSER_HEIGHT",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_BROWSER_HEIGHT",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1207,11 +1207,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 0",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_BROWSER_HEIGHT",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_BROWSER_ID",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_BROWSER_ID",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1230,22 +1230,22 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": chrome",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_BROWSER_ID",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_BROWSER_REMOTE_DRIVER_URL",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_BROWSER_REMOTE_DRIVER_URL",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser remote driver url",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_BROWSER_REMOTE_DRIVER_URL",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_BROWSER_STALE_ELEMENT_RETRY",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_BROWSER_STALE_ELEMENT_RETRY",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1264,11 +1264,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 5",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_BROWSER_STALE_ELEMENT_RETRY",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_BROWSER_STALE_ELEMENT_RETRY_WAIT",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_BROWSER_STALE_ELEMENT_RETRY_WAIT",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1287,33 +1287,33 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 100",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_BROWSER_STALE_ELEMENT_RETRY_WAIT",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_BROWSER_URL",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_BROWSER_URL",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser base url for application under test. It is being used instead of url when provided",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_BROWSER_URL",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_BROWSER_VERSION",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_BROWSER_VERSION",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "browser version for automatic driver download",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_BROWSER_VERSION",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_BROWSER_WIDTH",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_BROWSER_WIDTH",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1332,11 +1332,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 0",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_BROWSER_WIDTH",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_CACHE_PATH",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_CACHE_PATH",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1355,33 +1355,33 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": ${workingDir}/.webtau-cache",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_CACHE_PATH",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_CHROME_BIN_PATH",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_CHROME_BIN_PATH",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to chrome binary",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_CHROME_BIN_PATH",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_CHROME_DRIVER_PATH",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_CHROME_DRIVER_PATH",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to chrome driver binary",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_CHROME_DRIVER_PATH",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_CLI_ENV",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_CLI_ENV",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1400,11 +1400,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": {}",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_CLI_ENV",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_CLI_PATH",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_CLI_PATH",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1423,11 +1423,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": []",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_CLI_PATH",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_CLI_TIMEOUT",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_CLI_TIMEOUT",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1446,11 +1446,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 30000",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_CLI_TIMEOUT",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_CONFIG",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_CONFIG",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1469,11 +1469,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": webtau.cfg.groovy",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_CONFIG",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_CONSOLE_PAYLOAD_OUTPUT_LIMIT",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_CONSOLE_PAYLOAD_OUTPUT_LIMIT",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1492,55 +1492,55 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 500",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_CONSOLE_PAYLOAD_OUTPUT_LIMIT",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_DB_DRIVER_CLASS_NAME",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_DB_DRIVER_CLASS_NAME",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database driver class name",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_DB_DRIVER_CLASS_NAME",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_DB_PASSWORD",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_DB_PASSWORD",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database password",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_DB_PASSWORD",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_DB_URL",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_DB_URL",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database url",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_DB_URL",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_DB_USER_NAME",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_DB_USER_NAME",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "primary database user name",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_DB_USER_NAME",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_DISABLE_REDIRECTS",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_DISABLE_REDIRECTS",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1559,11 +1559,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_DISABLE_REDIRECTS",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_DOC_PATH",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_DOC_PATH",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1582,11 +1582,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": ${workingDir}/doc-artifacts",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_DOC_PATH",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_ENV",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_ENV",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1605,44 +1605,44 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": local",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_ENV",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_FAILED_REPORT_PATH",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_FAILED_REPORT_PATH",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "failed report file path",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_FAILED_REPORT_PATH",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_FIREFOX_BIN_PATH",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_FIREFOX_BIN_PATH",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to firefox binary",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_FIREFOX_BIN_PATH",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_FIREFOX_DRIVER_PATH",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_FIREFOX_DRIVER_PATH",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "path to firefox driver binary",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_FIREFOX_DRIVER_PATH",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_FULL_STACK_TRACE",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_FULL_STACK_TRACE",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1661,11 +1661,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_FULL_STACK_TRACE",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_GRAPH_QLENDPOINT",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_GRAPH_QLENDPOINT",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1684,11 +1684,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": /graphql",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_GRAPH_QLENDPOINT",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1707,11 +1707,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": true",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_GRAPH_QLSHOW_OPERATION_AS_QUERY_PARAM",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_GRAPH_QLSHOW_OPERATION_AS_QUERY_PARAM",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1733,22 +1733,22 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": true",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_GRAPH_QLSHOW_OPERATION_AS_QUERY_PARAM",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_HTTP_PROXY",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_HTTP_PROXY",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "http proxy host:port",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_HTTP_PROXY",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_HTTP_TIMEOUT",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_HTTP_TIMEOUT",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1767,11 +1767,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 30000",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_HTTP_TIMEOUT",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_JSON_SCHEMAS_DIR",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_JSON_SCHEMAS_DIR",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1790,11 +1790,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": /home/runner/work/webtau/webtau/webtau-groovy-app",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_JSON_SCHEMAS_DIR",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_MAX_REDIRECTS",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_MAX_REDIRECTS",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1813,11 +1813,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 20",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_MAX_REDIRECTS",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_NO_COLOR",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_NO_COLOR",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1836,11 +1836,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_NO_COLOR",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_NUMBER_OF_THREADS",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_NUMBER_OF_THREADS",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1859,11 +1859,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 1",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_NUMBER_OF_THREADS",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1882,22 +1882,22 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_OPEN_API_SPEC_URL",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_OPEN_API_SPEC_URL",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "url of OpenAPI 2 spec against which to validate http calls",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_OPEN_API_SPEC_URL",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_PARALLEL",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_PARALLEL",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1916,11 +1916,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_PARALLEL",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_REMOVE_WEB_TAU_FROM_USER_AGENT",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_REMOVE_WEB_TAU_FROM_USER_AGENT",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1939,11 +1939,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_REMOVE_WEB_TAU_FROM_USER_AGENT",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_REPORT_NAME",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_REPORT_NAME",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1962,22 +1962,22 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": WebTau report",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_REPORT_NAME",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_REPORT_NAME_URL",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_REPORT_NAME_URL",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "report name url to navigate to when clicked",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_REPORT_NAME_URL",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_REPORT_PATH",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_REPORT_PATH",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -1996,11 +1996,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": ${workingDir}/webtau.report.html",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_REPORT_PATH",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_SERVER_PROXY_MAX_THREADS",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_SERVER_PROXY_MAX_THREADS",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -2019,11 +2019,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 4",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_SERVER_PROXY_MAX_THREADS",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_TERMUI",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_TERMUI",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -2042,22 +2042,22 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": false",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_TERMUI",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_URL",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_URL",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "base url for application under test",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_URL",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_USER_AGENT",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_USER_AGENT",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -2076,11 +2076,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": webtau/1.49",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_USER_AGENT",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_VERBOSITY_LEVEL",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_VERBOSITY_LEVEL",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -2099,11 +2099,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 2147483647",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_VERBOSITY_LEVEL",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_WAIT_TIMEOUT",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_WAIT_TIMEOUT",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -2122,11 +2122,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": 5000",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_WAIT_TIMEOUT",
-          "type" : [ ]
+          } ]
         }, {
           "name" : "WEBTAU_WORKING_DIR",
+          "type" : [ ],
+          "anchorId" : "WEBTAU_WORKING_DIR",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -2145,13 +2145,12 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : ": ",
               "type" : "SimpleText"
             } ]
-          } ],
-          "anchorId" : "WEBTAU_WORKING_DIR",
-          "type" : [ ]
-        } ]
+          } ]
+        } ],
+        "type" : "ApiParameters"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Configuration",
       "pageTitle" : "Options",

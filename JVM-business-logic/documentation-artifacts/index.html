@@ -100,13 +100,12 @@
 
 <article>
 <header><h1>Capture Console Output</h1></header>
-<p>Use doc.console.capture to capture console output of a provided code block doc.console.capture(&quot;http-get-console-output&quot;, () -&gt; { http.get(&quot;/end-point&quot;, ((header, body) -&gt; { DataNode price = body.get(&quot;price&quot;); price.should(equal(100)); })); }); &gt; executing HTTP GET http://localhost:40601/end-point . body.price equals 100 body.price: actual: 100 &lt;java.lang.Integer&gt; expected: 100 &lt;java.lang.Integer&gt; (0ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer&gt; expected: 200 &lt;java.lang.Integer&gt; (0ms) response (application/json): { &quot;id&quot;: 10, &quot;price&quot;: __100__, &quot;amount&quot;: 30, &quot;list&quot;: [ 1, 2, 3 ], &quot;object&quot;: { &quot;k1&quot;: &quot;v1&quot;, &quot;k2&quot;: &quot;v2&quot;, &quot;k3&quot;: &quot;v3&quot; }, &quot;complexList&quot;: [ { &quot;id&quot;: &quot;id1&quot;, &quot;k1&quot;: &quot;v1&quot;, &quot;k2&quot;: 30 }, { &quot;id&quot;: &quot;id2&quot;, &quot;k1&quot;: &quot;v11&quot;, &quot;k2&quot;: 40 } ] } . executed HTTP GET http://localhost:40601/end-point (2ms) https://github.org/testingisdocumenting/znai Znai has cli-output plugin to render ANSI output :include-cli-output: doc-artifacts/http-get-console-output.txt &gt; executing HTTP GET http://localhost:40601/end-point . body.price equals 100 body.price: actual: 100 &lt;java.lang.Integer&gt; expected: 100 &lt;java.lang.Integer&gt; (0ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer&gt; expected: 200 &lt;java.lang.Integer&gt; (0ms) response (application/json): { &quot;id&quot;: 10, &quot;price&quot;: __100__, &quot;amount&quot;: 30, &quot;list&quot;: [ 1, 2, 3 ], &quot;object&quot;: { &quot;k1&quot;: &quot;v1&quot;, &quot;k2&quot;: &quot;v2&quot;, &quot;k3&quot;: &quot;v3&quot; }, &quot;complexList&quot;: [ { &quot;id&quot;: &quot;id1&quot;, &quot;k1&quot;: &quot;v1&quot;, &quot;k2&quot;: 30 }, { &quot;id&quot;: &quot;id2&quot;, &quot;k1&quot;: &quot;v11&quot;, &quot;k2&quot;: 40 } ] } . executed HTTP GET http://localhost:40601/end-point (2ms)</p>
+<p>Use doc.console.capture to capture console output of a provided code block doc.console.capture(&quot;http-get-console-output&quot;, () -&gt; { http.get(&quot;/end-point&quot;, ((header, body) -&gt; { DataNode price = body.get(&quot;price&quot;); price.should(equal(100)); })); }); &gt; executing HTTP GET http://localhost:44671/end-point . body.price equals 100 body.price: actual: 100 &lt;java.lang.Integer&gt; expected: 100 &lt;java.lang.Integer&gt; (0ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer&gt; expected: 200 &lt;java.lang.Integer&gt; (0ms) response (application/json): { &quot;id&quot;: 10, &quot;price&quot;: __100__, &quot;amount&quot;: 30, &quot;list&quot;: [ 1, 2, 3 ], &quot;object&quot;: { &quot;k1&quot;: &quot;v1&quot;, &quot;k2&quot;: &quot;v2&quot;, &quot;k3&quot;: &quot;v3&quot; }, &quot;complexList&quot;: [ { &quot;id&quot;: &quot;id1&quot;, &quot;k1&quot;: &quot;v1&quot;, &quot;k2&quot;: 30 }, { &quot;id&quot;: &quot;id2&quot;, &quot;k1&quot;: &quot;v11&quot;, &quot;k2&quot;: 40 } ] } . executed HTTP GET http://localhost:44671/end-point (2ms) https://github.org/testingisdocumenting/znai Znai has cli-output plugin to render ANSI output :include-cli-output: doc-artifacts/http-get-console-output.txt &gt; executing HTTP GET http://localhost:44671/end-point . body.price equals 100 body.price: actual: 100 &lt;java.lang.Integer&gt; expected: 100 &lt;java.lang.Integer&gt; (0ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer&gt; expected: 200 &lt;java.lang.Integer&gt; (0ms) response (application/json): { &quot;id&quot;: 10, &quot;price&quot;: __100__, &quot;amount&quot;: 30, &quot;list&quot;: [ 1, 2, 3 ], &quot;object&quot;: { &quot;k1&quot;: &quot;v1&quot;, &quot;k2&quot;: &quot;v2&quot;, &quot;k3&quot;: &quot;v3&quot; }, &quot;complexList&quot;: [ { &quot;id&quot;: &quot;id1&quot;, &quot;k1&quot;: &quot;v1&quot;, &quot;k2&quot;: 30 }, { &quot;id&quot;: &quot;id2&quot;, &quot;k1&quot;: &quot;v11&quot;, &quot;k2&quot;: 40 } ] } . executed HTTP GET http://localhost:44671/end-point (2ms)</p>
 </article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -132,8 +131,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "living-document",
-      "type" : "Section",
       "title" : "Living Document",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -154,8 +153,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "capture-input",
-      "type" : "Section",
       "title" : "Capture Input",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -180,23 +179,23 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
-        "type" : "Snippet",
         "lang" : "java",
-        "includeRegexp" : "import.*Core"
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
+        "includeRegexp" : "import.*Core",
+        "type" : "Snippet"
       }, {
+        "lang" : "java",
         "snippet" : "TableData allEmployees = table(    \"id\", \"level\", \"monthsAtCompany\",\n                               ____________________________________,\n                                \"alice\",       5,   1,\n                                  \"bob\",       3,   0,\n                                \"smith\",       4,   1,\n                                  \"cat\",       4,   0);\naddEmployees(allEmployees);\n\ndoc.capture(\"all-employees\", allEmployees); // capture all employees for documentation purposes",
-        "entry" : "initEmployees",
-        "bodyOnly" : true,
-        "commentsType" : "inline",
-        "type" : "Snippet",
         "title" : "capturing a value",
-        "lang" : "java"
+        "entry" : "initEmployees",
+        "commentsType" : "inline",
+        "bodyOnly" : true,
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "capture-expected-output",
-      "type" : "Section",
       "title" : "Capture Expected Output",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -210,26 +209,26 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "java",
         "snippet" : "actual(dao.thisWeekJoiners()).should(equal(table(   \"*id\", \"level\", \"monthsAtCompany\",\n                                                ____________________________________,\n                                                    \"bob\",       3,   0,\n                                                    \"cat\",       4,   0)));\n\ndoc.expected.capture(\"new-joiners\"); // capture expected new joiners for documentation purposes",
-        "entry" : "validateNewJoiners",
-        "bodyOnly" : true,
-        "commentsType" : "inline",
-        "type" : "Snippet",
         "title" : "capturing most recent expected",
-        "lang" : "java"
+        "entry" : "validateNewJoiners",
+        "commentsType" : "inline",
+        "bodyOnly" : true,
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "WebTau documentation is created using ",
           "type" : "SimpleText"
         }, {
+          "url" : "https://github.org/testingisdocumenting/znai",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Znai",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://github.org/testingisdocumenting/znai"
+          } ]
         }, {
           "text" : ".",
           "type" : "SimpleText"
@@ -246,10 +245,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "text",
         "snippet" : ":include-table: doc-artifacts/all-employees.json\n:include-table: doc-artifacts/new-joiners.json\n",
-        "type" : "Snippet",
         "lineNumber" : "",
-        "lang" : "text"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -270,8 +269,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "type" : "Table",
         "table" : {
+          "columns" : [ {
+            "title" : "id"
+          }, {
+            "title" : "level"
+          }, {
+            "title" : "monthsAtCompany"
+          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -344,15 +349,9 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "0",
               "type" : "SimpleText"
             } ]
-          } ] ] ],
-          "columns" : [ {
-            "title" : "id"
-          }, {
-            "title" : "level"
-          }, {
-            "title" : "monthsAtCompany"
-          } ]
-        }
+          } ] ] ]
+        },
+        "type" : "Table"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -360,8 +359,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "type" : "Table",
         "table" : {
+          "columns" : [ {
+            "title" : "id"
+          }, {
+            "title" : "level"
+          }, {
+            "title" : "monthsAtCompany"
+          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -398,20 +403,14 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "0",
               "type" : "SimpleText"
             } ]
-          } ] ] ],
-          "columns" : [ {
-            "title" : "id"
-          }, {
-            "title" : "level"
-          }, {
-            "title" : "monthsAtCompany"
-          } ]
-        }
+          } ] ] ]
+        },
+        "type" : "Table"
       } ]
     }, {
       "id" : "capture-console-output",
-      "type" : "Section",
       "title" : "Capture Console Output",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -425,28 +424,28 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "java",
         "snippet" : "doc.console.capture(\"http-get-console-output\", () -> {\n    http.get(\"/end-point\", ((header, body) -> {\n        DataNode price = body.get(\"price\");\n        price.should(equal(100));\n    }));\n});",
+        "title" : "capture console output",
         "entry" : "captureConsoleOutputExample",
         "bodyOnly" : true,
         "replace" : [ "captureNoStep", "capture" ],
-        "type" : "Snippet",
-        "title" : "capture console output",
-        "lang" : "java"
+        "type" : "Snippet"
       }, {
-        "snippet" : "\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttp://localhost:40601/end-point\u001B[0m\n  \u001B[32m. \u001B[0m\u001B[1mbody.price \u001B[32mequals 100\n      body.price:   actual: 100 <java.lang.Integer>\n                  expected: 100 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m\n  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[32mequals 200\n      header.statusCode:   actual: 200 <java.lang.Integer>\n                         expected: 200 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m\n  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m\n  \u001B[33m{\u001B[0m\n    \u001B[35m\"id\": \u001B[36m10\u001B[33m,\u001B[0m\n    \u001B[35m\"price\": \u001B[36m\u001B[1m\u001B[32m__100__\u001B[33m,\u001B[0m\n    \u001B[35m\"amount\": \u001B[36m30\u001B[33m,\u001B[0m\n    \u001B[35m\"list\": \u001B[33m[\u001B[0m\n      \u001B[36m1\u001B[33m,\u001B[0m\n      \u001B[36m2\u001B[33m,\u001B[0m\n      \u001B[36m3\u001B[0m\n    \u001B[33m]\u001B[33m,\u001B[0m\n    \u001B[35m\"object\": \u001B[33m{\u001B[0m\n      \u001B[35m\"k1\": \u001B[32m\"v1\"\u001B[33m,\u001B[0m\n      \u001B[35m\"k2\": \u001B[32m\"v2\"\u001B[33m,\u001B[0m\n      \u001B[35m\"k3\": \u001B[32m\"v3\"\u001B[0m\n    \u001B[33m}\u001B[33m,\u001B[0m\n    \u001B[35m\"complexList\": \u001B[33m[\u001B[0m\n      \u001B[33m{\u001B[0m\n        \u001B[35m\"id\": \u001B[32m\"id1\"\u001B[33m,\u001B[0m\n        \u001B[35m\"k1\": \u001B[32m\"v1\"\u001B[33m,\u001B[0m\n        \u001B[35m\"k2\": \u001B[36m30\u001B[0m\n      \u001B[33m}\u001B[33m,\u001B[0m\n      \u001B[33m{\u001B[0m\n        \u001B[35m\"id\": \u001B[32m\"id2\"\u001B[33m,\u001B[0m\n        \u001B[35m\"k1\": \u001B[32m\"v11\"\u001B[33m,\u001B[0m\n        \u001B[35m\"k2\": \u001B[36m40\u001B[0m\n      \u001B[33m}\u001B[0m\n    \u001B[33m]\u001B[0m\n  \u001B[33m}\u001B[0m\n\u001B[32m. \u001B[34mexecuted HTTP GET \u001B[35mhttp://localhost:40601/end-point\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m",
-        "type" : "Snippet",
+        "lang" : "txt",
+        "snippet" : "\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttp://localhost:44671/end-point\u001B[0m\n  \u001B[32m. \u001B[0m\u001B[1mbody.price \u001B[32mequals 100\n      body.price:   actual: 100 <java.lang.Integer>\n                  expected: 100 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m\n  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[32mequals 200\n      header.statusCode:   actual: 200 <java.lang.Integer>\n                         expected: 200 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m\n  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m\n  \u001B[33m{\u001B[0m\n    \u001B[35m\"id\": \u001B[36m10\u001B[33m,\u001B[0m\n    \u001B[35m\"price\": \u001B[36m\u001B[1m\u001B[32m__100__\u001B[33m,\u001B[0m\n    \u001B[35m\"amount\": \u001B[36m30\u001B[33m,\u001B[0m\n    \u001B[35m\"list\": \u001B[33m[\u001B[0m\n      \u001B[36m1\u001B[33m,\u001B[0m\n      \u001B[36m2\u001B[33m,\u001B[0m\n      \u001B[36m3\u001B[0m\n    \u001B[33m]\u001B[33m,\u001B[0m\n    \u001B[35m\"object\": \u001B[33m{\u001B[0m\n      \u001B[35m\"k1\": \u001B[32m\"v1\"\u001B[33m,\u001B[0m\n      \u001B[35m\"k2\": \u001B[32m\"v2\"\u001B[33m,\u001B[0m\n      \u001B[35m\"k3\": \u001B[32m\"v3\"\u001B[0m\n    \u001B[33m}\u001B[33m,\u001B[0m\n    \u001B[35m\"complexList\": \u001B[33m[\u001B[0m\n      \u001B[33m{\u001B[0m\n        \u001B[35m\"id\": \u001B[32m\"id1\"\u001B[33m,\u001B[0m\n        \u001B[35m\"k1\": \u001B[32m\"v1\"\u001B[33m,\u001B[0m\n        \u001B[35m\"k2\": \u001B[36m30\u001B[0m\n      \u001B[33m}\u001B[33m,\u001B[0m\n      \u001B[33m{\u001B[0m\n        \u001B[35m\"id\": \u001B[32m\"id2\"\u001B[33m,\u001B[0m\n        \u001B[35m\"k1\": \u001B[32m\"v11\"\u001B[33m,\u001B[0m\n        \u001B[35m\"k2\": \u001B[36m40\u001B[0m\n      \u001B[33m}\u001B[0m\n    \u001B[33m]\u001B[0m\n  \u001B[33m}\u001B[0m\n\u001B[32m. \u001B[34mexecuted HTTP GET \u001B[35mhttp://localhost:44671/end-point\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m",
         "title" : "raw content of doc-artifacts/http-get-console-output.txt",
-        "lang" : "txt"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
+          "url" : "https://github.org/testingisdocumenting/znai",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Znai",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://github.org/testingisdocumenting/znai"
+          } ]
         }, {
           "text" : " has ",
           "type" : "SimpleText"
@@ -458,16 +457,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "",
         "snippet" : ":include-cli-output: doc-artifacts/http-get-console-output.txt\n",
-        "type" : "Snippet",
         "lineNumber" : "",
-        "lang" : ""
+        "type" : "Snippet"
       }, {
-        "type" : "CliOutput",
-        "lines" : [ "\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttp://localhost:40601/end-point\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mbody.price \u001B[32mequals 100", "      body.price:   actual: 100 <java.lang.Integer>", "                  expected: 100 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[32mequals 200", "      header.statusCode:   actual: 200 <java.lang.Integer>", "                         expected: 200 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"id\": \u001B[36m10\u001B[33m,\u001B[0m", "    \u001B[35m\"price\": \u001B[36m\u001B[1m\u001B[32m__100__\u001B[33m,\u001B[0m", "    \u001B[35m\"amount\": \u001B[36m30\u001B[33m,\u001B[0m", "    \u001B[35m\"list\": \u001B[33m[\u001B[0m", "      \u001B[36m1\u001B[33m,\u001B[0m", "      \u001B[36m2\u001B[33m,\u001B[0m", "      \u001B[36m3\u001B[0m", "    \u001B[33m]\u001B[33m,\u001B[0m", "    \u001B[35m\"object\": \u001B[33m{\u001B[0m", "      \u001B[35m\"k1\": \u001B[32m\"v1\"\u001B[33m,\u001B[0m", "      \u001B[35m\"k2\": \u001B[32m\"v2\"\u001B[33m,\u001B[0m", "      \u001B[35m\"k3\": \u001B[32m\"v3\"\u001B[0m", "    \u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[35m\"complexList\": \u001B[33m[\u001B[0m", "      \u001B[33m{\u001B[0m", "        \u001B[35m\"id\": \u001B[32m\"id1\"\u001B[33m,\u001B[0m", "        \u001B[35m\"k1\": \u001B[32m\"v1\"\u001B[33m,\u001B[0m", "        \u001B[35m\"k2\": \u001B[36m30\u001B[0m", "      \u001B[33m}\u001B[33m,\u001B[0m", "      \u001B[33m{\u001B[0m", "        \u001B[35m\"id\": \u001B[32m\"id2\"\u001B[33m,\u001B[0m", "        \u001B[35m\"k1\": \u001B[32m\"v11\"\u001B[33m,\u001B[0m", "        \u001B[35m\"k2\": \u001B[36m40\u001B[0m", "      \u001B[33m}\u001B[0m", "    \u001B[33m]\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP GET \u001B[35mhttp://localhost:40601/end-point\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m" ]
+        "lines" : [ "\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttp://localhost:44671/end-point\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mbody.price \u001B[32mequals 100", "      body.price:   actual: 100 <java.lang.Integer>", "                  expected: 100 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[32mequals 200", "      header.statusCode:   actual: 200 <java.lang.Integer>", "                         expected: 200 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"id\": \u001B[36m10\u001B[33m,\u001B[0m", "    \u001B[35m\"price\": \u001B[36m\u001B[1m\u001B[32m__100__\u001B[33m,\u001B[0m", "    \u001B[35m\"amount\": \u001B[36m30\u001B[33m,\u001B[0m", "    \u001B[35m\"list\": \u001B[33m[\u001B[0m", "      \u001B[36m1\u001B[33m,\u001B[0m", "      \u001B[36m2\u001B[33m,\u001B[0m", "      \u001B[36m3\u001B[0m", "    \u001B[33m]\u001B[33m,\u001B[0m", "    \u001B[35m\"object\": \u001B[33m{\u001B[0m", "      \u001B[35m\"k1\": \u001B[32m\"v1\"\u001B[33m,\u001B[0m", "      \u001B[35m\"k2\": \u001B[32m\"v2\"\u001B[33m,\u001B[0m", "      \u001B[35m\"k3\": \u001B[32m\"v3\"\u001B[0m", "    \u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[35m\"complexList\": \u001B[33m[\u001B[0m", "      \u001B[33m{\u001B[0m", "        \u001B[35m\"id\": \u001B[32m\"id1\"\u001B[33m,\u001B[0m", "        \u001B[35m\"k1\": \u001B[32m\"v1\"\u001B[33m,\u001B[0m", "        \u001B[35m\"k2\": \u001B[36m30\u001B[0m", "      \u001B[33m}\u001B[33m,\u001B[0m", "      \u001B[33m{\u001B[0m", "        \u001B[35m\"id\": \u001B[32m\"id2\"\u001B[33m,\u001B[0m", "        \u001B[35m\"k1\": \u001B[32m\"v11\"\u001B[33m,\u001B[0m", "        \u001B[35m\"k2\": \u001B[36m40\u001B[0m", "      \u001B[33m}\u001B[0m", "    \u001B[33m]\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP GET \u001B[35mhttp://localhost:44671/end-point\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m" ],
+        "type" : "CliOutput"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "JVM Business Logic",
       "pageTitle" : "Documentation Artifacts",

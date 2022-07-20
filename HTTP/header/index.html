@@ -111,7 +111,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -137,8 +136,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "standard-header",
-      "type" : "Section",
       "title" : "Standard Header",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -176,8 +175,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "explicit-header",
-      "type" : "Section",
       "title" : "Explicit Header",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -194,20 +193,20 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/end-point\", http.header(\"Accept\", \"application/octet-stream\")) {\n    // assertions go here\n}\n\nhttp.get(\"/end-point\", [queryParam1: \"queryParamValue1\"],\n        http.header(\"Accept\", \"application/octet-stream\")) {\n    // assertions go here\n}\n\nhttp.patch(\"/end-point\", http.header(\"Accept\", \"application/octet-stream\"),\n        [fileId: \"myFile\"]) {\n    // assertions go here\n}\n\nhttp.post(\"/end-point\", http.header(\"Accept\", \"application/octet-stream\"),\n        [fileId: \"myFile\"]) {\n    // assertions go here\n}\n\nhttp.put(\"/end-point\", http.header(\"Accept\", \"application/octet-stream\"),\n        [fileId: \"myFile\", file: sampleFile]) {\n    // assertions go here\n}\n\nhttp.delete(\"/end-point\", http.header(\"Custom-Header\", \"special-value\"))",
             "entry" : "explicit header passing example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.get(\"/end-point\", http.header(\"Accept\", \"application/octet-stream\"), (header, body) -> {\n    // assertions go here\n});\n\nhttp.get(\"/end-point\", http.query(\"queryParam1\", \"queryParamValue1\"),\n    http.header(\"Accept\", \"application/octet-stream\"), (header, body) -> {\n    // assertions go here\n});\n\nhttp.patch(\"/end-point\", http.header(\"Accept\", \"application/octet-stream\"),\n        http.json(\"fileId\", \"myFile\"), (header, body) -> {\n    // assertions go here\n});\n\nhttp.post(\"/end-point\", http.header(\"Accept\", \"application/octet-stream\"),\n        http.json(\"fileId\", \"myFile\"), (header, body) -> {\n    // assertions go here\n});\n\nhttp.put(\"/end-point\", http.header(\"Accept\", \"application/octet-stream\"),\n        http.json(\"fileId\", \"myFile\", \"file\", sampleFile), (header, body) -> {\n    // assertions go here\n});\n\nhttp.delete(\"/end-point\", http.header(\"Custom-Header\", \"special-value\"));",
             "entry" : "explicitHeaderPassingExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -227,22 +226,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def varArgHeader = http.header(\n        \"My-Header1\", \"Value1\",\n        \"My-Header2\", \"Value2\")\n\ndef mapBasedHeader = http.header([\n        \"My-Header1\": \"Value1\",\n        \"My-Header2\": \"Value2\"])",
-            "excludeRegexp" : "doc-exclude",
             "entry" : "header creation",
+            "excludeRegexp" : "doc-exclude",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "HttpHeader varArgHeader = http.header(\n        \"My-Header1\", \"Value1\",\n        \"My-Header2\", \"Value2\");\n\nMap<CharSequence, CharSequence> headerValues = new HashMap<>();\nheaderValues.put(\"My-Header1\", \"Value1\");\nheaderValues.put(\"My-Header2\", \"Value2\");\nHttpHeader mapBasedHeader = http.header(headerValues);",
-            "excludeRegexp" : "doc-exclude",
             "entry" : "headerCreation",
+            "excludeRegexp" : "doc-exclude",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -262,30 +261,30 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def newHeaderVarArg = header.with(\n        \"Additional-1\", \"AdditionalValue1\",\n        \"Additional-2\", \"AdditionalValue2\")\n\ndef newHeaderMap = header.with([\n        \"Additional-1\": \"AdditionalValue1\",\n        \"Additional-2\": \"AdditionalValue2\"])",
             "entry" : "header with",
-            "bodyOnly" : true,
             "surroundedBy" : "// example",
-            "type" : "Snippet",
-            "lang" : "groovy"
+            "bodyOnly" : true,
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "HttpHeader newHeaderVarArg = header.with(\n        \"Additional-1\", \"AdditionalValue1\",\n        \"Additional-2\", \"AdditionalValue2\");\n\nMap<CharSequence, CharSequence> additionalValues = new HashMap<>();\nadditionalValues.put(\"Additional-1\", \"AdditionalValue1\");\nadditionalValues.put(\"Additional-2\", \"AdditionalValue2\");\nHttpHeader newHeaderMap = header.with(additionalValues);",
             "entry" : "headerWith",
-            "bodyOnly" : true,
             "surroundedBy" : "// example",
-            "type" : "Snippet",
-            "lang" : "java"
+            "bodyOnly" : true,
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
       "id" : "implicit-header",
-      "type" : "Section",
       "title" : "Implicit Header",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -307,11 +306,11 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "package scenarios.rest.headers\n\nimport scenarios.rest.headers.auth.Auth\n\nurl = \"http://localhost:8080\"\n\nhttpHeaderProvider = Auth.&authHeader",
-            "highlight" : [ 6 ],
-            "type" : "Snippet",
             "title" : "webtau.cfg.groovy",
-            "lang" : "groovy"
+            "highlight" : [ 6 ],
+            "type" : "Snippet"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -325,10 +324,10 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           }, {
+            "lang" : "groovy",
             "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\n\nclass Auth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateToken()\n        return original.with([Authorization: \"Bearer $token\"])\n    }\n\n    private static String generateToken() {\n        return \"jwt-token\"\n    }\n}",
-            "type" : "Snippet",
             "title" : "scenarios/rest/headers/auth/Auth.groovy",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
@@ -338,13 +337,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "In case of JUnit like runners, webtau uses ",
               "type" : "SimpleText"
             }, {
+              "url" : "https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "Service Loaders",
                 "type" : "SimpleText"
-              } ],
-              "url" : "https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html"
+              } ]
             }, {
               "text" : "",
               "type" : "SimpleText"
@@ -355,17 +354,17 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           }, {
+            "lang" : "WebTauHttpConfiguration",
             "snippet" : "com.example.tests.junit5.config.HttpAuthHeaderProvider",
-            "type" : "Snippet",
+            "autoTitle" : true,
             "title" : "src/test/resources/META-INF/services/org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration",
-            "autoTitle" : true,
-            "lang" : "WebTauHttpConfiguration"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "package com.example.tests.junit5.config;\n\nimport org.testingisdocumenting.webtau.http.HttpHeader;\nimport org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\npublic class HttpAuthHeaderProvider implements WebTauHttpConfiguration {\n    @Override\n    public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {\n        String token = generateToken();\n        return given.with(\"Authorization\", \"Bearer \" + token);\n    }\n\n    private String generateToken() {\n        return \"jwt-token\";\n    }\n}",
-            "type" : "Snippet",
-            "title" : "src/test/java/com/example/tests/junit5/config/HttpAuthHeaderProvider.java",
             "autoTitle" : true,
-            "lang" : "java"
+            "title" : "src/test/java/com/example/tests/junit5/config/HttpAuthHeaderProvider.java",
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -375,13 +374,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Note: Read ",
           "type" : "SimpleText"
         }, {
+          "url" : "/webtau/persona/HTTP-persona",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Persona Auth",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/persona/HTTP-persona"
+          } ]
         }, {
           "text" : " to learn about ways to streamline authentication",
           "type" : "SimpleText"
@@ -389,8 +388,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "content-type-shortcut",
-      "type" : "Section",
       "title" : "Content Type Shortcut",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -413,22 +412,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def content = binaryFileContent(\"path\")\nhttp.post(\"/end-point\", http.body(\"application/octet-stream\", content)) {\n    // assertions go here\n}",
+            "title" : "combined type and payload",
             "entry" : "explicit binary mime types combined with request body",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "combined type and payload",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "byte[] content = binaryFileContent(\"path\");\nhttp.post(\"/end-point\", http.body(\"application/octet-stream\", content), (header, body) -> {\n    // assertions go here\n});",
+            "title" : "combined type and payload",
             "entry" : "explicitBinaryMimeTypesCombinedWithRequestBody",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "combined type and payload",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -438,19 +437,19 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "More examples are in ",
           "type" : "SimpleText"
         }, {
+          "url" : "/webtau/HTTP/body#content-type-shortcuts",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "HTTP Body Content-Type Shortcuts",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/HTTP/body#content-type-shortcuts"
+          } ]
         } ]
       } ]
     }, {
       "id" : "response-header",
-      "type" : "Section",
       "title" : "Response Header",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -467,22 +466,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.post(\"/end-point\") {\n    header.location.should == \"http://www.example.org/url/23\"\n    header[\"Location\"].should == \"http://www.example.org/url/23\"\n\n    header.contentLocation.should == \"/url/23\"\n    header[\"Content-Location\"].should == \"/url/23\"\n\n    header.contentLength.shouldBe > 300\n    header[\"Content-Length\"].shouldBe > 300\n}",
+            "title" : "header assertion with shortcut",
             "entry" : "header assertion with shortcut",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "header assertion with shortcut",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.post(\"/end-point\", (header, body) -> {\n    header.location.should(equal(\"http://www.example.org/url/23\"));\n    header.get(\"Location\").should(equal(\"http://www.example.org/url/23\"));\n\n    header.contentLocation.should(equal(\"/url/23\"));\n    header.get(\"Content-Location\").should(equal(\"/url/23\"));\n\n    header.contentLength.shouldBe(greaterThan(300));\n    header.get(\"Content-Length\").shouldBe(greaterThan(300));\n});",
+            "title" : "header assertion with shortcut",
             "entry" : "headerAssertionWithShortcut",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "header assertion with shortcut",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -523,7 +522,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Header",

@@ -101,7 +101,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -127,8 +126,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "element-selection",
-      "type" : "Section",
       "title" : "Element Selection",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -142,33 +141,33 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "$('#element-id')\n",
-        "type" : "Snippet",
+        "lineNumber" : "",
         "title" : "select by id",
-        "lineNumber" : "",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "$('.label')\n",
-        "type" : "Snippet",
+        "lineNumber" : "",
         "title" : "select by class",
-        "lineNumber" : "",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "$('[data-test-id=\"my-id\"]')\n",
-        "type" : "Snippet",
-        "title" : "select by attribute",
         "lineNumber" : "",
-        "lang" : "groovy"
+        "title" : "select by attribute",
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
+          "url" : "/webtau/browser/finders-and-filters",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Read Finders And Filters",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/browser/finders-and-filters"
+          } ]
         }, {
           "text" : " to learn how to select elements using more advanced techniques.",
           "type" : "SimpleText"
@@ -176,13 +175,13 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "Paragraph",
         "content" : [ {
+          "url" : "https://www.w3schools.com/cssref/css_selectors.asp",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Read W3Schools CSS selectors",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://www.w3schools.com/cssref/css_selectors.asp"
+          } ]
         }, {
           "text" : " to learn all kind of CSS selection techniques.",
           "type" : "SimpleText"
@@ -190,8 +189,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "lazy-element",
-      "type" : "Section",
       "title" : "Lazy Element",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -234,14 +233,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef welcomeMessage = $('#welcome')\n\nscenario('simple open') {\n    browser.open(\"/search\")\n    welcomeMessage.should == 'welcome to super search'\n}",
-        "type" : "Snippet",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "lazy-value",
-      "type" : "Section",
       "title" : "Lazy Value",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -255,9 +254,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('search by specific query') {\n    browser.open('/search')\n\n    $('#search-box').setValue('search this')\n    $('#search-box').sendKeys(\"\\n\")\n\n    $('#results .result').count.shouldBe > 1\n}",
-        "type" : "Snippet",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -276,12 +275,12 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef searchBox = $('#search-box')\ndef numberOfResults = searchBox.count\n\nscenario('search by specific query') {\n    browser.open('/search')\n\n    searchBox.setValue('search this')\n    searchBox.sendKeys(\"\\n\")\n\n    numberOfResults.shouldBe > 1\n}",
-        "type" : "Snippet",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Page Element And Value",

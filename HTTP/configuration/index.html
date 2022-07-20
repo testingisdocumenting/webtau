@@ -96,7 +96,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -132,13 +131,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "text" : "To learn basics about configuration, head over to ",
         "type" : "SimpleText"
       }, {
+        "url" : "/webtau/getting-started/configuration",
         "isFile" : false,
         "type" : "Link",
         "content" : [ {
           "text" : "Configuration Getting Started",
           "type" : "SimpleText"
-        } ],
-        "url" : "/webtau/getting-started/configuration"
+        } ]
       }, {
         "text" : ".",
         "type" : "SimpleText"
@@ -150,13 +149,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "text" : "To learn about all configuration capabilities, head over to ",
         "type" : "SimpleText"
       }, {
+        "url" : "/webtau/configuration/groovy-config-file",
         "isFile" : false,
         "type" : "Link",
         "content" : [ {
           "text" : "Configuration page",
           "type" : "SimpleText"
-        } ],
-        "url" : "/webtau/configuration/groovy-config-file"
+        } ]
       }, {
         "text" : ".",
         "type" : "SimpleText"
@@ -164,8 +163,8 @@ ReactDOM.render(React.createElement(Documentation, {
     }, {
       "style" : "api",
       "id" : "base-url",
-      "type" : "Section",
       "title" : "Base URL",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -182,11 +181,11 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "snippet" : "url = \"http://localhost:8080\"",
-            "type" : "Snippet",
-            "title" : "webtau.cfg.groovy",
             "lang" : "groovy",
-            "includeRegexp" : "localhost"
+            "snippet" : "url = \"http://localhost:8080\"",
+            "title" : "webtau.cfg.groovy",
+            "includeRegexp" : "localhost",
+            "type" : "Snippet"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -202,13 +201,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "When you use JUnit like runners, e.g. ",
               "type" : "SimpleText"
             }, {
+              "url" : "/webtau/getting-started/installation#junit5",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "JUnit5",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/getting-started/installation#junit5"
+              } ]
             }, {
               "text" : ", WebTau expects file named",
               "type" : "SimpleText"
@@ -222,11 +221,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           }, {
-            "snippet" : "url = http://localhost:8080",
-            "type" : "Snippet",
-            "title" : "src/test/resources/webtau.properties",
             "lang" : "properties",
-            "includeRegexp" : "localhost"
+            "snippet" : "url = http://localhost:8080",
+            "title" : "src/test/resources/webtau.properties",
+            "includeRegexp" : "localhost",
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -237,16 +236,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "",
         "snippet" : "export WEBTAU_URL=http://another-server\n",
-        "type" : "Snippet",
         "lineNumber" : "",
-        "lang" : ""
+        "type" : "Snippet"
       } ]
     }, {
       "style" : "api",
       "id" : "proxy",
-      "type" : "Section",
       "title" : "Proxy",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -275,25 +274,25 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "httpProxy = 'my_proxy_server_to_use.com:3873'",
-            "type" : "Snippet",
             "title" : "webtau.cfg.groovy",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "httpProxy = my_proxy_server_to_use.com:3873\n",
-            "type" : "Snippet",
-            "title" : "src/test/resources/webtau.properties",
             "lineNumber" : "",
-            "lang" : "java"
+            "title" : "src/test/resources/webtau.properties",
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Configuration",
@@ -303,10 +302,12 @@ ReactDOM.render(React.createElement(Documentation, {
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
         "title" : "Base URL",
-        "id" : "base-url"
+        "id" : "base-url",
+        "style" : "api"
       }, {
         "title" : "Proxy",
-        "id" : "proxy"
+        "id" : "proxy",
+        "style" : "api"
       } ]
     }
   }

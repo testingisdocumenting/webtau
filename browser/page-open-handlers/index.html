@@ -96,7 +96,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -122,8 +121,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "implicit-page-open-logic",
-      "type" : "Section",
       "title" : "Implicit Page Open Logic",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -138,8 +137,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "auto-login",
-      "type" : "Section",
       "title" : "Auto Login",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -153,15 +152,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "url = \"http://localhost:8180\"\n\ndef userNameKey = 'userName'\nbrowserPageNavigationHandler = { passedUrl, fullUrl, currentUrl ->\n    if (browser.localStorage.getItem(userNameKey)) {\n        return\n    }\n\n    browser.localStorage.setItem(userNameKey, 'LoggedIn User')\n    browser.reopen(fullUrl)\n}",
-        "type" : "Snippet",
         "title" : "webtau.cfg.groovy",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"page open handlers\") {\n    browser.open('/logged-in-user')\n    $('#welcome').should == 'Welcome LoggedIn User'\n}\n\nscenario(\"page open handlers during re-open\") {\n    browser.localStorage.clear()\n\n    browser.reopen('/logged-in-user')\n    $('#welcome').should == 'Welcome LoggedIn User'\n}",
-        "type" : "Snippet",
         "title" : "Handler will be called before first assertion",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -193,7 +192,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Page Open Handlers",

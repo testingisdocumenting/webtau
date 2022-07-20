@@ -106,7 +106,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -132,8 +131,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "fake-server-creation",
-      "type" : "Section",
       "title" : "Fake Server Creation",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -147,23 +146,23 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "def router = server.router() // router-example\n        .get(\"/hello/:name\") { request -> server.response([message: \"hello ${request.param(\"name\")}\"]) } // router-example\n        .get(\"/bye/:name\") { request -> server.response([message: \"bye ${request.param(\"name\")}\"]) } // router-example\n// router-example\ndef myServer = server.fake(\"my-rest-server\", router) // router-example",
-        "commentsType" : "remove",
-        "type" : "Snippet",
-        "title" : "fake server creation example",
         "lang" : "groovy",
-        "includeRegexp" : "router-example"
-      }, {
-        "snippet" : "http.get(\"${myServer.baseUrl}/hello/person\") {\n    message.should == \"hello person\"\n}\n\nhttp.get(\"${myServer.baseUrl}/bye/person\") {\n    message.should == \"bye person\"\n}",
-        "surroundedBy" : "fake-response-check",
-        "type" : "Snippet",
+        "snippet" : "def router = server.router() // router-example\n        .get(\"/hello/:name\") { request -> server.response([message: \"hello ${request.param(\"name\")}\"]) } // router-example\n        .get(\"/bye/:name\") { request -> server.response([message: \"bye ${request.param(\"name\")}\"]) } // router-example\n// router-example\ndef myServer = server.fake(\"my-rest-server\", router) // router-example",
         "title" : "fake server creation example",
-        "lang" : "groovy"
+        "includeRegexp" : "router-example",
+        "commentsType" : "remove",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "http.get(\"${myServer.baseUrl}/hello/person\") {\n    message.should == \"hello person\"\n}\n\nhttp.get(\"${myServer.baseUrl}/bye/person\") {\n    message.should == \"bye person\"\n}",
+        "title" : "fake server creation example",
+        "surroundedBy" : "fake-response-check",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "server-slowdown",
-      "type" : "Section",
       "title" : "Server Slowdown",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -177,16 +176,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "myServer.markUnresponsive()\n\ncode {\n    http.get(\"${myServer.baseUrl}/hello/person\") {\n        message.should == \"hello person\"\n    }\n} should throwException(~/Read timed out/)",
-        "surroundedBy" : "mark-unresponsive",
-        "type" : "Snippet",
         "title" : "mark as unresponsive",
-        "lang" : "groovy"
+        "surroundedBy" : "mark-unresponsive",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "server-break",
-      "type" : "Section",
       "title" : "Server Break",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -200,16 +199,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "myServer.markBroken()\n\nhttp.get(\"${myServer.baseUrl}/hello/person\") {\n    statusCode.should == 500\n    body.should == null\n}",
-        "surroundedBy" : "mark-broken",
-        "type" : "Snippet",
         "title" : "mark as broken",
-        "lang" : "groovy"
+        "surroundedBy" : "mark-broken",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "server-fix",
-      "type" : "Section",
       "title" : "Server Fix",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -223,14 +222,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "myServer.fix()\n\nhttp.get(\"${myServer.baseUrl}/hello/person\") {\n    message.should == \"hello person\"\n}",
-        "surroundedBy" : "mark-fix",
-        "type" : "Snippet",
         "title" : "fix server",
-        "lang" : "groovy"
+        "surroundedBy" : "mark-fix",
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071402,
+    "lastModifiedTime" : 1658346107246,
     "tocItem" : {
       "sectionTitle" : "Servers",
       "pageTitle" : "Fake Server",

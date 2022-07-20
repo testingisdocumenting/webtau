@@ -90,7 +90,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -139,20 +138,20 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "bulletMarker" : "*",
-      "type" : "BulletList",
       "tight" : true,
+      "type" : "BulletList",
       "content" : [ {
         "type" : "ListItem",
         "content" : [ {
           "type" : "Paragraph",
           "content" : [ {
+            "url" : "/webtau/database/data-setup",
             "isFile" : false,
             "type" : "Link",
             "content" : [ {
               "text" : "Data Setup",
               "type" : "SimpleText"
-            } ],
-            "url" : "/webtau/database/data-setup"
+            } ]
           } ]
         } ]
       }, {
@@ -160,37 +159,37 @@ ReactDOM.render(React.createElement(Documentation, {
         "content" : [ {
           "type" : "Paragraph",
           "content" : [ {
+            "url" : "/webtau/database/data-query",
             "isFile" : false,
             "type" : "Link",
             "content" : [ {
               "text" : "Data Query",
               "type" : "SimpleText"
-            } ],
-            "url" : "/webtau/database/data-query"
+            } ]
           } ]
         } ]
       } ]
     }, {
-      "endLine" : "2000 }",
+      "lang" : "groovy",
       "snippet" : "PRICES << [ \"id\" | \"description\" | \"price\"] {\n          ___________________________________\n           \"id1\" | \"nice set\"    | 1000\n           \"id2\" | \"another set\" | 2000 }",
       "entry" : "should insert table data into a table",
+      "title" : "example of data setup",
       "bodyOnly" : true,
       "startLine" : "PRICES <<",
-      "type" : "Snippet",
-      "title" : "example of data setup",
-      "lang" : "groovy"
+      "endLine" : "2000 }",
+      "type" : "Snippet"
     }, {
-      "endLine" : "query with where clause end",
+      "lang" : "groovy",
       "snippet" : "def prices = db.query(\"select * from PRICES where id=:id\", [id: \"id1\"])\nprices.should == [\"ID\" | \"DESCRIPTION\" | \"PRICE\"] {\n                 ___________________________________\n                 \"id1\" | \"nice set\"    | 1000     }",
       "entry" : "query table with select statement and param",
-      "excludeStartEnd" : true,
+      "title" : "validate parts of a table",
       "bodyOnly" : true,
       "startLine" : "query with where clause start",
-      "type" : "Snippet",
-      "title" : "validate parts of a table",
-      "lang" : "groovy"
+      "endLine" : "query with where clause end",
+      "excludeStartEnd" : true,
+      "type" : "Snippet"
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Database",
       "pageTitle" : "Introduction",

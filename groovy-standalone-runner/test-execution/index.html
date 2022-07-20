@@ -101,7 +101,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -127,8 +126,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "serial-execution",
-      "type" : "Section",
       "title" : "Serial execution",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -138,8 +137,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "parallel-execution",
-      "type" : "Section",
       "title" : "Parallel execution",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -225,8 +224,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "scenario-discovery",
-      "type" : "Section",
       "title" : "Scenario discovery",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -243,16 +242,16 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "CLI",
           "content" : [ {
+            "command" : "webtau scenarios/rest/simpleGet.groovy scnearios/rest/simplePost.groovy",
             "paramsToHighlight" : [ ],
-            "type" : "CliCommand",
-            "command" : "webtau scenarios/rest/simpleGet.groovy scnearios/rest/simplePost.groovy"
+            "type" : "CliCommand"
           } ]
         }, {
           "name" : "Maven",
           "content" : [ {
+            "lang" : "xml",
             "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>1.49</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/simpleGet.groovy</include>\n                <include>scenarios/simplePost.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
-            "type" : "Snippet",
-            "lang" : "xml"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -262,13 +261,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Wildcard matching is also supported.  In the CLI version this is normal shell ",
           "type" : "SimpleText"
         }, {
+          "url" : "https://en.wikipedia.org/wiki/Glob_(programming)",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "glob",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://en.wikipedia.org/wiki/Glob_(programming)"
+          } ]
         }, {
           "type" : "SoftLineBreak"
         }, {
@@ -279,16 +278,16 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "CLI",
           "content" : [ {
+            "command" : "webtau scenarios/rest/simple*.groovy",
             "paramsToHighlight" : [ ],
-            "type" : "CliCommand",
-            "command" : "webtau scenarios/rest/simple*.groovy"
+            "type" : "CliCommand"
           } ]
         }, {
           "name" : "Maven",
           "content" : [ {
+            "lang" : "xml",
             "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>1.49</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/simple*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
-            "type" : "Snippet",
-            "lang" : "xml"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -313,16 +312,16 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "CLI",
           "content" : [ {
+            "command" : "webtau scenarios/rest",
             "paramsToHighlight" : [ ],
-            "type" : "CliCommand",
-            "command" : "webtau scenarios/rest"
+            "type" : "CliCommand"
           } ]
         }, {
           "name" : "Maven",
           "content" : [ {
+            "lang" : "xml",
             "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>1.49</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n        </tests>\n    </configuration>\n</plugin>",
-            "type" : "Snippet",
-            "lang" : "xml"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -339,7 +338,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107242,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Test Execution",

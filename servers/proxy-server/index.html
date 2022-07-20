@@ -121,7 +121,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -147,8 +146,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "proxy-servers-creation",
-      "type" : "Section",
       "title" : "Proxy Servers Creation",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -162,16 +161,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def proxyServer = server.proxy(\"test-proxy-server\", targetServer.baseUrl)",
-        "surroundedBy" : "proxy-server-creation",
-        "type" : "Snippet",
         "title" : "proxy server creation example",
-        "lang" : "groovy"
+        "surroundedBy" : "proxy-server-creation",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "override-calls",
-      "type" : "Section",
       "title" : "Override Calls",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -185,11 +184,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def router = server.router(\"optional-router-id\")\nrouter.get(\"/another/{id}\", (request) -> server.response([anotherId: request.param(\"id\")]))\n\nproxyServer.addOverride(router)",
-        "surroundedBy" : "proxy-add-override",
-        "type" : "Snippet",
         "title" : "call override",
-        "lang" : "groovy"
+        "surroundedBy" : "proxy-add-override",
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -199,21 +198,21 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "preserve-original-call",
-      "type" : "Section",
       "title" : "Preserve Original Call",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Use ",
           "type" : "SimpleText"
         }, {
+          "url" : "/webtau/HTTP/introduction",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "HTTP Module",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/HTTP/introduction"
+          } ]
         }, {
           "text" : " to issue a call to a destination server with a possibility to change a request and",
           "type" : "SimpleText"
@@ -230,17 +229,17 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def router = server.router().post(\"/hello\", { request ->\n    def message = http.post(http.concatUrl(proxyServer.urlToProxy, request.uri),\n            http.header(request.header), request.contentAsMap) {\n        return body.message\n    }\n\n    // optional logic with original response\n\n    return server.statusCode(500)\n})\n\nproxyServer.addOverride(router)",
-        "excludeRegexp" : "capturedMessages",
-        "surroundedBy" : "override-with-original-call",
-        "type" : "Snippet",
         "title" : "original call and faked error response",
-        "lang" : "groovy"
+        "surroundedBy" : "override-with-original-call",
+        "excludeRegexp" : "capturedMessages",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "server-slowdown",
-      "type" : "Section",
       "title" : "Server Slowdown",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -254,22 +253,22 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "proxyServer.markUnresponsive()",
-        "surroundedBy" : "mark-unresponsive",
-        "type" : "Snippet",
         "title" : "mark as unresponsive",
-        "lang" : "groovy"
+        "surroundedBy" : "mark-unresponsive",
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "code {\n    http.get(\"${proxyServer.baseUrl}/another/hello\") {\n        body.should == [anotherId: \"hello\"]\n    }\n} should throwException(~/Read timed out/)",
-        "surroundedBy" : "unresponsive-time-out-throw",
-        "type" : "Snippet",
         "title" : "unresponsive timeout",
-        "lang" : "groovy"
+        "surroundedBy" : "unresponsive-time-out-throw",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "server-break",
-      "type" : "Section",
       "title" : "Server Break",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -283,22 +282,22 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "proxyServer.markBroken()",
-        "surroundedBy" : "mark-broken",
-        "type" : "Snippet",
         "title" : "mark as broken",
-        "lang" : "groovy"
+        "surroundedBy" : "mark-broken",
+        "type" : "Snippet"
       }, {
+        "lang" : "groovy",
         "snippet" : "http.get(\"${proxyServer.baseUrl}/hello.html\") {\n    statusCode.should == 500\n    body.should == null\n}",
-        "surroundedBy" : "mark-broken-response",
-        "type" : "Snippet",
         "title" : "broken server response",
-        "lang" : "groovy"
+        "surroundedBy" : "mark-broken-response",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "server-fix",
-      "type" : "Section",
       "title" : "Server Fix",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -312,16 +311,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "proxyServer.fix()",
-        "surroundedBy" : "mark-fix",
-        "type" : "Snippet",
         "title" : "fix server",
-        "lang" : "groovy"
+        "surroundedBy" : "mark-fix",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "max-threads",
-      "type" : "Section",
       "title" : "Max Threads",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -336,7 +335,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658328071402,
+    "lastModifiedTime" : 1658346107246,
     "tocItem" : {
       "sectionTitle" : "Servers",
       "pageTitle" : "Proxy Server",

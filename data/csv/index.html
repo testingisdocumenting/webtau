@@ -106,7 +106,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -132,8 +131,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "table-data",
-      "type" : "Section",
       "title" : "Table Data",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -159,9 +158,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "type" : "Table",
-        "title" : "data/table.csv",
         "table" : {
+          "columns" : [ {
+            "title" : "A"
+          }, {
+            "title" : "B"
+          }, {
+            "title" : "C"
+          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -198,21 +202,16 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "c",
               "type" : "SimpleText"
             } ]
-          } ] ] ],
-          "columns" : [ {
-            "title" : "A"
-          }, {
-            "title" : "B"
-          }, {
-            "title" : "C"
-          } ]
-        }
+          } ] ] ]
+        },
+        "title" : "data/table.csv",
+        "type" : "Table"
       }, {
+        "lang" : "groovy",
         "snippet" : "TableData table = data.csv.table(\"data/table.csv\")",
-        "surroundedBy" : "// read",
-        "type" : "Snippet",
         "title" : "read table data from csv",
-        "lang" : "groovy"
+        "surroundedBy" : "// read",
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -250,19 +249,24 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def table = data.csv.tableAutoConverted(\"data/table.csv\")\ntable.row(0).B.should == 2\ntable.row(0).B.class.canonicalName.should == \"java.lang.Long\"",
-        "type" : "Snippet",
         "title" : "read table data from csv with auto conversion",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "list-of-map",
-      "type" : "Section",
       "title" : "List Of Map",
+      "type" : "Section",
       "content" : [ {
-        "type" : "Table",
-        "title" : "data/table.csv",
         "table" : {
+          "columns" : [ {
+            "title" : "A"
+          }, {
+            "title" : "B"
+          }, {
+            "title" : "C"
+          } ],
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
@@ -299,15 +303,10 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "c",
               "type" : "SimpleText"
             } ]
-          } ] ] ],
-          "columns" : [ {
-            "title" : "A"
-          }, {
-            "title" : "B"
-          }, {
-            "title" : "C"
-          } ]
-        }
+          } ] ] ]
+        },
+        "title" : "data/table.csv",
+        "type" : "Table"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -339,10 +338,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def list = data.csv.listOfMaps(\"data/table.csv\")\nlist.get(0).B.should == \"2\"\nlist.get(0).B.class.canonicalName.should == \"java.lang.String\"",
-        "type" : "Snippet",
         "title" : "read list of maps from csv",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -386,20 +385,20 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def list = data.csv.listOfMapsAutoConverted(\"data/table.csv\")\nlist.get(0).B.should == 2\nlist.get(0).B.class.canonicalName.should == \"java.lang.Long\"",
-        "type" : "Snippet",
         "title" : "read list of maps from csv with auto conversion",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "specify-header",
-      "type" : "Section",
       "title" : "Specify Header",
+      "type" : "Section",
       "content" : [ {
+        "lang" : "csv",
         "snippet" : "1, 2, 3\na, b, c",
-        "type" : "Snippet",
         "title" : "data/table-no-header.csv",
-        "lang" : "csv"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -437,15 +436,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def list = data.csv.listOfMapsAutoConverted([\"C1\", \"C2\", \"C3\"],\"data/table-no-header.csv\")\nlist.get(0).C2.should == 2\nlist.get(0).C2.class.canonicalName.should == \"java.lang.Long\"",
-        "type" : "Snippet",
         "title" : "read list of maps from csv with auto conversion",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "csv-write",
-      "type" : "Section",
       "title" : "CSV Write",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -459,25 +458,25 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "def list = [\n    ['colA': 1, 'colB': 'R1'],\n    ['colA': 2, 'colB': 'R2']\n]",
         "surroundedBy" : "// list-data",
-        "type" : "Snippet",
         "title" : "data",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
-        "snippet" : "def path = data.csv.write('generated/from-list-maps.csv', list)",
-        "type" : "Snippet",
-        "title" : "write list of maps",
         "lang" : "groovy",
-        "includeRegexp" : "data.csv.write"
+        "snippet" : "def path = data.csv.write('generated/from-list-maps.csv', list)",
+        "includeRegexp" : "data.csv.write",
+        "title" : "write list of maps",
+        "type" : "Snippet"
       }, {
+        "lang" : "csv",
         "snippet" : "colA,colB\n1,R1\n2,R2",
-        "type" : "Snippet",
         "title" : "result",
-        "lang" : "csv"
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Data",
       "pageTitle" : "Csv",

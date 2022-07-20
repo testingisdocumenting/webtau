@@ -96,7 +96,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -122,8 +121,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "http-calls-separation",
-      "type" : "Section",
       "title" : "HTTP Calls Separation",
+      "type" : "Section",
       "content" : [ {
         "tabsContent" : [ {
           "name" : "Groovy",
@@ -151,17 +150,17 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           }, {
+            "lang" : "groovy",
             "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef customerPayload = [firstName: \"FN\", lastName: \"LN\"]\n\ndef customer = createLazyResource(\"customer\") { // lazy resource to be created on the first access\n    def id = http.post(\"/customers\", customerPayload) {\n        return id\n    }\n\n    return new Customer(id: id, url: \"/customers/${id}\") // definition is below\n}\n\nscenario(\"customer create\") {\n    customer.id.should != null // accessing resource for the first time will trigger POST (in this example)\n}\n\nscenario(\"customer read\") {\n    http.get(customer.url) { // convenient re-use of url defined above\n        body.should == customerPayload\n    }\n}\n\nscenario(\"customer update\") {\n    def changedLastName = \"NLN\"\n    http.put(customer.url, [*:customerPayload, lastName: changedLastName]) {\n        lastName.should == changedLastName\n    }\n\n    http.get(customer.url) {\n        lastName.should == changedLastName\n    }\n}\n\nscenario(\"customer delete\") {\n    http.delete(customer.url) {\n        statusCode.should == 204\n    }\n\n    http.get(customer.url) {\n        statusCode.should == 404\n    }\n}",
             "commentsType" : "inline",
-            "type" : "Snippet",
             "title" : "CRUD separated",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "package scenarios.rest.springboot\n\nclass Customer {\n    Number id\n    String url // store url of the created entity\n}",
             "commentsType" : "inline",
-            "type" : "Snippet",
             "title" : "Customer lazy resource",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -180,13 +179,13 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " in front). ",
               "type" : "SimpleText"
             }, {
+              "url" : "/webtau/groovy-standalone-runner/selective-run",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
                 "text" : "Read more",
                 "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/groovy-standalone-runner/selective-run"
+              } ]
             } ]
           } ]
         }, {
@@ -227,18 +226,18 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           }, {
+            "lang" : "java",
             "snippet" : "package com.example.tests.junit5;\n\nimport org.testingisdocumenting.webtau.http.request.HttpRequestBody;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\nimport org.junit.jupiter.api.*;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\n@TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order\n@DisplayName(\"customer CRUD\")\npublic class CustomerCrudSeparatedJavaTest {\n    private static final HttpRequestBody customerPayload = http.json(\n            \"firstName\", \"FN\",\n            \"lastName\", \"LN\");\n\n    private static final HttpRequestBody changedCustomerPayload = http.json(\n            \"firstName\", \"FN\",\n            \"lastName\", \"NLN\");\n\n    private static int id;\n\n    @BeforeAll\n    @DisplayName(\"create customer\") // optional friendly name for reporting purposes\n    public static void createCustomer() {\n        id = http.post(\"/customers\", customerPayload, ((header, body) -> {\n            return body.get(\"id\");\n        }));\n\n        actual(id).shouldNot(equal(0));\n    }\n\n    @Test\n    @Order(1)\n    @DisplayName(\"read customer\")\n    public void read() {\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(customerPayload));\n        }));\n    }\n\n    @Test\n    @Order(2) // order dependence saves from creating customer on every test\n    @DisplayName(\"update customer\")\n    public void update() {\n        http.put(\"/customers/\" + id, changedCustomerPayload, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n    }\n\n    @Test\n    @Order(3) // but you can still run each method independently\n    @DisplayName(\"delete customer\")\n    public void delete() {\n        http.delete(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode.should(equal(204));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode.should(equal(404));\n        }));\n\n        id = -1; // marking as deleted to let cleanup step know that no delete is required\n    }\n\n    @AfterAll\n    public static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean\n        if (id == -1) {\n            return;\n        }\n\n        http.delete(\"/customers/\" + id);\n    }\n}",
             "commentsType" : "inline",
-            "type" : "Snippet",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
       "id" : "report",
-      "type" : "Section",
       "title" : "Report",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -282,15 +281,15 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "fit" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-separated-http-calls.png",
+        "timestamp" : 1658346897648,
         "shapes" : [ ],
         "width" : 1310.0,
-        "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-separated-http-calls.png",
-        "type" : "AnnotatedImage",
         "height" : 802.0,
-        "timestamp" : 1658328867830
+        "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071382,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "CRUD Separated",

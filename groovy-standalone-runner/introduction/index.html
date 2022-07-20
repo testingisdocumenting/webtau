@@ -101,7 +101,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -127,8 +126,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "standalone-cli",
-      "type" : "Section",
       "title" : "Standalone CLI",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -159,65 +158,65 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "setup",
-      "type" : "Section",
       "title" : "Setup",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "If you have ",
           "type" : "SimpleText"
         }, {
+          "url" : "https://brew.sh",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "brew",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://brew.sh"
+          } ]
         }, {
           "text" : " installed in your system use",
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "",
         "snippet" : "brew install testingisdocumenting/brew/webtau\n",
-        "type" : "Snippet",
         "lineNumber" : "",
-        "lang" : ""
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "If you have ",
           "type" : "SimpleText"
         }, {
+          "url" : "https://sdkman.io",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "sdkman",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://sdkman.io"
+          } ]
         }, {
           "text" : " installed in your system use",
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "",
         "snippet" : "sdk install webtau\n",
-        "type" : "Snippet",
         "lineNumber" : "",
-        "lang" : ""
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Alternatively, download and unzip ",
           "type" : "SimpleText"
         }, {
+          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.49/webtau-dist-1.49-webtau.zip",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "WebTau",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.49/webtau-dist-1.49-webtau.zip"
+          } ]
         }, {
           "text" : ".",
           "type" : "SimpleText"
@@ -234,9 +233,9 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "command" : "webtau --example",
         "paramsToHighlight" : [ ],
-        "type" : "CliCommand",
-        "command" : "webtau --example"
+        "type" : "CliCommand"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -250,14 +249,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "command" : "cd examples/todo",
         "paramsToHighlight" : [ ],
-        "type" : "CliCommand",
-        "command" : "cd examples/todo"
+        "type" : "CliCommand"
       }, {
+        "lang" : "groovy",
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('fetch todo item') {\n    http.get('/todos/1') {\n        title.should == 'delectus aut autem'\n        completed.should == false\n    }\n}",
-        "type" : "Snippet",
         "title" : "todolist.groovy",
-        "lang" : "groovy"
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -265,14 +264,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "command" : "webtau todolist.groovy --url=https://jsonplaceholder.typicode.com",
         "paramsToHighlight" : [ "url" ],
-        "type" : "CliCommand",
-        "command" : "webtau todolist.groovy --url=https://jsonplaceholder.typicode.com"
+        "type" : "CliCommand"
       } ]
     }, {
       "id" : "repl",
-      "type" : "Section",
       "title" : "REPL",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -304,17 +303,17 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "Paragraph",
         "content" : [ {
+          "url" : "/webtau/REPL/experiments",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Learn more about REPL",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/REPL/experiments"
+          } ]
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107242,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Introduction",

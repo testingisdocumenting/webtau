@@ -96,7 +96,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -122,8 +121,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "match-any-provided-value",
-      "type" : "Section",
       "title" : "Match Any Provided Value",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -138,13 +137,13 @@ ReactDOM.render(React.createElement(Documentation, {
         }, {
           "type" : "SoftLineBreak"
         }, {
+          "url" : "/webtau/matchers/universal-compare",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Universal Compare",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/matchers/universal-compare"
+          } ]
         }, {
           "text" : " rule is applicable.",
           "type" : "SimpleText"
@@ -153,28 +152,28 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def dateAsText = \"2018-06-10\"\ndateAsText.should == anyOf(\"2018-06-11\", LocalDate.of(2018, 6, 10))",
             "entry" : "any of matcher example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "String dateAsText = \"2018-06-10\";\nactual(dateAsText).shouldBe(anyOf(\"2018-06-11\", LocalDate.of(2018, 6, 10)));",
             "entry" : "anyOfMatcherExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
       "id" : "mixing-values-and-matchers",
-      "type" : "Section",
       "title" : "Mixing Values And Matchers",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -188,28 +187,28 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def dateAsText = \"2018-06-10\"\ndateAsText.should == anyOf(\"2018-06-11\", greaterThan(LocalDate.of(2018, 1, 1)))\n\ndef message = \"hello world\"\nmessage.shouldNot == anyOf(\"hello\", contain(\"super\"))",
             "entry" : "any of matcher with other matcher example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "String dateAsText = \"2018-06-10\";\nactual(dateAsText).shouldBe(anyOf(\"2018-06-11\", greaterThan(LocalDate.of(2018, 1, 1))));\n\nString message = \"hello world\";\nactual(message).shouldNotBe(anyOf(\"hello\", contain(\"super\")));",
             "entry" : "anyOfMatcherWithOtherMatcherExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
       "id" : "static-import",
-      "type" : "Section",
       "title" : "Static Import",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -228,13 +227,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "java",
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
         "surroundedBy" : "import-dsl",
-        "type" : "Snippet",
-        "lang" : "java"
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071394,
+    "lastModifiedTime" : 1658346107242,
     "tocItem" : {
       "sectionTitle" : "Matchers",
       "pageTitle" : "Any Of",

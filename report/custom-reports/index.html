@@ -96,7 +96,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -122,8 +121,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "registration",
-      "type" : "Section",
       "title" : "Registration",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -137,11 +136,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "url = \"http://localhost:8080\"\n\nreportGenerator = Report.&generateReport",
-        "excludeRegexp" : "package",
-        "type" : "Snippet",
         "title" : "webtau.cfg.groovy",
-        "lang" : "groovy"
+        "excludeRegexp" : "package",
+        "type" : "Snippet"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -155,35 +154,35 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "package scenarios.rest.report\n\nimport org.testingisdocumenting.webtau.console.ConsoleOutputs\nimport org.testingisdocumenting.webtau.console.ansi.Color\nimport org.testingisdocumenting.webtau.reporter.WebTauReport\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.cfg\n\nclass Report {\n    static void generateReport(WebTauReport report) {\n        def reportPath = cfg.workingDir.resolve('report.txt')\n\n        ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath)\n        reportPath.toFile().text = report.tests.size()\n    }\n}",
-        "type" : "Snippet",
         "title" : "scenarios/rest/report/Report.groovy",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "graphql-example",
-      "type" : "Section",
       "title" : "GraphQL Example",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Head over to ",
           "type" : "SimpleText"
         }, {
+          "url" : "/webtau/GraphQL/report",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "GraphQL",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/GraphQL/report"
+          } ]
         }, {
           "text" : " to take a look at custom report to capture additional metrics",
           "type" : "SimpleText"
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658328071402,
+    "lastModifiedTime" : 1658346107246,
     "tocItem" : {
       "sectionTitle" : "Report",
       "pageTitle" : "Custom Reports",

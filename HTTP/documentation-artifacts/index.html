@@ -95,7 +95,7 @@
 
 <article>
 <header><h1>Documentation Pipeline</h1></header>
-<p>Documentation pipeline can look likeExample of using captured artifacts using https://github.com/testingisdocumenting/znai Znai markdown left: :include-json: doc-artifacts/employee-post/request.json { title: &quot;request payload&quot; } right: :include-json: doc-artifacts/employee-post/response.json { title: &quot;response payload&quot;, pathsFile: &quot;doc-artifacts/employee-post/paths.json&quot; }</p>
+<p>Documentation pipeline can look likeExample of using captured artifacts using https://github.com/testingisdocumenting/znai Znai markdown # Create Employee :include-open-api: openapi/api-spec.json {operationId: &quot;createEmployee&quot; } ```columns left: :include-json: doc-artifacts/employee-post/request.json { title: &quot;request payload&quot; } right: :include-json: doc-artifacts/employee-post/response.json { title: &quot;response payload&quot;, pathsFile: &quot;doc-artifacts/employee-post/paths.json&quot; } ```</p>
 </article>
 
 <article>
@@ -110,13 +110,12 @@
 
 <article>
 <header><h1>Test Artifacts</h1></header>
-<p>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /path?a=1&amp;b=text http://localhost:45057/path?a=1&amp;b=text</p>
+<p>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /path?a=1&amp;b=text http://localhost:39441/path?a=1&amp;b=text</p>
 </article>
 </section>
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -142,8 +141,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "happy-paths",
-      "type" : "Section",
       "title" : "Happy Paths",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -157,8 +156,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "type" : "BulletList",
         "tight" : true,
+        "type" : "BulletList",
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -190,8 +189,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "capturing-test-artifacts",
-      "type" : "Section",
       "title" : "Capturing Test Artifacts",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -208,20 +207,20 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "package scenarios.rest\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"extracting id after POST to use inside GET request\") {\n    def id = http.post(\"/employee\", [firstName: 'FN', lastName: 'LN']) {\n        id.shouldNot == \"\"\n        return id\n    }\n    http.doc.capture('employee-post') // capture previous HTTP call into <docDir>/employee-post\n\n    http.get(\"/employee/$id\") {\n        firstName.should == 'FN'\n        lastName.should == 'LN'\n    }\n    http.doc.capture('employee-get') // capture previous HTTP call into <docDir>/employee-get\n}",
-            "commentsType" : "inline",
-            "type" : "Snippet",
             "title" : "happy path",
-            "lang" : "groovy"
+            "commentsType" : "inline",
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.http.request.HttpRequestBody;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\npublic class CustomerDocCaptureTest {\n    @Test\n    public void extractIdAfterPostToUseInsideGetRequest() {\n        HttpRequestBody customerPayload = http.json(\n                \"firstName\", \"FN\",\n                \"lastName\", \"LN\");\n\n        int id = http.post(\"/customers\", customerPayload, ((header, body) -> {\n            body.get(\"id\").shouldNot(equal(\"\"));\n            return body.get(\"id\");\n        }));\n        http.doc.capture(\"employee-post\"); // capture previous HTTP call into <docDir>/employee-post\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.get(\"firstName\").should(equal(\"FN\"));\n            body.get(\"lastName\").should(equal(\"LN\"));\n        }));\n        http.doc.capture(\"employee-get\"); // capture previous HTTP call into <docDir>/employee-get\n    }\n}",
-            "commentsType" : "inline",
-            "type" : "Snippet",
             "title" : "happy path",
-            "lang" : "java"
+            "commentsType" : "inline",
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -240,8 +239,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "documentation-pipeline",
-      "type" : "Section",
       "title" : "Documentation Pipeline",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -257,116 +256,53 @@ ReactDOM.render(React.createElement(Documentation, {
           },
           "id" : "dag1"
         },
-        "urls" : { },
+        "idsToHighlight" : [ ],
         "wide" : false,
-        "type" : "GraphVizDiagram",
-        "idsToHighlight" : [ ]
+        "urls" : { },
+        "type" : "GraphVizDiagram"
       }, {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Example of using captured artifacts using ",
           "type" : "SimpleText"
         }, {
+          "url" : "https://github.com/testingisdocumenting/znai",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Znai",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://github.com/testingisdocumenting/znai"
+          } ]
         } ]
       }, {
-        "snippet" : "left: \n:include-json: doc-artifacts/employee-post/request.json { title: \"request payload\" }\n\nright: \n:include-json: doc-artifacts/employee-post/response.json { \n  title: \"response payload\", \n  pathsFile: \"doc-artifacts/employee-post/paths.json\" \n}\n",
-        "type" : "Snippet",
-        "title" : "znai example",
+        "lang" : "markdown",
+        "snippet" : "# Create Employee\n\n:include-open-api: openapi/api-spec.json {operationId: \"createEmployee\" }\n\n```columns\nleft: \n:include-json: doc-artifacts/employee-post/request.json { title: \"request payload\" }\n\nright: \n:include-json: doc-artifacts/employee-post/response.json { \n  title: \"response payload\", \n  pathsFile: \"doc-artifacts/employee-post/paths.json\" \n}\n```\n",
         "lineNumber" : "",
-        "lang" : "markdown"
+        "title" : "znai example",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "create-employee",
-      "type" : "Section",
       "title" : "Create Employee",
+      "type" : "Section",
       "content" : [ {
         "operationId" : "createEmployee",
-        "type" : "OpenApiOperation",
         "operation" : {
-          "summary" : "Create new employee",
-          "path" : "/employee",
-          "method" : "post",
-          "produces" : [ "application/json" ],
-          "description" : [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "Create a new employee, by sending details and get back the id of a newly created employee",
-              "type" : "SimpleText"
-            } ]
-          } ],
-          "responses" : [ {
-            "schema" : {
-              "type" : "object",
-              "properties" : {
-                "id" : {
-                  "description" : [ {
-                    "type" : "Paragraph",
-                    "content" : [ {
-                      "text" : "employee unique identifier",
-                      "type" : "SimpleText"
-                    } ]
-                  } ],
-                  "type" : "string"
-                }
-              },
-              "required" : [ "id" ]
-            },
-            "code" : "200",
-            "description" : [ {
-              "type" : "Paragraph",
-              "content" : [ {
-                "text" : "customer already exists",
-                "type" : "SimpleText"
-              } ]
-            } ]
-          }, {
-            "schema" : {
-              "type" : "object",
-              "properties" : {
-                "id" : {
-                  "description" : [ {
-                    "type" : "Paragraph",
-                    "content" : [ {
-                      "text" : "employee unique identifier",
-                      "type" : "SimpleText"
-                    } ]
-                  } ],
-                  "type" : "string"
-                }
-              },
-              "required" : [ "id" ]
-            },
-            "code" : "201",
-            "description" : [ {
-              "type" : "Paragraph",
-              "content" : [ {
-                "text" : "customer created successfully",
-                "type" : "SimpleText"
-              } ]
-            } ]
-          } ],
           "id" : "createEmployee",
+          "method" : "post",
+          "path" : "/employee",
+          "consumes" : [ "application/json" ],
+          "produces" : [ "application/json" ],
+          "summary" : "Create new employee",
           "parameters" : [ {
+            "name" : "body",
+            "in" : "body",
+            "type" : "null",
+            "required" : true,
             "schema" : {
               "type" : "object",
+              "required" : [ "firstName", "lastName" ],
               "properties" : {
-                "lastName" : {
-                  "description" : [ {
-                    "type" : "Paragraph",
-                    "content" : [ {
-                      "text" : "last name of an employee",
-                      "type" : "SimpleText"
-                    } ]
-                  } ],
-                  "type" : "string"
-                },
                 "firstName" : {
                   "description" : [ {
                     "type" : "Paragraph",
@@ -376,47 +312,110 @@ ReactDOM.render(React.createElement(Documentation, {
                     } ]
                   } ],
                   "type" : "string"
+                },
+                "lastName" : {
+                  "description" : [ {
+                    "type" : "Paragraph",
+                    "content" : [ {
+                      "text" : "last name of an employee",
+                      "type" : "SimpleText"
+                    } ]
+                  } ],
+                  "type" : "string"
                 }
-              },
-              "required" : [ "firstName", "lastName" ]
+              }
             },
-            "in" : "body",
-            "name" : "body",
-            "description" : [ ],
-            "type" : "null",
-            "required" : true
+            "description" : [ ]
           } ],
-          "consumes" : [ "application/json" ]
-        }
+          "responses" : [ {
+            "code" : "200",
+            "schema" : {
+              "type" : "object",
+              "required" : [ "id" ],
+              "properties" : {
+                "id" : {
+                  "description" : [ {
+                    "type" : "Paragraph",
+                    "content" : [ {
+                      "text" : "employee unique identifier",
+                      "type" : "SimpleText"
+                    } ]
+                  } ],
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : [ {
+              "type" : "Paragraph",
+              "content" : [ {
+                "text" : "customer already exists",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          }, {
+            "code" : "201",
+            "schema" : {
+              "type" : "object",
+              "required" : [ "id" ],
+              "properties" : {
+                "id" : {
+                  "description" : [ {
+                    "type" : "Paragraph",
+                    "content" : [ {
+                      "text" : "employee unique identifier",
+                      "type" : "SimpleText"
+                    } ]
+                  } ],
+                  "type" : "string"
+                }
+              }
+            },
+            "description" : [ {
+              "type" : "Paragraph",
+              "content" : [ {
+                "text" : "customer created successfully",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ],
+          "description" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Create a new employee, by sending details and get back the id of a newly created employee",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        },
+        "type" : "OpenApiOperation"
       }, {
         "columns" : [ {
           "content" : [ {
+            "title" : "request payload",
             "data" : {
-              "lastName" : "LN",
-              "firstName" : "FN"
+              "firstName" : "FN",
+              "lastName" : "LN"
             },
             "paths" : [ ],
-            "type" : "Json",
-            "title" : "request payload"
+            "type" : "Json"
           } ]
         }, {
           "content" : [ {
+            "title" : "response payload",
+            "pathsFile" : "doc-artifacts/employee-post/paths.json",
             "data" : {
               "id" : "id-generated-2"
             },
             "paths" : [ "root.id" ],
-            "pathsFile" : "doc-artifacts/employee-post/paths.json",
-            "type" : "Json",
-            "title" : "response payload"
+            "type" : "Json"
           } ]
         } ],
-        "type" : "Columns",
-        "config" : { }
+        "config" : { },
+        "type" : "Columns"
       } ]
     }, {
       "id" : "test-artifacts-location",
-      "type" : "Section",
       "title" : "Test Artifacts Location",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -441,16 +440,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "url = \"http://localhost:8180\"\n\ndocPath = \"doc-artifacts\"",
-        "excludeRegexp" : "package",
-        "type" : "Snippet",
         "title" : "webtau.cfg.groovy",
-        "lang" : "groovy"
+        "excludeRegexp" : "package",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "test-artifacts",
-      "type" : "Section",
       "title" : "Test Artifacts",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -458,10 +457,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "level" : 2,
         "id" : "test-artifacts-request-and-response-payloads",
-        "type" : "SubHeading",
-        "title" : "Request and response payloads"
+        "level" : 2,
+        "title" : "Request and response payloads",
+        "type" : "SubHeading"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -487,13 +486,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "title" : "employee-post/request.json",
         "data" : {
-          "lastName" : "LN",
-          "firstName" : "FN"
+          "firstName" : "FN",
+          "lastName" : "LN"
         },
         "paths" : [ ],
-        "type" : "Json",
-        "title" : "employee-post/request.json"
+        "type" : "Json"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -519,18 +518,18 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "title" : "employee-get/response.json",
         "data" : {
-          "lastName" : "LN",
-          "firstName" : "FN"
+          "firstName" : "FN",
+          "lastName" : "LN"
         },
         "paths" : [ ],
-        "type" : "Json",
-        "title" : "employee-get/response.json"
+        "type" : "Json"
       }, {
-        "level" : 2,
         "id" : "test-artifacts-request-and-response-headers",
-        "type" : "SubHeading",
-        "title" : "Request and response headers"
+        "level" : 2,
+        "title" : "Request and response headers",
+        "type" : "SubHeading"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -557,15 +556,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "title" : "redacted request.header.txt",
         "data" : "testheader: testValue\nauthorization: ................",
         "paths" : [ ],
-        "type" : "Json",
-        "title" : "redacted request.header.txt"
+        "type" : "Json"
       }, {
-        "level" : 2,
         "id" : "test-artifacts-response-body-assertions",
-        "type" : "SubHeading",
-        "title" : "Response body assertions"
+        "level" : 2,
+        "title" : "Response body assertions",
+        "type" : "SubHeading"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -584,15 +583,15 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "title" : "employee-get/paths.json",
         "data" : [ "root.firstName", "root.lastName" ],
         "paths" : [ ],
-        "type" : "Json",
-        "title" : "employee-get/paths.json"
+        "type" : "Json"
       }, {
-        "level" : 2,
         "id" : "test-artifacts-request-urls",
-        "type" : "SubHeading",
-        "title" : "Request URLs"
+        "level" : 2,
+        "title" : "Request URLs",
+        "type" : "SubHeading"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -601,8 +600,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "bulletMarker" : "*",
-        "type" : "BulletList",
         "tight" : true,
+        "type" : "BulletList",
         "content" : [ {
           "type" : "ListItem",
           "content" : [ {
@@ -629,18 +628,18 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         } ]
       }, {
+        "lang" : "txt",
         "snippet" : "/path?a=1&b=text",
-        "type" : "Snippet",
         "title" : "request.url.txt",
-        "lang" : "txt"
+        "type" : "Snippet"
       }, {
-        "snippet" : "http://localhost:45057/path?a=1&b=text",
-        "type" : "Snippet",
+        "lang" : "txt",
+        "snippet" : "http://localhost:39441/path?a=1&b=text",
         "title" : "request.fullurl.txt",
-        "lang" : "txt"
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Documentation Artifacts",

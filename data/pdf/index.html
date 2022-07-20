@@ -101,7 +101,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -127,8 +126,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "read-file-or-resource",
-      "type" : "Section",
       "title" : "Read File Or Resource",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -148,17 +147,17 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "groovy",
         "snippet" : "Pdf pdf = data.pdf.read(\"sample.pdf\")\npdf.pageText(0).should contain('Test text paragraph Test')",
+        "title" : "read and assert pdf",
         "entry" : "read pdf from resource",
         "bodyOnly" : true,
-        "type" : "Snippet",
-        "title" : "read and assert pdf",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "http-response",
-      "type" : "Section",
       "title" : "HTTP response",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -175,22 +174,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/report\") {\n    data.pdf.read(body).pageText(0).should contain(\"Quarterly earnings:\")\n}",
+            "title" : "HTTP pdf response assertion",
             "entry" : "download pdf and assert page text using contains",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "HTTP pdf response assertion",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.get(\"/report\", ((header, body) -> {\n    data.pdf.read(body).pageText(0).should(contain(\"Quarterly earnings:\"));\n}));",
+            "title" : "HTTP pdf response assertion",
             "entry" : "downloadPdfAndAssertPageTextUsingContains",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "HTTP pdf response assertion",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -200,29 +199,29 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Learn More about ",
           "type" : "SimpleText"
         }, {
+          "url" : "/webtau/HTTP/body#pdf-response",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "HTTP response",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/HTTP/body#pdf-response"
+          } ]
         } ]
       } ]
     }, {
       "id" : "read-bytes",
-      "type" : "Section",
       "title" : "Read Bytes",
+      "type" : "Section",
       "content" : [ {
+        "lang" : "groovy",
         "snippet" : "byte[] pdfContent = pdfBinaryContent()\nPdf pdf = data.pdf.read(pdfContent)\npdf.pageText(0).should contain('Test text paragraph Test')",
+        "title" : "read and assert pdf from bytes",
         "entry" : "read pdf from bytes",
         "bodyOnly" : true,
-        "type" : "Snippet",
-        "title" : "read and assert pdf from bytes",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Data",
       "pageTitle" : "Pdf",

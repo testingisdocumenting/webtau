@@ -126,7 +126,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -152,8 +151,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "json-request",
-      "type" : "Section",
       "title" : "JSON Request",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -202,22 +201,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.post(\"/chat\", [message: \"hello\", priority: \"HIGH\"]) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "implicit application/json",
             "entry" : "post body only syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "implicit application/json",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.post(\"/chat\", http.json(\"message\", \"hello\", \"priority\", \"high\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "implicit application/json",
             "entry" : "postBodyOnlySyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "implicit application/json",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -236,18 +235,18 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "json-request-from-file",
-      "type" : "Section",
       "title" : "JSON Request From File",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
+          "url" : "/webtau/data/json#read-list",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Data JSON",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/data/json#read-list"
+          } ]
         }, {
           "text" : " module has convenient methods to read JSON from resource/file as list/map/object",
           "type" : "SimpleText"
@@ -256,30 +255,30 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.post(\"/chat\", data.json.map(\"chat-message.json\")) {\n    status.should == \"SUCCESS\"\n}",
+            "title" : "implicit application/json",
             "entry" : "post body from file syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "implicit application/json",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.post(\"/chat\", data.json.map(\"chat-message.json\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "title" : "implicit application/json",
             "entry" : "postBodyFromFileSyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "implicit application/json",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
       "id" : "generic-request",
-      "type" : "Section",
       "title" : "Generic Request",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -296,30 +295,30 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def content = binaryFileContent(\"path\")\nhttp.post(\"/end-point\", http.body(\"application/octet-stream\", content)) {\n    // assertions go here\n}",
+            "title" : "combined type and payload",
             "entry" : "explicit binary mime types combined with request body",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "combined type and payload",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "byte[] content = binaryFileContent(\"path\");\nhttp.post(\"/end-point\", http.body(\"application/octet-stream\", content), (header, body) -> {\n    // assertions go here\n});",
+            "title" : "combined type and payload",
             "entry" : "explicitBinaryMimeTypesCombinedWithRequestBody",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "combined type and payload",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
       "id" : "content-type-shortcuts",
-      "type" : "Section",
       "title" : "Content-Type Shortcuts",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -330,64 +329,64 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.post(\"/end-point\", http.application.json(\n        \"key1\", \"value1\",\n        \"key2\", \"value2\")) {\n    // assertions go here\n}",
+            "title" : "json content as vararg",
             "entry" : "shortcut json mime types combined with request body",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "json content as vararg",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "http.post(\"/end-point\", http.application.json('{\"key1\": \"value1\", \"key2\": \"value2\"}')) {\n    // assertions go here\n}",
+            "title" : "json content as text",
             "entry" : "shortcut json text mime types combined with request body",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "json content as text",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "def content = binaryFileContent(\"path\")\nhttp.post(\"/end-point\", http.application.octetStream(content)) {\n    // assertions go here\n}",
+            "title" : "binary content shortuct",
             "entry" : "shortcut binary mime types combined with request body",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "binary content shortuct",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
+            "lang" : "groovy",
             "snippet" : "def content = \"text content\"\nhttp.post(\"/end-point\", http.text.plain(content)) {\n    // assertions go here\n}",
+            "title" : "text content shortcut",
             "entry" : "shortcut text mime types combined with request body",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "text content shortcut",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.post(\"/end-point\", http.application.json(\n        \"key1\", \"value1\",\n        \"key2\", \"value2\"), (header, body) -> {\n    // assertions go here\n});",
+            "title" : "json content as vararg",
             "entry" : "shortcutJsonMimeTypesCombinedWithRequestBody",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "json content as vararg",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "http.post(\"/end-point\", http.application.json(\"{\\\"key1\\\": \\\"value1\\\", \\\"key2\\\": \\\"value2\\\"}\"), (header, body) -> {\n    // assertions go here\n});",
+            "title" : "json content as text",
             "entry" : "shortcutJsonTextMimeTypesCombinedWithRequestBody",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "json content as text",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "byte[] content = binaryFileContent(\"path\");\nhttp.post(\"/end-point\", http.application.octetStream(content), (header, body) -> {\n    // assertions go here\n});",
+            "title" : "binary content shortuct",
             "entry" : "shortcutBinaryMimeTypesCombinedWithRequestBody",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "binary content shortuct",
-            "lang" : "java"
+            "type" : "Snippet"
           }, {
+            "lang" : "java",
             "snippet" : "String content = \"text content\";\nhttp.post(\"/end-point\", http.text.plain(content), (header, body) -> {\n    // assertions go here\n});",
+            "title" : "text content shortcut",
             "entry" : "shortcutTextMimeTypesCombinedWithRequestBody",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "text content shortcut",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -440,8 +439,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "form-file-data",
-      "type" : "Section",
       "title" : "Form File Data",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -492,22 +491,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def imagePath = testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath)) {\n    fileName.should == \"image.png\"\n}",
+            "title" : "file upload",
             "entry" : "file upload example simple",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "file upload",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "Path imagePath = testResourcePath(\"src/test/resources/image.png\");\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\"file\", imagePath)), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"image.png\"));\n});",
+            "title" : "file upload",
             "entry" : "fileUploadExampleSimple",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "file upload",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -527,22 +526,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def imagePath = testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: http.formFile(\"myFileName.png\", imagePath))) {\n    fileName.should == \"myFileName.png\"\n}",
+            "title" : "file name override",
             "entry" : "file upload example with file name override",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "file name override",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "Path imagePath = testResourcePath(\"src/test/resources/image.png\");\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\n        \"file\", http.formFile(\"myFileName.png\", imagePath))), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"myFileName.png\"));\n});",
+            "title" : "file upload",
             "entry" : "fileUploadExampleWithFileNameOverride",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "file upload",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -556,22 +555,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def imagePath = testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath, fileDescription: \"new report\")) {\n    fileName.should == \"image.png\"\n    description.should == \"new report\"\n}",
+            "title" : "multiple form fields",
             "entry" : "file upload example multiple fields",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "multiple form fields",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "Path imagePath = testResourcePath(\"src/test/resources/image.png\");\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\n        \"file\", imagePath,\n        \"fileDescription\", \"new report\")), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"image.png\"));\n    body.get(\"description\").should(equal(\"new report\"));\n});",
+            "title" : "file upload",
             "entry" : "fileUploadExampleMultipleFields",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "file upload",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -585,22 +584,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "byte[] fileContent = [1, 2, 3, 4] as byte[]\n\nhttp.post(\"/file-upload\", http.formData(file: fileContent)) {\n    fileName.should == \"backend-generated-name-as-no-name-provided\"\n}",
+            "title" : "file upload in-memory content",
             "entry" : "file upload example with in-memory content",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "file upload in-memory content",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "byte[] fileContent = new byte[] {1, 2, 3, 4};\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\"file\", fileContent)), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"backend-generated-name-as-no-name-provided\"));\n});",
+            "title" : "file upload in-memory content",
             "entry" : "fileUploadExampleWithInMemoryContent",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "file upload in-memory content",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -626,43 +625,43 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "byte[] fileContent = [1, 2, 3, 4] as byte[]\n\nhttp.post(\"/file-upload\", http.formData(\n        file: http.formFile(\"myFileName.dat\", fileContent))) {\n    fileName.should == \"myFileName.dat\"\n}",
+            "title" : "providing name",
             "entry" : "file upload example with in-memory content and file name",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "providing name",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "byte[] fileContent = new byte[] {1, 2, 3, 4};\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\n        \"file\", http.formFile(\"myFileName.dat\", fileContent))), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"myFileName.dat\"));\n});",
+            "title" : "file upload in-memory content",
             "entry" : "fileUploadExampleWithInMemoryContentAndFileName",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "file upload in-memory content",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
       "id" : "parsed-response",
-      "type" : "Section",
       "title" : "Parsed Response",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
           "text" : "Special ",
           "type" : "SimpleText"
         }, {
+          "url" : "/webtau/HTTP/data-node",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "Data Node",
             "type" : "SimpleText"
-          } ],
-          "url" : "/webtau/HTTP/data-node"
+          } ]
         }, {
           "text" : " ",
           "type" : "SimpleText"
@@ -677,12 +676,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/query\") {\n    body.price.should == 100\n}",
+            "title" : "use body for validation",
             "entry" : "get only validation with body syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "use body for validation",
-            "lang" : "groovy"
+            "type" : "Snippet"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -696,30 +695,30 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           }, {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/query\") {\n    price.should == 100\n}",
+            "title" : "optional body",
             "entry" : "get only validation syntax example",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "optional body",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.get(\"/query\", ((header, body) -> {\n    body.get(\"price\").should(equal(100));\n}));",
+            "title" : "use body for validation",
             "entry" : "getOnlyValidationSyntaxExample",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "use body for validation",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
       "id" : "pdf-response",
-      "type" : "Section",
       "title" : "PDF Response",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -736,22 +735,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/report\") {\n    data.pdf.read(body).pageText(0).should contain(\"Quarterly earnings:\")\n}",
+            "title" : "single PDF assertion",
             "entry" : "download pdf and assert page text using contains",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "single PDF assertion",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.get(\"/report\", ((header, body) -> {\n    data.pdf.read(body).pageText(0).should(contain(\"Quarterly earnings:\"));\n}));",
+            "title" : "single PDF assertion",
             "entry" : "downloadPdfAndAssertPageTextUsingContains",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "single PDF assertion",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -771,22 +770,22 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "http.get(\"/report\") {\n    def pdf = data.pdf.read(body)\n    pdf.pageText(0).should contain(\"Quarterly earnings:\")\n    pdf.pageText(1).should == \"Intentional blank page\\n\"\n}",
+            "title" : "multiple PDF assertions",
             "entry" : "download pdf and assert page text using equal and contains",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "multiple PDF assertions",
-            "lang" : "groovy"
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "http.get(\"/report\", ((header, body) -> {\n    Pdf pdf = data.pdf.read(body);\n    pdf.pageText(0).should(contain(\"Quarterly earnings:\"));\n    pdf.pageText(1).should(equal(\"Intentional blank page\\n\"));\n}));",
+            "title" : "multiple PDF assertions",
             "entry" : "downloadPdfAndAssertPageTextUsingEqualAndContains",
             "bodyOnly" : true,
-            "type" : "Snippet",
-            "title" : "multiple PDF assertions",
-            "lang" : "java"
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -799,8 +798,8 @@ ReactDOM.render(React.createElement(Documentation, {
       } ]
     }, {
       "id" : "raw-response",
-      "type" : "Section",
       "title" : "Raw Response",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -817,30 +816,30 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
+            "lang" : "groovy",
             "snippet" : "def rawContent = http.post(\"/chat\", [message: \"hello world\"]) {\n    return body.getTextContent()\n}",
-            "entry" : "access to raw text content",
-            "bodyOnly" : true,
-            "surroundedBy" : "doc-snippet",
-            "type" : "Snippet",
             "title" : "access to raw text content",
-            "lang" : "groovy"
+            "entry" : "access to raw text content",
+            "surroundedBy" : "doc-snippet",
+            "bodyOnly" : true,
+            "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "java",
             "snippet" : "String rawContent = http.post(\"/chat\", http.json(\"message\", \"hello world\"), (header, body) -> {\n    return body.getTextContent();\n});",
-            "entry" : "accessToRawTextContent",
-            "bodyOnly" : true,
-            "surroundedBy" : "doc-snippet",
-            "type" : "Snippet",
             "title" : "access to raw text content",
-            "lang" : "java"
+            "entry" : "accessToRawTextContent",
+            "surroundedBy" : "doc-snippet",
+            "bodyOnly" : true,
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071382,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Body",

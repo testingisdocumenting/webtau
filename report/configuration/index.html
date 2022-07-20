@@ -101,7 +101,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -127,8 +126,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "report-path",
-      "type" : "Section",
       "title" : "Report Path",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -150,26 +149,26 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "CLI",
           "content" : [ {
+            "command" : "webtau scenarios/*.groovy --reportPath my-report-name.html",
             "paramsToHighlight" : [ ],
-            "type" : "CliCommand",
-            "command" : "webtau scenarios/*.groovy --reportPath my-report-name.html"
+            "type" : "CliCommand"
           } ]
         }, {
           "name" : "Maven",
           "content" : [ {
+            "lang" : "xml",
             "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>1.49</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <reportPath>my-report-name.html</reportPath>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
-            "highlight" : [ 14 ],
             "excludeRegexp" : [ "failedReportPath", "reportName", "reportNameUrl" ],
-            "type" : "Snippet",
-            "lang" : "xml"
+            "highlight" : [ 14 ],
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
       "id" : "failed-report-path",
-      "type" : "Section",
       "title" : "Failed Report Path",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -191,18 +190,18 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "CLI",
           "content" : [ {
+            "command" : "webtau scenarios/*.groovy --failedReportPath my-failed-report-name.html",
             "paramsToHighlight" : [ ],
-            "type" : "CliCommand",
-            "command" : "webtau scenarios/*.groovy --failedReportPath my-failed-report-name.html"
+            "type" : "CliCommand"
           } ]
         }, {
           "name" : "Maven",
           "content" : [ {
+            "lang" : "xml",
             "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>1.49</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <failedReportPath>my-failed-report-name.html</failedReportPath>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
-            "highlight" : [ 14 ],
             "excludeRegexp" : [ "reportPath", "reportName", "reportNameUrl" ],
-            "type" : "Snippet",
-            "lang" : "xml"
+            "highlight" : [ 14 ],
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
@@ -213,16 +212,16 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "lang" : "yaml",
         "snippet" : "- name: Upload failed test reports\n  uses: actions/upload-artifact@v2\n  if: failure()\n  with:\n    name: failed suits \n    path: \"testing/src/test/groovy/*failed*.html\"\n    retention-days: 2\n",
-        "type" : "Snippet",
-        "title" : "GitHub actions upload only failed reports",
         "lineNumber" : "",
-        "lang" : "yaml"
+        "title" : "GitHub actions upload only failed reports",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "report-name-and-url",
-      "type" : "Section",
       "title" : "Report Name And URL",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -254,13 +253,13 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "By default, when you click a report name, browser opens ",
           "type" : "SimpleText"
         }, {
+          "url" : "https://github.com/testingisdocumenting/webtau",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
             "text" : "WebTau",
             "type" : "SimpleText"
-          } ],
-          "url" : "https://github.com/testingisdocumenting/webtau"
+          } ]
         }, {
           "text" : ".",
           "type" : "SimpleText"
@@ -286,39 +285,40 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "CLI",
           "content" : [ {
+            "command" : "webtau scenarios/*.groovy --reportName \"my service\" --reportNameUrl \"https://service-under-test\"",
             "paramsToHighlight" : [ ],
-            "type" : "CliCommand",
-            "command" : "webtau scenarios/*.groovy --reportName \"my service\" --reportNameUrl \"https://service-under-test\""
+            "type" : "CliCommand"
           } ]
         }, {
           "name" : "Maven",
           "content" : [ {
+            "lang" : "xml",
             "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>1.49</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <reportName>my service</reportName>\n        <reportNameUrl>https://service-under-test</reportNameUrl>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
-            "highlight" : [ 14, 15 ],
             "excludeRegexp" : [ "reportPath", "failedReportPath" ],
-            "type" : "Snippet",
-            "lang" : "xml"
+            "highlight" : [ 14, 15 ],
+            "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       }, {
         "fit" : true,
+        "annotate" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-name.png",
+        "timestamp" : 1658346903680,
         "shapes" : [ {
+          "type" : "badge",
+          "text" : "1",
           "x" : 41,
           "y" : 16,
-          "text" : "1",
           "align" : "Center",
-          "type" : "badge"
+          "invertedColors" : false
         } ],
         "width" : 1310.0,
-        "imageSrc" : "/webtau/doc-artifacts/reports/report-name.png",
-        "annotate" : true,
-        "type" : "AnnotatedImage",
         "height" : 802.0,
-        "timestamp" : 1658328873414
+        "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071402,
+    "lastModifiedTime" : 1658346107246,
     "tocItem" : {
       "sectionTitle" : "Report",
       "pageTitle" : "Configuration",

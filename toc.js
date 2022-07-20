@@ -267,22 +267,28 @@ toc = [ {
       "id" : "implicit-statuscode-check"
     }, {
       "title" : "GET",
-      "id" : "get"
+      "id" : "get",
+      "style" : "api"
     }, {
       "title" : "POST",
-      "id" : "post"
+      "id" : "post",
+      "style" : "api"
     }, {
       "title" : "PUT",
-      "id" : "put"
+      "id" : "put",
+      "style" : "api"
     }, {
       "title" : "DELETE",
-      "id" : "delete"
+      "id" : "delete",
+      "style" : "api"
     }, {
       "title" : "PATCH",
-      "id" : "patch"
+      "id" : "patch",
+      "style" : "api"
     }, {
       "title" : "PING",
-      "id" : "ping"
+      "id" : "ping",
+      "style" : "api"
     } ]
   }, {
     "sectionTitle" : "HTTP",
@@ -399,10 +405,12 @@ toc = [ {
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
       "title" : "Base URL",
-      "id" : "base-url"
+      "id" : "base-url",
+      "style" : "api"
     }, {
       "title" : "Proxy",
-      "id" : "proxy"
+      "id" : "proxy",
+      "style" : "api"
     } ]
   } ]
 }, {
@@ -1340,7 +1348,8 @@ toc = [ {
       "id" : "handler-vs-matcher"
     }, {
       "title" : "CompareToHandler",
-      "id" : "comparetohandler"
+      "id" : "comparetohandler",
+      "style" : "api"
     } ]
   } ]
 }, {

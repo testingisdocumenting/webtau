@@ -96,7 +96,6 @@
 </div>
 <script type="text/javascript" src="/webtau/footer.js"></script>
 <script type="text/javascript" src="/webtau/toc.js"></script>
-<script type="text/javascript" src="/webtau/global-anchors.js"></script>
 <script type="text/javascript" src="/webtau/documentation-references.js"></script>
 <script type="text/javascript" src="/webtau/assets.js"></script>
 <script type="text/javascript" src="/webtau/static/main.js"></script>
@@ -122,8 +121,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Page",
     "content" : [ {
       "id" : "read-list",
-      "type" : "Section",
       "title" : "Read List",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -149,32 +148,32 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "paths" : [ "root[0].name", "root[1].payload.info" ],
+        "title" : "data/flat-list.json",
         "data" : [ {
+          "id" : "id1",
+          "name" : "hello",
           "payload" : {
             "info" : "additional id1 payload"
-          },
-          "name" : "hello",
-          "id" : "id1"
+          }
         }, {
+          "id" : "id2",
+          "name" : "world",
           "payload" : {
             "info" : "additional id2 payload"
-          },
-          "name" : "world",
-          "id" : "id2"
+          }
         } ],
-        "paths" : [ "root[0].name", "root[1].payload.info" ],
-        "type" : "Json",
-        "title" : "data/flat-list.json"
+        "type" : "Json"
       }, {
+        "lang" : "groovy",
         "snippet" : "def list = data.json.list(\"data/flat-list.json\")\nlist[0].name.should == \"hello\"\nlist[1].payload.info.should == ~/id2 payload/",
-        "type" : "Snippet",
         "title" : "read json as list",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "read-map",
-      "type" : "Section",
       "title" : "Read Map",
+      "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
@@ -200,24 +199,24 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "paths" : [ "root.payload.info" ],
+        "title" : "data/root-map.json",
         "data" : {
+          "id" : "id1",
+          "name" : "hello",
           "payload" : {
             "info" : "additional id1 payload"
-          },
-          "name" : "hello",
-          "id" : "id1"
+          }
         },
-        "paths" : [ "root.payload.info" ],
-        "type" : "Json",
-        "title" : "data/root-map.json"
+        "type" : "Json"
       }, {
+        "lang" : "groovy",
         "snippet" : "def map = data.json.map(\"data/root-map.json\")\nmap.payload.info.should == \"additional id1 payload\"",
-        "type" : "Snippet",
         "title" : "read json as map",
-        "lang" : "groovy"
+        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658328071386,
+    "lastModifiedTime" : 1658346107238,
     "tocItem" : {
       "sectionTitle" : "Data",
       "pageTitle" : "Json",
