@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.DynamicTest.dynamicTest;
 public class CustomerCrudSeparatedTestFactoryIT {
     private static final HttpRequestBody customerPayload = http.json(
             "firstName", "FN",
-            "lastName", "LN" );
+            "lastName", "LN");
 
     private static final HttpRequestBody changedCustomerPayload = http.json(
             "firstName", "FN",
