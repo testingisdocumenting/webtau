@@ -23,12 +23,29 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileUtils {
     private FileUtils() {
+    }
+
+    /**
+     * delete dir with sub dirs and files, ignoring errors.
+     * Not using apache as we delete dirs on exit,
+     * and by the time maven exits (in case of maven plugin), apache io is unloaded already
+     * @param path dir to delete
+     */
+    public static void deleteFileOrDirQuietly(Path path) {
+        try (Stream<Path> walk = Files.walk(path)) {
+            walk.sorted(Comparator.reverseOrder())
+                    .forEach(FileUtils::deleteQuietly);
+        } catch (IOException e) {
+            // ignored
+        }
     }
 
     public static void createDirsForFile(Path path) {
@@ -82,6 +99,14 @@ public class FileUtils {
             return Files.readAllBytes(path);
         } catch (IOException e) {
             throw new UncheckedIOException(e);
+        }
+    }
+
+    private static void deleteQuietly(Path path) {
+        try {
+            Files.delete(path);
+        } catch (IOException e) {
+            // ignored
         }
     }
 
