@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Body</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>JSON Request</h1></header>
+<p>Methods http.post , http.put , http.delete automatically converts java.util.Map or java.util.List into application/json request Groovy http.post(&quot;/chat&quot;, [message: &quot;hello&quot;, priority: &quot;HIGH&quot;]) { status.should == &quot;SUCCESS&quot; } Java http.post(&quot;/chat&quot;, http.json(&quot;message&quot;, &quot;hello&quot;, &quot;priority&quot;, &quot;high&quot;), (header, body) -&gt; { body.get(&quot;status&quot;).should(equal(&quot;SUCCESS&quot;)); }); Note: For Java example uses a http.json shortcut but Map/List also works.</p>
+</article>
+
+<article>
+<header><h1>JSON Request From File</h1></header>
+<p>data/json#read-list Data JSON module has convenient methods to read JSON from resource/file as list/map/object Groovy http.post(&quot;/chat&quot;, data.json.map(&quot;chat-message.json&quot;)) { status.should == &quot;SUCCESS&quot; } Java http.post(&quot;/chat&quot;, data.json.map(&quot;chat-message.json&quot;), (header, body) -&gt; { body.get(&quot;status&quot;).should(equal(&quot;SUCCESS&quot;)); });</p>
+</article>
+
+<article>
+<header><h1>Generic Request</h1></header>
+<p>Use http.body to create generic body request. Groovy def content = binaryFileContent(&quot;path&quot;) http.post(&quot;/end-point&quot;, http.body(&quot;application/octet-stream&quot;, content)) { // assertions go here } Java byte[] content = binaryFileContent(&quot;path&quot;); http.post(&quot;/end-point&quot;, http.body(&quot;application/octet-stream&quot;, content), (header, body) -&gt; { // assertions go here });</p>
+</article>
+
+<article>
+<header><h1>Content-Type Shortcuts</h1></header>
+<p>WebTau provides shortcuts for Standard MIME types Groovy http.post(&quot;/end-point&quot;, http.application.json( &quot;key1&quot;, &quot;value1&quot;, &quot;key2&quot;, &quot;value2&quot;)) { // assertions go here } http.post(&quot;/end-point&quot;, http.application.json('{&quot;key1&quot;: &quot;value1&quot;, &quot;key2&quot;: &quot;value2&quot;}')) { // assertions go here } def content = binaryFileContent(&quot;path&quot;) http.post(&quot;/end-point&quot;, http.application.octetStream(content)) { // assertions go here } def content = &quot;text content&quot; http.post(&quot;/end-point&quot;, http.text.plain(content)) { // assertions go here } Java http.post(&quot;/end-point&quot;, http.application.json( &quot;key1&quot;, &quot;value1&quot;, &quot;key2&quot;, &quot;value2&quot;), (header, body) -&gt; { // assertions go here }); http.post(&quot;/end-point&quot;, http.application.json(&quot;{\&quot;key1\&quot;: \&quot;value1\&quot;, \&quot;key2\&quot;: \&quot;value2\&quot;}&quot;), (header, body) -&gt; { // assertions go here }); byte[] content = binaryFileContent(&quot;path&quot;); http.post(&quot;/end-point&quot;, http.application.octetStream(content), (header, body) -&gt; { // assertions go here }); String content = &quot;text content&quot;; http.post(&quot;/end-point&quot;, http.text.plain(content), (header, body) -&gt; { // assertions go here }); Note: is a long form of and is there for completeness purpose. There is no behavior difference between passing an instance of java.util.Map and http.json</p>
+</article>
+
+<article>
+<header><h1>Form File Data</h1></header>
+<p>Consider example where backend expects a file as multipart/form-data . Field file defines content. Backend responds with file name and file description it received.To send multipart/form-data , use http.formData to build a request body. Groovy def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: imagePath)) { fileName.should == &quot;image.png&quot; } Java Path imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;); http.post(&quot;/file-upload&quot;, http.formData(aMapOf(&quot;file&quot;, imagePath)), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;image.png&quot;)); }); Use http.formFile to override file name. Groovy def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: http.formFile(&quot;myFileName.png&quot;, imagePath))) { fileName.should == &quot;myFileName.png&quot; } Java Path imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;); http.post(&quot;/file-upload&quot;, http.formData(aMapOf( &quot;file&quot;, http.formFile(&quot;myFileName.png&quot;, imagePath))), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;myFileName.png&quot;)); }); Multiple form fields can be specified: Groovy def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: imagePath, fileDescription: &quot;new report&quot;)) { fileName.should == &quot;image.png&quot; description.should == &quot;new report&quot; } Java Path imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;); http.post(&quot;/file-upload&quot;, http.formData(aMapOf( &quot;file&quot;, imagePath, &quot;fileDescription&quot;, &quot;new report&quot;)), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;image.png&quot;)); body.get(&quot;description&quot;).should(equal(&quot;new report&quot;)); }); To pass a file content directly, use Groovy byte[] fileContent = [1, 2, 3, 4] as byte[] http.post(&quot;/file-upload&quot;, http.formData(file: fileContent)) { fileName.should == &quot;backend-generated-name-as-no-name-provided&quot; } Java byte[] fileContent = new byte[] {1, 2, 3, 4}; http.post(&quot;/file-upload&quot;, http.formData(aMapOf(&quot;file&quot;, fileContent)), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;backend-generated-name-as-no-name-provided&quot;)); }); Note: no file name is passed and this particular backend generated file name on your behalf.Use http.formFile to provide a file name Groovy byte[] fileContent = [1, 2, 3, 4] as byte[] http.post(&quot;/file-upload&quot;, http.formData( file: http.formFile(&quot;myFileName.dat&quot;, fileContent))) { fileName.should == &quot;myFileName.dat&quot; } Java byte[] fileContent = new byte[] {1, 2, 3, 4}; http.post(&quot;/file-upload&quot;, http.formData(aMapOf( &quot;file&quot;, http.formFile(&quot;myFileName.dat&quot;, fileContent))), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;myFileName.dat&quot;)); });</p>
+</article>
+
+<article>
+<header><h1>Parsed Response</h1></header>
+<p>Special HTTP/data-node Data Node body represents parsed response. Use it to validate response values. Groovy http.get(&quot;/query&quot;) { body.price.should == 100 } Note: For Groovy body is optional and when not specified, will be used implicitly http.get(&quot;/query&quot;) { price.should == 100 } Java http.get(&quot;/query&quot;, ((header, body) -&gt; { body.get(&quot;price&quot;).should(equal(100)); }));</p>
+</article>
+
+<article>
+<header><h1>PDF Response</h1></header>
+<p>Use data.pdf.parse(body) to parse and assert PDF content from binary response. Groovy http.get(&quot;/report&quot;) { data.pdf.read(body).pageText(0).should contain(&quot;Quarterly earnings:&quot;) } Java http.get(&quot;/report&quot;, ((header, body) -&gt; { data.pdf.read(body).pageText(0).should(contain(&quot;Quarterly earnings:&quot;)); })); Assign parse result to a local variable to make multiple assertions Groovy http.get(&quot;/report&quot;) { def pdf = data.pdf.read(body) pdf.pageText(0).should contain(&quot;Quarterly earnings:&quot;) pdf.pageText(1).should == &quot;Intentional blank page\n&quot; } Java http.get(&quot;/report&quot;, ((header, body) -&gt; { Pdf pdf = data.pdf.read(body); pdf.pageText(0).should(contain(&quot;Quarterly earnings:&quot;)); pdf.pageText(1).should(equal(&quot;Intentional blank page\n&quot;)); })); Note: Use pdf assertions for sanity checks, i.e. presence of a correct client name or an account number. Implement comprehensive PDF generation logic tests as unit tests.</p>
+</article>
+
+<article>
+<header><h1>Raw Response</h1></header>
+<p>Use to access original text content Groovy def rawContent = http.post(&quot;/chat&quot;, [message: &quot;hello world&quot;]) { return body.getTextContent() } Java String rawContent = http.post(&quot;/chat&quot;, http.json(&quot;message&quot;, &quot;hello world&quot;), (header, body) -&gt; { return body.getTextContent(); });</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "json-request",
+      "type" : "Section",
+      "title" : "JSON Request",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Methods ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.post",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.put",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.delete",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " automatically converts ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.Map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " or ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.List",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " into",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "code" : "application/json",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " request",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "http.post(\"/chat\", [message: \"hello\", priority: \"HIGH\"]) {\n    status.should == \"SUCCESS\"\n}",
+            "entry" : "post body only syntax example",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "implicit application/json",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "http.post(\"/chat\", http.json(\"message\", \"hello\", \"priority\", \"high\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "entry" : "postBodyOnlySyntaxExample",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "implicit application/json",
+            "lang" : "java"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Note: For Java example uses a ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "http.json",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " shortcut but Map/List also works.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "json-request-from-file",
+      "type" : "Section",
+      "title" : "JSON Request From File",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Data JSON",
+            "type" : "SimpleText"
+          } ],
+          "url" : "/webtau/data/json#read-list"
+        }, {
+          "text" : " module has convenient methods to read JSON from resource/file as list/map/object",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "http.post(\"/chat\", data.json.map(\"chat-message.json\")) {\n    status.should == \"SUCCESS\"\n}",
+            "entry" : "post body from file syntax example",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "implicit application/json",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "http.post(\"/chat\", data.json.map(\"chat-message.json\"), (header, body) -> {\n    body.get(\"status\").should(equal(\"SUCCESS\"));\n});",
+            "entry" : "postBodyFromFileSyntaxExample",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "implicit application/json",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "generic-request",
+      "type" : "Section",
+      "title" : "Generic Request",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.body",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to create generic body request.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "def content = binaryFileContent(\"path\")\nhttp.post(\"/end-point\", http.body(\"application/octet-stream\", content)) {\n    // assertions go here\n}",
+            "entry" : "explicit binary mime types combined with request body",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "combined type and payload",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "byte[] content = binaryFileContent(\"path\");\nhttp.post(\"/end-point\", http.body(\"application/octet-stream\", content), (header, body) -> {\n    // assertions go here\n});",
+            "entry" : "explicitBinaryMimeTypesCombinedWithRequestBody",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "combined type and payload",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "content-type-shortcuts",
+      "type" : "Section",
+      "title" : "Content-Type Shortcuts",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau provides shortcuts for Standard MIME types",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "http.post(\"/end-point\", http.application.json(\n        \"key1\", \"value1\",\n        \"key2\", \"value2\")) {\n    // assertions go here\n}",
+            "entry" : "shortcut json mime types combined with request body",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "json content as vararg",
+            "lang" : "groovy"
+          }, {
+            "snippet" : "http.post(\"/end-point\", http.application.json('{\"key1\": \"value1\", \"key2\": \"value2\"}')) {\n    // assertions go here\n}",
+            "entry" : "shortcut json text mime types combined with request body",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "json content as text",
+            "lang" : "groovy"
+          }, {
+            "snippet" : "def content = binaryFileContent(\"path\")\nhttp.post(\"/end-point\", http.application.octetStream(content)) {\n    // assertions go here\n}",
+            "entry" : "shortcut binary mime types combined with request body",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "binary content shortuct",
+            "lang" : "groovy"
+          }, {
+            "snippet" : "def content = \"text content\"\nhttp.post(\"/end-point\", http.text.plain(content)) {\n    // assertions go here\n}",
+            "entry" : "shortcut text mime types combined with request body",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "text content shortcut",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "http.post(\"/end-point\", http.application.json(\n        \"key1\", \"value1\",\n        \"key2\", \"value2\"), (header, body) -> {\n    // assertions go here\n});",
+            "entry" : "shortcutJsonMimeTypesCombinedWithRequestBody",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "json content as vararg",
+            "lang" : "java"
+          }, {
+            "snippet" : "http.post(\"/end-point\", http.application.json(\"{\\\"key1\\\": \\\"value1\\\", \\\"key2\\\": \\\"value2\\\"}\"), (header, body) -> {\n    // assertions go here\n});",
+            "entry" : "shortcutJsonTextMimeTypesCombinedWithRequestBody",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "json content as text",
+            "lang" : "java"
+          }, {
+            "snippet" : "byte[] content = binaryFileContent(\"path\");\nhttp.post(\"/end-point\", http.application.octetStream(content), (header, body) -> {\n    // assertions go here\n});",
+            "entry" : "shortcutBinaryMimeTypesCombinedWithRequestBody",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "binary content shortuct",
+            "lang" : "java"
+          }, {
+            "snippet" : "String content = \"text content\";\nhttp.post(\"/end-point\", http.text.plain(content), (header, body) -> {\n    // assertions go here\n});",
+            "entry" : "shortcutTextMimeTypesCombinedWithRequestBody",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "text content shortcut",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.application.json",
+          "type" : "InlinedCode"
+        }, {
+          "text" : "",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "is a long form of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.json",
+          "type" : "InlinedCode"
+        }, {
+          "text" : "",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "and is there for completeness purpose.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "type" : "HardLineBreak"
+        }, {
+          "type" : "HardLineBreak"
+        }, {
+          "text" : "There is no behavior difference between passing an instance of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.Map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.json",
+          "type" : "InlinedCode"
+        } ]
+      } ]
+    }, {
+      "id" : "form-file-data",
+      "type" : "Section",
+      "title" : "Form File Data",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Consider example where backend expects a file as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "multipart/form-data",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Field ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "file",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " defines content.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "HardLineBreak"
+        }, {
+          "text" : "Backend responds with file name and file description it received.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To send ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "multipart/form-data",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.formData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to build a request body.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "def imagePath = testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath)) {\n    fileName.should == \"image.png\"\n}",
+            "entry" : "file upload example simple",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "file upload",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "Path imagePath = testResourcePath(\"src/test/resources/image.png\");\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\"file\", imagePath)), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"image.png\"));\n});",
+            "entry" : "fileUploadExampleSimple",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "file upload",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.formFile",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to override file name.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "def imagePath = testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: http.formFile(\"myFileName.png\", imagePath))) {\n    fileName.should == \"myFileName.png\"\n}",
+            "entry" : "file upload example with file name override",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "file name override",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "Path imagePath = testResourcePath(\"src/test/resources/image.png\");\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\n        \"file\", http.formFile(\"myFileName.png\", imagePath))), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"myFileName.png\"));\n});",
+            "entry" : "fileUploadExampleWithFileNameOverride",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "file upload",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Multiple form fields can be specified:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "def imagePath = testResourcePath(\"src/test/resources/image.png\")\n\nhttp.post(\"/file-upload\", http.formData(file: imagePath, fileDescription: \"new report\")) {\n    fileName.should == \"image.png\"\n    description.should == \"new report\"\n}",
+            "entry" : "file upload example multiple fields",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "multiple form fields",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "Path imagePath = testResourcePath(\"src/test/resources/image.png\");\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\n        \"file\", imagePath,\n        \"fileDescription\", \"new report\")), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"image.png\"));\n    body.get(\"description\").should(equal(\"new report\"));\n});",
+            "entry" : "fileUploadExampleMultipleFields",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "file upload",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To pass a file content directly, use",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "byte[] fileContent = [1, 2, 3, 4] as byte[]\n\nhttp.post(\"/file-upload\", http.formData(file: fileContent)) {\n    fileName.should == \"backend-generated-name-as-no-name-provided\"\n}",
+            "entry" : "file upload example with in-memory content",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "file upload in-memory content",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "byte[] fileContent = new byte[] {1, 2, 3, 4};\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\"file\", fileContent)), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"backend-generated-name-as-no-name-provided\"));\n});",
+            "entry" : "fileUploadExampleWithInMemoryContent",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "file upload in-memory content",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: no file name is passed and this particular backend generated file name on your behalf.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.formFile",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to provide a file name",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "byte[] fileContent = [1, 2, 3, 4] as byte[]\n\nhttp.post(\"/file-upload\", http.formData(\n        file: http.formFile(\"myFileName.dat\", fileContent))) {\n    fileName.should == \"myFileName.dat\"\n}",
+            "entry" : "file upload example with in-memory content and file name",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "providing name",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "byte[] fileContent = new byte[] {1, 2, 3, 4};\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\n        \"file\", http.formFile(\"myFileName.dat\", fileContent))), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"myFileName.dat\"));\n});",
+            "entry" : "fileUploadExampleWithInMemoryContentAndFileName",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "file upload in-memory content",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "parsed-response",
+      "type" : "Section",
+      "title" : "Parsed Response",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Special ",
+          "type" : "SimpleText"
+        }, {
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Data Node",
+            "type" : "SimpleText"
+          } ],
+          "url" : "/webtau/HTTP/data-node"
+        }, {
+          "text" : " ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "body",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " represents parsed response. Use it to validate response values.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "http.get(\"/query\") {\n    body.price.should == 100\n}",
+            "entry" : "get only validation with body syntax example",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "use body for validation",
+            "lang" : "groovy"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Note: For Groovy ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "body",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " is optional and when not specified, will be used implicitly",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "snippet" : "http.get(\"/query\") {\n    price.should == 100\n}",
+            "entry" : "get only validation syntax example",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "optional body",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "http.get(\"/query\", ((header, body) -> {\n    body.get(\"price\").should(equal(100));\n}));",
+            "entry" : "getOnlyValidationSyntaxExample",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "use body for validation",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "pdf-response",
+      "type" : "Section",
+      "title" : "PDF Response",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.pdf.parse(body)",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to parse and assert PDF content from binary response.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "http.get(\"/report\") {\n    data.pdf.read(body).pageText(0).should contain(\"Quarterly earnings:\")\n}",
+            "entry" : "download pdf and assert page text using contains",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "single PDF assertion",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "http.get(\"/report\", ((header, body) -> {\n    data.pdf.read(body).pageText(0).should(contain(\"Quarterly earnings:\"));\n}));",
+            "entry" : "downloadPdfAndAssertPageTextUsingContains",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "single PDF assertion",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Assign ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "parse",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " result to a local variable to make multiple assertions",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "http.get(\"/report\") {\n    def pdf = data.pdf.read(body)\n    pdf.pageText(0).should contain(\"Quarterly earnings:\")\n    pdf.pageText(1).should == \"Intentional blank page\\n\"\n}",
+            "entry" : "download pdf and assert page text using equal and contains",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "multiple PDF assertions",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "http.get(\"/report\", ((header, body) -> {\n    Pdf pdf = data.pdf.read(body);\n    pdf.pageText(0).should(contain(\"Quarterly earnings:\"));\n    pdf.pageText(1).should(equal(\"Intentional blank page\\n\"));\n}));",
+            "entry" : "downloadPdfAndAssertPageTextUsingEqualAndContains",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "multiple PDF assertions",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: Use pdf assertions for sanity checks, i.e. presence of a correct client name or an account number. Implement comprehensive PDF generation logic tests as unit tests.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "raw-response",
+      "type" : "Section",
+      "title" : "Raw Response",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "body.getTextContent()",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to access original text content",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "def rawContent = http.post(\"/chat\", [message: \"hello world\"]) {\n    return body.getTextContent()\n}",
+            "entry" : "access to raw text content",
+            "bodyOnly" : true,
+            "surroundedBy" : "doc-snippet",
+            "type" : "Snippet",
+            "title" : "access to raw text content",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "String rawContent = http.post(\"/chat\", http.json(\"message\", \"hello world\"), (header, body) -> {\n    return body.getTextContent();\n});",
+            "entry" : "accessToRawTextContent",
+            "bodyOnly" : true,
+            "surroundedBy" : "doc-snippet",
+            "type" : "Snippet",
+            "title" : "access to raw text content",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    } ],
+    "lastModifiedTime" : 1658328071382,
+    "tocItem" : {
+      "sectionTitle" : "HTTP",
+      "pageTitle" : "Body",
+      "pageMeta" : { },
+      "dirName" : "HTTP",
+      "fileName" : "body",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "JSON Request",
+        "id" : "json-request"
+      }, {
+        "title" : "JSON Request From File",
+        "id" : "json-request-from-file"
+      }, {
+        "title" : "Generic Request",
+        "id" : "generic-request"
+      }, {
+        "title" : "Content-Type Shortcuts",
+        "id" : "content-type-shortcuts"
+      }, {
+        "title" : "Form File Data",
+        "id" : "form-file-data"
+      }, {
+        "title" : "Parsed Response",
+        "id" : "parsed-response"
+      }, {
+        "title" : "PDF Response",
+        "id" : "pdf-response"
+      }, {
+        "title" : "Raw Response",
+        "id" : "raw-response"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

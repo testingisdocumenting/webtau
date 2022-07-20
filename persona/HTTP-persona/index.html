@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Authorization</h1></header>
-<p>In HTTP/headers#implicit-header http headers section we defined how to use an implicit header provider to enable authentication/authorization package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = &quot;http://localhost:8080&quot; httpHeaderProvider = Auth.&amp;authHeader package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateToken() return original.merge([Authorization: &quot;Bearer $token&quot;]) } private static String generateToken() { return &quot;jwt-token&quot; } }</p>
+<p>In HTTP/header#implicit-header http headers section we defined how to use an implicit header provider to enable authentication/authorization package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = &quot;http://localhost:8080&quot; httpHeaderProvider = Auth.&amp;authHeader package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateToken() return original.with([Authorization: &quot;Bearer $token&quot;]) } private static String generateToken() { return &quot;jwt-token&quot; } }</p>
 </article>
 
 <article>
 <header><h1>Persona Authorization</h1></header>
-<p>Let's define authorization based on persona context. persona/introduction#context-definition Previously we defined two personas package personas import static org.testingisdocumenting.webtau.WebTauCore.persona class Personas { public static def Alice = persona(&quot;Alice&quot;, [authId: &quot;alice-user-id&quot;]) public static def Bob = persona(&quot;Bob&quot;, [authId: &quot;bob-user-id&quot;]) } Authorization test using persona concept looks like this package scenarios.rest.headers import static personas.Personas.* import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;my bank balance&quot;) { Alice { http.get(&quot;/statement&quot;) { balance.shouldBe &gt; 100 } } Bob { http.get(&quot;/statement&quot;) { balance.shouldBe &lt; 50 } } } To make this example work, let's update implicit header provider above to take into account persona context package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader import static org.testingisdocumenting.webtau.WebTauDsl.* class PersonaAuth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateTokenBasedOnPersona() return original.merge([Authorization: &quot;Bearer $token&quot;]) } static String generateTokenBasedOnPersona() { if (currentPersona.isDefault()) { // check if we are inside persona context or outside return generateDefaultToken() } return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token } static String generateTokenForSystemUserId(String systemUserId) { return &quot;dummy:$systemUserId&quot; // this is where you generate specific user auth token } static String generateDefaultToken() { return &quot;dummy:default-user&quot; // this is where you generate default user auth token } }</p>
+<p>Let's define authorization based on persona context. persona/introduction#context-definition Previously we defined two personas package personas import static org.testingisdocumenting.webtau.WebTauCore.persona class Personas { public static def Alice = persona(&quot;Alice&quot;, [authId: &quot;alice-user-id&quot;]) public static def Bob = persona(&quot;Bob&quot;, [authId: &quot;bob-user-id&quot;]) } Authorization test using persona concept looks like this package scenarios.rest.headers import static personas.Personas.* import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;my bank balance&quot;) { Alice { http.get(&quot;/statement&quot;) { balance.shouldBe &gt; 100 } } Bob { http.get(&quot;/statement&quot;) { balance.shouldBe &lt; 50 } } } To make this example work, let's update implicit header provider above to take into account persona context package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader import static org.testingisdocumenting.webtau.WebTauDsl.* class PersonaAuth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateTokenBasedOnPersona() return original.with([Authorization: &quot;Bearer $token&quot;]) } static String generateTokenBasedOnPersona() { if (currentPersona.isDefault()) { // check if we are inside persona context or outside return generateDefaultToken() } return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token } static String generateTokenForSystemUserId(String systemUserId) { return &quot;dummy:$systemUserId&quot; // this is where you generate specific user auth token } static String generateDefaultToken() { return &quot;dummy:default-user&quot; // this is where you generate default user auth token } }</p>
 </article>
 </section>
 </div>
@@ -108,13 +108,15 @@ ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
       "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
-      "title" : "View On GitHub"
+      "title" : "View Markdown"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
     "previewEnabled" : false,
-    "allowedGroups" : [ "admin" ]
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
   },
   "page" : {
     "type" : "Page",
@@ -134,7 +136,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "text" : "http headers",
             "type" : "SimpleText"
           } ],
-          "url" : "/webtau/HTTP/headers#implicit-header"
+          "url" : "/webtau/HTTP/header#implicit-header"
         }, {
           "text" : " section we defined how to use",
           "type" : "SimpleText"
@@ -150,7 +152,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "webtau.cfg.groovy",
         "lang" : "groovy"
       }, {
-        "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\n\nclass Auth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateToken()\n        return original.merge([Authorization: \"Bearer $token\"])\n    }\n\n    private static String generateToken() {\n        return \"jwt-token\"\n    }\n}",
+        "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\n\nclass Auth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateToken()\n        return original.with([Authorization: \"Bearer $token\"])\n    }\n\n    private static String generateToken() {\n        return \"jwt-token\"\n    }\n}",
         "type" : "Snippet",
         "title" : "scenarios/rest/headers/auth/Auth.groovy",
         "lang" : "groovy"
@@ -201,14 +203,14 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass PersonaAuth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateTokenBasedOnPersona()\n        return original.merge([Authorization: \"Bearer $token\"])\n    }\n\n    static String generateTokenBasedOnPersona() {\n        if (currentPersona.isDefault()) { // check if we are inside persona context or outside\n            return generateDefaultToken()\n        }\n\n        return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token\n    }\n\n    static String generateTokenForSystemUserId(String systemUserId) {\n        return \"dummy:$systemUserId\" // this is where you generate specific user auth token\n    }\n\n    static String generateDefaultToken() {\n        return \"dummy:default-user\" // this is where you generate default user auth token\n    }\n}",
+        "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass PersonaAuth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateTokenBasedOnPersona()\n        return original.with([Authorization: \"Bearer $token\"])\n    }\n\n    static String generateTokenBasedOnPersona() {\n        if (currentPersona.isDefault()) { // check if we are inside persona context or outside\n            return generateDefaultToken()\n        }\n\n        return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token\n    }\n\n    static String generateTokenForSystemUserId(String systemUserId) {\n        return \"dummy:$systemUserId\" // this is where you generate specific user auth token\n    }\n\n    static String generateDefaultToken() {\n        return \"dummy:default-user\" // this is where you generate default user auth token\n    }\n}",
         "commentsType" : "inline",
         "type" : "Snippet",
         "title" : "scenarios/rest/headers/auth/PersonaAuth.groovy",
         "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1653578199526,
+    "lastModifiedTime" : 1658328071394,
     "tocItem" : {
       "sectionTitle" : "Persona",
       "pageTitle" : "HTTP Persona",

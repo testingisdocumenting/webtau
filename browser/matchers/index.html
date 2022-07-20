@@ -95,7 +95,7 @@
 
 <article>
 <header><h1>State</h1></header>
-<p>def button = $(&quot;#action&quot;) button.should beDisabled() button.shouldNot beEnabled() def feedback = $(&quot;#feedback&quot;) feedback.should beHidden() feedback.shouldNot beVisible() &lt;div&gt; &lt;button id=&quot;action&quot; disabled&gt;Click me&lt;/button&gt; &lt;div id=&quot;feedback&quot; style=&quot;display: none;&quot;&gt;&lt;/div&gt; &lt;/div&gt;</p>
+<p>def button = $(&quot;#action&quot;) button.shouldBe disabled button.shouldNotBe enabled def feedback = $(&quot;#feedback&quot;) feedback.shouldBe hidden feedback.shouldNotBe visible &lt;div&gt; &lt;button id=&quot;action&quot; disabled&gt;Click me&lt;/button&gt; &lt;div id=&quot;feedback&quot; style=&quot;display: none;&quot;&gt;&lt;/div&gt; &lt;/div&gt;</p>
 </article>
 </section>
 </div>
@@ -113,13 +113,15 @@ ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
       "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
-      "title" : "View On GitHub"
+      "title" : "View Markdown"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
     "previewEnabled" : false,
-    "allowedGroups" : [ "admin" ]
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
   },
   "page" : {
     "type" : "Page",
@@ -316,12 +318,12 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "Section",
       "title" : "State",
       "content" : [ {
-        "snippet" : "def button = $(\"#action\")\nbutton.should beDisabled()\nbutton.shouldNot beEnabled()",
+        "snippet" : "def button = $(\"#action\")\nbutton.shouldBe disabled\nbutton.shouldNotBe enabled",
         "type" : "Snippet",
         "title" : "enabled/disabled",
         "lang" : "groovy"
       }, {
-        "snippet" : "def feedback = $(\"#feedback\")\nfeedback.should beHidden()\nfeedback.shouldNot beVisible()",
+        "snippet" : "def feedback = $(\"#feedback\")\nfeedback.shouldBe hidden\nfeedback.shouldNotBe visible",
         "type" : "Snippet",
         "title" : "visible/hidden",
         "lang" : "groovy"
@@ -334,7 +336,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "html"
       } ]
     } ],
-    "lastModifiedTime" : 1653578199522,
+    "lastModifiedTime" : 1658328071386,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Matchers",

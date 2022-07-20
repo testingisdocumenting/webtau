@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Introduction</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>WebTau data module streamline access to test data.Data access generates report/steps Report Steps to help with tests investigation. data/json json - access JSON test data data/csv csv - access CSV test data data/pdf pdf - access PDF data to validate TableData table = data.csv.table(&quot;data/table.csv&quot;) &gt; reading csv from file or resource data/table.csv . read 2 lines of csv from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv (0ms)</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "WebTau ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "data",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " module streamline access to test data.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Data access generates ",
+        "type" : "SimpleText"
+      }, {
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Report Steps",
+          "type" : "SimpleText"
+        } ],
+        "url" : "/webtau/report/steps"
+      }, {
+        "text" : " to help with tests investigation.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "bulletMarker" : "*",
+      "type" : "BulletList",
+      "tight" : true,
+      "content" : [ {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "text" : "json",
+              "type" : "SimpleText"
+            } ],
+            "url" : "/webtau/data/json"
+          }, {
+            "text" : " - access JSON test data",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "text" : "csv",
+              "type" : "SimpleText"
+            } ],
+            "url" : "/webtau/data/csv"
+          }, {
+            "text" : " - access CSV test data",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "text" : "pdf",
+              "type" : "SimpleText"
+            } ],
+            "url" : "/webtau/data/pdf"
+          }, {
+            "text" : " - access PDF data to validate",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ]
+    }, {
+      "snippet" : "TableData table = data.csv.table(\"data/table.csv\")",
+      "surroundedBy" : "// read",
+      "type" : "Snippet",
+      "title" : "read table data from csv",
+      "lang" : "groovy"
+    }, {
+      "type" : "CliOutput",
+      "lines" : [ "\u001B[33m> \u001B[34mreading \u001B[36mcsv \u001B[33mfrom \u001B[36mfile or resource \u001B[35mdata/table.csv\u001B[0m", "\u001B[32m. \u001B[34mread \u001B[34m2 \u001B[36mlines of csv \u001B[33mfrom \u001B[36mfile \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+      "title" : "console output"
+    } ],
+    "lastModifiedTime" : 1658328071386,
+    "tocItem" : {
+      "sectionTitle" : "Data",
+      "pageTitle" : "Introduction",
+      "pageMeta" : { },
+      "dirName" : "data",
+      "fileName" : "introduction",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

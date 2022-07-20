@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Access Local Storage</h1></header>
-<p>To access local storage use browser.localStorage .Lets consider a simple web page that displays a value from a local storage. &lt;div id=&quot;favorite-color&quot;&gt; &lt;/div&gt; &lt;script&gt; const element = document.getElementById('favorite-color'); element.innerHTML = localStorage.getItem('favoriteColor'); &lt;/script&gt; package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;local storage api&quot;) { browser.open('/local-storage') browser.localStorage.setItem('favoriteColor', 'clean') def color = $('#favorite-color') browser.reopen('/local-storage') color.should == 'clean' browser.localStorage.clear() browser.reopen('/local-storage') color.should == '' } /* * Copyright 2020 webtau maintainers * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC * * Licensed under the Apache License, Version 2.0 (the &quot;License&quot;); * you may not use this file except in compliance with the License. * You may obtain a copy of the License at * * http://www.apache.org/licenses/LICENSE-2.0 * * Unless required by applicable law or agreed to in writing, software * distributed under the License is distributed on an &quot;AS IS&quot; BASIS, * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. * See the License for the specific language governing permissions and * limitations under the License. */ package org.testingisdocumenting.webtau.browser; import org.openqa.selenium.WebDriver; import org.openqa.selenium.html5.WebStorage; import org.testingisdocumenting.webtau.reporter.WebTauStep; import java.util.Set; import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*; import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage; public class BrowserLocalStorage { private final WebDriver driver; BrowserLocalStorage(WebDriver driver) { this.driver = driver; } public String getItem(String key) { return getLocalStorage().getItem(key); } public Set&lt;String&gt; keySet() { return getLocalStorage().keySet(); } public void setItem(String key, String value) { WebTauStep.createAndExecuteStep( tokenizedMessage(action(&quot;setting browser localStorage item&quot;), id(key), TO, stringValue(value)), () -&gt; tokenizedMessage(action(&quot;set browser localStorage item&quot;), id(key), TO, stringValue(value)), () -&gt; getLocalStorage().setItem(key, value)); } public void removeItem(String key) { WebTauStep.createAndExecuteStep( tokenizedMessage(action(&quot;removing browser localStorage item&quot;), id(key)), () -&gt; tokenizedMessage(action(&quot;removed browser localStorage item&quot;), id(key)), () -&gt; getLocalStorage().removeItem(key)); } public void clear() { WebTauStep.createAndExecuteStep( tokenizedMessage(action(&quot;clearing browser localStorage&quot;)), () -&gt; tokenizedMessage(action(&quot;cleared browser localStorage&quot;)), () -&gt; getLocalStorage().clear()); } public int size() { return getLocalStorage().size(); } private org.openqa.selenium.html5.LocalStorage getLocalStorage() { WebStorage webStorage = (WebStorage) driver; return webStorage.getLocalStorage(); } }</p>
+<p>To access local storage use browser.localStorage .Lets consider a simple web page that displays a value from a local storage. &lt;div id=&quot;favorite-color&quot;&gt; &lt;/div&gt; &lt;script&gt; const element = document.getElementById('favorite-color'); element.innerHTML = localStorage.getItem('favoriteColor'); &lt;/script&gt; package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;local storage api&quot;) { browser.open('/local-storage') browser.localStorage.setItem('favoriteColor', 'clean') def color = $('#favorite-color') browser.reopen('/local-storage') color.should == 'clean' browser.localStorage.clear() browser.reopen('/local-storage') color.should == '' } public String getItem(String key) public void setItem(String key, String value) public void removeItem(String key) public void clear() public int size()</p>
 </article>
 </section>
 </div>
@@ -103,13 +103,15 @@ ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
       "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
-      "title" : "View On GitHub"
+      "title" : "View Markdown"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
     "previewEnabled" : false,
-    "allowedGroups" : [ "admin" ]
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
   },
   "page" : {
     "type" : "Page",
@@ -146,15 +148,15 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "Setting storage after opening page",
         "lang" : "groovy"
       }, {
-        "snippet" : "/*\n * Copyright 2020 webtau maintainers\n * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC\n *\n * Licensed under the Apache License, Version 2.0 (the \"License\");\n * you may not use this file except in compliance with the License.\n * You may obtain a copy of the License at\n *\n * http://www.apache.org/licenses/LICENSE-2.0\n *\n * Unless required by applicable law or agreed to in writing, software\n * distributed under the License is distributed on an \"AS IS\" BASIS,\n * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.\n * See the License for the specific language governing permissions and\n * limitations under the License.\n */\n\npackage org.testingisdocumenting.webtau.browser;\n\nimport org.openqa.selenium.WebDriver;\nimport org.openqa.selenium.html5.WebStorage;\nimport org.testingisdocumenting.webtau.reporter.WebTauStep;\n\nimport java.util.Set;\n\nimport static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;\nimport static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;\n\npublic class BrowserLocalStorage {\n    private final WebDriver driver;\n\n    BrowserLocalStorage(WebDriver driver) {\n        this.driver = driver;\n    }\n\n    public String getItem(String key) {\n        return getLocalStorage().getItem(key);\n    }\n\n    public Set<String> keySet() {\n        return getLocalStorage().keySet();\n    }\n\n    public void setItem(String key, String value) {\n        WebTauStep.createAndExecuteStep(\n                tokenizedMessage(action(\"setting browser localStorage item\"), id(key), TO, stringValue(value)),\n                () -> tokenizedMessage(action(\"set browser localStorage item\"), id(key), TO, stringValue(value)),\n                () -> getLocalStorage().setItem(key, value));\n    }\n\n    public void removeItem(String key) {\n        WebTauStep.createAndExecuteStep(\n                tokenizedMessage(action(\"removing browser localStorage item\"), id(key)),\n                () -> tokenizedMessage(action(\"removed browser localStorage item\"), id(key)),\n                () -> getLocalStorage().removeItem(key));\n    }\n\n    public void clear() {\n        WebTauStep.createAndExecuteStep(\n                tokenizedMessage(action(\"clearing browser localStorage\")),\n                () -> tokenizedMessage(action(\"cleared browser localStorage\")),\n                () -> getLocalStorage().clear());\n    }\n\n    public int size() {\n        return getLocalStorage().size();\n    }\n\n    private org.openqa.selenium.html5.LocalStorage getLocalStorage() {\n        WebStorage webStorage = (WebStorage) driver;\n        return webStorage.getLocalStorage();\n    }\n}",
-        "entries" : [ "getItem", "setItem", "removeItem", "clear", "size" ],
+        "snippet" : "public String getItem(String key)\npublic void setItem(String key, String value)\npublic void removeItem(String key)\npublic void clear()\npublic int size()",
+        "entry" : [ "getItem", "setItem", "removeItem", "clear", "size" ],
         "type" : "Snippet",
         "signatureOnly" : true,
         "title" : "Local Storage methods",
         "lang" : "java"
       } ]
     } ],
-    "lastModifiedTime" : 1653578199522,
+    "lastModifiedTime" : 1658328071386,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Local Storage",

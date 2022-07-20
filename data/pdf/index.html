@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Pdf</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Read File Or Resource</h1></header>
+<p>Use data.pdf.read(String) to read and parse PDF from a path. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. Pdf pdf = data.pdf.read(&quot;sample.pdf&quot;) pdf.pageText(0).should contain('Test text paragraph Test')</p>
+</article>
+
+<article>
+<header><h1>HTTP response</h1></header>
+<p>Use data.pdf.parse(body) to parse and assert PDF content from binary response. Groovy http.get(&quot;/report&quot;) { data.pdf.read(body).pageText(0).should contain(&quot;Quarterly earnings:&quot;) } Java http.get(&quot;/report&quot;, ((header, body) -&gt; { data.pdf.read(body).pageText(0).should(contain(&quot;Quarterly earnings:&quot;)); })); Learn More about HTTP/body#pdf-response HTTP response</p>
+</article>
+
+<article>
+<header><h1>Read Bytes</h1></header>
+<p>byte[] pdfContent = pdfBinaryContent() Pdf pdf = data.pdf.read(pdfContent) pdf.pageText(0).should contain('Test text paragraph Test')</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "read-file-or-resource",
+      "type" : "Section",
+      "title" : "Read File Or Resource",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.pdf.read(String)",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read and parse PDF from a path. ",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : " Passed path is either relative based on working dir or absolute path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "Pdf pdf = data.pdf.read(\"sample.pdf\")\npdf.pageText(0).should contain('Test text paragraph Test')",
+        "entry" : "read pdf from resource",
+        "bodyOnly" : true,
+        "type" : "Snippet",
+        "title" : "read and assert pdf",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "http-response",
+      "type" : "Section",
+      "title" : "HTTP response",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.pdf.parse(body)",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to parse and assert PDF content from binary response.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "http.get(\"/report\") {\n    data.pdf.read(body).pageText(0).should contain(\"Quarterly earnings:\")\n}",
+            "entry" : "download pdf and assert page text using contains",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "HTTP pdf response assertion",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "http.get(\"/report\", ((header, body) -> {\n    data.pdf.read(body).pageText(0).should(contain(\"Quarterly earnings:\"));\n}));",
+            "entry" : "downloadPdfAndAssertPageTextUsingContains",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "HTTP pdf response assertion",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Learn More about ",
+          "type" : "SimpleText"
+        }, {
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "HTTP response",
+            "type" : "SimpleText"
+          } ],
+          "url" : "/webtau/HTTP/body#pdf-response"
+        } ]
+      } ]
+    }, {
+      "id" : "read-bytes",
+      "type" : "Section",
+      "title" : "Read Bytes",
+      "content" : [ {
+        "snippet" : "byte[] pdfContent = pdfBinaryContent()\nPdf pdf = data.pdf.read(pdfContent)\npdf.pageText(0).should contain('Test text paragraph Test')",
+        "entry" : "read pdf from bytes",
+        "bodyOnly" : true,
+        "type" : "Snippet",
+        "title" : "read and assert pdf from bytes",
+        "lang" : "groovy"
+      } ]
+    } ],
+    "lastModifiedTime" : 1658328071386,
+    "tocItem" : {
+      "sectionTitle" : "Data",
+      "pageTitle" : "Pdf",
+      "pageMeta" : { },
+      "dirName" : "data",
+      "fileName" : "pdf",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Read File Or Resource",
+        "id" : "read-file-or-resource"
+      }, {
+        "title" : "HTTP response",
+        "id" : "http-response"
+      }, {
+        "title" : "Read Bytes",
+        "id" : "read-bytes"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

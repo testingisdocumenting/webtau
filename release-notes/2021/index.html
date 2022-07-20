@@ -110,12 +110,12 @@
 
 <article>
 <header><h1>1.43</h1></header>
-<p>Doc: Fix persona/introduction Persona Intro example snippets Doc: Add configuration/groovy-config-file Groovy Config complex objects, persona and overrides examples Doc: Add persona/HTTP-persona Persona HTTP authorization example Doc: Add persona/introduction Persona documentation Doc: combined &quot;files upload&quot; and &quot;PDF&quot; section under HTTP/files files. Edited text. Parse Groovy config files using new internal DSL instead of GroovyConfig to better support Persona Add persona specific cliEnv config value to set persona/CLI-persona persona's common CLI environment variables Add java.time.Instant and String compareTo handler rule Add cliEnv config value to set common environment variables for cli/foreground-command#common-environment-variables cli.run and cli/background-command#common-environment-variables cli.runInBackground Server journal capture request body and response body Server support for other than application/json content type responses Implemented markBroken on static, proxy and fake servers Added overrides and slow down to static server Ignore groovy-standalone-runner/selective-run#sscenario single scenario and groovy-standalone-runner/skipping-tests#unconditionally-skipping-tests disabled scenario in REPL/test-runs REPL mode Add server router fluent syntax Add server router definition support for :param syntax Add server journal to track or wait on handled calls Handle router overrides in proxy server Server router - collection of overrides that can be set up and re-used for multiple servers Server implements autocloseable for try-with-resources Server route parameters based fake setup Initial fake server support Add config info to web report for cli/foreground-command#working-dir cli.run and cli/background-command#working-dir cli.rinInBackground Add config info to step output for cli/foreground-command#working-dir cli.run and cli/background-command#working-dir cli.rinInBackground Fix: cli/foreground-command#run-result cli.run results are properly returned when validation block is present Fix: browser screenshot on failure is displayed again in the generated report Fix: cli/foreground-command#run cli.run now captures output in case of timeout</p>
+<p>Doc: Fix persona/introduction Persona Intro example snippets Doc: Add configuration/groovy-config-file Groovy Config complex objects, persona and overrides examples Doc: Add persona/HTTP-persona Persona HTTP authorization example Doc: Add persona/introduction Persona documentation Doc: combined &quot;files upload&quot; and &quot;PDF&quot; section under HTTP/files . Edited text. Parse Groovy config files using new internal DSL instead of GroovyConfig to better support Persona Add persona specific cliEnv config value to set persona/CLI-persona persona's common CLI environment variables Add java.time.Instant and String compareTo handler rule Add cliEnv config value to set common environment variables for cli/foreground-command#common-environment-variables cli.run and cli/background-command#common-environment-variables cli.runInBackground Server journal capture request body and response body Server support for other than application/json content type responses Implemented markBroken on static, proxy and fake servers Added overrides and slow down to static server Ignore groovy-standalone-runner/selective-run#sscenario single scenario and groovy-standalone-runner/skipping-tests#unconditionally-skipping-tests disabled scenario in REPL/test-runs REPL mode Add server router fluent syntax Add server router definition support for :param syntax Add server journal to track or wait on handled calls Handle router overrides in proxy server Server router - collection of overrides that can be set up and re-used for multiple servers Server implements autocloseable for try-with-resources Server route parameters based fake setup Initial fake server support Add config info to web report for cli/foreground-command#working-dir cli.run and cli/background-command#working-dir cli.rinInBackground Add config info to step output for cli/foreground-command#working-dir cli.run and cli/background-command#working-dir cli.rinInBackground Fix: cli/foreground-command#run-result cli.run results are properly returned when validation block is present Fix: browser screenshot on failure is displayed again in the generated report Fix: cli/foreground-command#run cli.run now captures output in case of timeout</p>
 </article>
 
 <article>
 <header><h1>1.42</h1></header>
-<p>HTTP/proxy http proxy via config stop all servers is a separate logged step REPL beforeAll , afterAll commands to trigger setup and teardown on demand cli.run local cli/foreground-command#timeout timeout override step accepts map as params for additional reporting utilities/file-system#file-content replace text content by regexp capture open api warnings in web report db data source creation is a reported step web report support for step key-value input add PageElement.all() to disambiguate element.should contain for browser assertions web report section with env vars Add browser browser/element-actions#scrolling scroll actions Fix: cli/introduction cli.run quoted params handling</p>
+<p>httpProxy via config stop all servers is a separate logged step REPL beforeAll , afterAll commands to trigger setup and teardown on demand cli.run local cli/foreground-command#timeout timeout override step accepts map as params for additional reporting utilities/file-system#file-content replace text content by regexp capture open api warnings in web report db data source creation is a reported step web report support for step key-value input add PageElement.all() to disambiguate element.should contain for browser assertions web report section with env vars Add browser browser/element-actions#scrolling scroll actions Fix: cli/introduction cli.run quoted params handling</p>
 </article>
 
 <article>
@@ -148,13 +148,15 @@ ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
       "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
-      "title" : "View On GitHub"
+      "title" : "View Markdown"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
     "previewEnabled" : false,
-    "allowedGroups" : [ "admin" ]
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
   },
   "page" : {
     "type" : "Page",
@@ -1010,13 +1012,8 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Doc: combined \"files upload\" and \"PDF\" section under ",
               "type" : "SimpleText"
             }, {
-              "isFile" : false,
-              "type" : "Link",
-              "content" : [ {
-                "text" : "files",
-                "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/files"
+              "code" : "HTTP/files",
+              "type" : "InlinedCode"
             }, {
               "text" : ". Edited text.",
               "type" : "SimpleText"
@@ -1491,15 +1488,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "isFile" : false,
-              "type" : "Link",
-              "content" : [ {
-                "text" : "http proxy",
-                "type" : "SimpleText"
-              } ],
-              "url" : "/webtau/HTTP/proxy"
-            }, {
-              "text" : " via config",
+              "text" : "httpProxy via config",
               "type" : "SimpleText"
             } ]
           } ]
@@ -1775,7 +1764,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1653578199526,
+    "lastModifiedTime" : 1658328071394,
     "tocItem" : {
       "sectionTitle" : "Release Notes",
       "pageTitle" : "2021 Releases",

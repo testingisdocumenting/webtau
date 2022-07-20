@@ -90,17 +90,17 @@
 
 <article>
 <header><h1>Response Mapping</h1></header>
-<p>Identifiers inside validation closure are automatically mapped to a response body. Groovy http.get(&quot;/end-point-simple-object&quot;) { k1.should == 'v1' } Java http.get(&quot;/end-point-simple-object&quot;, (header, body) -&gt; { body.get(&quot;k1&quot;).should(equal(&quot;v1&quot;)); }); List responses are handled by using index chain Groovy http.get(&quot;/end-point-simple-list&quot;) { body[0].k1.should == 'v1' } Note: Groovy API implicitly assumes body , but if you need to deal with array response you need to access values using body explicitly. Java http.get(&quot;/end-point-simple-list&quot;, (header, body) -&gt; { body.get(0).get(&quot;k1&quot;).should(equal(&quot;v1&quot;)); });</p>
+<p>Identifiers inside validation closure are automatically mapped to a response body. Groovy http.get(&quot;/end-point-simple-object&quot;) { k1.should == &quot;v1&quot; } Java http.get(&quot;/end-point-simple-object&quot;, (header, body) -&gt; { body.get(&quot;k1&quot;).should(equal(&quot;v1&quot;)); }); List responses are handled by using index chain Groovy http.get(&quot;/end-point-simple-list&quot;) { body[0].k1.should == &quot;v1&quot; } Note: Groovy API implicitly assumes body , but if you need to deal with array response you need to access values using body explicitly. Java http.get(&quot;/end-point-simple-list&quot;, (header, body) -&gt; { body.get(0).get(&quot;k1&quot;).should(equal(&quot;v1&quot;)); });</p>
 </article>
 
 <article>
 <header><h1>Should and Should Not</h1></header>
-<p>Matchers in WebTau are triggered with should and shouldNot keywords. Additionally shouldBe and shouldNotBe alias keywords are available to make certain matcher combinations easier to read. Groovy http.get(&quot;/example&quot;) { year.shouldNot == 2000 year.should != 2000 // alternative shortcut genres.should contain('RPG') rating.shouldBe &gt; 7 } Java http.get(&quot;/example&quot;, (header, body) -&gt; { body.get(&quot;year&quot;).shouldNot(equal(2000)); body.get(&quot;genres&quot;).should(contain(&quot;RPG&quot;)); body.get(&quot;rating&quot;).shouldBe(greaterThan(7)); });</p>
+<p>Matchers in WebTau are triggered with should and shouldNot keywords. Additionally shouldBe and shouldNotBe alias keywords are available to make certain matcher combinations easier to read. Groovy http.get(&quot;/example&quot;) { year.shouldNot == 2000 year.should != 2000 // alternative shortcut genres.should contain(&quot;RPG&quot;) rating.shouldBe &gt; 7 } Java http.get(&quot;/example&quot;, (header, body) -&gt; { body.get(&quot;year&quot;).shouldNot(equal(2000)); body.get(&quot;genres&quot;).should(contain(&quot;RPG&quot;)); body.get(&quot;rating&quot;).shouldBe(greaterThan(7)); });</p>
 </article>
 
 <article>
 <header><h1>Equality</h1></header>
-<p>WebTau defines its own set of equality rules to simplify testing. Groovy http.get(&quot;/end-point&quot;) { id.should != 0 amount.should == 30 list.should == [1, 2, 3] object.k1.should == ~/v\d/ // regular expression matching object.should == [k1: 'v1', k3: 'v3'] // matching only specified fields and can be nested multiple times complexList.should == [&quot;k1&quot; | &quot;k2&quot;] { // matching only specified fields, but number of entries must be exact ________________ &quot;v1&quot; | 30 &quot;v11&quot; | 40 } } Java http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;id&quot;).shouldNot(equal(0)); body.get(&quot;amount&quot;).should(equal(30)); body.get(&quot;list&quot;).should(equal(Arrays.asList(1, 2, 3))); body.get(&quot;object&quot;).get(&quot;k1&quot;).should(equal( Pattern.compile(&quot;v\\d&quot;))); // regular expression matching body.get(&quot;object&quot;).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k3&quot;, &quot;v3&quot;))); // matching only specified fields and can be nested multiple times body.get(&quot;complexList&quot;).should(equal(table(&quot;k1&quot; , &quot;k2&quot;, // matching only specified fields, but number of entries must be exact ________________, &quot;v1&quot; , 30, &quot;v11&quot;, 40))); }); Groovy http.get(&quot;/end-point&quot;) { complexList.should == [ &quot;*id&quot; | &quot;k1&quot; | &quot;k2&quot;] { // order agnostic key based match ________________________ &quot;id2&quot; | &quot;v11&quot; | 40 &quot;id1&quot; | &quot;v1&quot; | 30 } } Java http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList&quot;).should(equal(table(&quot;*id&quot;, &quot;k1&quot; , &quot;k2&quot;, // order agnostic key based match ________________, &quot;id2&quot;, &quot;v11&quot;, 40, &quot;id1&quot;, &quot;v1&quot; , 30))); });</p>
+<p>WebTau defines its own set of equality rules to simplify testing. Groovy http.get(&quot;/end-point&quot;) { id.should != 0 amount.should == 30 list.should == [1, 2, 3] object.k1.should == ~/v\d/ // regular expression matching object.should == [k1: &quot;v1&quot;, k3: &quot;v3&quot;] // matching only specified fields and can be nested multiple times complexList.should == [&quot;k1&quot; | &quot;k2&quot;] { // matching only specified fields, but number of entries must be exact ________________ &quot;v1&quot; | 30 &quot;v11&quot; | 40 } } Java http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;id&quot;).shouldNot(equal(0)); body.get(&quot;amount&quot;).should(equal(30)); body.get(&quot;list&quot;).should(equal(Arrays.asList(1, 2, 3))); body.get(&quot;object&quot;).get(&quot;k1&quot;).should(equal( Pattern.compile(&quot;v\\d&quot;))); // regular expression matching body.get(&quot;object&quot;).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k3&quot;, &quot;v3&quot;))); // matching only specified fields and can be nested multiple times body.get(&quot;complexList&quot;).should(equal(table(&quot;k1&quot; , &quot;k2&quot;, // matching only specified fields, but number of entries must be exact ________________, &quot;v1&quot; , 30, &quot;v11&quot;, 40))); }); Groovy http.get(&quot;/end-point&quot;) { complexList.should == [ &quot;*id&quot; | &quot;k1&quot; | &quot;k2&quot;] { // order agnostic key based match ________________________ &quot;id2&quot; | &quot;v11&quot; | 40 &quot;id1&quot; | &quot;v1&quot; | 30 } } Java http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList&quot;).should(equal(table(&quot;*id&quot;, &quot;k1&quot; , &quot;k2&quot;, // order agnostic key based match ________________, &quot;id2&quot;, &quot;v11&quot;, 40, &quot;id1&quot;, &quot;v1&quot; , 30))); });</p>
 </article>
 
 <article>
@@ -110,7 +110,7 @@
 
 <article>
 <header><h1>Contain</h1></header>
-<p>Use contain when you cannot rely on order of values in a response. Groovy http.get(&quot;/end-point-list&quot;) { body.should contain([k1: 'v1', k2: 'v2']) body[1].k2.shouldNot contain(22) } Java http.get(&quot;/end-point-list&quot;, (header, body) -&gt; { body.should(contain(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, &quot;v2&quot;))); body.get(1).get(&quot;k2&quot;).shouldNot(contain(22)); });</p>
+<p>Use contain when you cannot rely on order of values in a response. Groovy http.get(&quot;/end-point-list&quot;) { body.should contain([k1: &quot;v1&quot;, k2: &quot;v2&quot;]) body[1].k2.shouldNot contain(22) } Java http.get(&quot;/end-point-list&quot;, (header, body) -&gt; { body.should(contain(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, &quot;v2&quot;))); body.get(1).get(&quot;k2&quot;).shouldNot(contain(22)); });</p>
 </article>
 
 <article>
@@ -130,7 +130,7 @@
 
 <article>
 <header><h1>Mixing Matchers</h1></header>
-<p>You can use matchers in place of expected values to build a more complex expectation. Groovy http.get(&quot;/end-point-mixed&quot;) { list.should contain(lessThanOrEqual(2)) // lessThanOrEqual will be matched against each value object.should == [k1: 'v1', k3: ~/v\d/] // regular expression match against k3 complexList[0].should == [k1: 'v1', k2: lessThan(120)] // lessThen match against k2 complexList[1].should == [ k1: notEqual('v1'), // any value but v1 k2: greaterThanOrEqual(120)] complexList.should == [&quot;k1&quot; | &quot;k2&quot;] { ___________________________ ~/v\d/ | lessThan(120) &quot;v11&quot; | greaterThan(150) } // using matchers as cell values } Java Pattern withNumber = Pattern.compile(&quot;v\\d&quot;); http.get(&quot;/end-point-mixed&quot;, (header, body) -&gt; { body.get(&quot;list&quot;).should(contain(lessThanOrEqual(2))); // lessThanOrEqual will be matched against each value body.get(&quot;object&quot;).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k3&quot;, withNumber))); // regular expression match against k3 body.get(&quot;complexList&quot;).get(0).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, lessThan(120)))); // lessThen match against k2 body.get(&quot;complexList&quot;).get(1).should(equal(aMapOf( &quot;k1&quot;, notEqual(&quot;v1&quot;), // any value but v1 &quot;k2&quot;, greaterThanOrEqual(120)))); TableData expected = table(&quot;k1&quot; , &quot;k2&quot;, // matching only specified fields, but number of entries must be exact ________________________________, withNumber , lessThan(120), &quot;v11&quot; , greaterThan(150)); body.get(&quot;complexList&quot;).should(equal(expected)); });</p>
+<p>You can use matchers in place of expected values to build a more complex expectation. Groovy http.get(&quot;/end-point-mixed&quot;) { list.should contain(lessThanOrEqual(2)) // lessThanOrEqual will be matched against each value object.should == [k1: &quot;v1&quot;, k3: ~/v\d/] // regular expression match against k3 complexList[0].should == [k1: &quot;v1&quot;, k2: lessThan(120)] // lessThen match against k2 complexList[1].should == [ k1: notEqual(&quot;v1&quot;), // any value but v1 k2: greaterThanOrEqual(120)] complexList.should == [&quot;k1&quot; | &quot;k2&quot;] { ___________________________ ~/v\d/ | lessThan(120) &quot;v11&quot; | greaterThan(150) } // using matchers as cell values } Java Pattern withNumber = Pattern.compile(&quot;v\\d&quot;); http.get(&quot;/end-point-mixed&quot;, (header, body) -&gt; { body.get(&quot;list&quot;).should(contain(lessThanOrEqual(2))); // lessThanOrEqual will be matched against each value body.get(&quot;object&quot;).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k3&quot;, withNumber))); // regular expression match against k3 body.get(&quot;complexList&quot;).get(0).should(equal(aMapOf( &quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, lessThan(120)))); // lessThen match against k2 body.get(&quot;complexList&quot;).get(1).should(equal(aMapOf( &quot;k1&quot;, notEqual(&quot;v1&quot;), // any value but v1 &quot;k2&quot;, greaterThanOrEqual(120)))); TableData expected = table(&quot;k1&quot; , &quot;k2&quot;, // matching only specified fields, but number of entries must be exact ________________________________, withNumber , lessThan(120), &quot;v11&quot; , greaterThan(150)); body.get(&quot;complexList&quot;).should(equal(expected)); });</p>
 </article>
 </section>
 </div>
@@ -148,13 +148,15 @@ ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
       "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
-      "title" : "View On GitHub"
+      "title" : "View Markdown"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
     "previewEnabled" : false,
-    "allowedGroups" : [ "admin" ]
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
   },
   "page" : {
     "type" : "Page",
@@ -200,7 +202,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "snippet" : "http.get(\"/end-point-simple-object\") {\n    k1.should == 'v1'\n}",
+            "snippet" : "http.get(\"/end-point-simple-object\") {\n    k1.should == \"v1\"\n}",
             "entry" : "simple object mapping example",
             "bodyOnly" : true,
             "type" : "Snippet",
@@ -244,7 +246,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "snippet" : "http.get(\"/end-point-simple-list\") {\n    body[0].k1.should == 'v1'\n}",
+            "snippet" : "http.get(\"/end-point-simple-list\") {\n    body[0].k1.should == \"v1\"\n}",
             "entry" : "simple list mapping example",
             "bodyOnly" : true,
             "type" : "Snippet",
@@ -326,7 +328,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "snippet" : "http.get(\"/example\") {\n    year.shouldNot == 2000\n    year.should != 2000  // alternative shortcut\n    genres.should contain('RPG')\n    rating.shouldBe > 7\n}",
+            "snippet" : "http.get(\"/example\") {\n    year.shouldNot == 2000\n    year.should != 2000  // alternative shortcut\n    genres.should contain(\"RPG\")\n    rating.shouldBe > 7\n}",
             "entry" : "matchers basic example",
             "bodyOnly" : true,
             "type" : "Snippet",
@@ -391,7 +393,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "snippet" : "http.get(\"/end-point\") {\n    id.should != 0\n    amount.should == 30\n\n    list.should == [1, 2, 3]\n\n    object.k1.should == ~/v\\d/ // regular expression matching\n\n    object.should == [k1: 'v1', k3: 'v3'] // matching only specified fields and can be nested multiple times\n\n    complexList.should == [\"k1\"   | \"k2\"] { // matching only specified fields, but number of entries must be exact\n                           ________________\n                            \"v1\"  | 30\n                            \"v11\" | 40 }\n}",
+            "snippet" : "http.get(\"/end-point\") {\n    id.should != 0\n    amount.should == 30\n\n    list.should == [1, 2, 3]\n\n    object.k1.should == ~/v\\d/ // regular expression matching\n\n    object.should == [k1: \"v1\", k3: \"v3\"] // matching only specified fields and can be nested multiple times\n\n    complexList.should == [\"k1\"   | \"k2\"] { // matching only specified fields, but number of entries must be exact\n                           ________________\n                            \"v1\"  | 30\n                            \"v11\" | 40 }\n}",
             "excludeRegexp" : "doc.capture",
             "entry" : "equality matcher",
             "bodyOnly" : true,
@@ -594,7 +596,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "snippet" : "http.get(\"/end-point-list\") {\n    body.should contain([k1: 'v1', k2: 'v2'])\n    body[1].k2.shouldNot contain(22)\n}",
+            "snippet" : "http.get(\"/end-point-list\") {\n    body.should contain([k1: \"v1\", k2: \"v2\"])\n    body[1].k2.shouldNot contain(22)\n}",
             "excludeRegexp" : "doc.capture",
             "entry" : "contain matcher",
             "bodyOnly" : true,
@@ -868,7 +870,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "snippet" : "http.get(\"/end-point-mixed\") {\n    list.should contain(lessThanOrEqual(2)) // lessThanOrEqual will be matched against each value\n\n    object.should == [k1: 'v1', k3: ~/v\\d/] // regular expression match against k3\n\n    complexList[0].should == [k1: 'v1', k2: lessThan(120)] // lessThen match against k2\n\n    complexList[1].should == [\n        k1: notEqual('v1'), // any value but v1\n        k2: greaterThanOrEqual(120)]\n\n    complexList.should == [\"k1\"   | \"k2\"] {\n                          ___________________________\n                           ~/v\\d/ | lessThan(120)\n                            \"v11\" | greaterThan(150) } // using matchers as cell values\n}",
+            "snippet" : "http.get(\"/end-point-mixed\") {\n    list.should contain(lessThanOrEqual(2)) // lessThanOrEqual will be matched against each value\n\n    object.should == [k1: \"v1\", k3: ~/v\\d/] // regular expression match against k3\n\n    complexList[0].should == [k1: \"v1\", k2: lessThan(120)] // lessThen match against k2\n\n    complexList[1].should == [\n        k1: notEqual(\"v1\"), // any value but v1\n        k2: greaterThanOrEqual(120)]\n\n    complexList.should == [\"k1\"   | \"k2\"] {\n                          ___________________________\n                           ~/v\\d/ | lessThan(120)\n                            \"v11\" | greaterThan(150) } // using matchers as cell values\n}",
             "excludeRegexp" : "doc.capture",
             "entry" : "matchers combo",
             "bodyOnly" : true,
@@ -894,7 +896,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1653578199522,
+    "lastModifiedTime" : 1658328071386,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Matchers",

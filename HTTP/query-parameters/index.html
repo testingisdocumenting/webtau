@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Passing Query Parameters</h1></header>
-<p>WebTau offers a number of ways of specifying query parameters: http.get(&quot;params?a=1&amp;b=text&quot;) { // assertions go here } Use Map as a second parameter to pass query parameters. Suitable for languages that support in-line creation of Map . http.get(&quot;params&quot;, [a: 1, b: 'text']) { // assertions go here } Only http.get has a Map variant, for http.put , http.post , etc you must use http.query . http.get(&quot;params&quot;, http.query([a: 1, b: 'text']), http.header(['x-param': 'value'])) { // assertions go here } Additionally http.query has a vararg variant which is more convenient for Java . http.get(&quot;params&quot;, http.query('a', '1', 'b', 'text')) { // assertions go here }</p>
+<p>WebTau offers a number of ways of specifying query parameters: Groovy http.get(&quot;/path?a=1&amp;b=text&quot;) { // assertions go here } Java http.get(&quot;/path?a=1&amp;b=text&quot;, ((header, body) -&gt; { // assertions go here })); Use Map as a second parameter to pass query parameters. Suitable for languages that support in-line creation of Map . Groovy http.get(&quot;/path&quot;, [a: 1, b: &quot;text&quot;]) { // assertions go here } Java http.get(&quot;/path&quot;, aMapOf(&quot;a&quot;, 1, &quot;b&quot;, &quot;text&quot;), ((header, body) -&gt; { // assertions go here })); Only http.get has a Map variant, for http.put , http.post , etc you need to pass http.query . Groovy http.post(&quot;/chat&quot;, http.query([a: 1, b: &quot;text&quot;]), http.header([&quot;x-param&quot;: &quot;value&quot;]), [message: &quot;hello&quot;]) { // assertions go here } Java http.post(&quot;/chat&quot;, http.query(&quot;a&quot;, 1, &quot;b&quot;, &quot;text&quot;), http.header(&quot;x-param&quot;, &quot;value&quot;), http.json(&quot;message&quot;, &quot;hello&quot;), (header, body) -&gt; { // assertions go here });</p>
 </article>
 
 <article>
 <header><h1>Parameters Encoding</h1></header>
-<p>All query parameters are encoded automatically. http.get(&quot;params&quot;, http.query([message: 'hello world !'])) { // assertions go here } params?message=hello+world+%21</p>
+<p>All query parameters are encoded automatically. Groovy http.get(&quot;/path&quot;, http.query([message: &quot;hello world !&quot;])) { // assertions go here } Java http.get(&quot;/path&quot;, http.query(&quot;message&quot;, &quot;hello world !&quot;), (header, body) -&gt; { // assertions go here }); /path?message=hello+world+%21</p>
 </article>
 </section>
 </div>
@@ -108,13 +108,15 @@ ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
       "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
-      "title" : "View On GitHub"
+      "title" : "View Markdown"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
     "previewEnabled" : false,
-    "allowedGroups" : [ "admin" ]
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
   },
   "page" : {
     "type" : "Page",
@@ -129,12 +131,28 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "http.get(\"params?a=1&b=text\") {\n    // assertions go here\n}",
-        "entry" : "query params in url example",
-        "bodyOnly" : true,
-        "type" : "Snippet",
-        "title" : "embedding query params directly in url",
-        "lang" : "groovy"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "http.get(\"/path?a=1&b=text\") {\n    // assertions go here\n}",
+            "entry" : "query params in url example",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "embedding query params directly in url",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "http.get(\"/path?a=1&b=text\", ((header, body) -> {\n    // assertions go here\n}));",
+            "entry" : "queryParamsInUrlExample",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "embedding query params directly in url",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -154,12 +172,28 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "http.get(\"params\", [a: 1, b: 'text']) {\n    // assertions go here\n}",
-        "entry" : "query params using query as map example",
-        "bodyOnly" : true,
-        "type" : "Snippet",
-        "title" : "pass query parameters as Map",
-        "lang" : "groovy"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "http.get(\"/path\", [a: 1, b: \"text\"]) {\n    // assertions go here\n}",
+            "entry" : "query params using query as map example",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "pass query parameters as Map",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "http.get(\"/path\", aMapOf(\"a\", 1, \"b\", \"text\"), ((header, body) -> {\n    // assertions go here\n}));",
+            "entry" : "queryParamsUsingQueryAsMapExample",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "pass query parameters as Map",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -187,7 +221,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "code" : "http.post",
           "type" : "InlinedCode"
         }, {
-          "text" : ", etc you must use ",
+          "text" : ", etc you need to pass ",
           "type" : "SimpleText"
         }, {
           "code" : "http.query",
@@ -197,37 +231,28 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "http.get(\"params\", http.query([a: 1, b: 'text']), http.header(['x-param': 'value'])) {\n    // assertions go here\n}",
-        "entry" : "query params using query method example",
-        "bodyOnly" : true,
-        "type" : "Snippet",
-        "title" : "pass query parameters using http.query",
-        "lang" : "groovy"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Additionally ",
-          "type" : "SimpleText"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "http.post(\"/chat\", http.query([a: 1, b: \"text\"]), http.header([\"x-param\": \"value\"]), [message: \"hello\"]) {\n    // assertions go here\n}",
+            "entry" : "query params using query method example",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "pass query parameters using http.query",
+            "lang" : "groovy"
+          } ]
         }, {
-          "code" : "http.query",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " has a vararg variant which is more convenient for ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "Java",
-          "type" : "InlinedCode"
-        }, {
-          "text" : ".",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "snippet" : "http.get(\"params\", http.query('a', '1', 'b', 'text')) {\n    // assertions go here\n}",
-        "entry" : "query params using query method and comma example",
-        "bodyOnly" : true,
-        "type" : "Snippet",
-        "title" : "http.query vararg variant",
-        "lang" : "groovy"
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "http.post(\"/chat\", http.query(\"a\", 1, \"b\", \"text\"), http.header(\"x-param\", \"value\"), http.json(\"message\", \"hello\"),\n        (header, body) -> {\n            // assertions go here\n        });",
+            "entry" : "queryParamsUsingQueryMethodExample",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "pass query parameters as Map",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "id" : "parameters-encoding",
@@ -240,22 +265,35 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "endLine" : "query params encoding snippet end",
-        "snippet" : "http.get(\"params\", http.query([message: 'hello world !'])) {\n    // assertions go here\n}",
-        "entry" : "query params encoding",
-        "excludeStartEnd" : true,
-        "startLine" : "query params encoding snippet start",
-        "type" : "Snippet",
-        "title" : "query parameter with url forbidden characters",
-        "lang" : "groovy"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "http.get(\"/path\", http.query([message: \"hello world !\"])) {\n    // assertions go here\n}",
+            "surroundedBy" : "query-params-encoding",
+            "type" : "Snippet",
+            "title" : "query parameter with url incompatible characters",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "http.get(\"/path\", http.query(\"message\", \"hello world !\"), (header, body) -> {\n    // assertions go here\n});",
+            "entry" : "queryParamsEncoding",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "title" : "query parameter with url incompatible characters",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
       }, {
-        "snippet" : "params?message=hello+world+%21",
+        "snippet" : "/path?message=hello+world+%21",
         "type" : "Snippet",
         "title" : "automatic encoding",
         "lang" : "txt"
       } ]
     } ],
-    "lastModifiedTime" : 1653578199522,
+    "lastModifiedTime" : 1658328071386,
     "tocItem" : {
       "sectionTitle" : "HTTP",
       "pageTitle" : "Query Parameters",

@@ -122,6 +122,7 @@
 <a href="getting-started/configuration/#config-file">Configuration Config File</a>
 <a href="getting-started/configuration/#environments">Configuration Environments</a>
 <a href="getting-started/configuration/#overrides">Configuration Overrides</a>
+<a href="getting-started/configuration/#disable-ansi-colors">Configuration Disable ANSI Colors</a>
 </article>
 
 <article>
@@ -131,13 +132,12 @@
 <article>
 <a href="HTTP/CRUD/">CRUD</a>
 <a href="HTTP/CRUD/#example">CRUD Example</a>
-<a href="HTTP/CRUD/#implicit-statuscode-check">CRUD Implicit statusCode Check</a>
 <a href="HTTP/CRUD/#report">CRUD Report</a>
 </article>
 
 <article>
 <a href="HTTP/CRUD-separated/">CRUD Separated</a>
-<a href="HTTP/CRUD-separated/#lazy-resource">CRUD Separated Lazy Resource</a>
+<a href="HTTP/CRUD-separated/#http-calls-separation">CRUD Separated HTTP Calls Separation</a>
 <a href="HTTP/CRUD-separated/#report">CRUD Separated Report</a>
 </article>
 
@@ -148,19 +148,32 @@
 <a href="HTTP/data-node/#properties-on-lists">Data Node Properties On Lists</a>
 <a href="HTTP/data-node/#path-based-properties-access">Data Node Path based properties access</a>
 <a href="HTTP/data-node/#if-else-logic">Data Node If-Else Logic</a>
-<a href="HTTP/data-node/#each">Data Node Each</a>
+<a href="HTTP/data-node/#iteration">Data Node Iteration</a>
 <a href="HTTP/data-node/#find">Data Node Find</a>
+<a href="HTTP/data-node/#find-all">Data Node Find All</a>
 <a href="HTTP/data-node/#collect">Data Node Collect</a>
 <a href="HTTP/data-node/#combine">Data Node Combine</a>
 </article>
 
 <article>
-<a href="HTTP/headers/">Headers</a>
-<a href="HTTP/headers/#standard-header">Headers Standard Header</a>
-<a href="HTTP/headers/#implicit-header">Headers Implicit Header</a>
-<a href="HTTP/headers/#explicit-header">Headers Explicit Header</a>
-<a href="HTTP/headers/#mime-type-combined-with-payload">Headers Mime Type Combined With Payload</a>
-<a href="HTTP/headers/#response-header">Headers Response Header</a>
+<a href="HTTP/header/">Header</a>
+<a href="HTTP/header/#standard-header">Header Standard Header</a>
+<a href="HTTP/header/#explicit-header">Header Explicit Header</a>
+<a href="HTTP/header/#implicit-header">Header Implicit Header</a>
+<a href="HTTP/header/#content-type-shortcut">Header Content Type Shortcut</a>
+<a href="HTTP/header/#response-header">Header Response Header</a>
+</article>
+
+<article>
+<a href="HTTP/body/">Body</a>
+<a href="HTTP/body/#json-request">Body JSON Request</a>
+<a href="HTTP/body/#json-request-from-file">Body JSON Request From File</a>
+<a href="HTTP/body/#generic-request">Body Generic Request</a>
+<a href="HTTP/body/#content-type-shortcuts">Body Content-Type Shortcuts</a>
+<a href="HTTP/body/#form-file-data">Body Form File Data</a>
+<a href="HTTP/body/#parsed-response">Body Parsed Response</a>
+<a href="HTTP/body/#pdf-response">Body PDF Response</a>
+<a href="HTTP/body/#raw-response">Body Raw Response</a>
 </article>
 
 <article>
@@ -170,36 +183,25 @@
 </article>
 
 <article>
-<a href="HTTP/ping/">Ping</a>
-<a href="HTTP/ping/#get">Ping GET</a>
+<a href="HTTP/HTTP-calls/">HTTP Calls</a>
+<a href="HTTP/HTTP-calls/#overloaded-calls">HTTP Calls Overloaded Calls</a>
+<a href="HTTP/HTTP-calls/#implicit-statuscode-check">HTTP Calls Implicit statusCode Check</a>
+<a href="HTTP/HTTP-calls/#get">HTTP Calls GET</a>
+<a href="HTTP/HTTP-calls/#post">HTTP Calls POST</a>
+<a href="HTTP/HTTP-calls/#put">HTTP Calls PUT</a>
+<a href="HTTP/HTTP-calls/#delete">HTTP Calls DELETE</a>
+<a href="HTTP/HTTP-calls/#patch">HTTP Calls PATCH</a>
+<a href="HTTP/HTTP-calls/#ping">HTTP Calls PING</a>
 </article>
 
 <article>
-<a href="HTTP/proxy/">Proxy</a>
-<a href="HTTP/proxy/#setting-proxy">Proxy Setting Proxy</a>
-</article>
-
-<article>
-<a href="HTTP/files/">Files</a>
-<a href="HTTP/files/#upload-file">Files Upload File</a>
-<a href="HTTP/files/#upload-in-memory-content">Files Upload In-Memory Content</a>
-<a href="HTTP/files/#download-pdf">Files Download PDF</a>
-</article>
-
-<article>
-<a href="HTTP/documentation/">Documentation</a>
-<a href="HTTP/documentation/#scenarios">Documentation Scenarios</a>
-<a href="HTTP/documentation/#capturing-test-artifacts">Documentation Capturing Test Artifacts</a>
-<a href="HTTP/documentation/#test-artifacts-location">Documentation Test Artifacts Location</a>
-<a href="HTTP/documentation/#test-artifacts">Documentation Test Artifacts</a>
-<a href="HTTP/documentation/#document-rest-calls">Documentation Document REST calls</a>
-</article>
-
-<article>
-<a href="HTTP/complex-types/">Complex Types</a>
-<a href="HTTP/complex-types/#contain">Complex Types Contain</a>
-<a href="HTTP/complex-types/#list-of-objects">Complex Types List Of Objects</a>
-<a href="HTTP/complex-types/#order-agnostic-match">Complex Types Order Agnostic Match</a>
+<a href="HTTP/documentation-artifacts/">Documentation Artifacts</a>
+<a href="HTTP/documentation-artifacts/#happy-paths">Documentation Artifacts Happy Paths</a>
+<a href="HTTP/documentation-artifacts/#capturing-test-artifacts">Documentation Artifacts Capturing Test Artifacts</a>
+<a href="HTTP/documentation-artifacts/#documentation-pipeline">Documentation Artifacts Documentation Pipeline</a>
+<a href="HTTP/documentation-artifacts/#create-employee">Documentation Artifacts Create Employee</a>
+<a href="HTTP/documentation-artifacts/#test-artifacts-location">Documentation Artifacts Test Artifacts Location</a>
+<a href="HTTP/documentation-artifacts/#test-artifacts">Documentation Artifacts Test Artifacts</a>
 </article>
 
 <article>
@@ -219,21 +221,6 @@
 </article>
 
 <article>
-<a href="HTTP/report/">Report</a>
-<a href="HTTP/report/#location">Report Location</a>
-<a href="HTTP/report/#summary">Report Summary</a>
-<a href="HTTP/report/#test-summary">Report Test Summary</a>
-<a href="HTTP/report/#navigation">Report Navigation</a>
-<a href="HTTP/report/#additional-reports">Report Additional Reports</a>
-</article>
-
-<article>
-<a href="HTTP/maven/">Maven</a>
-<a href="HTTP/maven/#dependency">Maven Dependency</a>
-<a href="HTTP/maven/#plugin">Maven Plugin</a>
-</article>
-
-<article>
 <a href="HTTP/matchers/">Matchers</a>
 <a href="HTTP/matchers/#imports-to-use">Matchers Imports to use</a>
 <a href="HTTP/matchers/#response-mapping">Matchers Response Mapping</a>
@@ -245,6 +232,12 @@
 <a href="HTTP/matchers/#nested-contain-all">Matchers Nested Contain All</a>
 <a href="HTTP/matchers/#date-and-time">Matchers Date and Time</a>
 <a href="HTTP/matchers/#mixing-matchers">Matchers Mixing Matchers</a>
+</article>
+
+<article>
+<a href="HTTP/configuration/">Configuration</a>
+<a href="HTTP/configuration/#base-url">Configuration Base URL</a>
+<a href="HTTP/configuration/#proxy">Configuration Proxy</a>
 </article>
 
 <article>
@@ -324,12 +317,12 @@
 
 <article>
 <a href="browser/documentation-artifacts/">Documentation Artifacts</a>
-<a href="browser/documentation-artifacts/#scenarios">Documentation Artifacts Scenarios</a>
+<a href="browser/documentation-artifacts/#usage-scenarios">Documentation Artifacts Usage Scenarios</a>
 <a href="browser/documentation-artifacts/#capturing-screenshots-with-annotations">Documentation Artifacts Capturing Screenshots With Annotations</a>
+<a href="browser/documentation-artifacts/#badge-shortcut">Documentation Artifacts Badge Shortcut</a>
 <a href="browser/documentation-artifacts/#annotation-types">Documentation Artifacts Annotation Types</a>
 <a href="browser/documentation-artifacts/#annotation-placement">Documentation Artifacts Annotation Placement</a>
-<a href="browser/documentation-artifacts/#screenshot-of-specific-element">Documentation Artifacts Screenshot Of Specific Element</a>
-<a href="browser/documentation-artifacts/#inverted-colors">Documentation Artifacts Inverted Colors</a>
+<a href="browser/documentation-artifacts/#screenshot-of-a-specific-element">Documentation Artifacts Screenshot Of A Specific Element</a>
 </article>
 
 <article>
@@ -498,6 +491,10 @@
 
 <article>
 <a href="report/introduction/">Introduction</a>
+<a href="report/introduction/#summary">Introduction Summary</a>
+<a href="report/introduction/#test-summary">Introduction Test Summary</a>
+<a href="report/introduction/#permalinks">Introduction Permalinks</a>
+<a href="report/introduction/#data-tracking">Introduction Data Tracking</a>
 </article>
 
 <article>
@@ -505,6 +502,19 @@
 <a href="report/steps/#grouping-actions">Steps Grouping Actions</a>
 <a href="report/steps/#tracing-values">Steps Tracing Values</a>
 <a href="report/steps/#grouping-with-trace">Steps Grouping With Trace</a>
+</article>
+
+<article>
+<a href="report/configuration/">Configuration</a>
+<a href="report/configuration/#report-path">Configuration Report Path</a>
+<a href="report/configuration/#failed-report-path">Configuration Failed Report Path</a>
+<a href="report/configuration/#report-name-and-url">Configuration Report Name And URL</a>
+</article>
+
+<article>
+<a href="report/custom-reports/">Custom Reports</a>
+<a href="report/custom-reports/#registration">Custom Reports Registration</a>
+<a href="report/custom-reports/#graphql-example">Custom Reports GraphQL Example</a>
 </article>
 
 <article>
@@ -528,15 +538,32 @@
 </article>
 
 <article>
-<a href="utilities/introduction/">Introduction</a>
+<a href="data/introduction/">Introduction</a>
 </article>
 
 <article>
-<a href="utilities/data/">Data</a>
-<a href="utilities/data/#csv-read">Data CSV Read</a>
-<a href="utilities/data/#csv-write">Data CSV Write</a>
-<a href="utilities/data/#json-read">Data JSON Read</a>
-<a href="utilities/data/#guid">Data GUID</a>
+<a href="data/json/">Json</a>
+<a href="data/json/#read-list">Json Read List</a>
+<a href="data/json/#read-map">Json Read Map</a>
+</article>
+
+<article>
+<a href="data/csv/">Csv</a>
+<a href="data/csv/#table-data">Csv Table Data</a>
+<a href="data/csv/#list-of-map">Csv List Of Map</a>
+<a href="data/csv/#specify-header">Csv Specify Header</a>
+<a href="data/csv/#csv-write">Csv CSV Write</a>
+</article>
+
+<article>
+<a href="data/pdf/">Pdf</a>
+<a href="data/pdf/#read-file-or-resource">Pdf Read File Or Resource</a>
+<a href="data/pdf/#http-response">Pdf HTTP response</a>
+<a href="data/pdf/#read-bytes">Pdf Read Bytes</a>
+</article>
+
+<article>
+<a href="utilities/introduction/">Introduction</a>
 </article>
 
 <article>
@@ -560,6 +587,13 @@
 <a href="matchers/universal-compare/#static-import">Universal Compare Static Import</a>
 <a href="matchers/universal-compare/#java-beans-and-maps">Universal Compare Java Beans And Maps</a>
 <a href="matchers/universal-compare/#dates">Universal Compare Dates</a>
+</article>
+
+<article>
+<a href="matchers/any-of/">Any Of</a>
+<a href="matchers/any-of/#match-any-provided-value">Any Of Match Any Provided Value</a>
+<a href="matchers/any-of/#mixing-values-and-matchers">Any Of Mixing Values And Matchers</a>
+<a href="matchers/any-of/#static-import">Any Of Static Import</a>
 </article>
 
 <article>
@@ -663,7 +697,7 @@
 <a href="JVM-business-logic/documentation-artifacts/#living-document">Documentation Artifacts Living Document</a>
 <a href="JVM-business-logic/documentation-artifacts/#capture-input">Documentation Artifacts Capture Input</a>
 <a href="JVM-business-logic/documentation-artifacts/#capture-expected-output">Documentation Artifacts Capture Expected Output</a>
-<a href="JVM-business-logic/documentation-artifacts/#znai-example">Documentation Artifacts Znai Example</a>
+<a href="JVM-business-logic/documentation-artifacts/#capture-console-output">Documentation Artifacts Capture Console Output</a>
 </article>
 
 <article>
@@ -679,6 +713,7 @@
 
 <article>
 <a href="release-notes/2022/">2022 Releases</a>
+<a href="release-notes/2022/#149">2022 Releases 1.49</a>
 <a href="release-notes/2022/#148">2022 Releases 1.48</a>
 <a href="release-notes/2022/#147">2022 Releases 1.47</a>
 <a href="release-notes/2022/#146">2022 Releases 1.46</a>
@@ -713,13 +748,15 @@ ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
       "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
-      "title" : "View On GitHub"
+      "title" : "View Markdown"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
     "previewEnabled" : false,
-    "allowedGroups" : [ "admin" ]
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
   },
   "page" : {
     "type" : "Page",
@@ -727,7 +764,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "Redirect",
       "url" : "getting-started/what-is-this"
     } ],
-    "lastModifiedTime" : 1653578199526,
+    "lastModifiedTime" : 1658328071394,
     "tocItem" : {
       "sectionTitle" : "",
       "pageTitle" : "WebTau",

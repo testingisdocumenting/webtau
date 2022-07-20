@@ -84,6 +84,22 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>Summary</h1></header>
+<p>Out of the box report provides high level information like number of failed tests and HTTP Operations coverage.</p>
+</article>
+
+<article>
+<header><h1>Test Summary</h1></header>
+<p>Selected a test to see summary information about the test run</p>
+</article>
+
+<article>
+<header><h1>Permalinks</h1></header>
+<p>Report is a self-contained single page application. You can email it, upload to slack, put on a shared drive without an HTTP server. Url tracks your navigation through screens, so you can share url to a specific problem.</p>
+</article>
+
+<article>
+<header><h1>Data Tracking</h1></header>
 <p>WebTau tracks all actions and assertions tests perform. Actions and assertions are printed to console as well as available in the generated HTML report.In a test details screen, there are multiple tabs.Layer specific details, e.g. HTTP, CLI, DB, Servers, etc Every action that was performed Every WebTau standard action generates WebTauStep . You can use WebTau API to wrap your repeating actions into WebTau compatible steps.</p>
 </article>
 </section>
@@ -102,115 +118,168 @@ ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
       "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
-      "title" : "View On GitHub"
+      "title" : "View Markdown"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
     "previewEnabled" : false,
-    "allowedGroups" : [ "admin" ]
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
   },
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "type" : "Paragraph",
+      "id" : "summary",
+      "type" : "Section",
+      "title" : "Summary",
       "content" : [ {
-        "text" : "WebTau tracks all actions and assertions tests perform.",
-        "type" : "SimpleText"
-      }, {
-        "type" : "SoftLineBreak"
-      }, {
-        "text" : "Actions and assertions are printed to console as well as available in the generated HTML report.",
-        "type" : "SimpleText"
-      } ]
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "In a test details screen, there are multiple tabs.",
-        "type" : "SimpleText"
-      } ]
-    }, {
-      "startNumber" : 1,
-      "delimiter" : ".",
-      "type" : "OrderedList",
-      "content" : [ {
-        "type" : "ListItem",
+        "type" : "Paragraph",
         "content" : [ {
-          "type" : "Paragraph",
+          "text" : "Out of the box report provides high level information like number of failed tests and HTTP Operations coverage.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "fit" : true,
+        "shapes" : [ ],
+        "width" : 1310.0,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-summary.png",
+        "type" : "AnnotatedImage",
+        "height" : 802.0,
+        "timestamp" : 1658328866602
+      } ]
+    }, {
+      "id" : "test-summary",
+      "type" : "Section",
+      "title" : "Test Summary",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Selected a test to see summary information about the test run",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "fit" : true,
+        "shapes" : [ ],
+        "width" : 1310.0,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-test-summary.png",
+        "type" : "AnnotatedImage",
+        "height" : 802.0,
+        "timestamp" : 1658328866982
+      } ]
+    }, {
+      "id" : "permalinks",
+      "type" : "Section",
+      "title" : "Permalinks",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Report is a self-contained single page application. You can email it, upload to slack, put on a shared drive without an HTTP server.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Url tracks your navigation through screens, so you can share url to a specific problem.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "data-tracking",
+      "type" : "Section",
+      "title" : "Data Tracking",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau tracks all actions and assertions tests perform.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Actions and assertions are printed to console as well as available in the generated HTML report.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In a test details screen, there are multiple tabs.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "startNumber" : 1,
+        "delimiter" : ".",
+        "type" : "OrderedList",
+        "content" : [ {
+          "type" : "ListItem",
           "content" : [ {
-            "text" : "Layer specific details, e.g. HTTP, CLI, DB, Servers, etc",
-            "type" : "SimpleText"
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Layer specific details, e.g. HTTP, CLI, DB, Servers, etc",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Every action that was performed",
+              "type" : "SimpleText"
+            } ]
           } ]
         } ]
       }, {
-        "type" : "ListItem",
+        "fit" : true,
+        "annotationsPath" : "doc-artifacts/reports/report-crud-steps.json",
+        "border" : true,
+        "shapes" : [ {
+          "x" : 491,
+          "y" : 16,
+          "text" : "1",
+          "align" : "Center",
+          "type" : "badge"
+        }, {
+          "x" : 576,
+          "y" : 17,
+          "text" : "2",
+          "align" : "Center",
+          "type" : "badge"
+        } ],
+        "width" : 1310.0,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-http-calls.png",
+        "annotate" : true,
+        "type" : "AnnotatedImage",
+        "height" : 802.0,
+        "timestamp" : 1658328865430
+      }, {
+        "fit" : true,
+        "border" : true,
+        "shapes" : [ ],
+        "width" : 1310.0,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-steps.png",
+        "type" : "AnnotatedImage",
+        "height" : 802.0,
+        "timestamp" : 1658328865834
+      }, {
+        "type" : "Paragraph",
         "content" : [ {
-          "type" : "Paragraph",
-          "content" : [ {
-            "text" : "Every action that was performed",
-            "type" : "SimpleText"
-          } ]
+          "text" : "Every WebTau standard action generates ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "WebTauStep",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ". You can use WebTau API to wrap your repeating actions",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "into WebTau compatible steps.",
+          "type" : "SimpleText"
         } ]
-      } ]
-    }, {
-      "fit" : true,
-      "annotationsPath" : "doc-artifacts/reports/report-crud-steps.json",
-      "border" : true,
-      "shapes" : [ {
-        "darkFriendly" : true,
-        "invertedColors" : true,
-        "color" : "a",
-        "x" : 491,
-        "y" : 16,
-        "text" : "1",
-        "id" : "badge1",
-        "align" : "Center",
-        "type" : "badge"
-      }, {
-        "darkFriendly" : true,
-        "invertedColors" : true,
-        "color" : "a",
-        "x" : 576,
-        "y" : 17,
-        "text" : "2",
-        "id" : "badge2",
-        "align" : "Center",
-        "type" : "badge"
-      } ],
-      "width" : 1200.0,
-      "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-http-calls.png",
-      "annotate" : true,
-      "type" : "AnnotatedImage",
-      "height" : 802.0,
-      "timestamp" : 1653578884668
-    }, {
-      "fit" : true,
-      "border" : true,
-      "shapes" : [ ],
-      "width" : 1200.0,
-      "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-steps.png",
-      "type" : "AnnotatedImage",
-      "height" : 802.0,
-      "timestamp" : 1653578885048
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "Every WebTau standard action generates ",
-        "type" : "SimpleText"
-      }, {
-        "code" : "WebTauStep",
-        "type" : "InlinedCode"
-      }, {
-        "text" : ". You can use WebTau API to wrap your repeating actions",
-        "type" : "SimpleText"
-      }, {
-        "type" : "SoftLineBreak"
-      }, {
-        "text" : "into WebTau compatible steps.",
-        "type" : "SimpleText"
       } ]
     } ],
-    "lastModifiedTime" : 1653578199526,
+    "lastModifiedTime" : 1658328071402,
     "tocItem" : {
       "sectionTitle" : "Report",
       "pageTitle" : "Introduction",
@@ -218,7 +287,19 @@ ReactDOM.render(React.createElement(Documentation, {
       "dirName" : "report",
       "fileName" : "introduction",
       "viewOnRelativePath" : null,
-      "pageSectionIdTitles" : [ ]
+      "pageSectionIdTitles" : [ {
+        "title" : "Summary",
+        "id" : "summary"
+      }, {
+        "title" : "Test Summary",
+        "id" : "test-summary"
+      }, {
+        "title" : "Permalinks",
+        "id" : "permalinks"
+      }, {
+        "title" : "Data Tracking",
+        "id" : "data-tracking"
+      } ]
     }
   }
 }), document.getElementById("znai"));

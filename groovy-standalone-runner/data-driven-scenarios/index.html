@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>CSV</h1></header>
-<p>Use utilities/data#csv-read data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* data.csv.table('use-cases.csv').each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
+<p>Use data/csv#list-of-map data.csv to conveniently build your scenarios from an external CSV data set. title, input, output hello, 10, 20 world, 30, 40 package scenarios.concept import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* data.csv.table('use-cases.csv').each { row -&gt; scenario(&quot;use case ${row.title}&quot;) { println row.input println row.output } }</p>
 </article>
 
 <article>
@@ -113,13 +113,15 @@ ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
       "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
-      "title" : "View On GitHub"
+      "title" : "View Markdown"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
     "previewEnabled" : false,
-    "allowedGroups" : [ "admin" ]
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
   },
   "page" : {
     "type" : "Page",
@@ -166,7 +168,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "text" : "data.csv",
             "type" : "SimpleText"
           } ],
-          "url" : "/webtau/utilities/data#csv-read"
+          "url" : "/webtau/data/csv#list-of-map"
         }, {
           "text" : " to conveniently build your scenarios from an external ",
           "type" : "SimpleText"
@@ -211,7 +213,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy"
       } ]
     } ],
-    "lastModifiedTime" : 1653578199522,
+    "lastModifiedTime" : 1658328071386,
     "tocItem" : {
       "sectionTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Data Driven Scenarios",

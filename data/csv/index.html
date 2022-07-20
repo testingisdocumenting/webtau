@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Csv</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Table Data</h1></header>
+<p>Use data.csv.table to read data as TableData from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. A B C 1 2 3 a b c TableData table = data.csv.table(&quot;data/table.csv&quot;) Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.tableAutoConverted to read data as TableData from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def table = data.csv.tableAutoConverted(&quot;data/table.csv&quot;) table.row(0).B.should == 2 table.row(0).B.class.canonicalName.should == &quot;java.lang.Long&quot;</p>
+</article>
+
+<article>
+<header><h1>List Of Map</h1></header>
+<p>A B C 1 2 3 a b c Use data.csv.listOfMaps to read data as java.util.List of java.util.Map from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.csv.listOfMaps(&quot;data/table.csv&quot;) list.get(0).B.should == &quot;2&quot; list.get(0).B.class.canonicalName.should == &quot;java.lang.String&quot; Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.listOfMapsAutoConverted to read data as java.util.List of java.util.Map from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.csv.listOfMapsAutoConverted(&quot;data/table.csv&quot;) list.get(0).B.should == 2 list.get(0).B.class.canonicalName.should == &quot;java.lang.Long&quot;</p>
+</article>
+
+<article>
+<header><h1>Specify Header</h1></header>
+<p>1, 2, 3 a, b, c Use data.csv.listOfMapsAutoConverted(header, path) to read data as java.util.List of java.util.Map from CSV file. Header will be taken from first parameter and first row of CSV file will not be treated as header. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.csv.listOfMapsAutoConverted([&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;],&quot;data/table-no-header.csv&quot;) list.get(0).C2.should == 2 list.get(0).C2.class.canonicalName.should == &quot;java.lang.Long&quot;</p>
+</article>
+
+<article>
+<header><h1>CSV Write</h1></header>
+<p>Use data.csv.write to write data to CSV file. def list = [ ['colA': 1, 'colB': 'R1'], ['colA': 2, 'colB': 'R2'] ] def path = data.csv.write('generated/from-list-maps.csv', list) colA,colB 1,R1 2,R2</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "table-data",
+      "type" : "Section",
+      "title" : "Table Data",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv.table",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from CSV file. ",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : " Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Table",
+        "title" : "data/table.csv",
+        "table" : {
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "3",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "a",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "b",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "c",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ],
+          "columns" : [ {
+            "title" : "A"
+          }, {
+            "title" : "B"
+          }, {
+            "title" : "C"
+          } ]
+        }
+      }, {
+        "snippet" : "TableData table = data.csv.table(\"data/table.csv\")",
+        "surroundedBy" : "// read",
+        "type" : "Snippet",
+        "title" : "read table data from csv",
+        "lang" : "groovy"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "tableAutoConverted",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " method",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv.tableAutoConverted",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from CSV file. Numeric values become values of Numeric type instead of String type. ",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : " Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "def table = data.csv.tableAutoConverted(\"data/table.csv\")\ntable.row(0).B.should == 2\ntable.row(0).B.class.canonicalName.should == \"java.lang.Long\"",
+        "type" : "Snippet",
+        "title" : "read table data from csv with auto conversion",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "list-of-map",
+      "type" : "Section",
+      "title" : "List Of Map",
+      "content" : [ {
+        "type" : "Table",
+        "title" : "data/table.csv",
+        "table" : {
+          "data" : [ [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "1",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "2",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "3",
+              "type" : "SimpleText"
+            } ]
+          } ] ], [ [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "a",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "b",
+              "type" : "SimpleText"
+            } ]
+          } ], [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "c",
+              "type" : "SimpleText"
+            } ]
+          } ] ] ],
+          "columns" : [ {
+            "title" : "A"
+          }, {
+            "title" : "B"
+          }, {
+            "title" : "C"
+          } ]
+        }
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv.listOfMaps",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.List",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.Map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from CSV file. ",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : " Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "def list = data.csv.listOfMaps(\"data/table.csv\")\nlist.get(0).B.should == \"2\"\nlist.get(0).B.class.canonicalName.should == \"java.lang.String\"",
+        "type" : "Snippet",
+        "title" : "read list of maps from csv",
+        "lang" : "groovy"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "tableAutoConverted",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " method",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv.listOfMapsAutoConverted",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.List",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.Map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from CSV file. Numeric values become values of Numeric type instead of String type. ",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : " Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "def list = data.csv.listOfMapsAutoConverted(\"data/table.csv\")\nlist.get(0).B.should == 2\nlist.get(0).B.class.canonicalName.should == \"java.lang.Long\"",
+        "type" : "Snippet",
+        "title" : "read list of maps from csv with auto conversion",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "specify-header",
+      "type" : "Section",
+      "title" : "Specify Header",
+      "content" : [ {
+        "snippet" : "1, 2, 3\na, b, c",
+        "type" : "Snippet",
+        "title" : "data/table-no-header.csv",
+        "lang" : "csv"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv.listOfMapsAutoConverted(header, path)",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.List",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " of ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.Map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from CSV file. ",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : " Header will be taken from first parameter and first row of CSV file will not be treated as header. Numeric values become values of Numeric type instead of String type. ",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : " Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "def list = data.csv.listOfMapsAutoConverted([\"C1\", \"C2\", \"C3\"],\"data/table-no-header.csv\")\nlist.get(0).C2.should == 2\nlist.get(0).C2.class.canonicalName.should == \"java.lang.Long\"",
+        "type" : "Snippet",
+        "title" : "read list of maps from csv with auto conversion",
+        "lang" : "groovy"
+      } ]
+    }, {
+      "id" : "csv-write",
+      "type" : "Section",
+      "title" : "CSV Write",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv.write",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to write data to CSV file.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "def list = [\n    ['colA': 1, 'colB': 'R1'],\n    ['colA': 2, 'colB': 'R2']\n]",
+        "surroundedBy" : "// list-data",
+        "type" : "Snippet",
+        "title" : "data",
+        "lang" : "groovy"
+      }, {
+        "snippet" : "def path = data.csv.write('generated/from-list-maps.csv', list)",
+        "type" : "Snippet",
+        "title" : "write list of maps",
+        "lang" : "groovy",
+        "includeRegexp" : "data.csv.write"
+      }, {
+        "snippet" : "colA,colB\n1,R1\n2,R2",
+        "type" : "Snippet",
+        "title" : "result",
+        "lang" : "csv"
+      } ]
+    } ],
+    "lastModifiedTime" : 1658328071386,
+    "tocItem" : {
+      "sectionTitle" : "Data",
+      "pageTitle" : "Csv",
+      "pageMeta" : { },
+      "dirName" : "data",
+      "fileName" : "csv",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Table Data",
+        "id" : "table-data"
+      }, {
+        "title" : "List Of Map",
+        "id" : "list-of-map"
+      }, {
+        "title" : "Specify Header",
+        "id" : "specify-header"
+      }, {
+        "title" : "CSV Write",
+        "id" : "csv-write"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

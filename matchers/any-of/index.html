@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Any Of</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Match Any Provided Value</h1></header>
+<p>Use anyOf matcher to match an expected value against any of the provided values. matchers/universal-compare Universal Compare rule is applicable. Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.should == anyOf(&quot;2018-06-11&quot;, LocalDate.of(2018, 6, 10)) Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(anyOf(&quot;2018-06-11&quot;, LocalDate.of(2018, 6, 10)));</p>
+</article>
+
+<article>
+<header><h1>Mixing Values And Matchers</h1></header>
+<p>You can mix values and other matchers passed to anyOf Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.should == anyOf(&quot;2018-06-11&quot;, greaterThan(LocalDate.of(2018, 1, 1))) def message = &quot;hello world&quot; message.shouldNot == anyOf(&quot;hello&quot;, contain(&quot;super&quot;)) Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(anyOf(&quot;2018-06-11&quot;, greaterThan(LocalDate.of(2018, 1, 1)))); String message = &quot;hello world&quot;; actual(message).shouldNotBe(anyOf(&quot;hello&quot;, contain(&quot;super&quot;))); Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/global-anchors.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "match-any-provided-value",
+      "type" : "Section",
+      "title" : "Match Any Provided Value",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "anyOf",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " matcher to match an expected value against any of the provided values.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Universal Compare",
+            "type" : "SimpleText"
+          } ],
+          "url" : "/webtau/matchers/universal-compare"
+        }, {
+          "text" : " rule is applicable.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "def dateAsText = \"2018-06-10\"\ndateAsText.should == anyOf(\"2018-06-11\", LocalDate.of(2018, 6, 10))",
+            "entry" : "any of matcher example",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "String dateAsText = \"2018-06-10\";\nactual(dateAsText).shouldBe(anyOf(\"2018-06-11\", LocalDate.of(2018, 6, 10)));",
+            "entry" : "anyOfMatcherExample",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "mixing-values-and-matchers",
+      "type" : "Section",
+      "title" : "Mixing Values And Matchers",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "You can mix values and other matchers passed to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "anyOf",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "snippet" : "def dateAsText = \"2018-06-10\"\ndateAsText.should == anyOf(\"2018-06-11\", greaterThan(LocalDate.of(2018, 1, 1)))\n\ndef message = \"hello world\"\nmessage.shouldNot == anyOf(\"hello\", contain(\"super\"))",
+            "entry" : "any of matcher with other matcher example",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "lang" : "groovy"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "snippet" : "String dateAsText = \"2018-06-10\";\nactual(dateAsText).shouldBe(anyOf(\"2018-06-11\", greaterThan(LocalDate.of(2018, 1, 1))));\n\nString message = \"hello world\";\nactual(message).shouldNotBe(anyOf(\"hello\", contain(\"super\")));",
+            "entry" : "anyOfMatcherWithOtherMatcherExample",
+            "bodyOnly" : true,
+            "type" : "Snippet",
+            "lang" : "java"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "static-import",
+      "type" : "Section",
+      "title" : "Static Import",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Examples assume ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "WebTauCore",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " static import.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "The class contains useful utility methods and matchers.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
+        "surroundedBy" : "import-dsl",
+        "type" : "Snippet",
+        "lang" : "java"
+      } ]
+    } ],
+    "lastModifiedTime" : 1658328071394,
+    "tocItem" : {
+      "sectionTitle" : "Matchers",
+      "pageTitle" : "Any Of",
+      "pageMeta" : { },
+      "dirName" : "matchers",
+      "fileName" : "any-of",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Match Any Provided Value",
+        "id" : "match-any-provided-value"
+      }, {
+        "title" : "Mixing Values And Matchers",
+        "id" : "mixing-values-and-matchers"
+      }, {
+        "title" : "Static Import",
+        "id" : "static-import"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

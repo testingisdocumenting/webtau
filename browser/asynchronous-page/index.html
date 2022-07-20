@@ -90,12 +90,12 @@
 
 <article>
 <header><h1>Visible/Hidden Element</h1></header>
-<p>One way to deal with asynchronous pages is to wait for a feedback to appear or disappear. calculation.start() calculation.feedback.waitTo beVisible() calculation.results.should == [100, 230]</p>
+<p>One way to deal with asynchronous pages is to wait for a feedback to appear or disappear. calculation.start() calculation.feedback.waitToBe visible calculation.results.should == [100, 230]</p>
 </article>
 
 <article>
 <header><h1>Enabled/Disabled Element</h1></header>
-<p>Disabled input box and buttons can be used as a user feedback as well. calculation.open() calculation.input.waitTo beEnabled() calculation.input.setValue(100)</p>
+<p>Disabled input box and buttons can be used as a user feedback as well. calculation.open() calculation.input.waitToBe enabled calculation.input.setValue(100)</p>
 </article>
 
 <article>
@@ -123,13 +123,15 @@ ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
       "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
-      "title" : "View On GitHub"
+      "title" : "View Markdown"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
     "previewEnabled" : false,
-    "allowedGroups" : [ "admin" ]
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
   },
   "page" : {
     "type" : "Page",
@@ -177,7 +179,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "calculation.start()\n\ncalculation.feedback.waitTo beVisible()\ncalculation.results.should == [100, 230]",
+        "snippet" : "calculation.start()\n\ncalculation.feedback.waitToBe visible\ncalculation.results.should == [100, 230]",
         "type" : "Snippet",
         "title" : "beVisible matcher",
         "lang" : "groovy"
@@ -193,7 +195,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "snippet" : "calculation.open()\n\ncalculation.input.waitTo beEnabled()\ncalculation.input.setValue(100)",
+        "snippet" : "calculation.open()\n\ncalculation.input.waitToBe enabled\ncalculation.input.setValue(100)",
         "type" : "Snippet",
         "title" : "beEnabled matcher",
         "lang" : "groovy"
@@ -271,7 +273,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1653578199522,
+    "lastModifiedTime" : 1658328071386,
     "tocItem" : {
       "sectionTitle" : "Browser",
       "pageTitle" : "Asynchronous Page",

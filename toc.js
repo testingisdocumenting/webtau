@@ -101,6 +101,9 @@ toc = [ {
     }, {
       "title" : "Overrides",
       "id" : "overrides"
+    }, {
+      "title" : "Disable ANSI Colors",
+      "id" : "disable-ansi-colors"
     } ]
   } ]
 }, {
@@ -125,9 +128,6 @@ toc = [ {
       "title" : "Example",
       "id" : "example"
     }, {
-      "title" : "Implicit statusCode Check",
-      "id" : "implicit-statuscode-check"
-    }, {
       "title" : "Report",
       "id" : "report"
     } ]
@@ -139,8 +139,8 @@ toc = [ {
     "fileName" : "CRUD-separated",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "Lazy Resource",
-      "id" : "lazy-resource"
+      "title" : "HTTP Calls Separation",
+      "id" : "http-calls-separation"
     }, {
       "title" : "Report",
       "id" : "report"
@@ -168,11 +168,14 @@ toc = [ {
       "title" : "If-Else Logic",
       "id" : "if-else-logic"
     }, {
-      "title" : "Each",
-      "id" : "each"
+      "title" : "Iteration",
+      "id" : "iteration"
     }, {
       "title" : "Find",
       "id" : "find"
+    }, {
+      "title" : "Find All",
+      "id" : "find-all"
     }, {
       "title" : "Collect",
       "id" : "collect"
@@ -182,26 +185,58 @@ toc = [ {
     } ]
   }, {
     "sectionTitle" : "HTTP",
-    "pageTitle" : "Headers",
+    "pageTitle" : "Header",
     "pageMeta" : { },
     "dirName" : "HTTP",
-    "fileName" : "headers",
+    "fileName" : "header",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
       "title" : "Standard Header",
       "id" : "standard-header"
     }, {
-      "title" : "Implicit Header",
-      "id" : "implicit-header"
-    }, {
       "title" : "Explicit Header",
       "id" : "explicit-header"
     }, {
-      "title" : "Mime Type Combined With Payload",
-      "id" : "mime-type-combined-with-payload"
+      "title" : "Implicit Header",
+      "id" : "implicit-header"
+    }, {
+      "title" : "Content Type Shortcut",
+      "id" : "content-type-shortcut"
     }, {
       "title" : "Response Header",
       "id" : "response-header"
+    } ]
+  }, {
+    "sectionTitle" : "HTTP",
+    "pageTitle" : "Body",
+    "pageMeta" : { },
+    "dirName" : "HTTP",
+    "fileName" : "body",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "JSON Request",
+      "id" : "json-request"
+    }, {
+      "title" : "JSON Request From File",
+      "id" : "json-request-from-file"
+    }, {
+      "title" : "Generic Request",
+      "id" : "generic-request"
+    }, {
+      "title" : "Content-Type Shortcuts",
+      "id" : "content-type-shortcuts"
+    }, {
+      "title" : "Form File Data",
+      "id" : "form-file-data"
+    }, {
+      "title" : "Parsed Response",
+      "id" : "parsed-response"
+    }, {
+      "title" : "PDF Response",
+      "id" : "pdf-response"
+    }, {
+      "title" : "Raw Response",
+      "id" : "raw-response"
     } ]
   }, {
     "sectionTitle" : "HTTP",
@@ -219,82 +254,61 @@ toc = [ {
     } ]
   }, {
     "sectionTitle" : "HTTP",
-    "pageTitle" : "Ping",
+    "pageTitle" : "HTTP Calls",
     "pageMeta" : { },
     "dirName" : "HTTP",
-    "fileName" : "ping",
+    "fileName" : "HTTP-calls",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
+      "title" : "Overloaded Calls",
+      "id" : "overloaded-calls"
+    }, {
+      "title" : "Implicit statusCode Check",
+      "id" : "implicit-statuscode-check"
+    }, {
       "title" : "GET",
       "id" : "get"
-    } ]
-  }, {
-    "sectionTitle" : "HTTP",
-    "pageTitle" : "Proxy",
-    "pageMeta" : { },
-    "dirName" : "HTTP",
-    "fileName" : "proxy",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "Setting Proxy",
-      "id" : "setting-proxy"
-    } ]
-  }, {
-    "sectionTitle" : "HTTP",
-    "pageTitle" : "Files",
-    "pageMeta" : { },
-    "dirName" : "HTTP",
-    "fileName" : "files",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "Upload File",
-      "id" : "upload-file"
     }, {
-      "title" : "Upload In-Memory Content",
-      "id" : "upload-in-memory-content"
+      "title" : "POST",
+      "id" : "post"
     }, {
-      "title" : "Download PDF",
-      "id" : "download-pdf"
+      "title" : "PUT",
+      "id" : "put"
+    }, {
+      "title" : "DELETE",
+      "id" : "delete"
+    }, {
+      "title" : "PATCH",
+      "id" : "patch"
+    }, {
+      "title" : "PING",
+      "id" : "ping"
     } ]
   }, {
     "sectionTitle" : "HTTP",
-    "pageTitle" : "Documentation",
+    "pageTitle" : "Documentation Artifacts",
     "pageMeta" : { },
     "dirName" : "HTTP",
-    "fileName" : "documentation",
+    "fileName" : "documentation-artifacts",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "Scenarios",
-      "id" : "scenarios"
+      "title" : "Happy Paths",
+      "id" : "happy-paths"
     }, {
       "title" : "Capturing Test Artifacts",
       "id" : "capturing-test-artifacts"
+    }, {
+      "title" : "Documentation Pipeline",
+      "id" : "documentation-pipeline"
+    }, {
+      "title" : "Create Employee",
+      "id" : "create-employee"
     }, {
       "title" : "Test Artifacts Location",
       "id" : "test-artifacts-location"
     }, {
       "title" : "Test Artifacts",
       "id" : "test-artifacts"
-    }, {
-      "title" : "Document REST calls",
-      "id" : "document-rest-calls"
-    } ]
-  }, {
-    "sectionTitle" : "HTTP",
-    "pageTitle" : "Complex Types",
-    "pageMeta" : { },
-    "dirName" : "HTTP",
-    "fileName" : "complex-types",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "Contain",
-      "id" : "contain"
-    }, {
-      "title" : "List Of Objects",
-      "id" : "list-of-objects"
-    }, {
-      "title" : "Order Agnostic Match",
-      "id" : "order-agnostic-match"
     } ]
   }, {
     "sectionTitle" : "HTTP",
@@ -338,43 +352,6 @@ toc = [ {
     } ]
   }, {
     "sectionTitle" : "HTTP",
-    "pageTitle" : "Report",
-    "pageMeta" : { },
-    "dirName" : "HTTP",
-    "fileName" : "report",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "Location",
-      "id" : "location"
-    }, {
-      "title" : "Summary",
-      "id" : "summary"
-    }, {
-      "title" : "Test Summary",
-      "id" : "test-summary"
-    }, {
-      "title" : "Navigation",
-      "id" : "navigation"
-    }, {
-      "title" : "Additional Reports",
-      "id" : "additional-reports"
-    } ]
-  }, {
-    "sectionTitle" : "HTTP",
-    "pageTitle" : "Maven",
-    "pageMeta" : { },
-    "dirName" : "HTTP",
-    "fileName" : "maven",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "Dependency",
-      "id" : "dependency"
-    }, {
-      "title" : "Plugin",
-      "id" : "plugin"
-    } ]
-  }, {
-    "sectionTitle" : "HTTP",
     "pageTitle" : "Matchers",
     "pageMeta" : {
       "type" : [ "two-sides" ]
@@ -412,6 +389,20 @@ toc = [ {
     }, {
       "title" : "Mixing Matchers",
       "id" : "mixing-matchers"
+    } ]
+  }, {
+    "sectionTitle" : "HTTP",
+    "pageTitle" : "Configuration",
+    "pageMeta" : { },
+    "dirName" : "HTTP",
+    "fileName" : "configuration",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Base URL",
+      "id" : "base-url"
+    }, {
+      "title" : "Proxy",
+      "id" : "proxy"
     } ]
   } ]
 }, {
@@ -610,11 +601,14 @@ toc = [ {
     "fileName" : "documentation-artifacts",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "Scenarios",
-      "id" : "scenarios"
+      "title" : "Usage Scenarios",
+      "id" : "usage-scenarios"
     }, {
       "title" : "Capturing Screenshots With Annotations",
       "id" : "capturing-screenshots-with-annotations"
+    }, {
+      "title" : "Badge Shortcut",
+      "id" : "badge-shortcut"
     }, {
       "title" : "Annotation Types",
       "id" : "annotation-types"
@@ -622,11 +616,8 @@ toc = [ {
       "title" : "Annotation Placement",
       "id" : "annotation-placement"
     }, {
-      "title" : "Screenshot Of Specific Element",
-      "id" : "screenshot-of-specific-element"
-    }, {
-      "title" : "Inverted Colors",
-      "id" : "inverted-colors"
+      "title" : "Screenshot Of A Specific Element",
+      "id" : "screenshot-of-a-specific-element"
     } ]
   }, {
     "sectionTitle" : "Browser",
@@ -1067,7 +1058,19 @@ toc = [ {
     "dirName" : "report",
     "fileName" : "introduction",
     "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ ]
+    "pageSectionIdTitles" : [ {
+      "title" : "Summary",
+      "id" : "summary"
+    }, {
+      "title" : "Test Summary",
+      "id" : "test-summary"
+    }, {
+      "title" : "Permalinks",
+      "id" : "permalinks"
+    }, {
+      "title" : "Data Tracking",
+      "id" : "data-tracking"
+    } ]
   }, {
     "sectionTitle" : "Report",
     "pageTitle" : "Steps",
@@ -1084,6 +1087,37 @@ toc = [ {
     }, {
       "title" : "Grouping With Trace",
       "id" : "grouping-with-trace"
+    } ]
+  }, {
+    "sectionTitle" : "Report",
+    "pageTitle" : "Configuration",
+    "pageMeta" : { },
+    "dirName" : "report",
+    "fileName" : "configuration",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Report Path",
+      "id" : "report-path"
+    }, {
+      "title" : "Failed Report Path",
+      "id" : "failed-report-path"
+    }, {
+      "title" : "Report Name And URL",
+      "id" : "report-name-and-url"
+    } ]
+  }, {
+    "sectionTitle" : "Report",
+    "pageTitle" : "Custom Reports",
+    "pageMeta" : { },
+    "dirName" : "report",
+    "fileName" : "custom-reports",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Registration",
+      "id" : "registration"
+    }, {
+      "title" : "GraphQL Example",
+      "id" : "graphql-example"
     } ]
   } ]
 }, {
@@ -1143,6 +1177,69 @@ toc = [ {
     } ]
   } ]
 }, {
+  "sectionTitle" : "Data",
+  "dirName" : "data",
+  "items" : [ {
+    "sectionTitle" : "Data",
+    "pageTitle" : "Introduction",
+    "pageMeta" : { },
+    "dirName" : "data",
+    "fileName" : "introduction",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ ]
+  }, {
+    "sectionTitle" : "Data",
+    "pageTitle" : "Json",
+    "pageMeta" : { },
+    "dirName" : "data",
+    "fileName" : "json",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Read List",
+      "id" : "read-list"
+    }, {
+      "title" : "Read Map",
+      "id" : "read-map"
+    } ]
+  }, {
+    "sectionTitle" : "Data",
+    "pageTitle" : "Csv",
+    "pageMeta" : { },
+    "dirName" : "data",
+    "fileName" : "csv",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Table Data",
+      "id" : "table-data"
+    }, {
+      "title" : "List Of Map",
+      "id" : "list-of-map"
+    }, {
+      "title" : "Specify Header",
+      "id" : "specify-header"
+    }, {
+      "title" : "CSV Write",
+      "id" : "csv-write"
+    } ]
+  }, {
+    "sectionTitle" : "Data",
+    "pageTitle" : "Pdf",
+    "pageMeta" : { },
+    "dirName" : "data",
+    "fileName" : "pdf",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Read File Or Resource",
+      "id" : "read-file-or-resource"
+    }, {
+      "title" : "HTTP response",
+      "id" : "http-response"
+    }, {
+      "title" : "Read Bytes",
+      "id" : "read-bytes"
+    } ]
+  } ]
+}, {
   "sectionTitle" : "Utilities",
   "dirName" : "utilities",
   "items" : [ {
@@ -1153,26 +1250,6 @@ toc = [ {
     "fileName" : "introduction",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ ]
-  }, {
-    "sectionTitle" : "Utilities",
-    "pageTitle" : "Data",
-    "pageMeta" : { },
-    "dirName" : "utilities",
-    "fileName" : "data",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "CSV Read",
-      "id" : "csv-read"
-    }, {
-      "title" : "CSV Write",
-      "id" : "csv-write"
-    }, {
-      "title" : "JSON Read",
-      "id" : "json-read"
-    }, {
-      "title" : "GUID",
-      "id" : "guid"
-    } ]
   }, {
     "sectionTitle" : "Utilities",
     "pageTitle" : "File System",
@@ -1233,6 +1310,23 @@ toc = [ {
     }, {
       "title" : "Dates",
       "id" : "dates"
+    } ]
+  }, {
+    "sectionTitle" : "Matchers",
+    "pageTitle" : "Any Of",
+    "pageMeta" : { },
+    "dirName" : "matchers",
+    "fileName" : "any-of",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Match Any Provided Value",
+      "id" : "match-any-provided-value"
+    }, {
+      "title" : "Mixing Values And Matchers",
+      "id" : "mixing-values-and-matchers"
+    }, {
+      "title" : "Static Import",
+      "id" : "static-import"
     } ]
   }, {
     "sectionTitle" : "Matchers",
@@ -1499,8 +1593,8 @@ toc = [ {
       "title" : "Capture Expected Output",
       "id" : "capture-expected-output"
     }, {
-      "title" : "Znai Example",
-      "id" : "znai-example"
+      "title" : "Capture Console Output",
+      "id" : "capture-console-output"
     } ]
   } ]
 }, {
@@ -1549,6 +1643,9 @@ toc = [ {
     "fileName" : "2022",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
+      "title" : "1.49",
+      "id" : "149"
+    }, {
       "title" : "1.48",
       "id" : "148"
     }, {

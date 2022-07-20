@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Living Document</h1></header>
-<p>In your test you can capture input and output and save it to a file. By using documentation systems you can use the captured artifacts to render business friendly documentation of your business logic.As system evolves, so do your tests and so does your documentation. Essentially you will have a living document describing your system.</p>
+<p>In your test you can capture input and output and save it to a file. By using documentation systems you can use the captured artifacts to render business friendly documentation.As system evolves, so do your tests and so does your documentation. Essentially you will have a living document describing aspects of your system.</p>
 </article>
 
 <article>
@@ -95,12 +95,12 @@
 
 <article>
 <header><h1>Capture Expected Output</h1></header>
-<p>Use doc.expected.capture to save most recent expected value. actual(dao.thisWeekJoiners()).should(equal(table( &quot;*id&quot;, &quot;level&quot;, &quot;monthsAtCompany&quot;, ____________________________________, &quot;bob&quot;, 3, 0, &quot;cat&quot;, 4, 0))); doc.expected.capture(&quot;new-joiners&quot;); // capture expected new joiners for documentation purposes</p>
+<p>Use doc.expected.capture to save most recent expected value. actual(dao.thisWeekJoiners()).should(equal(table( &quot;*id&quot;, &quot;level&quot;, &quot;monthsAtCompany&quot;, ____________________________________, &quot;bob&quot;, 3, 0, &quot;cat&quot;, 4, 0))); doc.expected.capture(&quot;new-joiners&quot;); // capture expected new joiners for documentation purposes WebTau documentation is created using https://github.org/testingisdocumenting/znai Znai. It has :include-table: plugin to render a table giving a json or CSV file. text :include-table: doc-artifacts/all-employees.json :include-table: doc-artifacts/new-joiners.json Below is the example of the business logic rendered as documentation.Our HR system consider all employees that has been in the company less than a month as new joiners. For example, giving employees: id level monthsAtCompany alice 5 1 bob 3 0 smith 4 1 cat 4 0 System will list following employees as new joiners: id level monthsAtCompany bob 3 0 cat 4 0</p>
 </article>
 
 <article>
-<header><h1>Znai Example</h1></header>
-<p>Since this documentation is rendered using https://github.org/testingisdocumenting/znai Znai here is an example of how to use the captured artifacts. https://github.org/testingisdocumenting/znai Znai has :include-table: plugin to render a table giving a json or CSV file. text :include-table: doc-artifacts/all-employees.json :include-table: doc-artifacts/new-joiners.json Below is the example of the business logic rendered as documentation.Our HR system consider all employees that has been in the company less than a month as new joiners. For example, giving employees: id level monthsAtCompany alice 5 1 bob 3 0 smith 4 1 cat 4 0 System will list following employees as new joiners: id level monthsAtCompany bob 3 0 cat 4 0</p>
+<header><h1>Capture Console Output</h1></header>
+<p>Use doc.console.capture to capture console output of a provided code block doc.console.capture(&quot;http-get-console-output&quot;, () -&gt; { http.get(&quot;/end-point&quot;, ((header, body) -&gt; { DataNode price = body.get(&quot;price&quot;); price.should(equal(100)); })); }); &gt; executing HTTP GET http://localhost:40601/end-point . body.price equals 100 body.price: actual: 100 &lt;java.lang.Integer&gt; expected: 100 &lt;java.lang.Integer&gt; (0ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer&gt; expected: 200 &lt;java.lang.Integer&gt; (0ms) response (application/json): { &quot;id&quot;: 10, &quot;price&quot;: __100__, &quot;amount&quot;: 30, &quot;list&quot;: [ 1, 2, 3 ], &quot;object&quot;: { &quot;k1&quot;: &quot;v1&quot;, &quot;k2&quot;: &quot;v2&quot;, &quot;k3&quot;: &quot;v3&quot; }, &quot;complexList&quot;: [ { &quot;id&quot;: &quot;id1&quot;, &quot;k1&quot;: &quot;v1&quot;, &quot;k2&quot;: 30 }, { &quot;id&quot;: &quot;id2&quot;, &quot;k1&quot;: &quot;v11&quot;, &quot;k2&quot;: 40 } ] } . executed HTTP GET http://localhost:40601/end-point (2ms) https://github.org/testingisdocumenting/znai Znai has cli-output plugin to render ANSI output :include-cli-output: doc-artifacts/http-get-console-output.txt &gt; executing HTTP GET http://localhost:40601/end-point . body.price equals 100 body.price: actual: 100 &lt;java.lang.Integer&gt; expected: 100 &lt;java.lang.Integer&gt; (0ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer&gt; expected: 200 &lt;java.lang.Integer&gt; (0ms) response (application/json): { &quot;id&quot;: 10, &quot;price&quot;: __100__, &quot;amount&quot;: 30, &quot;list&quot;: [ 1, 2, 3 ], &quot;object&quot;: { &quot;k1&quot;: &quot;v1&quot;, &quot;k2&quot;: &quot;v2&quot;, &quot;k3&quot;: &quot;v3&quot; }, &quot;complexList&quot;: [ { &quot;id&quot;: &quot;id1&quot;, &quot;k1&quot;: &quot;v1&quot;, &quot;k2&quot;: 30 }, { &quot;id&quot;: &quot;id2&quot;, &quot;k1&quot;: &quot;v11&quot;, &quot;k2&quot;: 40 } ] } . executed HTTP GET http://localhost:40601/end-point (2ms)</p>
 </article>
 </section>
 </div>
@@ -118,13 +118,15 @@ ReactDOM.render(React.createElement(Documentation, {
   "docMeta" : {
     "viewOn" : {
       "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
-      "title" : "View On GitHub"
+      "title" : "View Markdown"
     },
     "id" : "webtau",
     "title" : "WebTau",
     "type" : "Guide",
     "previewEnabled" : false,
-    "allowedGroups" : [ "admin" ]
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    }
   },
   "page" : {
     "type" : "Page",
@@ -140,13 +142,13 @@ ReactDOM.render(React.createElement(Documentation, {
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "By using documentation systems you can use the captured artifacts to render business friendly documentation of your business logic.",
+          "text" : "By using documentation systems you can use the captured artifacts to render business friendly documentation.",
           "type" : "SimpleText"
         } ]
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "As system evolves, so do your tests and so does your documentation. Essentially you will have a living document describing your system.",
+          "text" : "As system evolves, so do your tests and so does your documentation. Essentially you will have a living document describing aspects of your system.",
           "type" : "SimpleText"
         } ]
       } ]
@@ -215,15 +217,10 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet",
         "title" : "capturing most recent expected",
         "lang" : "java"
-      } ]
-    }, {
-      "id" : "znai-example",
-      "type" : "Section",
-      "title" : "Znai Example",
-      "content" : [ {
+      }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Since this documentation is rendered using ",
+          "text" : "WebTau documentation is created using ",
           "type" : "SimpleText"
         }, {
           "isFile" : false,
@@ -234,20 +231,12 @@ ReactDOM.render(React.createElement(Documentation, {
           } ],
           "url" : "https://github.org/testingisdocumenting/znai"
         }, {
-          "text" : " here is an example of how to use the captured artifacts.",
+          "text" : ".",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "isFile" : false,
-          "type" : "Link",
-          "content" : [ {
-            "text" : "Znai",
-            "type" : "SimpleText"
-          } ],
-          "url" : "https://github.org/testingisdocumenting/znai"
-        }, {
-          "text" : " has ",
+          "text" : "It has ",
           "type" : "SimpleText"
         }, {
           "code" : ":include-table:",
@@ -419,8 +408,66 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         }
       } ]
+    }, {
+      "id" : "capture-console-output",
+      "type" : "Section",
+      "title" : "Capture Console Output",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "doc.console.capture",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to capture console output of a provided code block",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : "doc.console.capture(\"http-get-console-output\", () -> {\n    http.get(\"/end-point\", ((header, body) -> {\n        DataNode price = body.get(\"price\");\n        price.should(equal(100));\n    }));\n});",
+        "entry" : "captureConsoleOutputExample",
+        "bodyOnly" : true,
+        "replace" : [ "captureNoStep", "capture" ],
+        "type" : "Snippet",
+        "title" : "capture console output",
+        "lang" : "java"
+      }, {
+        "snippet" : "\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttp://localhost:40601/end-point\u001B[0m\n  \u001B[32m. \u001B[0m\u001B[1mbody.price \u001B[32mequals 100\n      body.price:   actual: 100 <java.lang.Integer>\n                  expected: 100 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m\n  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[32mequals 200\n      header.statusCode:   actual: 200 <java.lang.Integer>\n                         expected: 200 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m\n  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m\n  \u001B[33m{\u001B[0m\n    \u001B[35m\"id\": \u001B[36m10\u001B[33m,\u001B[0m\n    \u001B[35m\"price\": \u001B[36m\u001B[1m\u001B[32m__100__\u001B[33m,\u001B[0m\n    \u001B[35m\"amount\": \u001B[36m30\u001B[33m,\u001B[0m\n    \u001B[35m\"list\": \u001B[33m[\u001B[0m\n      \u001B[36m1\u001B[33m,\u001B[0m\n      \u001B[36m2\u001B[33m,\u001B[0m\n      \u001B[36m3\u001B[0m\n    \u001B[33m]\u001B[33m,\u001B[0m\n    \u001B[35m\"object\": \u001B[33m{\u001B[0m\n      \u001B[35m\"k1\": \u001B[32m\"v1\"\u001B[33m,\u001B[0m\n      \u001B[35m\"k2\": \u001B[32m\"v2\"\u001B[33m,\u001B[0m\n      \u001B[35m\"k3\": \u001B[32m\"v3\"\u001B[0m\n    \u001B[33m}\u001B[33m,\u001B[0m\n    \u001B[35m\"complexList\": \u001B[33m[\u001B[0m\n      \u001B[33m{\u001B[0m\n        \u001B[35m\"id\": \u001B[32m\"id1\"\u001B[33m,\u001B[0m\n        \u001B[35m\"k1\": \u001B[32m\"v1\"\u001B[33m,\u001B[0m\n        \u001B[35m\"k2\": \u001B[36m30\u001B[0m\n      \u001B[33m}\u001B[33m,\u001B[0m\n      \u001B[33m{\u001B[0m\n        \u001B[35m\"id\": \u001B[32m\"id2\"\u001B[33m,\u001B[0m\n        \u001B[35m\"k1\": \u001B[32m\"v11\"\u001B[33m,\u001B[0m\n        \u001B[35m\"k2\": \u001B[36m40\u001B[0m\n      \u001B[33m}\u001B[0m\n    \u001B[33m]\u001B[0m\n  \u001B[33m}\u001B[0m\n\u001B[32m. \u001B[34mexecuted HTTP GET \u001B[35mhttp://localhost:40601/end-point\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m",
+        "type" : "Snippet",
+        "title" : "raw content of doc-artifacts/http-get-console-output.txt",
+        "lang" : "txt"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Znai",
+            "type" : "SimpleText"
+          } ],
+          "url" : "https://github.org/testingisdocumenting/znai"
+        }, {
+          "text" : " has ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli-output",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " plugin to render ANSI output",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "snippet" : ":include-cli-output: doc-artifacts/http-get-console-output.txt\n",
+        "type" : "Snippet",
+        "lineNumber" : "",
+        "lang" : ""
+      }, {
+        "type" : "CliOutput",
+        "lines" : [ "\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttp://localhost:40601/end-point\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mbody.price \u001B[32mequals 100", "      body.price:   actual: 100 <java.lang.Integer>", "                  expected: 100 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[32mequals 200", "      header.statusCode:   actual: 200 <java.lang.Integer>", "                         expected: 200 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"id\": \u001B[36m10\u001B[33m,\u001B[0m", "    \u001B[35m\"price\": \u001B[36m\u001B[1m\u001B[32m__100__\u001B[33m,\u001B[0m", "    \u001B[35m\"amount\": \u001B[36m30\u001B[33m,\u001B[0m", "    \u001B[35m\"list\": \u001B[33m[\u001B[0m", "      \u001B[36m1\u001B[33m,\u001B[0m", "      \u001B[36m2\u001B[33m,\u001B[0m", "      \u001B[36m3\u001B[0m", "    \u001B[33m]\u001B[33m,\u001B[0m", "    \u001B[35m\"object\": \u001B[33m{\u001B[0m", "      \u001B[35m\"k1\": \u001B[32m\"v1\"\u001B[33m,\u001B[0m", "      \u001B[35m\"k2\": \u001B[32m\"v2\"\u001B[33m,\u001B[0m", "      \u001B[35m\"k3\": \u001B[32m\"v3\"\u001B[0m", "    \u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[35m\"complexList\": \u001B[33m[\u001B[0m", "      \u001B[33m{\u001B[0m", "        \u001B[35m\"id\": \u001B[32m\"id1\"\u001B[33m,\u001B[0m", "        \u001B[35m\"k1\": \u001B[32m\"v1\"\u001B[33m,\u001B[0m", "        \u001B[35m\"k2\": \u001B[36m30\u001B[0m", "      \u001B[33m}\u001B[33m,\u001B[0m", "      \u001B[33m{\u001B[0m", "        \u001B[35m\"id\": \u001B[32m\"id2\"\u001B[33m,\u001B[0m", "        \u001B[35m\"k1\": \u001B[32m\"v11\"\u001B[33m,\u001B[0m", "        \u001B[35m\"k2\": \u001B[36m40\u001B[0m", "      \u001B[33m}\u001B[0m", "    \u001B[33m]\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP GET \u001B[35mhttp://localhost:40601/end-point\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m" ]
+      } ]
     } ],
-    "lastModifiedTime" : 1653578199522,
+    "lastModifiedTime" : 1658328071386,
     "tocItem" : {
       "sectionTitle" : "JVM Business Logic",
       "pageTitle" : "Documentation Artifacts",
@@ -438,8 +485,8 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "Capture Expected Output",
         "id" : "capture-expected-output"
       }, {
-        "title" : "Znai Example",
-        "id" : "znai-example"
+        "title" : "Capture Console Output",
+        "id" : "capture-console-output"
       } ]
     }
   }
