@@ -24,5 +24,5 @@ scenario('ui failed test screenshot') {
     report.openGroovyStandaloneReport('ui/failedAssertion-chrome-failed-webtau-report.html')
     report.selectTest('search and fail assertion')
     report.selectScreenshot()
-    report.screenshot.should beVisible()
+    report.screenshot.should visible
 }
