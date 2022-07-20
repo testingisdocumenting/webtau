@@ -31,7 +31,7 @@ Example of using captured artifacts using [Znai](https://github.com/testingisdoc
 `````markdown {title: "znai example"}
 # Create Employee
 
-:include-open-api: scenarios/rest/openapi/api-spec.json {operationId: "createEmployee" }
+:include-open-api: openapi/api-spec.json {operationId: "createEmployee" }
 
 ```columns
 left: 
