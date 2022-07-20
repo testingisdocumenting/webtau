@@ -1,0 +1,1 @@
+* Fix: Maven Plugin race condition between shutdown hook and apache FileUtils class unload   

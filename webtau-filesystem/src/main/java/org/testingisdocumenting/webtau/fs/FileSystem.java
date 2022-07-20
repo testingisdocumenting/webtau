@@ -159,7 +159,7 @@ public class FileSystem {
                 tokenizedMessage(action("deleting"), classifier, urlValue(fileOrDir.toString())),
                 () -> tokenizedMessage(action("deleted"), classifier,
                         urlValue(fullFileOrDirPath.toAbsolutePath().toString())),
-                () -> FileUtils.deleteQuietly(fullFileOrDirPath.toFile()));
+                () -> org.testingisdocumenting.webtau.utils.FileUtils.deleteFileOrDirQuietly(fullFileOrDirPath));
 
         step.execute(StepReportOptions.REPORT_ALL);
     }
@@ -428,7 +428,7 @@ public class FileSystem {
     private void deletePathStep(Path path) {
         WebTauStep.createAndExecuteStep(tokenizedMessage(action("deleting"), classifier("path"), urlValue(path)),
                 () -> tokenizedMessage(action("deleted"), classifier("path"), urlValue(path)),
-                () -> FileUtils.deleteQuietly(path.toFile()));
+                () -> org.testingisdocumenting.webtau.utils.FileUtils.deleteFileOrDirQuietly(path));
     }
 
     static class CopyResult {
