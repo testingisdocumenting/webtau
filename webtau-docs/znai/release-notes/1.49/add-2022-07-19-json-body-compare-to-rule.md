@@ -1,0 +1,1 @@
+* Add [compare to rule](matchers/custom-compare-to-handler) to compare [DataNode](HTTP/data-node) and [JsonRequestBody](HTTP/body#json-request)   

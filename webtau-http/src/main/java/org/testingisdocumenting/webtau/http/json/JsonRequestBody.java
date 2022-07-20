@@ -38,6 +38,14 @@ public class JsonRequestBody implements HttpRequestBody {
         this.original = data;
     }
 
+    public boolean isMap() {
+        return original instanceof Map;
+    }
+
+    public Object getOriginal() {
+        return original;
+    }
+
     @Override
     public boolean isBinary() {
         return false;

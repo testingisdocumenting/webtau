@@ -12,7 +12,7 @@ public class CustomerDocCaptureTest {
     public void extractIdAfterPostToUseInsideGetRequest() {
         HttpRequestBody customerPayload = http.json(
                 "firstName", "FN",
-                "lastName", "LN" );
+                "lastName", "LN");
 
         int id = http.post("/customers", customerPayload, ((header, body) -> {
             body.get("id").shouldNot(equal(""));
