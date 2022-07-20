@@ -44,9 +44,8 @@ public class FileUtils {
             walk.sorted(Comparator.reverseOrder())
                     .forEach(FileUtils::deleteQuietly);
         } catch (IOException e) {
-            throw new UncheckedIOException(e);
+            // ignored
         }
-
     }
 
     public static void createDirsForFile(Path path) {
