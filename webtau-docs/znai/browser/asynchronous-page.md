@@ -12,13 +12,13 @@ Question: How do users know that their action is done and they can move on?
 
 One way to deal with asynchronous pages is to wait for a feedback to appear or disappear.
 
-:include-file: doc-artifacts/snippets/wait-sync/waitForAppear.groovy {title: "beVisible matcher"}
+:include-file: doc-artifacts/snippets/wait-sync/waitForAppear.groovy {title: "visible matcher"}
 
 # Enabled/Disabled Element
 
 Disabled input box and buttons can be used as a user feedback as well.
 
-:include-file: doc-artifacts/snippets/wait-sync/waitForEnabled.groovy {title: "beEnabled matcher"}
+:include-file: doc-artifacts/snippets/wait-sync/waitForEnabled.groovy {title: "enabled matcher"}
 
 # Wait to match
 

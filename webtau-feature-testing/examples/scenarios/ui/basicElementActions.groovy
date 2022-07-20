@@ -70,7 +70,7 @@ scenario("hover") {
 
 scenario("validate hover") {
     def paymentsMenuItem = $(".dropdown .item").get("Payments")
-    paymentsMenuItem.waitTo beVisible()
+    paymentsMenuItem.waitTo visible
     paymentsMenuItem.click()
 
     payments.message.waitTo == "fetching payments"

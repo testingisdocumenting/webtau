@@ -44,7 +44,7 @@ public class StaleElementHandler {
             } catch (StaleElementReferenceException e) {
                 if (numberOfAttemptsLeft == 1) {
                     throw new RuntimeException("element is stale, " +
-                            "consider using waitTo beVisible matcher to make sure component fully appeared");
+                            "consider using waitToBe visible matcher to make sure component fully appeared");
                 }
 
                 sleep(BrowserConfig.getStaleElementRetryWait());
