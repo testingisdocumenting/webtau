@@ -72,4 +72,34 @@ class WebTauFeaturesJUnit5Test {
     void browserLocalStorage() {
         testRunner.runAndValidate(BrowserLocalStorageJavaTest, testServer.uri.toString())
     }
+
+    @Test
+    void crudSeparatedJava() {
+        testRunner.runAndValidate(CustomerCrudSeparatedJavaTest, "")
+    }
+
+    @Test
+    void crudSeparatedGroovy() {
+        testRunner.runAndValidate(CustomerCrudSeparatedGroovyTest, "")
+    }
+
+    @Test
+    void queryJava() {
+        testRunner.runAndValidate(CustomerQueryJavaTest, "")
+    }
+
+    @Test
+    void queryGroovy() {
+        testRunner.runAndValidate(CustomerQueryGroovyTest, "")
+    }
+
+    @Test
+    void crudSeparatedFactoryJava() {
+        testRunner.runAndValidate(CustomerCrudSeparatedTestFactoryIT, "")
+    }
+
+    @Test
+    void docCapture() {
+        testRunner.runAndValidate(CustomerDocCaptureTest, "")
+    }
 }

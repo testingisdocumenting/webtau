@@ -1,0 +1,14 @@
+{
+  "create" : {
+    "numberOfSuccessful" : 2
+  },
+  "read" : {
+    "numberOfSuccessful" : 3
+  },
+  "update" : {
+    "numberOfSuccessful" : 6
+  },
+  "delete" : {
+    "numberOfSuccessful" : 4
+  }
+}
