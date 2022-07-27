@@ -4,12 +4,14 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.testingisdocumenting.webtau.junit5.WebTau;
 
 import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
+@WebTau
 @DisplayName("customer query")
 class CustomerQueryJavaTest {
     private static Integer id1; // keep track of created ids to assert and cleanup later

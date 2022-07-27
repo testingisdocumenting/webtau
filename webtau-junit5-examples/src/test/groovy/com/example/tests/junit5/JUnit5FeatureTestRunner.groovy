@@ -30,7 +30,7 @@ import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.WebTauStep
 
-import static org.junit.platform.engine.discovery.DiscoverySelectors.selectClass
+import static org.junit.platform.engine.discovery.DiscoverySelectors.*
 
 class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener {
     private Map<String, Object> scenariosDetails
@@ -42,15 +42,13 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener {
                 .build()
 
         Launcher launcher = LauncherFactory.create()
-
         launcher.discover(request)
-        launcher.registerTestExecutionListeners(this)
 
         scenariosDetails = [:]
         WebTauConfig.cfg.setBaseUrl(baseUrl)
 
         StepReporters.withAdditionalReporter(this) {
-            launcher.execute(request)
+            launcher.execute(request, this)
         }
 
         TestListeners.afterAllTests()
@@ -59,7 +57,7 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener {
 
     @Override
     void executionStarted(TestIdentifier testIdentifier) {
-        if (!testIdentifier.test) {
+        if (!testIdentifier.isTest()) {
             return
         }
 
@@ -82,11 +80,19 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener {
 
     @Override
     void onStepSuccess(WebTauStep step) {
+        if (capturedStepsSummary == null) {
+            return
+        }
+
         capturedStepsSummary.numberOfSuccessful++
     }
 
     @Override
     void onStepFailure(WebTauStep step) {
+        if (capturedStepsSummary == null) {
+            return
+        }
+
         capturedStepsSummary.numberOfFailed++
     }
 }

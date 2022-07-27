@@ -1,0 +1,11 @@
+{
+  "read customer" : {
+    "numberOfSuccessful" : 3
+  },
+  "update customer" : {
+    "numberOfSuccessful" : 6
+  },
+  "delete customer" : {
+    "numberOfSuccessful" : 4
+  }
+}
