@@ -1,0 +1,28 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "auth token usage",
+    "shortContainerId" : "cachedExpirationValue.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  }, {
+    "scenario" : "another auth token usage",
+    "shortContainerId" : "cachedExpirationValue.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  }, {
+    "scenario" : "auth token usage after expiration",
+    "shortContainerId" : "cachedExpirationValue.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 7
+    }
+  }, {
+    "scenario" : "remove token",
+    "shortContainerId" : "cachedExpirationValue.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  } ],
+  "exitCode" : 0
+}
