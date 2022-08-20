@@ -19,6 +19,16 @@ We then cache the value and you can write a second scenario and keep re-running 
 Note: Use [Selective Run](groovy-standalone-runner/selective-run) or [REPL mode](REPL/test-runs) 
 to run one scenario at a time.
 
+# Cached Value With Expiration
+
+Use get value with expiration time for scenarios like auth token 
+
+:include-file: scenarios/cache/cachedExpirationValue.groovy {
+  title: "cached value with expiration",
+  surroundedBy: "example",
+  commentsType: "inline"
+}
+
 # FS Path type
 
 [File System module](utilities/file-system) return values of type `Path`. WebTau stores them as `String`.  

@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.attribute.FileTime;
+import java.time.Instant;
 import java.util.function.Supplier;
 
 class FileBasedCache {
@@ -41,6 +43,15 @@ class FileBasedCache {
         return Files.exists(valuePath);
     }
 
+    public void remove(String key) {
+        Path valuePath = valueFilePathByKeyAndCreateDirIfRequired(key);
+        try {
+            Files.deleteIfExists(valuePath);
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
+    }
+
     @SuppressWarnings("unchecked")
     public <E> E get(String key) {
         Path valuePath = valueFilePathByKeyAndCreateDirIfRequired(key);
@@ -49,6 +60,23 @@ class FileBasedCache {
         }
 
         return (E) JsonUtils.deserialize(FileUtils.fileTextContent(valuePath));
+    }
+
+    public boolean isExpired(String key, long expirationMs) {
+        Path valuePath = valueFilePathByKeyAndCreateDirIfRequired(key);
+        if (!Files.exists(valuePath)) {
+            return true;
+        }
+
+        try {
+            FileTime modifiedTime = Files.getLastModifiedTime(valuePath);
+            long updateTimeSinceEpoch = modifiedTime.toMillis();
+            long nowTimeSinceEpoch = Instant.now().toEpochMilli();
+
+            return nowTimeSinceEpoch - updateTimeSinceEpoch > expirationMs;
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     public void put(String key, Object value) {
