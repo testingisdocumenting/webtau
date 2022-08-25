@@ -243,6 +243,10 @@ public class WebTauConfig implements PrettyPrintable {
         return httpTimeout.getAsInt();
     }
 
+    public ConfigValue getHttpTimeoutValue() {
+        return httpTimeout;
+    }
+
     public boolean shouldFollowRedirects() {
         return !disableFollowingRedirects.getAsBoolean();
     }

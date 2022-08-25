@@ -102,4 +102,9 @@ class WebTauFeaturesJUnit5Test {
     void docCapture() {
         testRunner.runAndValidate(CustomerDocCaptureTest, "")
     }
+
+    @Test
+    void staticServerOverride() {
+        testRunner.runAndValidate(StaticServerJavaTest, "")
+    }
 }

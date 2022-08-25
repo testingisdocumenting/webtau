@@ -1,0 +1,8 @@
+{
+  "contentOverride()" : {
+    "numberOfSuccessful" : 3
+  },
+  "staticContentCheck()" : {
+    "numberOfSuccessful" : 4
+  }
+}
