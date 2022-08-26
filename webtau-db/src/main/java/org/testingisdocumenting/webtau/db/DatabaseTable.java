@@ -33,7 +33,7 @@ import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBu
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 
-class DatabaseTable {
+public class DatabaseTable {
     private final LabeledDataSourceProvider dataSourceProvider;
     private final String name;
 

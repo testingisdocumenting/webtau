@@ -1,0 +1,1 @@
+* Fix: DatabaseTable class is public now to be used in Java tests
