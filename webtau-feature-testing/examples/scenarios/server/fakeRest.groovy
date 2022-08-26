@@ -18,14 +18,16 @@ package scenarios.server
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-def router = server.router() // router-example
-        .get("/hello/:name") { request -> server.response([message: "hello ${request.param("name")}"]) } // router-example
-        .get("/bye/:name") { request -> server.response([message: "bye ${request.param("name")}"]) } // router-example
+// router-example
+def router = server.router()
+        .get("/hello/:name") { request -> server.response([message: "hello ${request.param("name")}"]) }
+        .get("/bye/:name") { request -> server.response([message: "bye ${request.param("name")}"]) }
+// router-example
 
 scenario("fake rest server") {
-// TODO indentation is for docs at the moment remove when znai releases `surroundedBy` as list
-// router-example
-def myServer = server.fake("my-rest-server", router) // router-example
+    // server-create-example
+    def myServer = server.fake("my-rest-server", router)
+    // server-create-example
 
     // fake-response-check
     http.get("${myServer.baseUrl}/hello/person") {

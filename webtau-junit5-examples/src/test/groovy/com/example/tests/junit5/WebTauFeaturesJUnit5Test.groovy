@@ -107,4 +107,9 @@ class WebTauFeaturesJUnit5Test {
     void staticServerOverride() {
         testRunner.runAndValidate(StaticServerJavaTest, "")
     }
+
+    @Test
+    void fakeServerOverride() {
+        testRunner.runAndValidate(FakeServerJavaTest, "")
+    }
 }

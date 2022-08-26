@@ -57,6 +57,7 @@ scenario("static content server") {
 
 scenario("slow down") {
     def myServer = server.serve("my-server-slown-down", "data/staticcontent")
+    myServer.setAsBaseUrl()
 
     // mark-unresponsive
     myServer.markUnresponsive()
@@ -74,6 +75,7 @@ scenario("slow down") {
 
 scenario("broken") {
     def myServer = server.serve("my-server-broken", "data/staticcontent")
+    myServer.setAsBaseUrl()
 
     // mark-broken
     myServer.markBroken()
@@ -95,6 +97,7 @@ scenario("broken") {
 
 scenario("response override") {
     def myServer = server.serve("my-server-override", "data/staticcontent")
+    myServer.setAsBaseUrl()
 
     // override-example
     def router = server.router()
