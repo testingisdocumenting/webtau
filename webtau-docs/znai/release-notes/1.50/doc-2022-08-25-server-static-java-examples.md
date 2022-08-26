@@ -1,0 +1,1 @@
+* Doc: [Static Server](servers/static-server) Java examples

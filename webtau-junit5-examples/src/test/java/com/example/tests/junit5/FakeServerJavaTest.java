@@ -20,31 +20,49 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.testingisdocumenting.webtau.server.WebTauServer;
+import org.testingisdocumenting.webtau.server.route.WebTauRouter;
 
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 public class FakeServerJavaTest {
-    private static WebTauServer fakeServer;
+    private static WebTauServer myServer;
+
+    private static final WebTauRouter router = createRouter();
 
     @BeforeAll
     static void createFakeServer() {
-        fakeServer = server.fake("weather", server.router()
-                .get("/weather", (request) -> server.response(aMapOf(
-                        "temperature", "90",
-                        "city", "New York"))));
+        // server-create-example
+        myServer = server.fake("my-rest-server", router);
+        // server-create-example
 
-        fakeServer.setAsBaseUrl();
+        myServer.setAsBaseUrl();
     }
 
     @AfterAll
     static void stopFakeServer() {
-        fakeServer.stop();
+        myServer.stop();
     }
 
     @Test
-    void weather() {
-        http.get("/weather", (header, body) -> {
-            body.get("temperature").shouldBe(lessThan(100));
-        });
+    public void validateFakeResponses() {
+        // fake-response-check
+        http.get(myServer.getBaseUrl() + "/hello/person", ((header, body) -> {
+            body.get("message").should(equal("hello person"));
+        }));
+
+        http.get(myServer.getBaseUrl() + "/bye/person", ((header, body) -> {
+            body.get("message").should(equal("bye person"));
+        }));
+        // fake-response-check
+    }
+
+    static WebTauRouter createRouter() {
+        // router-example
+        WebTauRouter router = server.router()
+                .get("/hello/:name", (request) -> server.response(aMapOf("message", "hello " + request.param("name"))))
+                .get("/bye/:name", (request) -> server.response(aMapOf("message", "bye " + request.param("name"))));
+        // router-example
+
+        return router;
     }
 }

@@ -15,20 +15,20 @@
     "scenario" : "slow down",
     "shortContainerId" : "staticContent.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4,
+      "numberOfSuccessful" : 5,
       "numberOfFailed" : 1
     }
   }, {
     "scenario" : "broken",
     "shortContainerId" : "staticContent.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 7
+      "numberOfSuccessful" : 8
     }
   }, {
     "scenario" : "response override",
     "shortContainerId" : "staticContent.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 7
+      "numberOfSuccessful" : 8
     }
   }, {
     "scenario" : "same server id re-use is not allowed",
