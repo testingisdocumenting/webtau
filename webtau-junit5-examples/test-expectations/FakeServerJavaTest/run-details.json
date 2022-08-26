@@ -1,1 +1,5 @@
-{ }
+{
+  "validateFakeResponses()" : {
+    "numberOfSuccessful" : 7
+  }
+}

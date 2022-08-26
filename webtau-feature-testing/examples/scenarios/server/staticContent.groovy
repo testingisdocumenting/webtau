@@ -41,57 +41,63 @@ scenario("static content server") {
     }
     // static-server-json
 
-    // static-server-html
     browser.open("${myServer.baseUrl}/hello.html")
     $("p").should == "hello"
-    // static-server-html
 
+    // set-base-url-example
     myServer.setAsBaseUrl()
+    // set-base-url-example
+
+    // static-server-html
+    http.get("/hello.html") {
+        body.should == expectedHtml
+    }
+    // static-server-html
+}
+
+scenario("slow down") {
+    def myServer = server.serve("my-server-slown-down", "data/staticcontent")
+    myServer.setAsBaseUrl()
+
+    // mark-unresponsive
+    myServer.markUnresponsive()
+
+    code {
+        http.get("/hello.html")
+    } should throwException(~/Read timed out/)
+    // mark-unresponsive
+
+    myServer.fix()
     http.get("/hello.html") {
         body.should == expectedHtml
     }
 }
 
-scenario("slow down") {
-    def staticServer = server.serve("my-server-slown-down", "data/staticcontent")
-
-    // mark-unresponsive
-    staticServer.markUnresponsive()
-
-    code {
-        http.get("${staticServer.baseUrl}/hello.html")
-    } should throwException(~/Read timed out/)
-    // mark-unresponsive
-
-    staticServer.fix()
-    http.get("${staticServer.baseUrl}/hello.html") {
-        body.should == expectedHtml
-    }
-}
-
 scenario("broken") {
-    def staticServer = server.serve("my-server-broken", "data/staticcontent")
+    def myServer = server.serve("my-server-broken", "data/staticcontent")
+    myServer.setAsBaseUrl()
 
     // mark-broken
-    staticServer.markBroken()
+    myServer.markBroken()
 
-    http.get("${staticServer.baseUrl}/hello.html") {
+    http.get("/hello.html") {
         statusCode.should == 500
         body.should == null
     }
     // mark-broken
 
     // mark-fix
-    staticServer.fix()
+    myServer.fix()
     // mark-fix
 
-    http.get("${staticServer.baseUrl}/hello.html") {
+    http.get("/hello.html") {
         body.should == expectedHtml
     }
 }
 
 scenario("response override") {
     def myServer = server.serve("my-server-override", "data/staticcontent")
+    myServer.setAsBaseUrl()
 
     // override-example
     def router = server.router()
@@ -99,11 +105,11 @@ scenario("response override") {
     myServer.addOverride(router)
     // override-example
 
-    http.get("${myServer.baseUrl}/hello/world") {
+    http.get("/hello/world") {
         message.should == "hello world"
     }
 
-    http.get("${myServer.baseUrl}/hello.html") {
+    http.get("/hello.html") {
         body.should == expectedHtml
     }
 }

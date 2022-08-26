@@ -1,0 +1,17 @@
+{
+  "contentOverride()" : {
+    "numberOfSuccessful" : 3
+  },
+  "slowDown()" : {
+    "numberOfFailed" : 1
+  },
+  "serverBreak()" : {
+    "numberOfSuccessful" : 2
+  },
+  "browserStaticContent()" : {
+    "numberOfSuccessful" : 3
+  },
+  "staticContentCheck()" : {
+    "numberOfSuccessful" : 7
+  }
+}
