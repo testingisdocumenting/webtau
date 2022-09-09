@@ -35,6 +35,11 @@ public interface WebTauServer extends AutoCloseable {
     void fix();
 
     void addOverride(WebTauServerOverride override);
+
+    default void removeOverride(WebTauServerOverride override) {
+        removeOverride(override.overrideId());
+    }
+
     void removeOverride(String overrideId);
 
     WebTauServerJournal getJournal();
