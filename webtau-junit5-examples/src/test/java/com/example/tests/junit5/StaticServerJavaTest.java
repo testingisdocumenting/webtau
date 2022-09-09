@@ -79,7 +79,7 @@ public class StaticServerJavaTest {
             body.get("message").should(equal("hello world"));
         });
 
-        myServer.removeOverride(router.overrideId());
+        myServer.removeOverride(router);
     }
 
     @Test

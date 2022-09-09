@@ -1,0 +1,1 @@
+* Add: `server.removeSignature(WebTauServerOverride override)`
