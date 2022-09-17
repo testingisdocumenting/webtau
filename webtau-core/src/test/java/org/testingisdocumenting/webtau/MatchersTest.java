@@ -27,10 +27,22 @@ import static org.testingisdocumenting.webtau.WebTauCore.*;
 public class MatchersTest {
     @Test
     public void stringComparisonExample() {
-        // string-string-example
-        String errorMessage = generateErrorMessage();
-        actual(errorMessage).should(equal("insufficient disk space")); // string and string equality comparison
-        // string-string-example
+        doc.console.captureNoStep("string-string-comparison", () -> {
+            // string-string-example
+            String errorMessage = generateErrorMessage();
+            actual(errorMessage).should(equal("insufficient disk space")); // string and string equality comparison
+            // string-string-example
+        });
+    }
+
+    @Test
+    public void numberComparisonExample() {
+        doc.console.captureNoStep("number-number-comparison", () -> {
+            // number-number-example
+            double price = calculatePrice();
+            actual(price, "price").shouldBe(greaterThan(10)); // explict name to use in reporting
+            // number-number-example
+        });
     }
 
     @Test
@@ -68,5 +80,9 @@ public class MatchersTest {
 
     private static String generateErrorMessage() {
         return "insufficient disk space";
+    }
+
+    private static double calculatePrice() {
+        return 10.5;
     }
 }

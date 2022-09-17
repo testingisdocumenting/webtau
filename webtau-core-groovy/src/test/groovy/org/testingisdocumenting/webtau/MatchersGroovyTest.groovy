@@ -20,6 +20,7 @@ import org.junit.Test
 
 import java.time.LocalDate
 
+import static org.testingisdocumenting.webtau.Matchers.actual
 import static org.testingisdocumenting.webtau.Matchers.anyOf
 import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.Matchers.greaterThan
@@ -45,6 +46,14 @@ class MatchersGroovyTest {
         def numberAsText = "200"
         numberAsText.shouldBe > 150 // text and number relative comparison
         // string-number-example
+    }
+
+    @Test
+    void "number comparison example"() {
+        // number-number-example
+        double price = calculatePrice()
+        actual(price, "price").shouldBe > 10 // explict name to use in reporting
+        // number-number-example
     }
 
     @Test
@@ -74,5 +83,9 @@ class MatchersGroovyTest {
 
     private static String generateErrorMessage() {
         return "insufficient disk space"
+    }
+
+    private static double calculatePrice() {
+        return 10.5
     }
 }
