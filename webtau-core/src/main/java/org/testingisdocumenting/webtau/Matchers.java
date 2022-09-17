@@ -45,6 +45,21 @@ public class Matchers {
     }
 
     /**
+     * Starting point of a value matcher with a provided name
+     * <pre>
+     * actual(price, "price").should(beGreaterThan(10));
+     * actual(price, "price").shouldNot(beGreaterThan(10));
+     * </pre>
+     * Note: In Groovy you can just do <code>price.should beGreaterThan(10)</code>
+     * @param actual value to assert against
+     * @param path path to use in the reporting
+     * @return Object to chain a matcher against
+     */
+    public static ActualValueExpectations actual(Object actual, String path) {
+        return new ActualValue(actual, new ActualPath(path));
+    }
+
+    /**
      * Starting point of a code matcher
      * <pre>
      * code(() -&gt; {

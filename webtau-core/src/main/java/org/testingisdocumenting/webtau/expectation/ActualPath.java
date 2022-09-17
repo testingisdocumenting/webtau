@@ -18,6 +18,8 @@
 package org.testingisdocumenting.webtau.expectation;
 
 public class ActualPath {
+    public static final ActualPath UNDEFINED = new ActualPath("");
+
     private final String path;
 
     public ActualPath(String path) {

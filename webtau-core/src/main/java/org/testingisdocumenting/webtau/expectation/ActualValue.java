@@ -38,12 +38,20 @@ public class ActualValue implements ActualValueExpectations {
     private final StepReportOptions shouldReportOptions;
 
     public ActualValue(Object actual) {
-        this(actual, StepReportOptions.SKIP_START);
+        this(actual, ActualPath.UNDEFINED);
+    }
+
+    public ActualValue(Object actual, ActualPath actualPath) {
+        this(actual, actualPath, StepReportOptions.SKIP_START);
     }
 
     public ActualValue(Object actual, StepReportOptions shouldReportOptions) {
+        this(actual, ActualPath.UNDEFINED, shouldReportOptions);
+    }
+
+    public ActualValue(Object actual, ActualPath actualPath, StepReportOptions shouldReportOptions) {
         this.actual = extractActualValue(actual);
-        this.actualPath = extractPath(actual);
+        this.actualPath = actualPath != ActualPath.UNDEFINED ? actualPath : extractPath(actual);
         this.valueDescription = extractDescription(actual, this.actualPath);
         this.shouldReportOptions = shouldReportOptions;
     }
