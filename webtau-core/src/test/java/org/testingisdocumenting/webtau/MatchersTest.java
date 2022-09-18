@@ -27,7 +27,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.*;
 public class MatchersTest {
     @Test
     public void stringComparisonExample() {
-        doc.console.captureNoStep("string-string-comparison", () -> {
+        doc.console.capture("string-string-comparison", () -> {
             // string-string-example
             String errorMessage = generateErrorMessage();
             actual(errorMessage).should(equal("insufficient disk space")); // string and string equality comparison
@@ -37,7 +37,7 @@ public class MatchersTest {
 
     @Test
     public void numberComparisonExample() {
-        doc.console.captureNoStep("number-number-comparison", () -> {
+        doc.console.capture("number-number-comparison", () -> {
             // number-number-example
             double price = calculatePrice();
             actual(price, "price").shouldBe(greaterThan(10)); // explict name to use in reporting

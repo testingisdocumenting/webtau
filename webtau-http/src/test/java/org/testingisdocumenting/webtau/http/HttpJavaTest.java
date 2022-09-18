@@ -54,7 +54,7 @@ public class HttpJavaTest extends HttpTestBase {
 
     @Test
     public void captureConsoleOutputExample() {
-        doc.console.captureNoStep("http-get-console-output", () -> {
+        doc.console.capture("http-get-console-output", () -> {
             http.get("/end-point", ((header, body) -> {
                 DataNode price = body.get("price");
                 price.should(equal(100));
