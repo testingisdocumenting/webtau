@@ -16,11 +16,9 @@ scenario("csv table data console capture") {
 }
 
 scenario("csv table data") {
-    doc.console.capture("csv-table-data-output") {
-        def table = data.csv.table("data/table.csv")
-        table.row(0).B.should == "2"
-        table.row(0).B.class.canonicalName.should == "java.lang.String"
-    }
+    def table = data.csv.table("data/table.csv")
+    table.row(0).B.should == "2"
+    table.row(0).B.class.canonicalName.should == "java.lang.String"
 }
 
 scenario("csv table data using path") {
