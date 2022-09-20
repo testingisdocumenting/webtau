@@ -48,8 +48,7 @@ Use `doc.console.capture` to capture console output of a provided code block
 :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
   title: "capture console output",
   entry: "captureConsoleOutputExample",
-  bodyOnly: true,
-  replace: ["captureNoStep", "capture"]
+  bodyOnly: true
 }
 
 :include-file: doc-artifacts/http-get-console-output.txt {

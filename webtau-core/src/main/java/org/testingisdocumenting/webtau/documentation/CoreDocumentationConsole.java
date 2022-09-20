@@ -27,6 +27,7 @@ import java.nio.file.Path;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.utils.StringUtils.*;
 
 public class CoreDocumentationConsole {
     private static final ThreadLocal<ByteArrayOutputStream> threadLocalOutputStream = ThreadLocal.withInitial(ByteArrayOutputStream::new);
@@ -70,7 +71,8 @@ public class CoreDocumentationConsole {
             System.setOut(new PrintStream(new CombinedOutputStream(captureMainThread, previous, captureStream)));
 
             codeToProduceOutput.run();
-            return DocumentationArtifacts.captureText(textFileNameWithoutExtension, captureStream.toString());
+            return DocumentationArtifacts.captureText(textFileNameWithoutExtension,
+                    stripIndentation(captureStream.toString()));
         } finally {
             System.setOut(previous);
         }
