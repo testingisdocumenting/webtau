@@ -1,0 +1,1 @@
+* Add: remove indentation from [Doc Capture Console Output](JVM-business-logic/documentation-artifacts#capture-console-output)

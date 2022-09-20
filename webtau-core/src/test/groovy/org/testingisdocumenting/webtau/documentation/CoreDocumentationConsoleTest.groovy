@@ -48,6 +48,6 @@ class CoreDocumentationConsoleTest {
         }
 
         def path = DocumentationArtifactsLocation.resolve("my-output-example.txt")
-        actual(FileUtils.fileTextContent(path)).should(equal("\u001B[32mhello world test\u001B[0m\n"))
+        actual(FileUtils.fileTextContent(path)).should(equal("\u001B[32mhello world test\u001B[0m"))
     }
 }

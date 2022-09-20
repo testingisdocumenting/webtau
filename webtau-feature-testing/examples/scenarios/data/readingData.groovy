@@ -8,7 +8,7 @@ scenario("csv table data console capture") {
     // for warm-up as below we capture console output for docs
     data.csv.table("data/table.csv")
 
-    doc.console.captureNoStep("csv-table-data-output") {
+    doc.console.capture("csv-table-data-output") {
         // read
         TableData table = data.csv.table("data/table.csv")
         // read
@@ -16,11 +16,9 @@ scenario("csv table data console capture") {
 }
 
 scenario("csv table data") {
-    doc.console.captureNoStep("csv-table-data-output") {
-        def table = data.csv.table("data/table.csv")
-        table.row(0).B.should == "2"
-        table.row(0).B.class.canonicalName.should == "java.lang.String"
-    }
+    def table = data.csv.table("data/table.csv")
+    table.row(0).B.should == "2"
+    table.row(0).B.class.canonicalName.should == "java.lang.String"
 }
 
 scenario("csv table data using path") {
