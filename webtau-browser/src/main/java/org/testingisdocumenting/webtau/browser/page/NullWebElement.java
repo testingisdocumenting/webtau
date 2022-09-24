@@ -28,6 +28,7 @@ import org.openqa.selenium.WebElement;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class NullWebElement implements WebElement {
     private static final String NULL_VALUE = "[null value] element is not present on the page";
@@ -49,7 +50,7 @@ public class NullWebElement implements WebElement {
 
     @Override
     public void sendKeys(CharSequence... charSequences) {
-        error("send " + Arrays.toString(charSequences) + " keys");
+        error("send " + Arrays.stream(charSequences).map(BrowserKeysRenderer::renderKeys).collect(Collectors.joining("")) + " keys");
     }
 
     @Override
