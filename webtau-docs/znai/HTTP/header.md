@@ -72,7 +72,7 @@ Where `Auth.&authHeader` is implemented as follows:
 :include-file: scenarios/rest/headers/auth/Auth.groovy {title: "scenarios/rest/headers/auth/Auth.groovy"}
 
 Java:
-In case of JUnit like runners, webtau uses [Service Loaders](https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html) 
+In case of JUnit like runners, WebTau uses [Service Loaders](https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html) 
 to locate header providers
 
 :include-file: src/test/resources/META-INF/services/org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration {

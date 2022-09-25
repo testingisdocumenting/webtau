@@ -17,10 +17,19 @@ to validate GraphQL API.
 
 Use [Persona](persona/introduction) concept to test API Authorization and collaboration Web Apps like chats and editors.
 
+```tabs
+Groovy:
 :include-file: scenarios/rest/headers/personaGet.groovy {
   title: "persona authorization",
   excludeRegexp: ["package", "import"]
 }
+
+Java:
+:include-file: com/example/tests/junit5/PersonaRestJavaTest.java {
+  title: "persona authorization",
+  excludeRegexp: ["package", "import"]
+}
+```
 
 Use powerful [REPL](REPL/experiments) mode to significantly speed up end-to-end tests development.
 
