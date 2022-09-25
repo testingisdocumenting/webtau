@@ -25,7 +25,7 @@ Groovy:
 }
 
 Java:
-:include-file: com/example/tests/junit5/PersonaRestJavaTest.java {
+:include-file: com/example/tests/junit5/PersonaHttpJavaTest.java {
   title: "persona authorization",
   excludeRegexp: ["package", "import"]
 }
