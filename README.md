@@ -41,6 +41,21 @@ scenario("my bank balance") {
     }
 }
 ```
+```java
+@WebTau
+public class PersonaHttpJavaTest {
+    @Test
+    public void checkBalance() {
+        Alice.execute(() -> http.get("/statement", (header, body) -> {
+            body.get("balance").shouldBe(greaterThan(100));
+        }));
+
+        Bob.execute(() -> http.get("/statement", (header, body) -> {
+            body.get("balance").shouldBe(lessThan(50));
+        }));
+    }
+}
+```
 
 Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer
 to validate GraphQL API.

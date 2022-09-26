@@ -16,11 +16,13 @@
 
 package com.example.tests.junit5
 
+import com.example.tests.junit5.config.HttpPersonaAuthHeaderProvider
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.testingisdocumenting.webtau.featuretesting.WebTauBrowserFeaturesTestData
 import org.testingisdocumenting.webtau.featuretesting.WebTauRestFeaturesTestData
+import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations
 import org.testingisdocumenting.webtau.http.testserver.FixedResponsesHandler
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 
@@ -71,6 +73,14 @@ class WebTauFeaturesJUnit5Test {
     @Test
     void browserLocalStorage() {
         testRunner.runAndValidate(BrowserLocalStorageJavaTest, testServer.uri.toString())
+    }
+
+    @Test
+    void personaHttpTest() {
+        def authHeaderProvider = new HttpPersonaAuthHeaderProvider()
+        WebTauHttpConfigurations.add(authHeaderProvider)
+        testRunner.runAndValidate(PersonaHttpJavaTest, testServer.uri.toString())
+        WebTauHttpConfigurations.remove(authHeaderProvider)
     }
 
     @Test
