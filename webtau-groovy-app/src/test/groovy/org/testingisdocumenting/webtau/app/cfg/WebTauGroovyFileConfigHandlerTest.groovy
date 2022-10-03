@@ -15,16 +15,18 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cfg
+package org.testingisdocumenting.webtau.app.cfg
 
-import org.testingisdocumenting.webtau.reporter.WebTauReport
+import org.junit.Test
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.report.ReportGenerators
+import org.testingisdocumenting.webtau.reporter.WebTauReport
 import org.testingisdocumenting.webtau.reporter.WebTauReportName
 import org.testingisdocumenting.webtau.reporter.WebTauTestList
-import org.junit.Test
 
 import java.nio.file.Files
 
+import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class WebTauGroovyFileConfigHandlerTest {
