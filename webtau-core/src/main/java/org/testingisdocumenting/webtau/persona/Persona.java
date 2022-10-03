@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.persona;
 
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.Collections;
@@ -39,6 +40,11 @@ public class Persona {
             throw new IllegalArgumentException("Persona id may not be null or empty");
         }
         return new Persona(id, payload);
+    }
+
+    public static Persona persona(String id, String firstKey, Object firstValue, Object... restKv) {
+        Map<String, Object> payload = CollectionUtils.aMapOf(firstKey, firstValue, restKv);
+        return persona(id, payload);
     }
 
     private Persona(String id, Map<String, Object> payload) {
