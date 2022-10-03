@@ -14,5 +14,5 @@
 # limitations under the License.
 #
 
-org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
+org.testingisdocumenting.webtau.app.cfg.WebTauGroovyFileConfigHandler
 org.testingisdocumenting.webtau.app.cfg.WebTauNumberOfThreadsConfigHandler

@@ -36,7 +36,6 @@ import org.jline.terminal.TerminalBuilder
 import org.jline.utils.OSUtils
 import org.jline.widget.TailTipWidgets
 import org.testingisdocumenting.webtau.GroovyRunner
-import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 import org.testingisdocumenting.webtau.utils.FileUtils
@@ -287,7 +286,8 @@ class WebTauRepl {
     }
 
     private static void initConfig() {
-        WebTauGroovyFileConfigHandler.forceIgnoreErrors()
+        // TODO replace with config error handlers and use inside REPL
+        System.setProperty("ignoreGroovyConfigError", "true")
         setDefaultReportPath()
     }
 
