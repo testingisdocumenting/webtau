@@ -15,11 +15,14 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.cfg
+package org.testingisdocumenting.webtau.app.cfg
 
 import org.testingisdocumenting.webtau.GroovyRunner
+import org.testingisdocumenting.webtau.TestListener
+import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandlers
+import org.testingisdocumenting.webtau.cfg.*
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.db.DbDataSourceProvider
 import org.testingisdocumenting.webtau.db.DbDataSourceProviders
@@ -31,8 +34,6 @@ import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
-import org.testingisdocumenting.webtau.TestListener
-import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
 
 import java.nio.file.Files
@@ -120,7 +121,7 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
             // we don't want to crash the config class loading due to parsing error
             // because in REPL mode we should be able to recover and continue
             // otherwise we will have to restart REPL process
-            if (ignoreConfigErrors.get()) {
+            if (isIgnoreConfigError()) {
                 ConsoleOutputs.err(StackTraceUtils.fullCauseMessage(e))
                 return null
             } else {
@@ -222,6 +223,10 @@ class WebTauGroovyFileConfigHandler implements WebTauConfigHandler {
 
     private static Closure getClosure(Map<String, ?> config, String key) {
         return (Closure) config.get(key)
+    }
+
+    static boolean isIgnoreConfigError() {
+        return System.hasProperty("ignoreGroovyConfigError")
     }
 
     static class GroovyConfigDslBinding extends Binding {

@@ -21,7 +21,6 @@ import groovy.transform.PackageScope
 import org.apache.groovy.groovysh.Groovysh
 import org.codehaus.groovy.tools.shell.IO
 import org.codehaus.groovy.tools.shell.util.Preferences
-import org.testingisdocumenting.webtau.cfg.WebTauGroovyFileConfigHandler
 import org.testingisdocumenting.webtau.repl.win.WindowsOsReplFixes
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
@@ -68,7 +67,7 @@ class Repl {
     }
 
     private static void initConfig() {
-        WebTauGroovyFileConfigHandler.forceIgnoreErrors()
+        System.setProperty("ignoreGroovyConfigError", "true")
         setDefaultReportPath()
     }
 
