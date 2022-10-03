@@ -96,7 +96,7 @@ public class WebTauCore extends Matchers {
     /**
      * sleep for a provided time. This is a bad practice and must be used as a workaround for
      * some of the hardest weird cases.
-     *
+     * <p>
      * consider using waitTo approach on various layers: wait for UI to change, wait for HTTP resource to be updated,
      * wait for file to change, DB result to be different, etc.
      * @param millis number of milliseconds to wait
@@ -114,12 +114,35 @@ public class WebTauCore extends Matchers {
                 });
     }
 
+    /**
+     * create persona instance
+     * @param id persona id
+     * @return new persona instance
+     */
     public static Persona persona(String id) {
         return Persona.persona(id);
     }
 
+    /**
+     * create persona instance with payload like authId, or config values
+     * @param id persona id
+     * @param payload persona payload
+     * @return new persona instance with payload
+     */
     public static Persona persona(String id, Map<String, Object> payload) {
         return Persona.persona(id, payload);
+    }
+
+    /**
+     * create persona instance with payload like authId, or config values
+     * @param id persona id
+     * @param firstKey payload first key
+     * @param firstValue payload first value
+     * @param restKv payload additional vararg values
+     * @return new persona instance with payload
+     */
+    public static Persona persona(String id, String firstKey, Object firstValue, Object... restKv) {
+        return Persona.persona(id, firstKey, firstValue, restKv);
     }
 
     public static Persona getCurrentPersona() {
