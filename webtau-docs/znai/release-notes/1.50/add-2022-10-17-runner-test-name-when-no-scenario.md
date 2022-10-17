@@ -1,0 +1,1 @@
+* Add: Better support for [Groovy Runner](groovy-standalone-runner/introduction) without explicit scenario
