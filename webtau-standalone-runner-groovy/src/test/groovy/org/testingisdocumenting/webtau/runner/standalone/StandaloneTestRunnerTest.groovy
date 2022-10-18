@@ -146,6 +146,14 @@ class StandaloneTestRunnerTest {
     }
 
     @Test
+    void "should have auto created scenario test when no other scenarios are present"() {
+        def runner = createRunner("withoutScenarios.groovy")
+        runner.tests.scenario.should == ["test"]
+
+        runner.runTests()
+    }
+
+    @Test
     void "should not notify test listeners during parsing phase"() {
         def trackingListener = new TracingTestListener()
 
@@ -326,7 +334,7 @@ class StandaloneTestRunnerTest {
         def workingDir = Paths.get("test-scripts")
         def runner = new StandaloneTestRunner(
                 GroovyStandaloneEngine.createWithoutDelegating(workingDir,
-                ["org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunnerTestStaticImport"]), workingDir)
+                        ["org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunnerTestStaticImport"]), workingDir)
 
         StandaloneTestRunnerTestStaticImport.runner = runner
         scenarioFiles.each { runner.process(new TestFile(Paths.get(it))) }

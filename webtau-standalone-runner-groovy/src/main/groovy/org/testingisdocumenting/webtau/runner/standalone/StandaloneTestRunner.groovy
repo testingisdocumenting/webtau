@@ -93,7 +93,7 @@ class StandaloneTestRunner {
             registeredTests.addAsFirstTestWithinFile(scriptParseTest)
         }
 
-        if (noExplicitScenarios) {
+        if (!scriptParseTest.hasError() && noExplicitScenarios) {
             scriptParseTest.overrideDescription("test")
         }
     }
