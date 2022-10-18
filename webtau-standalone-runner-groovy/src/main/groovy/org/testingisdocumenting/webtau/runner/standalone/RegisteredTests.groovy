@@ -46,6 +46,10 @@ class RegisteredTests {
         exclusiveTests = []
     }
 
+    int size() {
+        return tests.size() + exclusiveTests.size()
+    }
+
     int count(Closure closure) {
         return tests.count(closure)
     }

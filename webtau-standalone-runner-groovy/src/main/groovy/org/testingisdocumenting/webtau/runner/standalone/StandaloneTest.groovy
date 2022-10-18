@@ -66,6 +66,10 @@ class StandaloneTest implements StepReporter {
         return test.scenario
     }
 
+    void overrideDescription(String newDescription) {
+        test.scenario = newDescription
+    }
+
     String getShortContainerId() {
         return test.shortContainerId
     }
