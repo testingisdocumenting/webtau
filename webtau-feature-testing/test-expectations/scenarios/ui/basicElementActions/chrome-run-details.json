@@ -90,6 +90,12 @@
       "numberOfSuccessful" : 1
     }
   }, {
+    "scenario" : "send keys no log",
+    "shortContainerId" : "basicElementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
     "scenario" : "send keys validation",
     "shortContainerId" : "basicElementActions.groovy",
     "stepsSummary" : {
@@ -109,6 +115,12 @@
     }
   }, {
     "scenario" : "setValue",
+    "shortContainerId" : "basicElementActions.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "setValue noLog",
     "shortContainerId" : "basicElementActions.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3

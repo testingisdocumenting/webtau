@@ -80,6 +80,10 @@ scenario("send keys") {
     payments.dollarAmount.sendKeys("104.5")
 }
 
+scenario("send keys no log") {
+    payments.secret.sendKeysNoLog("my secret token")
+}
+
 scenario("send keys validation") {
     payments.dollarAmount.should == "104.5"
 }
@@ -94,6 +98,10 @@ scenario("clear validation") {
 
 scenario("setValue") {
     payments.dollarAmount.setValue("104.5")
+}
+
+scenario("setValue noLog") {
+    payments.secret.setValueNoLog("my secret token")
 }
 
 scenario("setValue validation") {

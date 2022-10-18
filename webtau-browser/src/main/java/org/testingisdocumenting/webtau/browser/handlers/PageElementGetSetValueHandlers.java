@@ -48,9 +48,10 @@ public class PageElementGetSetValueHandlers {
                                 TokenizedMessage pathDescription,
                                 HtmlNodeAndWebElementList htmlNodeAndWebElements,
                                 PageElement pageElement,
-                                Object value) {
+                                Object value,
+                                boolean noLog) {
         PageElementGetSetValueHandler handler = findHandler(htmlNodeAndWebElements, pageElement);
-        handler.setValue(stepExecutor, pathDescription, htmlNodeAndWebElements, pageElement, value);
+        handler.setValue(stepExecutor, pathDescription, htmlNodeAndWebElements, pageElement, value, noLog);
     }
 
     public static Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {

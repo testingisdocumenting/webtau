@@ -23,8 +23,6 @@ import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
-import java.util.List;
-
 public class DefaultGetSetValueHandler implements PageElementGetSetValueHandler {
     @Override
     public boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {
@@ -36,10 +34,14 @@ public class DefaultGetSetValueHandler implements PageElementGetSetValueHandler 
                          TokenizedMessage pathDescription,
                          HtmlNodeAndWebElementList htmlNodeAndWebElements,
                          PageElement pageElement,
-                         Object value) {
-
+                         Object value,
+                         boolean noLog) {
         pageElement.clear();
-        pageElement.sendKeys(value.toString());
+        if (noLog) {
+            pageElement.sendKeysNoLog(value.toString());
+        } else {
+            pageElement.sendKeys(value.toString());
+        }
     }
 
     @Override

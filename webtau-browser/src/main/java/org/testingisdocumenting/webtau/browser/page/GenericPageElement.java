@@ -31,10 +31,7 @@ import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextPageElemen
 import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage;
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandlers;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.testingisdocumenting.webtau.reporter.WebTauStepInput;
-import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
+import org.testingisdocumenting.webtau.reporter.*;
 
 import java.util.*;
 import java.util.function.Function;
@@ -50,6 +47,8 @@ import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecu
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class GenericPageElement implements PageElement {
+    private final static MessageToken HIDDEN_MESSAGE_STRING_VALUE = stringValue("*****");
+
     private final WebDriver driver;
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
     private final PageElementPath path;
@@ -229,7 +228,14 @@ public class GenericPageElement implements PageElement {
     public void setValue(Object value) {
         execute(tokenizedMessage(action("setting value"), stringValue(value), TO).add(pathDescription),
                 () -> tokenizedMessage(action("set value"), stringValue(value), TO).add(pathDescription),
-                () -> setValueBasedOnType(value));
+                () -> setValueBasedOnType(value, false));
+    }
+
+    @Override
+    public void setValueNoLog(Object value) {
+        execute(tokenizedMessage(action("setting value"), HIDDEN_MESSAGE_STRING_VALUE, TO).add(pathDescription),
+                () -> tokenizedMessage(action("set value"), HIDDEN_MESSAGE_STRING_VALUE, TO).add(pathDescription),
+                () -> setValueBasedOnType(value, true));
     }
 
     @Override
@@ -237,6 +243,13 @@ public class GenericPageElement implements PageElement {
         String renderedKeys = BrowserKeysRenderer.renderKeys(keys);
         execute(tokenizedMessage(action("sending keys"), stringValue(renderedKeys), TO).add(pathDescription),
                 () -> tokenizedMessage(action("sent keys"), stringValue(renderedKeys), TO).add(pathDescription),
+                () -> findElement().sendKeys(keys));
+    }
+
+    @Override
+    public void sendKeysNoLog(CharSequence keys) {
+        execute(tokenizedMessage(action("sending keys"), HIDDEN_MESSAGE_STRING_VALUE, TO).add(pathDescription),
+                () -> tokenizedMessage(action("sent keys"), HIDDEN_MESSAGE_STRING_VALUE, TO).add(pathDescription),
                 () -> findElement().sendKeys(keys));
     }
 
@@ -455,13 +468,14 @@ public class GenericPageElement implements PageElement {
         return ((Double) value).intValue();
     }
 
-    private void setValueBasedOnType(Object value) {
+    private void setValueBasedOnType(Object value, boolean noLog) {
         HtmlNodeAndWebElementList htmlNodeAndWebElements = findHtmlNodesAndWebElements();
         PageElementGetSetValueHandlers.setValue(this::execute,
                 pathDescription,
                 htmlNodeAndWebElements,
                 this,
-                value);
+                value,
+                noLog);
     }
 
     private void execute(TokenizedMessage inProgressMessage,

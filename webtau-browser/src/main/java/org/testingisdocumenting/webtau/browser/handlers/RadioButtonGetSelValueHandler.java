@@ -37,7 +37,12 @@ public class RadioButtonGetSelValueHandler implements PageElementGetSetValueHand
                          TokenizedMessage pathDescription,
                          HtmlNodeAndWebElementList htmlNodeAndWebElements,
                          PageElement pageElement,
-                         Object value) {
+                         Object value,
+                         boolean noLog) {
+        if (noLog) {
+            throw new IllegalArgumentException("noLog option is not supported for checkboxes");
+        }
+
         stepExecutor.execute(tokenizedMessage(action("setting radio button value to"),
                 stringValue(value)).add(pathDescription),
                 () -> tokenizedMessage(action("set radio button value to"), stringValue(value)).add(pathDescription),
