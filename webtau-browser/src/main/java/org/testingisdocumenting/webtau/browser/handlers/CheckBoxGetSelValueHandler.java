@@ -35,9 +35,14 @@ public class CheckBoxGetSelValueHandler implements PageElementGetSetValueHandler
                          TokenizedMessage pathDescription,
                          HtmlNodeAndWebElementList htmlNodeAndWebElements,
                          PageElement pageElement,
-                         Object value) {
+                         Object value,
+                         boolean noLog) {
         if (!(value instanceof Boolean)) {
             throw new IllegalArgumentException("setValue arg for checkbox must be true or false");
+        }
+
+        if (noLog) {
+            throw new IllegalArgumentException("noLog option is not supported for checkboxes");
         }
 
         stepExecutor.execute(tokenizedMessage(action("setting checkbox value to"), stringValue(value)).add(pathDescription),

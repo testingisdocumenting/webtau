@@ -28,6 +28,7 @@ public interface PageElementGetSetValueHandler {
                   TokenizedMessage pathDescription,
                   HtmlNodeAndWebElementList htmlNodeAndWebElements,
                   PageElement pageElement,
-                  Object value);
+                  Object value,
+                  boolean noLog);
     Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx);
 }

@@ -20,7 +20,8 @@ class CustomInput implements PageElementGetSetValueHandler {
                   TokenizedMessage pathDescription,
                   HtmlNodeAndWebElementList htmlNodeAndWebElements,
                   PageElement pageElement,
-                  Object value) {
+                  Object value,
+                  boolean noLog) {
         pageElement.click()
         pageElement.find('input').sendKeys("${value}" + Keys.TAB)
     }

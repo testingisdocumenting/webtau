@@ -26,6 +26,12 @@ Generic way to set a form element value. Will be covered more in [forms](browser
 
 :include-file: doc-artifacts/snippets/element-actions/setValue.groovy {title: "set value"}
 
+# Modifications No Log
+
+:include-file: doc-artifacts/snippets/element-actions/sendKeysNoLog.groovy {title: "send keys without logging"}
+
+:include-file: doc-artifacts/snippets/element-actions/setValueNoLog.groovy {title: "set value without logging"}
+
 # Move over
 
 :include-file: doc-artifacts/snippets/element-actions/hover.groovy {title: "hover"}
