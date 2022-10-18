@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "test",
+    "shortContainerId" : "basicNoScenario.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  } ],
+  "exitCode" : 0
+}

@@ -67,6 +67,11 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
+    void "open browser and assert no scenario"() {
+        runCli('basicNoScenario.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "open browser using browser url"() {
         runCliWithBrowserUrlOverride('basic.groovy', 'webtau.cfg.groovy')
     }

@@ -80,13 +80,21 @@ class StandaloneTestRunner {
             script.run()
         })
 
+        int numberOfTests = registeredTests.size()
+
         TestListeners.withDisabledListeners {
             scriptParseTest.run()
         }
 
+        boolean noExplicitScenarios = registeredTests.size() == numberOfTests
+
         if (scriptParseTest.hasError() || scriptParseTest.hasSteps()) {
             scriptParseTest.test.metadata.add(currentTestMetadata.get())
             registeredTests.addAsFirstTestWithinFile(scriptParseTest)
+        }
+
+        if (!scriptParseTest.hasError() && noExplicitScenarios) {
+            scriptParseTest.overrideDescription("test")
         }
     }
 
