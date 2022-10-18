@@ -57,7 +57,9 @@ public interface PageElement extends
     boolean isMarkedAsAll();
 
     void setValue(Object value);
+    void setValueNoLog(Object value);
     void sendKeys(CharSequence keys);
+    void sendKeysNoLog(CharSequence keys);
     void click();
     void shiftClick();
     void controlClick();

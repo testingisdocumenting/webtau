@@ -22,8 +22,6 @@ import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
-import java.util.List;
-
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
@@ -40,7 +38,11 @@ public class SelectGetSetValueHandler implements PageElementGetSetValueHandler {
                          TokenizedMessage pathDescription,
                          HtmlNodeAndWebElementList htmlNodeAndWebElements,
                          PageElement pageElement,
-                         Object value) {
+                         Object value,
+                         boolean noLog) {
+        if (noLog) {
+            throw new IllegalArgumentException("noLog option is not supported for checkboxes");
+        }
 
         stepExecutor.execute(tokenizedMessage(action("selecting drop down option"), stringValue(value)).add(pathDescription),
                 () -> tokenizedMessage(action("selected drop down option"), stringValue(value)).add(pathDescription),

@@ -26,7 +26,6 @@ import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.time.LocalDate;
-import java.util.List;
 
 public class DateInputGetSetValueHandler implements PageElementGetSetValueHandler {
     private final CurrentWebDriver driver = CurrentWebDriver.INSTANCE;
@@ -43,7 +42,12 @@ public class DateInputGetSetValueHandler implements PageElementGetSetValueHandle
                          TokenizedMessage pathDescription,
                          HtmlNodeAndWebElementList htmlNodeAndWebElements,
                          PageElement pageElement,
-                         Object value) {
+                         Object value,
+                         boolean noLog) {
+        if (noLog) {
+            throw new IllegalArgumentException("noLog option is not supported for checkboxes");
+        }
+
         LocalDate localDate = LocalDate.parse(value.toString());
 
         if (BrowserConfig.isChrome()) {
