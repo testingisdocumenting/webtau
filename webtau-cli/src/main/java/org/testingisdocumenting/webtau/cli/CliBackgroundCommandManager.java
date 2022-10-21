@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
+import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.TestListener;
 import org.testingisdocumenting.webtau.reporter.TestResultPayload;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
@@ -90,7 +90,7 @@ public class CliBackgroundCommandManager implements TestListener {
         private static final LazyCleanupRegistration INSTANCE = new LazyCleanupRegistration();
 
         private LazyCleanupRegistration() {
-            CleanupRegistration.registerForCleanup("shutting down", "shut down", "cli background processes",
+            DeferredCallsRegistration.callAfterAllTests("shutting down", "shut down", "cli background processes",
                     () -> runningCommands.values().stream().anyMatch(CliBackgroundCommand::isActive),
                     CliBackgroundCommandManager::destroyActiveProcesses);
         }

@@ -1,0 +1,10 @@
+{
+  "deferredAction()" : {
+    "numberOfSuccessful" : 3,
+    "numberOfFailed" : 1
+  },
+  "deferredActionError()" : {
+    "numberOfSuccessful" : 1,
+    "numberOfFailed" : 2
+  }
+}

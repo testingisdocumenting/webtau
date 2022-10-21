@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.server.registry;
 
 import org.testingisdocumenting.webtau.TestListener;
-import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
+import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.reporter.TestResultPayload;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
 import org.testingisdocumenting.webtau.server.WebTauServer;
@@ -76,7 +76,7 @@ public class WebTauServersRegistry implements TestListener {
     }
 
     private static void registerCleanup() {
-        CleanupRegistration.registerForCleanup("stopping", "stopped", "servers",
+        DeferredCallsRegistration.callAfterAllTests("stopping", "stopped", "servers",
                 () -> serverById.values().stream().anyMatch(WebTauServer::isRunning),
                 WebTauServersRegistry::stopServers);
     }
