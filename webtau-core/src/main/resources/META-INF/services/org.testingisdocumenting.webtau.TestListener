@@ -15,4 +15,4 @@
 #
 
 org.testingisdocumenting.webtau.reporter.TestResultPayloadExtractorTestListener
-org.testingisdocumenting.webtau.cleanup.CleanupRegistration
+org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration

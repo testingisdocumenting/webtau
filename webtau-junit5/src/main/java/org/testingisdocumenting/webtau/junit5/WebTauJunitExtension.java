@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.junit5;
 
 import org.testingisdocumenting.webtau.TestListeners;
+import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.javarunner.report.JavaBasedTest;
 import org.testingisdocumenting.webtau.javarunner.report.JavaReport;
 import org.testingisdocumenting.webtau.javarunner.report.JavaShutdownHook;
@@ -61,6 +62,7 @@ public class WebTauJunitExtension implements
     @Override
     public void beforeAll(ExtensionContext extensionContext) {
         ConsoleReporterRegistrator.register();
+        DeferredCallsRegistration.registerTestRunnerId("Junit5");
     }
 
     @Override
@@ -84,6 +86,7 @@ public class WebTauJunitExtension implements
     @Override
     public void afterEach(ExtensionContext extensionContext) {
         JavaBasedTest test = retrieveTest(extensionContext);
+        DeferredCallsRegistration.executeLocalCleanup(test.getTest());
         stopTest(extensionContext, test);
     }
 

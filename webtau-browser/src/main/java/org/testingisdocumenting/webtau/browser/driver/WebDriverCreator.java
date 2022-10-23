@@ -22,7 +22,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testingisdocumenting.webtau.browser.BrowserConfig;
-import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
+import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
@@ -252,7 +252,7 @@ public class WebDriverCreator {
     }
 
     private static void registerCleanup() {
-        CleanupRegistration.registerForCleanup("closing", "closed", "browsers",
+        DeferredCallsRegistration.callAfterAllTests("closing", "closed", "browsers",
                 () -> !drivers.isEmpty(),
                 WebDriverCreator::quitAll);
     }

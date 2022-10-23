@@ -89,6 +89,11 @@ class WebTauFeaturesJUnit5Test {
     }
 
     @Test
+    void deferredBlock() {
+        testRunner.runAndValidate(DeferredBlockJavaTest, "")
+    }
+
+    @Test
     void crudSeparatedGroovy() {
         testRunner.runAndValidate(CustomerCrudSeparatedGroovyTest, "")
     }

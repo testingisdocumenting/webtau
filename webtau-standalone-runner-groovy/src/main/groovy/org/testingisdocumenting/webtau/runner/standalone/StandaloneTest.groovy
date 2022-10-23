@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.runner.standalone
 
 import org.testingisdocumenting.webtau.TestListeners
+import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration
 import org.testingisdocumenting.webtau.reporter.WebTauTest
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
@@ -134,6 +135,7 @@ class StandaloneTest implements StepReporter {
             } catch (Throwable e) {
                 test.setException(e)
             } finally {
+                DeferredCallsRegistration.executeLocalCleanup(test)
                 test.stopClock()
                 test.setRan(true)
             }

@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.pdf;
 
-import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
+import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.data.BinaryDataProvider;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.text.PDFTextStripper;
@@ -74,7 +74,7 @@ public class Pdf {
     }
 
     private static void registerCleanup() {
-        CleanupRegistration.registerForCleanup("closing", "closed", "pdfs",
+        DeferredCallsRegistration.callAfterAllTests("closing", "closed", "pdfs",
                 () -> !openedPdfs.isEmpty(),
                 Pdf::closeAll);
     }
