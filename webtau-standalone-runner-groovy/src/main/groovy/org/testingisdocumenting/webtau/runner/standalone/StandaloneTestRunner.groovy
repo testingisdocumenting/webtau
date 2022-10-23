@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.runner.standalone
 
 import org.testingisdocumenting.webtau.TestFile
 import org.testingisdocumenting.webtau.TestListeners
+import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.reporter.WebTauReport
@@ -280,6 +281,8 @@ class StandaloneTestRunner {
     }
 
     private void runTestsFromStream(Function<Map, Stream> streamCreator) {
+        DeferredCallsRegistration.registerTestRunnerId("groovy-standalone")
+
         resetAndWithListeners {
             def testsToSkip = registeredTests.testsToSkip()
 

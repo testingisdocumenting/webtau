@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau;
 
+import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.data.MultiValue;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.TableDataUnderscore;
@@ -91,6 +92,14 @@ public class WebTauCore extends Matchers {
 
     public static ActualPath createActualPath(String path) {
         return new ActualPath(path);
+    }
+
+    public static void defer(String label, Runnable code) {
+        DeferredCallsRegistration.callAfterATest(label, code);
+    }
+
+    public static void defer(Runnable code) {
+        defer("", code);
     }
 
     /**

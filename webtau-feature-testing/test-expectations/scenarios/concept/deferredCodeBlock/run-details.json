@@ -1,0 +1,18 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "code to execute after the test",
+    "shortContainerId" : "deferredCodeBlock.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3,
+      "numberOfFailed" : 1
+    }
+  }, {
+    "scenario" : "deferred action error",
+    "shortContainerId" : "deferredCodeBlock.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1,
+      "numberOfFailed" : 2
+    }
+  } ],
+  "exitCode" : 1
+}

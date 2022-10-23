@@ -21,7 +21,7 @@ import org.apache.tools.ant.Task;
 import org.testingisdocumenting.webtau.ant.UntarTask;
 import org.testingisdocumenting.webtau.ant.UnzipTask;
 import org.testingisdocumenting.webtau.ant.ZipTask;
-import org.testingisdocumenting.webtau.cleanup.CleanupRegistration;
+import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.reporter.*;
 import org.testingisdocumenting.webtau.utils.RegexpUtils;
 import org.testingisdocumenting.webtau.utils.RegexpUtils.ReplaceResultWithMeta;
@@ -447,7 +447,7 @@ public class FileSystem {
         private static final LazyCleanupRegistration INSTANCE = new LazyCleanupRegistration();
 
         private LazyCleanupRegistration() {
-            CleanupRegistration.registerForCleanup("removing", "removed", "temp files/dirs",
+            DeferredCallsRegistration.callAfterAllTests("removing", "removed", "temp files/dirs",
                     () -> !fs.filesToDelete.isEmpty(),
                     fs::removeTempFiles);
         }

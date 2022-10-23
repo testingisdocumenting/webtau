@@ -42,6 +42,10 @@ public class MessageToken {
         return CollectionUtils.aMapOf("type", type, "value", value);
     }
 
+    public boolean isEmpty() {
+        return value == null || value.toString().isEmpty();
+    }
+
     @Override
     public String toString() {
         return "MessageToken{" +
