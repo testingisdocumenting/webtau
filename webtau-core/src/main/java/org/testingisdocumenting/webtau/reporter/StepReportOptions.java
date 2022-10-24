@@ -23,6 +23,7 @@ package org.testingisdocumenting.webtau.reporter;
  */
 public enum StepReportOptions {
     SKIP_START,
+    SKIP_END,
     REPORT_ALL,
     SKIP_ALL,
 }

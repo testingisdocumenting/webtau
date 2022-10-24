@@ -56,6 +56,8 @@ public class WebTauStep {
 
     private int totalNumberOfAttempts;
 
+    private String classifier;
+
     private static final ThreadLocal<WebTauStep> currentStep = new ThreadLocal<>();
 
     public static WebTauStep createStep(TokenizedMessage inProgressMessage,
@@ -185,6 +187,7 @@ public class WebTauStep {
         this.action = action;
         this.isInProgress = true;
         this.totalNumberOfAttempts = 1;
+        this.classifier = "";
     }
 
     public Stream<WebTauStep> children() {
@@ -209,6 +212,14 @@ public class WebTauStep {
 
     public WebTauStepOutput getOutput() {
         return output;
+    }
+
+    public void setClassifier(String classifier) {
+        this.classifier = classifier;
+    }
+
+    public String getClassifier() {
+        return classifier;
     }
 
     public Stream<WebTauStepOutput> collectOutputs() {
@@ -311,7 +322,7 @@ public class WebTauStep {
                 output = outputSupplier.get();
             }
 
-            if (stepReportOptions != StepReportOptions.SKIP_ALL) {
+            if (stepReportOptions != StepReportOptions.SKIP_ALL && stepReportOptions != StepReportOptions.SKIP_END) {
                 StepReporters.onSuccess(this);
             }
 
@@ -413,6 +424,10 @@ public class WebTauStep {
         result.put("message", completionMessage.toListOfMaps());
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
+
+        if (!classifier.isEmpty()) {
+            result.put("classifier", classifier);
+        }
 
         if (!personaId.isEmpty()) {
             result.put("personaId", personaId);

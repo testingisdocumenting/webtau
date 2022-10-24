@@ -218,12 +218,13 @@ public class WebTauCore extends Matchers {
                 tokenizedMessage(action(label)),
                 () -> tokenizedMessage(action(label)),
                 () -> {});
+        step.setClassifier("trace");
 
         if (!info.isEmpty()) {
             step.setInput(WebTauStepInputKeyValue.stepInput(info));
         }
 
-        step.execute(StepReportOptions.REPORT_ALL);
+        step.execute(StepReportOptions.SKIP_END);
     }
 
     public static void fail(String message) {

@@ -119,6 +119,11 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private Stream<Object> stepStartBeginningStream(WebTauStep step) {
+        if (step.getClassifier().equals("trace")) {
+            return Stream.of(createIndentation(step.getNumberOfParents()),
+                    Color.BACKGROUND_BLUE, Color.WHITE, "[tracing]", Color.RESET, " ");
+        }
+
         return Stream.of(createIndentation(step.getNumberOfParents()), Color.YELLOW, "> ");
     }
 
@@ -143,7 +148,7 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private void printStepInput(WebTauStep step) {
-        if (skipRenderRequestResponse()) {
+        if (skipRenderInputOutput()) {
             return;
         }
 
@@ -151,7 +156,7 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private void printStepOutput(WebTauStep step) {
-        if (skipRenderRequestResponse()) {
+        if (skipRenderInputOutput()) {
             return;
         }
 
@@ -163,7 +168,7 @@ public class ConsoleStepReporter implements StepReporter {
                 numberOfSpacedForIndentLevel(step.getNumberOfParents() + 1));
     }
 
-    private boolean skipRenderRequestResponse() {
+    private boolean skipRenderInputOutput() {
         return verboseLevelSupplier.get() <= WebTauStep.getCurrentStep().getNumberOfParents() + 1;
     }
 
@@ -176,7 +181,7 @@ public class ConsoleStepReporter implements StepReporter {
             return completionMessage;
         }
 
-        if (step.hasFailedChildrenSteps() && !skipRenderRequestResponse()) {
+        if (step.hasFailedChildrenSteps() && !skipRenderInputOutput()) {
             // we don't render children errors one more time in case this step has failed children steps
             // last two tokens of a message are delimiter and error tokens
             // so we remove them
