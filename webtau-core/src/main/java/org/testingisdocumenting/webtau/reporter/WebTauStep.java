@@ -322,7 +322,7 @@ public class WebTauStep {
                 output = outputSupplier.get();
             }
 
-            if (stepReportOptions != StepReportOptions.SKIP_ALL && stepReportOptions != StepReportOptions.SKIP_END) {
+            if (stepReportOptions != StepReportOptions.SKIP_ALL) {
                 StepReporters.onSuccess(this);
             }
 

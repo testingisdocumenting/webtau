@@ -78,6 +78,10 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private void printStepSuccess(WebTauStep step) {
+        if (isTraceStep(step)) {
+            return;
+        }
+
         TokenizedMessage completionMessage = step.getCompletionMessage();
 
         TokenizedMessage completionMessageToUse = isLastTokenMatcher(completionMessage) ?
@@ -119,7 +123,7 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private Stream<Object> stepStartBeginningStream(WebTauStep step) {
-        if (step.getClassifier().equals("trace")) {
+        if (isTraceStep(step)) {
             return Stream.of(createIndentation(step.getNumberOfParents()),
                     Color.BACKGROUND_BLUE, Color.WHITE, "[tracing]", Color.RESET, " ");
         }
@@ -234,5 +238,9 @@ public class ConsoleStepReporter implements StepReporter {
         if (currentLevel <= verboseLevelSupplier.get()) {
             code.run();
         }
+    }
+
+    private static boolean isTraceStep(WebTauStep step) {
+        return step.getClassifier().equals("trace");
     }
 }

@@ -224,7 +224,7 @@ public class WebTauCore extends Matchers {
             step.setInput(WebTauStepInputKeyValue.stepInput(info));
         }
 
-        step.execute(StepReportOptions.SKIP_END);
+        step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public static void fail(String message) {
