@@ -1,0 +1,1 @@
+* Add: render [trace](report/steps#tracing-values) console output in a special manner

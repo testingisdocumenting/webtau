@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.reporter
 
+import org.testingisdocumenting.webtau.WebTauCore
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
@@ -170,7 +171,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Test
     void "should render repeated step progress"() {
-        def repeatStep = WebTauStep.createRepeatStep("repeat", 5) {ctx ->
+        def repeatStep = WebTauStep.createRepeatStep("repeat", 5) { ctx ->
             def step = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("repeat")),
                     { -> TokenizedMessage.tokenizedMessage(action("completed repeat")) }) {
             }
@@ -199,7 +200,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     @Test
     void "should render failed step within repeated step progress"() {
-        def repeatStep = WebTauStep.createRepeatStep("repeat", 5) {ctx ->
+        def repeatStep = WebTauStep.createRepeatStep("repeat", 5) { ctx ->
             def step = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("repeat")),
                     { -> TokenizedMessage.tokenizedMessage(action("completed repeat")) }) {
                 if (ctx.attemptNumber == 2) {
@@ -263,6 +264,14 @@ class ConsoleStepReporterTest implements ConsoleOutput {
         }
     }
 
+    @Test
+    void "should render trace steps in a special manner"() {
+        expectReport(100, "[tracing] trace label\n" +
+                "  key: value") {
+            WebTauCore.trace("trace label", "key", "value")
+        }
+    }
+
     private static void executeNestedSteps() {
         def topLevelStep = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("top level action")),
                 { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {
@@ -298,7 +307,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
         try {
             StepReporters.add(stepReporter)
             code.run()
-        } catch(Throwable ignored) {
+        } catch (Throwable ignored) {
         }
 
         StepReporters.remove(stepReporter)
