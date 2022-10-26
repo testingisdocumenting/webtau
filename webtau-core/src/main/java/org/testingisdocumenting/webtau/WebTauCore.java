@@ -218,6 +218,7 @@ public class WebTauCore extends Matchers {
                 tokenizedMessage(action(label)),
                 () -> tokenizedMessage(action(label)),
                 () -> {});
+        step.setClassifier("trace");
 
         if (!info.isEmpty()) {
             step.setInput(WebTauStepInputKeyValue.stepInput(info));
