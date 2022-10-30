@@ -20,33 +20,41 @@ package org.testingisdocumenting.webtau.http.datanode;
 public class DataNodeId {
     private final String path;
     private final String name;
+    private final String normalizedPath; // name without array index
     private int idx;
 
     public DataNodeId(String name) {
         this.name = name;
         this.path = name;
+        this.normalizedPath = name;
     }
 
-    public DataNodeId(String path, String name) {
+    private DataNodeId(String path, String normalizedPath, String name) {
         this.path = path;
         this.name = name;
+        this.normalizedPath = normalizedPath;
     }
 
-    public DataNodeId(String path, String name, int idx) {
-        this(path, name);
+    private DataNodeId(String path, String normalizedPath, String name, int idx) {
+        this(path, normalizedPath, name);
         this.idx = idx;
     }
 
     public DataNodeId child(String name) {
-        return new DataNodeId(path + "." + name, name);
+        String newPath = path + "." + name;
+        return new DataNodeId(newPath, newPath, name);
     }
 
     public DataNodeId peer(int idx) {
-        return new DataNodeId(path + "[" + idx + "]", name, idx);
+        return new DataNodeId(path + "[" + idx + "]", path, name, idx);
     }
 
     public String getPath() {
         return path;
+    }
+
+    public String getNormalizedPath() {
+        return normalizedPath;
     }
 
     public String getName() {

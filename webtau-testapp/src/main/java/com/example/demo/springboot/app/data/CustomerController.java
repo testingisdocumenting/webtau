@@ -25,6 +25,7 @@ public class CustomerController {
     }
 
     @PostMapping("/customers")
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer) {
         return ResponseEntity.status(HttpStatus.CREATED).body(customerRepository.save(customer));
     }

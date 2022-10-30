@@ -65,6 +65,7 @@ class Report {
     this.openApiHttpCallIdsPerOperation = report.openApiHttpCallIdsPerOperation || [];
     this.performance = new PerformanceReport(this);
     this.httpPerformance = report.httpPerformance;
+    this.httpDataCoverage = report.httpDataCoverage;
     this.httpCallsCombinedWithSkipped = [
       ...convertSkippedToHttpCalls(report.openApiSkippedOperations || []),
       ...this.httpCalls,

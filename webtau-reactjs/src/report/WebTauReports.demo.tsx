@@ -15,15 +15,15 @@
  * limitations under the License.
  */
 
-import React from 'react';
-import WebTauReport from './WebTauReport';
-import Report from './Report';
+import React from "react";
+import WebTauReport from "./WebTauReport";
+import Report from "./Report";
 
-import { basicReport, withCliDataReport, withRestDataReport } from '../test-data/testData';
-import { Registry } from 'react-component-viewer';
+import { basicReport, withCliDataReport, withRestDataReport } from "../test-data/testData";
+import { Registry } from "react-component-viewer";
 
 export function webTauReportsDemo(registry: Registry) {
-  registry.add('basic', () => <WebTauReport report={new Report(basicReport)} />);
-  registry.add('with REST', () => <WebTauReport report={new Report(withRestDataReport)} />);
-  registry.add('with CLI', () => <WebTauReport report={new Report(withCliDataReport)} />);
+  registry.add("basic", () => <WebTauReport report={new Report(basicReport)} />);
+  registry.add("with REST", () => <WebTauReport report={new Report(withRestDataReport)} />);
+  registry.add("with CLI", () => <WebTauReport report={new Report(withCliDataReport)} />);
 }

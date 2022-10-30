@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.http.validation;
 
+import org.testingisdocumenting.webtau.http.datacoverage.HttpDataNodePathCoverageCollector;
 import org.testingisdocumenting.webtau.http.perf.HttpPerformanceValidationHandler;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
@@ -82,6 +83,7 @@ public class HttpValidationHandlers {
         ArrayList<HttpValidationHandler> result = new ArrayList<>();
         result.add(new HttpPerformanceValidationHandler());
         result.addAll(ServiceLoaderUtils.load(HttpValidationHandler.class));
+        result.add(new HttpDataNodePathCoverageCollector());
 
         return result;
     }

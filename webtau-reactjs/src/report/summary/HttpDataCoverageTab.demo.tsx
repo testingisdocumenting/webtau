@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 webtau maintainers
+ * Copyright 2022 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,21 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.report.perf;
+import { Registry } from 'react-component-viewer';
+import { HttpDataCoverageTab, HttpOperationCoverage } from './HttpDataCoverageTab';
 
-public interface PerformanceReportProvider {
-    PerformanceReport provide();
+export function httpDataCoverageTabDemo(registry: Registry) {
+  registry.add('default', () => <HttpDataCoverageTab httpCoverage={sampleData()} />);
+}
+
+function sampleData(): HttpOperationCoverage[] {
+  return [
+    {
+      id: "POST /customer",
+      touchedPathsCount: 3,
+      untouchedPathsCount: 6,
+      untouchedPercent: 66,
+      untouchedPaths: ["path1", "path2"]
+    }
+  ];
 }

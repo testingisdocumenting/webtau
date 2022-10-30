@@ -39,6 +39,7 @@ import { testServerJournalsDemo } from './details/servers/TestServerJournals.dem
 import { sourceCodeDemo } from './snippet/SourceCode.demo';
 import { testsPerformanceDemo } from './summary/TestsPerformance.demo';
 import { httpCallsDemo } from './details/http/httpCallsDemo';
+import { httpDataCoverageTabDemo } from './summary/HttpDataCoverageTab.demo';
 
 const registries = new Registries();
 
@@ -70,7 +71,8 @@ registries.add('server').registerAsTabs('server calls', testServerJournalsDemo);
 registries
   .add('panels')
   .registerAsTabs('test summary', testSummaryDemo)
-  .registerAsTabs('tests performance', testsPerformanceDemo);
+  .registerAsTabs('tests performance', testsPerformanceDemo)
+  .registerAsTabs('http coverage', httpDataCoverageTabDemo);
 
 registries
   .add('full reports')
