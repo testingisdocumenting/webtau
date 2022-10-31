@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.http.HttpHeader;
+import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
 import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.http.HttpResponse;
@@ -32,10 +33,7 @@ import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 import org.testingisdocumenting.webtau.time.Time;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
 
@@ -113,12 +111,20 @@ public class HttpValidationResult implements WebTauStepOutput {
         this.responseBodyNode = responseBody;
     }
 
-    public List<String> getFailedPaths() {
+    public Set<String> getFailedPaths() {
         return extractPaths(responseBodyNode, CheckLevel::isFailed);
     }
 
-    public List<String> getPassedPaths() {
+    public Set<String> getPassedPaths() {
         return extractPaths(responseBodyNode, CheckLevel::isPassed);
+    }
+
+    public Set<String> getAllNormalizedPaths() {
+        return extractNormalizedPaths(responseBodyNode, checkLevel -> true);
+    }
+
+    public Set<String> getPassedNormalizedPaths() {
+        return extractNormalizedPaths(responseBodyNode, CheckLevel::isPassed);
     }
 
     public void setStartTime(long startTime) {
@@ -292,12 +298,20 @@ public class HttpValidationResult implements WebTauStepOutput {
         return result;
     }
 
-    private List<String> extractPaths(DataNode dataNode, Function<CheckLevel, Boolean> includePath) {
-        List<String> paths = new ArrayList<>();
+    private Set<String> extractPaths(DataNode dataNode, Function<CheckLevel, Boolean> includePath) {
+        return extractPaths(dataNode, includePath, DataNodeId::getPath);
+    }
+
+    private Set<String> extractNormalizedPaths(DataNode dataNode, Function<CheckLevel, Boolean> includePath) {
+        return extractPaths(dataNode, includePath, DataNodeId::getNormalizedPath);
+    }
+
+    private Set<String> extractPaths(DataNode dataNode, Function<CheckLevel, Boolean> includePath, Function<DataNodeId, String> pathSupplier) {
+        Set<String> paths = new TreeSet<>();
 
         TraceableValueConverter traceableValueConverter = (id, traceableValue) -> {
             if (includePath.apply(traceableValue.getCheckLevel())) {
-                paths.add(replaceStartOfThePath(id.getPath()));
+                paths.add(replaceStartOfThePath(pathSupplier.apply(id)));
             }
 
             return traceableValue.getValue();
@@ -308,7 +322,6 @@ public class HttpValidationResult implements WebTauStepOutput {
 
         return paths;
     }
-
     private static String replaceStartOfThePath(String path) {
         if (path.startsWith("body")) {
             return path.replace("body", "root");

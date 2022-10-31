@@ -15,3 +15,4 @@
 #
 
 org.testingisdocumenting.webtau.http.perf.HttpPerformanceValidationHandler
+org.testingisdocumenting.webtau.http.datacoverage.HttpDataNodePathCoverageCollector

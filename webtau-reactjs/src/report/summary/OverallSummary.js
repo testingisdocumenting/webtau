@@ -29,6 +29,8 @@ import { EnvVarsTable } from './EnvVarsTable';
 
 import { TestsPerformance } from './TestsPerformance';
 
+import { HttpDataCoverageTab } from './HttpDataCoverageTab';
+
 import './OverallSummary.css';
 
 const summaryTabName = 'Summary';
@@ -37,6 +39,7 @@ const envVarsTabName = 'Environment Variables';
 const testsPerformanceTabName = 'Tests Performance';
 const overallHttpPerformanceTabName = 'Overall HTTP Performance';
 const httpOperationsPerformanceTabName = 'HTTP Operations Performance';
+const httpOperationsDataCoverageTabName = 'HTTP Data Coverage';
 
 export default class OverallSummary extends React.Component {
   constructor(props) {
@@ -77,6 +80,8 @@ export default class OverallSummary extends React.Component {
       return <ConfigTable report={report} />;
     } else if (selectedTabName === envVarsTabName) {
       return <EnvVarsTable report={report} />;
+    } else if (selectedTabName === httpOperationsDataCoverageTabName) {
+      return <HttpDataCoverageTab httpCoverage={report.httpDataCoverage} />;
     } else {
       return null;
     }
@@ -85,6 +90,11 @@ export default class OverallSummary extends React.Component {
 
 function availableTabNames(report) {
   const tabNames = [summaryTabName, configurationTabName, envVarsTabName, testsPerformanceTabName];
+
+  if (report.httpDataCoverage) {
+    tabNames.push(httpOperationsDataCoverageTabName);
+  }
+
   if (report.hasHttpCalls()) {
     tabNames.push(overallHttpPerformanceTabName);
   }

@@ -463,6 +463,15 @@ export const withRestDataReport = {
     { key: 'url', value: 'https://blahlong-url-maybe-need-shortening.com/v1', source: 'config file' },
   ],
   envVars: envVars,
+  httpDataCoverage: [
+    {
+      id: "POST /customer",
+      touchedPathsCount: 3,
+      untouchedPathCount: 6,
+      untouchedPercent: 66,
+      untouchedPaths: ["path1", "path2"]
+    }
+  ],
   tests: [
     {
       id: 'customerCrudSeparated.groovy-1',
