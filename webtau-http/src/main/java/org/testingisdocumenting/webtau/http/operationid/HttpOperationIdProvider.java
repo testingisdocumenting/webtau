@@ -21,7 +21,7 @@ import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 
 /**
  * <p>provides http operation id (e.g. open API operation or graphql) based on request.</p>
- * <p>mostly used for performance metrics grouping</p>
+ * <p>used for performance metrics grouping and coverage information</p>
  */
 public interface HttpOperationIdProvider {
     String operationId(String requestMethod,
