@@ -18,6 +18,8 @@ package org.testingisdocumenting.webtau.http.datacoverage;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 import org.testingisdocumenting.webtau.report.ReportDataProvider;
@@ -28,10 +30,14 @@ import org.testingisdocumenting.webtau.reporter.WebTauReportLog;
 import org.testingisdocumenting.webtau.reporter.WebTauTestList;
 
 import java.util.*;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class HttpDataNodePathCoverageCollector implements HttpValidationHandler, ReportGenerator, WebTauConfigHandler, ReportDataProvider {
-    private final static Map<String, HttpOperationDataCoverage> coverageByOperationId = new HashMap<>();
+    private static final int CONSOLE_NUMBER_OF_OPERATIONS_TO_SHOW = 3;
+    private static final int CONSOLE_NUMBER_OF_PATHS_TO_SHOW = 3;
+
+    final static Map<String, HttpOperationDataCoverage> coverageByOperationId = new TreeMap<>();
 
     @Override
     public void validate(HttpValidationResult validationResult) {
@@ -87,5 +93,46 @@ public class HttpDataNodePathCoverageCollector implements HttpValidationHandler,
 
     @Override
     public void generate(WebTauReport report) {
+        generateConsoleWarning();
+    }
+
+    private void generateConsoleWarning() {
+        if (coverageByOperationId.isEmpty()) {
+            return;
+        }
+
+        Map<String, HttpOperationDataCoverage> withTouched = coverageByOperationId.entrySet().stream()
+                .filter(entry -> entry.getValue().countNumberOfTouchedPaths() > 0)
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+        if (withTouched.isEmpty()) {
+            return;
+        }
+
+        ConsoleOutputs.out(Color.BACKGROUND_RED, Color.BLACK, "Warning", Color.RESET,
+                " HTTP operations that have non validated response fields");
+
+        int opsLimit = withTouched.size() - CONSOLE_NUMBER_OF_OPERATIONS_TO_SHOW > 2 ?
+                CONSOLE_NUMBER_OF_OPERATIONS_TO_SHOW :
+                withTouched.size();
+
+        withTouched.entrySet().stream().limit(opsLimit).forEach((e) -> {
+            ConsoleOutputs.out("  ", Color.PURPLE, e.getKey());
+
+            Set<String> paths = e.getValue().computeUntouchedPaths();
+            int pathsLimit = paths.size() - CONSOLE_NUMBER_OF_PATHS_TO_SHOW > 2 ? CONSOLE_NUMBER_OF_PATHS_TO_SHOW : paths.size();
+
+            paths.stream()
+                    .limit(pathsLimit)
+                    .forEach(p -> ConsoleOutputs.out("    ", p));
+
+            if (paths.size() > pathsLimit) {
+                ConsoleOutputs.out("    ...(" + (paths.size() - pathsLimit) + " more)");
+            }
+        });
+
+        if (withTouched.size() > opsLimit) {
+            ConsoleOutputs.out("  ...(" + (withTouched.size() - opsLimit) + " more operations)");
+        }
     }
 }
