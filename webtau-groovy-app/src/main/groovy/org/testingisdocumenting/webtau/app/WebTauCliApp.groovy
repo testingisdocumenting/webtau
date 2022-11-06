@@ -155,6 +155,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         ConsoleOutputs.add(consoleOutput)
         TestListeners.add(consoleTestReporter)
         TestListeners.add(this)
+        ReportGenerators.add(new CliReportGenerator())
         ReportGenerators.add(this)
     }
 

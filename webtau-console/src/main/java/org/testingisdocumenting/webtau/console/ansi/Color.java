@@ -28,6 +28,7 @@ public enum Color {
     WHITE("\u001B[37m"),
 
     BACKGROUND_YELLOW("\u001b[43;1m"),
+    BACKGROUND_RED("\u001b[41m"),
     BACKGROUND_BLUE("\u001b[44m"),
 
     RESET("\u001B[0m");
