@@ -27,9 +27,8 @@ import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class IterableAndTableDataCompareToHandler implements CompareToHandler {
     @Override
@@ -41,22 +40,47 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
     @SuppressWarnings("unchecked")
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         TableData expectedTable = (TableData) expected;
-        TableData actualTable = createTableFromIterable(expectedTable.getHeader(), (Iterable<Object>) actual);
+        TableData actualTable = createTableFromIterable((Iterable<Object>) actual);
 
         TableDataComparisonResult result = TableDataComparison.compare(actualTable, expectedTable);
-        if (! result.areEqual()) {
+        if (!result.areEqual()) {
             comparator.reportNotEqual(this, actualPath, new TableDataComparisonReport(result).generate());
         }
     }
 
-    private static TableData createTableFromIterable(TableDataHeader expectedHeader, Iterable<Object> actualList) {
-        TableData actualTable = new TableData(expectedHeader.getNamesStream());
-        for (Object actualRecord : actualList) {
-            Map<String, ?> actualMap = ToMapConverters.convert(actualRecord);
-            actualTable.addRow(mapToList(expectedHeader, actualMap));
+    private static TableData createTableFromIterable(Iterable<Object> actualList) {
+        Iterator<Object> actualIt = actualList.iterator();
+        if (!actualIt.hasNext()) {
+            return new TableData(Stream.empty());
+        }
+
+        List<Map<String, ?>> actualAsListOfMaps = convertActualToListOfMaps(actualList);
+        TableDataHeader actualHeader = createCombinedActualHeader(actualAsListOfMaps);
+
+        TableData actualTable = new TableData(actualHeader);
+        for (Map<String, ?> actualRow : actualAsListOfMaps) {
+            actualTable.addRow(mapToList(actualHeader, actualRow));
         }
 
         return actualTable;
+    }
+
+    private static List<Map<String, ?>> convertActualToListOfMaps(Iterable<Object> actualIt) {
+        List<Map<String, ?>> result = new ArrayList<>();
+        for (Object row : actualIt) {
+            result.add(ToMapConverters.convert(row));
+        }
+
+        return result;
+    }
+
+    private static TableDataHeader createCombinedActualHeader(List<Map<String, ?>> actual) {
+        Set<String> columnNames = new LinkedHashSet<>();
+        for (Map<String, ?> row : actual) {
+            columnNames.addAll(row.keySet());
+        }
+
+        return new TableDataHeader(columnNames.stream());
     }
 
     private static List<Object> mapToList(TableDataHeader header, Map<String, ?> map) {

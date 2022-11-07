@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +34,7 @@ public class TableDataCompareToHandler implements CompareToHandler {
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
         TableDataComparisonResult result = TableDataComparison.compare((TableData) actual, (TableData) expected);
-        if (! result.areEqual()) {
+        if (!result.areEqual()) {
             comparator.reportNotEqual(this, actualPath, new TableDataComparisonReport(result).generate());
         }
     }
