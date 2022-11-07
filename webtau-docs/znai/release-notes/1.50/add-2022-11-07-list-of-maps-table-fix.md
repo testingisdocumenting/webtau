@@ -1,0 +1,1 @@
+* Fix: properly report missing columns in case of list of maps and [TableData](reference/table-data) comparison

@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers
 
 import groovy.transform.Canonical
 import groovy.transform.Sortable
+import org.testingisdocumenting.webtau.data.table.TableData
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
@@ -69,6 +70,24 @@ class IterableAndTableDataCompareToHandlerTest {
 
         def report = comparator.generateEqualMismatchReport()
         assert report.contains("lot:   actual: 1.0")
+    }
+
+    @Test
+    void "should report columns mismatch"() {
+        def listOfMaps = [
+                [a: 1, b: 2, C: 3]
+        ]
+
+        TableData table = table("A", "B", "C",
+                               ___________________,
+                                 1,   2,  2)
+
+        def comparator = CompareToComparator.comparator()
+        assert !comparator.compareIsEqual(createActualPath("maps"), listOfMaps, table)
+
+        def report = comparator.generateEqualMismatchReport()
+        assert report.contains("missing columns: A, B")
+        assert report.contains("C:   actual: 3")
     }
 
     @Canonical
