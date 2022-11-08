@@ -34,7 +34,7 @@ public class Record {
     private final boolean hasMultiValues;
     private final boolean hasValueGenerators;
 
-    public Record(TableDataHeader header, Stream<Object> values) {
+    public Record(TableDataHeader header, Stream<?> values) {
         this.header = header;
         RecordFromStream recordFromStream = new RecordFromStream(values);
 
@@ -175,7 +175,7 @@ public class Record {
         private boolean hasValueGenerators;
         private final List<Object> values;
 
-        public RecordFromStream(Stream<Object> valuesStream) {
+        public RecordFromStream(Stream<?> valuesStream) {
             values = new ArrayList<>();
 
             valuesStream.forEach(v -> {
