@@ -1,0 +1,1 @@
+* Add: [TableData](reference/table-data) [toCsv](reference/table-data#serialization)
