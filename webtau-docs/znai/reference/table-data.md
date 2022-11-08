@@ -58,6 +58,18 @@ Java:
 
 Note: `withNewKeyColumns` creates new table and validates new key column uniqueness
 
+# Serialization
+
+Use `:identifier: toJson {validationPath: "org/testingisdocumenting/webtau/data/table/TableData.java"}` to serialize as `JSON`
+
+:include-file: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {title: "serialize as JSON", surroundedBy: "print table data json", noGap: true}
+:include-file: doc-artifacts/tabledata-json-print.txt {title: "console output", noGap: true}
+
+Use `:identifier: toCsv {validationPath: "org/testingisdocumenting/webtau/data/table/TableData.java"}` to serialize as `CSV`
+
+:include-file: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {title: "serialize as CSV", surroundedBy: "print table data csv", noGap: true}
+:include-file: doc-artifacts/tabledata-csv-print.txt {title: "console output", noGap: true}
+
 # Permutations
 
 Use `permute(v1, v2)` to automatically generate multiple rows.

@@ -141,6 +141,35 @@ public class TableDataJavaTest {
         code(() -> table.addRow(Stream.of(10))).should(
                 throwException("header size is 2, but received 1 value(s)"));
     }
+    
+    @Test
+    public void serializeToJsonAndCsv() {
+        TableData tableData = table("A", "B").values(1.3, 2, "Hello", "World");
+
+        doc.console.capture("tabledata-json-print", () -> {
+            // print table data json
+            System.out.println(tableData.toJson());
+            // print table data json
+        });
+
+        actual(tableData.toJson()).should(equal("[ {\n" +
+                "  \"A\" : 1.3,\n" +
+                "  \"B\" : 2\n" +
+                "}, {\n" +
+                "  \"A\" : \"Hello\",\n" +
+                "  \"B\" : \"World\"\n" +
+                "} ]"));
+
+        doc.console.capture("tabledata-csv-print", () -> {
+            // print table data csv
+            System.out.println(tableData.toCsv());
+            // print table data csv
+        });
+
+        actual(tableData.toCsv()).should(equal("A,B\r\n" +
+                "1.3,2\r\n" +
+                "Hello,World\r\n"));
+    }
 
     private static TableData replaceValue(TableData tableData) {
         return tableData.replace("v1b", "v1b_");
