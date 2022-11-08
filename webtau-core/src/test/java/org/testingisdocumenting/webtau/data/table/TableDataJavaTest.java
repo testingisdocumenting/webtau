@@ -135,6 +135,13 @@ public class TableDataJavaTest {
         actual(table).should(equal(expected));
     }
 
+    @Test
+    public void addRowSizeValidation() {
+        TableData table = new TableData(Stream.of("ColumnA", "ColumnB"));
+        code(() -> table.addRow(Stream.of(10))).should(
+                throwException("header size is 2, but received 1 value(s)"));
+    }
+
     private static TableData replaceValue(TableData tableData) {
         return tableData.replace("v1b", "v1b_");
     }
