@@ -121,11 +121,11 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
         return rowsByKey.get(key);
     }
 
-    public void addRow(List<Object> values) {
+    public void addRow(List<?> values) {
         addRow(values.stream());
     }
 
-    public void addRow(Stream<Object> values) {
+    public void addRow(Stream<?> values) {
         Record record = new Record(header, values);
 
         if (record.hasMultiValues()) {
@@ -178,7 +178,7 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
         return rows.stream().map(r -> mapper.apply(r.get(idx)));
     }
 
-    private <T, R> Stream<Object> mapRow(int rowIdx, Record originalRow, TableDataCellMapFunction<T, R> mapper) {
+    private <T, R> Stream<?> mapRow(int rowIdx, Record originalRow, TableDataCellMapFunction<T, R> mapper) {
         return header.getColumnIdxStream()
                 .mapToObj(idx -> mapper.apply(rowIdx, idx, header.columnNameByIdx(idx), originalRow.get(idx)));
     }

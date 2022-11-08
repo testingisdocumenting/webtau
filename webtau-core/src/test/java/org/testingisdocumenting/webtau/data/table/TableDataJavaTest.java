@@ -22,6 +22,9 @@ import org.junit.Test;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.*;
@@ -114,6 +117,24 @@ public class TableDataJavaTest {
                 "{id=id3, Name=N, Type=T}"));
     }
 
+    @Test
+    public void manualTableCreation() {
+        TableData table = new TableData(Stream.of("ColumnA", "ColumnB"));
+        table.addRow(Stream.of(10, 20));
+
+        List<Integer> row = new ArrayList<>();
+        row.add(30);
+        row.add(40);
+        table.addRow(row);
+
+        TableData expected = table("ColumnA", "ColumnB",
+                                   _________________,
+                                          10, 20,
+                                          30, 40);
+
+        actual(table).should(equal(expected));
+    }
+
     private static TableData replaceValue(TableData tableData) {
         return tableData.replace("v1b", "v1b_");
     }
@@ -174,6 +195,7 @@ public class TableDataJavaTest {
                      "Mike", cell.above               , cell.above.plus(1));
     }
 
+    // for documentation
     private static void createIncrementExample() {
         TableDataCellValueGenerator<?> increment = cell.above.plus(1);
     }
