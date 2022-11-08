@@ -193,7 +193,7 @@ public class DataCsv {
      * @param rows list of maps to write as CSV
      * @return full path to a newly created file
      */
-    public Path write(Path path, List<Map<String, Object>> rows) {
+    public Path write(Path path, List<Map<String, ?>> rows) {
         return writeCsvContentAsStep(path, () -> CsvUtils.serialize(rows));
     }
 
@@ -203,7 +203,7 @@ public class DataCsv {
      * @param rows list of maps to write as CSV
      * @return full path to a newly created file
      */
-    public Path write(String path, List<Map<String, Object>> rows) {
+    public Path write(String path, List<Map<String, ?>> rows) {
         return writeCsvContentAsStep(Paths.get(path), () -> CsvUtils.serialize(rows));
     }
 
