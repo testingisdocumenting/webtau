@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.TableDataRenderer;
 import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
+import org.testingisdocumenting.webtau.utils.CsvUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.util.*;
@@ -193,6 +194,10 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
 
     public String toJson() {
         return JsonUtils.serializePrettyPrint(toListOfMaps());
+    }
+
+    public String toCsv() {
+        return CsvUtils.serialize(toListOfMaps());
     }
 
     @Override
