@@ -1,0 +1,1 @@
+* Fix: [TableData](reference/table-data) `addRow` accepts `List<?>` instead of `List<Object>`
