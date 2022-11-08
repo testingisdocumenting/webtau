@@ -136,6 +136,13 @@ public class TableDataJavaTest {
     }
 
     @Test
+    public void addRowSizeValidation() {
+        TableData table = new TableData(Stream.of("ColumnA", "ColumnB"));
+        code(() -> table.addRow(Stream.of(10))).should(
+                throwException("header size is 2, but received 1 value(s)"));
+    }
+    
+    @Test
     public void serializeToJsonAndCsv() {
         TableData tableData = table("A", "B").values(1.3, 2, "Hello", "World");
 

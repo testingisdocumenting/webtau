@@ -38,6 +38,11 @@ public class Record {
         this.header = header;
         RecordFromStream recordFromStream = new RecordFromStream(values);
 
+        if (recordFromStream.values.size() != header.size()) {
+            throw new IllegalArgumentException("header size is " + header.size() +
+                    ", but received " + recordFromStream.values.size() + " value(s)");
+        }
+
         hasMultiValues = recordFromStream.hasMultiValues;
         hasValueGenerators = recordFromStream.hasValueGenerators;
         this.values = recordFromStream.values;
