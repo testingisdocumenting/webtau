@@ -25,6 +25,7 @@ import org.apache.commons.csv.CSVRecord;
 import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
+import java.io.UncheckedIOException;
 import java.text.NumberFormat;
 import java.util.*;
 import java.util.stream.Stream;
@@ -46,14 +47,16 @@ public class CsvUtils {
     public static List<Map<String, String>> parse(Collection<String> header, String content) {
         List<Map<String, String>> tableData = new ArrayList<>();
 
-        CSVParser csvRecords = readCsvRecords(header, content);
+        try (CSVParser csvRecords = readCsvRecords(header, content)) {
+            Collection<String> headerToUse = header.isEmpty() ?
+                    csvRecords.getHeaderMap().keySet() :
+                    header;
 
-        Collection<String> headerToUse = header.isEmpty() ?
-                csvRecords.getHeaderMap().keySet() :
-                header;
-
-        for (CSVRecord record : csvRecords) {
-            tableData.add(createRow(headerToUse, record));
+            for (CSVRecord record : csvRecords) {
+                tableData.add(createRow(headerToUse, record));
+            }
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
         }
 
         return tableData;
@@ -64,7 +67,7 @@ public class CsvUtils {
                 parse(header, content));
     }
 
-    public static String serialize(List<Map<String, Object>> rows) {
+    public static String serialize(List<Map<String, ?>> rows) {
         if (rows.isEmpty()) {
             return "";
         }
@@ -74,12 +77,12 @@ public class CsvUtils {
                 rows.stream().map(Map::values));
     }
 
-    public static String serialize(Stream<String> header, Stream<Collection<Object>> rows) {
+    public static String serialize(Stream<String> header, Stream<Collection<?>> rows) {
         try {
             StringWriter out = new StringWriter();
             CSVPrinter csvPrinter = new CSVPrinter(out, CSVFormat.DEFAULT.withHeader(header.toArray(String[]::new)));
 
-            Iterator<Collection<Object>> it = rows.iterator();
+            Iterator<Collection<?>> it = rows.iterator();
             while (it.hasNext()) {
                 csvPrinter.printRecord(it.next());
             }
@@ -90,22 +93,18 @@ public class CsvUtils {
         }
     }
 
-    private static CSVParser readCsvRecords(Collection<String> header, String content) {
-        try {
-            CSVFormat csvFormat = CSVFormat.RFC4180;
-            if (header.isEmpty()) {
-                csvFormat = csvFormat.withFirstRecordAsHeader();
-            }
-
-            return csvFormat.
-                    withIgnoreSurroundingSpaces().
-                    withIgnoreEmptyLines().
-                    withTrim().
-                    withDelimiter(',').
-                    parse(new StringReader(content));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+    private static CSVParser readCsvRecords(Collection<String> header, String content) throws IOException {
+        CSVFormat csvFormat = CSVFormat.RFC4180;
+        if (header.isEmpty()) {
+            csvFormat = csvFormat.withFirstRecordAsHeader();
         }
+
+        return csvFormat.
+                withIgnoreSurroundingSpaces().
+                withIgnoreEmptyLines().
+                withTrim().
+                withDelimiter(',').
+                parse(new StringReader(content));
     }
 
     private static Map<String, String> createRow(Collection<String> header, CSVRecord record) {
