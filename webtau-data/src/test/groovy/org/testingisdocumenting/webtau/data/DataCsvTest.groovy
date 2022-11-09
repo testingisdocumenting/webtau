@@ -23,43 +23,45 @@ import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.Matchers.code
 import static org.testingisdocumenting.webtau.Matchers.throwException
+import static org.testingisdocumenting.webtau.WebTauCore.doc
+import static org.testingisdocumenting.webtau.data.Data.*
 
 class DataCsvTest {
     @Test
     void "parse csv as table data using path as string"() {
-        def table = new DataCsv().table('src/test/resources/test.csv')
+        def table = data.csv.table('src/test/resources/test.csv')
         validateTestCsvTable(table)
     }
 
     @Test
     void "parse csv as table data using resource"() {
-        def table = new DataCsv().table('test.csv')
+        def table = data.csv.table('test.csv')
         validateTestCsvTable(table)
     }
 
     @Test
     void "parse csv as table data using path"() {
-        def table = new DataCsv().table(Paths.get('src/test/resources/test.csv'))
+        def table = data.csv.table(Paths.get('src/test/resources/test.csv'))
         validateTestCsvTable(table)
     }
 
     @Test
     void "non existing resource should be reported"() {
         code {
-            new DataCsv().table("abc.none")
+            data.csv.table("abc.none")
         } should throwException(~/Can't find resource "abc\.none" or file ".*webtau-data\/abc\.none"/)
     }
 
     @Test
     void "non existing file should be reported"() {
         code {
-            new DataCsv().table(Paths.get("abc.none"))
+            data.csv.table(Paths.get("abc.none"))
         } should throwException(~/Can't find file ".*webtau-data\/abc\.none"/)
     }
 
     @Test
     void "parse csv as table data with auto conversion of types"() {
-        def table = new DataCsv().tableAutoConverted('src/test/resources/test.csv')
+        def table = data.csv.tableAutoConverted('src/test/resources/test.csv')
         table.should == ['id' | 'absolute' | 'number' | 'comment'] {
                         _______________________________________________
                         'id1' | 'yes'      | 12       | 'what can you say'
@@ -71,9 +73,22 @@ class DataCsvTest {
 
     @Test
     void "parse empty csv as table data"() {
-        def table = new DataCsv().table('src/test/resources/empty.csv')
+        def table = data.csv.table('src/test/resources/empty.csv')
         table.size().should == 0
         table.header.size().should == 0
+    }
+
+    @Test
+    void "persist table as csv"() {
+        TableData table = ["id"  | "value"] {
+                           ________________
+                           "id1" | "value1"
+                           "id2" | "value2" }
+
+
+        doc.console.capture("data-csv-write-table") {
+            data.csv.write("my-table.csv", table)
+        }
     }
 
     static void validateTestCsvTable(TableData table) {

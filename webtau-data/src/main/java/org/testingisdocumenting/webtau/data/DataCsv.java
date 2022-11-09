@@ -207,6 +207,16 @@ public class DataCsv {
         return writeCsvContentAsStep(Paths.get(path), () -> CsvUtils.serialize(rows));
     }
 
+    /**
+     * Use <code>data.csv.write</code> to write data to CSV file.
+     * @param path relative path or absolute file path of file to create
+     * @param tableData {@link TableData} to write as CSV
+     * @return full path to a newly created file
+     */
+    public Path write(String path, TableData tableData) {
+        return writeCsvContentAsStep(Paths.get(path), tableData::toCsv);
+    }
+
     private static <R> R parseCsvTextAsStep(DataPath dataPath, Function<String, R> convertor) {
         return readAndConvertTextContentAsStep("csv", dataPath, convertor);
     }
