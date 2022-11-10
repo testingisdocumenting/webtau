@@ -1,9 +1,15 @@
 {
   "scenarioDetails" : [ {
-    "scenario" : "csv table data",
+    "scenario" : "csv list of maps",
     "shortContainerId" : "writingData.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "csv table data",
+    "shortContainerId" : "writingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
     }
   } ],
   "exitCode" : 0

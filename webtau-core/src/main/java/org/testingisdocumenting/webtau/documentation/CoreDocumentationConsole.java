@@ -30,8 +30,6 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 import static org.testingisdocumenting.webtau.utils.StringUtils.*;
 
 public class CoreDocumentationConsole {
-    private static final ThreadLocal<ByteArrayOutputStream> threadLocalOutputStream = ThreadLocal.withInitial(ByteArrayOutputStream::new);
-
     /**
      * capture the output of a provided code into the file with provided artifact name.
      * only one capture code will run at a time in multithreaded environment
