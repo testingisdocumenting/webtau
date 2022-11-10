@@ -1,0 +1,1 @@
+* Add: [data.csv.write](data/csv#write-table-data) with [TableData](reference/table-data)

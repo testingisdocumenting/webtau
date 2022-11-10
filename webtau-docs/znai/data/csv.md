@@ -34,12 +34,24 @@ Note: by default numeric values are read as strings, to auto convert numeric val
 
 :include-file: doc-artifacts/snippets/readingData/listOfMapsAutoConvertedHeader.groovy {title: "read list of maps from csv with auto conversion"}
 
-# CSV Write
+# Write List
 
 :include-java-doc: org/testingisdocumenting/webtau/data/DataCsv.java {entry: "write"}
 
 :include-file: scenarios/data/writingData.groovy {surroundedBy: "// list-data", title: "data"}
 
-:include-file: scenarios/data/writingData.groovy {includeRegexp: "data.csv.write", title: "write list of maps"}
+:include-file: scenarios/data/writingData.groovy {surroundedBy: "write-csv-list-maps", title: "write list of maps"}
 
-:include-file: generated/from-list-maps.csv { title: "result" }
+:include-file: generated/from-list-maps.csv { autoTitle: true }
+
+# Write Table Data
+
+:include-file: scenarios/data/writingData.groovy {surroundedBy: "// table-data", title: "data"}
+
+:include-file: scenarios/data/writingData.groovy {surroundedBy: "write-csv-table", title: "write table"}
+
+`write` command produce additional information that helps with tests investigation
+
+:include-cli-output: doc-artifacts/data-csv-write-table.txt {title: "console step reporter"}
+
+:include-file: generated/from-table-data.csv { autoTitle: true }
