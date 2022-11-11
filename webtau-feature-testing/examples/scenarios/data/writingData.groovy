@@ -30,14 +30,14 @@ scenario("csv table data") {
                        "id2" | "value2" }
     // table-data            
 
-    def resultPath = data.csv.write("generated/from-table-data", table)
-    resultPath.should == cfg.workingDir.resolve("generated/from-table-data").toAbsolutePath()
-    
-    doc.console.capture("data-csv-write-table") {
+    def resultPath = doc.console.capture("data-csv-write-table") {
         // write-csv-table
         def path = data.csv.write("generated/from-table-data.csv", table)
         // write-csv-table
+        return path
     }
+
+    resultPath.should == cfg.workingDir.resolve("generated/from-table-data.csv").toAbsolutePath()
 
     fs.textContent(resultPath).should == "id,value\r\n" +
             "id1,value1\r\n" +
