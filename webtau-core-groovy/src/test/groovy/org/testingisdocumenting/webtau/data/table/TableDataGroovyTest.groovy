@@ -117,6 +117,22 @@ class TableDataGroovyTest implements ConsoleOutput {
     }
 
     @Test
+    void "table creation from list of maps"() {
+        def list = [
+                [k1: "v1", k2: "v2"],
+                [k1: "v3", k3: "v4"]]
+
+        TableData tableData = TableData.fromListOfMaps(list)
+
+        TableData expected = ["k1" | "k2" | "k3"] {
+                              ____________________
+                              "v1" | "v2" | null
+                              "v3" | null | "v4" }
+
+        tableData.should == expected
+    }
+
+    @Test
     void "should change key columns and validate uniqueness"() {
         def tableData = createTableWithKeyColumns()
         code {

@@ -41,6 +41,16 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
     private final Map<CompositeKey, Integer> rowIdxByKey;
     private final TableDataHeader header;
 
+    public static TableData fromListOfMaps(List<Map<String, ?>> rows) {
+        TableDataHeader header = createCombinedActualHeader(rows);
+        TableData table = new TableData(header);
+        for (Map<String, ?> row : rows) {
+            table.addRow(mapToListUsingHeader(header, row));
+        }
+
+        return table;
+    }
+
     public TableData(List<?> columnNamesAndOptionalValues) {
         this(new TableDataHeader(extractColumnNames(columnNamesAndOptionalValues.stream()).stream()));
         populateValues(columnNamesAndOptionalValues.stream());
@@ -250,5 +260,21 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
     @Override
     public void prettyPrint(ConsoleOutput console) {
         console.out(PrettyPrintTableRenderer.render(this));
+    }
+
+    private static TableDataHeader createCombinedActualHeader(List<Map<String, ?>> rows) {
+        Set<String> columnNames = new LinkedHashSet<>();
+        for (Map<String, ?> row : rows) {
+            columnNames.addAll(row.keySet());
+        }
+
+        return new TableDataHeader(columnNames.stream());
+    }
+
+    private static List<Object> mapToListUsingHeader(TableDataHeader header, Map<String, ?> map) {
+        List<Object> result = new ArrayList<>();
+        header.getNamesStream().forEach(n -> result.add(map.get(n)));
+
+        return result;
     }
 }
