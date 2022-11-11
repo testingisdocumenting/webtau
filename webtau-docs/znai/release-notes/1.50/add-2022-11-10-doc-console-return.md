@@ -1,0 +1,1 @@
+* Add: return value variant of [doc.console.capture](JVM-business-logic/documentation-artifacts#capture-console-output)

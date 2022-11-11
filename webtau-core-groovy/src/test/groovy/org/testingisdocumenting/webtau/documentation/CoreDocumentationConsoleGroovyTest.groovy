@@ -21,11 +21,10 @@ import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.console.ansi.FontStyle
 import org.testingisdocumenting.webtau.utils.FileUtils
 
-import static org.testingisdocumenting.webtau.Matchers.actual
-import static org.testingisdocumenting.webtau.Matchers.equal
-import static org.testingisdocumenting.webtau.WebTauCore.doc
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
-class CoreDocumentationConsoleTest {
+class CoreDocumentationConsoleGroovyTest {
     @Test
     void "console capture only output from the current thread"() {
         doc.console.capture("my-output-example") {
@@ -49,5 +48,18 @@ class CoreDocumentationConsoleTest {
 
         def path = DocumentationArtifactsLocation.resolve("my-output-example.txt")
         actual(FileUtils.fileTextContent(path)).should(equal("\u001B[32mhello world test\u001B[0m"))
+    }
+
+    @Test
+    void "console capture step returns value"() {
+        def stepResult = doc.console.capture("my-output-return-example") {
+            println "hello"
+            return 42
+        }
+
+        actual(stepResult).should(equal(42))
+
+        def path = DocumentationArtifactsLocation.resolve("my-output-return-example.txt")
+        actual(FileUtils.fileTextContent(path)).should(equal("hello"))
     }
 }
