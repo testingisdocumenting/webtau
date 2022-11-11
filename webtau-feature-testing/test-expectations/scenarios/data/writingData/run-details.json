@@ -9,7 +9,7 @@
     "scenario" : "csv table data",
     "shortContainerId" : "writingData.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 5
+      "numberOfSuccessful" : 4
     }
   } ],
   "exitCode" : 0

@@ -32,34 +32,39 @@ import static org.testingisdocumenting.webtau.utils.StringUtils.*;
 public class CoreDocumentationConsole {
     /**
      * capture the output of a provided code into the file with provided artifact name.
-     * only one capture code will run at a time in multithreaded environment
+     * only one capture code will run at a time in multithreading environment
      *
      * @param textFileNameWithoutExtension artifact name
      * @param codeToProduceOutput          code to run and capture output
      */
-    public void capture(String textFileNameWithoutExtension, Runnable codeToProduceOutput) {
-        WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("capturing"), classifier("console output"),
-                        action("documentation artifact"), id(textFileNameWithoutExtension)),
-                (path) -> tokenizedMessage(action("captured"), classifier("console output"),
-                        action("documentation artifact"), id(textFileNameWithoutExtension), COLON, urlValue(((Path)path).toAbsolutePath())),
-                () -> captureStep(textFileNameWithoutExtension, codeToProduceOutput));
-
-        step.execute(StepReportOptions.REPORT_ALL);
+    public void capture(String textFileNameWithoutExtension, ConsoleOutputGeneratingCode codeToProduceOutput) {
+        capture(textFileNameWithoutExtension, () -> {
+            codeToProduceOutput.runAndGenerate();
+            return null;
+        });
     }
 
     /**
-     * capture the output of a provided code into the file with provided artifact name without using WebTau step.
-     * only one capture code will run at a time in multithreaded environment
+     * capture the output of a provided code into the file with provided artifact name.
+     * only one capture code will run at a time in multithreading environment
      *
      * @param textFileNameWithoutExtension artifact name
      * @param codeToProduceOutput          code to run and capture output
      */
-    public void captureNoStep(String textFileNameWithoutExtension, Runnable codeToProduceOutput) {
-        captureStep(textFileNameWithoutExtension, codeToProduceOutput);
+    public <R> R capture(String textFileNameWithoutExtension, ConsoleOutputGeneratingCodeWithReturn<R> codeToProduceOutput) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("capturing"), classifier("console output"),
+                        action("documentation artifact"), id(textFileNameWithoutExtension)),
+                (pathAndResult) -> tokenizedMessage(action("captured"), classifier("console output"),
+                        action("documentation artifact"), id(textFileNameWithoutExtension), COLON,
+                        urlValue(((PathAndStepResult<?>)pathAndResult).artifactPath.toAbsolutePath())),
+                () -> captureStep(textFileNameWithoutExtension, codeToProduceOutput));
+
+        PathAndStepResult<R> pathAndResult = step.execute(StepReportOptions.REPORT_ALL);
+        return pathAndResult.result;
     }
 
-    synchronized private Path captureStep(String textFileNameWithoutExtension, Runnable codeToProduceOutput) {
+    synchronized private <R> PathAndStepResult<R> captureStep(String textFileNameWithoutExtension, ConsoleOutputGeneratingCodeWithReturn<R> codeToProduceOutput) {
         PrintStream previous = System.out;
         ByteArrayOutputStream captureStream = new ByteArrayOutputStream();
 
@@ -68,11 +73,23 @@ public class CoreDocumentationConsole {
         try {
             System.setOut(new PrintStream(new CombinedOutputStream(captureMainThread, previous, captureStream)));
 
-            codeToProduceOutput.run();
-            return DocumentationArtifacts.captureText(textFileNameWithoutExtension,
+            R stepResult = codeToProduceOutput.runAndGenerate();
+            Path path = DocumentationArtifacts.captureText(textFileNameWithoutExtension,
                     stripIndentation(captureStream.toString()));
+
+            return new PathAndStepResult<>(stepResult, path);
         } finally {
             System.setOut(previous);
+        }
+    }
+
+    private static class PathAndStepResult<R> {
+        private final R result;
+        private final Path artifactPath;
+
+        public PathAndStepResult(R result, Path artifactPath) {
+            this.result = result;
+            this.artifactPath = artifactPath;
         }
     }
 

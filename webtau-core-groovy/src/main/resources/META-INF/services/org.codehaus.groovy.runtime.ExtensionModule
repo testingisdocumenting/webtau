@@ -16,5 +16,5 @@
 
 moduleName=webtau-core-groovy
 moduleVersion=1.0
-extensionClasses=org.testingisdocumenting.webtau.data.expectation.ExpectationExtension,org.testingisdocumenting.webtau.data.table.TableDataExtension,org.testingisdocumenting.webtau.data.time.TestTimeExtension,org.testingisdocumenting.webtau.persona.PersonaExtensions,org.testingisdocumenting.webtau.WebTauCoreExtensions
+extensionClasses=org.testingisdocumenting.webtau.data.expectation.ExpectationExtension,org.testingisdocumenting.webtau.data.table.TableDataExtension,org.testingisdocumenting.webtau.data.time.TestTimeExtension,org.testingisdocumenting.webtau.persona.PersonaExtensions,org.testingisdocumenting.webtau.WebTauCoreExtensions,org.testingisdocumenting.webtau.documentation.CoreDocumentationConsoleExtensions
 staticExtensionClasses=org.testingisdocumenting.webtau.data.expectation.DummyStaticExtension
