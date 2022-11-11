@@ -1,0 +1,1 @@
+* Doc: [data](data/introduction) more console output examples

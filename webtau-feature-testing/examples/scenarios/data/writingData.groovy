@@ -12,12 +12,15 @@ scenario("csv list of maps") {
     ]
     // list-data
 
-    // write-csv-list-maps
-    def path = data.csv.write("generated/from-list-maps.csv", list)
-    // write-csv-list-maps
-    path.should == cfg.workingDir.resolve("generated/from-list-maps.csv").toAbsolutePath()
+    def resultPath = doc.console.capture("data-csv-write-list") {
+        // write-csv-list-maps
+        def path = data.csv.write("generated/from-list-maps.csv", list)
+        // write-csv-list-maps
+        return path
+    }
 
-    fs.textContent(path).should == "colA,colB\r\n" +
+    resultPath.should == cfg.workingDir.resolve("generated/from-list-maps.csv").toAbsolutePath()
+    fs.textContent(resultPath).should == "colA,colB\r\n" +
             "1,R1\r\n" +
             "2,R2\r\n"
 }
@@ -38,7 +41,6 @@ scenario("csv table data") {
     }
 
     resultPath.should == cfg.workingDir.resolve("generated/from-table-data.csv").toAbsolutePath()
-
     fs.textContent(resultPath).should == "id,value\r\n" +
             "id1,value1\r\n" +
             "id2,value2\r\n"

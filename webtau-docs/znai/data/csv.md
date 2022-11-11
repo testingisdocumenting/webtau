@@ -8,6 +8,10 @@
 
 Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use `tableAutoConverted` method
 
+`read` methods produce additional report to help with tests investigation
+
+:include-cli-output: doc-artifacts/csv-table-data-output.txt {title: "console output"}
+
 :include-java-doc: org/testingisdocumenting/webtau/data/DataCsv.java {entry: "tableAutoConverted"}
 
 :include-file: doc-artifacts/snippets/readingData/csvTableAutoConverted.groovy {title: "read table data from csv with auto conversion"}
@@ -42,6 +46,10 @@ Note: by default numeric values are read as strings, to auto convert numeric val
 
 :include-file: scenarios/data/writingData.groovy {surroundedBy: "write-csv-list-maps", title: "write list of maps"}
 
+`write` methods produce additional information that helps with tests investigation
+
+:include-cli-output: doc-artifacts/data-csv-write-list.txt {title: "console step reporter"}
+
 :include-file: generated/from-list-maps.csv { autoTitle: true }
 
 # Write Table Data
@@ -50,7 +58,7 @@ Note: by default numeric values are read as strings, to auto convert numeric val
 
 :include-file: scenarios/data/writingData.groovy {surroundedBy: "write-csv-table", title: "write table"}
 
-`write` command produce additional information that helps with tests investigation
+`write` methods produce additional information that helps with tests investigation
 
 :include-cli-output: doc-artifacts/data-csv-write-table.txt {title: "console step reporter"}
 
