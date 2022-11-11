@@ -58,14 +58,25 @@ scenario("csv list of maps data with header auto converted") {
 }
 
 scenario("json list") {
-    def list = data.json.list("data/flat-list.json")
+    def list = doc.console.capture("json-list-data-output") {
+        // read-json-list
+        def list = data.json.list("data/flat-list.json")
+        // read-json-list
+
+        return list
+    }
+
+    // validate-json-list
     list[0].name.should == "hello"
     list[1].payload.info.should == ~/id2 payload/
+    // validate-json-list
 }
 
 scenario("json map") {
+    // read-json-map
     def map = data.json.map("data/root-map.json")
     map.payload.info.should == "additional id1 payload"
+    // read-json-map
 }
 
 scenario("fail to read csv") {

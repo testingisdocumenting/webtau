@@ -3,7 +3,7 @@
     "scenario" : "csv list of maps",
     "shortContainerId" : "writingData.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 4
     }
   }, {
     "scenario" : "csv table data",
