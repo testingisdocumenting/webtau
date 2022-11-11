@@ -51,7 +51,7 @@
     "scenario" : "json list",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 3
+      "numberOfSuccessful" : 4
     }
   }, {
     "scenario" : "json map",
