@@ -79,6 +79,16 @@ scenario("json map") {
     // read-json-map
 }
 
+scenario("json table") {
+    // read-json-table
+    def table = data.json.table("data/flat-list.json")
+    table.should == [ "id" |  "name" |           "payload"] {
+                    _________________________________________
+                     "id1" | "hello" | [info: ~/id1 payload/]
+                     "id2" | "world" | [info: ~/id2 payload/] }
+    // read-json-table
+}
+
 scenario("fail to read csv") {
     data.csv.table("data/broken-table.csv")
 }

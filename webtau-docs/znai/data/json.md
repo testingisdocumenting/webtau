@@ -2,7 +2,7 @@
 
 :include-java-doc: org/testingisdocumenting/webtau/data/DataJson.java {entry: "list"}
 
-:include-json: data/flat-list.json {paths: ["root[0].name", "root[1].payload.info"], title: "data/flat-list.json"}
+:include-json: data/flat-list.json {paths: ["root[0].name", "root[1].payload.info"], autoTitle: true}
 
 :include-file: scenarios/data/readingData.groovy {title: "read json as list", surroundedBy: ["// read-json-list", "// validate-json-list"]}
 
@@ -14,7 +14,14 @@
 
 :include-java-doc: org/testingisdocumenting/webtau/data/DataJson.java {entry: "map"}
 
-:include-json: data/root-map.json {paths: ["root.payload.info"], title: "data/root-map.json"}
+:include-json: data/root-map.json {paths: ["root.payload.info"], autoTitle: true}
 
 :include-file: scenarios/data/readingData.groovy {title: "read json as map", surroundedBy: ["// read-json-map"]}
 
+# Read TableData
+
+:include-java-doc: org/testingisdocumenting/webtau/data/DataJson.java {entry: "table"}
+
+:include-json: data/flat-list.json {autoTitle: true}
+
+:include-file: scenarios/data/readingData.groovy {title: "read json as table", surroundedBy: ["// read-json-table"]}

@@ -60,6 +60,12 @@
       "numberOfSuccessful" : 2
     }
   }, {
+    "scenario" : "json table",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
     "scenario" : "fail to read csv",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
