@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.data
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.table.TableData
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.WebTauStep
@@ -29,6 +30,7 @@ import java.nio.file.Paths
 import static org.testingisdocumenting.webtau.Matchers.code
 import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.Matchers.throwException
+import static org.testingisdocumenting.webtau.data.Data.data
 
 class DataJsonTest implements StepReporter {
     def failedSteps = []
@@ -46,25 +48,25 @@ class DataJsonTest implements StepReporter {
 
     @Test
     void "parse json as map from resource"() {
-        Map map = new DataJson().map("map.json")
+        Map map = data.json.map("map.json")
         map.should == [key: 'value', another: 2]
     }
 
     @Test
     void "parse json as map from path as string"() {
-        Map map = new DataJson().map("src/test/resources/map.json")
+        Map map = data.json.map("src/test/resources/map.json")
         map.should == [key: 'value', another: 2]
     }
 
     @Test
     void "parse json as map from path as Path"() {
-        Map map = new DataJson().map(Paths.get("src/test/resources/map.json"))
+        Map map = data.json.map(Paths.get("src/test/resources/map.json"))
         map.should == [key: 'value', another: 2]
     }
 
     @Test
     void "parse json as list"() {
-        List list = new DataJson().list("list.json")
+        List list = data.json.list("list.json")
         list.should == [
                 [key: 'value1', another: 1],
                 [key: 'value2', another: 2]]
@@ -72,14 +74,38 @@ class DataJsonTest implements StepReporter {
 
     @Test
     void "parse json as object"() {
-        def object = new DataJson().object("map.json")
+        def object = data.json.object("map.json")
         object.should == [key: 'value', another: 2]
+    }
+
+    @Test
+    void "parse json as table"() {
+        TableData table = data.json.table("list.json")
+        table.should == ["key"    | "another"] {
+                        ________________________
+                         "value1" |     1
+                         "value2" |     2 }
+    }
+
+    @Test
+    void "parse json as table from map should fail"() {
+        code {
+            data.json.table("map.json")
+        } should throwException("only JSON list of objects can be converted to TableData")
+
+        code {
+            data.json.table("list-of-primitives.json")
+        } should throwException("only JSON list of objects can be converted to TableData")
+
+        code {
+            data.json.table("list-of-different-types.json")
+        } should throwException("only JSON list of objects can be converted to TableData")
     }
 
     @Test
     void "parse json error should capture as failed step"() {
         code {
-            def object = new DataJson().object("broken.json")
+            def object = data.json.object("broken.json")
             object.should == [key: 'value', another: 2]
         } should throwException(JsonParseException)
 
@@ -89,7 +115,7 @@ class DataJsonTest implements StepReporter {
     @Test
     void "non existing resource should be reported"() {
         code {
-            new DataJson().map("map.ajson")
+            data.json.map("map.ajson")
         } should throwException(~/Can't find resource "map\.ajson" or file ".*webtau-data\/map\.ajson"/)
     }
 
