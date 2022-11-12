@@ -58,6 +58,20 @@ Java:
 
 Note: `withNewKeyColumns` creates new table and validates new key column uniqueness
 
+# Create From List
+
+Use `:identifier: fromListOfMaps {validationPath: "org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java"}` to create `TableData` from a list of maps.
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {title: "from list of maps", entry: "table creation from list of maps", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {title: "from list of maps", entry: "tableCreationFromListOfMaps", bodyOnly: true}
+```
+
+Note: WebTau merges keys from all list elements to create the table header
+
 # Serialization
 
 Use `:identifier: toJson {validationPath: "org/testingisdocumenting/webtau/data/table/TableData.java"}` to serialize as `JSON`

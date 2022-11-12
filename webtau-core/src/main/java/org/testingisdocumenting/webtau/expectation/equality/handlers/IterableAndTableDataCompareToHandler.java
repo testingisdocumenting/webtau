@@ -18,7 +18,6 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.testingisdocumenting.webtau.data.converters.ToMapConverters;
-import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparison;
 import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonReport;
@@ -55,14 +54,7 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
         }
 
         List<Map<String, ?>> actualAsListOfMaps = convertActualToListOfMaps(actualList);
-        TableDataHeader actualHeader = createCombinedActualHeader(actualAsListOfMaps);
-
-        TableData actualTable = new TableData(actualHeader);
-        for (Map<String, ?> actualRow : actualAsListOfMaps) {
-            actualTable.addRow(mapToList(actualHeader, actualRow));
-        }
-
-        return actualTable;
+        return TableData.fromListOfMaps(actualAsListOfMaps);
     }
 
     private static List<Map<String, ?>> convertActualToListOfMaps(Iterable<Object> actualIt) {
@@ -70,22 +62,6 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
         for (Object row : actualIt) {
             result.add(ToMapConverters.convert(row));
         }
-
-        return result;
-    }
-
-    private static TableDataHeader createCombinedActualHeader(List<Map<String, ?>> actual) {
-        Set<String> columnNames = new LinkedHashSet<>();
-        for (Map<String, ?> row : actual) {
-            columnNames.addAll(row.keySet());
-        }
-
-        return new TableDataHeader(columnNames.stream());
-    }
-
-    private static List<Object> mapToList(TableDataHeader header, Map<String, ?> map) {
-        List<Object> result = new ArrayList<>();
-        header.getNamesStream().forEach(n -> result.add(map.get(n)));
 
         return result;
     }
