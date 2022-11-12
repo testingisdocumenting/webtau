@@ -1,0 +1,1 @@
+* Add: create [TableData](reference/table-data) from [list of maps](reference/table-data#create-from-list)

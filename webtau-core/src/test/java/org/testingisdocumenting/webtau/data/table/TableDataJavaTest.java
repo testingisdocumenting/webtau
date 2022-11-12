@@ -19,11 +19,13 @@ package org.testingisdocumenting.webtau.data.table;
 
 import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenerator;
 import org.junit.Test;
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
@@ -133,6 +135,22 @@ public class TableDataJavaTest {
                                           30, 40);
 
         actual(table).should(equal(expected));
+    }
+
+    @Test
+    public void tableCreationFromListOfMaps() {
+        List<Map<String, ?>> list = new ArrayList<>();
+        list.add(CollectionUtils.aMapOf("k1", "v1", "k2", "v2"));
+        list.add(CollectionUtils.aMapOf("k1", "v3", "k3", "v4"));
+
+        TableData tableData = TableData.fromListOfMaps(list);
+
+        TableData expected = table("k1", "k2", "k3",
+                                   _________________,
+                                   "v1", "v2", null,
+                                   "v3", null, "v4");
+
+        actual(tableData).should(equal(expected));
     }
 
     @Test
