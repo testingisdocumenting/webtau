@@ -1,0 +1,16 @@
+[
+  {
+    "id": "id1",
+    "name": "hello",
+    "payload": {
+      "info": "additional id1 payload"
+    }
+  },
+  {
+    "id": "id2",
+    "name": "world",
+    "payload": {
+      "info": "additional id2 payload"
+    }
+  }
+]
