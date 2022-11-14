@@ -57,8 +57,8 @@ public class DataJson {
      * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
      * @return list of primitive values or maps/list
      */
-    public List<?> list(String fileOrResourcePath) {
-        return handleTextContent(DataPath.fromFileOrResourcePath(fileOrResourcePath), JsonUtils::deserializeAsList);
+    public <R> List<R> list(String fileOrResourcePath) {
+        return handleTextContent(DataPath.fromFileOrResourcePath(fileOrResourcePath), DataJson::listFromJson);
     }
 
     /**
@@ -68,8 +68,8 @@ public class DataJson {
      * @param filePath relative file path or absolute file path
      * @return list of primitive values or maps/list
      */
-    public List<?> list(Path filePath) {
-        return handleTextContent(DataPath.fromFilePath(filePath), JsonUtils::deserializeAsList);
+    public <R> List<R> list(Path filePath) {
+        return handleTextContent(DataPath.fromFilePath(filePath), DataJson::listFromJson);
     }
 
     /**
@@ -114,6 +114,12 @@ public class DataJson {
      */
     public Object object(Path filePath) {
         return handleTextContent(DataPath.fromFilePath(filePath), JsonUtils::deserialize);
+    }
+
+    @SuppressWarnings("unchecked")
+    private static <R> List<R> listFromJson(String json) {
+        List<?> list = JsonUtils.deserializeAsList(json);
+        return (List<R>) list;
     }
 
     @SuppressWarnings("unchecked")

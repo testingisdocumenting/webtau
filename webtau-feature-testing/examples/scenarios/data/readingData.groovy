@@ -68,14 +68,14 @@ scenario("json list") {
 
     // validate-json-list
     list[0].name.should == "hello"
-    list[1].payload.info.should == ~/id2 payload/
+    list[1].payload.should == [info: ~/id2 payload/]
     // validate-json-list
 }
 
 scenario("json map") {
     // read-json-map
     def map = data.json.map("data/root-map.json")
-    map.payload.info.should == "additional id1 payload"
+    map.payload.should == [info: "additional id1 payload"]
     // read-json-map
 }
 
