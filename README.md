@@ -16,6 +16,18 @@ Test your application across multiple layers:
 * Database
 * Business Logic (JVM only)
 
+[REST test Java example](https://testingisdocumenting.org/webtau/HTTP/introduction):
+```java
+public class WeatherJavaTest {
+    @Test
+    public void checkWeather() {
+        http.get("/weather", (header, body) -> {
+            body.get("temperature").shouldBe(lessThan(100));
+        });
+    }
+}
+```
+
 [REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction):
 ```groovy
 scenario("check weather") {
@@ -42,7 +54,6 @@ scenario("my bank balance") {
 }
 ```
 ```java
-@WebTau
 public class PersonaHttpJavaTest {
     @Test
     public void checkBalance() {
