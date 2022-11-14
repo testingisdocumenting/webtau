@@ -24,11 +24,17 @@ Groovy:
   excludeRegexp: ["package", "import"]
 }
 
+:include-json: doc-artifacts/alice-statement/response.json {title: "Alice server response"}
+:include-json: doc-artifacts/bob-statement/response.json {title: "Bob server response"}
+
 Java:
 :include-file: com/example/tests/junit5/PersonaHttpJavaTest.java {
   title: "persona authorization",
-  excludeRegexp: ["package", "import"]
+  excludeRegexp: ["package", "import", "http.doc"]
 }
+
+:include-json: doc-artifacts/alice-statement/response.json {title: "Alice server response"}
+:include-json: doc-artifacts/bob-statement/response.json {title: "Bob server response"}
 ```
 
 Use powerful [REPL](REPL/experiments) mode to significantly speed up end-to-end tests development.

@@ -27,6 +27,12 @@ public class WeatherJavaTest {
     }
 }
 ```
+**server response**
+```json
+{
+  "temperature": 88
+}
+```
 
 [REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction):
 ```groovy
@@ -53,6 +59,20 @@ scenario("my bank balance") {
     }
 }
 ```
+
+**Alice server response**
+```json
+{
+  "balance": 150
+}
+```
+**Bob server response**
+```json
+{
+  "balance": 30
+}
+```
+
 ```java
 public class PersonaHttpJavaTest {
     @Test
