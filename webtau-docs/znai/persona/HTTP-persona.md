@@ -46,7 +46,7 @@ Groovy:
 :include-file: scenarios/rest/headers/personaGet.groovy {title: "persona http call"}
 
 Java:
-:include-file: com/example/tests/junit5/PersonaHttpJavaTest.java {title: "persona http call"}
+:include-file: com/example/tests/junit5/PersonaHttpJavaTest.java {title: "persona http call", excludeRegexp: "http.doc"}
 ```
 
 To make this example work, let's update implicit header provider above to take into account persona context

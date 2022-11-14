@@ -13,9 +13,11 @@ public class PersonaHttpJavaTest {
         Alice.execute(() -> http.get("/statement", (header, body) -> {
             body.get("balance").shouldBe(greaterThan(100));
         }));
+        http.doc.capture("alice-statement");
 
         Bob.execute(() -> http.get("/statement", (header, body) -> {
             body.get("balance").shouldBe(lessThan(50));
         }));
+        http.doc.capture("bob-statement");
     }
 }
