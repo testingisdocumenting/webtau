@@ -109,7 +109,7 @@ public class DataCsv {
      * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
      * @return list of maps
      */
-    public List<Map<String, Object>> listOfMapsAutoConverted(String fileOrResourcePath) {
+    public List<Map<String, ?>> listOfMapsAutoConverted(String fileOrResourcePath) {
         return parseCsvTextAsStep(DataPath.fromFileOrResourcePath(fileOrResourcePath),
                 CsvUtils::parseWithAutoConversion);
     }
@@ -122,7 +122,7 @@ public class DataCsv {
      * @param filePath relative file path or absolute file path
      * @return list of maps
      */
-    public List<Map<String, Object>> listOfMapsAutoConverted(Path filePath) {
+    public List<Map<String, ?>> listOfMapsAutoConverted(Path filePath) {
         return parseCsvTextAsStep(DataPath.fromFilePath(filePath),
                 CsvUtils::parseWithAutoConversion);
     }
@@ -168,7 +168,7 @@ public class DataCsv {
      * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
      * @return list of maps
      */
-    public List<Map<String, Object>> listOfMapsAutoConverted(List<String> header, String fileOrResourcePath) {
+    public List<Map<String, ?>> listOfMapsAutoConverted(List<String> header, String fileOrResourcePath) {
         return parseCsvTextAsStep(DataPath.fromFileOrResourcePath(fileOrResourcePath),
                 (text) -> CsvUtils.parseWithAutoConversion(header, text));
     }
@@ -182,7 +182,7 @@ public class DataCsv {
      * @param filePath relative file path or absolute file path
      * @return list of maps
      */
-    public List<Map<String, Object>> listOfMapsAutoConverted(List<String> header, Path filePath) {
+    public List<Map<String, ?>> listOfMapsAutoConverted(List<String> header, Path filePath) {
         return parseCsvTextAsStep(DataPath.fromFilePath(filePath),
                 (text) -> CsvUtils.parseWithAutoConversion(header, text));
     }

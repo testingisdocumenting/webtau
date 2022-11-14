@@ -40,7 +40,7 @@ public class CsvUtils {
         return parse(Collections.emptyList(), content);
     }
 
-    public static List<Map<String, Object>> parseWithAutoConversion(String content) {
+    public static List<Map<String, ?>> parseWithAutoConversion(String content) {
         return convertValues(NumberFormat.getNumberInstance(), parse(content));
     }
 
@@ -62,7 +62,7 @@ public class CsvUtils {
         return tableData;
     }
 
-    public static List<Map<String, Object>> parseWithAutoConversion(List<String> header, String content) {
+    public static List<Map<String, ?>> parseWithAutoConversion(List<String> header, String content) {
         return convertValues(NumberFormat.getNumberInstance(),
                 parse(header, content));
     }
@@ -124,7 +124,7 @@ public class CsvUtils {
         return row;
     }
 
-    private static List<Map<String, Object>> convertValues(NumberFormat numberFormat, List<Map<String, String>> data) {
+    private static List<Map<String, ?>> convertValues(NumberFormat numberFormat, List<Map<String, String>> data) {
         return data.stream().map((e) -> convertRecord(numberFormat, e)).collect(toList());
     }
 
