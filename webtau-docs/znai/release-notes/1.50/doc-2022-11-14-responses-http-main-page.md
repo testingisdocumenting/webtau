@@ -1,0 +1,1 @@
+* Doc: Add server responses to [What Is This](getting-started/what-is-this) page and to README.md
