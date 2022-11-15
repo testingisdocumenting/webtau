@@ -52,7 +52,7 @@ scenario("csv list of maps with header data") {
 }
 
 scenario("csv list of maps data with header auto converted") {
-    def list = data.csv.listOfMapsAutoConverted(["C1", "C2", "C3"],"data/table-no-header.csv")
+    def list = data.csv.listOfMapsAutoConverted(["C1", "C2", "C3"], "data/table-no-header.csv")
     list.get(0).C2.should == 2
     list.get(0).C2.class.canonicalName.should == "java.lang.Long"
 }
