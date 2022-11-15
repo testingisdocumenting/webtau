@@ -8,8 +8,7 @@ scenario("csv list of maps") {
     // list-data
     def list = [
         ["colA": 1, "colB": "R1"],
-        ["colA": 2, "colB": "R2"]
-    ]
+        ["colA": 2, "colB": "R2"]]
     // list-data
 
     def resultPath = doc.console.capture("data-csv-write-list") {
