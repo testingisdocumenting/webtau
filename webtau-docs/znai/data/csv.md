@@ -7,9 +7,11 @@
 ```tabs
 Groovy:
 :include-file: scenarios/data/readingData.groovy {title: "read table data from csv", surroundedBy: "// read"}
+:include-markdown: import-ref.md
 
 Java:
 :include-file: org/testingisdocumenting/webtau/data/DataCsvJavaTest.java {title: "read table data from csv", surroundedBy: ["// read-table"]}
+:include-markdown: import-ref.md
 ```
 
 Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use `tableAutoConverted` method
