@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
-import static org.testingisdocumenting.webtau.data.Data.*;
+import static org.testingisdocumenting.webtau.data.Data.data;
 
 public class DataCsvJavaTest {
     @Test
