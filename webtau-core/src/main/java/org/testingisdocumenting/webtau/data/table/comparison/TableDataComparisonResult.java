@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,15 +26,15 @@ import org.testingisdocumenting.webtau.data.table.Record;
 import org.testingisdocumenting.webtau.data.table.TableData;
 
 public class TableDataComparisonResult {
-    private Map<Integer, Map<String, String>> messageByActualRowIdxAndColumn;
-    private Map<Integer, Map<String, String>> messageByExpectedRowIdxAndColumn;
+    private final Map<Integer, Map<String, String>> messageByActualRowIdxAndColumn;
+    private final Map<Integer, Map<String, String>> messageByExpectedRowIdxAndColumn;
 
-    private Set<String> missingColumns;
-    private TableData missingRows;
-    private TableData extraRows;
+    private final Set<String> missingColumns;
+    private final TableData missingRows;
+    private final TableData extraRows;
 
-    private TableData actual;
-    private TableData expected;
+    private final TableData actual;
+    private final TableData expected;
 
     public TableDataComparisonResult(TableData actual, TableData expected) {
         this.actual = actual;
