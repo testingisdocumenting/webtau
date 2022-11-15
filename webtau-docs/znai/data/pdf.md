@@ -8,6 +8,8 @@
   bodyOnly: true
 } 
 
+:include-markdown: import-ref.md
+
 # HTTP response
 
 Use `data.pdf.parse(body)` to parse and assert PDF content from binary response.

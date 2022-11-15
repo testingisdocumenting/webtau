@@ -21,10 +21,8 @@ import org.testingisdocumenting.webtau.data.table.TableData
 
 import java.nio.file.Paths
 
-import static org.testingisdocumenting.webtau.Matchers.code
-import static org.testingisdocumenting.webtau.Matchers.throwException
-import static org.testingisdocumenting.webtau.WebTauCore.doc
-import static org.testingisdocumenting.webtau.data.Data.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.data.Data.data
 
 class DataCsvTest {
     @Test
