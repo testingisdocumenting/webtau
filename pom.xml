@@ -152,7 +152,7 @@
 
         <groovy.version>3.0.7</groovy.version>
         <jackson.version>2.11.3</jackson.version>
-        <jackson.databind.version>2.11.3</jackson.databind.version>
+        <jackson.databind.version>2.12.7.1</jackson.databind.version>
         <slf4j.version>1.7.30</slf4j.version>
         <spring.version>5.3.14</spring.version>
         <maven.api.version>3.6.3</maven.api.version>
