@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.data.table.comparison
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.table.TableData
 
 class TableDataComparisonTest {
     @Test
@@ -102,6 +103,17 @@ class TableDataComparisonTest {
 
         def result = TableDataComparison.compare(actual, expected)
         result.missingColumns.should == ["d", "e"]
+    }
+
+    @Test
+    void "should report missing columns when no rows are present"() {
+        def actual = new TableData(["a", "b"])
+        def expected = new TableData(["A", "B"])
+
+        def result = TableDataComparison.compare(actual, expected)
+        result.missingColumns.should == ["A", "B"]
+
+        result.areEqual().should == false
     }
 
     @Test
