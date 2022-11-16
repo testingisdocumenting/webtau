@@ -11,6 +11,24 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 4
     }
+  }, {
+    "scenario" : "json list of maps",
+    "shortContainerId" : "writingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "json map",
+    "shortContainerId" : "writingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "json table data",
+    "shortContainerId" : "writingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
   } ],
   "exitCode" : 0
 }

@@ -76,7 +76,7 @@ Java:
 
 ```tabs
 Groovy:
-:include-file: scenarios/data/writingData.groovy {surroundedBy: "// list-data", title: "data"}
+:include-file: scenarios/data/writingData.groovy {surroundedBy: "// csv-list-data", title: "data"}
 :include-file: scenarios/data/writingData.groovy {surroundedBy: "write-csv-list-maps", title: "write list of maps"}
 
 Java:
@@ -94,7 +94,7 @@ Java:
 
 ```tabs
 Groovy:
-:include-file: scenarios/data/writingData.groovy {surroundedBy: "// table-data", title: "data"}
+:include-file: scenarios/data/writingData.groovy {surroundedBy: "// csv-table-data", title: "data"}
 :include-file: scenarios/data/writingData.groovy {surroundedBy: "write-csv-table", title: "write table"}
 
 Java:
