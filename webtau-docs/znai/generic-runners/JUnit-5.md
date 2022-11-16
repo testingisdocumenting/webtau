@@ -1,12 +1,20 @@
-# WebTau Runner
+# WebTau Report
 
-You can use WebTau `http.`, `graphql.`, `browser.`, `cli.`, `db.` methods as in a junit 5 tests, but to enable reporting you need to use 
+You can use WebTau `http.`, `graphql.`, `browser.`, `cli.`, `db.` methods as in a junit 5 tests, but to include a test into generated report you need to use 
 `@WebTau` annotation
 
 ```tabs
 Groovy: :include-file: com/example/tests/junit5/CustomerCrudSeparatedGroovyTest.groovy {commentsType: "inline"}
 Java: :include-file: com/example/tests/junit5/CustomerCrudSeparatedJavaTest.java {commentsType: "inline"}
 ```
+
+# Automatic Extension
+
+To enable report for all the tests without annotating each of them, use JUnit5 [automatic extension registration](https://junit.org/junit5/docs/current/user-guide/#extensions-registration-automatic)
+
+:include-file: src/test/resources/META-INF/services/org.junit.jupiter.api.extension.Extension {autoTitle: true}
+
+:include-file: src/test/resources/junit-platform.properties {autoTitle: true}
 
 # BeforeAll/AfterAll
 
