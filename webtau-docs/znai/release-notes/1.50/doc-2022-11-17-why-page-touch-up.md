@@ -1,0 +1,1 @@
+* Doc: add examples and re-arrange [Why](getting-started/why) page
