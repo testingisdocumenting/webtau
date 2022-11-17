@@ -84,6 +84,10 @@ Use `:identifier: toCsv {validationPath: "org/testingisdocumenting/webtau/data/t
 :include-file: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {title: "serialize as CSV", surroundedBy: "print table data csv", noGap: true}
 :include-file: doc-artifacts/tabledata-csv-print.txt {title: "console output", noGap: true}
 
+# Serialization To File
+
+Use [data.csv.write](data/csv#write-table) and [data.json.write](data/json#write-table-data) to serialize Table Data to a file
+
 # Permutations
 
 Use `permute(v1, v2)` to automatically generate multiple rows.
