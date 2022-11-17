@@ -5,11 +5,11 @@ import org.testingisdocumenting.webtau.data.table.TableData
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("csv list of maps") {
-    // list-data
+    // csv-list-data
     def list = [
         ["colA": 1, "colB": "R1"],
         ["colA": 2, "colB": "R2"]]
-    // list-data
+    // csv-list-data
 
     def resultPath = doc.console.capture("data-csv-write-list") {
         // write-csv-list-maps
@@ -25,12 +25,12 @@ scenario("csv list of maps") {
 }
 
 scenario("csv table data") {
-    // table-data
+    // csv-table-data
     TableData table = ["id"  | "value"] {
                        ________________
                        "id1" | "value1"
                        "id2" | "value2" }
-    // table-data            
+    // csv-table-data
 
     def resultPath = doc.console.capture("data-csv-write-table") {
         // write-csv-table
@@ -43,4 +43,72 @@ scenario("csv table data") {
     fs.textContent(resultPath).should == "id,value\r\n" +
             "id1,value1\r\n" +
             "id2,value2\r\n"
+}
+
+scenario("json list of maps") {
+    // json-list-data
+    def list = [
+            ["colA": 1, "colB": "R1"],
+            ["colA": 2, "colB": "R2"]]
+    // json-list-data
+
+    def resultPath = doc.console.capture("data-json-write-list") {
+        // write-json-list-maps
+        def path = data.json.write("generated/from-list-maps.json", list)
+        // write-json-list-maps
+        return path
+    }
+
+    resultPath.should == cfg.workingDir.resolve("generated/from-list-maps.json").toAbsolutePath()
+    fs.textContent(resultPath).should == "[ {\n" +
+            "  \"colA\" : 1,\n" +
+            "  \"colB\" : \"R1\"\n" +
+            "}, {\n" +
+            "  \"colA\" : 2,\n" +
+            "  \"colB\" : \"R2\"\n" +
+            "} ]"
+}
+
+scenario("json map") {
+    // json-map-data
+    def map = ["colA": 1, "colB": "R1"]
+    // json-map-data
+
+    def resultPath = doc.console.capture("data-json-write-map") {
+        // write-json-map
+        def path = data.json.write("generated/from-map.json", map)
+        // write-json-map
+        return path
+    }
+
+    resultPath.should == cfg.workingDir.resolve("generated/from-map.json").toAbsolutePath()
+    fs.textContent(resultPath).should == "{\n" +
+            "  \"colA\" : 1,\n" +
+            "  \"colB\" : \"R1\"\n" +
+            "}"
+}
+
+scenario("json table data") {
+    // json-table-data
+    TableData table = ["id"  | "value"] {
+                       ________________
+                       "id1" | "value1"
+                       "id2" | "value2" }
+    // json-table-data
+
+    def resultPath = doc.console.capture("data-json-write-table") {
+        // write-json-table
+        def path = data.json.write("generated/from-table-data.json", table)
+        // write-json-table
+        return path
+    }
+
+    resultPath.should == cfg.workingDir.resolve("generated/from-table-data.json").toAbsolutePath()
+    fs.textContent(resultPath).should == "[ {\n" +
+            "  \"id\" : \"id1\",\n" +
+            "  \"value\" : \"value1\"\n" +
+            "}, {\n" +
+            "  \"id\" : \"id2\",\n" +
+            "  \"value\" : \"value2\"\n" +
+            "} ]"
 }

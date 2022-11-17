@@ -1,0 +1,1 @@
+* Add: [data.json.write](data/json) methods to write list/map/[TableData](reference/table-data)

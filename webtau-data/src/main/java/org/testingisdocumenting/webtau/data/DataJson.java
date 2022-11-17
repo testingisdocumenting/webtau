@@ -20,12 +20,14 @@ import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
+import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.data.DataContentUtils.readAndConvertTextContentAsStep;
+import static org.testingisdocumenting.webtau.data.DataContentUtils.*;
 
 public class DataJson {
     /**
@@ -114,6 +116,40 @@ public class DataJson {
      */
     public Object object(Path filePath) {
         return handleTextContent(DataPath.fromFilePath(filePath), JsonUtils::deserialize);
+    }
+
+    /**
+     * Use <code>data.json.write</code> to write data to JSON file.
+     * @param path relative path or absolute file path of file to create
+     * @param tableData {@link TableData} to write as JSON
+     * @return full path to a newly created file
+     */
+    public Path write(String path, TableData tableData) {
+        return writeJsonContentAsStep(Paths.get(path), tableData::toJson);
+    }
+
+    /**
+     * Use <code>data.json.write</code> to write data to JSON file.
+     * @param path relative path or absolute file path of file to create
+     * @param list list to write as JSON
+     * @return full path to a newly created file
+     */
+    public Path write(String path, List<?> list) {
+        return writeJsonContentAsStep(Paths.get(path), () -> JsonUtils.serializePrettyPrint(list));
+    }
+
+    /**
+     * Use <code>data.json.write</code> to write data to JSON file.
+     * @param path relative path or absolute file path of file to create
+     * @param map map to write as JSON
+     * @return full path to a newly created file
+     */
+    public Path write(String path, Map<String, ?> map) {
+        return writeJsonContentAsStep(Paths.get(path), () -> JsonUtils.serializePrettyPrint(map));
+    }
+
+    private static Path writeJsonContentAsStep(Path path, Supplier<String> convertor) {
+        return writeTextContentAsStep("json", path, convertor);
     }
 
     @SuppressWarnings("unchecked")
