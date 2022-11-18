@@ -244,6 +244,10 @@ public class WebTauStep {
         return children.stream().anyMatch(WebTauStep::isFailed);
     }
 
+    public Optional<WebTauStep> findFailedChildStep() {
+        return children.stream().filter(WebTauStep::isFailed).findFirst();
+    }
+
     public void setTotalNumberOfAttempts(int totalNumberOfAttempts) {
         this.totalNumberOfAttempts = totalNumberOfAttempts;
     }

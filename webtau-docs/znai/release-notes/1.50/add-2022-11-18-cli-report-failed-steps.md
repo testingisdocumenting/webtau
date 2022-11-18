@@ -1,0 +1,1 @@
+* Add: [Groovy Runner](groovy-standalone-runner/introduction) prints failed steps info in addition to the test exception at the end 

@@ -24,10 +24,7 @@ import static org.testingisdocumenting.webtau.reporter.TestStatus.Skipped;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceCodeEntry;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
@@ -53,7 +50,7 @@ public class WebTauTest {
     private boolean isSynthetic;
 
     private boolean isRan;
-    private Path workingDir;
+    private final Path workingDir;
 
     private long startTime;
     private long elapsedTime;
@@ -235,6 +232,10 @@ public class WebTauTest {
 
     public boolean hasSteps() {
         return !steps.isEmpty();
+    }
+
+    public Optional<WebTauStep> findFirstFailedStep() {
+        return steps.stream().filter(WebTauStep::isFailed).findFirst();
     }
 
     public int calcNumberOfSuccessfulSteps() {

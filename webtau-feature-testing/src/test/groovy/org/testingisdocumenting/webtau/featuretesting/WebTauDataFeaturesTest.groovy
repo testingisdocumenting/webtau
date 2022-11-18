@@ -35,6 +35,16 @@ class WebTauDataFeaturesTest {
     }
 
     @Test
+    void "writing data"() {
+        runCli('writingData.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
+    void "generating data"() {
+        runCli('generateData.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "reading data extract snippets"() {
         extractCodeSnippets(
                 'readingData', 'examples/scenarios/data/readingData.groovy', [
@@ -43,16 +53,6 @@ class WebTauDataFeaturesTest {
                 'listOfMapsAutoConverted.groovy': 'csv list of maps data auto converted',
                 'listOfMapsAutoConvertedHeader.groovy': 'csv list of maps data with header auto converted'
         ])
-    }
-
-    @Test
-    void "writing data"() {
-        runCli('writingData.groovy', 'webtau.cfg.groovy')
-    }
-
-    @Test
-    void "generating data"() {
-        runCli('generateData.groovy', 'webtau.cfg.groovy')
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {

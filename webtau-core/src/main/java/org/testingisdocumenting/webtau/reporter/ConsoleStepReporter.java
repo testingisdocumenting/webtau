@@ -173,7 +173,12 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private boolean skipRenderInputOutput() {
-        return verboseLevelSupplier.get() <= WebTauStep.getCurrentStep().getNumberOfParents() + 1;
+        WebTauStep currentStep = WebTauStep.getCurrentStep();
+        if (currentStep == null) {
+            return false;
+        }
+
+        return verboseLevelSupplier.get() <= currentStep.getNumberOfParents() + 1;
     }
 
     private TokenizedMessage messageTokensForFailedStep(WebTauStep step) {
