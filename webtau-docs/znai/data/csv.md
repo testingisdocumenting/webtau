@@ -86,7 +86,7 @@ Java:
 
 `write` methods produce additional information that helps with tests investigation
 
-:include-cli-output: doc-artifacts/data-csv-write-list.txt {title: "console step reporter"}
+:include-cli-output: doc-artifacts/data-csv-write-list.txt {title: "console output"}
 
 :include-file: generated/from-list-maps.csv { autoTitle: true }
 
@@ -104,6 +104,6 @@ Java:
 
 `write` methods produce additional information that helps with tests investigation
 
-:include-cli-output: doc-artifacts/data-csv-write-table.txt {title: "console step reporter"}
+:include-cli-output: doc-artifacts/data-csv-write-table.txt {title: "console output"}
 
 :include-file: generated/from-table-data.csv { autoTitle: true }

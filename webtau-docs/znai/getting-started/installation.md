@@ -53,8 +53,9 @@ Java:
 :include-file: maven/junit5-dep.xml {title: "JUnit5 Dependency"}
 
 :include-file: com/example/tests/junit5/JUnit5ExampleJavaTest.java {title: "JUnit 5 example", commentsType: "inline"}
-
 ```
+
+[Learn more about JUnit5 features](generic-runners/JUnit-5)
  
 # JUnit4
 
@@ -72,6 +73,6 @@ Java:
 :include-file: maven/junit4-dep.xml {title: "JUnit4 Dependency"}
 
 :include-file: com/example/tests/junit4/JUnit4ExampleJavaTest.java {title: "JUnit 4 example", commentsType: "inline"}
-
 ```
- 
+
+[Learn more about JUnit4 features](generic-runners/JUnit-4)

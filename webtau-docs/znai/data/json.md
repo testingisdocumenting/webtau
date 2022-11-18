@@ -62,7 +62,7 @@ Java:
 
 `write` methods produce additional information that helps with tests investigation
 
-:include-cli-output: doc-artifacts/data-json-write-list.txt {title: "console step reporter"}
+:include-cli-output: doc-artifacts/data-json-write-list.txt {title: "console output"}
 
 :include-file: generated/from-list-maps.json { autoTitle: true }
 
