@@ -19,14 +19,20 @@ package org.testingisdocumenting.webtau.app
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.reporter.ConsoleStepReporter
+import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
 import org.testingisdocumenting.webtau.reporter.WebTauReport
 import org.testingisdocumenting.webtau.report.ReportGenerator
+import org.testingisdocumenting.webtau.reporter.WebTauStep
 import org.testingisdocumenting.webtau.reporter.WebTauTest
 import org.testingisdocumenting.webtau.reporter.TestStatus
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils
 import org.testingisdocumenting.webtau.utils.TimeUtils
 
 class CliReportGenerator implements ReportGenerator {
+    private final static ConsoleStepReporter consoleStepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(),
+            () -> Integer.MAX_VALUE)
+
     @Override
     void generate(WebTauReport report) {
         printTestsWithStatus(report, TestStatus.Errored)
@@ -50,9 +56,16 @@ class CliReportGenerator implements ReportGenerator {
         ConsoleOutputs.out(Color.RED, '[x] ', testEntry.scenario, Color.PURPLE, ' ',
                 testEntry.filePath)
 
+        testEntry.findFirstFailedStep().ifPresent(CliReportGenerator::printFailedStep)
+
         ConsoleOutputs.out(WebTauConfig.getCfg().getFullStackTrace() ?
                 StackTraceUtils.renderStackTrace(testEntry.exception) :
                 StackTraceUtils.renderStackTraceWithoutLibCalls(testEntry.exception), '\n')
+    }
+
+    private static void printFailedStep(WebTauStep step) {
+        consoleStepReporter.onStepFailure(step)
+        step.findFailedChildStep().ifPresent(CliReportGenerator::printFailedStep)
     }
 
     private static void printTimeTaken(WebTauReport report) {
