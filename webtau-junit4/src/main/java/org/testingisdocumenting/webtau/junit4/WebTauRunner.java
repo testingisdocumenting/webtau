@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.TestListeners;
 import org.testingisdocumenting.webtau.javarunner.report.JavaBasedTest;
 import org.testingisdocumenting.webtau.javarunner.report.JavaReport;
 import org.testingisdocumenting.webtau.javarunner.report.JavaShutdownHook;
+import org.testingisdocumenting.webtau.report.ConsoleReportGenerator;
 import org.testingisdocumenting.webtau.report.HtmlReportGenerator;
 import org.testingisdocumenting.webtau.report.ReportGenerators;
 import org.testingisdocumenting.webtau.reporter.*;
@@ -169,6 +170,8 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
             TestListeners.add(new ConsoleTestListener());
             StepReporters.add(new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> Integer.MAX_VALUE));
             ReportGenerators.add(new HtmlReportGenerator());
+            ReportGenerators.add(new ConsoleReportGenerator());
+            JavaReport.INSTANCE.startTimer();
         }
     }
 }

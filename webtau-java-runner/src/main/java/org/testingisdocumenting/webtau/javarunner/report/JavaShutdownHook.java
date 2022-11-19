@@ -25,6 +25,7 @@ public class JavaShutdownHook {
     private JavaShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             TestListeners.afterAllTests();
+            JavaReport.INSTANCE.stopTimer();
             ReportGenerators.generate(JavaReport.INSTANCE.create());
         }));
     }
