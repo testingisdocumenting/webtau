@@ -60,7 +60,13 @@ export default class OverallSummary extends React.Component {
   }
 
   renderTabContent() {
-    const { selectedTabName = this.tabNames[0], report, onSwitchToHttpCalls, onSwitchToSkippedHttpCalls } = this.props;
+    const {
+      selectedTabName = this.tabNames[0],
+      report,
+      onSwitchToHttpCalls,
+      onSwitchToSkippedHttpCalls,
+      onSwitchToHttpDataCoverage
+    } = this.props;
 
     if (selectedTabName === summaryTabName) {
       return (
@@ -68,6 +74,7 @@ export default class OverallSummary extends React.Component {
           report={report}
           onSwitchToHttpCalls={onSwitchToHttpCalls}
           onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls}
+          onSwitchToHttpDataCoverage={onSwitchToHttpDataCoverage}
         />
       );
     } else if (selectedTabName === testsPerformanceTabName) {
