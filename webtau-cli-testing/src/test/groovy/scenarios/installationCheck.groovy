@@ -19,27 +19,27 @@ package scenarios
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static webtau.CliCommands.*
 
-scenario('shows help and exits') {
+scenario("shows help and exits") {
     webtauCli.run {
-        output.should contain('--config <arg>')
+        output.should contain("--config <arg>")
         exitCode.should == 1
     }
 }
 
-scenario('validates cli argument is listed') {
-    webtauCli.run('--wrongOption 3') {
-        output.should contain('Unrecognized option: --wrongOption')
+scenario("validates cli argument is listed") {
+    webtauCli.run("--wrongOption 3") {
+        output.should contain("Unrecognized option: --wrongOption")
         exitCode.should == 2
     }
 }
 
-scenario('validate generation of examples') {
-    webtauCli.run('--example') {
+scenario("validate generation of examples") {
+    webtauCli.run("--example") {
         output.should contain("examples/todo")
         output.should contain("examples/graphql")
     }
 
-    fs.textContent('examples/todo/todolist.groovy').should contain('scenario')
+    fs.textContent("examples/todo/todolist.groovy").should contain("scenario")
 
-    webtauCli.run('todolist.groovy', cli.workingDir("examples/todo"))
+    webtauCli.run("todolist.groovy", cli.workingDir("examples/todo"))
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +17,13 @@
 
 package org.testingisdocumenting.webtau.junit4;
 
+import org.testingisdocumenting.webtau.TestListeners;
 import org.testingisdocumenting.webtau.javarunner.report.JavaBasedTest;
 import org.testingisdocumenting.webtau.javarunner.report.JavaReport;
 import org.testingisdocumenting.webtau.javarunner.report.JavaShutdownHook;
-import org.testingisdocumenting.webtau.reporter.WebTauTest;
-import org.testingisdocumenting.webtau.reporter.StepReporters;
-import org.testingisdocumenting.webtau.reporter.TestResultPayloadExtractors;
+import org.testingisdocumenting.webtau.report.HtmlReportGenerator;
+import org.testingisdocumenting.webtau.report.ReportGenerators;
+import org.testingisdocumenting.webtau.reporter.*;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.internal.runners.statements.RunAfters;
@@ -93,6 +95,7 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
     }
 
     private void beforeTestRun(JavaBasedTest javaBasedTest) {
+        TestListeners.beforeTestRun(javaBasedTest.getTest());
         javaBasedTest.getTest().startClock();
         StepReporters.add(javaBasedTest);
     }
@@ -109,9 +112,12 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
                 .forEach(webTauTest::addTestResultPayload);
 
         JavaShutdownHook.INSTANCE.noOp();
+        TestListeners.afterTestRun(javaBasedTest.getTest());
     }
 
     private JavaBasedTest createJavaBasedTest(FrameworkMethod method) {
+        ReportRegistration.register();
+
         String canonicalClassName = method.getDeclaringClass().getCanonicalName();
 
         JavaBasedTest javaBasedTest = new JavaBasedTest(
@@ -146,6 +152,23 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
             } finally {
                 afterTestRun(javaBasedTest);
             }
+        }
+    }
+
+    // add listeners and reporters only once if the WebTau extension was used
+    private static class ReportRegistration {
+        static {
+            actualRegister();
+        }
+
+        static void register() {
+            // no-op to trigger class load
+        }
+
+        private static void actualRegister() {
+            TestListeners.add(new ConsoleTestListener());
+            StepReporters.add(new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> Integer.MAX_VALUE));
+            ReportGenerators.add(new HtmlReportGenerator());
         }
     }
 }

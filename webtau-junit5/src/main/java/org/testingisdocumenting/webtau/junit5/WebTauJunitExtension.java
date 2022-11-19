@@ -21,6 +21,8 @@ import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.javarunner.report.JavaBasedTest;
 import org.testingisdocumenting.webtau.javarunner.report.JavaReport;
 import org.testingisdocumenting.webtau.javarunner.report.JavaShutdownHook;
+import org.testingisdocumenting.webtau.report.HtmlReportGenerator;
+import org.testingisdocumenting.webtau.report.ReportGenerators;
 import org.testingisdocumenting.webtau.reporter.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.extension.*;
@@ -61,7 +63,7 @@ public class WebTauJunitExtension implements
 
     @Override
     public void beforeAll(ExtensionContext extensionContext) {
-        ConsoleReporterRegistrator.register();
+        ReportRegistration.register();
         DeferredCallsRegistration.registerTestRunnerId("Junit5");
     }
 
@@ -193,8 +195,8 @@ public class WebTauJunitExtension implements
                 displayName;
     }
 
-    // add ConsoleStepReporter only once if the WebTau extension was used
-    private static class ConsoleReporterRegistrator {
+    // add listeners and reporters only once if the WebTau extension was used
+    private static class ReportRegistration {
         static {
             actualRegister();
         }
@@ -206,6 +208,7 @@ public class WebTauJunitExtension implements
         private static void actualRegister() {
             TestListeners.add(new ConsoleTestListener());
             StepReporters.add(new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> Integer.MAX_VALUE));
+            ReportGenerators.add(new HtmlReportGenerator());
         }
     }
 }
