@@ -36,6 +36,7 @@ import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.console.ansi.NoAnsiConsoleOutput
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 import org.testingisdocumenting.webtau.repl.WebTauRepl
+import org.testingisdocumenting.webtau.report.ConsoleReportGenerator
 import org.testingisdocumenting.webtau.report.HtmlReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
@@ -156,7 +157,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         ConsoleOutputs.add(consoleOutput)
         TestListeners.add(consoleTestReporter)
         TestListeners.add(this)
-        ReportGenerators.add(new CliReportGenerator())
+        ReportGenerators.add(new ConsoleReportGenerator())
         ReportGenerators.add(new HtmlReportGenerator())
         ReportGenerators.add(this)
     }

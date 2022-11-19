@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.javarunner.report.JavaBasedTest;
 import org.testingisdocumenting.webtau.javarunner.report.JavaReport;
 import org.testingisdocumenting.webtau.javarunner.report.JavaShutdownHook;
+import org.testingisdocumenting.webtau.report.ConsoleReportGenerator;
 import org.testingisdocumenting.webtau.report.HtmlReportGenerator;
 import org.testingisdocumenting.webtau.report.ReportGenerators;
 import org.testingisdocumenting.webtau.reporter.*;
@@ -65,6 +66,7 @@ public class WebTauJunitExtension implements
     public void beforeAll(ExtensionContext extensionContext) {
         ReportRegistration.register();
         DeferredCallsRegistration.registerTestRunnerId("Junit5");
+        JavaReport.INSTANCE.startTimer();
     }
 
     @Override
@@ -208,6 +210,7 @@ public class WebTauJunitExtension implements
         private static void actualRegister() {
             TestListeners.add(new ConsoleTestListener());
             StepReporters.add(new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> Integer.MAX_VALUE));
+            ReportGenerators.add(new ConsoleReportGenerator());
             ReportGenerators.add(new HtmlReportGenerator());
         }
     }
