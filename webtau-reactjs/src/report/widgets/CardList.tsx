@@ -22,12 +22,15 @@ import './CardList.css';
 interface Props {
   label?: React.ReactNode;
   children: React.ReactNode;
+  onClick?(): void;
 }
 
-export default function CardList({ label, children }: Props) {
+export default function CardList({ label, onClick, children }: Props) {
+  const className = 'webtau-card-list' + (onClick ? ' clickable' : '');
+
   return (
     <div className="webtau-card-list-size-wrapper">
-      <div className="webtau-card-list">
+      <div className={className} onClick={onClick}>
         {label && <div className="label">{label}</div>}
         <div className="list">{children}</div>
       </div>

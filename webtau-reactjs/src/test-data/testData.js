@@ -467,7 +467,7 @@ export const withRestDataReport = {
     {
       id: "POST /customer",
       touchedPathsCount: 3,
-      untouchedPathCount: 6,
+      untouchedPathsCount: 6,
       untouchedPercent: 66,
       untouchedPaths: ["path1", "path2"]
     }
