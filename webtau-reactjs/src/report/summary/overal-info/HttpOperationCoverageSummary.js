@@ -27,7 +27,7 @@ export default function HttpOperationCoverageSummary({ report, onSwitchToSkipped
 
   const operationCoveragePercentage = (report.openApiOperationsCoverage() * 100).toFixed(2) + ' %';
   return (
-    <CardList label="HTTP Coverage">
+    <CardList label="HTTP Operations Coverage">
       <CardLabelAndNumber label="Operations coverage" number={operationCoveragePercentage} />
       <CardLabelAndNumber label="Covered operations" number={report.numberOfOpenApiCoveredOperations()} />
 

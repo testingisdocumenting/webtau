@@ -22,6 +22,10 @@
     padding: var(--webtau-spacing) var(--webtau-spacing-double);
 }
 
+.webtau-card-list.clickable {
+    cursor: pointer;
+}
+
 .webtau-card-list-size-wrapper {
     display: grid;
     grid-template-columns: auto 1fr;

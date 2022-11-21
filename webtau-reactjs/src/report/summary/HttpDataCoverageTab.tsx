@@ -36,7 +36,7 @@ const outerTableRenderer: TableValuesRenderer = {
   expandedRowRenderer(row) {
     const untouchedPathsIdx = header.length;
     return <div className="webtau-http-untouched-paths">
-      {(row[untouchedPathsIdx] as string[]).map(path => <div className="webtau-http-data-coverage-path">{path}</div>)}
+      {(row[untouchedPathsIdx] as string[]).map(path => <div key={path} className="webtau-http-data-coverage-path">{path}</div>)}
     </div>;
   },
   canBeExpanded() {

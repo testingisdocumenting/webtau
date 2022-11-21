@@ -151,6 +151,7 @@ class WebTauReport extends Component {
           report={report}
           onSwitchToHttpCalls={this.onHttpCallsEntriesTypeSelection}
           onSwitchToSkippedHttpCalls={this.onHttpSkippedCallsSelection}
+          onSwitchToHttpDataCoverage={this.onSwitchToHttpDataCoverage}
           selectedTabName={summaryTabName}
           onTabSelection={this.onSummaryTabSelection}
         />
@@ -271,6 +272,14 @@ class WebTauReport extends Component {
       entriesType: NavigationEntriesType.HTTP_CALLS,
       httpCallId: undefined,
       statusFilter: StatusEnum.SKIPPED,
+    });
+  };
+
+  onSwitchToHttpDataCoverage = () => {
+    this.pushFullUrlState({
+      entriesType: NavigationEntriesType.TESTS,
+      summaryTabName: "HTTP Data Coverage",
+      httpCallId: undefined
     });
   };
 

@@ -24,14 +24,17 @@ import TestsOverallTiming from './overal-info/TestsOverallTiming';
 import TestsSuccessRatio from './overal-info/TestsSuccessRatio';
 import TestsRanRatio from './overal-info/TestsRanRatio';
 
+import { HttpDataCoverageSummary } from './overal-info/HttpFieldsCoverageSummary';
+
 import './OverallInfo.css';
 
-export default function OverallInfo({ report, onSwitchToHttpCalls, onSwitchToSkippedHttpCalls }) {
+export default function OverallInfo({ report, onSwitchToHttpCalls, onSwitchToSkippedHttpCalls, onSwitchToHttpDataCoverage }) {
   return (
     <div className="overall-info">
       <TestsOverallTiming report={report} />
       <TestsSuccessRatio report={report} />
       <HttpOperationCoverageSummary report={report} onSwitchToSkippedHttpCalls={onSwitchToSkippedHttpCalls} />
+      <HttpDataCoverageSummary httpDataCoverage={report.httpDataCoverage} onSwitchToHttpDataCoverage={onSwitchToHttpDataCoverage}/>
       <TestsRanRatio report={report} />
       <HttpCallsTiming report={report} onSwitchToHttpCalls={onSwitchToHttpCalls} />
     </div>
