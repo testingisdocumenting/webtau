@@ -73,7 +73,7 @@ class WebTauRestFeaturesTest {
     void "schema validation extract snippets"() {
         extractCodeSnippets(
                 "json-schema", "examples/scenarios/rest/jsonSchema/validateSchema.groovy", [
-                "validateBody.groovy": "valid schema",
+                "validateBody.groovy" : "valid schema",
                 "validateField.groovy": "validate specific field",
         ])
     }
@@ -111,10 +111,15 @@ class WebTauRestFeaturesTest {
     void "open api extract snippets"() {
         extractCodeSnippets(
                 "openapi", "examples/scenarios/rest/openapi/disableOpenApiValidation.groovy", [
-                "disableAll.groovy": "disable all validation",
-                "disableRequest.groovy": "disable request validation",
+                "disableAll.groovy"     : "disable all validation",
+                "disableRequest.groovy" : "disable request validation",
                 "disableResponse.groovy": "disable response validation",
         ])
+    }
+
+    @Test
+    void "data coverage for routes form text file"() {
+        runCli("coverage/oneField.groovy", "textRoutes.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test
@@ -177,7 +182,7 @@ class WebTauRestFeaturesTest {
 
     private static void runCli(String restTestName, String configFileName, String... additionalArgs) {
         testRunner.runCli("scenarios/rest/$restTestName",
-            "scenarios/rest/$configFileName", additionalArgs)
+                "scenarios/rest/$configFileName", additionalArgs)
     }
 
     private void deleteCustomers() {

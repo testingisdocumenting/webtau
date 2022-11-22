@@ -1,5 +1,5 @@
 #
-# Copyright 2021 webtau maintainers
+# Copyright 2022 webtau maintainers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,4 @@
 # limitations under the License.
 #
 
-org.testingisdocumenting.webtau.http.perf.HttpPerformanceValidationHandler
-org.testingisdocumenting.webtau.http.datacoverage.HttpDataNodePathCoverageCollector
-org.testingisdocumenting.webtau.http.config.HttpConfig
-org.testingisdocumenting.webtau.http.operationid.HttpTextFileOperations
+org.testingisdocumenting.webtau.http.operationid.HttpTextRoutesOperationIdProvider

@@ -124,4 +124,22 @@ class UrlUtilsTest {
         assert UrlUtils.removeTrailingSlash("http://a/") == "http://a"
         assert UrlUtils.removeTrailingSlash("http://a") == "http://a"
     }
+
+    @Test
+    void "matches url to a route using curly"() {
+        def routeAndGroups = UrlUtils.buildRouteRegexpAndGroupNames("/my/^super-path/{id}/hello/{name}")
+        assert routeAndGroups.matches("/my/^super-path/3433/hello/bob")
+        assert !routeAndGroups.matches("/my/^super-path/3433/hello")
+
+        assert routeAndGroups.groupNames == ["id", "name"]
+    }
+
+    @Test
+    void "matches url to a route using colon"() {
+        def routeAndGroups = UrlUtils.buildRouteRegexpAndGroupNames("/my/^super-path/:id/hello/:name")
+        assert routeAndGroups.matches("/my/^super-path/3433/hello/bob")
+        assert !routeAndGroups.matches("/my/^super-path/3433/hello")
+
+        assert routeAndGroups.groupNames == ["id", "name"]
+    }
 }
