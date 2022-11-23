@@ -20,13 +20,17 @@ package org.testingisdocumenting.webtau.utils;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.function.Function;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class UrlUtils {
+    private static final Pattern ROUTE_CHARS_TO_ESCAPE = Pattern.compile("([<(\\[^\\-=\\\\$!|\\])?*+.>])");
+    private static final Pattern ROUTE_NAMED_PARAM_REGEXP_CURLY = Pattern.compile("\\{(\\w+)}");
+    private static final Pattern ROUTE_NAMED_PARAM_REGEXP_COLON = Pattern.compile(":(\\w+)");
+
     private UrlUtils() {
     }
 
@@ -96,6 +100,27 @@ public class UrlUtils {
         }
 
         return left + "/" + right;
+    }
+
+    public static UrlRouteRegexp buildRouteRegexpAndGroupNames(String pathDefinition) {
+        Set<String> groupNames = new LinkedHashSet<>();
+
+        String escaped = RegexpUtils.replaceAll(pathDefinition, ROUTE_CHARS_TO_ESCAPE, (m) -> {
+            String name = m.group(1);
+            return "\\\\" + name;
+        });
+
+        Function<Matcher, String> matcherFunc = (m) -> {
+            String name = m.group(1);
+            groupNames.add(name);
+
+            return "(?<" + name + ">\\\\w+)";
+        };
+
+        String curlyReplaced = RegexpUtils.replaceAll(escaped, ROUTE_NAMED_PARAM_REGEXP_CURLY, matcherFunc);
+        String colonReplaced = RegexpUtils.replaceAll(curlyReplaced, ROUTE_NAMED_PARAM_REGEXP_COLON, matcherFunc);
+
+        return new UrlRouteRegexp(Pattern.compile(colonReplaced), groupNames);
     }
 
     public static String removeTrailingSlash(String url) {
