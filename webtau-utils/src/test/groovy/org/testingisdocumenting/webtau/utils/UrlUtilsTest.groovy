@@ -131,7 +131,7 @@ class UrlUtilsTest {
         assert routeAndGroups.matches("/my/^super-path/3433/hello/bob")
         assert !routeAndGroups.matches("/my/^super-path/3433/hello")
 
-        assert routeAndGroups.groupNames == ["id", "name"]
+        assert routeAndGroups.groupNames as List == ["id", "name"]
     }
 
     @Test
@@ -140,6 +140,6 @@ class UrlUtilsTest {
         assert routeAndGroups.matches("/my/^super-path/3433/hello/bob")
         assert !routeAndGroups.matches("/my/^super-path/3433/hello")
 
-        assert routeAndGroups.groupNames == ["id", "name"]
+        assert routeAndGroups.groupNames as List == ["id", "name"]
     }
 }
