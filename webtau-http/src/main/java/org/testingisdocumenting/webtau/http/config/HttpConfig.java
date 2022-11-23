@@ -27,7 +27,7 @@ import static org.testingisdocumenting.webtau.cfg.ConfigValue.*;
 
 public class HttpConfig implements WebTauConfigHandler {
     private static final ConfigValue httpRoutesPath = declare("httpRoutesPath", "path to a file with operations in a format METHOD route",
-            () -> "http-operations.txt");
+            () -> WebTauConfig.getCfg().fullPath("http-operations.txt"));
 
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
