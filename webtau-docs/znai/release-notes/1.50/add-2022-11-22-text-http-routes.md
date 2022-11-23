@@ -1,0 +1,1 @@
+* Add: HTTP text based routes definition to support performance and data coverage without Open API spec

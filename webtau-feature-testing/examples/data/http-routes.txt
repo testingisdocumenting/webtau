@@ -1,0 +1,1 @@
+GET /city/:cityId
