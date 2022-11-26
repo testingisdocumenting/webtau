@@ -20,7 +20,7 @@ Java:
 
 # Table Data Conversion
 
-By default, `data.csv` treats numeric values as strings. Pass `valueConverter` function to convert values according to your business logic.
+By default, `data.csv` treats numeric values as strings and does not distinct between strings and dates. Pass `valueConverter` function to convert values according to your business logic.
 
 ```tabs
 Groovy:
