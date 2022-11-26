@@ -14,13 +14,25 @@ Java:
 :include-markdown: import-ref.md
 ```
 
-Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use `tableAutoConverted` method
-
 `read` methods produce additional report to help with tests investigation
 
 :include-cli-output: doc-artifacts/csv-table-data-output.txt {title: "console output"}
 
-:include-java-doc: org/testingisdocumenting/webtau/data/DataCsv.java {entry: "tableAutoConverted"}
+# Table Data Conversion
+
+By default, `data.csv` treats numeric values as strings. Pass `valueConverter` function to convert values according to your business logic.
+
+```tabs
+Groovy:
+:include-file: scenarios/data/readingData.groovy {title: "converter definition", surroundedBy: "// csv-data-converter", noGap: true}
+:include-file: scenarios/data/readingData.groovy {title: "converter usage", surroundedBy: "// csv-read-table-converter", noGap: true}
+
+Java:
+:include-file: org/testingisdocumenting/webtau/data/DataCsvJavaTest.java {title: "converter definition", surroundedBy: "// csv-data-converter", noGap: true}
+:include-file: org/testingisdocumenting/webtau/data/DataCsvJavaTest.java {title: "converter usage", surroundedBy: "// csv-read-table-converter", noGap: true}
+```
+
+If you only need to deal with numbers, use `tableAutoConverted` variant that automatically convert numeric values into `Number`
 
 ```tabs
 Groovy:

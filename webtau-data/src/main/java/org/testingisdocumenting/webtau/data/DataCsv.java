@@ -21,13 +21,11 @@ import org.testingisdocumenting.webtau.utils.CsvUtils;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static java.util.stream.Collectors.*;
 import static org.testingisdocumenting.webtau.data.DataContentUtils.*;
 
 public class DataCsv {
@@ -44,6 +42,19 @@ public class DataCsv {
     }
 
     /**
+     * Use <code>data.csv.table</code> to read data as {@link TableData} from CSV file. It will convert values based on provided converter.
+     * <p>
+     * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
+     * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
+     * @param valueConverter converter to convert values from String
+     * @return table data with CSV content
+     */
+    public TableData table(String fileOrResourcePath, DataCsvValueConverter valueConverter) {
+        return parseCsvTextAsStep(DataPath.fromFileOrResourcePath(fileOrResourcePath),
+                (text) -> tableFromListOfMaps(parseAndCovertValues(valueConverter, text)));
+    }
+
+    /**
      * Use <code>data.csv.table</code> to read data as {@link TableData} from CSV file.
      * <p>
      * Passed path is either relative based on working dir or absolute file path.
@@ -56,6 +67,19 @@ public class DataCsv {
     }
 
     /**
+     * Use <code>data.csv.table</code> to read data as {@link TableData} from CSV file. It will convert values based on provided converter.
+     * <p>
+     * Passed path is either relative based on working dir or absolute file path.
+     * @param filePath relative file path or absolute file path
+     * @param valueConverter converter to convert values from String
+     * @return table data with CSV content
+     */
+    public TableData table(Path filePath, DataCsvValueConverter valueConverter) {
+        return parseCsvTextAsStep(DataPath.fromFilePath(filePath),
+                (text) -> tableFromListOfMaps(parseAndCovertValues(valueConverter, text)));
+    }
+
+    /**
      * Use <code>data.csv.tableAutoConverted</code> to read data as {@link TableData} from CSV file. Numeric values become values of Numeric type instead of String type.
      * <p>
      * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
@@ -63,8 +87,7 @@ public class DataCsv {
      * @return table data with CSV content
      */
     public TableData tableAutoConverted(String fileOrResourcePath) {
-        return parseCsvTextAsStep(DataPath.fromFileOrResourcePath(fileOrResourcePath),
-                (text) -> tableFromListOfMaps(CsvUtils.parseWithAutoConversion(text)));
+        return table(fileOrResourcePath, new DataCsvAutoNumberConversion());
     }
 
     /**
@@ -75,8 +98,7 @@ public class DataCsv {
      * @return table data with CSV content
      */
     public TableData tableAutoConverted(Path filePath) {
-        return parseCsvTextAsStep(DataPath.fromFilePath(filePath),
-                (text) -> tableFromListOfMaps(CsvUtils.parseWithAutoConversion(text)));
+        return table(filePath, new DataCsvAutoNumberConversion());
     }
 
     /**
@@ -102,6 +124,30 @@ public class DataCsv {
     }
 
     /**
+     * Use <code>data.csv.listOfMaps</code> to read data as {@link java.util.List} of {@link java.util.Map} from CSV file. It will convert values based on provided converter.
+     * <p>
+     * Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.
+     * @param fileOrResourcePath relative file path, absolute file path or classpath resource path
+     * @param valueConverter converter to convert values from String
+     * @return list of maps
+     */
+    public List<Map<String, ?>> listOfMaps(String fileOrResourcePath, DataCsvValueConverter valueConverter) {
+        return parseCsvTextAsStep(DataPath.fromFileOrResourcePath(fileOrResourcePath), (csv) -> parseAndCovertValues(valueConverter, csv));
+    }
+
+    /**
+     * Use <code>data.csv.listOfMaps</code> to read data as {@link java.util.List} of {@link java.util.Map} from CSV file. It will convert values based on provided converter.
+     * <p>
+     * Passed path is either relative based on working dir or absolute file path.
+     * @param filePath relative file path or absolute file path
+     * @param valueConverter converter to convert values from String
+     * @return list of maps
+     */
+    public List<Map<String, ?>> listOfMaps(Path filePath, DataCsvValueConverter valueConverter) {
+        return parseCsvTextAsStep(DataPath.fromFilePath(filePath), (csv) -> parseAndCovertValues(valueConverter, csv));
+    }
+
+    /**
      * Use <code>data.csv.listOfMapsAutoConverted</code> to read data as {@link java.util.List} of {@link java.util.Map} from CSV file.
      * Numeric values become values of Numeric type instead of String type.
      * <p>
@@ -110,8 +156,7 @@ public class DataCsv {
      * @return list of maps
      */
     public List<Map<String, ?>> listOfMapsAutoConverted(String fileOrResourcePath) {
-        return parseCsvTextAsStep(DataPath.fromFileOrResourcePath(fileOrResourcePath),
-                CsvUtils::parseWithAutoConversion);
+        return listOfMaps(fileOrResourcePath, new DataCsvAutoNumberConversion());
     }
 
     /**
@@ -123,8 +168,7 @@ public class DataCsv {
      * @return list of maps
      */
     public List<Map<String, ?>> listOfMapsAutoConverted(Path filePath) {
-        return parseCsvTextAsStep(DataPath.fromFilePath(filePath),
-                CsvUtils::parseWithAutoConversion);
+        return listOfMaps(filePath, new DataCsvAutoNumberConversion());
     }
 
     /**
@@ -170,7 +214,7 @@ public class DataCsv {
      */
     public List<Map<String, ?>> listOfMapsAutoConverted(List<String> header, String fileOrResourcePath) {
         return parseCsvTextAsStep(DataPath.fromFileOrResourcePath(fileOrResourcePath),
-                (text) -> CsvUtils.parseWithAutoConversion(header, text));
+                (text) -> convertValues(new DataCsvAutoNumberConversion(), CsvUtils.parse(header, text)));
     }
 
     /**
@@ -184,7 +228,7 @@ public class DataCsv {
      */
     public List<Map<String, ?>> listOfMapsAutoConverted(List<String> header, Path filePath) {
         return parseCsvTextAsStep(DataPath.fromFilePath(filePath),
-                (text) -> CsvUtils.parseWithAutoConversion(header, text));
+                (text) -> convertValues(new DataCsvAutoNumberConversion(), CsvUtils.parse(header, text)));
     }
 
     /**
@@ -240,5 +284,21 @@ public class DataCsv {
         });
 
         return result;
+    }
+
+    private static List<Map<String, ?>> parseAndCovertValues(DataCsvValueConverter converter, String csv) {
+        List<Map<String, String>> listOfMaps = CsvUtils.parse(csv);
+        return convertValues(converter, listOfMaps);
+    }
+
+    private static List<Map<String, ?>> convertValues(DataCsvValueConverter converter, List<Map<String, String>> data) {
+        return data.stream().map((e) -> convertRecord(converter, e)).collect(toList());
+    }
+
+    private static Map<String, Object> convertRecord(DataCsvValueConverter converter, Map<String, String> row) {
+        Map<String, Object> entry = new LinkedHashMap<>();
+        row.forEach((k, v) -> entry.put(k, converter.convert(k, ((Object) v).toString())));
+
+        return entry;
     }
 }
