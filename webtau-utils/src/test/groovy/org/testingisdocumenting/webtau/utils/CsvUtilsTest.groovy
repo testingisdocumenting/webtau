@@ -47,21 +47,6 @@ class CsvUtilsTest {
     }
 
     @Test
-    void "converts text to numbers when using auto conversion method"() {
-        def csvData = CsvUtils.parseWithAutoConversion(['Account', 'Price', 'Description'], """#12BGD3, 100, "custom, table"
-#12BGD3, 150.5, chair
-#12BGD3, 150 %, chair
-#12BGD3, "150,000", chair
-""")
-
-        assert csvData == [
-                [Account: "#12BGD3", Price: 100, Description: "custom, table"],
-                [Account: "#12BGD3", Price: 150.5, Description: "chair"],
-                [Account: "#12BGD3", Price: '150 %', Description: "chair"],
-                [Account: "#12BGD3", Price: 150000, Description: "chair"]]
-    }
-
-    @Test
     void "generates csv content from a list of columns and list of rows"() {
         def csv = CsvUtils.serialize(["colA", "colB", "colC"].stream(), [
                 [1, "a", 3],

@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -48,6 +49,21 @@ public class DataCsvJavaTest {
         actual(table.row(0).get("B")).should(equal(2));
         actual(table.row(0).get("B").getClass().getCanonicalName()).should(equal("java.lang.Long"));
         // read-table-auto-converted
+    }
+
+    @Test
+    public void readTableConverter() {
+        // csv-data-converter
+        DataCsvValueConverter valueConverter = (columnName, value) -> columnName.equals("date") ?
+                LocalDate.parse(value):
+                value;
+        // csv-data-converter
+
+        // csv-read-table-converter
+        TableData table = data.csv.table("data/with-dates.csv", valueConverter);
+        actual(table.row(0).get("date")).should(equal(LocalDate.of(2022, 11, 26)));
+        actual(table.row(0).get("date").getClass().getCanonicalName()).should(equal("java.time.LocalDate"));
+        // csv-read-table-converter
     }
 
     @Test

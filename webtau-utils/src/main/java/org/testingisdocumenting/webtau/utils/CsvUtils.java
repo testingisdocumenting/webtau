@@ -26,11 +26,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.io.UncheckedIOException;
-import java.text.NumberFormat;
 import java.util.*;
 import java.util.stream.Stream;
-
-import static java.util.stream.Collectors.*;
 
 public class CsvUtils {
     private CsvUtils() {
@@ -38,10 +35,6 @@ public class CsvUtils {
 
     public static List<Map<String, String>> parse(String content) {
         return parse(Collections.emptyList(), content);
-    }
-
-    public static List<Map<String, ?>> parseWithAutoConversion(String content) {
-        return convertValues(NumberFormat.getNumberInstance(), parse(content));
     }
 
     public static List<Map<String, String>> parse(Collection<String> header, String content) {
@@ -60,11 +53,6 @@ public class CsvUtils {
         }
 
         return tableData;
-    }
-
-    public static List<Map<String, ?>> parseWithAutoConversion(List<String> header, String content) {
-        return convertValues(NumberFormat.getNumberInstance(),
-                parse(header, content));
     }
 
     public static String serialize(List<Map<String, ?>> rows) {
@@ -122,21 +110,5 @@ public class CsvUtils {
         }
 
         return row;
-    }
-
-    private static List<Map<String, ?>> convertValues(NumberFormat numberFormat, List<Map<String, String>> data) {
-        return data.stream().map((e) -> convertRecord(numberFormat, e)).collect(toList());
-    }
-
-    private static Map<String, Object> convertRecord(NumberFormat numberFormat, Map<String, String> row) {
-        Map<String, Object> entry = new LinkedHashMap<>();
-        row.forEach((k, v) -> entry.put(k, convertValue(numberFormat, v)));
-
-        return entry;
-    }
-
-    private static Object convertValue(NumberFormat numberFormat, Object v) {
-        String s = v.toString();
-        return StringUtils.isNumeric(numberFormat, s) ? StringUtils.convertToNumber(numberFormat, s) : s;
     }
 }

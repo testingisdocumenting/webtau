@@ -2,6 +2,8 @@ package scenarios.data
 
 import org.testingisdocumenting.webtau.data.table.TableData
 
+import java.time.LocalDate
+
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario("csv table data console capture") {
@@ -27,8 +29,28 @@ scenario("csv table data using path") {
     table.row(0).B.class.canonicalName.should == "java.lang.String"
 }
 
+scenario("csv table data conversion") {
+    // csv-data-converter
+    def valueConverter = { columnName, value -> columnName == "date" ?
+            LocalDate.parse(value):
+            value }
+    // csv-data-converter
+
+    // csv-read-table-converter
+    def table = data.csv.table("data/with-dates.csv", valueConverter)
+    table.row(0).date.should == LocalDate.of(2022, 11, 26)
+    table.row(0).date.class.canonicalName.should == "java.time.LocalDate"
+    // csv-read-table-converter
+}
+
 scenario("csv table data auto converted") {
     def table = data.csv.tableAutoConverted("data/table.csv")
+    table.row(0).B.should == 2
+    table.row(0).B.class.canonicalName.should == "java.lang.Long"
+}
+
+scenario("csv table data auto converted path") {
+    def table = data.csv.tableAutoConverted(cfg.fullPath("data/table.csv"))
     table.row(0).B.should == 2
     table.row(0).B.class.canonicalName.should == "java.lang.Long"
 }
@@ -39,8 +61,20 @@ scenario("csv list of maps data") {
     list.get(0).B.class.canonicalName.should == "java.lang.String"
 }
 
+scenario("csv list of maps data path") {
+    def list = data.csv.listOfMaps(cfg.fullPath("data/table.csv"))
+    list.get(0).B.should == "2"
+    list.get(0).B.class.canonicalName.should == "java.lang.String"
+}
+
 scenario("csv list of maps data auto converted") {
     def list = data.csv.listOfMapsAutoConverted("data/table.csv")
+    list.get(0).B.should == 2
+    list.get(0).B.class.canonicalName.should == "java.lang.Long"
+}
+
+scenario("csv list of maps data auto converted path") {
+    def list = data.csv.listOfMapsAutoConverted(cfg.fullPath("data/table.csv"))
     list.get(0).B.should == 2
     list.get(0).B.class.canonicalName.should == "java.lang.Long"
 }
@@ -51,8 +85,20 @@ scenario("csv list of maps with header data") {
     list.get(0).C2.class.canonicalName.should == "java.lang.String"
 }
 
+scenario("csv list of maps with header data path") {
+    def list = data.csv.listOfMaps(["C1", "C2", "C3"], cfg.fullPath("data/table-no-header.csv"))
+    list.get(0).C2.should == "2"
+    list.get(0).C2.class.canonicalName.should == "java.lang.String"
+}
+
 scenario("csv list of maps data with header auto converted") {
     def list = data.csv.listOfMapsAutoConverted(["C1", "C2", "C3"], "data/table-no-header.csv")
+    list.get(0).C2.should == 2
+    list.get(0).C2.class.canonicalName.should == "java.lang.Long"
+}
+
+scenario("csv list of maps data with header auto converted path") {
+    def list = data.csv.listOfMapsAutoConverted(["C1", "C2", "C3"], cfg.fullPath("data/table-no-header.csv"))
     list.get(0).C2.should == 2
     list.get(0).C2.class.canonicalName.should == "java.lang.Long"
 }

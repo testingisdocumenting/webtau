@@ -18,7 +18,19 @@
       "numberOfSuccessful" : 3
     }
   }, {
+    "scenario" : "csv table data conversion",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
     "scenario" : "csv table data auto converted",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "csv table data auto converted path",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
@@ -30,7 +42,19 @@
       "numberOfSuccessful" : 3
     }
   }, {
+    "scenario" : "csv list of maps data path",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
     "scenario" : "csv list of maps data auto converted",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "csv list of maps data auto converted path",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
@@ -42,7 +66,19 @@
       "numberOfSuccessful" : 3
     }
   }, {
+    "scenario" : "csv list of maps with header data path",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
     "scenario" : "csv list of maps data with header auto converted",
+    "shortContainerId" : "readingData.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
+  }, {
+    "scenario" : "csv list of maps data with header auto converted path",
     "shortContainerId" : "readingData.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 3
