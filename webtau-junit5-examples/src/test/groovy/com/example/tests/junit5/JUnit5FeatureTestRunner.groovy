@@ -24,15 +24,23 @@ import org.junit.platform.launcher.TestIdentifier
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder
 import org.junit.platform.launcher.core.LauncherFactory
 import org.testingisdocumenting.webtau.TestListeners
-import org.testingisdocumenting.webtau.cfg.WebTauConfig
+import org.testingisdocumenting.webtau.console.ConsoleOutput
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString
 import org.testingisdocumenting.webtau.featuretesting.WebTauEndToEndTestValidator
+import org.testingisdocumenting.webtau.javarunner.report.JavaReport
+import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.WebTauStep
 
 import static org.junit.platform.engine.discovery.DiscoverySelectors.*
+import static org.testingisdocumenting.webtau.WebTauCore.doc
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 
-class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener {
+class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, ConsoleOutput {
+    private final List<String> consoleOutputLines = []
+
     private Map<String, Object> scenariosDetails
     private Map<String, Object> capturedStepsSummary
 
@@ -45,14 +53,30 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener {
         launcher.discover(request)
 
         scenariosDetails = [:]
-        WebTauConfig.cfg.setBaseUrl(baseUrl)
+
+        cfg.triggerConfigHandlers()
+        cfg.setBaseUrl(baseUrl)
+
+        consoleOutputLines.clear()
+        ConsoleOutputs.add(ConsoleOutputs.defaultOutput)
+        ConsoleOutputs.add(this)
 
         StepReporters.withAdditionalReporter(this) {
             launcher.execute(request, this)
         }
 
         TestListeners.afterAllTests()
+        generateReport(testClass)
+
+        ConsoleOutputs.remove(this)
+        ConsoleOutputs.remove(ConsoleOutputs.defaultOutput)
+
+        saveConsoleOutput(testClass)
         WebTauEndToEndTestValidator.validateAndSaveTestDetails(testClass.simpleName, scenariosDetails)
+
+        // next line is a hack, needs to be reconsidered after a better lifecycle event
+        // or when the junit feature tests runner will be excluded from reports
+        cfg.triggerConfigHandlers() // trigger handlers again to clean up any data as there will be shutdown handler that will call reports generation again
     }
 
     @Override
@@ -94,5 +118,30 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener {
         }
 
         capturedStepsSummary.numberOfFailed++
+    }
+
+    @Override
+    void out(Object... styleOrValues) {
+        consoleOutputLines.add(new AutoResetAnsiString(styleOrValues).toString())
+    }
+
+    @Override
+    void err(Object... styleOrValues) {
+
+    }
+
+    static void generateReport(Class<?> testClass) {
+        cfg.reportPath = cfg.fullPath("webtau-reports/" + testClass.canonicalName + ".html")
+
+        JavaReport.INSTANCE.stopTimer()
+        ReportGenerators.generate(JavaReport.INSTANCE.create())
+
+        cfg.reportPath = cfg.fullPath("webtau-reports/webtau.report.html")
+
+        JavaReport.INSTANCE.clear()
+    }
+
+    void saveConsoleOutput(Class<?> testClass) {
+       doc.captureText(testClass.canonicalName + "-console-output", String.join("\n", consoleOutputLines))
     }
 }

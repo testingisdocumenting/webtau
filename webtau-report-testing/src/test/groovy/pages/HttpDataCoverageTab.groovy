@@ -14,20 +14,19 @@
  * limitations under the License.
  */
 
-package scenarios
+package pages
 
-import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
-import static pages.Pages.*
+import static org.testingisdocumenting.webtau.WebTauDsl.*
 
-scenario('open report') {
-    report.openGroovyStandaloneReport('rest/springboot/customerCrudSeparatedMissingMethod-webtau-report.html')
-}
+class HttpDataCoverageTab {
+    def tab = $(".tab-name").get("HTTP Data Coverage")
+    def untouchedPaths = $(".webtau-http-untouched-paths")
 
-scenario('navigate to performance tab and validate size') {
-    httpPerformanceTab.select()
+    void select() {
+        tab.click()
+    }
 
-    httpPerformanceTab.operationsTableRows.count.waitTo == 3
-
-    browser.doc.withAnnotations(browser.doc.badge(httpPerformanceTab.tab))
-            .capture('http-operations-performance-report')
+    def expandHttpDataCoverage(routeNumber) {
+        $(".webtau-http-data-coverage .webtau-sorted-table-row-toggle").get(routeNumber).click()
+    }
 }

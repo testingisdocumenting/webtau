@@ -61,8 +61,12 @@ class Report {
         openReportFile(ReportLocation.groovyFeatureTestingFullUrl(reportName))
     }
 
+    def openJunit5Report(String reportName) {
+        openReportFile(ReportLocation.javaJunit5FullUrl(reportName))
+    }
+
     def openJunit5ExampleReport() {
-        openReportFile(ReportLocation.javaJunit5FullUrl('webtau.report.html'))
+        openJunit5Report('webtau.report.html')
     }
 
     def selectTest(String testName) {

@@ -84,6 +84,11 @@ class WebTauFeaturesJUnit5Test {
     }
 
     @Test
+    void httpDataCoverage() {
+        testRunner.runAndValidate(NewYorkWeatherJavaTest, testServer.uri.toString())
+    }
+
+    @Test
     void crudSeparatedJava() {
         testRunner.runAndValidate(CustomerCrudSeparatedJavaTest, "")
     }

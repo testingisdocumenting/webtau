@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -44,22 +45,35 @@ public class HttpTextFileOperations implements WebTauConfigHandler {
             return textDefinedOperations;
         }
 
-        Path path = HttpConfig.getTextOperationsPath();
-        textDefinedOperations = Files.exists(path) ?
-                buildTextDefinedOperations(path):
-                null;
+        String path = HttpConfig.getTextOperationsPath();
+        if (path.isEmpty()) {
+            return null;
+        }
+
+        Path fullPath = WebTauConfig.getCfg().fullPath(path);
+        if (Files.exists(fullPath)) {
+            textDefinedOperations = buildTextDefinedOperations(fullPath, null);
+        } else if (ResourceUtils.hasResource(path)) {
+            textDefinedOperations = buildTextDefinedOperations(null, path);
+        } else {
+            throw new RuntimeException("Can't find neither http routes file <" + fullPath + "> nor classpath resource <" + path + ">");
+        }
 
         return textDefinedOperations;
     }
 
-    private static HttpTextDefinedOperations buildTextDefinedOperations(Path path) {
+    private static HttpTextDefinedOperations buildTextDefinedOperations(Path filePath, String resourcePath) {
+        String pathToUse = filePath != null ? filePath.toString() : resourcePath;
+        String content = filePath != null ? FileUtils.fileTextContent(filePath) : ResourceUtils.textContent(resourcePath);
+        String source = filePath != null ? "file" : "class path resource";
+
         MessageToken spec = classifier("HTTP routes definition");
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("reading"), spec,
-                        FROM, urlValue(path.toString())),
+                        FROM, classifier(source), urlValue(pathToUse)),
                 () -> tokenizedMessage(action("read"), spec,
-                        FROM, urlValue(path.toString())),
-                () -> new HttpTextDefinedOperations(FileUtils.fileTextContent(path))
+                        FROM, classifier(source), urlValue(pathToUse)),
+                () -> new HttpTextDefinedOperations(content)
         );
 
         return step.execute(StepReportOptions.REPORT_ALL);

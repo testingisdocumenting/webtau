@@ -18,18 +18,22 @@
 package org.testingisdocumenting.webtau.featuretesting
 
 import org.eclipse.jetty.server.Handler
-import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.app.WebTauCliApp
+import org.testingisdocumenting.webtau.console.ConsoleOutput
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.testingisdocumenting.webtau.reporter.*
 
 import java.nio.file.Path
 import java.nio.file.Paths
 
+import static org.testingisdocumenting.webtau.WebTauCore.doc
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
-class WebTauEndToEndTestRunner  {
+class WebTauEndToEndTestRunner implements ConsoleOutput {
+    private final List<String> consoleOutputLines = []
     private Map capturedStepsSummary
 
     TestServer testServer
@@ -83,9 +87,15 @@ class WebTauEndToEndTestRunner  {
 
         capturedStepsSummary = [:].withDefault { 0 }
 
+        consoleOutputLines.clear()
+        ConsoleOutputs.add(this)
+
         cliApp.start { exitCode ->
             testDetails.exitCode = exitCode
         }
+
+        ConsoleOutputs.remove(this)
+        saveConsoleOutput(testFileName)
 
         testDetails.scenarioDetails = buildScenarioDetails(cliApp.runner.report)
 
@@ -147,5 +157,23 @@ class WebTauEndToEndTestRunner  {
 
             return result
         }
+    }
+
+    void saveConsoleOutput(String testFileName) {
+        def stepReporter = StepReporters.defaultStepReporter
+
+        // adding temporary as default step reporter won't be used when an explicit reporter is added (which happens inside cli.start)
+        StepReporters.add(stepReporter)
+        doc.captureText(testFileName + "-console-output", String.join("\n", consoleOutputLines))
+        StepReporters.remove(stepReporter)
+    }
+
+    @Override
+    void out(Object... styleOrValues) {
+        consoleOutputLines.add(new AutoResetAnsiString(styleOrValues).toString())
+    }
+
+    @Override
+    void err(Object... styleOrValues) {
     }
 }

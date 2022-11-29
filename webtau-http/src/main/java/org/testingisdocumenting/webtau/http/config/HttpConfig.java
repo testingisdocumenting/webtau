@@ -17,7 +17,6 @@
 package org.testingisdocumenting.webtau.http.config;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
-import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 
 import java.nio.file.Path;
@@ -26,15 +25,15 @@ import java.util.stream.Stream;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.*;
 
 public class HttpConfig implements WebTauConfigHandler {
-    private static final ConfigValue httpRoutesPath = declare("httpRoutesPath", "path to a file with operations in a format METHOD route",
-            () -> WebTauConfig.getCfg().fullPath("http-operations.txt"));
+    private static final ConfigValue httpRoutesPath = declare("httpRoutesPath", "path to a file or a resource with operations in a format METHOD route",
+            () -> "");
 
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
         return Stream.of(httpRoutesPath);
     }
 
-    public static Path getTextOperationsPath() {
-        return WebTauConfig.getCfg().fullPath(httpRoutesPath.getAsPath());
+    public static String getTextOperationsPath() {
+        return httpRoutesPath.getAsString();
     }
 }
