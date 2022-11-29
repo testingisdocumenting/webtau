@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.app.WebTauCliApp
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString
+import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts
 import org.testingisdocumenting.webtau.http.testserver.TestServer
 import org.testingisdocumenting.webtau.reporter.*
 
@@ -160,11 +161,16 @@ class WebTauEndToEndTestRunner implements ConsoleOutput {
     }
 
     void saveConsoleOutput(String testFileName) {
+        def artifactName = testFileName + "-console-output"
+        if (DocumentationArtifacts.isRegistered(artifactName)) {
+            return
+        }
+
         def stepReporter = StepReporters.defaultStepReporter
 
         // adding temporary as default step reporter won't be used when an explicit reporter is added (which happens inside cli.start)
         StepReporters.add(stepReporter)
-        doc.captureText(testFileName + "-console-output", String.join("\n", consoleOutputLines))
+        doc.capture(artifactName, String.join("\n", consoleOutputLines))
         StepReporters.remove(stepReporter)
     }
 
