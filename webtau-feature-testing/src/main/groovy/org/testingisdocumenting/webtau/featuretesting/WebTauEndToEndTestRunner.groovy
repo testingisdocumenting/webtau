@@ -42,6 +42,7 @@ class WebTauEndToEndTestRunner implements ConsoleOutput {
 
     WebTauEndToEndTestRunner(Handler handler) {
         this.testServer = new TestServer(handler)
+        ConsoleOutputs.add(this)
     }
 
     void setClassifier(String classifier) {
@@ -89,13 +90,11 @@ class WebTauEndToEndTestRunner implements ConsoleOutput {
         capturedStepsSummary = [:].withDefault { 0 }
 
         consoleOutputLines.clear()
-        ConsoleOutputs.add(this)
 
         cliApp.start { exitCode ->
             testDetails.exitCode = exitCode
         }
 
-        ConsoleOutputs.remove(this)
         saveConsoleOutput(testFileName)
 
         testDetails.scenarioDetails = buildScenarioDetails(cliApp.runner.report)
