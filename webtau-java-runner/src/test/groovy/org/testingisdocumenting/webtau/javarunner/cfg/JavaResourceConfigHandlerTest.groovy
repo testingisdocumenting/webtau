@@ -39,4 +39,12 @@ class JavaResourceConfigHandlerTest {
 
         cfg.baseUrl.should == 'http://qa'
     }
+
+    @Test
+    void "should allow to override path for config"() {
+        System.setProperty("webtau.properties", "webtau.override.properties")
+        cfg.triggerConfigHandlers()
+
+        cfg.baseUrl.should == "http://local-override"
+    }
 }
