@@ -21,7 +21,6 @@ import TabSelection from '../widgets/TabSelection';
 
 import { ConfigTable } from './ConfigTable';
 import OverallInfo from './OverallInfo';
-import OverallHttpPerformance from './OverallHttpPerformance';
 
 import { AggregatedOperationsPerformanceTable } from '../perf/AggregatedOperationsPerformanceTable';
 
@@ -37,7 +36,6 @@ const summaryTabName = 'Summary';
 const configurationTabName = 'Configuration';
 const envVarsTabName = 'Environment Variables';
 const testsPerformanceTabName = 'Tests Performance';
-const overallHttpPerformanceTabName = 'Overall HTTP Performance';
 const httpOperationsPerformanceTabName = 'HTTP Operations Performance';
 const httpOperationsDataCoverageTabName = 'HTTP Data Coverage';
 
@@ -79,8 +77,6 @@ export default class OverallSummary extends React.Component {
       );
     } else if (selectedTabName === testsPerformanceTabName) {
       return <TestsPerformance tests={report.tests} />;
-    } else if (selectedTabName === overallHttpPerformanceTabName) {
-      return <OverallHttpPerformance report={report} />;
     } else if (selectedTabName === httpOperationsPerformanceTabName) {
       return <AggregatedOperationsPerformanceTable operations={report.httpPerformance.aggregated} />;
     } else if (selectedTabName === configurationTabName) {
@@ -100,10 +96,6 @@ function availableTabNames(report) {
 
   if (report.httpDataCoverage) {
     tabNames.push(httpOperationsDataCoverageTabName);
-  }
-
-  if (report.hasHttpCalls()) {
-    tabNames.push(overallHttpPerformanceTabName);
   }
 
   if (report.httpPerformance && report.httpPerformance.aggregated.length > 0) {
