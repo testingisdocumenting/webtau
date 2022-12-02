@@ -54,6 +54,7 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, Co
 
         scenariosDetails = [:]
 
+        cfg.reset()
         cfg.triggerConfigHandlers()
         cfg.setBaseUrl(baseUrl)
 

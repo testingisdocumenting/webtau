@@ -19,7 +19,6 @@ package org.testingisdocumenting.webtau.http.config;
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 
-import java.nio.file.Path;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.*;

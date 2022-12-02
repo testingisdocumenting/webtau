@@ -27,22 +27,23 @@ import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class HttpTextFileOperations implements WebTauConfigHandler {
-    private static HttpTextDefinedOperations textDefinedOperations;
+    private static final AtomicReference<HttpTextDefinedOperations> textDefinedOperations = new AtomicReference<>();
 
     // reset in case of multiple runs within the same JVM
     @Override
     public void onAfterCreate(WebTauConfig cfg) {
-        textDefinedOperations = null;
+        textDefinedOperations.set(null);
     }
 
     public synchronized static HttpTextDefinedOperations getTextDefinedOperations() {
-        if (textDefinedOperations != null) {
-            return textDefinedOperations;
+        if (textDefinedOperations.get() != null) {
+            return textDefinedOperations.get();
         }
 
         String path = HttpConfig.getTextOperationsPath();
@@ -52,14 +53,14 @@ public class HttpTextFileOperations implements WebTauConfigHandler {
 
         Path fullPath = WebTauConfig.getCfg().fullPath(path);
         if (Files.exists(fullPath)) {
-            textDefinedOperations = buildTextDefinedOperations(fullPath, null);
+            textDefinedOperations.set(buildTextDefinedOperations(fullPath, null));
         } else if (ResourceUtils.hasResource(path)) {
-            textDefinedOperations = buildTextDefinedOperations(null, path);
+            textDefinedOperations.set(buildTextDefinedOperations(null, path));
         } else {
             throw new RuntimeException("Can't find neither http routes file <" + fullPath + "> nor classpath resource <" + path + ">");
         }
 
-        return textDefinedOperations;
+        return textDefinedOperations.get();
     }
 
     private static HttpTextDefinedOperations buildTextDefinedOperations(Path filePath, String resourcePath) {
