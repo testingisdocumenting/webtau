@@ -27,6 +27,7 @@ class JavaResourceConfigHandlerTest {
     @Before
     @After
     void init() {
+        System.setProperty("webtau.properties", "webtau.properties")
         cfg.reset()
     }
 
