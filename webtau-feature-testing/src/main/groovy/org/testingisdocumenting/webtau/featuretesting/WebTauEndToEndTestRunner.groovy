@@ -160,7 +160,8 @@ class WebTauEndToEndTestRunner implements ConsoleOutput {
     }
 
     void saveConsoleOutput(String testFileName) {
-        def artifactName = testFileName + "-console-output"
+        def fileNameOnly = Paths.get(testFileName).fileName.toString()
+        def artifactName = fileNameOnly + "-console-output"
         if (DocumentationArtifacts.isRegistered(artifactName)) {
             return
         }
