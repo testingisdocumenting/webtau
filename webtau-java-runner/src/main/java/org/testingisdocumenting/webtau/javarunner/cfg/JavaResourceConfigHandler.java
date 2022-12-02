@@ -27,21 +27,20 @@ import java.util.Map;
 import java.util.Properties;
 
 public class JavaResourceConfigHandler implements WebTauConfigHandler {
-    private static final String CFG_RESOURCE_PATH = "webtau.properties";
-
     @Override
     public void onBeforeCreate(WebTauConfig cfg) {
     }
 
     @Override
     public void onAfterCreate(WebTauConfig cfg) {
-        if (!ResourceUtils.hasResource(CFG_RESOURCE_PATH)) {
+        String configResourcePath = configResourcePath();
+        if (!ResourceUtils.hasResource(configResourcePath)) {
             return;
         }
 
         try {
             Properties properties = new Properties();
-            properties.load(ResourceUtils.resourceStream(CFG_RESOURCE_PATH));
+            properties.load(ResourceUtils.resourceStream(configResourcePath));
 
             String environmentPrefix = "environments.";
             String environmentNamePrefix = environmentPrefix + cfg.getEnv() + ".";
@@ -64,9 +63,13 @@ public class JavaResourceConfigHandler implements WebTauConfigHandler {
                 }
             });
 
-            cfg.acceptConfigValues(CFG_RESOURCE_PATH, asMap);
+            cfg.acceptConfigValues(configResourcePath, asMap);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private String configResourcePath() {
+        return System.getProperty("webtau.properties", "webtau.properties");
     }
 }

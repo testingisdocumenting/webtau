@@ -25,6 +25,19 @@ When you use JUnit like runners, e.g. [JUnit5](getting-started/installation#juni
 }
 ```
 
+To change config file location use 
+
+`````tabs
+Groovy:
+```cli
+webtau --config my.conf.groovy
+```
+Java:
+```
+-Dwebtau.properties=my.webtau.properties
+```
+`````
+
 # Environments
 
 WebTau supports environment specific config values, and a way to select which environment to set active during tests run.
