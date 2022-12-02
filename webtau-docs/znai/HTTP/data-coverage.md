@@ -74,5 +74,5 @@ Groovy:
 :include-file: scenarios/rest/coverage/textRoutes.cfg.groovy {title: "webtau.cfg.groovy", includeRegexp: "httpRoutesPath"}
 
 Java:
-:include-file: src/test/resources/webtau.properties {autoTitle: true, includeRegexp: "httpRoutesPath"}
+:include-file: src/test/resources/webtau.routes.properties {title: "webtau.properties", includeRegexp: "httpRoutesPath"}
 ```
