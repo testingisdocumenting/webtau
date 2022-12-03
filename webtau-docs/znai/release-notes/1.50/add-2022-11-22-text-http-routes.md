@@ -1,1 +1,1 @@
-* Add: HTTP text based routes definition to support performance and data coverage without Open API spec
+* Add: HTTP text based [routes definition](HTTP/data-coverage#text-routes) to support performance and data coverage without Open API spec

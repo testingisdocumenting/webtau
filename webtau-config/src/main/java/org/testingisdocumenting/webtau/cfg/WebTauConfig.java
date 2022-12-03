@@ -329,6 +329,10 @@ public class WebTauConfig implements PrettyPrintable {
         return fullPath(reportPath.getAsPath());
     }
 
+    public void setReportPath(Path path) {
+        reportPath.set("manual", path);
+    }
+
     public Path getFailedReportPath() {
         if (failedReportPath.isDefault()) {
             return null;

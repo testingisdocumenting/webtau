@@ -1,1 +1,1 @@
-* Add: initial HTTP data coverage
+* Add: initial [HTTP data coverage](HTTP/data-coverage)

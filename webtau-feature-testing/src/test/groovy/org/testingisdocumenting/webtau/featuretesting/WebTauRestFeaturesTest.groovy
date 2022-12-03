@@ -119,7 +119,7 @@ class WebTauRestFeaturesTest {
 
     @Test
     void "data coverage for routes form text file"() {
-        runCli("coverage/oneField.groovy", "textRoutes.cfg.groovy", "--url=${testRunner.testServer.uri}")
+        runCli("coverage/newYorkWeather.groovy", "coverage/textRoutes.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }
 
     @Test

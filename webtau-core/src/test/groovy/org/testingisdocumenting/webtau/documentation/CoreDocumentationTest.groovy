@@ -87,7 +87,7 @@ class CoreDocumentationTest implements StepReporter {
 
         code {
             doc.capture("my-unique-id", "hello")
-        } should throwException("doc artifact name <my-unique-id.txt> was already used")
+        } should throwException("doc artifact name <my-unique-id> was already used")
     }
 
     @Override

@@ -168,7 +168,7 @@ public class WebTauRunner extends BlockJUnit4ClassRunner {
 
         private static void actualRegister() {
             TestListeners.add(new ConsoleTestListener());
-            StepReporters.add(new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> Integer.MAX_VALUE));
+            StepReporters.add(StepReporters.defaultStepReporter);
             ReportGenerators.add(new HtmlReportGenerator());
             ReportGenerators.add(new ConsoleReportGenerator());
             JavaReport.INSTANCE.startTimer();

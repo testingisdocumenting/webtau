@@ -27,7 +27,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class StepReporters {
-    private static final StepReporter defaultStepReporter =
+    public static final StepReporter defaultStepReporter =
             new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> Integer.MAX_VALUE);
 
     private static final List<StepReporter> reporters = Collections.synchronizedList(

@@ -1,0 +1,8 @@
+{
+  "checkFahrenheitTemperature()" : {
+    "numberOfSuccessful" : 5
+  },
+  "checkCelsiusTemperature()" : {
+    "numberOfSuccessful" : 4
+  }
+}

@@ -110,7 +110,7 @@ public class HttpDataNodePathCoverageCollector implements HttpValidationHandler,
         }
 
         ConsoleOutputs.out(Color.BACKGROUND_RED, Color.BLACK, "Warning", Color.RESET,
-                " HTTP operations that have non validated response fields");
+                " HTTP routes that have non validated response fields");
 
         int opsLimit = withTouched.size() - CONSOLE_NUMBER_OF_OPERATIONS_TO_SHOW > 2 ?
                 CONSOLE_NUMBER_OF_OPERATIONS_TO_SHOW :

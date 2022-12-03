@@ -18,17 +18,16 @@
 package org.testingisdocumenting.webtau.console;
 
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput;
-import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.List;
-import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
 public class ConsoleOutputs {
+    public static final ConsoleOutput defaultOutput = new AnsiConsoleOutput();
+
     private static final ConsoleOutput combined = new CombinedConsoleOutput();
-    private static final ConsoleOutput defaultOutput = new AnsiConsoleOutput();
 
     private static final List<ConsoleOutput> outputs = ServiceLoaderUtils.load(ConsoleOutput.class);
 
@@ -48,7 +47,7 @@ public class ConsoleOutputs {
      * output multiple lines, where line is defined by converting function
      * @param lines list of lines to print
      * @param styleOrValueExtractor function to convert a line to a style and values
-     * @param <E> type of a line
+     * @param <E> type of line
      */
     public static <E> void outLines(List<E> lines, Function<E, Object[]> styleOrValueExtractor) {
         getOutputsStream().forEach(o -> o.outLines(lines, styleOrValueExtractor));
@@ -61,7 +60,7 @@ public class ConsoleOutputs {
      * @param lines list of lines to print
      * @param limit max number of lines to print
      * @param styleOrValueExtractor function to convert a line to a style and values
-     * @param <E> type of a line
+     * @param <E> type of line
      */
     public static <E> void outLinesWithLimit(List<E> lines,
                                              int limit,

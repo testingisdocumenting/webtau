@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "check fahrenheit temperature",
+    "shortContainerId" : "newYorkWeather.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  }, {
+    "scenario" : "check celsius temperature",
+    "shortContainerId" : "newYorkWeather.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  } ],
+  "exitCode" : 0
+}
