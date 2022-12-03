@@ -66,7 +66,7 @@ class Report {
     }
 
     def openJunit5ExampleReport() {
-        openJunit5Report('webtau.report.html')
+        openJunit5Report('com.example.tests.junit5.WeatherJavaTest.html')
     }
 
     def selectTest(String testName) {
