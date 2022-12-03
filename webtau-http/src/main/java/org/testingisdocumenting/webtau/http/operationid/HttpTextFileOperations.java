@@ -23,43 +23,58 @@ import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class HttpTextFileOperations implements WebTauConfigHandler {
-    private static HttpTextDefinedOperations textDefinedOperations;
+    private static final AtomicReference<HttpTextDefinedOperations> textDefinedOperations = new AtomicReference<>();
 
     // reset in case of multiple runs within the same JVM
     @Override
     public void onAfterCreate(WebTauConfig cfg) {
-        textDefinedOperations = null;
+        textDefinedOperations.set(null);
     }
 
     public synchronized static HttpTextDefinedOperations getTextDefinedOperations() {
-        if (textDefinedOperations != null) {
-            return textDefinedOperations;
+        if (textDefinedOperations.get() != null) {
+            return textDefinedOperations.get();
         }
 
-        Path path = HttpConfig.getTextOperationsPath();
-        textDefinedOperations = Files.exists(path) ?
-                buildTextDefinedOperations(path):
-                null;
+        String path = HttpConfig.getTextOperationsPath();
+        if (path.isEmpty()) {
+            return null;
+        }
 
-        return textDefinedOperations;
+        Path fullPath = WebTauConfig.getCfg().fullPath(path);
+        if (Files.exists(fullPath)) {
+            textDefinedOperations.set(buildTextDefinedOperations(fullPath, null));
+        } else if (ResourceUtils.hasResource(path)) {
+            textDefinedOperations.set(buildTextDefinedOperations(null, path));
+        } else {
+            throw new RuntimeException("Can't find neither http routes file <" + fullPath + "> nor classpath resource <" + path + ">");
+        }
+
+        return textDefinedOperations.get();
     }
 
-    private static HttpTextDefinedOperations buildTextDefinedOperations(Path path) {
+    private static HttpTextDefinedOperations buildTextDefinedOperations(Path filePath, String resourcePath) {
+        String pathToUse = filePath != null ? filePath.toString() : resourcePath;
+        String content = filePath != null ? FileUtils.fileTextContent(filePath) : ResourceUtils.textContent(resourcePath);
+        String source = filePath != null ? "file" : "class path resource";
+
         MessageToken spec = classifier("HTTP routes definition");
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("reading"), spec,
-                        FROM, urlValue(path.toString())),
+                        FROM, classifier(source), urlValue(pathToUse)),
                 () -> tokenizedMessage(action("read"), spec,
-                        FROM, urlValue(path.toString())),
-                () -> new HttpTextDefinedOperations(FileUtils.fileTextContent(path))
+                        FROM, classifier(source), urlValue(pathToUse)),
+                () -> new HttpTextDefinedOperations(content)
         );
 
         return step.execute(StepReportOptions.REPORT_ALL);

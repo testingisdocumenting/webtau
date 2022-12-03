@@ -25,9 +25,11 @@ import org.testingisdocumenting.webtau.http.testserver.TestServerResponseFullEch
 import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
 import org.testingisdocumenting.webtau.http.testserver.TestServerTextResponse
 import org.testingisdocumenting.webtau.utils.JsonUtils
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 
 import javax.servlet.ServletException
 import javax.servlet.http.HttpServletRequest
+import java.nio.charset.StandardCharsets
 
 class WebTauRestFeaturesTestData {
     static void registerEndPoints(TestServer testServer, FixedResponsesHandler handler) {
@@ -37,6 +39,7 @@ class WebTauRestFeaturesTestData {
         handler.registerGet("/redirect", new TestServerRedirectResponse(HttpURLConnection.HTTP_MOVED_TEMP,
                 testServer, "/weather"))
         handler.registerGet("/city/London", json([time: "2018-11-27 13:05:00", weather: temperature]))
+        handler.registerGet("/city/NewYork", new TestServerJsonResponse(ResourceUtils.textContent("new-york-weather.json")))
         handler.registerPost("/employee", json([id: "id-generated-2"], 201))
         handler.registerGet("/employee/id-generated-2", json([firstName: "FN", lastName: "LN"]))
         handler.registerGet("/text-message", new TestServerTextResponse("hello world"))

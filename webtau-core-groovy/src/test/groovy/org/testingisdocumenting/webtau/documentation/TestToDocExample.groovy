@@ -36,6 +36,5 @@ class TestToDocExample {
 
     private static void validateRules(TableData rules) {
         doc.captureJson("account-rules", rules)
-        doc.captureCsv("account-rules", rules)
     }
 }

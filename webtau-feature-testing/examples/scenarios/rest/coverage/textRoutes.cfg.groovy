@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 webtau maintainers
+ * Copyright 2022 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,16 +14,7 @@
  * limitations under the License.
  */
 
-package pages
+package scenarios.rest.coverage
 
-import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
-
-class HttpPerformanceReport {
-    def tab = $(".tab-name").get("HTTP Operations Performance")
-
-    def operationsTableRows = $(".webtau-sortable-table tbody tr")
-
-    void select() {
-        tab.click()
-    }
-}
+url = "http://localhost:8080"
+httpRoutesPath = "data/http-routes.txt"

@@ -43,6 +43,10 @@ public class JavaReport {
         tests.clear();
     }
 
+    public boolean isEmpty() {
+        return tests.isEmpty();
+    }
+
     public void startTimer() {
         startTime = Time.currentTimeMillis();
     }

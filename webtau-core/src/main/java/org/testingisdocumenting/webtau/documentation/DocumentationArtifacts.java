@@ -41,26 +41,19 @@ public class DocumentationArtifacts {
         usedArtifactNames.clear();
     }
 
-    static Path capture(String artifactName, String text) {
-        registerName(artifactName);
-
-        Path path = DocumentationArtifactsLocation.resolve(artifactName);
-        FileUtils.writeTextContent(path, text);
-
-        return path;
+    public static boolean isRegistered(String artifactName) {
+        return usedArtifactNames.getOrDefault(artifactName, false);
     }
 
      static Path captureText(String artifactName, Object value) {
-        return capture(artifactName + ".txt", Objects.toString(value));
+        return capture(artifactName, "txt", Objects.toString(value));
     }
 
     static Path captureJson(String artifactName, Object value) {
-        artifactName += ".json";
-
         if (value instanceof TableData) {
-            return capture(artifactName, JsonUtils.serializePrettyPrint(((TableData) value).toListOfMaps()));
+            return capture(artifactName, "json", JsonUtils.serializePrettyPrint(((TableData) value).toListOfMaps()));
         } else {
-            return capture(artifactName, JsonUtils.serializePrettyPrint(value));
+            return capture(artifactName, "json", JsonUtils.serializePrettyPrint(value));
         }
     }
 
@@ -71,8 +64,17 @@ public class DocumentationArtifacts {
 
         TableData tableData = (TableData) value;
 
-        return capture(artifactName + ".csv", CsvUtils.serialize(
+        return capture(artifactName, "csv", CsvUtils.serialize(
                 tableData.getHeader().getNamesStream(),
                 tableData.rowsStream().map(Record::getValues)));
+    }
+
+    private static Path capture(String artifactName, String extension, String text) {
+        registerName(artifactName);
+
+        Path path = DocumentationArtifactsLocation.resolve(artifactName + "." + extension);
+        FileUtils.writeTextContent(path, text);
+
+        return path;
     }
 }

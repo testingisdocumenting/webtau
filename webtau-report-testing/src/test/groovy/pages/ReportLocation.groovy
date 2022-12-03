@@ -13,7 +13,7 @@ class ReportLocation {
     }
 
     static String javaJunit5FullUrl(String reportName) {
-        return toUrl(modulePath('webtau-junit5-examples').resolve(reportName))
+        return toUrl(modulePath('webtau-junit5-examples').resolve("webtau-reports").resolve(reportName))
     }
 
     private static String toUrl(Path path) {

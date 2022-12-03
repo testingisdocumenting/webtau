@@ -62,6 +62,10 @@ public class DataNodeAnsiPrinter {
     }
 
     private void printNode(DataNode dataNode, boolean skipIndent) {
+        if (dataNode == null) {
+            return;
+        }
+
         if (dataNode.isList()) {
             printList(dataNode, skipIndent);
         } else if (dataNode.isSingleValue()) {

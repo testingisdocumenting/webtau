@@ -15,6 +15,7 @@ HTTP
     documentation-artifacts
     openAPI-spec
     JSON-schema
+    data-coverage
     matchers
     configuration
 GraphQL

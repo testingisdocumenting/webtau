@@ -19,15 +19,15 @@ package scenarios
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
-scenario('open report') {
-    report.openGroovyStandaloneReport('rest/springboot/customerCrudSeparatedMissingMethod-webtau-report.html')
+scenario("open report") {
+    report.openJunit5Report("com.example.tests.junit5.NewYorkWeatherJavaTest.html")
 }
 
-scenario('navigate to performance tab and validate size') {
-    httpPerformanceTab.select()
+scenario("navigate to data coverage and expand") {
+    httpDataCoverageTab.select()
+    httpDataCoverageTab.expandHttpDataCoverage(1)
 
-    httpPerformanceTab.operationsTableRows.count.waitTo == 3
-
-    browser.doc.withAnnotations(browser.doc.badge(httpPerformanceTab.tab))
-            .capture('http-operations-performance-report')
+    browser.doc.withAnnotations( browser.doc.badge(httpDataCoverageTab.tab),
+            browser.doc.badge(httpDataCoverageTab.untouchedPaths))
+            .capture("http-data-coverage-report")
 }

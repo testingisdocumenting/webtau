@@ -84,6 +84,16 @@ class WebTauFeaturesJUnit5Test {
     }
 
     @Test
+    void httpDataCoverage() {
+        System.setProperty("webtau.properties", "webtau.routes.properties")
+        try {
+            testRunner.runAndValidate(NewYorkWeatherJavaTest, testServer.uri.toString())
+        } finally {
+            System.setProperty("webtau.properties", "webtau.properties")
+        }
+    }
+
+    @Test
     void crudSeparatedJava() {
         testRunner.runAndValidate(CustomerCrudSeparatedJavaTest, "")
     }

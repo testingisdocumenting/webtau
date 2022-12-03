@@ -60,7 +60,7 @@ class HttpDataNodePathCoverageCollectorTest implements ConsoleOutput {
         collector.validate(op)
         collector.generate(new WebTauReport(new WebTauReportName("tests report", "/url"), new WebTauTestList(), 0l, 100l))
 
-        lines.should == ["Warning HTTP operations that have non validated response fields",
+        lines.should == ["Warning HTTP routes that have non validated response fields",
                          "  GET /url",
                          "    root.key2",
                          "    root.key3",
@@ -78,7 +78,7 @@ class HttpDataNodePathCoverageCollectorTest implements ConsoleOutput {
         collector.validate(op)
         collector.generate(new WebTauReport(new WebTauReportName("tests report", "/url"), new WebTauTestList(), 0l, 100l))
 
-        lines.should == ["Warning HTTP operations that have non validated response fields",
+        lines.should == ["Warning HTTP routes that have non validated response fields",
                          "  GET /url",
                          "    root.key2",
                          "    root.key3",
@@ -104,7 +104,7 @@ class HttpDataNodePathCoverageCollectorTest implements ConsoleOutput {
 
         collector.generate(new WebTauReport(new WebTauReportName("tests report", "/url"), new WebTauTestList(), 0l, 100l))
 
-        lines.should == ["Warning HTTP operations that have non validated response fields",
+        lines.should == ["Warning HTTP routes that have non validated response fields",
                          "  GET /url1",
                          "    root.key2",
                          "  GET /url2",
@@ -129,7 +129,7 @@ class HttpDataNodePathCoverageCollectorTest implements ConsoleOutput {
 
         collector.generate(new WebTauReport(new WebTauReportName("tests report", "/url"), new WebTauTestList(), 0l, 100l))
 
-        lines.should == ["Warning HTTP operations that have non validated response fields",
+        lines.should == ["Warning HTTP routes that have non validated response fields",
                          "  GET /url1",
                          "    root.key2",
                          "  GET /url2",

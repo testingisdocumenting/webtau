@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,8 +26,11 @@ public class JavaShutdownHook {
     private JavaShutdownHook() {
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             TestListeners.afterAllTests();
-            JavaReport.INSTANCE.stopTimer();
-            ReportGenerators.generate(JavaReport.INSTANCE.create());
+
+            JavaReport javaReport = JavaReport.INSTANCE;
+
+            javaReport.stopTimer();
+            ReportGenerators.generate(javaReport.create());
         }));
     }
 
