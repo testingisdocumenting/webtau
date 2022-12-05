@@ -27,6 +27,7 @@ class HttpCallsReportDataProviderTest {
     @Test
     void "should extract http calls from tests and provide as custom report"() {
         def testA = new WebTauTest()
+        testA.setId("testA")
         testA.addTestResultPayload(new TestResultPayload('httpCalls', [[
                 method: 'GET',
                 url: '/url',
@@ -34,6 +35,7 @@ class HttpCallsReportDataProviderTest {
         ]]))
 
         def testB = new WebTauTest()
+        testB.setId("testB")
         testB.addTestResultPayload(new TestResultPayload('httpCalls', [[
                 method: 'PUT',
                 url: '/risk',
