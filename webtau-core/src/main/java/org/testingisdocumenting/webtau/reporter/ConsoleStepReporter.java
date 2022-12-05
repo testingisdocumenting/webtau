@@ -78,7 +78,7 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private void printStepSuccess(WebTauStep step) {
-        if (isTraceStep(step)) {
+        if (isTraceOrWarningStep(step)) {
             return;
         }
 
@@ -126,6 +126,9 @@ public class ConsoleStepReporter implements StepReporter {
         if (isTraceStep(step)) {
             return Stream.of(createIndentation(step.getNumberOfParents()),
                     Color.BACKGROUND_BLUE, Color.WHITE, "[tracing]", Color.RESET, " ");
+        } else if (isWarningStep(step)) {
+            return Stream.of(createIndentation(step.getNumberOfParents()),
+                    Color.RED, "[warning]", Color.RESET, " ");
         }
 
         return Stream.of(createIndentation(step.getNumberOfParents()), Color.YELLOW, "> ");
@@ -246,6 +249,14 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private static boolean isTraceStep(WebTauStep step) {
-        return step.getClassifier().equals("trace");
+        return step.getClassifier().equals(WebTauStepClassifiers.TRACE);
+    }
+
+    private static boolean isWarningStep(WebTauStep step) {
+        return step.getClassifier().equals(WebTauStepClassifiers.WARNING);
+    }
+
+    private static boolean isTraceOrWarningStep(WebTauStep step) {
+        return isTraceStep(step) || isWarningStep(step);
     }
 }

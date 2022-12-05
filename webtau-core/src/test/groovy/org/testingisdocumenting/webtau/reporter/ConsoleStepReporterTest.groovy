@@ -272,6 +272,14 @@ class ConsoleStepReporterTest implements ConsoleOutput {
         }
     }
 
+    @Test
+    void "should render warning steps in a special manner"() {
+        expectReport(100, "[warning] warning label\n" +
+                "  key: value") {
+            WebTauCore.warning("warning label", "key", "value")
+        }
+    }
+
     private static void executeNestedSteps() {
         def topLevelStep = WebTauStep.createStep(TokenizedMessage.tokenizedMessage(action("top level action")),
                 { -> TokenizedMessage.tokenizedMessage(action("top level action completed")) }) {

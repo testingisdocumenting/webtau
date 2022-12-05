@@ -26,6 +26,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceCodeEntry;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 import org.testingisdocumenting.webtau.time.Time;
@@ -236,6 +238,10 @@ public class WebTauTest {
 
     public Optional<WebTauStep> findFirstFailedStep() {
         return steps.stream().filter(WebTauStep::isFailed).findFirst();
+    }
+
+    public Stream<WebTauStep> stepsWithClassifier(String classifier) {
+        return steps.stream().flatMap(step -> step.stepsWithClassifier(classifier));
     }
 
     public int calcNumberOfSuccessfulSteps() {
