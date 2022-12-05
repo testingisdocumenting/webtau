@@ -24,7 +24,7 @@ import { TestServerJournals } from './TestServerJournals';
 const [getUrlState, setUrlState] = simulateState({ cliCallIdxs: '0-1-2' });
 
 export function testServerJournalsDemo(registry: Registry) {
-  registry.add('multiple cli calls', () => (
+  registry.add('multiple server calls', () => (
     <TestServerJournals test={createTestWithServers()} urlState={getUrlState()} onInternalStateUpdate={setUrlState} />
   ));
 }

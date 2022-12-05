@@ -1,0 +1,4 @@
+.webtau-all-warnings-panel.collapsed {
+    padding: var(--webtau-spacing);
+    cursor: pointer;
+}

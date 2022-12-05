@@ -60,6 +60,7 @@ class Report {
     this.envVars = report.envVars;
     this.summary = expandSummary(report.summary);
     this.tests = enrichTestsData(report.tests);
+    this.warnings = report.warnings;
     this.httpCalls = extractHttpCalls(this.tests);
     this.httpCallsById = mapHttpCallsById(this.httpCalls);
     this.openApiHttpCallIdsPerOperation = report.openApiHttpCallIdsPerOperation || [];
