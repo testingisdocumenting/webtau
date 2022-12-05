@@ -71,6 +71,10 @@ public class WebTauReport {
         return tests;
     }
 
+    public WebTauTest getTestById(String id) {
+        return tests.getById(id);
+    }
+
     public long getStartTime() {
         return startTime;
     }
@@ -105,6 +109,12 @@ public class WebTauReport {
 
     public Stream<WebTauReportCustomData> getCustomDataStream() {
         return customDataList.stream();
+    }
+
+    public WebTauReportCustomData findCustomData(String id) {
+        return customDataList.stream().filter(data -> data.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new IllegalArgumentException("can't find report custom data with id: " + id));
     }
 
     public WebTauReportLog getReportLog() {

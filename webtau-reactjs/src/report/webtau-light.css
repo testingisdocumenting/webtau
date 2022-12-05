@@ -102,6 +102,7 @@
 
     --webtau-step-id-color: var(--webtau-text-color);
     --webtau-step-action-color: #1c559d;
+    --webtau-step-warning-color: #f56b25;
     --webtau-step-matcher-color: #375e2a;
     --webtau-step-string-color: var(--webtau-property-value-string-color);
     --webtau-step-error-color: #b13511;

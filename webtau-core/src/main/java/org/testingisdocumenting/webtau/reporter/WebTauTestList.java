@@ -20,26 +20,31 @@ package org.testingisdocumenting.webtau.reporter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 public class WebTauTestList {
+    private final Map<String, WebTauTest> testById;
     private final List<WebTauTest> tests;
 
     public WebTauTestList() {
+        testById = new ConcurrentHashMap<>();
         tests = Collections.synchronizedList(new ArrayList<>());
-    }
-
-    public WebTauTestList(List<WebTauTest> tests) {
-        this.tests = Collections.synchronizedList(tests);
     }
 
     public WebTauTest get(int idx) {
         return tests.get(idx);
     }
 
+    public WebTauTest getById(String id) {
+        return testById.get(id);
+    }
+
     public void add(WebTauTest test) {
         tests.add(test);
+        testById.put(test.getId(), test);
     }
 
     public void forEach(Consumer<WebTauTest> action) {

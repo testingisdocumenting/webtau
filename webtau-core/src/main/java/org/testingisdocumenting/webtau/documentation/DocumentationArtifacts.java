@@ -45,11 +45,11 @@ public class DocumentationArtifacts {
         return usedArtifactNames.getOrDefault(artifactName, false);
     }
 
-     static Path captureText(String artifactName, Object value) {
+    public static Path captureText(String artifactName, Object value) {
         return capture(artifactName, "txt", Objects.toString(value));
     }
 
-    static Path captureJson(String artifactName, Object value) {
+    public static Path captureJson(String artifactName, Object value) {
         if (value instanceof TableData) {
             return capture(artifactName, "json", JsonUtils.serializePrettyPrint(((TableData) value).toListOfMaps()));
         } else {
@@ -57,7 +57,7 @@ public class DocumentationArtifacts {
         }
     }
 
-    static Path captureCsv(String artifactName, Object value) {
+    public static Path captureCsv(String artifactName, Object value) {
         if (!(value instanceof TableData)) {
             throw new IllegalArgumentException("only TableData is supported to be captured as CSV");
         }

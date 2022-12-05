@@ -28,6 +28,10 @@
     color: var(--webtau-step-action-color);
 }
 
+.step-token.warning {
+    color: var(--webtau-step-warning-color);
+}
+
 .step-token.matcher {
     color: var(--webtau-step-matcher-color);
     font-family: var(--webtau-monospace-font);

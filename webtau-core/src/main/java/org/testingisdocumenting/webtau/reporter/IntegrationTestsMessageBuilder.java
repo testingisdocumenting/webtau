@@ -26,6 +26,7 @@ import java.util.Arrays;
 public class IntegrationTestsMessageBuilder {
     public enum TokenTypes {
         ERROR("error", Color.RED),
+        WARNING("warning", Color.YELLOW),
         NONE("none", FontStyle.NORMAL),
         ACTION("action", Color.BLUE),
         ID("id", FontStyle.NORMAL, FontStyle.BOLD),
@@ -112,6 +113,10 @@ public class IntegrationTestsMessageBuilder {
 
     public static MessageToken matcher(String matcher) {
         return TokenTypes.MATCHER.token(matcher);
+    }
+
+    public static MessageToken warning(String text) {
+        return TokenTypes.WARNING.token(text);
     }
 
     public static MessageToken none(String text) {

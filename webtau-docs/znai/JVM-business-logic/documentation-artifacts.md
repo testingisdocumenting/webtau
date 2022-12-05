@@ -21,7 +21,7 @@ Use `doc.expected.capture` to save most recent expected value.
 :include-java: org/testingisdocumenting/webtau/data/PeopleDaoWithDocTest.java {title: "capturing most recent expected", entry: "validateNewJoiners", commentsType: "inline", bodyOnly: true}
 
 WebTau documentation is created using [Znai](https://github.org/testingisdocumenting/znai).
-It has `:include-table:` plugin to render a table giving a json or CSV file.
+It has `include-table` plugin to render a table giving a json or CSV file.
 
 ```text
 :include-table: doc-artifacts/all-employees.json

@@ -166,12 +166,8 @@ class WebTauEndToEndTestRunner implements ConsoleOutput {
             return
         }
 
-        def stepReporter = StepReporters.defaultStepReporter
-
-        // adding temporary as default step reporter won't be used when an explicit reporter is added (which happens inside cli.start)
-        StepReporters.add(stepReporter)
-        doc.capture(artifactName, String.join("\n", consoleOutputLines))
-        StepReporters.remove(stepReporter)
+        Path artifactPath = DocumentationArtifacts.captureText(artifactName, String.join("\n", consoleOutputLines))
+        println("captured output of $testFileName: $artifactPath")
     }
 
     @Override

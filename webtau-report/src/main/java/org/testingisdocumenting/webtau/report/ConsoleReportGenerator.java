@@ -18,12 +18,18 @@ package org.testingisdocumenting.webtau.report;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.IndentedConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.reporter.*;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 import org.testingisdocumenting.webtau.utils.TimeUtils;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+
 public class ConsoleReportGenerator implements ReportGenerator {
+    private final static int NUMBER_OF_WARNINGS_TO_DISPLAY = 3;
     private final static ConsoleStepReporter consoleStepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(),
             () -> Integer.MAX_VALUE);
 
@@ -31,6 +37,7 @@ public class ConsoleReportGenerator implements ReportGenerator {
     public void generate(WebTauReport report) {
         printTestsWithStatus(report, TestStatus.Errored);
         printTestsWithStatus(report, TestStatus.Failed);
+        printWarnings(report);
         printTimeTaken(report);
         printTotals(report);
     }
@@ -60,6 +67,45 @@ public class ConsoleReportGenerator implements ReportGenerator {
     private static void printFailedStep(WebTauStep step) {
         consoleStepReporter.onStepFailure(step);
         step.findFailedChildStep().ifPresent(ConsoleReportGenerator::printFailedStep);
+    }
+
+    private void printWarnings(WebTauReport report) {
+        WebTauReportCustomData warningsData = report.findCustomData(WarningsReportDataProvider.ID);
+        @SuppressWarnings("unchecked")
+        List<Map<String, Object>> warnings = (List<Map<String, Object>>) warningsData.getData();
+        if (warnings.isEmpty()) {
+            return;
+        }
+
+        // have a delta of warnings to display to avoid messages like (and 1 more) and instead show an extra one or two
+        int warningsLimit = warnings.size() - NUMBER_OF_WARNINGS_TO_DISPLAY > 2 ?
+                NUMBER_OF_WARNINGS_TO_DISPLAY :
+                warnings.size();
+
+        ConsoleOutputs.out(Color.RED, "There are ", Color.BLUE, warningsLimit, Color.RED, " warning(s) in tests");
+
+        warnings.stream().limit(warningsLimit).forEach((warning) -> printWarning(report, warning));
+        if (warnings.size() > warningsLimit) {
+            ConsoleOutputs.out(Color.YELLOW, "...(" + (warnings.size() - warningsLimit) + " more warnings)");
+        }
+    }
+
+    private void printWarning(WebTauReport report, Map<String, Object> warning) {
+        String testId = warning.getOrDefault("testId", "").toString();
+        String message = warning.getOrDefault("message", "").toString();
+        @SuppressWarnings("unchecked")
+        Map<String, Object> input = (Map<String, Object>) warning.getOrDefault("input", Collections.emptyMap());
+
+        WebTauTest test = report.getTestById(testId);
+        if (test == null) {
+            throw new IllegalStateException("can't find test with id: " + testId);
+        }
+
+        ConsoleOutputs.out(Color.RED, "*", Color.YELLOW, " ", message, " ",
+                Color.RESET, "(", Color.PURPLE, test.getShortContainerId(), " -> ", Color.BLUE, test.getScenario(), Color.RESET, ")");
+
+        IndentedConsoleOutput indentedConsoleOutput = new IndentedConsoleOutput(ConsoleOutputs.asCombinedConsoleOutput(), 2);
+        WebTauStepInputKeyValue.stepInput(input).prettyPrint(indentedConsoleOutput);
     }
 
     private static void printTimeTaken(WebTauReport report) {

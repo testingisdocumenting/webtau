@@ -218,7 +218,46 @@ public class WebTauCore extends Matchers {
                 tokenizedMessage(action(label)),
                 () -> tokenizedMessage(action(label)),
                 () -> {});
-        step.setClassifier("trace");
+        step.setClassifier(WebTauStepClassifiers.TRACE);
+
+        if (!info.isEmpty()) {
+            step.setInput(WebTauStepInputKeyValue.stepInput(info));
+        }
+
+        step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    /**
+     * outputs warning to console and web report
+     * @param label label to print
+     */
+    public static void warning(String label) {
+        warning(label, Collections.emptyMap());
+    }
+
+    /**
+     * outputs warning with additional provided key-values to console and web report
+     * @param label label to print
+     * @param firstKey first key
+     * @param firstValue first value
+     * @param restKv key-values as vararg
+     */
+    public static void warning(String label, String firstKey, Object firstValue, Object... restKv) {
+        warning(label, CollectionUtils.aMapOf(firstKey, firstValue, restKv));
+    }
+
+    /**
+     * outputs warning with additional provided key-values to console and web report
+     * @param label label to print
+     * @param info key-values as a map
+     */
+    public static void warning(String label, Map<String, Object> info) {
+        MessageToken messageToken = IntegrationTestsMessageBuilder.warning(label);
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(messageToken),
+                () -> tokenizedMessage(messageToken),
+                () -> {});
+        step.setClassifier(WebTauStepClassifiers.WARNING);
 
         if (!info.isEmpty()) {
             step.setInput(WebTauStepInputKeyValue.stepInput(info));
