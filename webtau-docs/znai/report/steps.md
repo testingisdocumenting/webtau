@@ -1,3 +1,12 @@
+# Imports
+
+Code below assumes
+
+:include-file: scenarios/concept/stepGroup.groovy {
+  title: "core methods import",
+  includeRegexp: "WebTauGroovyDsl"
+}
+
 # Grouping Actions
 
 Use `step` core method to wrap a set of actions into a group
@@ -5,11 +14,6 @@ Use `step` core method to wrap a set of actions into a group
 :include-file: scenarios/concept/stepGroup.groovy {
   title: "step group",
   surroundedBy: "wrap-step"
-}
-
-:include-file: scenarios/concept/stepGroup.groovy {
-  title: "core methods import",
-  includeRegexp: "WebTauGroovyDsl"
 }
 
 # Tracing Values
@@ -22,11 +26,6 @@ From report point of view `trace` is an empty step.
   surroundedBy: "trace-map"
 }
 
-:include-file: scenarios/concept/trace.groovy {
-  title: "core methods import",
-  includeRegexp: "WebTauGroovyDsl"
-}
-
 # Grouping With Trace
 
 Pass key values to `step` to combine `step` and `trace
@@ -37,3 +36,26 @@ Pass key values to `step` to combine `step` and `trace
 }
 
 :include-image: doc-artifacts/reports/report-step-key-value.png {border: true, fit: true}
+
+# Warning
+
+Use `warning` core method to mark something that needs to be looked at eventually.
+
+:include-file: scenarios/concept/warning.groovy {
+  title: "warning key values",
+  surroundedBy: ["warning-map", "warning-vararg"]
+}
+
+:include-cli-output: doc-artifacts/warning.groovy-console-output.txt {
+  title: "console output",
+  startLine: "warning message with map",
+  endLine: "v4"
+}
+
+:include-image: doc-artifacts/reports/report-warning.png {
+  title: "report steps tab",
+  border: true,
+  fit: true
+}
+
+Summary of warnings will be displayed at the end of the run

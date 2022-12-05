@@ -141,6 +141,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "warning"() {
+        runCli('warning.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "step group"() {
         runCli('stepGroup.groovy', 'webtau.cfg.groovy')
     }

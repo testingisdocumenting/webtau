@@ -81,6 +81,10 @@ function rainbow() {
         value: 'executed HTTP GET',
       },
       {
+        type: 'warning',
+        value: 'something is fishy',
+      },
+      {
         type: 'url',
         value: 'http://localhost:8080/customers/1',
       },

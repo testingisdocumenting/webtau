@@ -240,6 +240,13 @@ public class WebTauStep {
         return collectOutputsOfType(type).findAny().isPresent();
     }
 
+    public Stream<WebTauStep> stepsWithClassifier(String classifier) {
+        Stream<WebTauStep> self = this.classifier.equals(classifier) ? Stream.of(this) : Stream.empty();
+        Stream<WebTauStep> children = children().flatMap(childStep -> childStep.stepsWithClassifier(classifier));
+
+        return Stream.concat(self, children);
+    }
+
     public boolean hasFailedChildrenSteps() {
         return children.stream().anyMatch(WebTauStep::isFailed);
     }

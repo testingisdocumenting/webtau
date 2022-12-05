@@ -22,6 +22,7 @@ import org.junit.Test
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 
 import java.util.function.Supplier
+import java.util.stream.Stream
 
 import static java.util.stream.Collectors.*
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*
@@ -39,13 +40,17 @@ class WebTauStepTest {
             childStep1 = createStep("c1 action")
             childStep1.setOutputSupplier(() -> new OutputA(id: 'id2'))
             childStep1.execute(REPORT_ALL)
+            childStep1.setClassifier("typeA")
 
             childStep2 = createStep("c2 action")
             childStep2.setOutputSupplier(() -> new OutputB(name: 'name3'))
             childStep2.execute(REPORT_ALL)
+            childStep2.setClassifier("typeB")
         }
 
         rootStep.setOutputSupplier(() -> new OutputA(id: 'id1'))
+        rootStep.setClassifier("typeA")
+
         rootStep.execute(REPORT_ALL)
     }
 
@@ -148,6 +153,15 @@ class WebTauStepTest {
 
         def children = repeatStep.children().collect(toList())
         assert children.completionMessage*.toString() == ['completed repeat #1', 'failed repeat #8 : unknown failure', 'completed repeat #20']
+    }
+
+    @Test
+    void "should find steps by classifier"() {
+        def steps = rootStep.stepsWithClassifier("typeA").collect(toList())
+        assert steps.size() == 2
+
+        assert steps[0].completionMessage.toString() == "done step action"
+        assert steps[1].completionMessage.toString() == "done c1 action"
     }
 
     private static WebTauStep createStep(String title, Supplier stepCode = { return null }) {
