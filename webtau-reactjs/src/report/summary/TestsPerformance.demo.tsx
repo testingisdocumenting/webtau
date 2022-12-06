@@ -31,6 +31,7 @@ function sampleTests(): WebTauTest[] {
       elapsedTime: 100,
       startTime: 0,
       steps: [],
+      warnings: [],
     },
     {
       id: 't2',
@@ -39,6 +40,7 @@ function sampleTests(): WebTauTest[] {
       elapsedTime: 50,
       startTime: 0,
       steps: [],
+      warnings: [],
     },
     {
       id: 't3',
@@ -47,6 +49,7 @@ function sampleTests(): WebTauTest[] {
       elapsedTime: 100,
       startTime: 0,
       steps: [],
+      warnings: [],
     },
     {
       id: 't4',
@@ -55,6 +58,7 @@ function sampleTests(): WebTauTest[] {
       elapsedTime: 70,
       startTime: 0,
       steps: [],
+      warnings: [],
     },
   ];
 }

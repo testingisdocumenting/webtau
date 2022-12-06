@@ -21,6 +21,7 @@ export interface WebTauTest {
   containerId: string;
   scenario: string;
   steps: WebTauStep[];
+  warnings: WebTauWarning[];
   httpCalls?: HttpCall[];
   cliCalls?: CliForegroundCall[];
   servers?: WebTauServer[];
@@ -31,6 +32,14 @@ export interface WebTauTest {
   contextDescription?: string;
   exceptionMessage?: string;
   failedCodeSnippets?: FailedCodeSnippet[];
+}
+
+export interface WebTauWarning {
+  testId: string;
+  scenario: string;
+  shortContainerId: string;
+  message: string;
+  input: object;
 }
 
 export interface WebTauStep {

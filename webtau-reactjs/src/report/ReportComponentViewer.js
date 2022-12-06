@@ -40,6 +40,7 @@ import { sourceCodeDemo } from './snippet/SourceCode.demo';
 import { testsPerformanceDemo } from './summary/TestsPerformance.demo';
 import { httpCallsDemo } from './details/http/httpCallsDemo';
 import { httpDataCoverageTabDemo } from './summary/HttpDataCoverageTab.demo';
+import { allWarningsPanelDemo } from './summary/AllWarningsPanel.demo';
 
 const registries = new Registries();
 
@@ -72,7 +73,8 @@ registries
   .add('panels')
   .registerAsTabs('test summary', testSummaryDemo)
   .registerAsTabs('tests performance', testsPerformanceDemo)
-  .registerAsTabs('http coverage', httpDataCoverageTabDemo);
+  .registerAsTabs('http coverage', httpDataCoverageTabDemo)
+  .registerAsTabs('all warnings', allWarningsPanelDemo);
 
 registries
   .add('full reports')

@@ -24,7 +24,11 @@ class Report {
     def reportName = $(".webtau-report-name")
     def groupNames = $(".group-of-tests .navigation-entry-group-label").all()
     def testNames = $(".navigation-entry .label")
+    def selectedTestLabel = $(".navigation-entry.selected .label")
     def testSummaryMetaKey = $(".test-metadata th").get("METADATA KEY")
+    def allWarningsPanel = $(".webtau-all-warnings-panel")
+    def warningMessage = $(".webtau-warning-message")
+    def warningTestUrl = $(".webtau-warning-test-url")
 
     def responseData = $(".response .data")
     def jsonParseErrorMessage = $(".data.json.error")
@@ -44,7 +48,7 @@ class Report {
     private def httpCalls = $(".test-http-call")
     private def cliCalls = $(".test-cli-call")
 
-    def testSummaryHttpCallWarnings = $(".webtau-http-calls-warning")
+    def testSummaryHttpCallWarnings = $(".webtau-test-warning")
 
     def stdCliOutput = $(".cli-output.standard")
     def errCliOutput = $(".cli-output.error")

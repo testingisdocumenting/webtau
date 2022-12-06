@@ -58,8 +58,9 @@ class Report {
     this.version = report.version;
     this.config = report.config;
     this.envVars = report.envVars;
+    this.warnings = report.warnings;
     this.summary = expandSummary(report.summary);
-    this.tests = enrichTestsData(report.tests);
+    this.tests = enrichTestsData(report.tests, report.warnings);
     this.httpCalls = extractHttpCalls(this.tests);
     this.httpCallsById = mapHttpCallsById(this.httpCalls);
     this.openApiHttpCallIdsPerOperation = report.openApiHttpCallIdsPerOperation || [];
@@ -241,14 +242,19 @@ function lowerCaseIndexOf(text, part) {
   return text.toLowerCase().indexOf(part.toLowerCase());
 }
 
-function enrichTestsData(tests) {
+function enrichTestsData(tests, warnings) {
   return tests.map((test) => ({
     ...test,
     containerId: shortContainerId(test),
+    warnings: extractWarningsForTest(warnings, test.id),
     shortContainerId: shortContainerId(test),
     details: additionalDetails(test),
     httpCalls: enrichHttpCallsData(test, test.httpCalls),
   }));
+}
+
+function extractWarningsForTest(warnings, testId) {
+  return warnings.filter((warning) => warning.testId === testId);
 }
 
 function groupTestsByContainerWithFailedAtTheTop(tests) {

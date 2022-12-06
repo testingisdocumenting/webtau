@@ -35,6 +35,7 @@ function sampleTest() {
     status: 'Passed',
     startTime: 1560704560750,
     elapsedTime: 123,
+    warnings: [],
     fileName: 'scenarios/cli/simpleRun.groovy',
     disabled: false,
     steps: [],
