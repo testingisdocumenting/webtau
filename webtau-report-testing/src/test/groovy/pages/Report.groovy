@@ -48,7 +48,7 @@ class Report {
     private def httpCalls = $(".test-http-call")
     private def cliCalls = $(".test-cli-call")
 
-    def testSummaryHttpCallWarnings = $(".webtau-http-calls-warning")
+    def testSummaryHttpCallWarnings = $(".webtau-test-warning")
 
     def stdCliOutput = $(".cli-output.standard")
     def errCliOutput = $(".cli-output.error")
