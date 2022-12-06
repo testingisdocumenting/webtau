@@ -25,16 +25,19 @@ import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts
 import org.testingisdocumenting.webtau.http.testserver.TestServer
+import org.testingisdocumenting.webtau.report.ReportGenerator
+import org.testingisdocumenting.webtau.report.ReportGenerators
+import org.testingisdocumenting.webtau.report.WarningsReportDataProvider
 import org.testingisdocumenting.webtau.reporter.*
 
 import java.nio.file.Path
 import java.nio.file.Paths
 
-import static org.testingisdocumenting.webtau.WebTauCore.doc
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
-class WebTauEndToEndTestRunner implements ConsoleOutput {
+class WebTauEndToEndTestRunner implements ReportGenerator, ConsoleOutput {
     private final List<String> consoleOutputLines = []
+    private final List<Map<String, Object>> warnings = []
     private Map capturedStepsSummary
 
     TestServer testServer
@@ -43,6 +46,7 @@ class WebTauEndToEndTestRunner implements ConsoleOutput {
     WebTauEndToEndTestRunner(Handler handler) {
         this.testServer = new TestServer(handler)
         ConsoleOutputs.add(this)
+        ReportGenerators.add(this)
     }
 
     void setClassifier(String classifier) {
@@ -90,6 +94,7 @@ class WebTauEndToEndTestRunner implements ConsoleOutput {
         capturedStepsSummary = [:].withDefault { 0 }
 
         consoleOutputLines.clear()
+        warnings.clear()
 
         cliApp.start { exitCode ->
             testDetails.exitCode = exitCode
@@ -98,6 +103,9 @@ class WebTauEndToEndTestRunner implements ConsoleOutput {
         saveConsoleOutput(testFileName)
 
         testDetails.scenarioDetails = buildScenarioDetails(cliApp.runner.report)
+        if (!warnings.isEmpty()) {
+            testDetails.warnings = warnings.collect { it.message }
+        }
 
         validateAndSaveTestDetails(testFileName, testDetails)
     }
@@ -177,5 +185,10 @@ class WebTauEndToEndTestRunner implements ConsoleOutput {
 
     @Override
     void err(Object... styleOrValues) {
+    }
+
+    @Override
+    void generate(WebTauReport report) {
+        warnings.addAll(report.findCustomData(WarningsReportDataProvider.ID).getData())
     }
 }
