@@ -129,6 +129,11 @@ class WebTauFeaturesJUnit5Test {
     }
 
     @Test
+    void stepTraceWarning() {
+        testRunner.runAndValidate(StepTraceWarningJavaTest, "")
+    }
+
+    @Test
     void staticServerOverride() {
         testRunner.runAndValidate(StaticServerJavaTest, "")
     }

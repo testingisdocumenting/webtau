@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.reporter;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.IndentedConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 import org.testingisdocumenting.webtau.utils.TimeUtils;
 
@@ -125,7 +126,7 @@ public class ConsoleStepReporter implements StepReporter {
     private Stream<Object> stepStartBeginningStream(WebTauStep step) {
         if (isTraceStep(step)) {
             return Stream.of(createIndentation(step.getNumberOfParents()),
-                    Color.BACKGROUND_BLUE, Color.WHITE, "[tracing]", Color.RESET, " ");
+                    FontStyle.BOLD, "[tracing]", Color.RESET, " ");
         } else if (isWarningStep(step)) {
             return Stream.of(createIndentation(step.getNumberOfParents()),
                     Color.RED, "[warning]", Color.RESET, " ");

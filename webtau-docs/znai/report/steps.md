@@ -2,10 +2,19 @@
 
 Code below assumes
 
+```tabs
+Groovy:
 :include-file: scenarios/concept/stepGroup.groovy {
   title: "core methods import",
   includeRegexp: "WebTauGroovyDsl"
 }
+
+Java:
+:include-file:  com/example/tests/junit5/StepTraceWarningJavaTest.java {
+  title: "core methods import",
+  includeRegexp: "WebTauDsl"
+}
+```
 
 # Grouping Actions
 
