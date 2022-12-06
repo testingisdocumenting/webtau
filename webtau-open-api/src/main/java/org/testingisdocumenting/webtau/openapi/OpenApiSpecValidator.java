@@ -22,8 +22,7 @@ import com.atlassian.oai.validator.model.SimpleRequest;
 import com.atlassian.oai.validator.model.SimpleResponse;
 import com.atlassian.oai.validator.report.LevelResolver;
 import com.atlassian.oai.validator.report.ValidationReport;
-import org.testingisdocumenting.webtau.console.ConsoleOutputs;
-import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.WebTauCore;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 
 import java.util.Optional;
@@ -53,8 +52,7 @@ public class OpenApiSpecValidator {
     public void validateApiSpec(HttpValidationResult result, OpenApiValidationMode openApiValidationMode) {
         Optional<OpenApiOperation> apiOperation = openAPISpec.findApiOperation(result.getRequestMethod(), result.getFullUrl());
         if (!apiOperation.isPresent()) {
-            ConsoleOutputs.out(Color.YELLOW, "Path, ", result.getFullUrl(), " is not found in OpenAPI spec");
-            result.addWarning("path " + result.getFullUrl() + " is not found in OpenAPI spec");
+            WebTauCore.warning("HTTP url does not match any defined Open API operation", "url", result.getFullUrl());
 
             return;
         }

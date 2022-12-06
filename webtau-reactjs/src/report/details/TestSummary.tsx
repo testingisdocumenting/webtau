@@ -59,8 +59,6 @@ export function TestSummary({ test }: TestProps) {
           <CardWithElapsedTime label="Execution time" millis={test.elapsedTime} />
         </CardList>
 
-        <HttpCallsWarning test={test} />
-
         <TestMetadata metadata={test.metadata} />
 
         {numberOfHttpCalls > 0 ? (
@@ -93,31 +91,6 @@ function TestWarnings({ test }: TestProps) {
       ))}
     </Card>
   );
-}
-
-function HttpCallsWarning({ test }: TestProps) {
-  const warnings = collectWarnings();
-  if (warnings.length === 0) {
-    return null;
-  }
-
-  return (
-    <Card className="webtau-test-warning" warning={true}>
-      {warnings.map((warning, idx) => (
-        <div key={idx} className="http-call-warning">
-          {warning}
-        </div>
-      ))}
-    </Card>
-  );
-
-  function collectWarnings() {
-    if (!test.httpCalls) {
-      return [];
-    }
-
-    return test.httpCalls.flatMap((httpCall) => httpCall.warnings || []);
-  }
 }
 
 function OverallHttpCallsTime({ test }: TestProps) {

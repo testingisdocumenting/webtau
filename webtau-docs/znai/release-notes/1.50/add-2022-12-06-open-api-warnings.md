@@ -1,0 +1,1 @@
+* Add: [Open API](HTTP/openAPI-spec) validation reports uses [Warnings](report/steps#warning) to report undefined URLs
