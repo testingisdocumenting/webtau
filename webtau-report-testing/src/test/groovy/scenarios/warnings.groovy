@@ -23,13 +23,13 @@ scenario('no warning') {
     report.openGroovyStandaloneReport('rest/simpleGet-webtau-report.html')
     report.selectTest('check weather')
 
-    report.testSummaryHttpCallWarnings.shouldNotBe visible
+    report.warningMessage.shouldNotBe visible
 }
 
 scenario('test summary http warning') {
     report.openGroovyStandaloneReport('rest/openapi/unspecifiedUrl-webtau-report.html')
     report.selectTest('unspecified operation warning')
 
-    report.testSummaryHttpCallWarnings.should == ~/customers is not found in OpenAPI spec/
+    report.warningMessage.should == ~/HTTP url does not match any defined Open API operation/
     browser.doc.capture('http-open-api-warning')
 }
