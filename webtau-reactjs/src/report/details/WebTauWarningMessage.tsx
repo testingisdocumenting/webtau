@@ -1,6 +1,5 @@
 /*
- * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2022 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,21 +14,19 @@
  * limitations under the License.
  */
 
-.webtau-test-summary {
-    display: grid;
-    grid-template-columns: auto;
-    grid-row-gap: var(--webtau-spacing);
+import React from 'react';
+import { StepInputOutputKeyValue } from './steps/StepInputOutputKeyValue';
+
+interface Props {
+  message: string;
+  input: any;
 }
 
-.webtau-test-summary-cards {
-    display: grid;
-    grid-row-gap: var(--webtau-spacing);
-}
-
-.card-pre-message {
-    padding: var(--webtau-spacing);
-}
-
-.webtau-test-warning {
-    padding: var(--webtau-spacing);
+export function WebTauWarningMessage({ message, input }: Props) {
+  return (
+    <div className="webtau-warning-message">
+      {message}
+      <StepInputOutputKeyValue inputData={input} />
+    </div>
+  );
 }

@@ -14,29 +14,40 @@
  * limitations under the License.
  */
 
-import { Registry } from 'react-component-viewer';
-import { AllWarningsPanel, WebTauWarning } from './AllWarningsPanel';
+import { Registry, simpleAction } from 'react-component-viewer';
+import { AllWarningsPanel } from './AllWarningsPanel';
+import { WebTauWarning } from '../WebTauTest';
 
-export function allWarningsPanelDemo(registry: Registry) {
-  registry.add('multiple tests', () => <AllWarningsPanel warnings={sampleWarnings()} />);
+function onTestSelect(id: string) {
+  simpleAction('clicked ' + id)();
 }
 
-function sampleWarnings(): WebTauWarning[] {
+export function allWarningsPanelDemo(registry: Registry) {
+  registry.add('multiple tests', () => <AllWarningsPanel warnings={sampleWarnings()} onSwitchToTest={onTestSelect} />);
+}
+
+export function sampleWarnings(): WebTauWarning[] {
   return [
     {
       testId: 'test1',
+      scenario: 'my test',
+      shortContainerId: 'container one',
       message: 'warning one',
       input: {},
     },
     {
       testId: 'test2',
+      scenario: 'your test',
+      shortContainerId: 'container one',
       message: 'warning two',
-      input: {},
+      input: { k1: 'v1', k2: 'v2' },
     },
     {
       testId: 'test2',
+      scenario: 'their test',
+      shortContainerId: 'container two',
       message: 'warning three',
-      input: {},
+      input: { k3: 'v3', k4: 'v4' },
     },
   ];
 }

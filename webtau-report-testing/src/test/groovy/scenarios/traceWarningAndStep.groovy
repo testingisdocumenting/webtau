@@ -47,3 +47,18 @@ scenario('step with key values') {
     browser.doc.capture('report-step-key-value')
 }
 
+scenario('warnings displayed on summary screen') {
+    report.openGroovyStandaloneReport('concept/warning-webtau-report.html')
+    report.allWarningsPanel.waitTo == ~/There are 3/
+
+    browser.doc.capture('report-summary-warning-collapsed')
+
+    report.allWarningsPanel.click()
+    report.warningMessage.count.should == 3
+    report.warningMessage.should == "warning message"
+
+    report.warningTestUrl.click()
+    report.selectedTestLabel.should == "warning label"
+    report.warningMessage.should == "warning message"
+}
+

@@ -25,6 +25,10 @@
     color: var(--webtau-card-warning-text-color);
     background-color: var(--webtau-card-warning-background-color);
     box-shadow: var(--webtau-card-warning-shadow);
+
+    --webtau-property-key-color: #6b3478;
+    --webtau-property-value-string-color: #263c15;
+    --webtau-property-value-number-color: #49466e;
 }
 
 .webtau-card.clickable {

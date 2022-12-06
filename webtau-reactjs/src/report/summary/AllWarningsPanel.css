@@ -1,4 +1,13 @@
+.webtau-all-warnings-panel {
+   margin-bottom: var(--webtau-spacing);
+}
+
 .webtau-all-warnings-panel.collapsed {
     padding: var(--webtau-spacing);
+    cursor: pointer;
+}
+
+.webtau-warning-test-url {
+    color: var(--webtau-url-color);
     cursor: pointer;
 }

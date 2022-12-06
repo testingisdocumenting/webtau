@@ -37,6 +37,7 @@ function createTestWithServers(): WebTauTest {
     scenario: 'my scenario',
     startTime: 1034343434,
     steps: [],
+    warnings: [],
     servers: [
       {
         serverId: 'echo-server',

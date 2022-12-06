@@ -16,33 +16,82 @@
 
 import React, { useState } from 'react';
 
-import './AllWarningsPanel.css';
 import Card from '../widgets/Card';
+import { SortableTable, TableValuesRenderer } from '../widgets/SortableTable';
 
-export interface WebTauWarning {
-  testId: string;
-  message: string;
-  input: object;
-}
+import { WebTauWarningMessage } from '../details/WebTauWarningMessage';
+
+import { WebTauWarning } from '../WebTauTest';
+
+import './AllWarningsPanel.css';
 
 interface Props {
   warnings: WebTauWarning[];
+
+  onSwitchToTest(testId: string): void;
 }
 
-export function AllWarningsPanel({ warnings }: Props) {
+const warningsTableHeader = ['Warning', 'Test'];
+
+const warningsTableRenderer: TableValuesRenderer = {
+  cellRenderer(columnName: string, value: any): JSX.Element {
+    if (columnName === 'Test') {
+      return (
+        <div className="webtau-warning-test-url" onClick={() => value.onSwitchToTest(value.id)}>
+          {value.label}
+        </div>
+      );
+    } else if (columnName === 'Warning') {
+      return <WebTauWarningMessage message={value.message} input={value.input} />;
+    }
+
+    return <>{value}</>;
+  },
+};
+
+export function AllWarningsPanel({ warnings, onSwitchToTest }: Props) {
   const [isCollapsed, setIsCollapsed] = useState(true);
 
-  if (warnings.length === 0) {
+  if (!warnings || warnings.length === 0) {
     return null;
   }
 
   if (isCollapsed) {
     return (
-      <Card className="webtau-all-warnings-panel collapsed" warning={true}>
+      <Card className="webtau-all-warnings-panel collapsed" warning={true} onClick={expandWarnings}>
         There are {warnings.length} warning(s). Click to expand
       </Card>
     );
   }
 
-  return <div className="webtau-all-warnings-panel expanded"></div>;
+  return (
+    <div className="webtau-all-warnings-panel expanded">
+      <SortableTable
+        header={warningsTableHeader}
+        data={generateWarningsData(warnings, onSwitchToTest)}
+        renderer={warningsTableRenderer}
+      />
+    </div>
+  );
+
+  function expandWarnings() {
+    setIsCollapsed(false);
+  }
+}
+
+function generateWarningsData(warnings: WebTauWarning[], onSwitchToTest: (id: string) => void) {
+  return warnings.map((warning) => {
+    const test = {
+      label: warning.shortContainerId + ' -> ' + warning.scenario,
+      id: warning.testId,
+      onSwitchToTest,
+    };
+
+    const message = {
+      message: warning.message,
+      input: warning.input,
+    };
+
+    return [message, test];
+  });
 }
