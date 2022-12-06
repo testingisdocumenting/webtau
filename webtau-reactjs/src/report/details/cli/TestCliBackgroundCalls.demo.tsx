@@ -47,6 +47,7 @@ function createTestWithCliBackground(personaId?: string): WebTauTest {
     scenario: 'my scenario',
     startTime: 1034343434,
     steps: [],
+    warnings: [],
     cliBackground: [
       {
         command: 'ls -l',

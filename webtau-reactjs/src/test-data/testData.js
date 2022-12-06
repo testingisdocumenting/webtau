@@ -16,6 +16,7 @@
  */
 
 import deepNestedJson from './deepNestedJson';
+import { sampleWarnings } from '../report/summary/AllWarningsPanel.demo';
 
 const envVars = [
   {
@@ -123,6 +124,7 @@ export const basicReport = {
     stopTime: 1547139662569,
     duration: 100,
   },
+  warnings: sampleWarnings(),
   config: [
     { key: 'env', value: 'dev', source: 'command line' },
     { key: 'url', value: 'https://base', source: 'config file' },
@@ -130,7 +132,7 @@ export const basicReport = {
   envVars: envVars,
   tests: [
     {
-      id: 'another.groovy-1',
+      id: 'test2', // to match a warning
       scenario: 'customer super read',
       status: 'Passed',
       fileName: 'scenarios/another.groovy',
@@ -465,12 +467,12 @@ export const withRestDataReport = {
   envVars: envVars,
   httpDataCoverage: [
     {
-      id: "POST /customer",
+      id: 'POST /customer',
       touchedPathsCount: 3,
       untouchedPathsCount: 6,
       untouchedPercent: 66,
-      untouchedPaths: ["path1", "path2"]
-    }
+      untouchedPaths: ['path1', 'path2'],
+    },
   ],
   tests: [
     {

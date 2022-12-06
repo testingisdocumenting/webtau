@@ -40,6 +40,7 @@ function createTestWithCliCalls(personaId?: string): WebTauTest {
     scenario: 'my scenario',
     startTime: 1034343434,
     steps: [],
+    warnings: [],
     cliCalls: [
       {
         command: 'ls -l',

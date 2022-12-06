@@ -42,14 +42,20 @@ Pass key values to `step` to combine `step` and `trace
 Use `warning` core method to mark something that needs to be looked at eventually.
 
 :include-file: scenarios/concept/warning.groovy {
-  title: "warning key values",
-  surroundedBy: ["warning-map", "warning-vararg"]
+  title: "warning signatures",
+  surroundedBy: ["warning-label", "warning-map", "warning-vararg"]
+}
+
+:include-file: scenarios/concept/warning.groovy {
+  autoTitle: true,
+  startLine: "import",
+  commentsType: "remove"
 }
 
 :include-cli-output: doc-artifacts/warning.groovy-console-output.txt {
   title: "console output",
-  startLine: "warning message with map",
-  endLine: "v4"
+  startLine: "warning label",
+  endLine: "v4",
 }
 
 :include-image: doc-artifacts/reports/report-warning.png {
@@ -58,4 +64,15 @@ Use `warning` core method to mark something that needs to be looked at eventuall
   fit: true
 }
 
-Summary of warnings will be displayed at the end of the run
+Summary of warnings will be displayed at the end of the run in the console and present on the generated HTML report summary view.
+
+:include-cli-output: doc-artifacts/warning.groovy-console-output.txt {
+  title: "console output warnings summary", 
+  startLine: "warning(s) in tests"
+}
+
+:include-image: doc-artifacts/reports/report-summary-warning-collapsed.png {
+  title: "warnings summary view",
+  border: true,
+  fit: true
+}

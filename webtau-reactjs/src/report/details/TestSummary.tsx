@@ -33,9 +33,11 @@ import TestErrorMessage from '../widgets/TestErrorMessage';
 import { TestMetadata } from './metadata/TestMetadata';
 import { WebTauTest } from '../WebTauTest';
 
-import './TestSummary.css';
 import CardList from '../widgets/CardList';
 import { TestName } from './TestName';
+import { WebTauWarningMessage } from './WebTauWarningMessage';
+
+import './TestSummary.css';
 
 interface TestProps {
   test: WebTauTest;
@@ -47,6 +49,8 @@ export function TestSummary({ test }: TestProps) {
   return (
     <div className="webtau-test-summary">
       <div className="webtau-test-summary-cards">
+        <TestWarnings test={test} />
+
         <CardList label={<TestName test={test} />}>
           <CardWithTime label="Start Time (Local)" time={test.startTime} />
 
@@ -76,6 +80,21 @@ export function TestSummary({ test }: TestProps) {
   );
 }
 
+function TestWarnings({ test }: TestProps) {
+  const warnings = test.warnings;
+  if (warnings.length === 0) {
+    return null;
+  }
+
+  return (
+    <Card className="webtau-test-warning" warning={true}>
+      {warnings.map((warning, idx) => (
+        <WebTauWarningMessage key={idx} message={warning.message} input={warning.input} />
+      ))}
+    </Card>
+  );
+}
+
 function HttpCallsWarning({ test }: TestProps) {
   const warnings = collectWarnings();
   if (warnings.length === 0) {
@@ -83,7 +102,7 @@ function HttpCallsWarning({ test }: TestProps) {
   }
 
   return (
-    <Card className="webtau-http-calls-warning" warning={true}>
+    <Card className="webtau-test-warning" warning={true}>
       {warnings.map((warning, idx) => (
         <div key={idx} className="http-call-warning">
           {warning}

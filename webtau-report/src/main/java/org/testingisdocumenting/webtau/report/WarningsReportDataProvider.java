@@ -41,6 +41,8 @@ public class WarningsReportDataProvider implements ReportDataProvider {
     private Map<String, Object> warningFromSingleStep(WebTauTest test, WebTauStep step) {
         Map<String, Object> result = new HashMap<>();
         result.put("testId", test.getId());
+        result.put("scenario", test.getScenario());
+        result.put("shortContainerId", test.getShortContainerId());
         result.put("message", step.getCompletionMessage().toString());
         result.put("input", step.getInput().toMap());
 
