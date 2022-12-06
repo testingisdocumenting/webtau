@@ -3,7 +3,7 @@
     "scenario" : "unspecified operation warning",
     "shortContainerId" : "unspecifiedUrl.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 5
+      "numberOfSuccessful" : 6
     }
   } ],
   "exitCode" : 0
