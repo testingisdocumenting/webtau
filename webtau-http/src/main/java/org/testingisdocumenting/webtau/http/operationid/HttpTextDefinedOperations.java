@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.http.operationid;
 
+import org.testingisdocumenting.webtau.WebTauCore;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 import java.util.*;
@@ -37,15 +38,20 @@ class HttpTextDefinedOperations {
         String relativeUrl = UrlUtils.extractPath(fullUrl);
 
         List<HttpTextOperation> byMethod = operationsByMethod.getOrDefault(method, Collections.emptyList());
-        if (byMethod.isEmpty()) {
-            return "";
+
+        String result = byMethod.isEmpty() ?
+                "":
+                byMethod.stream()
+                        .filter(op -> op.matches(relativeUrl))
+                        .findFirst()
+                        .map(HttpTextOperation::getOperationId)
+                        .orElse("");
+
+        if (result.isEmpty()) {
+            WebTauCore.warning("route is not defined for HTTP " + method, "url", fullUrl);
         }
 
-        return byMethod.stream()
-                .filter(op -> op.matches(relativeUrl))
-                .findFirst()
-                .map(HttpTextOperation::getOperationId)
-                .orElse("");
+        return result;
     }
 
     private void parseLines() {

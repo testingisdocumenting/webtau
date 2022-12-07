@@ -123,6 +123,11 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "no text routes defined"() {
+        runCli("coverage/noRouteDefined.groovy", "coverage/textRoutes.cfg.groovy", "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
     void "crud"() {
         runCli("springboot/customerCrud.groovy", "springboot/webtau.cfg.groovy", "--url=$customersBaseUrl")
     }
