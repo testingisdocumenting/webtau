@@ -12,5 +12,6 @@
       "numberOfSuccessful" : 2
     }
   } ],
-  "exitCode" : 0
+  "exitCode" : 0,
+  "warnings" : [ "warning message", "warning message with map", "another warning message" ]
 }
