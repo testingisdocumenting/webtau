@@ -1,0 +1,1 @@
+* Add: [HTTP Data Coverage](HTTP/data-coverage) output as [JSON](HTTP/data-coverage#json-output)
