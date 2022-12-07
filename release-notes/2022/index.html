@@ -84,6 +84,11 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>1.50</h1></header>
+<p>Fix: report properly prints browser sendKeys special keys like escape and pageUp Fix: DatabaseTable class is public now to be used in Java tests Doc: add examples and re-arrange getting-started/why Why page Doc: generic-runners/JUnit-5#automatic-extension JUnit5 Automatic Extension Doc: data/import-and-dependencies data dependencies and import Doc: Add server responses to getting-started/what-is-this What Is This page and to README.md Doc: data/csv data Java examples Doc: data/introduction data more console output examples Doc: persona/HTTP-persona HTTP Persona Java Doc: servers/fake-server Fake Server Java examples Doc: servers/static-server Static Server Java examples Add: HTTP/data-coverage HTTP Data Coverage output as HTTP/data-coverage#json-output JSON Add: report/steps#warning warning when HTTP/data-coverage#text-routes HTTP Text Route is missing for a call Add: HTTP/openAPI-spec Open API validation reports uses report/steps#warning Warnings to report undefined URLs Add: report/steps#warning warning concept Add: Java getting-started/configuration#config-file config location override option Remove: HTTP Overall performance report Tab Add: data/csv#table-data-conversion Table Data Conversion function Add: HTTP text based HTTP/data-coverage#text-routes routes definition to support performance and data coverage without Open API spec Add: JUnit5 and JUnit4 runners print failed tests and their failed steps at the end of test runs Add: HTTP data coverage Web Report summary card Add: Generated Report Path is printed last so it is easier to find when there are failing tests Add: groovy-standalone-runner/introduction Groovy Runner prints failed steps info in addition to the test exception at the end Add: data/json data.json.write methods to write list/map/ reference/table-data TableData Add: data/json data.json Java examples Add: data/json#read-tabledata data.json.table Add: create reference/table-data TableData from reference/table-data#create-from-list list of maps Add: return value variant of JVM-business-logic/documentation-artifacts#capture-console-output doc.console.capture Add: data/csv#write-table-data data.csv.write with reference/table-data TableData Add: reference/table-data TableData addRow validates row size against header Add: reference/table-data TableData reference/table-data#serialization toCsv Fix: reference/table-data TableData addRow accepts List&lt;?&gt; instead of List&lt;Object&gt; Fix: properly report missing columns in case of list of maps and reference/table-data TableData comparison Add: HTTP data coverage HTTP/data-coverage#detect-fields-that-were-skipped console warning Add: initial HTTP/data-coverage HTTP data coverage Add: render report/steps#tracing-values trace console output in a special manner Add: setValue to Web Page browser/element-actions#modifications-no-log without logging secret values Add: Better support for groovy-standalone-runner/introduction Groovy Runner without explicit scenario Add: persona/introduction Persona vararg signature for Java Add: remove indentation from JVM-business-logic/documentation-artifacts#capture-console-output Doc Capture Console Output Add: way to provide actual value matchers/universal-compare#reporting name Add: server.removeOverride(WebTauServerOverride override) Add: cache get utilities/cache#cached-value-with-expiration with expiration method</p>
+</article>
+
+<article>
 <header><h1>1.49</h1></header>
 <p>Remove highlight and cover from browser/documentation-artifacts browser.doc.capture Fix: Maven Plugin race condition between shutdown hook and apache FileUtils class unload Fix: global cleanup race condition, make sure it is called only once Fix: Web report tab names overflow ellipsis Fix: Report properly use report/configuration#report-name-and-url reportNameUrl parameter Fix: Web report always put Setup group first even if there are failed tests Fix: Make web report tab title stable (was changing name after javascript load) Fix: Web report entries and icons center alignment Doc: update HTTP/documentation-artifacts HTTP Documentation Artifacts with https://github.com/testingisdocumenting/znai Znai and Java examples Doc: Add data/pdf data.pdf Doc: Move data/introduction Data to its own chapter Doc: Consolidated HTTP report page with report/introduction Reports chapter Doc: Add Persona Examples to getting-started/what-is-this Intro Page Doc: HTTP/configuration HTTP Configuration Doc: Add HTTP/HTTP-calls#ping ping reference documentation Doc: Add https://github.com/testingisdocumenting/webtau/discussions GitHub discussions to footer and support link Doc: Merged HTTP Form Data into HTTP/body#form-file-data HTTP/body page Doc: Added getting-started/configuration#disable-ansi-colors Disable Anti Colors Doc: report/configuration Report Configuration Doc: HTTP/body#json-request-from-file HTTP JSON Body example from external file Doc: HTTP extract complex value from HTTP/data-node#extracting-values Data Node Doc: consolidate and introduce HTTP/body HTTP Body page Doc: Added HTTP/HTTP-calls HTTP Calls and example snippets now have links to referenced method Doc: HTTP/query-parameters HTTP Query Parameters Java examples Doc: Add Java examples to HTTP/data-node HTTP DataNode Doc: Add Java examples to HTTP/header#response-header HTTP Response Header Doc: Add Java examples to HTTP/header#content-type-shortcut HTTP Content Type shorcuts Deprecate pdf method in favor of HTTP/body#pdf-response data.pdf.read Deprecate browser/matchers#state Browser Element beVisble() variants of matchers in favor of visible Add matchers/custom-compare-to-handler compare to rule to compare HTTP/data-node DataNode and HTTP/body#json-request JsonRequestBody Add browser/documentation-artifacts#annotation-types browser.doc.arrow that connects two elements Add JVM-business-logic/documentation-artifacts#capture-console-output doc.console.capture to capture console output of a provided JVM code block Add browser/documentation-artifacts#badge-shortcut Badge Shortcut to browser/documentation-artifacts browser.doc Add sorting to report Config and Environment Variables tables Add extra getting-started/installation#groovy-runner Maven Plugin parameters: confg , reportPath , failedReportPath , reportName , reportNameUrl , noColor Reduce messaging in case of matchers/universal-compare matchers match event by removing &quot;Matches:&quot; prefix Add HTTP/introduction HTTP invalid JSON request/response handling Add HTTP/body#json-request HTTP body json shortcut Add HTTP/body#raw-response HTTP body raw response access Equal Matcher delegates to expected matcher bypassing one level of nested message Add matchers/any-of anyOf matcher Improve message for expected exception message when no exception is thrown Add HTTP/data-node#find-all DataNode.findAll Java implementation Add HTTP/data-node#find DataNode.find Java implementation Better error message in case of wrong webtau CLI argument name Add --version param to webtau CLI Add Java common header values as exposed properties: statusCode , contentType , location , contentLocation , contentLength , contentEncoding Deprecate HttpHeader.merge in favor of HttpHeader.with</p>
 </article>
@@ -124,13 +129,1091 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "id" : "149",
+      "id" : "1-50",
+      "title" : "1.50",
+      "type" : "Section",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: report properly prints browser ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "sendKeys",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " special keys like ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "escape",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "pageUp",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: DatabaseTable class is public now to be used in Java tests",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: add examples and re-arrange ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/getting-started/why",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Why",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " page",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/generic-runners/JUnit-5#automatic-extension",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "JUnit5 Automatic Extension",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data dependencies and import",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: Add server responses to ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/getting-started/what-is-this",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "What Is This",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " page and to README.md",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/csv",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " Java examples",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " more console output examples",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/persona/HTTP-persona",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "HTTP Persona Java",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/servers/fake-server",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Fake Server",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " Java examples",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/servers/static-server",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Static Server",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " Java examples",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/data-coverage",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "HTTP Data Coverage",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " output as ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/data-coverage#json-output",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "JSON",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/steps#warning",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "warning",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " when ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/data-coverage#text-routes",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "HTTP Text Route",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " is missing for a call",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/openAPI-spec",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Open API",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " validation reports uses ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/steps#warning",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Warnings",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " to report undefined URLs",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/steps#warning",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "warning",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " concept",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Java ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/getting-started/configuration#config-file",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "config location",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " override option",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Remove: HTTP Overall performance report Tab",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/csv#table-data-conversion",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Table Data Conversion",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " function",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: HTTP text based ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/data-coverage#text-routes",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "routes definition",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " to support performance and data coverage without Open API spec",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: JUnit5 and JUnit4 runners print failed tests and their failed steps at the end of test runs",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: HTTP data coverage Web Report summary card",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Generated Report Path is printed last so it is easier to find when there are failing tests",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/groovy-standalone-runner/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Groovy Runner",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " prints failed steps info in addition to the test exception at the end",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/json",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data.json.write",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " methods to write list/map/",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/json",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data.json",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " Java examples",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/json#read-tabledata",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data.json.table",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: create ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " from ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data#create-from-list",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "list of maps",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: return value variant of ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/JVM-business-logic/documentation-artifacts#capture-console-output",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "doc.console.capture",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/csv#write-table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data.csv.write",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " with ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "addRow",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " validates row size against header",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data#serialization",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "toCsv",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "addRow",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " accepts ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "List<?>",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " instead of ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "List<Object>",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: properly report missing columns in case of list of maps and ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " comparison",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: HTTP data coverage ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/data-coverage#detect-fields-that-were-skipped",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "console warning",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: initial ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/data-coverage",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "HTTP data coverage",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: render ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/steps#tracing-values",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "trace",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " console output in a special manner",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: setValue to Web Page ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/element-actions#modifications-no-log",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "without logging",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " secret values",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Better support for ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/groovy-standalone-runner/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Groovy Runner",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " without explicit scenario",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/persona/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Persona",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " vararg signature for Java",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: remove indentation from ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/JVM-business-logic/documentation-artifacts#capture-console-output",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Doc Capture Console Output",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: way to provide actual value ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/universal-compare#reporting",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "name",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "server.removeOverride(WebTauServerOverride override)",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: cache get ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/utilities/cache#cached-value-with-expiration",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "with expiration",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " method",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
+      "id" : "1-49",
       "title" : "1.49",
       "type" : "Section",
       "content" : [ {
@@ -1343,7 +2426,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "id" : "148",
+      "id" : "1-48",
       "title" : "1.48",
       "type" : "Section",
       "content" : [ {
@@ -1671,7 +2754,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "id" : "147",
+      "id" : "1-47",
       "title" : "1.47",
       "type" : "Section",
       "content" : [ {
@@ -1894,7 +2977,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
-      "id" : "146",
+      "id" : "1-46",
       "title" : "1.46",
       "type" : "Section",
       "content" : [ {
@@ -2011,9 +3094,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658346107246,
+    "lastModifiedTime" : 1670451504506,
     "tocItem" : {
-      "sectionTitle" : "Release Notes",
+      "chapterTitle" : "Release Notes",
       "pageTitle" : "2022 Releases",
       "pageMeta" : {
         "title" : [ "2022 Releases" ]
@@ -2022,17 +3105,20 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "2022",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "1.50",
+        "id" : "1-50"
+      }, {
         "title" : "1.49",
-        "id" : "149"
+        "id" : "1-49"
       }, {
         "title" : "1.48",
-        "id" : "148"
+        "id" : "1-48"
       }, {
         "title" : "1.47",
-        "id" : "147"
+        "id" : "1-47"
       }, {
         "title" : "1.46",
-        "id" : "146"
+        "id" : "1-46"
       } ]
     }
   }

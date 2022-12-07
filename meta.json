@@ -8,6 +8,7 @@
   "type" : "Guide",
   "previewEnabled" : false,
   "support" : {
-    "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+    "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+    "title" : "GitHub"
   }
 }

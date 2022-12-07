@@ -119,7 +119,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -132,26 +133,31 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def message = $(\"#message\")\nmessage.should == \"Select option\"",
         "title" : "exact text",
+        "anchorId" : "text-exact-text",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def message = $(\"#message\")\nmessage.should == ~/option/",
         "title" : "regexp text",
+        "anchorId" : "text-regexp-text",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def menu = $(\"#menu ul li\")\nmenu.should == [\"Hello\", \"Text\", \"World\"]",
         "title" : "list of text",
+        "anchorId" : "text-list-of-text",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def message = $(\"#message\")\nmessage.should contain(\"option\")",
         "title" : "contain text in the first matched element",
+        "anchorId" : "text-contain-text-in-the-first-matched-element",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def menu = $(\"#menu ul li\").all()\nmenu.should contain(\"Text\")",
         "title" : "contain exact text in list of elements",
+        "anchorId" : "text-contain-exact-text-in-list-of-elements",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -174,6 +180,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def menu = $(\"#menu ul li\")\nmenu.should == [\"Hello\", ~/T..t/, \"World\"]",
         "title" : "list of text and regexp",
+        "anchorId" : "text-list-of-text-and-regexp",
         "type" : "Snippet"
       }, {
         "meta" : {
@@ -237,26 +244,31 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def total = $(\"#total\")\ntotal.should == 300.6",
         "title" : "exact number",
+        "anchorId" : "numbers-exact-number",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def total = $(\"#total\")\ntotal.shouldBe > 200",
         "title" : "greater than",
+        "anchorId" : "numbers-greater-than",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def total = $(\"#total\")\ntotal.shouldBe >= 300",
         "title" : "greater than or equal",
+        "anchorId" : "numbers-greater-than-or-equal",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def split = $(\"#split ul li\")\nsplit.should == [100, 28, 172.6]",
         "title" : "list of numbers",
+        "anchorId" : "numbers-list-of-numbers",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def split = $(\"#split ul li\")\nsplit.should == [100, lessThan(100), greaterThanOrEqual(150)]",
         "title" : "list of exact and greater/less",
+        "anchorId" : "numbers-list-of-exact-and-greater-less",
         "type" : "Snippet"
       }, {
         "meta" : {
@@ -320,11 +332,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def button = $(\"#action\")\nbutton.shouldBe disabled\nbutton.shouldNotBe enabled",
         "title" : "enabled/disabled",
+        "anchorId" : "state-enabled-disabled",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def feedback = $(\"#feedback\")\nfeedback.shouldBe hidden\nfeedback.shouldNotBe visible",
         "title" : "visible/hidden",
+        "anchorId" : "state-visible-hidden",
         "type" : "Snippet"
       }, {
         "lang" : "html",
@@ -335,9 +349,9 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "Browser",
+      "chapterTitle" : "Browser",
       "pageTitle" : "Matchers",
       "pageMeta" : {
         "type" : [ "two-sides" ]

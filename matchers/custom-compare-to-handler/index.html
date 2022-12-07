@@ -114,7 +114,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -188,6 +189,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "public interface CompareToHandler {\n    /**\n     * determines whether supports equality comparison\n     * @param actual actual value\n     * @param expected expected value\n     * @return true if comparison can be handled\n     */\n    boolean handleEquality(Object actual, Object expected);\n\n    /**\n     * determines whether supports greater/less than comparison family\n     * @param actual actual value\n     * @param expected expected value\n     * @return true if comparison can be handled\n     */\n    default boolean handleGreaterLessEqual(Object actual, Object expected) {\n        return false;\n    }\n\n    /**\n     * determines whether handler can handle nulls. usually left unimplemented\n     * @return true if handler can match nulls\n     */\n    default boolean handleNulls() {\n        return false;\n    }\n\n    /**\n     * implementation logic of equality only\n     * @param comparator comparator to delegate comparison to\n     * @param actualPath path to use for reporting\n     * @param actual actual value\n     * @param expected expected value\n     */\n    void compareEqualOnly(CompareToComparator comparator,\n                          ActualPath actualPath, Object actual,\n                          Object expected);\n\n    /**\n     * implementation logic of greater/less than family\n     * @param comparator comparator to delegate comparison to\n     * @param actualPath path to use for reporting\n     * @param actual actual value\n     * @param expected expected value\n     */\n    default void compareGreaterLessEqual(CompareToComparator comparator,\n                                         ActualPath actualPath, Object actual,\n                                         Object expected) {\n        throw new UnsupportedOperationException(\"greater-less comparison is not implemented\");\n    }\n}",
         "title" : "interface to implement",
         "entry" : "CompareToHandler",
+        "anchorId" : "comparetohandler-interface-interface-to-implement",
         "type" : "Snippet"
       }, {
         "id" : "comparetohandler-example-implementation",
@@ -206,6 +208,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "map and bean comparison handler",
         "entry" : "MapAndBeanCompareToHandler",
         "commentsType" : "inline",
+        "anchorId" : "comparetohandler-example-implementation-map-and-bean-comparison-handler",
         "type" : "Snippet"
       }, {
         "id" : "comparetohandler-registration",
@@ -251,12 +254,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "autoTitle" : true,
         "includeRegexp" : "MapAndBeanCompareToHandler",
         "title" : "src/main/resources/META-INF/services/org.testingisdocumenting.webtau.expectation.equality.CompareToHandler",
+        "anchorId" : "comparetohandler-registration-src-main-resources-meta-inf-services-org-testingisdocumenting-webtau-expectation-equality-comparetohandler",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107242,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Matchers",
+      "chapterTitle" : "Matchers",
       "pageTitle" : "Custom Compare To Handler",
       "pageMeta" : { },
       "dirName" : "matchers",

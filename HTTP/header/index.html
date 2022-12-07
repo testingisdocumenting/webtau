@@ -95,7 +95,7 @@
 
 <article>
 <header><h1>Implicit Header</h1></header>
-<p>Webtau has a way to provide headers for each call implicitly. Use it to provide things like authentication, version, etc. header values.Implicit headers goal is to reduce expose to implementation details and make tests more robust. Groovy package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = &quot;http://localhost:8080&quot; httpHeaderProvider = Auth.&amp;authHeader Where Auth.&amp;authHeader is implemented as follows: package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateToken() return original.with([Authorization: &quot;Bearer $token&quot;]) } private static String generateToken() { return &quot;jwt-token&quot; } } Java In case of JUnit like runners, webtau uses https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html Service Loaders to locate header providers com.example.tests.junit5.config.HttpAuthHeaderProvider package com.example.tests.junit5.config; import org.testingisdocumenting.webtau.http.HttpHeader; import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration; import static org.testingisdocumenting.webtau.WebTauDsl.*; public class HttpAuthHeaderProvider implements WebTauHttpConfiguration { @Override public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) { String token = generateToken(); return given.with(&quot;Authorization&quot;, &quot;Bearer &quot; + token); } private String generateToken() { return &quot;jwt-token&quot;; } } Note: Read persona/HTTP-persona Persona Auth to learn about ways to streamline authentication</p>
+<p>Webtau has a way to provide headers for each call implicitly. Use it to provide things like authentication, version, etc. header values.Implicit headers goal is to reduce expose to implementation details and make tests more robust. Groovy package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = &quot;http://localhost:8080&quot; httpHeaderProvider = Auth.&amp;authHeader Where Auth.&amp;authHeader is implemented as follows: package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateToken() return original.with([Authorization: &quot;Bearer $token&quot;]) } private static String generateToken() { return &quot;jwt-token&quot; } } Java In case of JUnit like runners, WebTau uses https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html Service Loaders to locate header providers com.example.tests.junit5.config.HttpAuthHeaderProvider package com.example.tests.junit5.config; import org.testingisdocumenting.webtau.http.HttpHeader; import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration; import static org.testingisdocumenting.webtau.WebTauDsl.*; public class HttpAuthHeaderProvider implements WebTauHttpConfiguration { @Override public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) { String token = generateToken(); return given.with(&quot;Authorization&quot;, &quot;Bearer &quot; + token); } private String generateToken() { return &quot;jwt-token&quot;; } } Note: Read persona/HTTP-persona Persona Auth to learn about ways to streamline authentication</p>
 </article>
 
 <article>
@@ -129,7 +129,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -310,6 +311,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "package scenarios.rest.headers\n\nimport scenarios.rest.headers.auth.Auth\n\nurl = \"http://localhost:8080\"\n\nhttpHeaderProvider = Auth.&authHeader",
             "title" : "webtau.cfg.groovy",
             "highlight" : [ 6 ],
+            "anchorId" : "implicit-header-webtau-cfg-groovy",
             "type" : "Snippet"
           }, {
             "type" : "Paragraph",
@@ -327,6 +329,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "groovy",
             "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\n\nclass Auth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateToken()\n        return original.with([Authorization: \"Bearer $token\"])\n    }\n\n    private static String generateToken() {\n        return \"jwt-token\"\n    }\n}",
             "title" : "scenarios/rest/headers/auth/Auth.groovy",
+            "anchorId" : "implicit-header-scenarios-rest-headers-auth-auth-groovy",
             "type" : "Snippet"
           } ]
         }, {
@@ -334,7 +337,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "In case of JUnit like runners, webtau uses ",
+              "text" : "In case of JUnit like runners, WebTau uses ",
               "type" : "SimpleText"
             }, {
               "url" : "https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html",
@@ -358,12 +361,14 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "com.example.tests.junit5.config.HttpAuthHeaderProvider",
             "autoTitle" : true,
             "title" : "src/test/resources/META-INF/services/org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration",
+            "anchorId" : "implicit-header-src-test-resources-meta-inf-services-org-testingisdocumenting-webtau-http-config-webtauhttpconfiguration",
             "type" : "Snippet"
           }, {
             "lang" : "java",
             "snippet" : "package com.example.tests.junit5.config;\n\nimport org.testingisdocumenting.webtau.http.HttpHeader;\nimport org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\npublic class HttpAuthHeaderProvider implements WebTauHttpConfiguration {\n    @Override\n    public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {\n        String token = generateToken();\n        return given.with(\"Authorization\", \"Bearer \" + token);\n    }\n\n    private String generateToken() {\n        return \"jwt-token\";\n    }\n}",
             "autoTitle" : true,
             "title" : "src/test/java/com/example/tests/junit5/config/HttpAuthHeaderProvider.java",
+            "anchorId" : "implicit-header-src-test-java-com-example-tests-junit5-config-httpauthheaderprovider-java",
             "type" : "Snippet"
           } ]
         } ],
@@ -427,6 +432,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "combined type and payload",
             "entry" : "explicitBinaryMimeTypesCombinedWithRequestBody",
             "bodyOnly" : true,
+            "anchorId" : "content-type-shortcut-combined-type-and-payload",
             "type" : "Snippet"
           } ]
         } ],
@@ -481,6 +487,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "header assertion with shortcut",
             "entry" : "headerAssertionWithShortcut",
             "bodyOnly" : true,
+            "anchorId" : "response-header-header-assertion-with-shortcut",
             "type" : "Snippet"
           } ]
         } ],
@@ -522,9 +529,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "HTTP",
+      "chapterTitle" : "HTTP",
       "pageTitle" : "Header",
       "pageMeta" : { },
       "dirName" : "HTTP",

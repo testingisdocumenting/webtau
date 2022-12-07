@@ -149,7 +149,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -208,6 +209,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "cli.runInBackground('scripts/sleeps')\nprintln \"process above may still be running\"",
         "title" : "run command in background",
+        "anchorId" : "run-in-background-run-command-in-background",
         "type" : "Snippet"
       } ]
     }, {
@@ -230,6 +232,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def command = cli.runInBackground('scripts/sleeps')\nprintln \"some commands that assume running process\"\n\ncommand.stop()",
         "title" : "command termination",
+        "anchorId" : "stop-command-command-termination",
         "type" : "Snippet"
       } ]
     }, {
@@ -246,6 +249,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "",
         "snippet" : "#!/bin/bash\necho \"enter your name\"\nread name\necho \"hello $name\"",
         "title" : "scripts/hello-world",
+        "anchorId" : "interacting-with-command-scripts-hello-world",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -269,6 +273,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def helloWorld = cli.runInBackground(\"scripts/hello-world\")\nhelloWorld.output.waitTo contain(\"enter your name\")\n\nhelloWorld.send(\"webtau\\n\")\nhelloWorld.output.waitTo contain(\"hello webtau\")\n\nhelloWorld.stop()",
         "title" : "wait and send input",
+        "anchorId" : "interacting-with-command-wait-and-send-input",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -292,6 +297,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def helloWorld = cli.runInBackground(\"scripts/hello-world\")\nhelloWorld.output.waitTo contain(\"enter your name\")\n\nhelloWorld << \"webtau\\n\"\nhelloWorld.output.waitTo contain(\"hello webtau\")\n\nhelloWorld.stop()",
         "title" : "use << as .send",
+        "anchorId" : "interacting-with-command-use-as-send",
         "type" : "Snippet"
       } ]
     }, {
@@ -338,6 +344,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "command.output.waitTo(contain(\"line two\"), 20_000)",
         "title" : "local timeout",
         "surroundedBy" : "local-timeout",
+        "anchorId" : "wait-timeout-local-timeout",
         "type" : "Snippet"
       } ]
     }, {
@@ -366,6 +373,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def command = cli.runInBackground('./listing', cli.workingDir('scripts'))\ncommand.output.waitTo contain('listing files')\ncommand.output.waitTo contain('sleeps')\ncommand.stop()",
         "title" : "set working dir",
+        "anchorId" : "working-dir-set-working-dir",
         "type" : "Snippet"
       } ]
     }, {
@@ -395,11 +403,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "#!/bin/bash\necho \"hello $MY_VAR\"",
         "autoTitle" : true,
         "title" : "scripts/hello-env-var",
+        "anchorId" : "environment-variables-scripts-hello-env-var",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def command = cli.runInBackground('scripts/hello-env-var', cli.env([MY_VAR: 'webtau']))\ncommand.output.waitTo contain('hello webtau')\ncommand.stop()",
         "title" : "set environment variable",
+        "anchorId" : "environment-variables-set-environment-variable",
         "type" : "Snippet"
       } ]
     }, {
@@ -429,11 +439,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "cliEnv {\n    MY_VAR = \"webtau\"\n    PREFIX_VAR = \"__\"\n}",
         "title" : "webtau.cfg.groovy",
         "surroundedBy" : "default-my-var",
+        "anchorId" : "common-environment-variables-webtau-cfg-groovy",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def command = cli.runInBackground('scripts/hello-env-var')\ncommand.output.waitTo contain('hello webtau')\ncommand.stop()",
         "title" : "use environment variable from config",
+        "anchorId" : "common-environment-variables-use-environment-variable-from-config",
         "type" : "Snippet"
       } ]
     }, {
@@ -456,6 +468,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def command = cli.runInBackground('./hello-env-var',\n        cli.workingDir('scripts').env([MY_VAR: 'webtau']))\ncommand.output.waitTo contain('hello webtau')\ncommand.stop()",
         "title" : "set environment variable and working dir",
+        "anchorId" : "chain-cli-run-config-set-environment-variable-and-working-dir",
         "type" : "Snippet"
       } ]
     }, {
@@ -478,12 +491,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "cliPath = ['scripts/more']",
         "title" : "webtau.cfg.groovy",
+        "anchorId" : "path-webtau-cfg-groovy",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "Cli",
+      "chapterTitle" : "Cli",
       "pageTitle" : "Background Command",
       "pageMeta" : { },
       "dirName" : "cli",

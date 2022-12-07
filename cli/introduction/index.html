@@ -84,7 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>WebTau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario(&quot;example of ls run&quot;) { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy data dbproviders formHandlers listeners pages personas scenarios schemas scripts use-cases.csv webtau.graphql-report.json</p>
+<p>WebTau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario(&quot;example of ls run&quot;) { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy data dbproviders doc-artifacts formHandlers generated listeners pages personas scenarios schemas scripts use-cases.csv</p>
 </article>
 </section>
 </div>
@@ -108,7 +108,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -167,6 +168,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "snippet" : "scenario(\"example of ls run\") {\n    cli.run('ls') {\n        output.should contain('scripts')\n    }\n}",
       "title" : "basicLs.groovy",
       "excludeRegexp" : [ "package", "import", "doc.capture" ],
+      "anchorId" : "basicls-groovy",
       "type" : "Snippet"
     }, {
       "command" : "webtau basicLs.groovy",
@@ -174,14 +176,14 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "CliCommand"
     }, {
       "lang" : "txt",
-      "snippet" : "data\ndbproviders\nformHandlers\nlisteners\npages\npersonas\nscenarios\nschemas\nscripts\nuse-cases.csv\nwebtau.graphql-report.json",
+      "snippet" : "data\ndbproviders\ndoc-artifacts\nformHandlers\ngenerated\nlisteners\npages\npersonas\nscenarios\nschemas\nscripts\nuse-cases.csv",
       "highlightPath" : "doc-artifacts/ls-run/out.matched.txt",
-      "highlight" : [ 8 ],
+      "highlight" : [ 10 ],
       "type" : "Snippet"
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "Cli",
+      "chapterTitle" : "Cli",
       "pageTitle" : "Introduction",
       "pageMeta" : { },
       "dirName" : "cli",

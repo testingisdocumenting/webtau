@@ -84,23 +84,13 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>Router Creation</h1></header>
+<p>Use to defined end points responses. Groovy def router = server.router() .get(&quot;/hello/:name&quot;) { request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } .get(&quot;/bye/:name&quot;) { request -&gt; server.response([message: &quot;bye ${request.param(&quot;name&quot;)}&quot;]) } Java WebTauRouter router = server.router() .get(&quot;/hello/:name&quot;, (request) -&gt; server.response(aMapOf(&quot;message&quot;, &quot;hello &quot; + request.param(&quot;name&quot;)))) .get(&quot;/bye/:name&quot;, (request) -&gt; server.response(aMapOf(&quot;message&quot;, &quot;bye &quot; + request.param(&quot;name&quot;))));</p>
+</article>
+
+<article>
 <header><h1>Fake Server Creation</h1></header>
-<p>Use to create a server with controlled responses def router = server.router() // router-example .get(&quot;/hello/:name&quot;) { request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } // router-example .get(&quot;/bye/:name&quot;) { request -&gt; server.response([message: &quot;bye ${request.param(&quot;name&quot;)}&quot;]) } // router-example // router-example def myServer = server.fake(&quot;my-rest-server&quot;, router) // router-example http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { message.should == &quot;hello person&quot; } http.get(&quot;${myServer.baseUrl}/bye/person&quot;) { message.should == &quot;bye person&quot; }</p>
-</article>
-
-<article>
-<header><h1>Server Slowdown</h1></header>
-<p>Use to mark server as unresponsive myServer.markUnresponsive() code { http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { message.should == &quot;hello person&quot; } } should throwException(~/Read timed out/)</p>
-</article>
-
-<article>
-<header><h1>Server Break</h1></header>
-<p>Use to mark server as broken myServer.markBroken() http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { statusCode.should == 500 body.should == null }</p>
-</article>
-
-<article>
-<header><h1>Server Fix</h1></header>
-<p>Use to remove broken and/or slowdown state myServer.fix() http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { message.should == &quot;hello person&quot; }</p>
+<p>Use and a router to create a server with controlled responses Groovy def myServer = server.fake(&quot;my-rest-server&quot;, router) http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { message.should == &quot;hello person&quot; } http.get(&quot;${myServer.baseUrl}/bye/person&quot;) { message.should == &quot;bye person&quot; } Java myServer = server.fake(&quot;my-rest-server&quot;, router); http.get(myServer.getBaseUrl() + &quot;/hello/person&quot;, ((header, body) -&gt; { body.get(&quot;message&quot;).should(equal(&quot;hello person&quot;)); })); http.get(myServer.getBaseUrl() + &quot;/bye/person&quot;, ((header, body) -&gt; { body.get(&quot;message&quot;).should(equal(&quot;bye person&quot;)); }));</p>
 </article>
 </section>
 </div>
@@ -124,12 +114,53 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
     "type" : "Page",
     "content" : [ {
+      "id" : "router-creation",
+      "title" : "Router Creation",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "server.router",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to defined end points responses.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def router = server.router()\n        .get(\"/hello/:name\") { request -> server.response([message: \"hello ${request.param(\"name\")}\"]) }\n        .get(\"/bye/:name\") { request -> server.response([message: \"bye ${request.param(\"name\")}\"]) }",
+            "title" : "fake server creation example",
+            "surroundedBy" : "router-example",
+            "anchorId" : "router-creation-fake-server-creation-example",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "WebTauRouter router = server.router()\n        .get(\"/hello/:name\", (request) -> server.response(aMapOf(\"message\", \"hello \" + request.param(\"name\"))))\n        .get(\"/bye/:name\", (request) -> server.response(aMapOf(\"message\", \"bye \" + request.param(\"name\"))));",
+            "title" : "fake server creation example",
+            "surroundedBy" : "router-example",
+            "anchorId" : "router-creation-fake-server-creation-example-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
       "id" : "fake-server-creation",
       "title" : "Fake Server Creation",
       "type" : "Section",
@@ -142,113 +173,50 @@ ReactDOM.render(React.createElement(Documentation, {
           "code" : "server.fake",
           "type" : "InlinedCode"
         }, {
-          "text" : " to create a server with controlled responses",
+          "text" : " and a router to create a server with controlled responses",
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "def router = server.router() // router-example\n        .get(\"/hello/:name\") { request -> server.response([message: \"hello ${request.param(\"name\")}\"]) } // router-example\n        .get(\"/bye/:name\") { request -> server.response([message: \"bye ${request.param(\"name\")}\"]) } // router-example\n// router-example\ndef myServer = server.fake(\"my-rest-server\", router) // router-example",
-        "title" : "fake server creation example",
-        "includeRegexp" : "router-example",
-        "commentsType" : "remove",
-        "type" : "Snippet"
-      }, {
-        "lang" : "groovy",
-        "snippet" : "http.get(\"${myServer.baseUrl}/hello/person\") {\n    message.should == \"hello person\"\n}\n\nhttp.get(\"${myServer.baseUrl}/bye/person\") {\n    message.should == \"bye person\"\n}",
-        "title" : "fake server creation example",
-        "surroundedBy" : "fake-response-check",
-        "type" : "Snippet"
-      } ]
-    }, {
-      "id" : "server-slowdown",
-      "title" : "Server Slowdown",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Use ",
-          "type" : "SimpleText"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def myServer = server.fake(\"my-rest-server\", router)\n\nhttp.get(\"${myServer.baseUrl}/hello/person\") {\n    message.should == \"hello person\"\n}\n\nhttp.get(\"${myServer.baseUrl}/bye/person\") {\n    message.should == \"bye person\"\n}",
+            "title" : "fake server creation example",
+            "surroundedBy" : [ "server-create-example", "fake-response-check" ],
+            "surroundedBySeparator" : "",
+            "anchorId" : "fake-server-creation-fake-server-creation-example",
+            "type" : "Snippet"
+          } ]
         }, {
-          "code" : "markUnresponsive",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " to mark server as unresponsive",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "groovy",
-        "snippet" : "myServer.markUnresponsive()\n\ncode {\n    http.get(\"${myServer.baseUrl}/hello/person\") {\n        message.should == \"hello person\"\n    }\n} should throwException(~/Read timed out/)",
-        "title" : "mark as unresponsive",
-        "surroundedBy" : "mark-unresponsive",
-        "type" : "Snippet"
-      } ]
-    }, {
-      "id" : "server-break",
-      "title" : "Server Break",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Use ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "markBroken",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " to mark server as broken",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "groovy",
-        "snippet" : "myServer.markBroken()\n\nhttp.get(\"${myServer.baseUrl}/hello/person\") {\n    statusCode.should == 500\n    body.should == null\n}",
-        "title" : "mark as broken",
-        "surroundedBy" : "mark-broken",
-        "type" : "Snippet"
-      } ]
-    }, {
-      "id" : "server-fix",
-      "title" : "Server Fix",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Use ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "fix",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " to remove broken and/or slowdown state",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "groovy",
-        "snippet" : "myServer.fix()\n\nhttp.get(\"${myServer.baseUrl}/hello/person\") {\n    message.should == \"hello person\"\n}",
-        "title" : "fix server",
-        "surroundedBy" : "mark-fix",
-        "type" : "Snippet"
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "myServer = server.fake(\"my-rest-server\", router);\n\nhttp.get(myServer.getBaseUrl() + \"/hello/person\", ((header, body) -> {\n    body.get(\"message\").should(equal(\"hello person\"));\n}));\n\nhttp.get(myServer.getBaseUrl() + \"/bye/person\", ((header, body) -> {\n    body.get(\"message\").should(equal(\"bye person\"));\n}));",
+            "title" : "fake server creation example",
+            "surroundedBy" : [ "server-create-example", "fake-response-check" ],
+            "surroundedBySeparator" : "",
+            "anchorId" : "fake-server-creation-fake-server-creation-example-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107246,
+    "lastModifiedTime" : 1670451504506,
     "tocItem" : {
-      "sectionTitle" : "Servers",
+      "chapterTitle" : "Servers",
       "pageTitle" : "Fake Server",
       "pageMeta" : { },
       "dirName" : "servers",
       "fileName" : "fake-server",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "Router Creation",
+        "id" : "router-creation"
+      }, {
         "title" : "Fake Server Creation",
         "id" : "fake-server-creation"
-      }, {
-        "title" : "Server Slowdown",
-        "id" : "server-slowdown"
-      }, {
-        "title" : "Server Break",
-        "id" : "server-break"
-      }, {
-        "title" : "Server Fix",
-        "id" : "server-fix"
       } ]
     }
   }

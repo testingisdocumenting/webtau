@@ -109,7 +109,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -139,6 +140,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"first test\") {\n    terminateAll('hard stop of the rest of the tests')\n}\n\nscenario(\"second test\") {\n    browser.open(\"/app\")\n}\n\nscenario(\"third test\") {\n    http.get(\"/weather\") {\n        temperature.shouldBe < 100\n    }\n}",
         "title" : "tests termination",
+        "anchorId" : "terminate-all-tests-termination",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -148,9 +150,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658346107242,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Groovy Standalone Runner",
+      "chapterTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Tests Hard Stops",
       "pageMeta" : { },
       "dirName" : "groovy-standalone-runner",

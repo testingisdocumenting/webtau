@@ -85,7 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Cross Types Comparison</h1></header>
-<p>In WebTau you can compare strings, dates, arrays, strings and numbers, dates and strings, arrays and sets and other numerous combinations using the same set of matchers. Groovy def errorMessage = generateErrorMessage() errorMessage.should == &quot;insufficient disk space&quot; // string and string equality comparison def numberAsText = &quot;200&quot; numberAsText.shouldBe &gt; 150 // text and number relative comparison Java String errorMessage = generateErrorMessage(); actual(errorMessage).should(equal(&quot;insufficient disk space&quot;)); // string and string equality comparison String numberAsText = &quot;200&quot;; actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
+<p>In WebTau you can compare strings, dates, arrays, strings and numbers, dates and strings, arrays and sets and other numerous combinations using the same set of matchers. Groovy def errorMessage = generateErrorMessage() errorMessage.should == &quot;insufficient disk space&quot; // string and string equality comparison def numberAsText = &quot;200&quot; numberAsText.shouldBe &gt; 150 // text and number relative comparison Java String errorMessage = generateErrorMessage(); actual(errorMessage).should(equal(&quot;insufficient disk space&quot;)); // string and string equality comparison String numberAsText = &quot;200&quot;; actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison</p>
+</article>
+
+<article>
+<header><h1>Reporting</h1></header>
+<p>Every comparison failed and successful generates console output with comparison details. . [value] equals &quot;insufficient disk space&quot; [value]: actual: &quot;insufficient disk space&quot; &lt;java.lang.String&gt; expected: &quot;insufficient disk space&quot; &lt;java.lang.String&gt; (0ms) Values have predefined names when they come from HTTP response or Web UI, etc. But regular values default to value .Pass name as a second parameter to actual to set an explicit reporting name. Groovy double price = calculatePrice() actual(price, &quot;price&quot;).shouldBe &gt; 10 // explict name to use in reporting Java double price = calculatePrice(); actual(price, &quot;price&quot;).shouldBe(greaterThan(10)); // explict name to use in reporting . price greater than 10 price: actual: 10.5 &lt;java.math.BigDecimal&gt;(before conversion: 10.5 &lt;java.lang.Double&gt;) expected: greater than 10 &lt;java.math.BigDecimal&gt;(before conversion: 10 &lt;java.lang.Integer&gt;) (1ms) Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
 </article>
 
 <article>
@@ -119,7 +124,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -162,6 +168,76 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         } ],
         "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "reporting",
+      "title" : "Reporting",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Every comparison failed and successful generates console output with comparison details.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "report console output",
+        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[32mequals \"insufficient disk space\"", "    [value]:   actual: \"insufficient disk space\" <java.lang.String>", "             expected: \"insufficient disk space\" <java.lang.String>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Values have predefined names when they come from HTTP response or Web UI, etc. But regular values default to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "value",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Pass ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "name",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " as a second parameter to ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "actual",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to set an explicit reporting name.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "double price = calculatePrice()\nactual(price, \"price\").shouldBe > 10 // explict name to use in reporting",
+            "surroundedBy" : "number-number-example",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "double price = calculatePrice();\nactual(price, \"price\").shouldBe(greaterThan(10)); // explict name to use in reporting",
+            "surroundedBy" : "number-number-example",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "title" : "explicit name report console output",
+        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1mprice \u001B[32mgreater than 10", "    price:   actual: 10.5 <java.math.BigDecimal>(before conversion: 10.5 <java.lang.Double>)", "           expected: greater than 10 <java.math.BigDecimal>(before conversion: 10 <java.lang.Integer>)\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "type" : "CliOutput"
       } ]
     }, {
       "id" : "static-import",
@@ -226,6 +302,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "public class Account {\n    private final String id;\n    private final String name;\n    private final String description;\n\n    public Account(String id, String name, String description) {\n        this.id = id;\n        this.name = name;\n        this.description = description;\n    }\n\n    public String getId() {\n        return id;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public String getDescription() {\n        return description;\n    }\n}",
         "surroundedBy" : "account",
         "title" : "Account Bean",
+        "anchorId" : "java-beans-and-maps-account-bean",
         "type" : "Snippet"
       } ]
     }, {
@@ -267,9 +344,9 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107242,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Matchers",
+      "chapterTitle" : "Matchers",
       "pageTitle" : "Universal Compare",
       "pageMeta" : { },
       "dirName" : "matchers",
@@ -278,6 +355,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "pageSectionIdTitles" : [ {
         "title" : "Cross Types Comparison",
         "id" : "cross-types-comparison"
+      }, {
+        "title" : "Reporting",
+        "id" : "reporting"
       }, {
         "title" : "Static Import",
         "id" : "static-import"

@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Any Of</title>
+<title>WebTau: Import And Dependencies</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,13 +84,13 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Match Any Provided Value</h1></header>
-<p>Use anyOf matcher to match an expected value against any of the provided values. matchers/universal-compare Universal Compare rule is applicable. Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.should == anyOf(&quot;2018-06-11&quot;, LocalDate.of(2018, 6, 10)) Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(anyOf(&quot;2018-06-11&quot;, LocalDate.of(2018, 6, 10)));</p>
+<header><h1>Single DSL Import</h1></header>
+<p>WebTau recommends to use one single static import to have all core features available for autocomplete. It also requires a single dependency to bring all the WebTau modules. Groovy import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt; Java import static org.testingisdocumenting.webtau.WebTauDsl.*; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt;</p>
 </article>
 
 <article>
-<header><h1>Mixing Values And Matchers</h1></header>
-<p>You can mix values and other matchers passed to anyOf Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.should == anyOf(&quot;2018-06-11&quot;, greaterThan(LocalDate.of(2018, 1, 1))) def message = &quot;hello world&quot; message.shouldNot == anyOf(&quot;hello&quot;, contain(&quot;super&quot;)) Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(anyOf(&quot;2018-06-11&quot;, greaterThan(LocalDate.of(2018, 1, 1)))); String message = &quot;hello world&quot;; actual(message).shouldNotBe(anyOf(&quot;hello&quot;, contain(&quot;super&quot;))); Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
+<header><h1>Data Specific Import</h1></header>
+<p>To only import data. module use Groovy import static org.testingisdocumenting.webtau.data.Data.data &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-data&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt; Java import static org.testingisdocumenting.webtau.data.Data.data; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-data&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt;</p>
 </article>
 </section>
 </div>
@@ -121,32 +121,18 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "id" : "match-any-provided-value",
-      "title" : "Match Any Provided Value",
+      "id" : "single-dsl-import",
+      "title" : "Single DSL Import",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Use ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "anyOf",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " matcher to match an expected value against any of the provided values.",
+          "text" : "WebTau recommends to use one single static import to have all core features available for autocomplete.",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "url" : "/webtau/matchers/universal-compare",
-          "isFile" : false,
-          "type" : "Link",
-          "content" : [ {
-            "text" : "Universal Compare",
-            "type" : "SimpleText"
-          } ]
-        }, {
-          "text" : " rule is applicable.",
+          "text" : "It also requires a single dependency to bring all the WebTau modules.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -154,103 +140,104 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "def dateAsText = \"2018-06-10\"\ndateAsText.should == anyOf(\"2018-06-11\", LocalDate.of(2018, 6, 10))",
-            "entry" : "any of matcher example",
-            "bodyOnly" : true,
+            "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
+            "title" : "core import",
+            "includeRegexp" : "WebTauGroovyDsl",
+            "anchorId" : "single-dsl-import-core-import",
+            "type" : "Snippet"
+          }, {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.50</version>\n</dependency>",
+            "title" : "maven dependency",
+            "anchorId" : "single-dsl-import-maven-dependency",
             "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "String dateAsText = \"2018-06-10\";\nactual(dateAsText).shouldBe(anyOf(\"2018-06-11\", LocalDate.of(2018, 6, 10)));",
-            "entry" : "anyOfMatcherExample",
-            "bodyOnly" : true,
+            "snippet" : "import static org.testingisdocumenting.webtau.WebTauDsl.*;",
+            "title" : "core import",
+            "includeRegexp" : "WebTauDsl",
+            "anchorId" : "single-dsl-import-core-import-2",
+            "type" : "Snippet"
+          }, {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.50</version>\n</dependency>",
+            "title" : "maven dependency",
+            "anchorId" : "single-dsl-import-maven-dependency-2",
             "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     }, {
-      "id" : "mixing-values-and-matchers",
-      "title" : "Mixing Values And Matchers",
+      "id" : "data-specific-import",
+      "title" : "Data Specific Import",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "You can mix values and other matchers passed to ",
+          "text" : "To only import ",
           "type" : "SimpleText"
         }, {
-          "code" : "anyOf",
+          "code" : "data.",
           "type" : "InlinedCode"
+        }, {
+          "text" : " module use",
+          "type" : "SimpleText"
         } ]
       }, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "def dateAsText = \"2018-06-10\"\ndateAsText.should == anyOf(\"2018-06-11\", greaterThan(LocalDate.of(2018, 1, 1)))\n\ndef message = \"hello world\"\nmessage.shouldNot == anyOf(\"hello\", contain(\"super\"))",
-            "entry" : "any of matcher with other matcher example",
-            "bodyOnly" : true,
+            "snippet" : "import static org.testingisdocumenting.webtau.data.Data.data",
+            "title" : "data import",
+            "includeRegexp" : "data.Data.data",
+            "anchorId" : "data-specific-import-data-import",
+            "type" : "Snippet"
+          }, {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-data</artifactId>\n    <version>1.50</version>\n</dependency>",
+            "title" : "maven dependency",
+            "anchorId" : "data-specific-import-maven-dependency",
             "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "String dateAsText = \"2018-06-10\";\nactual(dateAsText).shouldBe(anyOf(\"2018-06-11\", greaterThan(LocalDate.of(2018, 1, 1))));\n\nString message = \"hello world\";\nactual(message).shouldNotBe(anyOf(\"hello\", contain(\"super\")));",
-            "entry" : "anyOfMatcherWithOtherMatcherExample",
-            "bodyOnly" : true,
+            "snippet" : "import static org.testingisdocumenting.webtau.data.Data.data;",
+            "title" : "data import",
+            "includeRegexp" : "data.Data.data",
+            "anchorId" : "data-specific-import-data-import-2",
+            "type" : "Snippet"
+          }, {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-data</artifactId>\n    <version>1.50</version>\n</dependency>",
+            "title" : "maven dependency",
+            "anchorId" : "data-specific-import-maven-dependency-2",
             "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
-      } ]
-    }, {
-      "id" : "static-import",
-      "title" : "Static Import",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Examples assume ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "WebTauCore",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " static import.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "The class contains useful utility methods and matchers.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "java",
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
-        "surroundedBy" : "import-dsl",
-        "type" : "Snippet"
       } ]
     } ],
     "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "chapterTitle" : "Matchers",
-      "pageTitle" : "Any Of",
+      "chapterTitle" : "Data",
+      "pageTitle" : "Import And Dependencies",
       "pageMeta" : { },
-      "dirName" : "matchers",
-      "fileName" : "any-of",
+      "dirName" : "data",
+      "fileName" : "import-and-dependencies",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Match Any Provided Value",
-        "id" : "match-any-provided-value"
+        "title" : "Single DSL Import",
+        "id" : "single-dsl-import"
       }, {
-        "title" : "Mixing Values And Matchers",
-        "id" : "mixing-values-and-matchers"
-      }, {
-        "title" : "Static Import",
-        "id" : "static-import"
+        "title" : "Data Specific Import",
+        "id" : "data-specific-import"
       } ]
     }
   }

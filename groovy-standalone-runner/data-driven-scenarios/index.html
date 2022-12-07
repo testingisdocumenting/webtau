@@ -119,7 +119,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -149,6 +150,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n[1, 2, 3].each { number ->\n    scenario(\"number $number\") {\n        println number\n    }\n}",
         "title" : "dynamic scenarios",
+        "anchorId" : "dynamic-scenarios-dynamic-scenarios",
         "type" : "Snippet"
       } ]
     }, {
@@ -182,11 +184,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "csv",
         "snippet" : "title, input, output\nhello, 10, 20\nworld, 30, 40",
         "title" : "examples/use-cases.csv",
+        "anchorId" : "csv-examples-use-cases-csv",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndata.csv.table('use-cases.csv').each { row ->\n    scenario(\"use case ${row.title}\") {\n        println row.input\n        println row.output\n    }\n}",
         "title" : "CSV-driven tests",
+        "anchorId" : "csv-csv-driven-tests",
         "type" : "Snippet"
       } ]
     }, {
@@ -209,12 +213,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef lever = 10\n\ndef useCases = ['title'  | 'input'    | 'output'] {\n               ____________________________________\n                'hello'  | lever      | lever + 10\n                'world'  | lever + 30 | lever + 40 }\n\nuseCases.each { row ->\n    scenario(\"use case ${row.title}\") {\n        println row.input\n        println row.output\n    }\n}",
         "title" : "TableData-driven tests",
+        "anchorId" : "table-data-tabledata-driven-tests",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107242,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Groovy Standalone Runner",
+      "chapterTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Data Driven Scenarios",
       "pageMeta" : { },
       "dirName" : "groovy-standalone-runner",

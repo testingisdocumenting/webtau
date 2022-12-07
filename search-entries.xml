@@ -3,7 +3,7 @@
     <url>/webtau/getting-started/what-is-this#webtau</url>
     <fullTitle>WebTau: What Is This, WebTau [Getting Started]</fullTitle>
     <text>
-      <text>WebTau (Web Test automation) - concise and expressive way to write end-to-end and unit tests.Test your application across multiple layers:REST API GraphQL API Browser CLI Database Business Logic (JVM only) Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer to validate GraphQL API.Use persona/introduction Persona concept to test API Authorization and collaboration Web Apps like chats and editors. scenario("my bank balance") { Alice { http.get("/statement") { balance.shouldBe > 100 } } Bob { http.get("/statement") { balance.shouldBe &lt; 50 } } } Use powerful REPL/experiments REPL mode to significantly speed up end-to-end tests development. webtau:000> $("p") element is found: by css p getText(): hello web page Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.Leverage out of the box report/introduction rich reportingTests can be written in any JVM language. Language specific syntactic sugar is available for Groovy . #rest-api-example REST API example #graphql-api-example GraphQL API example #browser-example Browser example #db-example DB example #cli-example CLI example</text>
+      <text>WebTau (Web Test automation) - concise and expressive way to write end-to-end and unit tests.Test your application across multiple layers:REST API GraphQL API Browser CLI Database Business Logic (JVM only) Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer to validate GraphQL API.Use persona/introduction Persona concept to test API Authorization and collaboration Web Apps like chats and editors. Groovy scenario("my bank balance") { Alice { http.get("/statement") { balance.shouldBe > 100 } } Bob { http.get("/statement") { balance.shouldBe &lt; 50 } } } Java @WebTau public class PersonaHttpJavaTest { @Test public void checkBalance() { Alice.execute(() -> http.get("/statement", (header, body) -> { body.get("balance").shouldBe(greaterThan(100)); })); Bob.execute(() -> http.get("/statement", (header, body) -> { body.get("balance").shouldBe(lessThan(50)); })); } } Use powerful REPL/experiments REPL mode to significantly speed up end-to-end tests development. webtau:000> $("p") element is found: by css p getText(): hello web page Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.Leverage out of the box report/introduction rich reportingTests can be written in any JVM language. Language specific syntactic sugar is available for Groovy . #rest-api-example REST API example #graphql-api-example GraphQL API example #browser-example Browser example #db-example DB example #cli-example CLI example</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -48,18 +48,18 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/getting-started/why#consistent-api</url>
-    <fullTitle>WebTau: Why, Consistent API [Getting Started]</fullTitle>
+    <url>/webtau/getting-started/why#reporting</url>
+    <fullTitle>WebTau: Why, Reporting [Getting Started]</fullTitle>
     <text>
-      <text>There are multiple tools to help you test REST API, GraphQL API, Web UI, Database and CLI. Some of them are JUnit specific, some of them are UI driven. Some use their own matchers and some try to integrate with a specific matcher interface.Question: Why did we create another tool?Tests I write, and the way I write them often require interactions and assertions on multiple layers. Combining multiple frameworks to achieve the goal ends up with a mix of styles in a single test file. It complicates tests creation and maintenance.</text>
+      <text>WebTau in its core captures test actions and assertions. Everything you do, every match that is passed or failed is being recorded.Information is available in console output, so you don't need to sprinkle println statements everywhere. And all the captured information is available as self-contained rich HTML report.Single report HTML file that you can email, slack or host on an FS and open with no servers required. Groovy TableData table = data.csv.table("data/table.csv") Java TableData table = data.csv.table("data/table.csv"); > reading csv from file or resource data/table.csv . read 2 lines of csv from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv (0ms)</text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/getting-started/why#reporting</url>
-    <fullTitle>WebTau: Why, Reporting [Getting Started]</fullTitle>
+    <url>/webtau/getting-started/why#high-level-api</url>
+    <fullTitle>WebTau: Why, High Level API [Getting Started]</fullTitle>
     <text>
-      <text>WebTau in its core captures test actions and assertions. Everything you do, every match that is passed or failed is being recorded.Information is available in console output, so you don't need to sprinkle println statements everywhere. And all the captured information is available as self-contained rich HTML report.</text>
+      <text>WebTau provides high level API to interact with HTTP, Browser, Database, File System. It is easy to use, requires minimum setup and every action is reported.You can use WebTau to only test a single layer of your product, but you can als combine layers in a single test and setup data using HTTP layer and validate using a Browser layer or a DB layer. All is with a single configuration, consistent set of matchers and rich reporting.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -67,7 +67,7 @@
     <url>/webtau/getting-started/why#syntax-sugar</url>
     <fullTitle>WebTau: Why, Syntax Sugar [Getting Started]</fullTitle>
     <text>
-      <text>WebTau provides DSL to make common testing operations succinct. Syntax sugar is available for Java and Groovy and since WebTau core is Java, additional syntax sugar can be added to languages like Kotlin and Scala.</text>
+      <text>WebTau provides DSL to make common testing operations succinct. Syntax sugar is available for Java and Groovy and since WebTau core is Java, additional syntax sugar can be added to languages like Kotlin and Scala. Groovy ["Name" | "Start Date" | "Games To Play" ] { ______________________________________________________ "John" | LocalDate.of(2016, 6, 20) | 10 "Bob" | cell.above | cell.above + 1 "Mike" | cell.above | cell.above + 1 } Java table("Name", "Start Date" , "Games To Play", ________________________________________________________________, "John", LocalDate.of(2016, 6, 20), 10, "Bob" , cell.above , cell.above.plus(1), "Mike", cell.above , cell.above.plus(1))</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -75,15 +75,7 @@
     <url>/webtau/getting-started/why#repl</url>
     <fullTitle>WebTau: Why, REPL [Getting Started]</fullTitle>
     <text>
-      <text>Writing end-to-end tests is hard and there are a lot of excuses not write one. End-to-end test feedback loop is usually long and slow. WebTau provides REPL/experiments REPL mode to help you experiment with API and write a test in incremental fashion.</text>
-      <score>STANDARD</score>
-    </text>
-  </entry>
-  <entry>
-    <url>/webtau/getting-started/why#utilities</url>
-    <fullTitle>WebTau: Why, Utilities [Getting Started]</fullTitle>
-    <text>
-      <text>WebTau provides many utility functions to simplify data organization and setup. data/introduction Data module provides shortcuts to deal with CSV and JSON based data. utilities/file-system File System module provides shortcuts to deal with file system related things.</text>
+      <text>Writing end-to-end tests is hard and there are a lot of excuses not write one. End-to-end test feedback loop is usually long and slow. WebTau provides REPL/experiments REPL mode to help you experiment with API and write a test in incremental fashion. webtau:000> http.get("https://jsonplaceholder.typicode.com/todos/1") > executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (27ms) response (application/json; charset=utf-8): { "userId": 1, "id": 1, "title": "delectus aut autem", "completed": false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (696ms)</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -91,7 +83,7 @@
     <url>/webtau/getting-started/why#documentation-artifacts</url>
     <fullTitle>WebTau: Why, Documentation Artifacts [Getting Started]</fullTitle>
     <text>
-      <text>I believe that big chunks of a documentation of your product should be automatically generated:Screenshots (with annotations) API request/response examples CLI params and sample output WebTau provides a set of commands to help you capture artifacts of your happy path tests to later be used by a documentation system.Captured artifacts are agnostic to the documentation system. I personally use https://github.com/testingisdocumenting/znai Znai, a markdown based documentation with custom extensions (I am a maintainer of the project).</text>
+      <text>Your users deserve useful and up-to date documentation. Manually maintaining documentation is hard and expensive. WebTau helps you to capture test artifacts during the tests, for exampleScreenshots (with annotations) API request/response examples CLI params and sample output Captured artifacts are agnostic to the documentation system. However, you can take a look at https://github.com/testingisdocumenting/znai Znai documentation system that was designed with documentation maintenance in mind. Enter search query Results are displayed in a grid</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -107,7 +99,7 @@
     <url>/webtau/getting-started/installation#groovy-runner</url>
     <fullTitle>WebTau: Installation, Groovy Runner [Getting Started]</fullTitle>
     <text>
-      <text>If you have https://brew.sh brew installed in your system use brew install testingisdocumenting/brew/webtau If you have https://sdkman.io sdkman installed in your system use sdk install webtau Alternatively, download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.49/webtau-dist-1.49-webtau.zip WebTau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. To integrate CLI run into maven build use: &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;/dependency> &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;config>optional-config-file-name-override.cfg.groovy&lt;/config> &lt;reportPath>optional-report-path-override.html&lt;/reportPath> &lt;failedReportPath>optional-failed-report-path-override.html&lt;/failedReportPath> &lt;reportName>my service&lt;/reportName> &lt;reportNameUrl>https://service-under-test&lt;/reportNameUrl> &lt;noColor>false&lt;/noColor> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> groovy-standalone-runner/introduction Learn more about Groovy Runner features</text>
+      <text>If you have https://brew.sh brew installed in your system use brew install testingisdocumenting/brew/webtau If you have https://sdkman.io sdkman installed in your system use sdk install webtau Alternatively, download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.50/webtau-dist-1.50-webtau.zip WebTau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. To integrate CLI run into maven build use: &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency> &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;env>integration&lt;/env> &lt;url>http://optional-base-url&lt;/url> &lt;config>optional-config-file-name-override.cfg.groovy&lt;/config> &lt;reportPath>optional-report-path-override.html&lt;/reportPath> &lt;failedReportPath>optional-failed-report-path-override.html&lt;/failedReportPath> &lt;reportName>my service&lt;/reportName> &lt;reportNameUrl>https://service-under-test&lt;/reportNameUrl> &lt;noColor>false&lt;/noColor> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> groovy-standalone-runner/introduction Learn more about Groovy Runner features</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -115,7 +107,7 @@
     <url>/webtau/getting-started/installation#junit5</url>
     <fullTitle>WebTau: Installation, JUnit5 [Getting Started]</fullTitle>
     <text>
-      <text>Groovy &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;/dependency> &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit5&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;/dependency> package com.example.tests.junit5 import org.junit.jupiter.api.Test import org.testingisdocumenting.webtau.junit5.WebTau import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for all things webtau @WebTau // annotation required for reports generation class JUnit5ExampleGroovyTest { @Test void "my test"() { } } Java &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;/dependency> &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit5&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;/dependency> package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for all things webtau @WebTau // annotation required for reports generation public class JUnit5ExampleJavaTest { @Test public void myTest() { } }</text>
+      <text>Groovy &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency> &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit5&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency> package com.example.tests.junit5 import org.junit.jupiter.api.Test import org.testingisdocumenting.webtau.junit5.WebTau import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for all things webtau @WebTau // annotation required for reports generation class JUnit5ExampleGroovyTest { @Test void "my test"() { } } Java &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency> &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit5&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency> package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for all things webtau @WebTau // annotation required for reports generation public class JUnit5ExampleJavaTest { @Test public void myTest() { } } generic-runners/JUnit-5 Learn more about JUnit5 features</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -123,7 +115,7 @@
     <url>/webtau/getting-started/installation#junit4</url>
     <fullTitle>WebTau: Installation, JUnit4 [Getting Started]</fullTitle>
     <text>
-      <text>Groovy &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;/dependency> &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;/dependency> package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for all things webtau @RunWith(WebTauRunner.class) // webtau runner to generate reports class JUnit4ExampleGroovyTest { @Test void "my test"() { } } Java &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;/dependency> &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;/dependency> package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for all things webtau @RunWith(WebTauRunner.class) // webtau runner to generate reports public class JUnit4ExampleJavaTest { @Test public void myTest() { } }</text>
+      <text>Groovy &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency> &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency> package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for all things webtau @RunWith(WebTauRunner.class) // webtau runner to generate reports class JUnit4ExampleGroovyTest { @Test void "my test"() { } } Java &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency> &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency> package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for all things webtau @RunWith(WebTauRunner.class) // webtau runner to generate reports public class JUnit4ExampleJavaTest { @Test public void myTest() { } } generic-runners/JUnit-4 Learn more about JUnit4 features</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -131,7 +123,7 @@
     <url>/webtau/getting-started/configuration#config-file</url>
     <fullTitle>WebTau: Configuration, Config File [Getting Started]</fullTitle>
     <text>
-      <text>WebTau let you specify services url, browser settings, DB url connections, etc in a config file. Depending on getting-started/installation runner you use WebTau will read data from a different place. Groovy When you use the Groovy runner, it will look for webtau.cfg.groovy file (default). url = "http://localhost:8080" Note: WebTau treats groovy config file as code Java When you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, WebTau expects file named webtau.properties to be present in test classpath, e.g. test resources: url = http://localhost:8080</text>
+      <text>WebTau let you specify services url, browser settings, DB url connections, etc in a config file. Depending on getting-started/installation runner you use WebTau will read data from a different place. Groovy When you use the Groovy runner, it will look for webtau.cfg.groovy file (default). url = "http://localhost:8080" Note: WebTau treats groovy config file as code Java When you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, WebTau expects file named webtau.properties to be present in test classpath, e.g. test resources: url = http://localhost:8080 To change config file location use Groovy webtau --config my.conf.groovy Java -Dwebtau.properties=my.webtau.properties</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -299,7 +291,7 @@
     <url>/webtau/HTTP/header#implicit-header</url>
     <fullTitle>WebTau: Header, Implicit Header [HTTP]</fullTitle>
     <text>
-      <text>Webtau has a way to provide headers for each call implicitly. Use it to provide things like authentication, version, etc. header values.Implicit headers goal is to reduce expose to implementation details and make tests more robust. Groovy package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = "http://localhost:8080" httpHeaderProvider = Auth.&amp;authHeader Where Auth.&amp;authHeader is implemented as follows: package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateToken() return original.with([Authorization: "Bearer $token"]) } private static String generateToken() { return "jwt-token" } } Java In case of JUnit like runners, webtau uses https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html Service Loaders to locate header providers com.example.tests.junit5.config.HttpAuthHeaderProvider package com.example.tests.junit5.config; import org.testingisdocumenting.webtau.http.HttpHeader; import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration; import static org.testingisdocumenting.webtau.WebTauDsl.*; public class HttpAuthHeaderProvider implements WebTauHttpConfiguration { @Override public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) { String token = generateToken(); return given.with("Authorization", "Bearer " + token); } private String generateToken() { return "jwt-token"; } } Note: Read persona/HTTP-persona Persona Auth to learn about ways to streamline authentication</text>
+      <text>Webtau has a way to provide headers for each call implicitly. Use it to provide things like authentication, version, etc. header values.Implicit headers goal is to reduce expose to implementation details and make tests more robust. Groovy package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = "http://localhost:8080" httpHeaderProvider = Auth.&amp;authHeader Where Auth.&amp;authHeader is implemented as follows: package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateToken() return original.with([Authorization: "Bearer $token"]) } private static String generateToken() { return "jwt-token" } } Java In case of JUnit like runners, WebTau uses https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html Service Loaders to locate header providers com.example.tests.junit5.config.HttpAuthHeaderProvider package com.example.tests.junit5.config; import org.testingisdocumenting.webtau.http.HttpHeader; import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration; import static org.testingisdocumenting.webtau.WebTauDsl.*; public class HttpAuthHeaderProvider implements WebTauHttpConfiguration { @Override public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) { String token = generateToken(); return given.with("Authorization", "Bearer " + token); } private String generateToken() { return "jwt-token"; } } Note: Read persona/HTTP-persona Persona Auth to learn about ways to streamline authentication</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -491,7 +483,7 @@
     <url>/webtau/HTTP/documentation-artifacts#create-employee</url>
     <fullTitle>WebTau: Documentation Artifacts, Create Employee [HTTP]</fullTitle>
     <text>
-      <text></text>
+      <text>Request Responses 200 201</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -507,7 +499,7 @@
     <url>/webtau/HTTP/documentation-artifacts#test-artifacts</url>
     <fullTitle>WebTau: Documentation Artifacts, Test Artifacts [HTTP]</fullTitle>
     <text>
-      <text>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /path?a=1&amp;b=text http://localhost:39441/path?a=1&amp;b=text</text>
+      <text>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /path?a=1&amp;b=text http://localhost:46557/path?a=1&amp;b=text</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -576,6 +568,46 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/HTTP/data-coverage#code-coverage-vs-data-coverage</url>
+    <fullTitle>WebTau: Data Coverage, Code Coverage VS Data Coverage [HTTP]</fullTitle>
+    <text>
+      <text>Code Coverage helps to reveal what paths of business logic you forgot to exercise. But it doesn't help as much with HTTP API testing: a single call to an API may exercise the entire code path.One of the main artifacts of HTTP API testing is a response. Does response have correct data? Are there data paths that we never asserted on?WebTau looks across all the executed tests and called HTTP API methods to track what calls have response fields that were never observed. At the end report provides Data Coverage you can act on:Remove fields from the response Add an extra assertion</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/HTTP/data-coverage#detect-fields-that-were-skipped</url>
+    <fullTitle>WebTau: Data Coverage, Detect Fields That Were Skipped [HTTP]</fullTitle>
+    <text>
+      <text>Let's consider an end-point that returns a weather temperature in Fahrenheit and Celsius. And Later we decided to add time field to the response.Our tests were asserting on both temperature fields, but we have no assertions on time field. Groovy package scenarios.rest.coverage import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario("check fahrenheit temperature") { http.get("/city/NewYork") { weather.temperatureF.shouldBe > 80 } } scenario("check celsius temperature") { http.get("/city/NewYork") { weather.temperatureC.shouldBe > 26 } } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class NewYorkWeatherJavaTest { @Test public void checkFahrenheitTemperature() { http.get("/city/NewYork", (header, body) -> { body.get("weather.temperatureF").shouldBe(greaterThan(80)); }); } @Test public void checkCelsiusTemperature() { http.get("/city/NewYork", (header, body) -> { body.get("weather.temperatureC").shouldBe(greaterThan(26)); }); } } When we run our test suite, we will see in the output that both temperatures were asserted ( ~~ in the response). But since we didn't touch time field, at the end of test run, WebTau will print a warning about missing validation scenario checkFahrenheitTemperature (NewYorkWeatherJavaTest) > executing HTTP GET http://localhost:36487/city/NewYork > reading HTTP routes definition from class path resource data/http-routes.txt . read HTTP routes definition from class path resource data/http-routes.txt (2ms) > mapping operation id . mapped operation id as "GET /city/:cityId" (1ms) . body.weather.temperatureF greater than 80 body.weather.temperatureF: actual: 88 &lt;java.lang.Integer> expected: greater than 80 &lt;java.lang.Integer> (1ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (0ms) response (application/json): { "time": "2018-11-27 13:05:00", "weather": { "temperatureF": ~~88~~, "temperatureC": 31 } } . executed HTTP GET http://localhost:36487/city/NewYork (12ms) [.] checkFahrenheitTemperature (NewYorkWeatherJavaTest) scenario checkCelsiusTemperature (NewYorkWeatherJavaTest) > executing HTTP GET http://localhost:36487/city/NewYork > mapping operation id . mapped operation id as "GET /city/:cityId" (0ms) . body.weather.temperatureC greater than 26 body.weather.temperatureC: actual: 31 &lt;java.lang.Integer> expected: greater than 26 &lt;java.lang.Integer> (1ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (0ms) response (application/json): { "time": "2018-11-27 13:05:00", "weather": { "temperatureF": 88, "temperatureC": ~~31~~ } } . executed HTTP GET http://localhost:36487/city/NewYork (3ms) [.] checkCelsiusTemperature (NewYorkWeatherJavaTest) Data Coverage HTTP routes that have non validated response fields GET /city/:cityId root.time WebTau prints only the first three routes with the skipped fields, and only first three fields. More details is available in the produced HTML report.HTTP Data Coverage leads to more details on Routes that have fields that were skipped Expanding a Route will list all the ignored fields</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/HTTP/data-coverage#routing</url>
+    <fullTitle>WebTau: Data Coverage, Routing [HTTP]</fullTitle>
+    <text>
+      <text>WebTau needs to know how to group URLs you call. In the example above /city/NewYork and /city/London belongs to the same group. And if you validate Celsius field when calling NewYork and Fahrenheit when calling London, fields will be considered as covered.This is because WebTau identifies both URLs as /city/:id scenario checkFahrenheitTemperature (NewYorkWeatherJavaTest) > executing HTTP GET http://localhost:36487/city/NewYork > reading HTTP routes definition from class path resource data/http-routes.txt . read HTTP routes definition from class path resource data/http-routes.txt (2ms) > mapping operation id . mapped operation id as "GET /city/:cityId" (1ms) . body.weather.temperatureF greater than 80 There are two ways to provide routing information:Provide HTTP/openAPI-spec Open API spec Provide http routes text files</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/HTTP/data-coverage#text-routes</url>
+    <fullTitle>WebTau: Data Coverage, Text Routes [HTTP]</fullTitle>
+    <text>
+      <text>If you don't have HTTP/openAPI-spec Open API spec, you can define a plain text files that enumerates your API routes like this GET /city/:cityId Note: variant with curly brackets for parameters also works /city/{id} Specify file path (or resource for java) in your config file to enable it Groovy httpRoutesPath = "data/http-routes.txt" Java httpRoutesPath = data/http-routes.txt</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/HTTP/data-coverage#json-output</url>
+    <fullTitle>WebTau: Data Coverage, JSON Output [HTTP]</fullTitle>
+    <text>
+      <text>Use config option to output Data Coverage in a separate JSON file for further processing. Groovy httpDataCoverageOutput = "generated/data-coverage.json" Java httpDataCoverageOutput = generated/data-coverage.json Data Coverage HTTP routes that have non validated response fields GET /city/:cityId root.time . generated HTTP Data Coverage: /home/runner/work/webtau/webtau/webtau-junit5-examples/generated/data-coverage.json (1ms) [ { "touchedPathsCount" : 2, "untouchedPathsCount" : 1, "untouchedPaths" : [ "root.time" ], "id" : "GET /city/:cityId", "untouchedPercent" : 33 } ]</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/HTTP/matchers#imports-to-use</url>
     <fullTitle>WebTau: Matchers, Imports to use [HTTP]</fullTitle>
     <text>
@@ -608,7 +640,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/HTTP/matchers#greaterlessequal</url>
+    <url>/webtau/HTTP/matchers#greater-less-equal</url>
     <fullTitle>WebTau: Matchers, Greater/Less/Equal [HTTP]</fullTitle>
     <text>
       <text>Use greaterThan , greaterThanOrEqual , lessThan , and lessThanOrEqual to assert numeric values. Groovy http.get("/end-point-numbers") { id.shouldBe > 0 price.shouldBe >= 100 amount.shouldBe &lt; 150 list[1].shouldBe &lt;= 2 id.shouldNotBe &lt;= 0 price.shouldNotBe &lt; 100 amount.shouldNotBe >= 150 list[1].shouldNotBe > 2 } Note: Groovy can use shortcuts > , >= , &lt; , &lt;= . Java http.get("/end-point-numbers", (header, body) -> { body.get("id").shouldBe(greaterThan(0)); body.get("price").shouldBe(greaterThanOrEqual(100)); body.get("amount").shouldBe(lessThan(150)); body.get("list").get(1).shouldBe(lessThanOrEqual(2)); body.get("id").shouldNotBe(lessThanOrEqual(0)); body.get("price").shouldNotBe(lessThan(100)); body.get("amount").shouldNotBe(greaterThanOrEqual(150)); body.get("list").get(1).shouldNotBe(greaterThan(2)); });</text>
@@ -707,7 +739,7 @@
     <url>/webtau/GraphQL/report#additional-reports</url>
     <fullTitle>WebTau: Report, Additional Reports [GraphQL]</fullTitle>
     <text>
-      <text>To generate a report/custom-reports custom report or upload report data to your server, specify a reportGenerator config property. package scenarios.graphql url = "http://localhost:8180" graphQLIgnoreIntrospectionFailures = false reportGenerator = Report.&amp;generateReport Where Report.&amp;generateReport is implemented as follows: package scenarios.graphql import org.testingisdocumenting.webtau.console.ConsoleOutputs import org.testingisdocumenting.webtau.console.ansi.Color import org.testingisdocumenting.webtau.report.ReportDataProviders import org.testingisdocumenting.webtau.reporter.WebTauReport import org.testingisdocumenting.webtau.utils.JsonUtils import static org.testingisdocumenting.webtau.WebTauDsl.cfg class Report { static void generateReport(WebTauReport report) { def additionalData = [:] report.customDataStream.each { additionalData.putAll(it.toMap()) } def reportData = [:] reportData.graphQLSkippedQueries = additionalData.graphQLSkippedQueries // All queries present in the GraphQL schema but not tested reportData.graphQLCoveredQueries = additionalData.graphQLCoveredQueries // All queries present in the GraphQL schema and tested reportData.graphQLCoverageSummary = additionalData.graphQLCoverageSummary // Summary of test coverage compared to the GraphQL schema reportData.graphQLQueryTimeStatistics = additionalData.graphQLQueryTimeStatistics // Summary of timing by query reportData.graphQLCoveredSuccessBranches = additionalData.graphQLCoveredSuccessBranches // All queries present in the GraphQL schema that were hit with a success result reportData.graphQLSkippedSuccessBranches = additionalData.graphQLSkippedSuccessBranches // All queries present in the GraphQL schema but not hit with a success result reportData.graphQLCoveredErrorBranches = additionalData.graphQLCoveredErrorBranches // All queries present in the GraphQL schema that were hit with an error result reportData.graphQLSkippedErrorBranches = additionalData.graphQLSkippedErrorBranches // All queries present in the GraphQL schema but not hit with an error result def reportPath = cfg.workingDir.resolve('webtau.graphql-report.json') ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath) reportPath.toFile().text = JsonUtils.serializePrettyPrint(reportData) } } The output looks as follows: { "graphQLSkippedQueries" : [ { "name" : "allTasks", "type" : "query" }, { "name" : "complete", "type" : "mutation" }, { "name" : "uncomplete", "type" : "mutation" }, { "name" : "taskById", "type" : "query" } ], "graphQLCoveredQueries" : [ { "name" : "weather", "type" : "query" } ], "graphQLCoverageSummary" : { "coverage" : 0.2, "branchCoverage" : 0.1, "types" : { "mutation" : { "coverage" : 0.0, "declaredQueries" : 2, "coveredQueries" : 0.0 }, "query" : { "coverage" : 0.3333333333333333, "declaredQueries" : 3, "coveredQueries" : 1.0 } }, "successBranchCoverage" : 0.2, "errorBranchCoverage" : 0.0, "totalDeclaredQueries" : 5.0, "totalCoveredQueries" : 1.0 }, "graphQLQueryTimeStatistics" : [ { "name" : "weather", "type" : "query", "statistics" : { "mean" : 5.0, "min" : 5, "max" : 5, "count" : 1, "p95" : 5.0, "p99" : 5.0 } } ], "graphQLCoveredSuccessBranches" : [ { "name" : "weather", "type" : "query" } ], "graphQLSkippedSuccessBranches" : [ { "name" : "allTasks", "type" : "query" }, { "name" : "complete", "type" : "mutation" }, { "name" : "uncomplete", "type" : "mutation" }, { "name" : "taskById", "type" : "query" } ], "graphQLCoveredErrorBranches" : [ ], "graphQLSkippedErrorBranches" : [ { "name" : "allTasks", "type" : "query" }, { "name" : "complete", "type" : "mutation" }, { "name" : "weather", "type" : "query" }, { "name" : "uncomplete", "type" : "mutation" }, { "name" : "taskById", "type" : "query" } ] } Coverage and Timing Statistics WebTau will implicitly invoke your GraphQL server's introspection queries in order to fetch a subset of the schema. It uses this schema in conjunction with the requests in tests to compute:query coverage - which queries were invoked by tests and which were not as well as an overall summary of coverage timing information - http call timing statistics by query</text>
+      <text>To generate a report/custom-reports custom report or upload report data to your server, specify a reportGenerator config property. package scenarios.graphql url = "http://localhost:8180" graphQLIgnoreIntrospectionFailures = false reportGenerator = Report.&amp;generateReport Where Report.&amp;generateReport is implemented as follows: package scenarios.graphql import org.testingisdocumenting.webtau.console.ConsoleOutputs import org.testingisdocumenting.webtau.console.ansi.Color import org.testingisdocumenting.webtau.report.ReportDataProviders import org.testingisdocumenting.webtau.reporter.WebTauReport import org.testingisdocumenting.webtau.utils.JsonUtils import static org.testingisdocumenting.webtau.WebTauDsl.cfg class Report { static void generateReport(WebTauReport report) { def additionalData = [:] report.customDataStream.each { additionalData.putAll(it.toMap()) } def reportData = [:] reportData.graphQLSkippedQueries = additionalData.graphQLSkippedQueries // All queries present in the GraphQL schema but not tested reportData.graphQLCoveredQueries = additionalData.graphQLCoveredQueries // All queries present in the GraphQL schema and tested reportData.graphQLCoverageSummary = additionalData.graphQLCoverageSummary // Summary of test coverage compared to the GraphQL schema reportData.graphQLQueryTimeStatistics = additionalData.graphQLQueryTimeStatistics // Summary of timing by query reportData.graphQLCoveredSuccessBranches = additionalData.graphQLCoveredSuccessBranches // All queries present in the GraphQL schema that were hit with a success result reportData.graphQLSkippedSuccessBranches = additionalData.graphQLSkippedSuccessBranches // All queries present in the GraphQL schema but not hit with a success result reportData.graphQLCoveredErrorBranches = additionalData.graphQLCoveredErrorBranches // All queries present in the GraphQL schema that were hit with an error result reportData.graphQLSkippedErrorBranches = additionalData.graphQLSkippedErrorBranches // All queries present in the GraphQL schema but not hit with an error result def reportPath = cfg.workingDir.resolve('webtau.graphql-report.json') ConsoleOutputs.out('generating report: ', Color.PURPLE, reportPath) reportPath.toFile().text = JsonUtils.serializePrettyPrint(reportData) } } The output looks as follows: { "graphQLSkippedQueries" : [ { "name" : "uncomplete", "type" : "mutation" }, { "name" : "complete", "type" : "mutation" }, { "name" : "allTasks", "type" : "query" }, { "name" : "taskById", "type" : "query" } ], "graphQLCoveredQueries" : [ { "name" : "weather", "type" : "query" } ], "graphQLCoverageSummary" : { "coverage" : 0.2, "branchCoverage" : 0.1, "types" : { "mutation" : { "coverage" : 0.0, "declaredQueries" : 2, "coveredQueries" : 0.0 }, "query" : { "coverage" : 0.3333333333333333, "declaredQueries" : 3, "coveredQueries" : 1.0 } }, "successBranchCoverage" : 0.2, "errorBranchCoverage" : 0.0, "totalDeclaredQueries" : 5.0, "totalCoveredQueries" : 1.0 }, "graphQLQueryTimeStatistics" : [ { "name" : "weather", "type" : "query", "statistics" : { "mean" : 3.0, "min" : 3, "max" : 3, "count" : 1, "p95" : 3.0, "p99" : 3.0 } } ], "graphQLCoveredSuccessBranches" : [ { "name" : "weather", "type" : "query" } ], "graphQLSkippedSuccessBranches" : [ { "name" : "uncomplete", "type" : "mutation" }, { "name" : "complete", "type" : "mutation" }, { "name" : "allTasks", "type" : "query" }, { "name" : "taskById", "type" : "query" } ], "graphQLCoveredErrorBranches" : [ ], "graphQLSkippedErrorBranches" : [ { "name" : "uncomplete", "type" : "mutation" }, { "name" : "complete", "type" : "mutation" }, { "name" : "allTasks", "type" : "query" }, { "name" : "weather", "type" : "query" }, { "name" : "taskById", "type" : "query" } ] } Coverage and Timing Statistics WebTau will implicitly invoke your GraphQL server's introspection queries in order to fetch a subset of the schema. It uses this schema in conjunction with the requests in tests to compute:query coverage - which queries were invoked by tests and which were not as well as an overall summary of coverage timing information - http call timing statistics by query</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -795,7 +827,7 @@
     <url>/webtau/browser/element-actions#clicks</url>
     <fullTitle>WebTau: Element Actions, Clicks [Browser]</fullTitle>
     <text>
-      <text>payments.confirmation.click() expandArea.doubleClick() paymentsTable.rightClick() payments.confirmation.shiftClick() payments.confirmation.altClick() payments.confirmation.controlClick() payments.confirmation.commandClick() payments.confirmation.commandOrControlClick()</text>
+      <text>payments.confirmation.click() expandArea.doubleClick() paymentsTable.rightClick() payments.confirmation.shiftClick() payments.confirmation.altClick() payments.confirmation.controlClick() payments.confirmation.commandOrControlClick() payments.confirmation.commandOrControlClick()</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -804,6 +836,14 @@
     <fullTitle>WebTau: Element Actions, Modifications [Browser]</fullTitle>
     <text>
       <text>payments.dollarAmount.clear() payments.dollarAmount.sendKeys("104.5") Generic way to set a form element value. Will be covered more in browser/forms forms payments.dollarAmount.setValue("104.5")</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/browser/element-actions#modifications-no-log</url>
+    <fullTitle>WebTau: Element Actions, Modifications No Log [Browser]</fullTitle>
+    <text>
+      <text>payments.secret.sendKeysNoLog("my secret token") payments.secret.setValueNoLog("my secret token")</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -891,7 +931,7 @@
     <url>/webtau/browser/forms#custom-form-elements</url>
     <fullTitle>WebTau: Forms, Custom Form Elements [Browser]</fullTitle>
     <text>
-      <text>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id="answer" class="special-selector" onclick="activate('answer')"> &lt;div class="current-value"> current value &lt;/div> &lt;input class="value-input" value="" onblur="valueEntered('answer')"> &lt;/div> Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('open forms') { browser.open('/special-forms') } scenario('get set custom based on registered handler') { def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' } package formHandlers import org.openqa.selenium.Keys import org.testingisdocumenting.webtau.browser.page.HtmlNode import org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList import org.testingisdocumenting.webtau.browser.page.PageElement import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler import org.testingisdocumenting.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) { def htmlNode = htmlNodeAndWebElements.firstHtmlNode() return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, Object value) { pageElement.click() pageElement.find('input').sendKeys("${value}" + Keys.TAB) } @Override Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) { return pageElement.find('.current-value').getUnderlyingValue() } }</text>
+      <text>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id="answer" class="special-selector" onclick="activate('answer')"> &lt;div class="current-value"> current value &lt;/div> &lt;input class="value-input" value="" onblur="valueEntered('answer')"> &lt;/div> Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('open forms') { browser.open('/special-forms') } scenario('get set custom based on registered handler') { def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' } package formHandlers import org.openqa.selenium.Keys import org.testingisdocumenting.webtau.browser.page.HtmlNode import org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList import org.testingisdocumenting.webtau.browser.page.PageElement import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler import org.testingisdocumenting.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) { def htmlNode = htmlNodeAndWebElements.firstHtmlNode() return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, Object value, boolean noLog) { pageElement.click() pageElement.find('input').sendKeys("${value}" + Keys.TAB) } @Override Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) { return pageElement.find('.current-value').getUnderlyingValue() } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -904,7 +944,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/browser/asynchronous-page#visiblehidden-element</url>
+    <url>/webtau/browser/asynchronous-page#visible-hidden-element</url>
     <fullTitle>WebTau: Asynchronous Page, Visible/Hidden Element [Browser]</fullTitle>
     <text>
       <text>One way to deal with asynchronous pages is to wait for a feedback to appear or disappear. calculation.start() calculation.feedback.waitToBe visible calculation.results.should == [100, 230]</text>
@@ -912,7 +952,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/browser/asynchronous-page#enableddisabled-element</url>
+    <url>/webtau/browser/asynchronous-page#enabled-disabled-element</url>
     <fullTitle>WebTau: Asynchronous Page, Enabled/Disabled Element [Browser]</fullTitle>
     <text>
       <text>Disabled input box and buttons can be used as a user feedback as well. calculation.open() calculation.input.waitToBe enabled calculation.input.setValue(100)</text>
@@ -1179,7 +1219,7 @@
     <url>/webtau/servers/introduction</url>
     <fullTitle>WebTau: Introduction,  [Servers]</fullTitle>
     <text>
-      <text>WebTau server. module lets you create and control static, fake and proxy servers:Static servers to quickly host HTML, JSON, and similar content Fake servers to control response based request Proxy servers to simulate outages and record interactions for failures investigation def myServer = server.serve("my-server", "data/staticcontent") def router = server.router() // router-example .get("/hello/:name") { request -> server.response([message: "hello ${request.param("name")}"]) } // router-example .get("/bye/:name") { request -> server.response([message: "bye ${request.param("name")}"]) } // router-example // router-example def myServer = server.fake("my-rest-server", router) // router-example def proxyServer = server.proxy("test-proxy-server", targetServer.baseUrl) You can apply overrides to any created server. You can also put servers into a "bad" state. proxyServer.markUnresponsive() def router = server.router() .get("/hello/:name") {request -> server.response([message: "hello ${request.param("name")}"]) } myServer.addOverride(router)</text>
+      <text>WebTau server. module lets you create and control static, fake and proxy servers:Static servers to quickly host HTML, JSON, and similar content Fake servers to control response based request Proxy servers to simulate outages and record interactions for failures investigation def myServer = server.serve("my-server", "data/staticcontent") // router-example // router-example def proxyServer = server.proxy("test-proxy-server", targetServer.baseUrl) You can apply overrides to any created server. You can also put servers into a "bad" state. proxyServer.markUnresponsive() def router = server.router() .get("/hello/:name") {request -> server.response([message: "hello ${request.param("name")}"]) } myServer.addOverride(router)</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1187,7 +1227,15 @@
     <url>/webtau/servers/static-server#serve-static-content</url>
     <fullTitle>WebTau: Static Server, Serve Static Content [Servers]</fullTitle>
     <text>
-      <text>Use to start a server on random port that will host static content from the specified directory. def myServer = server.serve("my-server", "data/staticcontent") { "id": "user-one", "type": "person" } http.get("${myServer.baseUrl}/data.json") { body.type == "person" }</text>
+      <text>Use to start a server on random port that will host static content from the specified directory. Groovy def myServer = server.serve("my-server", "data/staticcontent") Java WebTauServer myServer = server.serve("my-server", "src/test/resources/staticcontent"); { "id": "user-one", "type": "person" } Groovy http.get("${myServer.baseUrl}/data.json") { body.type == "person" } Java http.get(myServer.getBaseUrl() + "/data.json", ((header, body) -> { body.get("type").should(equal("person")); }));</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/servers/static-server#set-server-as-base-url</url>
+    <fullTitle>WebTau: Static Server, Set Server As Base Url [Servers]</fullTitle>
+    <text>
+      <text>Use to use the server's host and port as base url Groovy myServer.setAsBaseUrl() Java myServer.setAsBaseUrl();</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1195,7 +1243,7 @@
     <url>/webtau/servers/static-server#host-html-for-browser</url>
     <fullTitle>WebTau: Static Server, Host Html For Browser [Servers]</fullTitle>
     <text>
-      <text>Use static server to host html files and then open them using a browser. &lt;body> &lt;p>hello&lt;/p> &lt;/body> browser.open("${myServer.baseUrl}/hello.html") $("p").should == "hello"</text>
+      <text>Use static server to host html files and then open them using a browser. &lt;body> &lt;p>hello&lt;/p> &lt;/body> Groovy http.get("/hello.html") { body.should == expectedHtml } Java browser.open("/hello.html"); $("p").should(equal("hello"));</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1203,7 +1251,7 @@
     <url>/webtau/servers/static-server#override-response</url>
     <fullTitle>WebTau: Static Server, Override Response [Servers]</fullTitle>
     <text>
-      <text>Use to modify response of a proxied server def router = server.router() .get("/hello/:name") {request -> server.response([message: "hello ${request.param("name")}"]) } myServer.addOverride(router)</text>
+      <text>Use to modify response of a proxied server Groovy def router = server.router() .get("/hello/:name") {request -> server.response([message: "hello ${request.param("name")}"]) } myServer.addOverride(router) Java WebTauRouter router = server.router() .get("/hello/:name", (request) -> server.response(aMapOf("message", "hello " + request.param("name")))); myServer.addOverride(router);</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1211,7 +1259,7 @@
     <url>/webtau/servers/static-server#server-slowdown</url>
     <fullTitle>WebTau: Static Server, Server Slowdown [Servers]</fullTitle>
     <text>
-      <text>Use to mark server as unresponsive staticServer.markUnresponsive() code { http.get("${staticServer.baseUrl}/hello.html") } should throwException(~/Read timed out/)</text>
+      <text>Use to mark server as unresponsive Groovy myServer.markUnresponsive() code { http.get("/hello.html") } should throwException(~/Read timed out/) Java myServer.markUnresponsive(); code(() -> { http.get("/hello.html"); }).should(throwException(Pattern.compile("Read timed out")));</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1219,7 +1267,7 @@
     <url>/webtau/servers/static-server#server-break</url>
     <fullTitle>WebTau: Static Server, Server Break [Servers]</fullTitle>
     <text>
-      <text>Use to mark server as broken staticServer.markBroken() http.get("${staticServer.baseUrl}/hello.html") { statusCode.should == 500 body.should == null }</text>
+      <text>Use to mark server as broken Groovy myServer.markBroken() http.get("/hello.html") { statusCode.should == 500 body.should == null } Java myServer.markBroken(); http.get("/hello.html", (header, body) -> { header.statusCode.should(equal(500)); });</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1227,7 +1275,7 @@
     <url>/webtau/servers/static-server#server-fix</url>
     <fullTitle>WebTau: Static Server, Server Fix [Servers]</fullTitle>
     <text>
-      <text>Use to remove broken and/or slowdown state staticServer.fix()</text>
+      <text>Use to remove broken and/or slowdown state myServer.fix()</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1288,34 +1336,18 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/servers/fake-server#router-creation</url>
+    <fullTitle>WebTau: Fake Server, Router Creation [Servers]</fullTitle>
+    <text>
+      <text>Use to defined end points responses. Groovy def router = server.router() .get("/hello/:name") { request -> server.response([message: "hello ${request.param("name")}"]) } .get("/bye/:name") { request -> server.response([message: "bye ${request.param("name")}"]) } Java WebTauRouter router = server.router() .get("/hello/:name", (request) -> server.response(aMapOf("message", "hello " + request.param("name")))) .get("/bye/:name", (request) -> server.response(aMapOf("message", "bye " + request.param("name"))));</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/servers/fake-server#fake-server-creation</url>
     <fullTitle>WebTau: Fake Server, Fake Server Creation [Servers]</fullTitle>
     <text>
-      <text>Use to create a server with controlled responses def router = server.router() // router-example .get("/hello/:name") { request -> server.response([message: "hello ${request.param("name")}"]) } // router-example .get("/bye/:name") { request -> server.response([message: "bye ${request.param("name")}"]) } // router-example // router-example def myServer = server.fake("my-rest-server", router) // router-example http.get("${myServer.baseUrl}/hello/person") { message.should == "hello person" } http.get("${myServer.baseUrl}/bye/person") { message.should == "bye person" }</text>
-      <score>STANDARD</score>
-    </text>
-  </entry>
-  <entry>
-    <url>/webtau/servers/fake-server#server-slowdown</url>
-    <fullTitle>WebTau: Fake Server, Server Slowdown [Servers]</fullTitle>
-    <text>
-      <text>Use to mark server as unresponsive myServer.markUnresponsive() code { http.get("${myServer.baseUrl}/hello/person") { message.should == "hello person" } } should throwException(~/Read timed out/)</text>
-      <score>STANDARD</score>
-    </text>
-  </entry>
-  <entry>
-    <url>/webtau/servers/fake-server#server-break</url>
-    <fullTitle>WebTau: Fake Server, Server Break [Servers]</fullTitle>
-    <text>
-      <text>Use to mark server as broken myServer.markBroken() http.get("${myServer.baseUrl}/hello/person") { statusCode.should == 500 body.should == null }</text>
-      <score>STANDARD</score>
-    </text>
-  </entry>
-  <entry>
-    <url>/webtau/servers/fake-server#server-fix</url>
-    <fullTitle>WebTau: Fake Server, Server Fix [Servers]</fullTitle>
-    <text>
-      <text>Use to remove broken and/or slowdown state myServer.fix() http.get("${myServer.baseUrl}/hello/person") { message.should == "hello person" }</text>
+      <text>Use and a router to create a server with controlled responses Groovy def myServer = server.fake("my-rest-server", router) http.get("${myServer.baseUrl}/hello/person") { message.should == "hello person" } http.get("${myServer.baseUrl}/bye/person") { message.should == "bye person" } Java myServer = server.fake("my-rest-server", router); http.get(myServer.getBaseUrl() + "/hello/person", ((header, body) -> { body.get("message").should(equal("hello person")); })); http.get(myServer.getBaseUrl() + "/bye/person", ((header, body) -> { body.get("message").should(equal("bye person")); }));</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1323,7 +1355,7 @@
     <url>/webtau/cli/introduction</url>
     <fullTitle>WebTau: Introduction,  [Cli]</fullTitle>
     <text>
-      <text>WebTau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario("example of ls run") { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy data dbproviders formHandlers listeners pages personas scenarios schemas scripts use-cases.csv webtau.graphql-report.json</text>
+      <text>WebTau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario("example of ls run") { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy data dbproviders doc-artifacts formHandlers generated listeners pages personas scenarios schemas scripts use-cases.csv</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1507,7 +1539,7 @@
     <url>/webtau/persona/HTTP-persona#authorization</url>
     <fullTitle>WebTau: HTTP Persona, Authorization [Persona]</fullTitle>
     <text>
-      <text>In HTTP/header#implicit-header http headers section we defined how to use an implicit header provider to enable authentication/authorization package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = "http://localhost:8080" httpHeaderProvider = Auth.&amp;authHeader package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateToken() return original.with([Authorization: "Bearer $token"]) } private static String generateToken() { return "jwt-token" } }</text>
+      <text>In HTTP/header#implicit-header http headers section we defined how to use an implicit header provider to enable authentication/authorization Groovy package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = "http://localhost:8080" httpHeaderProvider = Auth.&amp;authHeader package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateToken() return original.with([Authorization: "Bearer $token"]) } private static String generateToken() { return "jwt-token" } } Java In case of JUnit like runners, WebTau uses https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html Service Loaders to locate header providers com.example.tests.junit5.config.HttpAuthHeaderProvider package com.example.tests.junit5.config; import org.testingisdocumenting.webtau.http.HttpHeader; import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration; import static org.testingisdocumenting.webtau.WebTauDsl.*; public class HttpAuthHeaderProvider implements WebTauHttpConfiguration { @Override public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) { String token = generateToken(); return given.with("Authorization", "Bearer " + token); } private String generateToken() { return "jwt-token"; } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1515,7 +1547,7 @@
     <url>/webtau/persona/HTTP-persona#persona-authorization</url>
     <fullTitle>WebTau: HTTP Persona, Persona Authorization [Persona]</fullTitle>
     <text>
-      <text>Let's define authorization based on persona context. persona/introduction#context-definition Previously we defined two personas package personas import static org.testingisdocumenting.webtau.WebTauCore.persona class Personas { public static def Alice = persona("Alice", [authId: "alice-user-id"]) public static def Bob = persona("Bob", [authId: "bob-user-id"]) } Authorization test using persona concept looks like this package scenarios.rest.headers import static personas.Personas.* import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario("my bank balance") { Alice { http.get("/statement") { balance.shouldBe > 100 } } Bob { http.get("/statement") { balance.shouldBe &lt; 50 } } } To make this example work, let's update implicit header provider above to take into account persona context package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader import static org.testingisdocumenting.webtau.WebTauDsl.* class PersonaAuth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateTokenBasedOnPersona() return original.with([Authorization: "Bearer $token"]) } static String generateTokenBasedOnPersona() { if (currentPersona.isDefault()) { // check if we are inside persona context or outside return generateDefaultToken() } return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token } static String generateTokenForSystemUserId(String systemUserId) { return "dummy:$systemUserId" // this is where you generate specific user auth token } static String generateDefaultToken() { return "dummy:default-user" // this is where you generate default user auth token } }</text>
+      <text>Let's define authorization based on persona context. persona/introduction#context-definition Previously we defined two personas Groovy package personas import static org.testingisdocumenting.webtau.WebTauCore.persona class Personas { public static def Alice = persona("Alice", [authId: "alice-user-id"]) public static def Bob = persona("Bob", [authId: "bob-user-id"]) } Java package com.example.tests.junit5; import org.testingisdocumenting.webtau.persona.Persona; public class Personas { public static final Persona Alice = Persona.persona("Alice", "authId", "alice-user-id"); public static final Persona Bob = Persona.persona("Bob", "authId", "bob-user-id"); } Authorization test using persona concept looks like this Groovy package scenarios.rest.headers import static personas.Personas.* import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario("my bank balance") { Alice { http.get("/statement") { balance.shouldBe > 100 } } Bob { http.get("/statement") { balance.shouldBe &lt; 50 } } } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static com.example.tests.junit5.Personas.*; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class PersonaHttpJavaTest { @Test public void checkBalance() { Alice.execute(() -> http.get("/statement", (header, body) -> { body.get("balance").shouldBe(greaterThan(100)); })); Bob.execute(() -> http.get("/statement", (header, body) -> { body.get("balance").shouldBe(lessThan(50)); })); } } To make this example work, let's update implicit header provider above to take into account persona context Groovy package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader import static org.testingisdocumenting.webtau.WebTauDsl.* class PersonaAuth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateTokenBasedOnPersona() return original.with([Authorization: "Bearer $token"]) } static String generateTokenBasedOnPersona() { if (currentPersona.isDefault()) { // check if we are inside persona context or outside return generateDefaultToken() } return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token } static String generateTokenForSystemUserId(String systemUserId) { return "dummy:$systemUserId" // this is where you generate specific user auth token } static String generateDefaultToken() { return "dummy:default-user" // this is where you generate default user auth token } } Java package com.example.tests.junit5.config; import org.testingisdocumenting.webtau.http.HttpHeader; import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration; import static org.testingisdocumenting.webtau.WebTauDsl.*; public class HttpPersonaAuthHeaderProvider implements WebTauHttpConfiguration { @Override public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) { String token = generateTokenBasedOnPersona(); return given.with("Authorization", "Bearer " + token); } private String generateTokenBasedOnPersona() { if (getCurrentPersona().isDefault()) { // check if we are inside persona context or outside return generateDefaultToken(); } return generateTokenForSystemUserId( getCurrentPersona().getPayload().getOrDefault("authId", "").toString()); // use persona payload to generate required token } private String generateTokenForSystemUserId(String systemUserId) { return "dummy:" + systemUserId; // this is where you generate specific user auth token } private String generateDefaultToken() { return "dummy:default-user"; // this is where you generate default user auth token } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1547,7 +1579,7 @@
     <url>/webtau/database/data-setup#semi-auto-generated-tabledata</url>
     <fullTitle>WebTau: Data Setup, Semi-Auto Generated TableData [Database]</fullTitle>
     <text>
-      <text>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table("PRICES") PRICES &lt;&lt; [ "id" | "description" | "available" | "type" | "price" ] { _____________________________________________________________________________________________ cell.guid | "nice set" | true | "card" | 1000 // cell.guid generates random guid that can be used for ids cell.guid | "nice set" | true | "card" | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID EXTERNAL_ID DESCRIPTION AVAILABLE TYPE PRICE a04f07cd-a750-41ee-a297-60856db9d6b2 nice set true card 1000 863b2f75-12d7-4a1a-b486-541474ef08a9 nice set true card 1010 6055ff46-444e-476f-81b6-c0298d1c7973 another set true rts 1030 827498c8-8742-4822-a739-2183bb636fe4 another set false rts 1050 85eb7d0f-07d1-4c8a-bb93-54e87ea31f7b another set true fps 1070 15d97d9d-9158-46fa-a2e2-fce537393475 another set false fps 1090</text>
+      <text>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table("PRICES") PRICES &lt;&lt; [ "id" | "description" | "available" | "type" | "price" ] { _____________________________________________________________________________________________ cell.guid | "nice set" | true | "card" | 1000 // cell.guid generates random guid that can be used for ids cell.guid | "nice set" | true | "card" | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID EXTERNAL_ID DESCRIPTION AVAILABLE TYPE PRICE 3c81ef71-5b0a-4eec-8514-f35717e2d7a0 nice set true card 1000 67f646a0-0139-446a-8dd4-3e028ed0ef8b nice set true card 1010 ac61fa62-e4c5-48b2-a6db-808bc030ed1d another set true rts 1030 5db9a539-7d6e-4056-ba5e-b9f7e5f2b660 another set false rts 1050 78fb2c45-9114-400b-be84-217ca35c83f6 another set true fps 1070 303ee8d9-af8f-4c1b-af86-d9953762ea64 another set false fps 1090</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1680,10 +1712,18 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/report/steps#imports</url>
+    <fullTitle>WebTau: Steps, Imports [Report]</fullTitle>
+    <text>
+      <text>Code below assumes import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/report/steps#grouping-actions</url>
     <fullTitle>WebTau: Steps, Grouping Actions [Report]</fullTitle>
     <text>
-      <text>Use step core method to wrap a set of actions into a group step("group of actions") { actionOne() actionTwo() } import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*</text>
+      <text>Use step core method to wrap a set of actions into a group step("group of actions") { actionOne() actionTwo() }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1691,7 +1731,7 @@
     <url>/webtau/report/steps#tracing-values</url>
     <fullTitle>WebTau: Steps, Tracing Values [Report]</fullTitle>
     <text>
-      <text>Use trace core method to render key, values pairs to console and to web report. From report point of view trace is an empty step. trace("trace label", [k1: "v1", k2: "v2"]) import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*</text>
+      <text>Use trace core method to render key, values pairs to console and to web report. From report point of view trace is an empty step. trace("trace label", [k1: "v1", k2: "v2"])</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1704,10 +1744,18 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/report/steps#warning</url>
+    <fullTitle>WebTau: Steps, Warning [Report]</fullTitle>
+    <text>
+      <text>Use warning core method to mark something that needs to be looked at eventually. warning("warning message") warning("warning message with map", [k1: "v1", k2: "v2"]) warning("another warning message", "k3", "v3", "k4", "v4") import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('warning label') { // warning-label warning("warning message") // warning-label } scenario('warning key values') { // warning-map warning("warning message with map", [k1: "v1", k2: "v2"]) // warning-map // warning-vararg warning("another warning message", "k3", "v3", "k4", "v4") // warning-vararg } scenario warning label (warning.groovy) [warning] warning message [.] warning label (warning.groovy) scenario warning key values (warning.groovy) [warning] warning message with map k1: v1 k2: v2 [warning] another warning message k3: v3 k4: v4 Summary of warnings will be displayed at the end of the run in the console and present on the generated HTML report summary view. There are 3 warning(s) in tests * warning message (warning.groovy -> warning label) * warning message with map (warning.groovy -> warning key values) k1: v1 k2: v2 * another warning message (warning.groovy -> warning key values) k3: v3 k4: v4 Total time: 2ms Total: 2, Passed: 2, Skipped: 0, Failed: 0, Errored: 0 report is generated: /home/runner/work/webtau/webtau/webtau-feature-testing/webtau-reports/scenarios/concept/warning-webtau-report.html</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/report/configuration#report-path</url>
     <fullTitle>WebTau: Configuration, Report Path [Report]</fullTitle>
     <text>
-      <text>Use to change path of a produced self-contained rich HTML report CLI webtau scenarios/*.groovy --reportPath my-report-name.html Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;reportPath>my-report-name.html&lt;/reportPath> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin></text>
+      <text>Use to change path of a produced self-contained rich HTML report CLI webtau scenarios/*.groovy --reportPath my-report-name.html Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;reportPath>my-report-name.html&lt;/reportPath> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1715,7 +1763,7 @@
     <url>/webtau/report/configuration#failed-report-path</url>
     <fullTitle>WebTau: Configuration, Failed Report Path [Report]</fullTitle>
     <text>
-      <text>Use to use different path for failed cases. CLI webtau scenarios/*.groovy --failedReportPath my-failed-report-name.html Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;failedReportPath>my-failed-report-name.html&lt;/failedReportPath> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> One of the use-cases is to configure CI upload only failed test reports, especially if you run multiple independent test suits yaml - name: Upload failed test reports uses: actions/upload-artifact@v2 if: failure() with: name: failed suits path: "testing/src/test/groovy/*failed*.html" retention-days: 2</text>
+      <text>Use to use different path for failed cases. CLI webtau scenarios/*.groovy --failedReportPath my-failed-report-name.html Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;failedReportPath>my-failed-report-name.html&lt;/failedReportPath> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> One of the use-cases is to configure CI upload only failed test reports, especially if you run multiple independent test suits yaml - name: Upload failed test reports uses: actions/upload-artifact@v2 if: failure() with: name: failed suits path: "testing/src/test/groovy/*failed*.html" retention-days: 2</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1723,7 +1771,7 @@
     <url>/webtau/report/configuration#report-name-and-url</url>
     <fullTitle>WebTau: Configuration, Report Name And URL [Report]</fullTitle>
     <text>
-      <text>Use and to change default report name.By default, when you click a report name, browser opens https://github.com/testingisdocumenting/webtau WebTau.Specify to override a page that opens when you click a report name. CLI webtau scenarios/*.groovy --reportName "my service" --reportNameUrl "https://service-under-test" Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;reportName>my service&lt;/reportName> &lt;reportNameUrl>https://service-under-test&lt;/reportNameUrl> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin></text>
+      <text>Use and to change default report name.By default, when you click a report name, browser opens https://github.com/testingisdocumenting/webtau WebTau.Specify to override a page that opens when you click a report name. CLI webtau scenarios/*.groovy --reportName "my service" --reportNameUrl "https://service-under-test" Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;reportName>my service&lt;/reportName> &lt;reportNameUrl>https://service-under-test&lt;/reportNameUrl> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1763,7 +1811,7 @@
     <url>/webtau/REPL/experiments#experiment-with-api</url>
     <fullTitle>WebTau: Experiments, Experiment With API [REPL]</fullTitle>
     <text>
-      <text>Use the REPL to try out various apis like http. , browser. , db. , cli. , etc. webtau:000> http.get("https://jsonplaceholder.typicode.com/todos/1") > executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (33ms) response (application/json; charset=utf-8): { "userId": 1, "id": 1, "title": "delectus aut autem", "completed": false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (931ms)</text>
+      <text>Use the REPL to try out various apis like http. , browser. , db. , cli. , etc. webtau:000> http.get("https://jsonplaceholder.typicode.com/todos/1") > executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (27ms) response (application/json; charset=utf-8): { "userId": 1, "id": 1, "title": "delectus aut autem", "completed": false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (696ms)</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1771,7 +1819,7 @@
     <url>/webtau/REPL/experiments#setting-config-value</url>
     <fullTitle>WebTau: Experiments, Setting Config Value [REPL]</fullTitle>
     <text>
-      <text>Use cfg.url = "http://url" to set base url for experiments. webtau:000> cfg.url = "https://jsonplaceholder.typicode.com" > setting url source: manual url: https://jsonplaceholder.typicode.com . set url (0ms) ===> https://jsonplaceholder.typicode.com webtau:000> http.get("/todos/1") > executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (0ms) response (application/json; charset=utf-8): { "userId": 1, "id": 1, "title": "delectus aut autem", "completed": false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (22ms)</text>
+      <text>Use cfg.url = "http://url" to set base url for experiments. webtau:000> cfg.url = "https://jsonplaceholder.typicode.com" > setting url source: manual url: https://jsonplaceholder.typicode.com . set url (0ms) ===> https://jsonplaceholder.typicode.com webtau:000> http.get("/todos/1") > executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (1ms) response (application/json; charset=utf-8): { "userId": 1, "id": 1, "title": "delectus aut autem", "completed": false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (54ms)</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1779,7 +1827,7 @@
     <url>/webtau/REPL/experiments#preserving-browser-context</url>
     <fullTitle>WebTau: Experiments, Preserving Browser Context [REPL]</fullTitle>
     <text>
-      <text>During browser testing the REPL preserves the context of an opened browser, so you can experiment with css selectors and element actions without re-opening the browser and setting the right web app state. webtau:000> browser.open("file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html") > initializing webdriver for chrome . initialized webdriver for chrome (1s 737ms) > opening file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html . opened file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html (92ms) Using element selectors provides additional information in REPL mode to help with exploration webtau:000> $("p") element is found: by css p getText(): hello web page</text>
+      <text>During browser testing the REPL preserves the context of an opened browser, so you can experiment with css selectors and element actions without re-opening the browser and setting the right web app state. webtau:000> browser.open("file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html") > initializing webdriver for chrome . initialized webdriver for chrome (1s 121ms) > opening file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html . opened file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html (66ms) Using element selectors provides additional information in REPL mode to help with exploration webtau:000> $("p") element is found: by css p getText(): hello web page</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1851,7 +1899,7 @@
     <url>/webtau/data/json#read-list</url>
     <fullTitle>WebTau: Json, Read List [Data]</fullTitle>
     <text>
-      <text>Use data.json.list to read data as java.util.List from JSON file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.json.list("data/flat-list.json") list[0].name.should == "hello" list[1].payload.info.should == ~/id2 payload/</text>
+      <text>Use data.json.list to read data as java.util.List from JSON file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.json.list("data/flat-list.json") list[0].name.should == "hello" list[1].payload.should == [info: ~/id2 payload/] Check data/import-and-dependencies Import And Dependencies for prerequisites. Java List&lt;Map&lt;String, ?>> list = data.json.list("data/flat-list.json"); actual(list.get(0).get("name")).should(equal("hello")); actual(list.get(1).get("payload")).should( equal(aMapOf("info", Pattern.compile("id2 payload")))); Check data/import-and-dependencies Import And Dependencies for prerequisites. read methods produce additional report to help with tests investigation > reading json from file or resource data/flat-list.json . read 15 lines of json from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/flat-list.json (1ms)</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1859,7 +1907,39 @@
     <url>/webtau/data/json#read-map</url>
     <fullTitle>WebTau: Json, Read Map [Data]</fullTitle>
     <text>
-      <text>Use data.json.map to read data as java.util.Map from JSON file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. def map = data.json.map("data/root-map.json") map.payload.info.should == "additional id1 payload"</text>
+      <text>Use data.json.map to read data as java.util.Map from JSON file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. Groovy def map = data.json.map("data/root-map.json") map.payload.should == [info: "additional id1 payload"] Java Map&lt;String, ?> map = data.json.map("data/root-map.json"); actual(map.get("payload")).should(equal(aMapOf("info", "additional id1 payload")));</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/data/json#read-tabledata</url>
+    <fullTitle>WebTau: Json, Read TableData [Data]</fullTitle>
+    <text>
+      <text>Use data.json.table to read data as TableData from JSON file. JSON must be a list. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def table = data.json.table("data/flat-list.json") table.should == [ "id" | "name" | "payload"] { _________________________________________ "id1" | "hello" | [info: ~/id1 payload/] "id2" | "world" | [info: ~/id2 payload/] } Java TableData jsonTable = data.json.table("data/flat-list.json"); TableData expected = table("id" , "name" , "payload", ________________________________________________________________, "id1", "hello" , aMapOf("info", Pattern.compile("id1 payload")), "id2", "world" , aMapOf("info", Pattern.compile("id2 payload"))); actual(jsonTable).should(equal(expected));</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/data/json#write-list</url>
+    <fullTitle>WebTau: Json, Write List [Data]</fullTitle>
+    <text>
+      <text>Use data.json.write to write data to JSON file. Groovy def list = [ ["colA": 1, "colB": "R1"], ["colA": 2, "colB": "R2"]] def path = data.json.write("generated/from-list-maps.json", list) Java List&lt;Map&lt;String, ?>> list = Arrays.asList( aMapOf("colA", 1, "colB", "R1"), aMapOf("colA", 2, "colB", "R2")); Path path = data.json.write("generated/from-list-maps.json", list); write methods produce additional information that helps with tests investigation > writing json to file generated/from-list-maps.json . wrote 6 lines to json /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-list-maps.json (0ms) [ { "colA" : 1, "colB" : "R1" }, { "colA" : 2, "colB" : "R2" } ]</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/data/json#write-map</url>
+    <fullTitle>WebTau: Json, Write Map [Data]</fullTitle>
+    <text>
+      <text>Groovy def map = ["colA": 1, "colB": "R1"] def path = data.json.write("generated/from-map.json", map) Java Map&lt;String, ?> map = aMapOf("colA", 1, "colB", "R1"); Path path = data.json.write("generated/from-list-maps.json", map); { "colA" : 1, "colB" : "R1" }</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/data/json#write-table-data</url>
+    <fullTitle>WebTau: Json, Write Table Data [Data]</fullTitle>
+    <text>
+      <text>Groovy TableData table = ["id" | "value"] { ________________ "id1" | "value1" "id2" | "value2" } def path = data.json.write("generated/from-table-data.json", table) Java TableData csvTable = table("id" , "value", ________________, "id1" , "value1", "id2" , "value2"); Path path = data.json.write("generated/from-table-data.json", csvTable); write methods produce additional information that helps with tests investigation [ { "id" : "id1", "value" : "value1" }, { "id" : "id2", "value" : "value2" } ]</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1867,7 +1947,15 @@
     <url>/webtau/data/csv#table-data</url>
     <fullTitle>WebTau: Csv, Table Data [Data]</fullTitle>
     <text>
-      <text>Use data.csv.table to read data as TableData from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. A B C 1 2 3 a b c TableData table = data.csv.table("data/table.csv") Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.tableAutoConverted to read data as TableData from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def table = data.csv.tableAutoConverted("data/table.csv") table.row(0).B.should == 2 table.row(0).B.class.canonicalName.should == "java.lang.Long"</text>
+      <text>Use data.csv.table to read data as TableData from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. A B C 1 2 3 a b c Groovy TableData table = data.csv.table("data/table.csv") Check data/import-and-dependencies Import And Dependencies for prerequisites. Java TableData table = data.csv.table("data/table.csv"); Check data/import-and-dependencies Import And Dependencies for prerequisites. read methods produce additional report to help with tests investigation > reading csv from file or resource data/table.csv . read 2 lines of csv from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv (0ms)</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/data/csv#table-data-conversion</url>
+    <fullTitle>WebTau: Csv, Table Data Conversion [Data]</fullTitle>
+    <text>
+      <text>By default, data.csv treats numeric values as strings and does not distinct between strings and dates. Pass valueConverter function to convert values according to your business logic. Groovy def valueConverter = { columnName, value -> columnName == "date" ? LocalDate.parse(value): value } def table = data.csv.table("data/with-dates.csv", valueConverter) table.row(0).date.should == LocalDate.of(2022, 11, 26) table.row(0).date.class.canonicalName.should == "java.time.LocalDate" Java DataCsvValueConverter valueConverter = (columnName, value) -> columnName.equals("date") ? LocalDate.parse(value): value; TableData table = data.csv.table("data/with-dates.csv", valueConverter); actual(table.row(0).get("date")).should(equal(LocalDate.of(2022, 11, 26))); actual(table.row(0).get("date").getClass().getCanonicalName()).should(equal("java.time.LocalDate")); If you only need to deal with numbers, use tableAutoConverted variant that automatically convert numeric values into Number Groovy def table = data.csv.tableAutoConverted("data/table.csv") table.row(0).B.should == 2 table.row(0).B.class.canonicalName.should == "java.lang.Long" Java TableData table = data.csv.tableAutoConverted("data/table.csv"); actual(table.row(0).get("B")).should(equal(2)); actual(table.row(0).get("B").getClass().getCanonicalName()).should(equal("java.lang.Long"));</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1875,7 +1963,7 @@
     <url>/webtau/data/csv#list-of-map</url>
     <fullTitle>WebTau: Csv, List Of Map [Data]</fullTitle>
     <text>
-      <text>A B C 1 2 3 a b c Use data.csv.listOfMaps to read data as java.util.List of java.util.Map from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.csv.listOfMaps("data/table.csv") list.get(0).B.should == "2" list.get(0).B.class.canonicalName.should == "java.lang.String" Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.listOfMapsAutoConverted to read data as java.util.List of java.util.Map from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.csv.listOfMapsAutoConverted("data/table.csv") list.get(0).B.should == 2 list.get(0).B.class.canonicalName.should == "java.lang.Long"</text>
+      <text>A B C 1 2 3 a b c Use data.csv.listOfMaps to read data as java.util.List of java.util.Map from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.csv.listOfMaps("data/table.csv") list.get(0).B.should == "2" list.get(0).B.class.canonicalName.should == "java.lang.String" Java List&lt;Map&lt;String, String>> list = data.csv.listOfMaps("data/table.csv"); actual(list.get(0).get("B")).should(equal("2")); actual(list.get(0).get("B").getClass().getCanonicalName()).should(equal("java.lang.String")); Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.listOfMapsAutoConverted to read data as java.util.List of java.util.Map from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.csv.listOfMapsAutoConverted("data/table.csv") list.get(0).B.should == 2 list.get(0).B.class.canonicalName.should == "java.lang.Long" Java List&lt;Map&lt;String, ?>> list = data.csv.listOfMapsAutoConverted("data/table.csv"); actual(list.get(0).get("B")).should(equal(2)); actual(list.get(0).get("B").getClass().getCanonicalName()).should(equal("java.lang.Long"));</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1883,15 +1971,23 @@
     <url>/webtau/data/csv#specify-header</url>
     <fullTitle>WebTau: Csv, Specify Header [Data]</fullTitle>
     <text>
-      <text>1, 2, 3 a, b, c Use data.csv.listOfMapsAutoConverted(header, path) to read data as java.util.List of java.util.Map from CSV file. Header will be taken from first parameter and first row of CSV file will not be treated as header. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.csv.listOfMapsAutoConverted(["C1", "C2", "C3"],"data/table-no-header.csv") list.get(0).C2.should == 2 list.get(0).C2.class.canonicalName.should == "java.lang.Long"</text>
+      <text>1, 2, 3 a, b, c Use data.csv.listOfMapsAutoConverted(header, path) to read data as java.util.List of java.util.Map from CSV file. Header will be taken from first parameter and first row of CSV file will not be treated as header. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.csv.listOfMapsAutoConverted(["C1", "C2", "C3"], "data/table-no-header.csv") list.get(0).C2.should == 2 list.get(0).C2.class.canonicalName.should == "java.lang.Long" Java List&lt;Map&lt;String, ?>> list = data.csv.listOfMapsAutoConverted(Arrays.asList("C1", "C2", "C3"), "data/table-no-header.csv"); actual(list.get(0).get("C2")).should(equal(2)); actual(list.get(0).get("C2").getClass().getCanonicalName()).should(equal("java.lang.Long"));</text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/data/csv#csv-write</url>
-    <fullTitle>WebTau: Csv, CSV Write [Data]</fullTitle>
+    <url>/webtau/data/csv#write-list</url>
+    <fullTitle>WebTau: Csv, Write List [Data]</fullTitle>
     <text>
-      <text>Use data.csv.write to write data to CSV file. def list = [ ['colA': 1, 'colB': 'R1'], ['colA': 2, 'colB': 'R2'] ] def path = data.csv.write('generated/from-list-maps.csv', list) colA,colB 1,R1 2,R2</text>
+      <text>Use data.csv.write to write data to CSV file. Groovy def list = [ ["colA": 1, "colB": "R1"], ["colA": 2, "colB": "R2"]] def path = data.csv.write("generated/from-list-maps.csv", list) Java List&lt;Map&lt;String, ?>> list = Arrays.asList( aMapOf("colA", 1, "colB", "R1"), aMapOf("colA", 2, "colB", "R2")); Path path = data.csv.write("generated/from-list-maps.csv", list); write methods produce additional information that helps with tests investigation > writing csv to file generated/from-list-maps.csv . wrote 3 lines to csv /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-list-maps.csv (2ms) colA,colB 1,R1 2,R2</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/data/csv#write-table-data</url>
+    <fullTitle>WebTau: Csv, Write Table Data [Data]</fullTitle>
+    <text>
+      <text>Groovy TableData table = ["id" | "value"] { ________________ "id1" | "value1" "id2" | "value2" } def path = data.csv.write("generated/from-table-data.csv", table) Java TableData csvTable = table("id" , "value", ________________, "id1" , "value1", "id2" , "value2"); Path path = data.csv.write("generated/from-table-data.csv", csvTable); write methods produce additional information that helps with tests investigation > writing csv to file generated/from-table-data.csv . wrote 3 lines to csv /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.csv (3ms) id,value id1,value1 id2,value2</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1899,7 +1995,7 @@
     <url>/webtau/data/pdf#read-file-or-resource</url>
     <fullTitle>WebTau: Pdf, Read File Or Resource [Data]</fullTitle>
     <text>
-      <text>Use data.pdf.read(String) to read and parse PDF from a path. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. Pdf pdf = data.pdf.read("sample.pdf") pdf.pageText(0).should contain('Test text paragraph Test')</text>
+      <text>Use data.pdf.read(String) to read and parse PDF from a path. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. Pdf pdf = data.pdf.read("sample.pdf") pdf.pageText(0).should contain('Test text paragraph Test') Check data/import-and-dependencies Import And Dependencies for prerequisites.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1916,6 +2012,22 @@
     <fullTitle>WebTau: Pdf, Read Bytes [Data]</fullTitle>
     <text>
       <text>byte[] pdfContent = pdfBinaryContent() Pdf pdf = data.pdf.read(pdfContent) pdf.pageText(0).should contain('Test text paragraph Test')</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/data/import-and-dependencies#single-dsl-import</url>
+    <fullTitle>WebTau: Import And Dependencies, Single DSL Import [Data]</fullTitle>
+    <text>
+      <text>WebTau recommends to use one single static import to have all core features available for autocomplete. It also requires a single dependency to bring all the WebTau modules. Groovy import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-groovy&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency> Java import static org.testingisdocumenting.webtau.WebTauDsl.*; &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId>webtau&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency></text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/data/import-and-dependencies#data-specific-import</url>
+    <fullTitle>WebTau: Import And Dependencies, Data Specific Import [Data]</fullTitle>
+    <text>
+      <text>To only import data. module use Groovy import static org.testingisdocumenting.webtau.data.Data.data &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-data&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency> Java import static org.testingisdocumenting.webtau.data.Data.data; &lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-data&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1955,7 +2067,7 @@
     <url>/webtau/utilities/file-system#temporary-dirs-and-files</url>
     <fullTitle>WebTau: File System, Temporary Dirs And Files [Utilities]</fullTitle>
     <text>
-      <text>def dir = fs.tempDir("my-dir-prefix") def path = dir.resolve("my-file") fs.writeText(path, "hello world") def parentDir = fs.tempDir("my-dir-prefix") def dir = fs.tempDir(parentDir, "nested-temp-dir") def file = fs.tempFile("my-file-prefix", ".txt") fs.writeText(file, "hello world") def dir = fs.tempDir("temp-dir-prefix") def file = fs.tempFile(dir, "my-file-prefix", ".txt") /tmp/temp-dir-prefix5970317973824424828/my-file-prefix4997577316681341737.txt Note: temp files and temp directories will be automatically deleted at the end of run</text>
+      <text>def dir = fs.tempDir("my-dir-prefix") def path = dir.resolve("my-file") fs.writeText(path, "hello world") def parentDir = fs.tempDir("my-dir-prefix") def dir = fs.tempDir(parentDir, "nested-temp-dir") def file = fs.tempFile("my-file-prefix", ".txt") fs.writeText(file, "hello world") def dir = fs.tempDir("temp-dir-prefix") def file = fs.tempFile(dir, "my-file-prefix", ".txt") /tmp/temp-dir-prefix3659188618247128804/my-file-prefix4041625985530876994.txt Note: temp files and temp directories will be automatically deleted at the end of run</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1964,6 +2076,14 @@
     <fullTitle>WebTau: Cache, Cached Value [Utilities]</fullTitle>
     <text>
       <text>When you develop tests, you don't have to restart the whole flow from the beginning.Imagine you have a multistep test that includes running Command Line tool and then validating REST API response, and then opening a browser to assert UI values.Cache long steps results like created entities ids to speed up tests development.In the example below, you create first scenario that runs a heavy command line tool that generates an id. We then cache the value and you can write a second scenario and keep re-running it, without the need to re-run the first one. import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def createdId = cache.value("cli-heavy-created-id") // declare cached value with distinct id scenario("heavy setup operation") { def cliResult = cli.run("scripts/cli-heavy-process") // long running process that you don't want to re-run as you write your tests createdId.set(cliResult.extractFromOutputByRegexp("id=(\\S+)")) // caching the extracted id from CLI run } scenario("using previous setup id even after restart") { def id = createdId.get() // using cached value from previous test run. value will be preserved between restarts and re-compile http.get("/resource/${id}") { message.should == "hello" } } Note: Use groovy-standalone-runner/selective-run Selective Run or REPL/test-runs REPL mode to run one scenario at a time.</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/utilities/cache#cached-value-with-expiration</url>
+    <fullTitle>WebTau: Cache, Cached Value With Expiration [Utilities]</fullTitle>
+    <text>
+      <text>Use get value with expiration time for scenarios like auth token def token = cache.get(authTokenKey, 60_000, () -> generateAuthToken())</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -1987,7 +2107,15 @@
     <url>/webtau/matchers/universal-compare#cross-types-comparison</url>
     <fullTitle>WebTau: Universal Compare, Cross Types Comparison [Matchers]</fullTitle>
     <text>
-      <text>In WebTau you can compare strings, dates, arrays, strings and numbers, dates and strings, arrays and sets and other numerous combinations using the same set of matchers. Groovy def errorMessage = generateErrorMessage() errorMessage.should == "insufficient disk space" // string and string equality comparison def numberAsText = "200" numberAsText.shouldBe > 150 // text and number relative comparison Java String errorMessage = generateErrorMessage(); actual(errorMessage).should(equal("insufficient disk space")); // string and string equality comparison String numberAsText = "200"; actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</text>
+      <text>In WebTau you can compare strings, dates, arrays, strings and numbers, dates and strings, arrays and sets and other numerous combinations using the same set of matchers. Groovy def errorMessage = generateErrorMessage() errorMessage.should == "insufficient disk space" // string and string equality comparison def numberAsText = "200" numberAsText.shouldBe > 150 // text and number relative comparison Java String errorMessage = generateErrorMessage(); actual(errorMessage).should(equal("insufficient disk space")); // string and string equality comparison String numberAsText = "200"; actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/matchers/universal-compare#reporting</url>
+    <fullTitle>WebTau: Universal Compare, Reporting [Matchers]</fullTitle>
+    <text>
+      <text>Every comparison failed and successful generates console output with comparison details. . [value] equals "insufficient disk space" [value]: actual: "insufficient disk space" &lt;java.lang.String> expected: "insufficient disk space" &lt;java.lang.String> (0ms) Values have predefined names when they come from HTTP response or Web UI, etc. But regular values default to value .Pass name as a second parameter to actual to set an explicit reporting name. Groovy double price = calculatePrice() actual(price, "price").shouldBe > 10 // explict name to use in reporting Java double price = calculatePrice(); actual(price, "price").shouldBe(greaterThan(10)); // explict name to use in reporting . price greater than 10 price: actual: 10.5 &lt;java.math.BigDecimal>(before conversion: 10.5 &lt;java.lang.Double>) expected: greater than 10 &lt;java.math.BigDecimal>(before conversion: 10 &lt;java.lang.Integer>) (1ms) Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -2051,7 +2179,7 @@
     <url>/webtau/groovy-standalone-runner/introduction#setup</url>
     <fullTitle>WebTau: Introduction, Setup [Groovy Standalone Runner]</fullTitle>
     <text>
-      <text>If you have https://brew.sh brew installed in your system use brew install testingisdocumenting/brew/webtau If you have https://sdkman.io sdkman installed in your system use sdk install webtau Alternatively, download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.49/webtau-dist-1.49-webtau.zip WebTau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com</text>
+      <text>If you have https://brew.sh brew installed in your system use brew install testingisdocumenting/brew/webtau If you have https://sdkman.io sdkman installed in your system use sdk install webtau Alternatively, download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.50/webtau-dist-1.50-webtau.zip WebTau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -2195,7 +2323,7 @@
     <url>/webtau/groovy-standalone-runner/test-execution#scenario-discovery</url>
     <fullTitle>WebTau: Test Execution, Scenario discovery [Groovy Standalone Runner]</fullTitle>
     <text>
-      <text>WebTau via CLI or Maven plugin supports a number of methods for specifying and discovering scenarios.The simplest way is to list the scenario files explicitly: CLI webtau scenarios/rest/simpleGet.groovy scnearios/rest/simplePost.groovy Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/simpleGet.groovy&lt;/include> &lt;include>scenarios/simplePost.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Wildcard matching is also supported. In the CLI version this is normal shell https://en.wikipedia.org/wiki/Glob_(programming) glob and in Maven it's a standard Maven file inclusion block: CLI webtau scenarios/rest/simple*.groovy Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/simple*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> It is also possible to include a set of base directories and WebTau will then find all *.groovy files within them, recursively: CLI webtau scenarios/rest Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;/tests> &lt;/configuration> &lt;/plugin> In this mode, the HTML report that WebTau generates will show paths to the files relative to the requested directories.</text>
+      <text>WebTau via CLI or Maven plugin supports a number of methods for specifying and discovering scenarios.The simplest way is to list the scenario files explicitly: CLI webtau scenarios/rest/simpleGet.groovy scnearios/rest/simplePost.groovy Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/simpleGet.groovy&lt;/include> &lt;include>scenarios/simplePost.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> Wildcard matching is also supported. In the CLI version this is normal shell https://en.wikipedia.org/wiki/Glob_(programming) glob and in Maven it's a standard Maven file inclusion block: CLI webtau scenarios/rest/simple*.groovy Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;includes> &lt;include>scenarios/simple*.groovy&lt;/include> &lt;/includes> &lt;/tests> &lt;/configuration> &lt;/plugin> It is also possible to include a set of base directories and WebTau will then find all *.groovy files within them, recursively: CLI webtau scenarios/rest Maven &lt;plugin> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-maven-plugin&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;executions> &lt;execution> &lt;phase>test&lt;/phase> &lt;goals> &lt;goal>run&lt;/goal> &lt;/goals> &lt;/execution> &lt;/executions> &lt;configuration> &lt;workingDir>${project.basedir}/src/main/groovy&lt;/workingDir> &lt;tests> &lt;directory>${project.basedir}/src/main/groovy&lt;/directory> &lt;/tests> &lt;/configuration> &lt;/plugin> In this mode, the HTML report that WebTau generates will show paths to the files relative to the requested directories.</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -2243,7 +2371,7 @@
     <url>/webtau/configuration/options#cli-and-configuration-file-options</url>
     <fullTitle>WebTau: Options, CLI and configuration file options [Configuration]</fullTitle>
     <text>
-      <text>browserDisableExtensions run browser without extensionsdefault value: false browserHeadless run browser in headless modedefault value: false browserHeight browser window heightdefault value: 0 browserId browser to use: chrome, firefoxdefault value: chrome browserRemoteDriverUrl browser remote driver url browserStaleElementRetry number of times to automatically retry for browser stale element actionsdefault value: 5 browserStaleElementRetryWait wait time in between browser stale element retriesdefault value: 100 browserUrl browser base url for application under test. It is being used instead of url when provided browserVersion browser version for automatic driver download browserWidth browser window widthdefault value: 0 cachePath user driven cache base dirdefault value: ${workingDir}/.webtau-cache chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary cliEnv cli common environment variablesdefault value: {} cliPath path items to append to path used for cli runsdefault value: [] cliTimeout cli foreground command run timeout (ms)default value: 30000 config config file pathdefault value: webtau.cfg.groovy consolePayloadOutputLimit max number of lines to display in console for outputs (e.g. http response)default value: 500 dbDriverClassName primary database driver class name dbPassword primary database password dbUrl primary database url dbUserName primary database user name disableRedirects disable following of redirects from HTTP callsdefault value: false docPath path for captured request/responses, screenshots and other generated artifacts for documentationdefault value: ${workingDir}/doc-artifacts env environment iddefault value: local failedReportPath failed report file path firefoxBinPath path to firefox binary firefoxDriverPath path to firefox driver binary fullStackTrace print full stack trace to consoledefault value: false graphQLEndpoint override the default graphQL endpointdefault value: /graphql graphQLIgnoreIntrospectionFailures ignore graphQL introspection failures, introspection is required for coverage reportingdefault value: true graphQLShowOperationAsQueryParam pass the graphQL operation as operation= query parameter if presentdefault value: true httpProxy http proxy host:port httpTimeout http connect and read timeout in millisecondsdefault value: 30000 jsonSchemasDir url of directory containing JSON schemasdefault value: /home/runner/work/webtau/webtau/webtau-groovy-app maxRedirects Maximum number of redirects to follow for an HTTP calldefault value: 20 noColor disable ANSI colorsdefault value: false numberOfThreads number of threads on which to run test files (one file per thread), -1 will use as many threads as there are filesdefault value: 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI propertiesdefault value: false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls parallel run tests in parallel using numberOfThreads equals to number of filesdefault value: false removeWebTauFromUserAgent By default webtau appends webtau and its version to the user-agent, this disables that partdefault value: false reportName report name to showdefault value: WebTau report reportNameUrl report name url to navigate to when clicked reportPath report file pathdefault value: ${workingDir}/webtau.report.html serverProxyMaxThreads max number of threads for proxy servers (default number of CPUs * 2)default value: 4 termui enable terminal UI to monitor tests (experimental)default value: false url base url for application under test userAgent User agent to send on HTTP requestsdefault value: webtau/1.49 verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etcdefault value: 2147483647 waitTimeout wait timeout in millisecondsdefault value: 5000 workingDir logical working dirdefault value:</text>
+      <text>browserDisableExtensions run browser without extensionsdefault value: false browserHeadless run browser in headless modedefault value: false browserHeight browser window heightdefault value: 0 browserId browser to use: chrome, firefoxdefault value: chrome browserRemoteDriverUrl browser remote driver url browserStaleElementRetry number of times to automatically retry for browser stale element actionsdefault value: 5 browserStaleElementRetryWait wait time in between browser stale element retriesdefault value: 100 browserUrl browser base url for application under test. It is being used instead of url when provided browserVersion browser version for automatic driver download browserWidth browser window widthdefault value: 0 cachePath user driven cache base dirdefault value: ${workingDir}/.webtau-cache chromeBinPath path to chrome binary chromeDriverPath path to chrome driver binary cliEnv cli common environment variablesdefault value: {} cliPath path items to append to path used for cli runsdefault value: [] cliTimeout cli foreground command run timeout (ms)default value: 30000 config config file pathdefault value: webtau.cfg.groovy consolePayloadOutputLimit max number of lines to display in console for outputs (e.g. http response)default value: 500 dbDriverClassName primary database driver class name dbPassword primary database password dbUrl primary database url dbUserName primary database user name disableRedirects disable following of redirects from HTTP callsdefault value: false docPath path for captured request/responses, screenshots and other generated artifacts for documentationdefault value: ${workingDir}/doc-artifacts env environment iddefault value: local failedReportPath failed report file path firefoxBinPath path to firefox binary firefoxDriverPath path to firefox driver binary fullStackTrace print full stack trace to consoledefault value: false graphQLEndpoint override the default graphQL endpointdefault value: /graphql graphQLIgnoreIntrospectionFailures ignore graphQL introspection failures, introspection is required for coverage reportingdefault value: true graphQLShowOperationAsQueryParam pass the graphQL operation as operation= query parameter if presentdefault value: true httpDataCoverageOutput path to generated data coverage JSON result for additional processing httpProxy http proxy host:port httpRoutesPath path to a file or a resource with operations in a format METHOD route httpTimeout http connect and read timeout in millisecondsdefault value: 30000 jsonSchemasDir url of directory containing JSON schemasdefault value: /home/runner/work/webtau/webtau/webtau-groovy-app maxRedirects Maximum number of redirects to follow for an HTTP calldefault value: 20 noColor disable ANSI colorsdefault value: false numberOfThreads number of threads on which to run test files (one file per thread), -1 will use as many threads as there are filesdefault value: 1 openApiIgnoreAdditionalProperties ignore additional OpenAPI propertiesdefault value: false openApiSpecUrl url of OpenAPI 2 spec against which to validate http calls parallel run tests in parallel using numberOfThreads equals to number of filesdefault value: false removeWebTauFromUserAgent By default webtau appends webtau and its version to the user-agent, this disables that partdefault value: false reportName report name to showdefault value: WebTau report reportNameUrl report name url to navigate to when clicked reportPath report file pathdefault value: ${workingDir}/webtau.report.html serverProxyMaxThreads max number of threads for proxy servers (default number of CPUs * 2)default value: 4 termui enable terminal UI to monitor tests (experimental)default value: false url base url for application under test userAgent User agent to send on HTTP requestsdefault value: webtau/1.50 verbosityLevel output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etcdefault value: 2147483647 waitTimeout wait timeout in millisecondsdefault value: 5000 workingDir logical working dirdefault value:</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -2251,7 +2379,7 @@
     <url>/webtau/configuration/options#environment-variable-options</url>
     <fullTitle>WebTau: Options, Environment variable options [Configuration]</fullTitle>
     <text>
-      <text>WEBTAU_BROWSER_DISABLE_EXTENSIONS run browser without extensionsdefault value: false WEBTAU_BROWSER_HEADLESS run browser in headless modedefault value: false WEBTAU_BROWSER_HEIGHT browser window heightdefault value: 0 WEBTAU_BROWSER_ID browser to use: chrome, firefoxdefault value: chrome WEBTAU_BROWSER_REMOTE_DRIVER_URL browser remote driver url WEBTAU_BROWSER_STALE_ELEMENT_RETRY number of times to automatically retry for browser stale element actionsdefault value: 5 WEBTAU_BROWSER_STALE_ELEMENT_RETRY_WAIT wait time in between browser stale element retriesdefault value: 100 WEBTAU_BROWSER_URL browser base url for application under test. It is being used instead of url when provided WEBTAU_BROWSER_VERSION browser version for automatic driver download WEBTAU_BROWSER_WIDTH browser window widthdefault value: 0 WEBTAU_CACHE_PATH user driven cache base dirdefault value: ${workingDir}/.webtau-cache WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CLI_ENV cli common environment variablesdefault value: {} WEBTAU_CLI_PATH path items to append to path used for cli runsdefault value: [] WEBTAU_CLI_TIMEOUT cli foreground command run timeout (ms)default value: 30000 WEBTAU_CONFIG config file pathdefault value: webtau.cfg.groovy WEBTAU_CONSOLE_PAYLOAD_OUTPUT_LIMIT max number of lines to display in console for outputs (e.g. http response)default value: 500 WEBTAU_DB_DRIVER_CLASS_NAME primary database driver class name WEBTAU_DB_PASSWORD primary database password WEBTAU_DB_URL primary database url WEBTAU_DB_USER_NAME primary database user name WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP callsdefault value: false WEBTAU_DOC_PATH path for captured request/responses, screenshots and other generated artifacts for documentationdefault value: ${workingDir}/doc-artifacts WEBTAU_ENV environment iddefault value: local WEBTAU_FAILED_REPORT_PATH failed report file path WEBTAU_FIREFOX_BIN_PATH path to firefox binary WEBTAU_FIREFOX_DRIVER_PATH path to firefox driver binary WEBTAU_FULL_STACK_TRACE print full stack trace to consoledefault value: false WEBTAU_GRAPH_QLENDPOINT override the default graphQL endpointdefault value: /graphql WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES ignore graphQL introspection failures, introspection is required for coverage reportingdefault value: true WEBTAU_GRAPH_QLSHOW_OPERATION_AS_QUERY_PARAM pass the graphQL operation as operation= query parameter if presentdefault value: true WEBTAU_HTTP_PROXY http proxy host:port WEBTAU_HTTP_TIMEOUT http connect and read timeout in millisecondsdefault value: 30000 WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemasdefault value: /home/runner/work/webtau/webtau/webtau-groovy-app WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP calldefault value: 20 WEBTAU_NO_COLOR disable ANSI colorsdefault value: false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread), -1 will use as many threads as there are filesdefault value: 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI propertiesdefault value: false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_PARALLEL run tests in parallel using numberOfThreads equals to number of filesdefault value: false WEBTAU_REMOVE_WEB_TAU_FROM_USER_AGENT By default webtau appends webtau and its version to the user-agent, this disables that partdefault value: false WEBTAU_REPORT_NAME report name to showdefault value: WebTau report WEBTAU_REPORT_NAME_URL report name url to navigate to when clicked WEBTAU_REPORT_PATH report file pathdefault value: ${workingDir}/webtau.report.html WEBTAU_SERVER_PROXY_MAX_THREADS max number of threads for proxy servers (default number of CPUs * 2)default value: 4 WEBTAU_TERMUI enable terminal UI to monitor tests (experimental)default value: false WEBTAU_URL base url for application under test WEBTAU_USER_AGENT User agent to send on HTTP requestsdefault value: webtau/1.49 WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etcdefault value: 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in millisecondsdefault value: 5000 WEBTAU_WORKING_DIR logical working dirdefault value:</text>
+      <text>WEBTAU_BROWSER_DISABLE_EXTENSIONS run browser without extensionsdefault value: false WEBTAU_BROWSER_HEADLESS run browser in headless modedefault value: false WEBTAU_BROWSER_HEIGHT browser window heightdefault value: 0 WEBTAU_BROWSER_ID browser to use: chrome, firefoxdefault value: chrome WEBTAU_BROWSER_REMOTE_DRIVER_URL browser remote driver url WEBTAU_BROWSER_STALE_ELEMENT_RETRY number of times to automatically retry for browser stale element actionsdefault value: 5 WEBTAU_BROWSER_STALE_ELEMENT_RETRY_WAIT wait time in between browser stale element retriesdefault value: 100 WEBTAU_BROWSER_URL browser base url for application under test. It is being used instead of url when provided WEBTAU_BROWSER_VERSION browser version for automatic driver download WEBTAU_BROWSER_WIDTH browser window widthdefault value: 0 WEBTAU_CACHE_PATH user driven cache base dirdefault value: ${workingDir}/.webtau-cache WEBTAU_CHROME_BIN_PATH path to chrome binary WEBTAU_CHROME_DRIVER_PATH path to chrome driver binary WEBTAU_CLI_ENV cli common environment variablesdefault value: {} WEBTAU_CLI_PATH path items to append to path used for cli runsdefault value: [] WEBTAU_CLI_TIMEOUT cli foreground command run timeout (ms)default value: 30000 WEBTAU_CONFIG config file pathdefault value: webtau.cfg.groovy WEBTAU_CONSOLE_PAYLOAD_OUTPUT_LIMIT max number of lines to display in console for outputs (e.g. http response)default value: 500 WEBTAU_DB_DRIVER_CLASS_NAME primary database driver class name WEBTAU_DB_PASSWORD primary database password WEBTAU_DB_URL primary database url WEBTAU_DB_USER_NAME primary database user name WEBTAU_DISABLE_REDIRECTS disable following of redirects from HTTP callsdefault value: false WEBTAU_DOC_PATH path for captured request/responses, screenshots and other generated artifacts for documentationdefault value: ${workingDir}/doc-artifacts WEBTAU_ENV environment iddefault value: local WEBTAU_FAILED_REPORT_PATH failed report file path WEBTAU_FIREFOX_BIN_PATH path to firefox binary WEBTAU_FIREFOX_DRIVER_PATH path to firefox driver binary WEBTAU_FULL_STACK_TRACE print full stack trace to consoledefault value: false WEBTAU_GRAPH_QLENDPOINT override the default graphQL endpointdefault value: /graphql WEBTAU_GRAPH_QLIGNORE_INTROSPECTION_FAILURES ignore graphQL introspection failures, introspection is required for coverage reportingdefault value: true WEBTAU_GRAPH_QLSHOW_OPERATION_AS_QUERY_PARAM pass the graphQL operation as operation= query parameter if presentdefault value: true WEBTAU_HTTP_DATA_COVERAGE_OUTPUT path to generated data coverage JSON result for additional processing WEBTAU_HTTP_PROXY http proxy host:port WEBTAU_HTTP_ROUTES_PATH path to a file or a resource with operations in a format METHOD route WEBTAU_HTTP_TIMEOUT http connect and read timeout in millisecondsdefault value: 30000 WEBTAU_JSON_SCHEMAS_DIR url of directory containing JSON schemasdefault value: /home/runner/work/webtau/webtau/webtau-groovy-app WEBTAU_MAX_REDIRECTS Maximum number of redirects to follow for an HTTP calldefault value: 20 WEBTAU_NO_COLOR disable ANSI colorsdefault value: false WEBTAU_NUMBER_OF_THREADS number of threads on which to run test files (one file per thread), -1 will use as many threads as there are filesdefault value: 1 WEBTAU_OPEN_API_IGNORE_ADDITIONAL_PROPERTIES ignore additional OpenAPI propertiesdefault value: false WEBTAU_OPEN_API_SPEC_URL url of OpenAPI 2 spec against which to validate http calls WEBTAU_PARALLEL run tests in parallel using numberOfThreads equals to number of filesdefault value: false WEBTAU_REMOVE_WEB_TAU_FROM_USER_AGENT By default webtau appends webtau and its version to the user-agent, this disables that partdefault value: false WEBTAU_REPORT_NAME report name to showdefault value: WebTau report WEBTAU_REPORT_NAME_URL report name url to navigate to when clicked WEBTAU_REPORT_PATH report file pathdefault value: ${workingDir}/webtau.report.html WEBTAU_SERVER_PROXY_MAX_THREADS max number of threads for proxy servers (default number of CPUs * 2)default value: 4 WEBTAU_TERMUI enable terminal UI to monitor tests (experimental)default value: false WEBTAU_URL base url for application under test WEBTAU_USER_AGENT User agent to send on HTTP requestsdefault value: webtau/1.50 WEBTAU_VERBOSITY_LEVEL output verbosity level. 0 - no output; 1 - test names; 2 - first level steps; etcdefault value: 2147483647 WEBTAU_WAIT_TIMEOUT wait timeout in millisecondsdefault value: 5000 WEBTAU_WORKING_DIR logical working dirdefault value:</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -2264,7 +2392,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/generic-runners/JUnit-4#beforeafter</url>
+    <url>/webtau/generic-runners/JUnit-4#before-after</url>
     <fullTitle>WebTau: JUnit 4, Before/After [Generic Runners]</fullTitle>
     <text>
       <text>Use @Before , @After standard JUnit 4 annotations to implement init and cleanup logic for each test. Groovy package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.After import org.junit.Before import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @RunWith(WebTauRunner.class) class CustomerCrudBeforeAfterGroovyTest { private def customerPayload = [firstName: 'FN', lastName: 'LN'] private def changedCustomerPayload = [*:customerPayload, lastName: 'NLN'] private int customerId @Before void "create customer"() { customerId = http.post("/customers", customerPayload) { return id // We deliberately named field as "customerId" to avoid conflict with response field. Alternatively you can use body.id to avoid the conflict } } @Test void "query customer"() { http.get("/customers/$customerId") { body.should == customerPayload } } @Test void "update customer"() { http.put("/customers/$customerId", changedCustomerPayload) { body.should == changedCustomerPayload } http.get("/customers/$customerId") { body.should == changedCustomerPayload } } @After void "delete customer"() { http.delete("/customers/$customerId") { statusCode.should == 204 } http.get("/customers/$customerId") { statusCode.should == 404 } } } Java package com.example.tests.junit4; import org.junit.After; import org.junit.Before; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.http.request.HttpRequestBody; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class CustomerCrudBeforeAfterJavaTest { private final HttpRequestBody customerPayload = http.json( "firstName", "FN", "lastName", "LN"); private final HttpRequestBody changedCustomerPayload = http.json( "firstName", "FN", "lastName", "NLN"); private int customerId; @Before public void createCustomer() { customerId = http.post("/customers", customerPayload, ((header, body) -> { return body.get("id"); })); } @Test public void queryCustomer() { http.get("/customers/" + customerId, ((header, body) -> { body.should(equal(customerPayload)); })); } @Test public void updateCustomer() { http.put("/customers/" + customerId, changedCustomerPayload, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); http.get("/customers/" + customerId, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); } @After public void deleteCustomer() { http.delete("/customers/" + customerId, (header, body) -> { header.statusCode.should(equal(204)); }); http.get("/customers/" + customerId, ((header, body) -> { header.statusCode.should(equal(404)); })); } }</text>
@@ -2272,7 +2400,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/generic-runners/JUnit-4#beforeclassafterclass</url>
+    <url>/webtau/generic-runners/JUnit-4#beforeclass-afterclass</url>
     <fullTitle>WebTau: JUnit 4, BeforeClass/AfterClass [Generic Runners]</fullTitle>
     <text>
       <text>Use @BeforeClass and @AfterClass to prepare and cleanup resources required for multiple test methods. Groovy package com.example.tests.junit4 import org.testingisdocumenting.webtau.junit4.WebTauRunner import org.junit.AfterClass import org.junit.BeforeClass import org.junit.Test import org.junit.runner.RunWith import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @RunWith(WebTauRunner.class) class CustomerQueryGroovyTest { private static def id1 // keep track of created ids to assert and cleanup later private static def id2 private static def id3 @BeforeClass static void createCustomers() { id1 = createCustomer("CQ_FN1", "CQ_LN1") id2 = createCustomer("CQ_FN1", "CQ_LN2") id3 = createCustomer("CQ_FN2", "CQ_LN2") } @Test void queryByFirstName() { http.get("/customers/search/first-name", [name: "CQ_FN1"]) { body.should == ["*id" | "firstName" | "lastName"] { // star(*) marks key column so assertion is order agnostic __________________________________ id1 | "CQ_FN1" | "CQ_LN1" id2 | "CQ_FN1" | "CQ_LN2" } } } @Test void queryByLastName() { http.get("/customers/search/last-name", [name: "CQ_LN2"]) { body.should == ["*id" | "firstName" | "lastName"] { __________________________________ id2 | "CQ_FN1" | "CQ_LN2" id3 | "CQ_FN2" | "CQ_LN2" } } } @AfterClass static void cleanup() { [id1, id2, id3].each { http.delete("/customers/$it") } } private static def createCustomer(String firstName, String lastName) { return http.post("/customers", [firstName: firstName, lastName: lastName]) { id } } } Java package com.example.tests.junit4; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import org.junit.AfterClass; import org.junit.BeforeClass; import org.junit.Test; import org.junit.runner.RunWith; import java.util.Map; import java.util.stream.Stream; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class CustomerQueryJavaTest { private static Integer id1; // keep track of created ids to assert and cleanup later private static Integer id2; private static Integer id3; @BeforeClass public static void createCustomers() { id1 = createCustomer("CQ_FN1", "CQ_LN1"); id2 = createCustomer("CQ_FN1", "CQ_LN2"); id3 = createCustomer("CQ_FN2", "CQ_LN2"); } @Test public void queryByFirstName() { http.get("/customers/search/first-name", http.query("name", "CQ_FN1"), (header, body) -> { body.should(equal(table("*id", "firstName", "lastName", // star(*) marks key column so assertion is order agnostic ________________________________, id1, "CQ_FN1" , "CQ_LN1", id2, "CQ_FN1" , "CQ_LN2"))); }); } @Test public void queryByLastName() { http.get("/customers/search/last-name", http.query("name", "CQ_LN2"), (header, body) -> { body.should(equal(table("*id", "firstName", "lastName", ________________________________, id2, "CQ_FN1" , "CQ_LN2", id3, "CQ_FN2" , "CQ_LN2"))); }); } @AfterClass public static void cleanup() { Stream.of(id1, id2, id3).forEach(id -> http.delete("/customers/" + id)); } private static int createCustomer(String firstName, String lastName) { Map&lt;String, Object> payload = aMapOf( "firstName", firstName, "lastName", lastName); return http.post("/customers", payload, ((header, body) -> { return body.get("id"); })); } }</text>
@@ -2283,23 +2411,31 @@
     <url>/webtau/generic-runners/JUnit-4#maven-import</url>
     <fullTitle>WebTau: JUnit 4, Maven Import [Generic Runners]</fullTitle>
     <text>
-      <text>&lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;/dependency></text>
+      <text>&lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit4&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/generic-runners/JUnit-5#webtau-runner</url>
-    <fullTitle>WebTau: JUnit 5, WebTau Runner [Generic Runners]</fullTitle>
+    <url>/webtau/generic-runners/JUnit-5#webtau-report</url>
+    <fullTitle>WebTau: JUnit 5, WebTau Report [Generic Runners]</fullTitle>
     <text>
-      <text>You can use WebTau http. , graphql. , browser. , cli. , db. methods as in a junit 5 tests, but to enable reporting you need to use @WebTau annotation Groovy package com.example.tests.junit5 import org.testingisdocumenting.webtau.junit5.WebTau import org.junit.jupiter.api.* import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @WebTau @TestMethodOrder(MethodOrderer.OrderAnnotation) // forcing methods execution order @DisplayName("customer CRUD") class CustomerCrudSeparatedGroovyTest { private static def customerPayload = [firstName: 'FN', lastName : 'LN'] private static def changedCustomerPayload = [*: customerPayload, lastName: 'NLN'] private static def id @BeforeAll @DisplayName("create customer") // optional friendly name for reporting purposes static void createCustomer() { id = http.post("/customers", customerPayload) { body.id // using body prefix is required in this case as id conflicts with class field name } id.shouldNot == 0 } @Test @Order(1) @DisplayName("read customer") void read() { http.get("/customers/$id") { body.should == customerPayload } } @Test @Order(2) // order dependence saves from creating customer on every test @DisplayName("update customer") void update() { http.put("/customers/$id", changedCustomerPayload) { body.should == changedCustomerPayload } http.get("/customers/$id") { body.should == changedCustomerPayload } } @Test @Order(3) // but you can still run each method independently @DisplayName("delete customer") void delete() { http.delete("/customers/$id") { header.statusCode.should == 204 } http.get("/customers/$id") { header.statusCode.should == 404 } id = -1 // marking as deleted to let cleanup step know that no delete is required } @AfterAll static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean if (id == -1) { return } http.delete("/customers/$id") } } Java package com.example.tests.junit5; import org.testingisdocumenting.webtau.http.request.HttpRequestBody; import org.testingisdocumenting.webtau.junit5.WebTau; import org.junit.jupiter.api.*; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order @DisplayName("customer CRUD") public class CustomerCrudSeparatedJavaTest { private static final HttpRequestBody customerPayload = http.json( "firstName", "FN", "lastName", "LN"); private static final HttpRequestBody changedCustomerPayload = http.json( "firstName", "FN", "lastName", "NLN"); private static int id; @BeforeAll @DisplayName("create customer") // optional friendly name for reporting purposes public static void createCustomer() { id = http.post("/customers", customerPayload, ((header, body) -> { return body.get("id"); })); actual(id).shouldNot(equal(0)); } @Test @Order(1) @DisplayName("read customer") public void read() { http.get("/customers/" + id, ((header, body) -> { body.should(equal(customerPayload)); })); } @Test @Order(2) // order dependence saves from creating customer on every test @DisplayName("update customer") public void update() { http.put("/customers/" + id, changedCustomerPayload, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); http.get("/customers/" + id, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); } @Test @Order(3) // but you can still run each method independently @DisplayName("delete customer") public void delete() { http.delete("/customers/" + id, ((header, body) -> { header.statusCode.should(equal(204)); })); http.get("/customers/" + id, ((header, body) -> { header.statusCode.should(equal(404)); })); id = -1; // marking as deleted to let cleanup step know that no delete is required } @AfterAll public static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean if (id == -1) { return; } http.delete("/customers/" + id); } }</text>
+      <text>You can use WebTau http. , graphql. , browser. , cli. , db. methods as in a junit 5 tests, but to include a test into generated report you need to use @WebTau annotation Groovy package com.example.tests.junit5 import org.testingisdocumenting.webtau.junit5.WebTau import org.junit.jupiter.api.* import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @WebTau @TestMethodOrder(MethodOrderer.OrderAnnotation) // forcing methods execution order @DisplayName("customer CRUD") class CustomerCrudSeparatedGroovyTest { private static def customerPayload = [firstName: 'FN', lastName : 'LN'] private static def changedCustomerPayload = [*: customerPayload, lastName: 'NLN'] private static def id @BeforeAll @DisplayName("create customer") // optional friendly name for reporting purposes static void createCustomer() { id = http.post("/customers", customerPayload) { body.id // using body prefix is required in this case as id conflicts with class field name } id.shouldNot == 0 } @Test @Order(1) @DisplayName("read customer") void read() { http.get("/customers/$id") { body.should == customerPayload } } @Test @Order(2) // order dependence saves from creating customer on every test @DisplayName("update customer") void update() { http.put("/customers/$id", changedCustomerPayload) { body.should == changedCustomerPayload } http.get("/customers/$id") { body.should == changedCustomerPayload } } @Test @Order(3) // but you can still run each method independently @DisplayName("delete customer") void delete() { http.delete("/customers/$id") { header.statusCode.should == 204 } http.get("/customers/$id") { header.statusCode.should == 404 } id = -1 // marking as deleted to let cleanup step know that no delete is required } @AfterAll static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean if (id == -1) { return } http.delete("/customers/$id") } } Java package com.example.tests.junit5; import org.testingisdocumenting.webtau.http.request.HttpRequestBody; import org.testingisdocumenting.webtau.junit5.WebTau; import org.junit.jupiter.api.*; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order @DisplayName("customer CRUD") public class CustomerCrudSeparatedJavaTest { private static final HttpRequestBody customerPayload = http.json( "firstName", "FN", "lastName", "LN"); private static final HttpRequestBody changedCustomerPayload = http.json( "firstName", "FN", "lastName", "NLN"); private static int id; @BeforeAll @DisplayName("create customer") // optional friendly name for reporting purposes public static void createCustomer() { id = http.post("/customers", customerPayload, ((header, body) -> { return body.get("id"); })); actual(id).shouldNot(equal(0)); } @Test @Order(1) @DisplayName("read customer") public void read() { http.get("/customers/" + id, ((header, body) -> { body.should(equal(customerPayload)); })); } @Test @Order(2) // order dependence saves from creating customer on every test @DisplayName("update customer") public void update() { http.put("/customers/" + id, changedCustomerPayload, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); http.get("/customers/" + id, ((header, body) -> { body.should(equal(changedCustomerPayload)); })); } @Test @Order(3) // but you can still run each method independently @DisplayName("delete customer") public void delete() { http.delete("/customers/" + id, ((header, body) -> { header.statusCode.should(equal(204)); })); http.get("/customers/" + id, ((header, body) -> { header.statusCode.should(equal(404)); })); id = -1; // marking as deleted to let cleanup step know that no delete is required } @AfterAll public static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean if (id == -1) { return; } http.delete("/customers/" + id); } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
   <entry>
-    <url>/webtau/generic-runners/JUnit-5#beforeallafterall</url>
+    <url>/webtau/generic-runners/JUnit-5#automatic-extension</url>
+    <fullTitle>WebTau: JUnit 5, Automatic Extension [Generic Runners]</fullTitle>
+    <text>
+      <text>To enable report for all the tests without annotating each of them, use JUnit5 https://junit.org/junit5/docs/current/user-guide/#extensions-registration-automatic automatic extension registration org.testingisdocumenting.webtau.junit5.WebTauJunitExtension junit.jupiter.extensions.autodetection.enabled=true</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/generic-runners/JUnit-5#beforeall-afterall</url>
     <fullTitle>WebTau: JUnit 5, BeforeAll/AfterAll [Generic Runners]</fullTitle>
     <text>
-      <text>Use @BeforeAll and @AfterAll to prepare and cleanup resources required for multiple test methods. Groovy package com.example.tests.junit5 import org.testingisdocumenting.webtau.junit5.WebTau import org.junit.jupiter.api.AfterAll import org.junit.jupiter.api.BeforeAll import org.junit.jupiter.api.DisplayName import org.junit.jupiter.api.Test import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @WebTau @DisplayName("customer query") class CustomerQueryGroovyTest { private static def id1 // keep track of created ids to assert and cleanup later private static def id2 private static def id3 @BeforeAll @DisplayName("create customers") static void createCustomers() { id1 = createCustomer("CQ_FN1", "CQ_LN1") id2 = createCustomer("CQ_FN1", "CQ_LN2") id3 = createCustomer("CQ_FN2", "CQ_LN2") } @Test @DisplayName("query by first name") void queryByFirstName() { http.get("/customers/search/first-name", [name: "CQ_FN1"]) { body.should == ["*id" | "firstName" | "lastName"] { // star(*) marks key column so assertion is order agnostic __________________________________ id1 | "CQ_FN1" | "CQ_LN1" id2 | "CQ_FN1" | "CQ_LN2" } } } @Test @DisplayName("query by last name") void queryByLastName() { http.get("/customers/search/last-name", [name: "CQ_LN2"]) { body.should == ["*id" | "firstName" | "lastName"] { __________________________________ id2 | "CQ_FN1" | "CQ_LN2" id3 | "CQ_FN2" | "CQ_LN2" } } } @AfterAll @DisplayName("clean up") static void cleanup() { [id1, id2, id3].each { http.delete("/customers/$it") } } private static def createCustomer(String firstName, String lastName) { return http.post("/customers", [firstName: firstName, lastName: lastName]) { id } } } Java package com.example.tests.junit5; import org.junit.jupiter.api.AfterAll; import org.junit.jupiter.api.BeforeAll; import org.junit.jupiter.api.DisplayName; import org.junit.jupiter.api.Test; import java.util.Map; import java.util.stream.Stream; import static org.testingisdocumenting.webtau.WebTauDsl.*; @DisplayName("customer query") class CustomerQueryJavaTest { private static Integer id1; // keep track of created ids to assert and cleanup later private static Integer id2; private static Integer id3; @BeforeAll @DisplayName("create customers") static void createCustomers() { id1 = createCustomer("CQ_FN1", "CQ_LN1"); id2 = createCustomer("CQ_FN1", "CQ_LN2"); id3 = createCustomer("CQ_FN2", "CQ_LN2"); } @Test @DisplayName("query by first name") void queryByFirstName() { http.get("/customers/search/first-name", http.query("name", "CQ_FN1"), (header, body) -> { body.should(equal(table("*id", "firstName", "lastName", // star(*) marks key column so assertion is order agnostic ________________________________, id1, "CQ_FN1" , "CQ_LN1", id2, "CQ_FN1" , "CQ_LN2"))); }); } @Test @DisplayName("query by last name") void queryByLastName() { http.get("/customers/search/last-name", http.query("name", "CQ_LN2"), (header, body) -> { body.should(equal(table("*id", "firstName", "lastName", ________________________________, id2, "CQ_FN1" , "CQ_LN2", id3, "CQ_FN2" , "CQ_LN2"))); }); } @AfterAll @DisplayName("clean up") static void cleanup() { Stream.of(id1, id2, id3).forEach(id -> http.delete("/customers/" + id)); } private static int createCustomer(String firstName, String lastName) { Map&lt;String, Object> payload = aMapOf( "firstName", firstName, "lastName", lastName); return http.post("/customers", payload, ((header, body) -> { return body.get("id"); })); } }</text>
+      <text>Use @BeforeAll and @AfterAll to prepare and cleanup resources required for multiple test methods. Groovy package com.example.tests.junit5 import org.testingisdocumenting.webtau.junit5.WebTau import org.junit.jupiter.api.AfterAll import org.junit.jupiter.api.BeforeAll import org.junit.jupiter.api.DisplayName import org.junit.jupiter.api.Test import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @WebTau @DisplayName("customer query") class CustomerQueryGroovyTest { private static def id1 // keep track of created ids to assert and cleanup later private static def id2 private static def id3 @BeforeAll @DisplayName("create customers") static void createCustomers() { id1 = createCustomer("CQ_FN1", "CQ_LN1") id2 = createCustomer("CQ_FN1", "CQ_LN2") id3 = createCustomer("CQ_FN2", "CQ_LN2") } @Test @DisplayName("query by first name") void queryByFirstName() { http.get("/customers/search/first-name", [name: "CQ_FN1"]) { body.should == ["*id" | "firstName" | "lastName"] { // star(*) marks key column so assertion is order agnostic __________________________________ id1 | "CQ_FN1" | "CQ_LN1" id2 | "CQ_FN1" | "CQ_LN2" } } } @Test @DisplayName("query by last name") void queryByLastName() { http.get("/customers/search/last-name", [name: "CQ_LN2"]) { body.should == ["*id" | "firstName" | "lastName"] { __________________________________ id2 | "CQ_FN1" | "CQ_LN2" id3 | "CQ_FN2" | "CQ_LN2" } } } @AfterAll @DisplayName("clean up") static void cleanup() { [id1, id2, id3].each { http.delete("/customers/$it") } } private static def createCustomer(String firstName, String lastName) { return http.post("/customers", [firstName: firstName, lastName: lastName]) { id } } } Java package com.example.tests.junit5; import org.junit.jupiter.api.AfterAll; import org.junit.jupiter.api.BeforeAll; import org.junit.jupiter.api.DisplayName; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import java.util.Map; import java.util.stream.Stream; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau @DisplayName("customer query") class CustomerQueryJavaTest { private static Integer id1; // keep track of created ids to assert and cleanup later private static Integer id2; private static Integer id3; @BeforeAll @DisplayName("create customers") static void createCustomers() { id1 = createCustomer("CQ_FN1", "CQ_LN1"); id2 = createCustomer("CQ_FN1", "CQ_LN2"); id3 = createCustomer("CQ_FN2", "CQ_LN2"); } @Test @DisplayName("query by first name") void queryByFirstName() { http.get("/customers/search/first-name", http.query("name", "CQ_FN1"), (header, body) -> { body.should(equal(table("*id", "firstName", "lastName", // star(*) marks key column so assertion is order agnostic ________________________________, id1, "CQ_FN1" , "CQ_LN1", id2, "CQ_FN1" , "CQ_LN2"))); }); } @Test @DisplayName("query by last name") void queryByLastName() { http.get("/customers/search/last-name", http.query("name", "CQ_LN2"), (header, body) -> { body.should(equal(table("*id", "firstName", "lastName", ________________________________, id2, "CQ_FN1" , "CQ_LN2", id3, "CQ_FN2" , "CQ_LN2"))); }); } @AfterAll @DisplayName("clean up") static void cleanup() { Stream.of(id1, id2, id3).forEach(id -> http.delete("/customers/" + id)); } private static int createCustomer(String firstName, String lastName) { Map&lt;String, Object> payload = aMapOf( "firstName", firstName, "lastName", lastName); return http.post("/customers", payload, ((header, body) -> { return body.get("id"); })); } }</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -2307,7 +2443,7 @@
     <url>/webtau/generic-runners/JUnit-5#maven-import</url>
     <fullTitle>WebTau: JUnit 5, Maven Import [Generic Runners]</fullTitle>
     <text>
-      <text>&lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit5&lt;/artifactId> &lt;version>1.49&lt;/version> &lt;/dependency></text>
+      <text>&lt;dependency> &lt;groupId>org.testingisdocumenting.webtau&lt;/groupId> &lt;artifactId>webtau-junit5&lt;/artifactId> &lt;version>1.50&lt;/version> &lt;/dependency></text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -2363,7 +2499,7 @@
     <url>/webtau/JVM-business-logic/documentation-artifacts#capture-expected-output</url>
     <fullTitle>WebTau: Documentation Artifacts, Capture Expected Output [JVM Business Logic]</fullTitle>
     <text>
-      <text>Use doc.expected.capture to save most recent expected value. actual(dao.thisWeekJoiners()).should(equal(table( "*id", "level", "monthsAtCompany", ____________________________________, "bob", 3, 0, "cat", 4, 0))); doc.expected.capture("new-joiners"); // capture expected new joiners for documentation purposes WebTau documentation is created using https://github.org/testingisdocumenting/znai Znai. It has :include-table: plugin to render a table giving a json or CSV file. text :include-table: doc-artifacts/all-employees.json :include-table: doc-artifacts/new-joiners.json Below is the example of the business logic rendered as documentation.Our HR system consider all employees that has been in the company less than a month as new joiners. For example, giving employees: id level monthsAtCompany alice 5 1 bob 3 0 smith 4 1 cat 4 0 System will list following employees as new joiners: id level monthsAtCompany bob 3 0 cat 4 0</text>
+      <text>Use doc.expected.capture to save most recent expected value. actual(dao.thisWeekJoiners()).should(equal(table( "*id", "level", "monthsAtCompany", ____________________________________, "bob", 3, 0, "cat", 4, 0))); doc.expected.capture("new-joiners"); // capture expected new joiners for documentation purposes WebTau documentation is created using https://github.org/testingisdocumenting/znai Znai. It has include-table plugin to render a table giving a json or CSV file. text :include-table: doc-artifacts/all-employees.json :include-table: doc-artifacts/new-joiners.json Below is the example of the business logic rendered as documentation.Our HR system consider all employees that has been in the company less than a month as new joiners. For example, giving employees: id level monthsAtCompany alice 5 1 bob 3 0 smith 4 1 cat 4 0 System will list following employees as new joiners: id level monthsAtCompany bob 3 0 cat 4 0</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -2371,7 +2507,7 @@
     <url>/webtau/JVM-business-logic/documentation-artifacts#capture-console-output</url>
     <fullTitle>WebTau: Documentation Artifacts, Capture Console Output [JVM Business Logic]</fullTitle>
     <text>
-      <text>Use doc.console.capture to capture console output of a provided code block doc.console.capture("http-get-console-output", () -> { http.get("/end-point", ((header, body) -> { DataNode price = body.get("price"); price.should(equal(100)); })); }); > executing HTTP GET http://localhost:44671/end-point . body.price equals 100 body.price: actual: 100 &lt;java.lang.Integer> expected: 100 &lt;java.lang.Integer> (0ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (0ms) response (application/json): { "id": 10, "price": __100__, "amount": 30, "list": [ 1, 2, 3 ], "object": { "k1": "v1", "k2": "v2", "k3": "v3" }, "complexList": [ { "id": "id1", "k1": "v1", "k2": 30 }, { "id": "id2", "k1": "v11", "k2": 40 } ] } . executed HTTP GET http://localhost:44671/end-point (2ms) https://github.org/testingisdocumenting/znai Znai has cli-output plugin to render ANSI output :include-cli-output: doc-artifacts/http-get-console-output.txt > executing HTTP GET http://localhost:44671/end-point . body.price equals 100 body.price: actual: 100 &lt;java.lang.Integer> expected: 100 &lt;java.lang.Integer> (0ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (0ms) response (application/json): { "id": 10, "price": __100__, "amount": 30, "list": [ 1, 2, 3 ], "object": { "k1": "v1", "k2": "v2", "k3": "v3" }, "complexList": [ { "id": "id1", "k1": "v1", "k2": 30 }, { "id": "id2", "k1": "v11", "k2": 40 } ] } . executed HTTP GET http://localhost:44671/end-point (2ms)</text>
+      <text>Use doc.console.capture to capture console output of a provided code block doc.console.capture("http-get-console-output", () -> { http.get("/end-point", ((header, body) -> { DataNode price = body.get("price"); price.should(equal(100)); })); }); > executing HTTP GET http://localhost:43299/end-point . body.price equals 100 body.price: actual: 100 &lt;java.lang.Integer> expected: 100 &lt;java.lang.Integer> (0ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (0ms) response (application/json): { "id": 10, "price": __100__, "amount": 30, "list": [ 1, 2, 3 ], "object": { "k1": "v1", "k2": "v2", "k3": "v3" }, "complexList": [ { "id": "id1", "k1": "v1", "k2": 30 }, { "id": "id2", "k1": "v11", "k2": 40 } ] } . executed HTTP GET http://localhost:43299/end-point (1ms) https://github.org/testingisdocumenting/znai Znai has cli-output plugin to render ANSI output :include-cli-output: doc-artifacts/http-get-console-output.txt > executing HTTP GET http://localhost:43299/end-point . body.price equals 100 body.price: actual: 100 &lt;java.lang.Integer> expected: 100 &lt;java.lang.Integer> (0ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer> expected: 200 &lt;java.lang.Integer> (0ms) response (application/json): { "id": 10, "price": __100__, "amount": 30, "list": [ 1, 2, 3 ], "object": { "k1": "v1", "k2": "v2", "k3": "v3" }, "complexList": [ { "id": "id1", "k1": "v1", "k2": 30 }, { "id": "id2", "k1": "v11", "k2": 40 } ] } . executed HTTP GET http://localhost:43299/end-point (1ms)</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -2392,6 +2528,30 @@
     </text>
   </entry>
   <entry>
+    <url>/webtau/reference/table-data#create-from-list</url>
+    <fullTitle>WebTau: Table Data, Create From List [Reference]</fullTitle>
+    <text>
+      <text>Use to create TableData from a list of maps. Groovy def list = [ [k1: "v1", k2: "v2"], [k1: "v3", k3: "v4"]] TableData tableData = TableData.fromListOfMaps(list) TableData expected = ["k1" | "k2" | "k3"] { ____________________ "v1" | "v2" | null "v3" | null | "v4" } tableData.should == expected Java List&lt;Map&lt;String, ?>> list = new ArrayList&lt;&gt;(); list.add(CollectionUtils.aMapOf("k1", "v1", "k2", "v2")); list.add(CollectionUtils.aMapOf("k1", "v3", "k3", "v4")); TableData tableData = TableData.fromListOfMaps(list); TableData expected = table("k1", "k2", "k3", _________________, "v1", "v2", null, "v3", null, "v4"); actual(tableData).should(equal(expected)); Note: WebTau merges keys from all list elements to create the table header</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/reference/table-data#serialization</url>
+    <fullTitle>WebTau: Table Data, Serialization [Reference]</fullTitle>
+    <text>
+      <text>Use to serialize as JSON System.out.println(tableData.toJson()); [ { "A" : 1.3, "B" : 2 }, { "A" : "Hello", "B" : "World" } ] Use to serialize as CSV System.out.println(tableData.toCsv()); A,B 1.3,2 Hello,World</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/reference/table-data#serialization-to-file</url>
+    <fullTitle>WebTau: Table Data, Serialization To File [Reference]</fullTitle>
+    <text>
+      <text>Use data/csv#write-table data.csv.write and data/json#write-table-data data.json.write to serialize Table Data to a file</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
     <url>/webtau/reference/table-data#permutations</url>
     <fullTitle>WebTau: Table Data, Permutations [Reference]</fullTitle>
     <text>
@@ -2403,7 +2563,7 @@
     <url>/webtau/reference/table-data#guid</url>
     <fullTitle>WebTau: Table Data, GUID [Reference]</fullTitle>
     <text>
-      <text>Use cell.guid to automatically generate unique ids. Groovy ["ID" | "Col A" | "Col B" | "Col C"] { ________________________________________________________________________ cell.guid | permute(true, false) | "v1b" | permute('a', 'b') cell.guid | "v2a" | permute(10, 20) | "v2c" } Java table("ID" , "Col A" , "Col B" , "Col C", ______________________________________________________________________, cell.guid, permute(true, false), "v1b" , permute('a', 'b'), cell.guid, "v2a" , permute(10, 20) , "v2c") ID Col A Col B Col C c943b637-5fb0-4c1d-9552-edcdbde8510e true v1b a 1ea368b3-6117-4b98-bb9d-bce2a16ef339 false v1b a 1a557ab7-78e5-4bc5-8b1b-1da765e5d0e5 true v1b b b671816b-838d-4d2d-9b02-63a4267f3182 false v1b b f1703467-07f7-4b9b-bd75-8a8c2e9ff4dc v2a 10 v2c edc433ad-f729-438f-bb59-05e3602bb7d1 v2a 20 v2c</text>
+      <text>Use cell.guid to automatically generate unique ids. Groovy ["ID" | "Col A" | "Col B" | "Col C"] { ________________________________________________________________________ cell.guid | permute(true, false) | "v1b" | permute('a', 'b') cell.guid | "v2a" | permute(10, 20) | "v2c" } Java table("ID" , "Col A" , "Col B" , "Col C", ______________________________________________________________________, cell.guid, permute(true, false), "v1b" , permute('a', 'b'), cell.guid, "v2a" , permute(10, 20) , "v2c") ID Col A Col B Col C fd47b313-88d7-4823-a1c5-ca090bce061f true v1b a cf50388f-1a63-46c2-b155-ae178cd097b9 false v1b a 7fe655aa-113b-4ec4-a809-2d12a79c7c2d true v1b b 63266679-0193-48d3-a515-6c04e64adef7 false v1b b c98e26d7-cb9c-43c9-bfaa-7f4aaf4c0bcd v2a 10 v2c 6dc37501-4401-4ac8-9005-a718db8afe7e v2a 20 v2c</text>
       <score>STANDARD</score>
     </text>
   </entry>
@@ -2432,7 +2592,15 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2022#149</url>
+    <url>/webtau/release-notes/2022#1-50</url>
+    <fullTitle>WebTau: 2022 Releases, 1.50 [Release Notes]</fullTitle>
+    <text>
+      <text>Fix: report properly prints browser sendKeys special keys like escape and pageUp Fix: DatabaseTable class is public now to be used in Java tests Doc: add examples and re-arrange getting-started/why Why page Doc: generic-runners/JUnit-5#automatic-extension JUnit5 Automatic Extension Doc: data/import-and-dependencies data dependencies and import Doc: Add server responses to getting-started/what-is-this What Is This page and to README.md Doc: data/csv data Java examples Doc: data/introduction data more console output examples Doc: persona/HTTP-persona HTTP Persona Java Doc: servers/fake-server Fake Server Java examples Doc: servers/static-server Static Server Java examples Add: HTTP/data-coverage HTTP Data Coverage output as HTTP/data-coverage#json-output JSON Add: report/steps#warning warning when HTTP/data-coverage#text-routes HTTP Text Route is missing for a call Add: HTTP/openAPI-spec Open API validation reports uses report/steps#warning Warnings to report undefined URLs Add: report/steps#warning warning concept Add: Java getting-started/configuration#config-file config location override option Remove: HTTP Overall performance report Tab Add: data/csv#table-data-conversion Table Data Conversion function Add: HTTP text based HTTP/data-coverage#text-routes routes definition to support performance and data coverage without Open API spec Add: JUnit5 and JUnit4 runners print failed tests and their failed steps at the end of test runs Add: HTTP data coverage Web Report summary card Add: Generated Report Path is printed last so it is easier to find when there are failing tests Add: groovy-standalone-runner/introduction Groovy Runner prints failed steps info in addition to the test exception at the end Add: data/json data.json.write methods to write list/map/ reference/table-data TableData Add: data/json data.json Java examples Add: data/json#read-tabledata data.json.table Add: create reference/table-data TableData from reference/table-data#create-from-list list of maps Add: return value variant of JVM-business-logic/documentation-artifacts#capture-console-output doc.console.capture Add: data/csv#write-table-data data.csv.write with reference/table-data TableData Add: reference/table-data TableData addRow validates row size against header Add: reference/table-data TableData reference/table-data#serialization toCsv Fix: reference/table-data TableData addRow accepts List&lt;?> instead of List&lt;Object> Fix: properly report missing columns in case of list of maps and reference/table-data TableData comparison Add: HTTP data coverage HTTP/data-coverage#detect-fields-that-were-skipped console warning Add: initial HTTP/data-coverage HTTP data coverage Add: render report/steps#tracing-values trace console output in a special manner Add: setValue to Web Page browser/element-actions#modifications-no-log without logging secret values Add: Better support for groovy-standalone-runner/introduction Groovy Runner without explicit scenario Add: persona/introduction Persona vararg signature for Java Add: remove indentation from JVM-business-logic/documentation-artifacts#capture-console-output Doc Capture Console Output Add: way to provide actual value matchers/universal-compare#reporting name Add: server.removeOverride(WebTauServerOverride override) Add: cache get utilities/cache#cached-value-with-expiration with expiration method</text>
+      <score>STANDARD</score>
+    </text>
+  </entry>
+  <entry>
+    <url>/webtau/release-notes/2022#1-49</url>
     <fullTitle>WebTau: 2022 Releases, 1.49 [Release Notes]</fullTitle>
     <text>
       <text>Remove highlight and cover from browser/documentation-artifacts browser.doc.capture Fix: Maven Plugin race condition between shutdown hook and apache FileUtils class unload Fix: global cleanup race condition, make sure it is called only once Fix: Web report tab names overflow ellipsis Fix: Report properly use report/configuration#report-name-and-url reportNameUrl parameter Fix: Web report always put Setup group first even if there are failed tests Fix: Make web report tab title stable (was changing name after javascript load) Fix: Web report entries and icons center alignment Doc: update HTTP/documentation-artifacts HTTP Documentation Artifacts with https://github.com/testingisdocumenting/znai Znai and Java examples Doc: Add data/pdf data.pdf Doc: Move data/introduction Data to its own chapter Doc: Consolidated HTTP report page with report/introduction Reports chapter Doc: Add Persona Examples to getting-started/what-is-this Intro Page Doc: HTTP/configuration HTTP Configuration Doc: Add HTTP/HTTP-calls#ping ping reference documentation Doc: Add https://github.com/testingisdocumenting/webtau/discussions GitHub discussions to footer and support link Doc: Merged HTTP Form Data into HTTP/body#form-file-data HTTP/body page Doc: Added getting-started/configuration#disable-ansi-colors Disable Anti Colors Doc: report/configuration Report Configuration Doc: HTTP/body#json-request-from-file HTTP JSON Body example from external file Doc: HTTP extract complex value from HTTP/data-node#extracting-values Data Node Doc: consolidate and introduce HTTP/body HTTP Body page Doc: Added HTTP/HTTP-calls HTTP Calls and example snippets now have links to referenced method Doc: HTTP/query-parameters HTTP Query Parameters Java examples Doc: Add Java examples to HTTP/data-node HTTP DataNode Doc: Add Java examples to HTTP/header#response-header HTTP Response Header Doc: Add Java examples to HTTP/header#content-type-shortcut HTTP Content Type shorcuts Deprecate pdf method in favor of HTTP/body#pdf-response data.pdf.read Deprecate browser/matchers#state Browser Element beVisble() variants of matchers in favor of visible Add matchers/custom-compare-to-handler compare to rule to compare HTTP/data-node DataNode and HTTP/body#json-request JsonRequestBody Add browser/documentation-artifacts#annotation-types browser.doc.arrow that connects two elements Add JVM-business-logic/documentation-artifacts#capture-console-output doc.console.capture to capture console output of a provided JVM code block Add browser/documentation-artifacts#badge-shortcut Badge Shortcut to browser/documentation-artifacts browser.doc Add sorting to report Config and Environment Variables tables Add extra getting-started/installation#groovy-runner Maven Plugin parameters: confg , reportPath , failedReportPath , reportName , reportNameUrl , noColor Reduce messaging in case of matchers/universal-compare matchers match event by removing "Matches:" prefix Add HTTP/introduction HTTP invalid JSON request/response handling Add HTTP/body#json-request HTTP body json shortcut Add HTTP/body#raw-response HTTP body raw response access Equal Matcher delegates to expected matcher bypassing one level of nested message Add matchers/any-of anyOf matcher Improve message for expected exception message when no exception is thrown Add HTTP/data-node#find-all DataNode.findAll Java implementation Add HTTP/data-node#find DataNode.find Java implementation Better error message in case of wrong webtau CLI argument name Add --version param to webtau CLI Add Java common header values as exposed properties: statusCode , contentType , location , contentLocation , contentLength , contentEncoding Deprecate HttpHeader.merge in favor of HttpHeader.with</text>
@@ -2440,7 +2608,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2022#148</url>
+    <url>/webtau/release-notes/2022#1-48</url>
     <fullTitle>WebTau: 2022 Releases, 1.48 [Release Notes]</fullTitle>
     <text>
       <text>Fix: trim web report generated by section in case of long version name (e.g. snapshot) Fix: Java access modifier to browser/cookies Cookies and browser/local-storage Local Storage Doc: add java examples for HTTP/header#implicit-header implicit header creation and example .with usage Doc: add java examples for HTTP/header#explicit-header explicit header creation and example .with usage Doc: add links to individual configuration/options#browserHeight Options and Environment Variables and update default values Doc: document matchers/custom-compare-to-handler custom compare to handler Doc: document matchers/universal-compare#dates dates universal comparison Update documentation and implementation details classes to have consistent WebTau naming Add additional actual/expected label for first line mismatch message during strings comparison Add HttpHeader.with vararg support to conveniently provide multiple header values in Java Add documentation screenshot with annotations browser/documentation-artifacts#screenshot-of-a-specific-element capture for specific element Disable scenarios by groovy-standalone-runner/skipping-tests#unconditionally-skipping-tests file name convention Selenium 4 upgrade Speedup data/csv#list-of-map CSV numbers auto conversion Contain handler for Map and Map</text>
@@ -2448,7 +2616,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2022#147</url>
+    <url>/webtau/release-notes/2022#1-47</url>
     <fullTitle>WebTau: 2022 Releases, 1.47 [Release Notes]</fullTitle>
     <text>
       <text>Fix: browser fetch int value fails on newer browsers Fix: proper handling of element.count stale element Selenium exception Fix report code highlight lines when multiline comment is present (e.g. /* */ ) Add matchers/universal-compare Matchers initial doc and placeholder Add LocalDateTime and LocalDate(expected) comparison Add scenario level elapsed time to Web Report in addition to suite level elapsed time Add scenario level elapsed time to Web Report in addition to suite level elapsed time Add browser browser/element-actions#drag-and-drop drag and drop by Skip all the tests if groovy-standalone-runner/test-listeners before fist test setup has failed Brighter test status color in web report light theme Add human-readable tests performance elapsed time to web report Add utilities/file-system#temporary-dirs-and-files fs.tempFile</text>
@@ -2456,7 +2624,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2022#146</url>
+    <url>/webtau/release-notes/2022#1-46</url>
     <fullTitle>WebTau: 2022 Releases, 1.46 [Release Notes]</fullTitle>
     <text>
       <text>Add servers/proxy-server#preserve-original-call proxy server original call example and tweaks Add servers/proxy-server proxy server serverProxyMaxThreads config Fix: report failed code snippet font in light theme Fix: examples generation via webtau cli Fix: report HTTP warning call color in light theme Fix: report scrollbar color in light theme</text>
@@ -2464,7 +2632,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2021#1451</url>
+    <url>/webtau/release-notes/2021#1-45-1</url>
     <fullTitle>WebTau: 2021 Releases, 1.45.1 [Release Notes]</fullTitle>
     <text>
       <text>Fix: report light theme HTTP response match color</text>
@@ -2472,7 +2640,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2021#145</url>
+    <url>/webtau/release-notes/2021#1-45</url>
     <fullTitle>WebTau: 2021 Releases, 1.45 [Release Notes]</fullTitle>
     <text>
       <text>Doc: document servers/introduction Servers Wrap deletion of all utilities/file-system temp files in a parent step Doc: document report report/steps step and trace core methods Move report tests status filter to the top and put theme switching to the bottom in its place Add trace core method to report values to console and web report Report color theme toggle and auto OS dark/light detection Improved code snippet rendering in web report Check element presence before browser/element-actions#scrolling scroll to provide better error message Add utilities/cache#presence-check cache exists method Fix: cli/foreground-command CLI run working dir matches config working dir if none specified for the process Fix: remove internal info of cli/foreground-command CLI run from web report Fix: servers/static-server static content server capture of browser page request Fix: remove call to open api schema end-point at the end of tests if no http calls were performed during tests Fix: missing files message to use only path but not container id Fix: report step with 0ms now shows elapsed time Fix: utilities/file-system waiting for non-existing file content is not throwing error anymore Fix: jansi Mac M1 exception Fix: report key-value color contrast Fix: report extra scroll bar on overall summary screen</text>
@@ -2480,7 +2648,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2021#1441</url>
+    <url>/webtau/release-notes/2021#1-44-1</url>
     <fullTitle>WebTau: 2021 Releases, 1.44.1 [Release Notes]</fullTitle>
     <text>
       <text>Fix: report extra scroll bar on test summary screen</text>
@@ -2488,7 +2656,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2021#144</url>
+    <url>/webtau/release-notes/2021#1-44</url>
     <fullTitle>WebTau: 2021 Releases, 1.44 [Release Notes]</fullTitle>
     <text>
       <text>Fix: HTTP JSON fullscreen payload alignment and colors Fix: proxy server captures request and response now Fix: string compare to handler show proper caret position of a change in case of not equal Fix: Report summary vertical scroll preserves tab selection at the top Doc: document cli background command cli/background-command#wait-timeout wait timeout report steps render step output information Add utilities/cache cache stored values validation and conversion to Path static server serves from symlink by resolving it first Add fs.zip command to utilities/file-system#archive zip files Add cli.runInBackground overload with config only parameter Add Servers section to a test data to display requests/responses that internal servers handled Add "generated by" section to test report summary page Ability to specify report name and optional associated URL Improvements on http call details page: proper vertical scroll and layout changes Web report card lists style change to make grouping more distinct and combined with title Changed web report to use dark theme</text>
@@ -2496,7 +2664,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2021#1431</url>
+    <url>/webtau/release-notes/2021#1-43-1</url>
     <fullTitle>WebTau: 2021 Releases, 1.43.1 [Release Notes]</fullTitle>
     <text>
       <text>Fix: configuration/groovy-config-file groovy config parsing of empty lists and simple variables reference within config</text>
@@ -2504,7 +2672,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2021#143</url>
+    <url>/webtau/release-notes/2021#1-43</url>
     <fullTitle>WebTau: 2021 Releases, 1.43 [Release Notes]</fullTitle>
     <text>
       <text>Doc: Fix persona/introduction Persona Intro example snippets Doc: Add configuration/groovy-config-file Groovy Config complex objects, persona and overrides examples Doc: Add persona/HTTP-persona Persona HTTP authorization example Doc: Add persona/introduction Persona documentation Doc: combined "files upload" and "PDF" section under HTTP/files . Edited text. Parse Groovy config files using new internal DSL instead of GroovyConfig to better support Persona Add persona specific cliEnv config value to set persona/CLI-persona persona's common CLI environment variables Add java.time.Instant and String compareTo handler rule Add cliEnv config value to set common environment variables for cli/foreground-command#common-environment-variables cli.run and cli/background-command#common-environment-variables cli.runInBackground Server journal capture request body and response body Server support for other than application/json content type responses Implemented markBroken on static, proxy and fake servers Added overrides and slow down to static server Ignore groovy-standalone-runner/selective-run#sscenario single scenario and groovy-standalone-runner/skipping-tests#unconditionally-skipping-tests disabled scenario in REPL/test-runs REPL mode Add server router fluent syntax Add server router definition support for :param syntax Add server journal to track or wait on handled calls Handle router overrides in proxy server Server router - collection of overrides that can be set up and re-used for multiple servers Server implements autocloseable for try-with-resources Server route parameters based fake setup Initial fake server support Add config info to web report for cli/foreground-command#working-dir cli.run and cli/background-command#working-dir cli.rinInBackground Add config info to step output for cli/foreground-command#working-dir cli.run and cli/background-command#working-dir cli.rinInBackground Fix: cli/foreground-command#run-result cli.run results are properly returned when validation block is present Fix: browser screenshot on failure is displayed again in the generated report Fix: cli/foreground-command#run cli.run now captures output in case of timeout</text>
@@ -2512,7 +2680,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2021#142</url>
+    <url>/webtau/release-notes/2021#1-42</url>
     <fullTitle>WebTau: 2021 Releases, 1.42 [Release Notes]</fullTitle>
     <text>
       <text>httpProxy via config stop all servers is a separate logged step REPL beforeAll , afterAll commands to trigger setup and teardown on demand cli.run local cli/foreground-command#timeout timeout override step accepts map as params for additional reporting utilities/file-system#file-content replace text content by regexp capture open api warnings in web report db data source creation is a reported step web report support for step key-value input add PageElement.all() to disambiguate element.should contain for browser assertions web report section with env vars Add browser browser/element-actions#scrolling scroll actions Fix: cli/introduction cli.run quoted params handling</text>
@@ -2520,7 +2688,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2021#141</url>
+    <url>/webtau/release-notes/2021#1-41</url>
     <fullTitle>WebTau: 2021 Releases, 1.41 [Release Notes]</fullTitle>
     <text>
       <text>No notes</text>
@@ -2528,7 +2696,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2021#140</url>
+    <url>/webtau/release-notes/2021#1-40</url>
     <fullTitle>WebTau: 2021 Releases, 1.40 [Release Notes]</fullTitle>
     <text>
       <text>No notes</text>
@@ -2536,7 +2704,7 @@
     </text>
   </entry>
   <entry>
-    <url>/webtau/release-notes/2021#139</url>
+    <url>/webtau/release-notes/2021#1-39</url>
     <fullTitle>WebTau: 2021 Releases, 1.39 [Release Notes]</fullTitle>
     <text>
       <text>No notes</text>

@@ -119,7 +119,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -150,6 +151,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "scenario('context example') {\n    Alice {\n       step(\"do something in context of Alice\") {\n           customAction()\n       }\n    }\n\n    Bob {\n        step(\"do same thing in context of Bob\") {\n            customAction()\n        }\n    }\n}",
         "title" : "context example",
         "surroundedBy" : "context-example-snippet",
+        "anchorId" : "persona-context-context-example",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -201,6 +203,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "package personas\n\nimport static org.testingisdocumenting.webtau.WebTauCore.persona\n\nclass Personas {\n    public static def Alice = persona(\"Alice\", [authId: \"alice-user-id\"])\n    public static def Bob = persona(\"Bob\", [authId: \"bob-user-id\"])\n}",
         "title" : "centralized persona definition with payload",
+        "anchorId" : "context-definition-centralized-persona-definition-with-payload",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -220,6 +223,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "startLine" : "personas-cfg",
         "endLine" : "personas-cfg",
         "excludeStartEnd" : true,
+        "anchorId" : "context-definition-persona-specific-config",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -249,16 +253,16 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/persona-concept-steps.png",
-        "timestamp" : 1658346901960,
+        "timestamp" : 1670452153922,
         "shapes" : [ ],
         "width" : 1310.0,
         "height" : 802.0,
         "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107242,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Persona",
+      "chapterTitle" : "Persona",
       "pageTitle" : "Introduction",
       "pageMeta" : { },
       "dirName" : "persona",

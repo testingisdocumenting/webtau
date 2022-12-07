@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Read File Or Resource</h1></header>
-<p>Use data.pdf.read(String) to read and parse PDF from a path. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. Pdf pdf = data.pdf.read(&quot;sample.pdf&quot;) pdf.pageText(0).should contain('Test text paragraph Test')</p>
+<p>Use data.pdf.read(String) to read and parse PDF from a path. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. Pdf pdf = data.pdf.read(&quot;sample.pdf&quot;) pdf.pageText(0).should contain('Test text paragraph Test') Check data/import-and-dependencies Import And Dependencies for prerequisites.</p>
 </article>
 
 <article>
@@ -119,7 +119,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -153,6 +154,23 @@ ReactDOM.render(React.createElement(Documentation, {
         "entry" : "read pdf from resource",
         "bodyOnly" : true,
         "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Check ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/data/import-and-dependencies",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Import And Dependencies",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " for prerequisites.",
+          "type" : "SimpleText"
+        } ]
       } ]
     }, {
       "id" : "http-response",
@@ -189,6 +207,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "HTTP pdf response assertion",
             "entry" : "downloadPdfAndAssertPageTextUsingContains",
             "bodyOnly" : true,
+            "anchorId" : "http-response-http-pdf-response-assertion",
             "type" : "Snippet"
           } ]
         } ],
@@ -221,9 +240,9 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Data",
+      "chapterTitle" : "Data",
       "pageTitle" : "Pdf",
       "pageMeta" : { },
       "dirName" : "data",

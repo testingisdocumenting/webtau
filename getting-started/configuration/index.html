@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Config File</h1></header>
-<p>WebTau let you specify services url, browser settings, DB url connections, etc in a config file. Depending on getting-started/installation runner you use WebTau will read data from a different place. Groovy When you use the Groovy runner, it will look for webtau.cfg.groovy file (default). url = &quot;http://localhost:8080&quot; Note: WebTau treats groovy config file as code Java When you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, WebTau expects file named webtau.properties to be present in test classpath, e.g. test resources: url = http://localhost:8080</p>
+<p>WebTau let you specify services url, browser settings, DB url connections, etc in a config file. Depending on getting-started/installation runner you use WebTau will read data from a different place. Groovy When you use the Groovy runner, it will look for webtau.cfg.groovy file (default). url = &quot;http://localhost:8080&quot; Note: WebTau treats groovy config file as code Java When you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, WebTau expects file named webtau.properties to be present in test classpath, e.g. test resources: url = http://localhost:8080 To change config file location use Groovy webtau --config my.conf.groovy Java -Dwebtau.properties=my.webtau.properties</p>
 </article>
 
 <article>
@@ -124,7 +124,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -175,6 +176,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "url = \"http://localhost:8080\"",
             "title" : "webtau.cfg.groovy",
             "includeRegexp" : "localhost",
+            "anchorId" : "config-file-webtau-cfg-groovy",
             "type" : "Snippet"
           }, {
             "type" : "Paragraph",
@@ -215,6 +217,31 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "url = http://localhost:8080",
             "title" : "src/test/resources/webtau.properties",
             "includeRegexp" : "localhost",
+            "anchorId" : "config-file-src-test-resources-webtau-properties",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To change config file location use",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "command" : "webtau --config my.conf.groovy",
+            "paramsToHighlight" : [ ],
+            "type" : "CliCommand"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "",
+            "snippet" : "-Dwebtau.properties=my.webtau.properties\n",
+            "lineNumber" : "",
             "type" : "Snippet"
           } ]
         } ],
@@ -238,6 +265,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "url = \"http://localhost:8080\"\n\nenvironments {\n    qa {\n        url = \"http://server.qa:8080\"\n    }\n}",
             "title" : "webtau.cfg.groovy",
             "excludeRegexp" : "package",
+            "anchorId" : "environments-webtau-cfg-groovy",
             "type" : "Snippet"
           }, {
             "type" : "Paragraph",
@@ -290,6 +318,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "properties",
             "snippet" : "url = http://localhost:8080\nenvironments.qa.url = http://server.qa:8080",
             "title" : "src/test/resources/webtau.properties",
+            "anchorId" : "environments-src-test-resources-webtau-properties",
             "type" : "Snippet"
           }, {
             "type" : "Paragraph",
@@ -450,9 +479,9 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Getting Started",
+      "chapterTitle" : "Getting Started",
       "pageTitle" : "Configuration",
       "pageMeta" : { },
       "dirName" : "getting-started",

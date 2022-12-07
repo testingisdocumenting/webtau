@@ -114,7 +114,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -242,6 +243,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "package scenarios.graphql\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef listAllQuery = '''\n{\n    allTasks(uncompletedOnly: false) {\n        id\n        description\n    }\n}\n'''\n\ndef taskByIdQuery = '''\nquery taskById($id: ID!) {\n    taskById(id: $id) {\n        id\n        description\n        completed\n    }\n}\n'''\n\ndef completeMutation = '''\nmutation complete($id: ID!) {\n    complete(id: $id)\n}\n'''\n\nscenario(\"list all tasks\") {\n    graphql.execute(listAllQuery) { // Execute a simple query with no variables\n        errors.should == null // Validate there were no errors\n        body.data.allTasks.id.should == [\"a\", \"b\", \"c\"] // Access response data with the full path\n        allTasks.id.should == [\"a\", \"b\", \"c\"] // Access response data via a shortcut allowing omitting of `body.data`\n        id.should == [\"a\", \"b\", \"c\"] // For single query requests, access response data via a shortcut allowing omitting of `body.data` and the query name\n    }\n}\n\nscenario(\"complete a task\") {\n    graphql.execute(completeMutation, [id: \"a\"]) { // Execute a mutation with a variables map\n        errors.should == null\n        complete.should == true\n    }\n\n    graphql.execute(taskByIdQuery, [id: \"a\"]) {\n        errors.should == null\n        taskById.id.should == \"a\"\n        taskById.completed.should == true\n    }\n}\n\nscenario(\"cannot complete a completed task\") {\n    graphql.execute(completeMutation, [id: \"b\"]) { // Execute a mutation with a variables map\n        errors.should == null\n        complete.should == true\n    }\n    graphql.execute(completeMutation, [id: \"b\"]) { // force an error\n        errors[0].message.shouldNot == null\n        complete.should == null\n    }\n}",
         "title" : "GraphQL example with a query, a mutation and variables",
         "commentsType" : "inline",
+        "anchorId" : "executing-queries-and-mutations-graphql-example-with-a-query-a-mutation-and-variables",
         "type" : "Snippet"
       } ]
     }, {
@@ -279,9 +281,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "GraphQL",
+      "chapterTitle" : "GraphQL",
       "pageTitle" : "Queries And Mutations",
       "pageMeta" : { },
       "dirName" : "GraphQL",

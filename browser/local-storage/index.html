@@ -109,7 +109,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -140,11 +141,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "html",
         "snippet" : "<div id=\"favorite-color\"> \n</div> \n<script>\n    const element = document.getElementById('favorite-color');\n    element.innerHTML = localStorage.getItem('favoriteColor');\n</script>",
         "title" : "Sample web page",
+        "anchorId" : "access-local-storage-sample-web-page",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"local storage api\") {\n    browser.open('/local-storage')\n    browser.localStorage.setItem('favoriteColor', 'clean')\n\n    def color = $('#favorite-color')\n\n    browser.reopen('/local-storage')\n    color.should == 'clean'\n\n    browser.localStorage.clear()\n    browser.reopen('/local-storage')\n    color.should == ''\n}",
         "title" : "Setting storage after opening page",
+        "anchorId" : "access-local-storage-setting-storage-after-opening-page",
         "type" : "Snippet"
       }, {
         "lang" : "java",
@@ -152,12 +155,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "entry" : [ "getItem", "setItem", "removeItem", "clear", "size" ],
         "title" : "Local Storage methods",
         "signatureOnly" : true,
+        "anchorId" : "access-local-storage-local-storage-methods",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "Browser",
+      "chapterTitle" : "Browser",
       "pageTitle" : "Local Storage",
       "pageMeta" : { },
       "dirName" : "browser",

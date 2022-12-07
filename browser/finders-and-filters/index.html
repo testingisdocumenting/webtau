@@ -124,7 +124,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -177,6 +178,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def welcomeMessage = $('#welcome')\nwelcomeMessage.should == 'hello'",
         "title" : "example of selecting by id",
+        "anchorId" : "css-finder-example-of-selecting-by-id",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -188,6 +190,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def menu = $('ul li a')\nmenu.should == 'book'",
         "title" : "example of selecting by nested tags",
+        "anchorId" : "css-finder-example-of-selecting-by-nested-tags",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -395,16 +398,19 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def ordersMenu = $('ul li a').get(2)\nordersMenu.should == 'orders'",
         "title" : "Number",
+        "anchorId" : "filters-number",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def ordersMenu = $('ul li a').get('orders')\nordersMenu.should == 'orders'",
         "title" : "Text",
+        "anchorId" : "filters-text",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def ordersMenu = $('ul li a').get(~/ord/)\nordersMenu.should == 'orders'",
         "title" : "Regexp",
+        "anchorId" : "filters-regexp",
         "type" : "Snippet"
       }, {
         "paths" : [ "ul.li[1].a" ],
@@ -474,6 +480,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def ordersMenu = $('ul li').get(2).find('a')\nordersMenu.should == 'orders'",
         "title" : "Nested css selector",
+        "anchorId" : "chaining-nested-css-selector",
         "type" : "Snippet"
       }, {
         "paths" : [ "ul.li[1].a" ],
@@ -530,9 +537,9 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Xml"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "Browser",
+      "chapterTitle" : "Browser",
       "pageTitle" : "Finders And Filters",
       "pageMeta" : {
         "type" : [ "two-sides" ]

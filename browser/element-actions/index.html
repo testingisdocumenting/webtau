@@ -85,12 +85,17 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Clicks</h1></header>
-<p>payments.confirmation.click() expandArea.doubleClick() paymentsTable.rightClick() payments.confirmation.shiftClick() payments.confirmation.altClick() payments.confirmation.controlClick() payments.confirmation.commandClick() payments.confirmation.commandOrControlClick()</p>
+<p>payments.confirmation.click() expandArea.doubleClick() paymentsTable.rightClick() payments.confirmation.shiftClick() payments.confirmation.altClick() payments.confirmation.controlClick() payments.confirmation.commandOrControlClick() payments.confirmation.commandOrControlClick()</p>
 </article>
 
 <article>
 <header><h1>Modifications</h1></header>
 <p>payments.dollarAmount.clear() payments.dollarAmount.sendKeys(&quot;104.5&quot;) Generic way to set a form element value. Will be covered more in browser/forms forms payments.dollarAmount.setValue(&quot;104.5&quot;)</p>
+</article>
+
+<article>
+<header><h1>Modifications No Log</h1></header>
+<p>payments.secret.sendKeysNoLog(&quot;my secret token&quot;) payments.secret.setValueNoLog(&quot;my secret token&quot;)</p>
 </article>
 
 <article>
@@ -129,7 +134,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -142,41 +148,49 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "payments.confirmation.click()",
         "title" : "click",
+        "anchorId" : "clicks-click",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "expandArea.doubleClick()",
         "title" : "double click",
+        "anchorId" : "clicks-double-click",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "paymentsTable.rightClick()",
         "title" : "right click",
+        "anchorId" : "clicks-right-click",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "payments.confirmation.shiftClick()",
         "title" : "shift click",
+        "anchorId" : "clicks-shift-click",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "payments.confirmation.altClick()",
         "title" : "alt click",
+        "anchorId" : "clicks-alt-click",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "payments.confirmation.controlClick()",
         "title" : "control click",
+        "anchorId" : "clicks-control-click",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "payments.confirmation.commandClick()",
+        "snippet" : "payments.confirmation.commandOrControlClick()",
         "title" : "command click",
+        "anchorId" : "clicks-command-click",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "payments.confirmation.commandOrControlClick()",
         "title" : "command or control click",
+        "anchorId" : "clicks-command-or-control-click",
         "type" : "Snippet"
       } ]
     }, {
@@ -187,11 +201,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "payments.dollarAmount.clear()",
         "title" : "clear",
+        "anchorId" : "modifications-clear",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "payments.dollarAmount.sendKeys(\"104.5\")",
         "title" : "send keys",
+        "anchorId" : "modifications-send-keys",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -211,6 +227,24 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "payments.dollarAmount.setValue(\"104.5\")",
         "title" : "set value",
+        "anchorId" : "modifications-set-value",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "modifications-no-log",
+      "title" : "Modifications No Log",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "payments.secret.sendKeysNoLog(\"my secret token\")",
+        "title" : "send keys without logging",
+        "anchorId" : "modifications-no-log-send-keys-without-logging",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "payments.secret.setValueNoLog(\"my secret token\")",
+        "title" : "set value without logging",
+        "anchorId" : "modifications-no-log-set-value-without-logging",
         "type" : "Snippet"
       } ]
     }, {
@@ -221,6 +255,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "menu.hover()",
         "title" : "hover",
+        "anchorId" : "move-over-hover",
         "type" : "Snippet"
       } ]
     }, {
@@ -232,12 +267,14 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "def draggable = $(\"#draggable\")\ndef dropZone = $(\"#drop-zone\")\n\ndraggable.dragAndDropOver(dropZone)",
         "title" : "drag element over element",
         "surroundedBy" : "// drag-and-drop-over",
+        "anchorId" : "drag-and-drop-drag-element-over-element",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def draggable = $(\"#draggable\")\ndraggable.dragAndDropBy(50, 50)",
         "title" : "drag element by offset",
         "surroundedBy" : "// drag-and-drop-by",
+        "anchorId" : "drag-and-drop-drag-element-by-offset",
         "type" : "Snippet"
       } ]
     }, {
@@ -251,6 +288,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "startLine" : "// scrollIntoView-example",
         "endLine" : "// scrollIntoView-example",
         "excludeStartEnd" : true,
+        "anchorId" : "scrolling-scroll-into-view",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
@@ -259,6 +297,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "startLine" : "// scrollToBottom-example",
         "endLine" : "// scrollToBottom-example",
         "excludeStartEnd" : true,
+        "anchorId" : "scrolling-scroll-to-bottom",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
@@ -267,6 +306,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "startLine" : "// scrollToTop-example",
         "endLine" : "// scrollToTop-example",
         "excludeStartEnd" : true,
+        "anchorId" : "scrolling-scroll-to-top",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
@@ -275,6 +315,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "startLine" : "// scrollToRight-example",
         "endLine" : "// scrollToRight-example",
         "excludeStartEnd" : true,
+        "anchorId" : "scrolling-scroll-to-right",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
@@ -283,6 +324,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "startLine" : "// scrollToRight-example",
         "endLine" : "// scrollToRight-example",
         "excludeStartEnd" : true,
+        "anchorId" : "scrolling-scroll-to-right-2",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
@@ -291,6 +333,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "startLine" : "// scrollToLeft-example",
         "endLine" : "// scrollToLeft-example",
         "excludeStartEnd" : true,
+        "anchorId" : "scrolling-scroll-to-left",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
@@ -299,12 +342,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "startLine" : "// scrollTo-example",
         "endLine" : "// scrollTo-example",
         "excludeStartEnd" : true,
+        "anchorId" : "scrolling-scroll-to-x-y",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "Browser",
+      "chapterTitle" : "Browser",
       "pageTitle" : "Element Actions",
       "pageMeta" : { },
       "dirName" : "browser",
@@ -316,6 +360,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Modifications",
         "id" : "modifications"
+      }, {
+        "title" : "Modifications No Log",
+        "id" : "modifications-no-log"
       }, {
         "title" : "Move over",
         "id" : "move-over"

@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Create Employee</h1></header>
-<p></p>
+<p>Request Responses 200 201</p>
 </article>
 
 <article>
@@ -110,7 +110,7 @@
 
 <article>
 <header><h1>Test Artifacts</h1></header>
-<p>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /path?a=1&amp;b=text http://localhost:39441/path?a=1&amp;b=text</p>
+<p>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /path?a=1&amp;b=text http://localhost:46557/path?a=1&amp;b=text</p>
 </article>
 </section>
 </div>
@@ -134,7 +134,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -211,6 +212,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "package scenarios.rest\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"extracting id after POST to use inside GET request\") {\n    def id = http.post(\"/employee\", [firstName: 'FN', lastName: 'LN']) {\n        id.shouldNot == \"\"\n        return id\n    }\n    http.doc.capture('employee-post') // capture previous HTTP call into <docDir>/employee-post\n\n    http.get(\"/employee/$id\") {\n        firstName.should == 'FN'\n        lastName.should == 'LN'\n    }\n    http.doc.capture('employee-get') // capture previous HTTP call into <docDir>/employee-get\n}",
             "title" : "happy path",
             "commentsType" : "inline",
+            "anchorId" : "capturing-test-artifacts-happy-path",
             "type" : "Snippet"
           } ]
         }, {
@@ -220,6 +222,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.http.request.HttpRequestBody;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\npublic class CustomerDocCaptureTest {\n    @Test\n    public void extractIdAfterPostToUseInsideGetRequest() {\n        HttpRequestBody customerPayload = http.json(\n                \"firstName\", \"FN\",\n                \"lastName\", \"LN\");\n\n        int id = http.post(\"/customers\", customerPayload, ((header, body) -> {\n            body.get(\"id\").shouldNot(equal(\"\"));\n            return body.get(\"id\");\n        }));\n        http.doc.capture(\"employee-post\"); // capture previous HTTP call into <docDir>/employee-post\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.get(\"firstName\").should(equal(\"FN\"));\n            body.get(\"lastName\").should(equal(\"LN\"));\n        }));\n        http.doc.capture(\"employee-get\"); // capture previous HTTP call into <docDir>/employee-get\n    }\n}",
             "title" : "happy path",
             "commentsType" : "inline",
+            "anchorId" : "capturing-test-artifacts-happy-path-2",
             "type" : "Snippet"
           } ]
         } ],
@@ -286,107 +289,125 @@ ReactDOM.render(React.createElement(Documentation, {
       "title" : "Create Employee",
       "type" : "Section",
       "content" : [ {
-        "operationId" : "createEmployee",
-        "operation" : {
-          "id" : "createEmployee",
-          "method" : "post",
-          "path" : "/employee",
-          "consumes" : [ "application/json" ],
-          "produces" : [ "application/json" ],
-          "summary" : "Create new employee",
-          "parameters" : [ {
-            "name" : "body",
-            "in" : "body",
-            "type" : "null",
-            "required" : true,
-            "schema" : {
-              "type" : "object",
-              "required" : [ "firstName", "lastName" ],
-              "properties" : {
-                "firstName" : {
-                  "description" : [ {
-                    "type" : "Paragraph",
-                    "content" : [ {
-                      "text" : "first name of an employee",
-                      "type" : "SimpleText"
-                    } ]
-                  } ],
-                  "type" : "string"
-                },
-                "lastName" : {
-                  "description" : [ {
-                    "type" : "Paragraph",
-                    "content" : [ {
-                      "text" : "last name of an employee",
-                      "type" : "SimpleText"
-                    } ]
-                  } ],
-                  "type" : "string"
-                }
-              }
-            },
-            "description" : [ ]
+        "method" : "post",
+        "url" : "/employee",
+        "type" : "OpenApiMethodAndUrl"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Create a new employee, by sending details and get back the id of a newly created employee",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "style" : "api",
+        "id" : "create-employee-request",
+        "level" : 2,
+        "title" : "Request",
+        "type" : "SubHeading"
+      }, {
+        "parameters" : [ {
+          "name" : "firstName*",
+          "type" : [ {
+            "text" : "string",
+            "url" : ""
           } ],
-          "responses" : [ {
-            "code" : "200",
-            "schema" : {
-              "type" : "object",
-              "required" : [ "id" ],
-              "properties" : {
-                "id" : {
-                  "description" : [ {
-                    "type" : "Paragraph",
-                    "content" : [ {
-                      "text" : "employee unique identifier",
-                      "type" : "SimpleText"
-                    } ]
-                  } ],
-                  "type" : "string"
-                }
-              }
-            },
-            "description" : [ {
-              "type" : "Paragraph",
-              "content" : [ {
-                "text" : "customer already exists",
-                "type" : "SimpleText"
-              } ]
-            } ]
-          }, {
-            "code" : "201",
-            "schema" : {
-              "type" : "object",
-              "required" : [ "id" ],
-              "properties" : {
-                "id" : {
-                  "description" : [ {
-                    "type" : "Paragraph",
-                    "content" : [ {
-                      "text" : "employee unique identifier",
-                      "type" : "SimpleText"
-                    } ]
-                  } ],
-                  "type" : "string"
-                }
-              }
-            },
-            "description" : [ {
-              "type" : "Paragraph",
-              "content" : [ {
-                "text" : "customer created successfully",
-                "type" : "SimpleText"
-              } ]
-            } ]
-          } ],
+          "anchorId" : "createEmployeeapplication/json_firstName",
           "description" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "Create a new employee, by sending details and get back the id of a newly created employee",
+              "text" : "first name of an employee",
               "type" : "SimpleText"
             } ]
           } ]
-        },
-        "type" : "OpenApiOperation"
+        }, {
+          "name" : "lastName*",
+          "type" : [ {
+            "text" : "string",
+            "url" : ""
+          } ],
+          "anchorId" : "createEmployeeapplication/json_lastName",
+          "description" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "last name of an employee",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ],
+        "title" : "application/json",
+        "collapsed" : false,
+        "noGap" : true,
+        "type" : "ApiParameters"
+      }, {
+        "style" : "api",
+        "id" : "create-employee-responses",
+        "level" : 2,
+        "title" : "Responses",
+        "type" : "SubHeading"
+      }, {
+        "style" : "api",
+        "id" : "create-employee-responses-200",
+        "level" : 4,
+        "title" : "200",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "customer already exists",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "parameters" : [ {
+          "name" : "id*",
+          "type" : [ {
+            "text" : "string",
+            "url" : ""
+          } ],
+          "anchorId" : "createEmployeeapplication/json_id",
+          "description" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "employee unique identifier",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ],
+        "title" : "application/json",
+        "collapsed" : false,
+        "noGap" : true,
+        "type" : "ApiParameters"
+      }, {
+        "style" : "api",
+        "id" : "create-employee-responses-201",
+        "level" : 4,
+        "title" : "201",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "customer created successfully",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "parameters" : [ {
+          "name" : "id*",
+          "type" : [ {
+            "text" : "string",
+            "url" : ""
+          } ],
+          "anchorId" : "createEmployeeapplication/json_id",
+          "description" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "employee unique identifier",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ],
+        "title" : "application/json",
+        "collapsed" : false,
+        "noGap" : true,
+        "type" : "ApiParameters"
       }, {
         "columns" : [ {
           "content" : [ {
@@ -444,6 +465,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "url = \"http://localhost:8180\"\n\ndocPath = \"doc-artifacts\"",
         "title" : "webtau.cfg.groovy",
         "excludeRegexp" : "package",
+        "anchorId" : "test-artifacts-location-webtau-cfg-groovy",
         "type" : "Snippet"
       } ]
     }, {
@@ -631,17 +653,19 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "txt",
         "snippet" : "/path?a=1&b=text",
         "title" : "request.url.txt",
+        "anchorId" : "test-artifacts-request-urls-request-url-txt",
         "type" : "Snippet"
       }, {
         "lang" : "txt",
-        "snippet" : "http://localhost:39441/path?a=1&b=text",
+        "snippet" : "http://localhost:46557/path?a=1&b=text",
         "title" : "request.fullurl.txt",
+        "anchorId" : "test-artifacts-request-urls-request-fullurl-txt",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "HTTP",
+      "chapterTitle" : "HTTP",
       "pageTitle" : "Documentation Artifacts",
       "pageMeta" : { },
       "dirName" : "HTTP",

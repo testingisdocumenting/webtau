@@ -85,32 +85,37 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Serve Static Content</h1></header>
-<p>Use to start a server on random port that will host static content from the specified directory. def myServer = server.serve(&quot;my-server&quot;, &quot;data/staticcontent&quot;) { &quot;id&quot;: &quot;user-one&quot;, &quot;type&quot;: &quot;person&quot; } http.get(&quot;${myServer.baseUrl}/data.json&quot;) { body.type == &quot;person&quot; }</p>
+<p>Use to start a server on random port that will host static content from the specified directory. Groovy def myServer = server.serve(&quot;my-server&quot;, &quot;data/staticcontent&quot;) Java WebTauServer myServer = server.serve(&quot;my-server&quot;, &quot;src/test/resources/staticcontent&quot;); { &quot;id&quot;: &quot;user-one&quot;, &quot;type&quot;: &quot;person&quot; } Groovy http.get(&quot;${myServer.baseUrl}/data.json&quot;) { body.type == &quot;person&quot; } Java http.get(myServer.getBaseUrl() + &quot;/data.json&quot;, ((header, body) -&gt; { body.get(&quot;type&quot;).should(equal(&quot;person&quot;)); }));</p>
+</article>
+
+<article>
+<header><h1>Set Server As Base Url</h1></header>
+<p>Use to use the server's host and port as base url Groovy myServer.setAsBaseUrl() Java myServer.setAsBaseUrl();</p>
 </article>
 
 <article>
 <header><h1>Host Html For Browser</h1></header>
-<p>Use static server to host html files and then open them using a browser. &lt;body&gt; &lt;p&gt;hello&lt;/p&gt; &lt;/body&gt; browser.open(&quot;${myServer.baseUrl}/hello.html&quot;) $(&quot;p&quot;).should == &quot;hello&quot;</p>
+<p>Use static server to host html files and then open them using a browser. &lt;body&gt; &lt;p&gt;hello&lt;/p&gt; &lt;/body&gt; Groovy http.get(&quot;/hello.html&quot;) { body.should == expectedHtml } Java browser.open(&quot;/hello.html&quot;); $(&quot;p&quot;).should(equal(&quot;hello&quot;));</p>
 </article>
 
 <article>
 <header><h1>Override Response</h1></header>
-<p>Use to modify response of a proxied server def router = server.router() .get(&quot;/hello/:name&quot;) {request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } myServer.addOverride(router)</p>
+<p>Use to modify response of a proxied server Groovy def router = server.router() .get(&quot;/hello/:name&quot;) {request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } myServer.addOverride(router) Java WebTauRouter router = server.router() .get(&quot;/hello/:name&quot;, (request) -&gt; server.response(aMapOf(&quot;message&quot;, &quot;hello &quot; + request.param(&quot;name&quot;)))); myServer.addOverride(router);</p>
 </article>
 
 <article>
 <header><h1>Server Slowdown</h1></header>
-<p>Use to mark server as unresponsive staticServer.markUnresponsive() code { http.get(&quot;${staticServer.baseUrl}/hello.html&quot;) } should throwException(~/Read timed out/)</p>
+<p>Use to mark server as unresponsive Groovy myServer.markUnresponsive() code { http.get(&quot;/hello.html&quot;) } should throwException(~/Read timed out/) Java myServer.markUnresponsive(); code(() -&gt; { http.get(&quot;/hello.html&quot;); }).should(throwException(Pattern.compile(&quot;Read timed out&quot;)));</p>
 </article>
 
 <article>
 <header><h1>Server Break</h1></header>
-<p>Use to mark server as broken staticServer.markBroken() http.get(&quot;${staticServer.baseUrl}/hello.html&quot;) { statusCode.should == 500 body.should == null }</p>
+<p>Use to mark server as broken Groovy myServer.markBroken() http.get(&quot;/hello.html&quot;) { statusCode.should == 500 body.should == null } Java myServer.markBroken(); http.get(&quot;/hello.html&quot;, (header, body) -&gt; { header.statusCode.should(equal(500)); });</p>
 </article>
 
 <article>
 <header><h1>Server Fix</h1></header>
-<p>Use to remove broken and/or slowdown state staticServer.fix()</p>
+<p>Use to remove broken and/or slowdown state myServer.fix()</p>
 </article>
 </section>
 </div>
@@ -134,7 +139,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -161,23 +167,98 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "def myServer = server.serve(\"my-server\", \"data/staticcontent\")",
-        "title" : "create and start server",
-        "surroundedBy" : "static-server-create",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def myServer = server.serve(\"my-server\", \"data/staticcontent\")",
+            "title" : "create and start server",
+            "surroundedBy" : "static-server-create",
+            "anchorId" : "serve-static-content-create-and-start-server",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "WebTauServer myServer = server.serve(\"my-server\", \"src/test/resources/staticcontent\");",
+            "title" : "create and start server",
+            "surroundedBy" : "static-server-create",
+            "anchorId" : "serve-static-content-create-and-start-server-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       }, {
         "lang" : "json",
         "snippet" : "{\n  \"id\": \"user-one\",\n  \"type\": \"person\"\n}",
         "autoTitle" : true,
         "title" : "data/staticcontent/data.json",
+        "anchorId" : "serve-static-content-data-staticcontent-data-json",
         "type" : "Snippet"
       }, {
-        "lang" : "groovy",
-        "snippet" : "http.get(\"${myServer.baseUrl}/data.json\") {\n    body.type == \"person\"\n}",
-        "title" : "testing response from a static server",
-        "surroundedBy" : "static-server-json",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "http.get(\"${myServer.baseUrl}/data.json\") {\n    body.type == \"person\"\n}",
+            "title" : "testing response from a static server",
+            "surroundedBy" : "static-server-json",
+            "anchorId" : "serve-static-content-testing-response-from-a-static-server",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "http.get(myServer.getBaseUrl() + \"/data.json\", ((header, body) -> {\n    body.get(\"type\").should(equal(\"person\"));\n}));",
+            "title" : "testing response from a static server",
+            "surroundedBy" : "static-server-json",
+            "anchorId" : "serve-static-content-testing-response-from-a-static-server-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "set-server-as-base-url",
+      "title" : "Set Server As Base Url",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "setAsBaseUrl",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to use the server's host and port as base url",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "myServer.setAsBaseUrl()",
+            "title" : "server as base url",
+            "surroundedBy" : "set-base-url-example",
+            "anchorId" : "set-server-as-base-url-server-as-base-url",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "myServer.setAsBaseUrl();",
+            "title" : "server as base url",
+            "surroundedBy" : "set-base-url-example",
+            "anchorId" : "set-server-as-base-url-server-as-base-url-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "id" : "host-html-for-browser",
@@ -194,13 +275,31 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "<body>\n<p>hello</p>\n</body>",
         "autoTitle" : true,
         "title" : "data/staticcontent/hello.html",
+        "anchorId" : "host-html-for-browser-data-staticcontent-hello-html",
         "type" : "Snippet"
       }, {
-        "lang" : "groovy",
-        "snippet" : "browser.open(\"${myServer.baseUrl}/hello.html\")\n$(\"p\").should == \"hello\"",
-        "title" : "open browser using static contet",
-        "surroundedBy" : "static-server-html",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "http.get(\"/hello.html\") {\n    body.should == expectedHtml\n}",
+            "title" : "open browser using static contet",
+            "surroundedBy" : "static-server-html",
+            "anchorId" : "host-html-for-browser-open-browser-using-static-contet",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "browser.open(\"/hello.html\");\n$(\"p\").should(equal(\"hello\"));",
+            "title" : "open browser using static contet",
+            "surroundedBy" : "browser-example",
+            "anchorId" : "host-html-for-browser-open-browser-using-static-contet-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "id" : "override-response",
@@ -219,11 +318,28 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "def router = server.router()\n        .get(\"/hello/:name\") {request -> server.response([message: \"hello ${request.param(\"name\")}\"]) }\nmyServer.addOverride(router)",
-        "title" : "content override",
-        "surroundedBy" : "override-example",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def router = server.router()\n        .get(\"/hello/:name\") {request -> server.response([message: \"hello ${request.param(\"name\")}\"]) }\nmyServer.addOverride(router)",
+            "title" : "content override",
+            "surroundedBy" : "override-example",
+            "anchorId" : "override-response-content-override",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "WebTauRouter router = server.router()\n        .get(\"/hello/:name\", (request) -> server.response(aMapOf(\"message\", \"hello \" + request.param(\"name\"))));\nmyServer.addOverride(router);",
+            "title" : "content override",
+            "surroundedBy" : "override-example",
+            "anchorId" : "override-response-content-override-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "id" : "server-slowdown",
@@ -242,11 +358,28 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "staticServer.markUnresponsive()\n\ncode {\n    http.get(\"${staticServer.baseUrl}/hello.html\")\n} should throwException(~/Read timed out/)",
-        "title" : "mark as unresponsive",
-        "surroundedBy" : "mark-unresponsive",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "myServer.markUnresponsive()\n\ncode {\n    http.get(\"/hello.html\")\n} should throwException(~/Read timed out/)",
+            "title" : "mark as unresponsive",
+            "surroundedBy" : "mark-unresponsive",
+            "anchorId" : "server-slowdown-mark-as-unresponsive",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "myServer.markUnresponsive();\n\ncode(() -> {\n    http.get(\"/hello.html\");\n}).should(throwException(Pattern.compile(\"Read timed out\")));",
+            "title" : "mark as unresponsive",
+            "surroundedBy" : "mark-unresponsive",
+            "anchorId" : "server-slowdown-mark-as-unresponsive-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "id" : "server-break",
@@ -265,11 +398,28 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "staticServer.markBroken()\n\nhttp.get(\"${staticServer.baseUrl}/hello.html\") {\n    statusCode.should == 500\n    body.should == null\n}",
-        "title" : "mark as broken",
-        "surroundedBy" : "mark-broken",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "myServer.markBroken()\n\nhttp.get(\"/hello.html\") {\n    statusCode.should == 500\n    body.should == null\n}",
+            "title" : "mark as broken",
+            "surroundedBy" : "mark-broken",
+            "anchorId" : "server-break-mark-as-broken",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "myServer.markBroken();\n\nhttp.get(\"/hello.html\", (header, body) -> {\n    header.statusCode.should(equal(500));\n});",
+            "title" : "mark as broken",
+            "surroundedBy" : "mark-broken",
+            "anchorId" : "server-break-mark-as-broken-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "id" : "server-fix",
@@ -289,15 +439,16 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "staticServer.fix()",
+        "snippet" : "myServer.fix()",
         "title" : "fix server",
         "surroundedBy" : "mark-fix",
+        "anchorId" : "server-fix-fix-server",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107246,
+    "lastModifiedTime" : 1670451504506,
     "tocItem" : {
-      "sectionTitle" : "Servers",
+      "chapterTitle" : "Servers",
       "pageTitle" : "Static Server",
       "pageMeta" : { },
       "dirName" : "servers",
@@ -306,6 +457,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "pageSectionIdTitles" : [ {
         "title" : "Serve Static Content",
         "id" : "serve-static-content"
+      }, {
+        "title" : "Set Server As Base Url",
+        "id" : "set-server-as-base-url"
       }, {
         "title" : "Host Html For Browser",
         "id" : "host-html-for-browser"

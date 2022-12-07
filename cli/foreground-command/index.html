@@ -154,7 +154,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -213,6 +214,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "cli.run('echo hello world')",
         "title" : "run command",
+        "anchorId" : "run-run-command",
         "type" : "Snippet"
       } ]
     }, {
@@ -223,16 +225,19 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "cli.run('echo hello world') {\n    output.should contain('hello')\n    output.should contain('world')\n}",
         "title" : "output validation",
+        "anchorId" : "run-with-validation-output-validation",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "cli.run('scripts/error-output') {\n    error.should == 'error B892T'\n}",
         "title" : "error validation",
+        "anchorId" : "run-with-validation-error-validation",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "cli.run('scripts/exit-code 8') {\n    exitCode.should == 8\n    exitCode.shouldNot == 0\n}",
         "title" : "exit code validation",
+        "anchorId" : "run-with-validation-exit-code-validation",
         "type" : "Snippet"
       } ]
     }, {
@@ -266,6 +271,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "cli.run('echo hello world')",
         "title" : "implicit exit validation happens here",
+        "anchorId" : "implicit-exit-code-validation-implicit-exit-validation-happens-here",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -277,6 +283,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "cli.run('echo hello world') {\n    exitCode.should == 0\n}",
         "title" : "WebTau performs exit code check if you don't write explicit validation",
+        "anchorId" : "implicit-exit-code-validation-webtau-performs-exit-code-check-if-you-dont-write-explicit-validation",
         "type" : "Snippet"
       } ]
     }, {
@@ -300,6 +307,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "def result = cli.run('scripts/my-script') {\n    exitCode.shouldNot == 0\n}\n\nprintln result.output\nprintln result.error\nif (result.exitCode == 1) {\n    // ...\n}",
         "title" : "using run result",
         "excludeRegexp" : "hide-docs",
+        "anchorId" : "run-result-using-run-result",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -314,6 +322,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "startLine" : "example",
         "endLine" : "example",
         "excludeStartEnd" : true,
+        "anchorId" : "run-result-extract-from-output-by-regexp",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
@@ -322,6 +331,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "startLine" : "example",
         "endLine" : "example",
         "excludeStartEnd" : true,
+        "anchorId" : "run-result-extract-from-error-by-regexp",
         "type" : "Snippet"
       } ]
     }, {
@@ -350,6 +360,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "cli.run('./listing', cli.workingDir('scripts')) {\n    output.should contain('listing files')\n    output.should contain('sleeps')\n}",
         "title" : "set working dir",
+        "anchorId" : "working-dir-set-working-dir",
         "type" : "Snippet"
       } ]
     }, {
@@ -379,11 +390,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "#!/bin/bash\necho \"hello $MY_VAR\"",
         "autoTitle" : true,
         "title" : "scripts/hello-env-var",
+        "anchorId" : "environment-variables-scripts-hello-env-var",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "cli.run('scripts/hello-env-var', cli.env([MY_VAR: 'webtau'])) {\n    output.should == 'hello webtau'\n}",
         "title" : "set environment variable",
+        "anchorId" : "environment-variables-set-environment-variable",
         "type" : "Snippet"
       } ]
     }, {
@@ -413,11 +426,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "cliEnv {\n    MY_VAR = \"webtau\"\n    PREFIX_VAR = \"__\"\n}",
         "title" : "webtau.cfg.groovy",
         "surroundedBy" : "default-my-var",
+        "anchorId" : "common-environment-variables-webtau-cfg-groovy",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "cli.run('scripts/hello-env-var') {\n    output.should == 'hello webtau'\n}",
         "title" : "use environment variable from config",
+        "anchorId" : "common-environment-variables-use-environment-variable-from-config",
         "type" : "Snippet"
       } ]
     }, {
@@ -440,6 +455,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "cli.run('./hello-env-var',\n        cli.workingDir('scripts').env([MY_VAR: 'webtau'])) {\n    output.should == 'hello webtau'\n}",
         "title" : "set environment variable and working dir",
+        "anchorId" : "chain-cli-run-config-set-environment-variable-and-working-dir",
         "type" : "Snippet"
       } ]
     }, {
@@ -462,6 +478,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "cliPath = ['scripts/more']",
         "title" : "webtau.cfg.groovy",
+        "anchorId" : "path-webtau-cfg-groovy",
         "type" : "Snippet"
       } ]
     }, {
@@ -493,6 +510,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "cliTimeout = 400",
         "title" : "webtau.cfg.groovy",
+        "anchorId" : "timeout-webtau-cfg-groovy",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -511,6 +529,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "cli.run(\"scripts/sleeps\", cli.timeout(300))",
         "title" : "local override",
         "includeRegexp" : "cli.timeout",
+        "anchorId" : "timeout-local-override",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -520,9 +539,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "Cli",
+      "chapterTitle" : "Cli",
       "pageTitle" : "Foreground Command",
       "pageMeta" : { },
       "dirName" : "cli",

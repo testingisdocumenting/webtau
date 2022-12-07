@@ -124,7 +124,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -149,6 +150,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nString emailHost = cfg.emailHost\n\nonlyWhen('email server is internal', { -> emailHost.contains('internal.server')}) {\n    scenario('confirmation emails should be sent') {\n        // ...\n        http.get(emailHost) {\n            subjects.should contain('my message')\n        }\n    }\n}",
         "title" : "Conditional tests skip",
+        "anchorId" : "skipping-tests-on-condition-conditional-tests-skip",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -183,6 +185,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nonlyForEnv('experimental') {\n    scenario('this scenario will only be executed in \"experimental\" env') {\n        http.get('/new-endpoint') {\n            price.shouldBe > 0\n        }\n    }\n}\n\nskipForEnv('experimental') {\n    scenario('this scenario will not be executed in \"experimental\" env') {\n        http.get('/new-endpoint') {\n            price.shouldBe > 0\n        }\n    }\n}",
         "title" : "Environment specific tests",
+        "anchorId" : "skipping-tests-based-on-env-environment-specific-tests",
         "type" : "Snippet"
       } ]
     }, {
@@ -262,6 +265,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "package scenarios.concept\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndscenario('do not execute this scenario') {\n    http.get('/non-existing-endpoint') {\n        price.shouldBe > 0\n    }\n}\n\ndisabledScenario('do not execute this scenario either') {\n    http.get('/non-existing-endpoint') {\n        price.shouldBe > 0\n    }\n}",
         "title" : "Disable tests",
+        "anchorId" : "unconditionally-skipping-tests-disable-tests",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -277,9 +281,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658346107242,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Groovy Standalone Runner",
+      "chapterTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Skipping Tests",
       "pageMeta" : { },
       "dirName" : "groovy-standalone-runner",

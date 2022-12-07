@@ -84,33 +84,28 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Consistent API</h1></header>
-<p>There are multiple tools to help you test REST API, GraphQL API, Web UI, Database and CLI. Some of them are JUnit specific, some of them are UI driven. Some use their own matchers and some try to integrate with a specific matcher interface.Question: Why did we create another tool?Tests I write, and the way I write them often require interactions and assertions on multiple layers. Combining multiple frameworks to achieve the goal ends up with a mix of styles in a single test file. It complicates tests creation and maintenance.</p>
+<header><h1>Reporting</h1></header>
+<p>WebTau in its core captures test actions and assertions. Everything you do, every match that is passed or failed is being recorded.Information is available in console output, so you don't need to sprinkle println statements everywhere. And all the captured information is available as self-contained rich HTML report.Single report HTML file that you can email, slack or host on an FS and open with no servers required. Groovy TableData table = data.csv.table(&quot;data/table.csv&quot;) Java TableData table = data.csv.table(&quot;data/table.csv&quot;); &gt; reading csv from file or resource data/table.csv . read 2 lines of csv from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv (0ms)</p>
 </article>
 
 <article>
-<header><h1>Reporting</h1></header>
-<p>WebTau in its core captures test actions and assertions. Everything you do, every match that is passed or failed is being recorded.Information is available in console output, so you don't need to sprinkle println statements everywhere. And all the captured information is available as self-contained rich HTML report.</p>
+<header><h1>High Level API</h1></header>
+<p>WebTau provides high level API to interact with HTTP, Browser, Database, File System. It is easy to use, requires minimum setup and every action is reported.You can use WebTau to only test a single layer of your product, but you can als combine layers in a single test and setup data using HTTP layer and validate using a Browser layer or a DB layer. All is with a single configuration, consistent set of matchers and rich reporting.</p>
 </article>
 
 <article>
 <header><h1>Syntax Sugar</h1></header>
-<p>WebTau provides DSL to make common testing operations succinct. Syntax sugar is available for Java and Groovy and since WebTau core is Java, additional syntax sugar can be added to languages like Kotlin and Scala.</p>
+<p>WebTau provides DSL to make common testing operations succinct. Syntax sugar is available for Java and Groovy and since WebTau core is Java, additional syntax sugar can be added to languages like Kotlin and Scala. Groovy [&quot;Name&quot; | &quot;Start Date&quot; | &quot;Games To Play&quot; ] { ______________________________________________________ &quot;John&quot; | LocalDate.of(2016, 6, 20) | 10 &quot;Bob&quot; | cell.above | cell.above + 1 &quot;Mike&quot; | cell.above | cell.above + 1 } Java table(&quot;Name&quot;, &quot;Start Date&quot; , &quot;Games To Play&quot;, ________________________________________________________________, &quot;John&quot;, LocalDate.of(2016, 6, 20), 10, &quot;Bob&quot; , cell.above , cell.above.plus(1), &quot;Mike&quot;, cell.above , cell.above.plus(1))</p>
 </article>
 
 <article>
 <header><h1>REPL</h1></header>
-<p>Writing end-to-end tests is hard and there are a lot of excuses not write one. End-to-end test feedback loop is usually long and slow. WebTau provides REPL/experiments REPL mode to help you experiment with API and write a test in incremental fashion.</p>
-</article>
-
-<article>
-<header><h1>Utilities</h1></header>
-<p>WebTau provides many utility functions to simplify data organization and setup. data/introduction Data module provides shortcuts to deal with CSV and JSON based data. utilities/file-system File System module provides shortcuts to deal with file system related things.</p>
+<p>Writing end-to-end tests is hard and there are a lot of excuses not write one. End-to-end test feedback loop is usually long and slow. WebTau provides REPL/experiments REPL mode to help you experiment with API and write a test in incremental fashion. webtau:000&gt; http.get(&quot;https://jsonplaceholder.typicode.com/todos/1&quot;) &gt; executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer&gt; expected: 200 &lt;java.lang.Integer&gt; (27ms) response (application/json; charset=utf-8): { &quot;userId&quot;: 1, &quot;id&quot;: 1, &quot;title&quot;: &quot;delectus aut autem&quot;, &quot;completed&quot;: false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (696ms)</p>
 </article>
 
 <article>
 <header><h1>Documentation Artifacts</h1></header>
-<p>I believe that big chunks of a documentation of your product should be automatically generated:Screenshots (with annotations) API request/response examples CLI params and sample output WebTau provides a set of commands to help you capture artifacts of your happy path tests to later be used by a documentation system.Captured artifacts are agnostic to the documentation system. I personally use https://github.com/testingisdocumenting/znai Znai, a markdown based documentation with custom extensions (I am a maintainer of the project).</p>
+<p>Your users deserve useful and up-to date documentation. Manually maintaining documentation is hard and expensive. WebTau helps you to capture test artifacts during the tests, for exampleScreenshots (with annotations) API request/response examples CLI params and sample output Captured artifacts are agnostic to the documentation system. However, you can take a look at https://github.com/testingisdocumenting/znai Znai documentation system that was designed with documentation maintenance in mind. Enter search query Results are displayed in a grid</p>
 </article>
 </section>
 </div>
@@ -134,55 +129,13 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "id" : "consistent-api",
-      "title" : "Consistent API",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "There are multiple tools to help you test REST API, GraphQL API, Web UI, Database and CLI.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "Some of them are JUnit specific, some of them are UI driven. Some use their own matchers and some try to integrate with",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "a specific matcher interface.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Question: Why did we create another tool?",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Tests I write, and the way I write them often require interactions and assertions on multiple layers.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "Combining multiple frameworks to achieve the goal ends up with a mix of styles in a single test file.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "It complicates tests creation and maintenance.",
-          "type" : "SimpleText"
-        } ]
-      } ]
-    }, {
       "id" : "reporting",
       "title" : "Reporting",
       "type" : "Section",
@@ -223,6 +176,66 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "And all the captured information is available as self-contained rich HTML report.",
           "type" : "SimpleText"
         } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Single report HTML file that you can email, slack or host on an FS and open with no servers required.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "TableData table = data.csv.table(\"data/table.csv\")",
+            "title" : "read table data from csv",
+            "surroundedBy" : "// read",
+            "anchorId" : "reporting-read-table-data-from-csv",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "TableData table = data.csv.table(\"data/table.csv\");",
+            "title" : "read table data from csv",
+            "surroundedBy" : [ "// read-table" ],
+            "anchorId" : "reporting-read-table-data-from-csv-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "title" : "console output",
+        "lines" : [ "\u001B[33m> \u001B[34mreading \u001B[36mcsv \u001B[33mfrom \u001B[36mfile or resource \u001B[35mdata/table.csv\u001B[0m", "\u001B[32m. \u001B[34mread \u001B[34m2 \u001B[36mlines of csv \u001B[33mfrom \u001B[36mfile \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "id" : "high-level-api",
+      "title" : "High Level API",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau provides high level API to interact with HTTP, Browser, Database, File System.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "It is easy to use, requires minimum setup and every action is reported.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "You can use WebTau to only test a single layer of your product, but you can als combine layers in a single test and setup data using HTTP layer and validate using a Browser layer or a DB layer.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "All is with a single configuration, consistent set of matchers and rich reporting.",
+          "type" : "SimpleText"
+        } ]
       } ]
     }, {
       "id" : "syntax-sugar",
@@ -239,6 +252,29 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "since WebTau core is Java, additional syntax sugar can be added to languages like Kotlin and Scala.",
           "type" : "SimpleText"
         } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "[\"Name\" | \"Start Date\"              | \"Games To Play\" ] {\n ______________________________________________________\n \"John\" | LocalDate.of(2016, 6, 20) | 10\n \"Bob\"  | cell.above                | cell.above + 1\n \"Mike\" | cell.above                | cell.above + 1 }",
+            "entry" : "createTableDataWithAboveRefAndMath",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "table(\"Name\", \"Start Date\"             , \"Games To Play\",\n     ________________________________________________________________,\n      \"John\", LocalDate.of(2016, 6, 20), 10,\n      \"Bob\" , cell.above               , cell.above.plus(1),\n      \"Mike\", cell.above               , cell.above.plus(1))",
+            "entry" : "createTableDataWithAboveRefAndMath",
+            "bodyOnly" : true,
+            "removeReturn" : true,
+            "removeSemicolon" : true,
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "id" : "repl",
@@ -271,61 +307,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "experiment with API and write a test in incremental fashion.",
           "type" : "SimpleText"
         } ]
-      } ]
-    }, {
-      "id" : "utilities",
-      "title" : "Utilities",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "WebTau provides many utility functions to simplify data organization and setup. ",
-          "type" : "SimpleText"
-        }, {
-          "url" : "/webtau/data/introduction",
-          "isFile" : false,
-          "type" : "Link",
-          "content" : [ {
-            "text" : "Data",
-            "type" : "SimpleText"
-          } ]
-        }, {
-          "text" : " module provides",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "shortcuts to deal with ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "CSV",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " and ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "JSON",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " based data. ",
-          "type" : "SimpleText"
-        }, {
-          "url" : "/webtau/utilities/file-system",
-          "isFile" : false,
-          "type" : "Link",
-          "content" : [ {
-            "text" : "File System",
-            "type" : "SimpleText"
-          } ]
-        }, {
-          "text" : " module provides shortcuts to",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "deal with file system related things.",
-          "type" : "SimpleText"
-        } ]
+      }, {
+        "title" : "exploring http.get",
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m http.get(\"https://jsonplaceholder.typicode.com/todos/1\")", "\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[32mequals 200", "      header.statusCode:   actual: 200 <java.lang.Integer>", "                         expected: 200 <java.lang.Integer>\u001B[33m (\u001B[32m27ms\u001B[33m)\u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json; charset=utf-8):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"userId\": \u001B[36m1\u001B[33m,\u001B[0m", "    \u001B[35m\"id\": \u001B[36m1\u001B[33m,\u001B[0m", "    \u001B[35m\"title\": \u001B[32m\"delectus aut autem\"\u001B[33m,\u001B[0m", "    \u001B[35m\"completed\": \u001B[36mfalse\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP GET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[33m (\u001B[32m696ms\u001B[33m)\u001B[0m" ],
+        "type" : "CliOutput"
       } ]
     }, {
       "id" : "documentation-artifacts",
@@ -334,7 +319,12 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "I believe that big chunks of a documentation of your product should be automatically generated:",
+          "text" : "Your users deserve useful and up-to date documentation. Manually maintaining documentation is hard and expensive.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "WebTau helps you to capture test artifacts during the tests, for example",
           "type" : "SimpleText"
         } ]
       }, {
@@ -372,18 +362,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "WebTau provides a set of commands to help you capture artifacts of your happy path tests to later be used",
-          "type" : "SimpleText"
-        }, {
-          "type" : "HardLineBreak"
-        }, {
-          "text" : "by a documentation system.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Captured artifacts are agnostic to the documentation system. I personally use ",
+          "text" : "Captured artifacts are agnostic to the documentation system. However, you can take a look at ",
           "type" : "SimpleText"
         }, {
           "url" : "https://github.com/testingisdocumenting/znai",
@@ -394,39 +373,109 @@ ReactDOM.render(React.createElement(Documentation, {
             "type" : "SimpleText"
           } ]
         }, {
-          "text" : ",",
+          "text" : " documentation system",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "a markdown based documentation with custom extensions (I am a maintainer of the project).",
+          "text" : "that was designed with documentation maintenance in mind.",
           "type" : "SimpleText"
         } ]
+      }, {
+        "columns" : [ {
+          "content" : [ {
+            "title" : "captured request payload",
+            "data" : {
+              "firstName" : "FN",
+              "lastName" : "LN"
+            },
+            "paths" : [ ],
+            "type" : "Json"
+          } ]
+        }, {
+          "content" : [ {
+            "title" : "captured response payload",
+            "pathsFile" : "doc-artifacts/employee-post/paths.json",
+            "data" : {
+              "id" : "id-generated-2"
+            },
+            "paths" : [ "root.id" ],
+            "type" : "Json"
+          } ]
+        } ],
+        "config" : { },
+        "type" : "Columns"
+      }, {
+        "delimiter" : ".",
+        "startNumber" : 1,
+        "type" : "OrderedList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Enter search query",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Results are displayed in a grid",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "border" : true,
+        "fit" : true,
+        "annotate" : true,
+        "title" : "automatically captured screenshot with annotations",
+        "imageSrc" : "/webtau/doc-artifacts/search.png",
+        "timestamp" : 1670452031785,
+        "shapes" : [ {
+          "type" : "badge",
+          "text" : "1",
+          "x" : 104,
+          "y" : 76,
+          "align" : "Center",
+          "invertedColors" : false
+        }, {
+          "type" : "badge",
+          "text" : "2",
+          "x" : 442,
+          "y" : 161,
+          "align" : "Center",
+          "invertedColors" : false
+        } ],
+        "width" : 900.0,
+        "height" : 322.0,
+        "anchorId" : "documentation-artifacts-automatically-captured-screenshot-with-annotations",
+        "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107242,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Getting Started",
+      "chapterTitle" : "Getting Started",
       "pageTitle" : "Why",
       "pageMeta" : { },
       "dirName" : "getting-started",
       "fileName" : "why",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Consistent API",
-        "id" : "consistent-api"
-      }, {
         "title" : "Reporting",
         "id" : "reporting"
+      }, {
+        "title" : "High Level API",
+        "id" : "high-level-api"
       }, {
         "title" : "Syntax Sugar",
         "id" : "syntax-sugar"
       }, {
         "title" : "REPL",
         "id" : "repl"
-      }, {
-        "title" : "Utilities",
-        "id" : "utilities"
       }, {
         "title" : "Documentation Artifacts",
         "id" : "documentation-artifacts"

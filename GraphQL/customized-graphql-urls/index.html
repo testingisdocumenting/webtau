@@ -109,7 +109,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -199,12 +200,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "package org.testingisdocumenting.webtau.graphql\n\nimport org.testingisdocumenting.webtau.graphql.config.GraphQLHttpConfiguration\nimport org.testingisdocumenting.webtau.graphql.model.GraphQLRequest\n\nclass CustomGraphQLHttpConfiguration implements GraphQLHttpConfiguration {\n    // Note: our test server requires the graphql endpoint to start with \"graphql\"\n    public static final CUSTOM_GRAPHQL_ENDPOINT = 'graphql-custom'\n\n    @Override\n    String requestUrl(String url, GraphQLRequest graphQLRequest) {\n        if (null != graphQLRequest.operationName && !graphQLRequest.operationName.isEmpty()) {\n            return \"${CUSTOM_GRAPHQL_ENDPOINT}?operation=${graphQLRequest.operationName}\"\n        }\n        return url\n    }\n}",
         "title" : "Customized GraphQLHttpConfiguration adding the operation to the URL",
+        "anchorId" : "customizing-the-graphql-endpoint-customized-graphqlhttpconfiguration-adding-the-operation-to-the-url",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "GraphQL",
+      "chapterTitle" : "GraphQL",
       "pageTitle" : "Customized Graphql Urls",
       "pageMeta" : { },
       "dirName" : "GraphQL",

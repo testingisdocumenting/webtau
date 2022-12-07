@@ -89,6 +89,11 @@
 </article>
 
 <article>
+<header><h1>Cached Value With Expiration</h1></header>
+<p>Use get value with expiration time for scenarios like auth token def token = cache.get(authTokenKey, 60_000, () -&gt; generateAuthToken())</p>
+</article>
+
+<article>
 <header><h1>FS Path type</h1></header>
 <p>utilities/file-system File System module return values of type Path . WebTau stores them as String . To retrieve as Path use import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def deployDirCache = cache.value(&quot;deploy-dir&quot;) scenario(&quot;caching of path value&quot;) { def path = fs.tempDir(&quot;my-dir&quot;) deployDirCache.set(path) } scenario(&quot;accessing path value&quot;) { def deployDir = deployDirCache.getAsPath() fs.writeText(deployDir.resolve(&quot;file.txt&quot;), &quot;hello&quot;) }</p>
 </article>
@@ -119,7 +124,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -174,6 +180,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "cached value",
         "surroundedBy" : "example",
         "commentsType" : "inline",
+        "anchorId" : "cached-value-cached-value",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -208,6 +215,25 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "to run one scenario at a time.",
           "type" : "SimpleText"
         } ]
+      } ]
+    }, {
+      "id" : "cached-value-with-expiration",
+      "title" : "Cached Value With Expiration",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use get value with expiration time for scenarios like auth token",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def token = cache.get(authTokenKey, 60_000, () -> generateAuthToken())",
+        "title" : "cached value with expiration",
+        "surroundedBy" : "example",
+        "commentsType" : "inline",
+        "anchorId" : "cached-value-with-expiration-cached-value-with-expiration",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "fs-path-type",
@@ -259,6 +285,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "cached path value",
         "surroundedBy" : "example",
         "commentsType" : "inline",
+        "anchorId" : "fs-path-type-cached-path-value",
         "type" : "Snippet"
       } ]
     }, {
@@ -287,6 +314,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "def prevGenerated = cache.value(\"zip-unpacked-path\")\n// ...\nif (!prevGenerated.exists()) {\n    // recreate content\n}",
         "title" : "cached value",
         "surroundedBy" : "exists-example",
+        "anchorId" : "presence-check-cached-value",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -296,9 +324,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658346107246,
+    "lastModifiedTime" : 1670451504506,
     "tocItem" : {
-      "sectionTitle" : "Utilities",
+      "chapterTitle" : "Utilities",
       "pageTitle" : "Cache",
       "pageMeta" : { },
       "dirName" : "utilities",
@@ -307,6 +335,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "pageSectionIdTitles" : [ {
         "title" : "Cached Value",
         "id" : "cached-value"
+      }, {
+        "title" : "Cached Value With Expiration",
+        "id" : "cached-value-with-expiration"
       }, {
         "title" : "FS Path type",
         "id" : "fs-path-type"

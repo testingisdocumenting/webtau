@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Authorization</h1></header>
-<p>In HTTP/header#implicit-header http headers section we defined how to use an implicit header provider to enable authentication/authorization package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = &quot;http://localhost:8080&quot; httpHeaderProvider = Auth.&amp;authHeader package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateToken() return original.with([Authorization: &quot;Bearer $token&quot;]) } private static String generateToken() { return &quot;jwt-token&quot; } }</p>
+<p>In HTTP/header#implicit-header http headers section we defined how to use an implicit header provider to enable authentication/authorization Groovy package scenarios.rest.headers import scenarios.rest.headers.auth.Auth url = &quot;http://localhost:8080&quot; httpHeaderProvider = Auth.&amp;authHeader package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader class Auth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateToken() return original.with([Authorization: &quot;Bearer $token&quot;]) } private static String generateToken() { return &quot;jwt-token&quot; } } Java In case of JUnit like runners, WebTau uses https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html Service Loaders to locate header providers com.example.tests.junit5.config.HttpAuthHeaderProvider package com.example.tests.junit5.config; import org.testingisdocumenting.webtau.http.HttpHeader; import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration; import static org.testingisdocumenting.webtau.WebTauDsl.*; public class HttpAuthHeaderProvider implements WebTauHttpConfiguration { @Override public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) { String token = generateToken(); return given.with(&quot;Authorization&quot;, &quot;Bearer &quot; + token); } private String generateToken() { return &quot;jwt-token&quot;; } }</p>
 </article>
 
 <article>
 <header><h1>Persona Authorization</h1></header>
-<p>Let's define authorization based on persona context. persona/introduction#context-definition Previously we defined two personas package personas import static org.testingisdocumenting.webtau.WebTauCore.persona class Personas { public static def Alice = persona(&quot;Alice&quot;, [authId: &quot;alice-user-id&quot;]) public static def Bob = persona(&quot;Bob&quot;, [authId: &quot;bob-user-id&quot;]) } Authorization test using persona concept looks like this package scenarios.rest.headers import static personas.Personas.* import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;my bank balance&quot;) { Alice { http.get(&quot;/statement&quot;) { balance.shouldBe &gt; 100 } } Bob { http.get(&quot;/statement&quot;) { balance.shouldBe &lt; 50 } } } To make this example work, let's update implicit header provider above to take into account persona context package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader import static org.testingisdocumenting.webtau.WebTauDsl.* class PersonaAuth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateTokenBasedOnPersona() return original.with([Authorization: &quot;Bearer $token&quot;]) } static String generateTokenBasedOnPersona() { if (currentPersona.isDefault()) { // check if we are inside persona context or outside return generateDefaultToken() } return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token } static String generateTokenForSystemUserId(String systemUserId) { return &quot;dummy:$systemUserId&quot; // this is where you generate specific user auth token } static String generateDefaultToken() { return &quot;dummy:default-user&quot; // this is where you generate default user auth token } }</p>
+<p>Let's define authorization based on persona context. persona/introduction#context-definition Previously we defined two personas Groovy package personas import static org.testingisdocumenting.webtau.WebTauCore.persona class Personas { public static def Alice = persona(&quot;Alice&quot;, [authId: &quot;alice-user-id&quot;]) public static def Bob = persona(&quot;Bob&quot;, [authId: &quot;bob-user-id&quot;]) } Java package com.example.tests.junit5; import org.testingisdocumenting.webtau.persona.Persona; public class Personas { public static final Persona Alice = Persona.persona(&quot;Alice&quot;, &quot;authId&quot;, &quot;alice-user-id&quot;); public static final Persona Bob = Persona.persona(&quot;Bob&quot;, &quot;authId&quot;, &quot;bob-user-id&quot;); } Authorization test using persona concept looks like this Groovy package scenarios.rest.headers import static personas.Personas.* import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;my bank balance&quot;) { Alice { http.get(&quot;/statement&quot;) { balance.shouldBe &gt; 100 } } Bob { http.get(&quot;/statement&quot;) { balance.shouldBe &lt; 50 } } } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static com.example.tests.junit5.Personas.*; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class PersonaHttpJavaTest { @Test public void checkBalance() { Alice.execute(() -&gt; http.get(&quot;/statement&quot;, (header, body) -&gt; { body.get(&quot;balance&quot;).shouldBe(greaterThan(100)); })); Bob.execute(() -&gt; http.get(&quot;/statement&quot;, (header, body) -&gt; { body.get(&quot;balance&quot;).shouldBe(lessThan(50)); })); } } To make this example work, let's update implicit header provider above to take into account persona context Groovy package scenarios.rest.headers.auth import org.testingisdocumenting.webtau.http.HttpHeader import static org.testingisdocumenting.webtau.WebTauDsl.* class PersonaAuth { static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) { def token = generateTokenBasedOnPersona() return original.with([Authorization: &quot;Bearer $token&quot;]) } static String generateTokenBasedOnPersona() { if (currentPersona.isDefault()) { // check if we are inside persona context or outside return generateDefaultToken() } return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token } static String generateTokenForSystemUserId(String systemUserId) { return &quot;dummy:$systemUserId&quot; // this is where you generate specific user auth token } static String generateDefaultToken() { return &quot;dummy:default-user&quot; // this is where you generate default user auth token } } Java package com.example.tests.junit5.config; import org.testingisdocumenting.webtau.http.HttpHeader; import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration; import static org.testingisdocumenting.webtau.WebTauDsl.*; public class HttpPersonaAuthHeaderProvider implements WebTauHttpConfiguration { @Override public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) { String token = generateTokenBasedOnPersona(); return given.with(&quot;Authorization&quot;, &quot;Bearer &quot; + token); } private String generateTokenBasedOnPersona() { if (getCurrentPersona().isDefault()) { // check if we are inside persona context or outside return generateDefaultToken(); } return generateTokenForSystemUserId( getCurrentPersona().getPayload().getOrDefault(&quot;authId&quot;, &quot;&quot;).toString()); // use persona payload to generate required token } private String generateTokenForSystemUserId(String systemUserId) { return &quot;dummy:&quot; + systemUserId; // this is where you generate specific user auth token } private String generateDefaultToken() { return &quot;dummy:default-user&quot;; // this is where you generate default user auth token } }</p>
 </article>
 </section>
 </div>
@@ -114,7 +114,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -146,15 +147,62 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "package scenarios.rest.headers\n\nimport scenarios.rest.headers.auth.Auth\n\nurl = \"http://localhost:8080\"\n\nhttpHeaderProvider = Auth.&authHeader",
-        "title" : "webtau.cfg.groovy",
-        "type" : "Snippet"
-      }, {
-        "lang" : "groovy",
-        "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\n\nclass Auth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateToken()\n        return original.with([Authorization: \"Bearer $token\"])\n    }\n\n    private static String generateToken() {\n        return \"jwt-token\"\n    }\n}",
-        "title" : "scenarios/rest/headers/auth/Auth.groovy",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "package scenarios.rest.headers\n\nimport scenarios.rest.headers.auth.Auth\n\nurl = \"http://localhost:8080\"\n\nhttpHeaderProvider = Auth.&authHeader",
+            "title" : "webtau.cfg.groovy",
+            "anchorId" : "authorization-webtau-cfg-groovy",
+            "type" : "Snippet"
+          }, {
+            "lang" : "groovy",
+            "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\n\nclass Auth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateToken()\n        return original.with([Authorization: \"Bearer $token\"])\n    }\n\n    private static String generateToken() {\n        return \"jwt-token\"\n    }\n}",
+            "title" : "scenarios/rest/headers/auth/Auth.groovy",
+            "anchorId" : "authorization-scenarios-rest-headers-auth-auth-groovy",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "In case of JUnit like runners, WebTau uses ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Service Loaders",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : "",
+              "type" : "SimpleText"
+            }, {
+              "type" : "SoftLineBreak"
+            }, {
+              "text" : "to locate header providers",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "lang" : "WebTauHttpConfiguration",
+            "snippet" : "com.example.tests.junit5.config.HttpAuthHeaderProvider",
+            "autoTitle" : true,
+            "title" : "src/test/resources/META-INF/services/org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration",
+            "anchorId" : "authorization-src-test-resources-meta-inf-services-org-testingisdocumenting-webtau-http-config-webtauhttpconfiguration",
+            "type" : "Snippet"
+          }, {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit5.config;\n\nimport org.testingisdocumenting.webtau.http.HttpHeader;\nimport org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\npublic class HttpAuthHeaderProvider implements WebTauHttpConfiguration {\n    @Override\n    public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {\n        String token = generateToken();\n        return given.with(\"Authorization\", \"Bearer \" + token);\n    }\n\n    private String generateToken() {\n        return \"jwt-token\";\n    }\n}",
+            "autoTitle" : true,
+            "title" : "src/test/java/com/example/tests/junit5/config/HttpAuthHeaderProvider.java",
+            "anchorId" : "authorization-src-test-java-com-example-tests-junit5-config-httpauthheaderprovider-java",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "id" : "persona-authorization",
@@ -180,10 +228,26 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "package personas\n\nimport static org.testingisdocumenting.webtau.WebTauCore.persona\n\nclass Personas {\n    public static def Alice = persona(\"Alice\", [authId: \"alice-user-id\"])\n    public static def Bob = persona(\"Bob\", [authId: \"bob-user-id\"])\n}",
-        "title" : "Alice and Bob",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "package personas\n\nimport static org.testingisdocumenting.webtau.WebTauCore.persona\n\nclass Personas {\n    public static def Alice = persona(\"Alice\", [authId: \"alice-user-id\"])\n    public static def Bob = persona(\"Bob\", [authId: \"bob-user-id\"])\n}",
+            "title" : "Alice and Bob",
+            "anchorId" : "persona-authorization-alice-and-bob",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit5;\n\nimport org.testingisdocumenting.webtau.persona.Persona;\n\npublic class Personas {\n    public static final Persona Alice = Persona.persona(\"Alice\",\n            \"authId\", \"alice-user-id\");\n    public static final Persona Bob = Persona.persona(\"Bob\",\n            \"authId\", \"bob-user-id\");\n}",
+            "title" : "Alice and Bob",
+            "anchorId" : "persona-authorization-alice-and-bob-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -191,10 +255,27 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "package scenarios.rest.headers\n\nimport static personas.Personas.*\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"my bank balance\") {\n    Alice {\n        http.get(\"/statement\") {\n            balance.shouldBe > 100\n        }\n    }\n\n    Bob {\n        http.get(\"/statement\") {\n            balance.shouldBe < 50\n        }\n    }\n}",
-        "title" : "persona http call",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "package scenarios.rest.headers\n\nimport static personas.Personas.*\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"my bank balance\") {\n    Alice {\n        http.get(\"/statement\") {\n            balance.shouldBe > 100\n        }\n    }\n\n    Bob {\n        http.get(\"/statement\") {\n            balance.shouldBe < 50\n        }\n    }\n}",
+            "title" : "persona http call",
+            "anchorId" : "persona-authorization-persona-http-call",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\n\nimport static com.example.tests.junit5.Personas.*;\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\npublic class PersonaHttpJavaTest {\n    @Test\n    public void checkBalance() {\n        Alice.execute(() -> http.get(\"/statement\", (header, body) -> {\n            body.get(\"balance\").shouldBe(greaterThan(100));\n        }));\n\n        Bob.execute(() -> http.get(\"/statement\", (header, body) -> {\n            body.get(\"balance\").shouldBe(lessThan(50));\n        }));\n    }\n}",
+            "title" : "persona http call",
+            "excludeRegexp" : "http.doc",
+            "anchorId" : "persona-authorization-persona-http-call-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -202,16 +283,35 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass PersonaAuth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateTokenBasedOnPersona()\n        return original.with([Authorization: \"Bearer $token\"])\n    }\n\n    static String generateTokenBasedOnPersona() {\n        if (currentPersona.isDefault()) { // check if we are inside persona context or outside\n            return generateDefaultToken()\n        }\n\n        return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token\n    }\n\n    static String generateTokenForSystemUserId(String systemUserId) {\n        return \"dummy:$systemUserId\" // this is where you generate specific user auth token\n    }\n\n    static String generateDefaultToken() {\n        return \"dummy:default-user\" // this is where you generate default user auth token\n    }\n}",
-        "title" : "scenarios/rest/headers/auth/PersonaAuth.groovy",
-        "commentsType" : "inline",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "package scenarios.rest.headers.auth\n\nimport org.testingisdocumenting.webtau.http.HttpHeader\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass PersonaAuth {\n    static HttpHeader authHeader(String fullUrl, String url, HttpHeader original) {\n        def token = generateTokenBasedOnPersona()\n        return original.with([Authorization: \"Bearer $token\"])\n    }\n\n    static String generateTokenBasedOnPersona() {\n        if (currentPersona.isDefault()) { // check if we are inside persona context or outside\n            return generateDefaultToken()\n        }\n\n        return generateTokenForSystemUserId(currentPersona.payload.authId) // use persona payload to generate required token\n    }\n\n    static String generateTokenForSystemUserId(String systemUserId) {\n        return \"dummy:$systemUserId\" // this is where you generate specific user auth token\n    }\n\n    static String generateDefaultToken() {\n        return \"dummy:default-user\" // this is where you generate default user auth token\n    }\n}",
+            "autoTitle" : true,
+            "commentsType" : "inline",
+            "title" : "scenarios/rest/headers/auth/PersonaAuth.groovy",
+            "anchorId" : "persona-authorization-scenarios-rest-headers-auth-personaauth-groovy",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit5.config;\n\nimport org.testingisdocumenting.webtau.http.HttpHeader;\nimport org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration;\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\npublic class HttpPersonaAuthHeaderProvider implements WebTauHttpConfiguration {\n    @Override\n    public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {\n        String token = generateTokenBasedOnPersona();\n        return given.with(\"Authorization\", \"Bearer \" + token);\n    }\n\n    private String generateTokenBasedOnPersona() {\n        if (getCurrentPersona().isDefault()) { // check if we are inside persona context or outside\n            return generateDefaultToken();\n        }\n\n        return generateTokenForSystemUserId(\n                getCurrentPersona().getPayload().getOrDefault(\"authId\", \"\").toString()); // use persona payload to generate required token\n    }\n\n    private String generateTokenForSystemUserId(String systemUserId) {\n        return \"dummy:\" + systemUserId; // this is where you generate specific user auth token\n    }\n\n    private String generateDefaultToken() {\n        return \"dummy:default-user\"; // this is where you generate default user auth token\n    }\n}",
+            "autoTitle" : true,
+            "commentsType" : "inline",
+            "title" : "src/test/java/com/example/tests/junit5/config/HttpPersonaAuthHeaderProvider.java",
+            "anchorId" : "persona-authorization-src-test-java-com-example-tests-junit5-config-httppersonaauthheaderprovider-java",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107242,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Persona",
+      "chapterTitle" : "Persona",
       "pageTitle" : "HTTP Persona",
       "pageMeta" : { },
       "dirName" : "persona",

@@ -90,17 +90,17 @@
 
 <article>
 <header><h1>Groovy Runner</h1></header>
-<p>If you have https://brew.sh brew installed in your system use brew install testingisdocumenting/brew/webtau If you have https://sdkman.io sdkman installed in your system use sdk install webtau Alternatively, download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.49/webtau-dist-1.49-webtau.zip WebTau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. To integrate CLI run into maven build use: &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.49&lt;/version&gt; &lt;/dependency&gt; &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.49&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;env&gt;integration&lt;/env&gt; &lt;url&gt;http://optional-base-url&lt;/url&gt; &lt;config&gt;optional-config-file-name-override.cfg.groovy&lt;/config&gt; &lt;reportPath&gt;optional-report-path-override.html&lt;/reportPath&gt; &lt;failedReportPath&gt;optional-failed-report-path-override.html&lt;/failedReportPath&gt; &lt;reportName&gt;my service&lt;/reportName&gt; &lt;reportNameUrl&gt;https://service-under-test&lt;/reportNameUrl&gt; &lt;noColor&gt;false&lt;/noColor&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt; groovy-standalone-runner/introduction Learn more about Groovy Runner features</p>
+<p>If you have https://brew.sh brew installed in your system use brew install testingisdocumenting/brew/webtau If you have https://sdkman.io sdkman installed in your system use sdk install webtau Alternatively, download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.50/webtau-dist-1.50-webtau.zip WebTau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com Note: using import is optional and is mainly for IDE auto completion. Imports are added implicitly during command line run. To integrate CLI run into maven build use: &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt; &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;env&gt;integration&lt;/env&gt; &lt;url&gt;http://optional-base-url&lt;/url&gt; &lt;config&gt;optional-config-file-name-override.cfg.groovy&lt;/config&gt; &lt;reportPath&gt;optional-report-path-override.html&lt;/reportPath&gt; &lt;failedReportPath&gt;optional-failed-report-path-override.html&lt;/failedReportPath&gt; &lt;reportName&gt;my service&lt;/reportName&gt; &lt;reportNameUrl&gt;https://service-under-test&lt;/reportNameUrl&gt; &lt;noColor&gt;false&lt;/noColor&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt; groovy-standalone-runner/introduction Learn more about Groovy Runner features</p>
 </article>
 
 <article>
 <header><h1>JUnit5</h1></header>
-<p>Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.49&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-junit5&lt;/artifactId&gt; &lt;version&gt;1.49&lt;/version&gt; &lt;/dependency&gt; package com.example.tests.junit5 import org.junit.jupiter.api.Test import org.testingisdocumenting.webtau.junit5.WebTau import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for all things webtau @WebTau // annotation required for reports generation class JUnit5ExampleGroovyTest { @Test void &quot;my test&quot;() { } } Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.49&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-junit5&lt;/artifactId&gt; &lt;version&gt;1.49&lt;/version&gt; &lt;/dependency&gt; package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for all things webtau @WebTau // annotation required for reports generation public class JUnit5ExampleJavaTest { @Test public void myTest() { } }</p>
+<p>Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-junit5&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt; package com.example.tests.junit5 import org.junit.jupiter.api.Test import org.testingisdocumenting.webtau.junit5.WebTau import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for all things webtau @WebTau // annotation required for reports generation class JUnit5ExampleGroovyTest { @Test void &quot;my test&quot;() { } } Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-junit5&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt; package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for all things webtau @WebTau // annotation required for reports generation public class JUnit5ExampleJavaTest { @Test public void myTest() { } } generic-runners/JUnit-5 Learn more about JUnit5 features</p>
 </article>
 
 <article>
 <header><h1>JUnit4</h1></header>
-<p>Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.49&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-junit4&lt;/artifactId&gt; &lt;version&gt;1.49&lt;/version&gt; &lt;/dependency&gt; package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for all things webtau @RunWith(WebTauRunner.class) // webtau runner to generate reports class JUnit4ExampleGroovyTest { @Test void &quot;my test&quot;() { } } Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.49&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-junit4&lt;/artifactId&gt; &lt;version&gt;1.49&lt;/version&gt; &lt;/dependency&gt; package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for all things webtau @RunWith(WebTauRunner.class) // webtau runner to generate reports public class JUnit4ExampleJavaTest { @Test public void myTest() { } }</p>
+<p>Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-junit4&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt; package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for all things webtau @RunWith(WebTauRunner.class) // webtau runner to generate reports class JUnit4ExampleGroovyTest { @Test void &quot;my test&quot;() { } } Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-junit4&lt;/artifactId&gt; &lt;version&gt;1.50&lt;/version&gt; &lt;/dependency&gt; package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for all things webtau @RunWith(WebTauRunner.class) // webtau runner to generate reports public class JUnit4ExampleJavaTest { @Test public void myTest() { } } generic-runners/JUnit-4 Learn more about JUnit4 features</p>
 </article>
 </section>
 </div>
@@ -124,7 +124,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -241,7 +242,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Alternatively, download and unzip ",
           "type" : "SimpleText"
         }, {
-          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.49/webtau-dist-1.49-webtau.zip",
+          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.50/webtau-dist-1.50-webtau.zip",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
@@ -287,6 +288,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('fetch todo item') {\n    http.get('/todos/1') {\n        title.should == 'delectus aut autem'\n        completed.should == false\n    }\n}",
         "title" : "todolist.groovy",
+        "anchorId" : "groovy-runner-todolist-groovy",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -323,13 +325,15 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "xml",
-        "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.49</version>\n</dependency>",
+        "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.50</version>\n</dependency>",
         "title" : "WebTau Dependency",
+        "anchorId" : "groovy-runner-webtau-dependency",
         "type" : "Snippet"
       }, {
         "lang" : "xml",
-        "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>1.49</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <env>integration</env>\n        <url>http://optional-base-url</url>\n        <config>optional-config-file-name-override.cfg.groovy</config>\n        <reportPath>optional-report-path-override.html</reportPath>\n        <failedReportPath>optional-failed-report-path-override.html</failedReportPath>\n        <reportName>my service</reportName>\n        <reportNameUrl>https://service-under-test</reportNameUrl>\n        <noColor>false</noColor>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
+        "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>1.50</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <env>integration</env>\n        <url>http://optional-base-url</url>\n        <config>optional-config-file-name-override.cfg.groovy</config>\n        <reportPath>optional-report-path-override.html</reportPath>\n        <failedReportPath>optional-failed-report-path-override.html</failedReportPath>\n        <reportName>my service</reportName>\n        <reportNameUrl>https://service-under-test</reportNameUrl>\n        <noColor>false</noColor>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
         "title" : "WebTau Plugin",
+        "anchorId" : "groovy-runner-webtau-plugin",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -352,42 +356,59 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "xml",
-            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.49</version>\n</dependency>",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.50</version>\n</dependency>",
             "title" : "WebTau Groovy Dependency",
+            "anchorId" : "junit5-webtau-groovy-dependency",
             "type" : "Snippet"
           }, {
             "lang" : "xml",
-            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit5</artifactId>\n    <version>1.49</version>\n</dependency>",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit5</artifactId>\n    <version>1.50</version>\n</dependency>",
             "title" : "JUnit5 Dependency",
+            "anchorId" : "junit5-junit5-dependency",
             "type" : "Snippet"
           }, {
             "lang" : "groovy",
             "snippet" : "package com.example.tests.junit5\n\nimport org.junit.jupiter.api.Test\nimport org.testingisdocumenting.webtau.junit5.WebTau\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for all things webtau\n\n@WebTau // annotation required for reports generation\nclass JUnit5ExampleGroovyTest {\n    @Test\n    void \"my test\"() {\n    }\n}",
             "title" : "JUnit 5 example",
             "commentsType" : "inline",
+            "anchorId" : "junit5-junit-5-example",
             "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
             "lang" : "xml",
-            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.49</version>\n</dependency>",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.50</version>\n</dependency>",
             "title" : "WebTau Java Dependency",
+            "anchorId" : "junit5-webtau-java-dependency",
             "type" : "Snippet"
           }, {
             "lang" : "xml",
-            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit5</artifactId>\n    <version>1.49</version>\n</dependency>",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit5</artifactId>\n    <version>1.50</version>\n</dependency>",
             "title" : "JUnit5 Dependency",
+            "anchorId" : "junit5-junit5-dependency-2",
             "type" : "Snippet"
           }, {
             "lang" : "java",
             "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\nimport static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for all things webtau\n\n@WebTau // annotation required for reports generation\npublic class JUnit5ExampleJavaTest {\n    @Test\n    public void myTest() {\n    }\n}",
             "title" : "JUnit 5 example",
             "commentsType" : "inline",
+            "anchorId" : "junit5-junit-5-example-2",
             "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/webtau/generic-runners/JUnit-5",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Learn more about JUnit5 features",
+            "type" : "SimpleText"
+          } ]
+        } ]
       } ]
     }, {
       "id" : "junit4",
@@ -398,47 +419,64 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "xml",
-            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.49</version>\n</dependency>",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.50</version>\n</dependency>",
             "title" : "WebTau Groovy Dependency",
+            "anchorId" : "junit4-webtau-groovy-dependency",
             "type" : "Snippet"
           }, {
             "lang" : "xml",
-            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit4</artifactId>\n    <version>1.49</version>\n</dependency>",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit4</artifactId>\n    <version>1.50</version>\n</dependency>",
             "title" : "JUnit4 Dependency",
+            "anchorId" : "junit4-junit4-dependency",
             "type" : "Snippet"
           }, {
             "lang" : "groovy",
             "snippet" : "package com.example.tests.junit4\n\nimport org.junit.Test\nimport org.junit.runner.RunWith\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.* // convenient single import for all things webtau\n\n@RunWith(WebTauRunner.class) // webtau runner to generate reports\nclass JUnit4ExampleGroovyTest {\n    @Test\n    void \"my test\"() {\n    }\n}",
             "title" : "JUnit 4 example",
             "commentsType" : "inline",
+            "anchorId" : "junit4-junit-4-example",
             "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
             "lang" : "xml",
-            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.49</version>\n</dependency>",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.50</version>\n</dependency>",
             "title" : "WebTau Java Dependency",
+            "anchorId" : "junit4-webtau-java-dependency",
             "type" : "Snippet"
           }, {
             "lang" : "xml",
-            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit4</artifactId>\n    <version>1.49</version>\n</dependency>",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-junit4</artifactId>\n    <version>1.50</version>\n</dependency>",
             "title" : "JUnit4 Dependency",
+            "anchorId" : "junit4-junit4-dependency-2",
             "type" : "Snippet"
           }, {
             "lang" : "java",
             "snippet" : "package com.example.tests.junit4;\n\nimport org.junit.Test;\nimport org.junit.runner.RunWith;\nimport org.testingisdocumenting.webtau.junit4.WebTauRunner;\nimport static org.testingisdocumenting.webtau.WebTauDsl.*; // convenient single import for all things webtau\n\n@RunWith(WebTauRunner.class) // webtau runner to generate reports\npublic class JUnit4ExampleJavaTest {\n    @Test\n    public void myTest() {\n    }\n}",
             "title" : "JUnit 4 example",
             "commentsType" : "inline",
+            "anchorId" : "junit4-junit-4-example-2",
             "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "url" : "/webtau/generic-runners/JUnit-4",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Learn more about JUnit4 features",
+            "type" : "SimpleText"
+          } ]
+        } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658346107242,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Getting Started",
+      "chapterTitle" : "Getting Started",
       "pageTitle" : "Installation",
       "pageMeta" : { },
       "dirName" : "getting-started",

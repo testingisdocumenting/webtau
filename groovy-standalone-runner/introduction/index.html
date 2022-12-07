@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Setup</h1></header>
-<p>If you have https://brew.sh brew installed in your system use brew install testingisdocumenting/brew/webtau If you have https://sdkman.io sdkman installed in your system use sdk install webtau Alternatively, download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.49/webtau-dist-1.49-webtau.zip WebTau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com</p>
+<p>If you have https://brew.sh brew installed in your system use brew install testingisdocumenting/brew/webtau If you have https://sdkman.io sdkman installed in your system use sdk install webtau Alternatively, download and unzip https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.50/webtau-dist-1.50-webtau.zip WebTau. Add it to your PATH . webtau --example Navigate into todo example cd examples/todo import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('fetch todo item') { http.get('/todos/1') { title.should == 'delectus aut autem' completed.should == false } } To run test webtau todolist.groovy --url=https://jsonplaceholder.typicode.com</p>
 </article>
 
 <article>
@@ -119,7 +119,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -210,7 +211,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Alternatively, download and unzip ",
           "type" : "SimpleText"
         }, {
-          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.49/webtau-dist-1.49-webtau.zip",
+          "url" : "https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/1.50/webtau-dist-1.50-webtau.zip",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
@@ -256,6 +257,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('fetch todo item') {\n    http.get('/todos/1') {\n        title.should == 'delectus aut autem'\n        completed.should == false\n    }\n}",
         "title" : "todolist.groovy",
+        "anchorId" : "setup-todolist-groovy",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -313,9 +315,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658346107242,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Groovy Standalone Runner",
+      "chapterTitle" : "Groovy Standalone Runner",
       "pageTitle" : "Introduction",
       "pageMeta" : { },
       "dirName" : "groovy-standalone-runner",

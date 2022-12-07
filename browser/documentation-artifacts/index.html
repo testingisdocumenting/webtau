@@ -134,7 +134,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -181,6 +182,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "search.submit(\"search this\")\n\nbrowser.doc.withAnnotations(\n        browser.doc.badge(search.box),\n        browser.doc.badge(search.results)).capture(\"search\")",
         "title" : "screenshot capture with badge annotations",
+        "anchorId" : "capturing-screenshots-with-annotations-screenshot-capture-with-badge-annotations",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -221,6 +223,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "json",
         "snippet" : "{\n  \"shapes\" : [ {\n    \"type\" : \"badge\",\n    \"text\" : \"1\",\n    \"x\" : 104,\n    \"y\" : 76,\n    \"align\" : \"Center\"\n  }, {\n    \"type\" : \"badge\",\n    \"text\" : \"2\",\n    \"x\" : 442,\n    \"y\" : 161,\n    \"align\" : \"Center\"\n  } ],\n  \"pixelRatio\" : 1\n}",
         "title" : "search.json",
+        "anchorId" : "capturing-screenshots-with-annotations-search-json",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -273,7 +276,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "fit" : true,
         "annotate" : true,
         "imageSrc" : "/webtau/doc-artifacts/search.png",
-        "timestamp" : 1658346730302,
+        "timestamp" : 1670452031785,
         "shapes" : [ {
           "type" : "badge",
           "text" : "1",
@@ -318,6 +321,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "search.submit(\"search this\")\n\nbrowser.doc.withAnnotations(search.box, search.results).capture(\"search-with-shortcut\")",
         "title" : "default badge annotation type",
+        "anchorId" : "badge-shortcut-default-badge-annotation-type",
         "type" : "Snippet"
       } ]
     }, {
@@ -328,11 +332,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "search.submit(\"search this\")\n\nbrowser.doc.withAnnotations(\n        browser.doc.badge(search.box),\n        browser.doc.badge(search.results)).capture(\"search\")",
         "title" : "badges",
+        "anchorId" : "annotation-types-badges",
         "type" : "Snippet"
       }, {
         "annotate" : true,
         "imageSrc" : "/webtau/doc-artifacts/search.png",
-        "timestamp" : 1658346730302,
+        "timestamp" : 1670452031785,
         "shapes" : [ {
           "type" : "badge",
           "text" : "1",
@@ -355,11 +360,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "browser.doc.withAnnotations(\n        browser.doc.rect(search.box),\n        browser.doc.rect(search.results, \"covering text\")).capture(\"search-rectangles\")",
         "title" : "rectangles",
+        "anchorId" : "annotation-types-rectangles",
         "type" : "Snippet"
       }, {
         "annotate" : true,
         "imageSrc" : "/webtau/doc-artifacts/search-rectangles.png",
-        "timestamp" : 1658346731950,
+        "timestamp" : 1670452032909,
         "shapes" : [ {
           "type" : "rectangle",
           "text" : "",
@@ -391,11 +397,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "browser.doc.withAnnotations(\n        browser.doc.arrow(search.box, search.results, \"search result\")).capture(\"search-arrow\")",
         "title" : "arrow",
+        "anchorId" : "annotation-types-arrow",
         "type" : "Snippet"
       }, {
         "annotate" : true,
         "imageSrc" : "/webtau/doc-artifacts/search-arrow.png",
-        "timestamp" : 1658346732138,
+        "timestamp" : 1670452033045,
         "shapes" : [ {
           "type" : "arrow",
           "text" : "search result",
@@ -456,11 +463,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "badge placement",
         "endLine" : "example-end",
         "excludeStartEnd" : true,
+        "anchorId" : "annotation-placement-badge-placement",
         "type" : "Snippet"
       }, {
         "annotationsPath" : "doc-artifacts/search-diff-placement.json",
         "imageSrc" : "/webtau/doc-artifacts/search.png",
-        "timestamp" : 1658346730302,
+        "timestamp" : 1670452031785,
         "shapes" : [ {
           "type" : "badge",
           "text" : "1",
@@ -504,7 +512,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "annotationsPath" : "doc-artifacts/search-results-area.json",
         "imageSrc" : "/webtau/doc-artifacts/search-results-area.png",
-        "timestamp" : 1658346731074,
+        "timestamp" : 1670452032325,
         "shapes" : [ {
           "type" : "badge",
           "text" : "1",
@@ -520,12 +528,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "search.submit(\"search this\")\n\nbrowser.doc.withRoot(search.resultsArea)\n        .withAnnotations(browser.doc.badge(search.results))\n        .capture(\"search-results-area\")",
         "title" : "specific element",
+        "anchorId" : "screenshot-of-a-specific-element-specific-element",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "Browser",
+      "chapterTitle" : "Browser",
       "pageTitle" : "Documentation Artifacts",
       "pageMeta" : { },
       "dirName" : "browser",

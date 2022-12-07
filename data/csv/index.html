@@ -85,22 +85,32 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Table Data</h1></header>
-<p>Use data.csv.table to read data as TableData from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. A B C 1 2 3 a b c TableData table = data.csv.table(&quot;data/table.csv&quot;) Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.tableAutoConverted to read data as TableData from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def table = data.csv.tableAutoConverted(&quot;data/table.csv&quot;) table.row(0).B.should == 2 table.row(0).B.class.canonicalName.should == &quot;java.lang.Long&quot;</p>
+<p>Use data.csv.table to read data as TableData from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. A B C 1 2 3 a b c Groovy TableData table = data.csv.table(&quot;data/table.csv&quot;) Check data/import-and-dependencies Import And Dependencies for prerequisites. Java TableData table = data.csv.table(&quot;data/table.csv&quot;); Check data/import-and-dependencies Import And Dependencies for prerequisites. read methods produce additional report to help with tests investigation &gt; reading csv from file or resource data/table.csv . read 2 lines of csv from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv (0ms)</p>
+</article>
+
+<article>
+<header><h1>Table Data Conversion</h1></header>
+<p>By default, data.csv treats numeric values as strings and does not distinct between strings and dates. Pass valueConverter function to convert values according to your business logic. Groovy def valueConverter = { columnName, value -&gt; columnName == &quot;date&quot; ? LocalDate.parse(value): value } def table = data.csv.table(&quot;data/with-dates.csv&quot;, valueConverter) table.row(0).date.should == LocalDate.of(2022, 11, 26) table.row(0).date.class.canonicalName.should == &quot;java.time.LocalDate&quot; Java DataCsvValueConverter valueConverter = (columnName, value) -&gt; columnName.equals(&quot;date&quot;) ? LocalDate.parse(value): value; TableData table = data.csv.table(&quot;data/with-dates.csv&quot;, valueConverter); actual(table.row(0).get(&quot;date&quot;)).should(equal(LocalDate.of(2022, 11, 26))); actual(table.row(0).get(&quot;date&quot;).getClass().getCanonicalName()).should(equal(&quot;java.time.LocalDate&quot;)); If you only need to deal with numbers, use tableAutoConverted variant that automatically convert numeric values into Number Groovy def table = data.csv.tableAutoConverted(&quot;data/table.csv&quot;) table.row(0).B.should == 2 table.row(0).B.class.canonicalName.should == &quot;java.lang.Long&quot; Java TableData table = data.csv.tableAutoConverted(&quot;data/table.csv&quot;); actual(table.row(0).get(&quot;B&quot;)).should(equal(2)); actual(table.row(0).get(&quot;B&quot;).getClass().getCanonicalName()).should(equal(&quot;java.lang.Long&quot;));</p>
 </article>
 
 <article>
 <header><h1>List Of Map</h1></header>
-<p>A B C 1 2 3 a b c Use data.csv.listOfMaps to read data as java.util.List of java.util.Map from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.csv.listOfMaps(&quot;data/table.csv&quot;) list.get(0).B.should == &quot;2&quot; list.get(0).B.class.canonicalName.should == &quot;java.lang.String&quot; Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.listOfMapsAutoConverted to read data as java.util.List of java.util.Map from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.csv.listOfMapsAutoConverted(&quot;data/table.csv&quot;) list.get(0).B.should == 2 list.get(0).B.class.canonicalName.should == &quot;java.lang.Long&quot;</p>
+<p>A B C 1 2 3 a b c Use data.csv.listOfMaps to read data as java.util.List of java.util.Map from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.csv.listOfMaps(&quot;data/table.csv&quot;) list.get(0).B.should == &quot;2&quot; list.get(0).B.class.canonicalName.should == &quot;java.lang.String&quot; Java List&lt;Map&lt;String, String&gt;&gt; list = data.csv.listOfMaps(&quot;data/table.csv&quot;); actual(list.get(0).get(&quot;B&quot;)).should(equal(&quot;2&quot;)); actual(list.get(0).get(&quot;B&quot;).getClass().getCanonicalName()).should(equal(&quot;java.lang.String&quot;)); Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use tableAutoConverted method Use data.csv.listOfMapsAutoConverted to read data as java.util.List of java.util.Map from CSV file. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.csv.listOfMapsAutoConverted(&quot;data/table.csv&quot;) list.get(0).B.should == 2 list.get(0).B.class.canonicalName.should == &quot;java.lang.Long&quot; Java List&lt;Map&lt;String, ?&gt;&gt; list = data.csv.listOfMapsAutoConverted(&quot;data/table.csv&quot;); actual(list.get(0).get(&quot;B&quot;)).should(equal(2)); actual(list.get(0).get(&quot;B&quot;).getClass().getCanonicalName()).should(equal(&quot;java.lang.Long&quot;));</p>
 </article>
 
 <article>
 <header><h1>Specify Header</h1></header>
-<p>1, 2, 3 a, b, c Use data.csv.listOfMapsAutoConverted(header, path) to read data as java.util.List of java.util.Map from CSV file. Header will be taken from first parameter and first row of CSV file will not be treated as header. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. def list = data.csv.listOfMapsAutoConverted([&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;],&quot;data/table-no-header.csv&quot;) list.get(0).C2.should == 2 list.get(0).C2.class.canonicalName.should == &quot;java.lang.Long&quot;</p>
+<p>1, 2, 3 a, b, c Use data.csv.listOfMapsAutoConverted(header, path) to read data as java.util.List of java.util.Map from CSV file. Header will be taken from first parameter and first row of CSV file will not be treated as header. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.csv.listOfMapsAutoConverted([&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;], &quot;data/table-no-header.csv&quot;) list.get(0).C2.should == 2 list.get(0).C2.class.canonicalName.should == &quot;java.lang.Long&quot; Java List&lt;Map&lt;String, ?&gt;&gt; list = data.csv.listOfMapsAutoConverted(Arrays.asList(&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;), &quot;data/table-no-header.csv&quot;); actual(list.get(0).get(&quot;C2&quot;)).should(equal(2)); actual(list.get(0).get(&quot;C2&quot;).getClass().getCanonicalName()).should(equal(&quot;java.lang.Long&quot;));</p>
 </article>
 
 <article>
-<header><h1>CSV Write</h1></header>
-<p>Use data.csv.write to write data to CSV file. def list = [ ['colA': 1, 'colB': 'R1'], ['colA': 2, 'colB': 'R2'] ] def path = data.csv.write('generated/from-list-maps.csv', list) colA,colB 1,R1 2,R2</p>
+<header><h1>Write List</h1></header>
+<p>Use data.csv.write to write data to CSV file. Groovy def list = [ [&quot;colA&quot;: 1, &quot;colB&quot;: &quot;R1&quot;], [&quot;colA&quot;: 2, &quot;colB&quot;: &quot;R2&quot;]] def path = data.csv.write(&quot;generated/from-list-maps.csv&quot;, list) Java List&lt;Map&lt;String, ?&gt;&gt; list = Arrays.asList( aMapOf(&quot;colA&quot;, 1, &quot;colB&quot;, &quot;R1&quot;), aMapOf(&quot;colA&quot;, 2, &quot;colB&quot;, &quot;R2&quot;)); Path path = data.csv.write(&quot;generated/from-list-maps.csv&quot;, list); write methods produce additional information that helps with tests investigation &gt; writing csv to file generated/from-list-maps.csv . wrote 3 lines to csv /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-list-maps.csv (2ms) colA,colB 1,R1 2,R2</p>
+</article>
+
+<article>
+<header><h1>Write Table Data</h1></header>
+<p>Groovy TableData table = [&quot;id&quot; | &quot;value&quot;] { ________________ &quot;id1&quot; | &quot;value1&quot; &quot;id2&quot; | &quot;value2&quot; } def path = data.csv.write(&quot;generated/from-table-data.csv&quot;, table) Java TableData csvTable = table(&quot;id&quot; , &quot;value&quot;, ________________, &quot;id1&quot; , &quot;value1&quot;, &quot;id2&quot; , &quot;value2&quot;); Path path = data.csv.write(&quot;generated/from-table-data.csv&quot;, csvTable); write methods produce additional information that helps with tests investigation &gt; writing csv to file generated/from-table-data.csv . wrote 3 lines to csv /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.csv (3ms) id,value id1,value1 id2,value2</p>
 </article>
 </section>
 </div>
@@ -124,7 +134,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -205,54 +216,179 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ] ]
         },
         "title" : "data/table.csv",
+        "anchorId" : "table-data-data-table-csv",
         "type" : "Table"
       }, {
-        "lang" : "groovy",
-        "snippet" : "TableData table = data.csv.table(\"data/table.csv\")",
-        "title" : "read table data from csv",
-        "surroundedBy" : "// read",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "TableData table = data.csv.table(\"data/table.csv\")",
+            "title" : "read table data from csv",
+            "surroundedBy" : "// read",
+            "anchorId" : "table-data-read-table-data-from-csv",
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "TableData table = data.csv.table(\"data/table.csv\");",
+            "title" : "read table data from csv",
+            "surroundedBy" : [ "// read-table" ],
+            "anchorId" : "table-data-read-table-data-from-csv-2",
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ],
+        "type" : "Tabs"
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Note: by default numeric values are read as strings, to auto convert numeric values to actual numbers use ",
+          "code" : "read",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " methods produce additional report to help with tests investigation",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "console output",
+        "lines" : [ "\u001B[33m> \u001B[34mreading \u001B[36mcsv \u001B[33mfrom \u001B[36mfile or resource \u001B[35mdata/table.csv\u001B[0m", "\u001B[32m. \u001B[34mread \u001B[34m2 \u001B[36mlines of csv \u001B[33mfrom \u001B[36mfile \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "id" : "table-data-conversion",
+      "title" : "Table Data Conversion",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "By default, ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.csv",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " treats numeric values as strings and does not distinct between strings and dates. Pass ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "valueConverter",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " function to convert values according to your business logic.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def valueConverter = { columnName, value -> columnName == \"date\" ?\n        LocalDate.parse(value):\n        value }",
+            "title" : "converter definition",
+            "surroundedBy" : "// csv-data-converter",
+            "noGap" : true,
+            "anchorId" : "table-data-conversion-converter-definition",
+            "type" : "Snippet"
+          }, {
+            "lang" : "groovy",
+            "snippet" : "def table = data.csv.table(\"data/with-dates.csv\", valueConverter)\ntable.row(0).date.should == LocalDate.of(2022, 11, 26)\ntable.row(0).date.class.canonicalName.should == \"java.time.LocalDate\"",
+            "title" : "converter usage",
+            "surroundedBy" : "// csv-read-table-converter",
+            "noGap" : true,
+            "anchorId" : "table-data-conversion-converter-usage",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "DataCsvValueConverter valueConverter = (columnName, value) -> columnName.equals(\"date\") ?\n        LocalDate.parse(value):\n        value;",
+            "title" : "converter definition",
+            "surroundedBy" : "// csv-data-converter",
+            "noGap" : true,
+            "anchorId" : "table-data-conversion-converter-definition-2",
+            "type" : "Snippet"
+          }, {
+            "lang" : "java",
+            "snippet" : "TableData table = data.csv.table(\"data/with-dates.csv\", valueConverter);\nactual(table.row(0).get(\"date\")).should(equal(LocalDate.of(2022, 11, 26)));\nactual(table.row(0).get(\"date\").getClass().getCanonicalName()).should(equal(\"java.time.LocalDate\"));",
+            "title" : "converter usage",
+            "surroundedBy" : "// csv-read-table-converter",
+            "noGap" : true,
+            "anchorId" : "table-data-conversion-converter-usage-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If you only need to deal with numbers, use ",
           "type" : "SimpleText"
         }, {
           "code" : "tableAutoConverted",
           "type" : "InlinedCode"
         }, {
-          "text" : " method",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Use ",
+          "text" : " variant that automatically convert numeric values into ",
           "type" : "SimpleText"
         }, {
-          "code" : "data.csv.tableAutoConverted",
+          "code" : "Number",
           "type" : "InlinedCode"
-        }, {
-          "text" : " to read data as ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "TableData",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " from CSV file. Numeric values become values of Numeric type instead of String type. ",
-          "type" : "SimpleText"
         } ]
       }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : " Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "groovy",
-        "snippet" : "def table = data.csv.tableAutoConverted(\"data/table.csv\")\ntable.row(0).B.should == 2\ntable.row(0).B.class.canonicalName.should == \"java.lang.Long\"",
-        "title" : "read table data from csv with auto conversion",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def table = data.csv.tableAutoConverted(\"data/table.csv\")\ntable.row(0).B.should == 2\ntable.row(0).B.class.canonicalName.should == \"java.lang.Long\"",
+            "title" : "read table data from csv with auto conversion",
+            "anchorId" : "table-data-conversion-read-table-data-from-csv-with-auto-conversion",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "TableData table = data.csv.tableAutoConverted(\"data/table.csv\");\nactual(table.row(0).get(\"B\")).should(equal(2));\nactual(table.row(0).get(\"B\").getClass().getCanonicalName()).should(equal(\"java.lang.Long\"));",
+            "title" : "read table data from csv with auto conversion",
+            "surroundedBy" : [ "// read-table-auto-converted" ],
+            "anchorId" : "table-data-conversion-read-table-data-from-csv-with-auto-conversion-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "id" : "list-of-map",
@@ -306,6 +442,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ] ]
         },
         "title" : "data/table.csv",
+        "anchorId" : "list-of-map-data-table-csv",
         "type" : "Table"
       }, {
         "type" : "Paragraph",
@@ -338,10 +475,27 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "def list = data.csv.listOfMaps(\"data/table.csv\")\nlist.get(0).B.should == \"2\"\nlist.get(0).B.class.canonicalName.should == \"java.lang.String\"",
-        "title" : "read list of maps from csv",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def list = data.csv.listOfMaps(\"data/table.csv\")\nlist.get(0).B.should == \"2\"\nlist.get(0).B.class.canonicalName.should == \"java.lang.String\"",
+            "title" : "read list of maps from csv",
+            "anchorId" : "list-of-map-read-list-of-maps-from-csv",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "List<Map<String, String>> list = data.csv.listOfMaps(\"data/table.csv\");\nactual(list.get(0).get(\"B\")).should(equal(\"2\"));\nactual(list.get(0).get(\"B\").getClass().getCanonicalName()).should(equal(\"java.lang.String\"));",
+            "title" : "read list of maps from csv",
+            "surroundedBy" : [ "// read-list-of-maps" ],
+            "anchorId" : "list-of-map-read-list-of-maps-from-csv-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -385,10 +539,27 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "def list = data.csv.listOfMapsAutoConverted(\"data/table.csv\")\nlist.get(0).B.should == 2\nlist.get(0).B.class.canonicalName.should == \"java.lang.Long\"",
-        "title" : "read list of maps from csv with auto conversion",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def list = data.csv.listOfMapsAutoConverted(\"data/table.csv\")\nlist.get(0).B.should == 2\nlist.get(0).B.class.canonicalName.should == \"java.lang.Long\"",
+            "title" : "read list of maps from csv with auto conversion",
+            "anchorId" : "list-of-map-read-list-of-maps-from-csv-with-auto-conversion",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "List<Map<String, ?>> list = data.csv.listOfMapsAutoConverted(\"data/table.csv\");\nactual(list.get(0).get(\"B\")).should(equal(2));\nactual(list.get(0).get(\"B\").getClass().getCanonicalName()).should(equal(\"java.lang.Long\"));",
+            "title" : "read list of maps from csv with auto conversion",
+            "surroundedBy" : [ "// read-list-of-maps-auto-converted" ],
+            "anchorId" : "list-of-map-read-list-of-maps-from-csv-with-auto-conversion-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "id" : "specify-header",
@@ -398,6 +569,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "csv",
         "snippet" : "1, 2, 3\na, b, c",
         "title" : "data/table-no-header.csv",
+        "anchorId" : "specify-header-data-table-no-header-csv",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -436,14 +608,31 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "def list = data.csv.listOfMapsAutoConverted([\"C1\", \"C2\", \"C3\"],\"data/table-no-header.csv\")\nlist.get(0).C2.should == 2\nlist.get(0).C2.class.canonicalName.should == \"java.lang.Long\"",
-        "title" : "read list of maps from csv with auto conversion",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def list = data.csv.listOfMapsAutoConverted([\"C1\", \"C2\", \"C3\"], \"data/table-no-header.csv\")\nlist.get(0).C2.should == 2\nlist.get(0).C2.class.canonicalName.should == \"java.lang.Long\"",
+            "title" : "read list of maps from csv with auto conversion",
+            "anchorId" : "specify-header-read-list-of-maps-from-csv-with-auto-conversion",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "List<Map<String, ?>> list = data.csv.listOfMapsAutoConverted(Arrays.asList(\"C1\", \"C2\", \"C3\"), \"data/table-no-header.csv\");\nactual(list.get(0).get(\"C2\")).should(equal(2));\nactual(list.get(0).get(\"C2\").getClass().getCanonicalName()).should(equal(\"java.lang.Long\"));",
+            "title" : "read list of maps from csv with auto conversion",
+            "surroundedBy" : [ "// read-list-of-maps-header" ],
+            "anchorId" : "specify-header-read-list-of-maps-from-csv-with-auto-conversion-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
-      "id" : "csv-write",
-      "title" : "CSV Write",
+      "id" : "write-list",
+      "title" : "Write List",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
@@ -458,27 +647,129 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "def list = [\n    ['colA': 1, 'colB': 'R1'],\n    ['colA': 2, 'colB': 'R2']\n]",
-        "surroundedBy" : "// list-data",
-        "title" : "data",
-        "type" : "Snippet"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def list = [\n    [\"colA\": 1, \"colB\": \"R1\"],\n    [\"colA\": 2, \"colB\": \"R2\"]]",
+            "surroundedBy" : "// csv-list-data",
+            "title" : "data",
+            "anchorId" : "write-list-data",
+            "type" : "Snippet"
+          }, {
+            "lang" : "groovy",
+            "snippet" : "def path = data.csv.write(\"generated/from-list-maps.csv\", list)",
+            "surroundedBy" : "write-csv-list-maps",
+            "title" : "write list of maps",
+            "anchorId" : "write-list-write-list-of-maps",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "List<Map<String, ?>> list = Arrays.asList(\n        aMapOf(\"colA\", 1, \"colB\", \"R1\"),\n        aMapOf(\"colA\", 2, \"colB\", \"R2\"));",
+            "title" : "data",
+            "surroundedBy" : [ "// list-data" ],
+            "anchorId" : "write-list-data-2",
+            "type" : "Snippet"
+          }, {
+            "lang" : "java",
+            "snippet" : "Path path = data.csv.write(\"generated/from-list-maps.csv\", list);",
+            "title" : "write list of maps",
+            "surroundedBy" : [ "write-csv-list-maps" ],
+            "anchorId" : "write-list-write-list-of-maps-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       }, {
-        "lang" : "groovy",
-        "snippet" : "def path = data.csv.write('generated/from-list-maps.csv', list)",
-        "includeRegexp" : "data.csv.write",
-        "title" : "write list of maps",
-        "type" : "Snippet"
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "write",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " methods produce additional information that helps with tests investigation",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "console output",
+        "lines" : [ "\u001B[33m> \u001B[34mwriting \u001B[36mcsv \u001B[33mto \u001B[36mfile \u001B[35mgenerated/from-list-maps.csv\u001B[0m", "\u001B[32m. \u001B[34mwrote \u001B[34m3 \u001B[36mlines \u001B[33mto \u001B[36mcsv \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-list-maps.csv\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m" ],
+        "type" : "CliOutput"
       }, {
         "lang" : "csv",
         "snippet" : "colA,colB\n1,R1\n2,R2",
-        "title" : "result",
+        "autoTitle" : true,
+        "title" : "generated/from-list-maps.csv",
+        "anchorId" : "write-list-generated-from-list-maps-csv",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "write-table-data",
+      "title" : "Write Table Data",
+      "type" : "Section",
+      "content" : [ {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "TableData table = [\"id\"  | \"value\"] {\n                   ________________\n                   \"id1\" | \"value1\"\n                   \"id2\" | \"value2\" }",
+            "surroundedBy" : "// csv-table-data",
+            "title" : "data",
+            "anchorId" : "write-table-data-data",
+            "type" : "Snippet"
+          }, {
+            "lang" : "groovy",
+            "snippet" : "def path = data.csv.write(\"generated/from-table-data.csv\", table)",
+            "surroundedBy" : "write-csv-table",
+            "title" : "write table",
+            "anchorId" : "write-table-data-write-table",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "TableData csvTable = table(\"id\"  , \"value\",\n                           ________________,\n                           \"id1\" , \"value1\",\n                           \"id2\" , \"value2\");",
+            "title" : "data",
+            "surroundedBy" : [ "// table-data" ],
+            "anchorId" : "write-table-data-data-2",
+            "type" : "Snippet"
+          }, {
+            "lang" : "java",
+            "snippet" : "Path path = data.csv.write(\"generated/from-table-data.csv\", csvTable);",
+            "title" : "write table",
+            "surroundedBy" : [ "write-csv-table" ],
+            "anchorId" : "write-table-data-write-table-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "write",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " methods produce additional information that helps with tests investigation",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "console output",
+        "lines" : [ "\u001B[33m> \u001B[34mwriting \u001B[36mcsv \u001B[33mto \u001B[36mfile \u001B[35mgenerated/from-table-data.csv\u001B[0m", "\u001B[32m. \u001B[34mwrote \u001B[34m3 \u001B[36mlines \u001B[33mto \u001B[36mcsv \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.csv\u001B[33m (\u001B[32m3ms\u001B[33m)\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "lang" : "csv",
+        "snippet" : "id,value\nid1,value1\nid2,value2",
+        "autoTitle" : true,
+        "title" : "generated/from-table-data.csv",
+        "anchorId" : "write-table-data-generated-from-table-data-csv",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Data",
+      "chapterTitle" : "Data",
       "pageTitle" : "Csv",
       "pageMeta" : { },
       "dirName" : "data",
@@ -488,14 +779,20 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "Table Data",
         "id" : "table-data"
       }, {
+        "title" : "Table Data Conversion",
+        "id" : "table-data-conversion"
+      }, {
         "title" : "List Of Map",
         "id" : "list-of-map"
       }, {
         "title" : "Specify Header",
         "id" : "specify-header"
       }, {
-        "title" : "CSV Write",
-        "id" : "csv-write"
+        "title" : "Write List",
+        "id" : "write-list"
+      }, {
+        "title" : "Write Table Data",
+        "id" : "write-table-data"
       } ]
     }
   }

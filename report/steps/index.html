@@ -84,18 +84,28 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>Imports</h1></header>
+<p>Code below assumes import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*</p>
+</article>
+
+<article>
 <header><h1>Grouping Actions</h1></header>
-<p>Use step core method to wrap a set of actions into a group step(&quot;group of actions&quot;) { actionOne() actionTwo() } import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*</p>
+<p>Use step core method to wrap a set of actions into a group step(&quot;group of actions&quot;) { actionOne() actionTwo() }</p>
 </article>
 
 <article>
 <header><h1>Tracing Values</h1></header>
-<p>Use trace core method to render key, values pairs to console and to web report. From report point of view trace is an empty step. trace(&quot;trace label&quot;, [k1: &quot;v1&quot;, k2: &quot;v2&quot;]) import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*</p>
+<p>Use trace core method to render key, values pairs to console and to web report. From report point of view trace is an empty step. trace(&quot;trace label&quot;, [k1: &quot;v1&quot;, k2: &quot;v2&quot;])</p>
 </article>
 
 <article>
 <header><h1>Grouping With Trace</h1></header>
 <p>Pass key values to step to combine step and `trace step(&quot;group of actions&quot;, [url: baseUrl, port: myPort]) { actionThree(myPort, baseUrl) }</p>
+</article>
+
+<article>
+<header><h1>Warning</h1></header>
+<p>Use warning core method to mark something that needs to be looked at eventually. warning(&quot;warning message&quot;) warning(&quot;warning message with map&quot;, [k1: &quot;v1&quot;, k2: &quot;v2&quot;]) warning(&quot;another warning message&quot;, &quot;k3&quot;, &quot;v3&quot;, &quot;k4&quot;, &quot;v4&quot;) import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('warning label') { // warning-label warning(&quot;warning message&quot;) // warning-label } scenario('warning key values') { // warning-map warning(&quot;warning message with map&quot;, [k1: &quot;v1&quot;, k2: &quot;v2&quot;]) // warning-map // warning-vararg warning(&quot;another warning message&quot;, &quot;k3&quot;, &quot;v3&quot;, &quot;k4&quot;, &quot;v4&quot;) // warning-vararg } scenario warning label (warning.groovy) [warning] warning message [.] warning label (warning.groovy) scenario warning key values (warning.groovy) [warning] warning message with map k1: v1 k2: v2 [warning] another warning message k3: v3 k4: v4 Summary of warnings will be displayed at the end of the run in the console and present on the generated HTML report summary view. There are 3 warning(s) in tests * warning message (warning.groovy -&gt; warning label) * warning message with map (warning.groovy -&gt; warning key values) k1: v1 k2: v2 * another warning message (warning.groovy -&gt; warning key values) k3: v3 k4: v4 Total time: 2ms Total: 2, Passed: 2, Skipped: 0, Failed: 0, Errored: 0 report is generated: /home/runner/work/webtau/webtau/webtau-feature-testing/webtau-reports/scenarios/concept/warning-webtau-report.html</p>
 </article>
 </section>
 </div>
@@ -119,12 +129,31 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
     "type" : "Page",
     "content" : [ {
+      "id" : "imports",
+      "title" : "Imports",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Code below assumes",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
+        "title" : "core methods import",
+        "includeRegexp" : "WebTauGroovyDsl",
+        "anchorId" : "imports-core-methods-import",
+        "type" : "Snippet"
+      } ]
+    }, {
       "id" : "grouping-actions",
       "title" : "Grouping Actions",
       "type" : "Section",
@@ -145,12 +174,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "step(\"group of actions\") {\n    actionOne()\n    actionTwo()\n}",
         "title" : "step group",
         "surroundedBy" : "wrap-step",
-        "type" : "Snippet"
-      }, {
-        "lang" : "groovy",
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
-        "title" : "core methods import",
-        "includeRegexp" : "WebTauGroovyDsl",
+        "anchorId" : "grouping-actions-step-group",
         "type" : "Snippet"
       } ]
     }, {
@@ -185,12 +209,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "trace(\"trace label\", [k1: \"v1\", k2: \"v2\"])",
         "title" : "trace key values",
         "surroundedBy" : "trace-map",
-        "type" : "Snippet"
-      }, {
-        "lang" : "groovy",
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
-        "title" : "core methods import",
-        "includeRegexp" : "WebTauGroovyDsl",
+        "anchorId" : "tracing-values-trace-key-values",
         "type" : "Snippet"
       } ]
     }, {
@@ -220,27 +239,103 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "step(\"group of actions\", [url: baseUrl, port: myPort]) {\n    actionThree(myPort, baseUrl)\n}",
         "title" : "step group with key values",
         "surroundedBy" : "wrap-step-key-value",
+        "anchorId" : "grouping-with-trace-step-group-with-key-values",
         "type" : "Snippet"
       }, {
         "border" : true,
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-step-key-value.png",
-        "timestamp" : 1658346922936,
+        "timestamp" : 1670452169159,
         "shapes" : [ ],
         "width" : 1310.0,
         "height" : 802.0,
         "type" : "AnnotatedImage"
       } ]
+    }, {
+      "id" : "warning",
+      "title" : "Warning",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "warning",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " core method to mark something that needs to be looked at eventually.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "warning(\"warning message\")\nwarning(\"warning message with map\", [k1: \"v1\", k2: \"v2\"])\nwarning(\"another warning message\", \"k3\", \"v3\", \"k4\", \"v4\")",
+        "title" : "warning signatures",
+        "surroundedBy" : [ "warning-label", "warning-map", "warning-vararg" ],
+        "anchorId" : "warning-warning-signatures",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('warning label') {\n    // warning-label\n    warning(\"warning message\")\n    // warning-label\n}\n\nscenario('warning key values') {\n    // warning-map\n    warning(\"warning message with map\", [k1: \"v1\", k2: \"v2\"])\n    // warning-map\n    // warning-vararg\n    warning(\"another warning message\", \"k3\", \"v3\", \"k4\", \"v4\")\n    // warning-vararg\n}",
+        "autoTitle" : true,
+        "startLine" : "import",
+        "commentsType" : "remove",
+        "title" : "scenarios/concept/warning.groovy",
+        "anchorId" : "warning-scenarios-concept-warning-groovy",
+        "type" : "Snippet"
+      }, {
+        "title" : "console output",
+        "startLine" : "warning label",
+        "endLine" : "v4",
+        "lines" : [ "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m warning label \u001B[35m(warning.groovy)\u001B[0m", "\u001B[31m[warning]\u001B[0m \u001B[33mwarning message\u001B[0m", "\u001B[32m[.] \u001B[34mwarning label \u001B[35m(warning.groovy)\u001B[0m", "\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m warning key values \u001B[35m(warning.groovy)\u001B[0m", "\u001B[31m[warning]\u001B[0m \u001B[33mwarning message with map\u001B[0m", "  \u001B[35mk1\u001B[37m: \u001B[32mv1\u001B[0m", "  \u001B[35mk2\u001B[37m: \u001B[32mv2\u001B[0m", "\u001B[31m[warning]\u001B[0m \u001B[33manother warning message\u001B[0m", "  \u001B[35mk3\u001B[37m: \u001B[32mv3\u001B[0m", "  \u001B[35mk4\u001B[37m: \u001B[32mv4\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "title" : "report steps tab",
+        "border" : true,
+        "fit" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-warning.png",
+        "timestamp" : 1670452168547,
+        "shapes" : [ ],
+        "width" : 1310.0,
+        "height" : 802.0,
+        "anchorId" : "warning-report-steps-tab",
+        "type" : "AnnotatedImage"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Summary of warnings will be displayed at the end of the run in the console and present on the generated HTML report summary view.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "console output warnings summary",
+        "startLine" : "warning(s) in tests",
+        "lines" : [ "\u001B[31mThere are \u001B[34m3\u001B[31m warning(s) in tests\u001B[0m", "\u001B[31m*\u001B[33m warning message \u001B[0m(\u001B[35mwarning.groovy -> \u001B[34mwarning label\u001B[0m)\u001B[0m", "\u001B[31m*\u001B[33m warning message with map \u001B[0m(\u001B[35mwarning.groovy -> \u001B[34mwarning key values\u001B[0m)\u001B[0m", "  \u001B[35mk1\u001B[37m: \u001B[32mv1\u001B[0m", "  \u001B[35mk2\u001B[37m: \u001B[32mv2\u001B[0m", "\u001B[31m*\u001B[33m another warning message \u001B[0m(\u001B[35mwarning.groovy -> \u001B[34mwarning key values\u001B[0m)\u001B[0m", "  \u001B[35mk3\u001B[37m: \u001B[32mv3\u001B[0m", "  \u001B[35mk4\u001B[37m: \u001B[32mv4\u001B[0m", "\u001B[34mTotal time: \u001B[35m2ms\u001B[0m", "Total: 2, \u001B[32m Passed: 2, \u001B[33m Skipped: 0, \u001B[31m Failed: 0,  Errored: 0\u001B[0m", "\u001B[34mreport is generated: \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/webtau-reports/scenarios/concept/warning-webtau-report.html\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "title" : "warnings summary view",
+        "border" : true,
+        "fit" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-summary-warning-collapsed.png",
+        "timestamp" : 1670452169627,
+        "shapes" : [ ],
+        "width" : 1310.0,
+        "height" : 802.0,
+        "anchorId" : "warning-warnings-summary-view",
+        "type" : "AnnotatedImage"
+      } ]
     } ],
-    "lastModifiedTime" : 1658346107246,
+    "lastModifiedTime" : 1670451504506,
     "tocItem" : {
-      "sectionTitle" : "Report",
+      "chapterTitle" : "Report",
       "pageTitle" : "Steps",
       "pageMeta" : { },
       "dirName" : "report",
       "fileName" : "steps",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "Imports",
+        "id" : "imports"
+      }, {
         "title" : "Grouping Actions",
         "id" : "grouping-actions"
       }, {
@@ -249,6 +344,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Grouping With Trace",
         "id" : "grouping-with-trace"
+      }, {
+        "title" : "Warning",
+        "id" : "warning"
       } ]
     }
   }

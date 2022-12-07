@@ -109,7 +109,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -141,6 +142,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "cliEnv {\n    MY_VAR = \"webtau\"\n    PREFIX_VAR = \"__\"\n}",
         "title" : "webtau.cfg.groovy",
         "surroundedBy" : "default-my-var",
+        "anchorId" : "environment-variables-webtau-cfg-groovy",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -153,6 +155,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "personas {\n    Alice {\n        cliEnv.MY_VAR = \"Alice!\"\n    }\n\n    Bob {\n        cliEnv.MY_VAR = \"Bob!\"\n    }\n}",
         "title" : "webtau.cfg.groovy",
         "surroundedBy" : "personas-my-var",
+        "anchorId" : "environment-variables-webtau-cfg-groovy-2",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -165,6 +168,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "#!/bin/bash\necho \"hello $MY_VAR\"",
         "autoTitle" : true,
         "title" : "scripts/hello-env-var",
+        "anchorId" : "environment-variables-scripts-hello-env-var",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -176,12 +180,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "Alice {\n    cli.run('scripts/hello-env-var') {\n        output.should == 'hello Alice!'\n    }\n}\n\nBob {\n    cli.run('scripts/hello-env-var') {\n        output.should == 'hello Bob!'\n    }\n}",
         "title" : "use environment variable from persona config",
+        "anchorId" : "environment-variables-use-environment-variable-from-persona-config",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107242,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Persona",
+      "chapterTitle" : "Persona",
       "pageTitle" : "CLI Persona",
       "pageMeta" : { },
       "dirName" : "persona",

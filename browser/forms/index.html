@@ -120,7 +120,7 @@
 
 <article>
 <header><h1>Custom Form Elements</h1></header>
-<p>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id=&quot;answer&quot; class=&quot;special-selector&quot; onclick=&quot;activate('answer')&quot;&gt; &lt;div class=&quot;current-value&quot;&gt; current value &lt;/div&gt; &lt;input class=&quot;value-input&quot; value=&quot;&quot; onblur=&quot;valueEntered('answer')&quot;&gt; &lt;/div&gt; Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('open forms') { browser.open('/special-forms') } scenario('get set custom based on registered handler') { def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' } package formHandlers import org.openqa.selenium.Keys import org.testingisdocumenting.webtau.browser.page.HtmlNode import org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList import org.testingisdocumenting.webtau.browser.page.PageElement import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler import org.testingisdocumenting.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) { def htmlNode = htmlNodeAndWebElements.firstHtmlNode() return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, Object value) { pageElement.click() pageElement.find('input').sendKeys(&quot;${value}&quot; + Keys.TAB) } @Override Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) { return pageElement.find('.current-value').getUnderlyingValue() } }</p>
+<p>One of the benefits of universal set and assert is that your test is focused on the data and not implementation details. But what if you decided to use a custom component to enter the data?To hide implementation details from your test you should define a custom input handler for your UI component.Let's consider a form component that you can start interacting with only after you clicked it. And after the value is entered, the input box disappears again. &lt;div id=&quot;answer&quot; class=&quot;special-selector&quot; onclick=&quot;activate('answer')&quot;&gt; &lt;div class=&quot;current-value&quot;&gt; current value &lt;/div&gt; &lt;input class=&quot;value-input&quot; value=&quot;&quot; onblur=&quot;valueEntered('answer')&quot;&gt; &lt;/div&gt; Our test should still be written in terms of data entering and validation. def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' In order to achieve this we need to register a custom handler. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('open forms') { browser.open('/special-forms') } scenario('get set custom based on registered handler') { def customFormElement = $('#answer') customFormElement.setValue('hello') customFormElement.should == 'hello' } package formHandlers import org.openqa.selenium.Keys import org.testingisdocumenting.webtau.browser.page.HtmlNode import org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList import org.testingisdocumenting.webtau.browser.page.PageElement import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler import org.testingisdocumenting.webtau.reporter.TokenizedMessage class CustomInput implements PageElementGetSetValueHandler { @Override boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) { def htmlNode = htmlNodeAndWebElements.firstHtmlNode() return htmlNode.attributes.class =~ /special-selector/ } @Override void setValue(PageElementStepExecutor stepExecutor, TokenizedMessage pathDescription, HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, Object value, boolean noLog) { pageElement.click() pageElement.find('input').sendKeys(&quot;${value}&quot; + Keys.TAB) } @Override Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) { return pageElement.find('.current-value').getUnderlyingValue() } }</p>
 </article>
 </section>
 </div>
@@ -144,7 +144,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -192,6 +193,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "html",
         "snippet" : "<html>\n<body>\n<div id=\"form\">\n  <input id=\"name\" />\n  <input id=\"startDate\" type=\"date\" />\n  <input id=\"confirmation\" type=\"checkbox\" />\n  <div id=\"choice-group\" class=\"radio-group\">\n    <div>\n      <input type=\"radio\" id=\"one\" name=\"choice\" value=\"value-one\"/>\n      <label for=\"one\">one</label>\n    </div>\n    <div>\n      <input type=\"radio\" id=\"two\" name=\"choice\" value=\"value-two\"/>\n      <label for=\"two\">two</label>\n    </div>\n    <div>\n      <input type=\"radio\" id=\"three\" name=\"choice\" value=\"value-three\"/>\n      <label for=\"three\">three</label>\n    </div>\n  </div>\n  <select id=\"rank\">\n    <option />\n    <option value=\"A\">A</option>\n    <option value=\"B\">B</option>\n    <option value=\"C\">C</option>\n    <option value=\"D\">D</option>\n    <option value=\"E\">E</option>\n  </select>\n</div>\n</body>\n</html>",
         "title" : "HTML form",
+        "anchorId" : "universal-set-value-html-form",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -203,6 +205,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "package pages\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*\n\nclass FormPage {\n    def name = $('#name')\n    def rank = $('#rank')\n    def confirmation = $('#confirmation')\n    def choice = $('[name=\"choice\"]')\n    def startDate = $('#startDate')\n}",
         "title" : "Form page object",
+        "anchorId" : "universal-set-value-form-page-object",
         "type" : "Snippet"
       } ]
     }, {
@@ -213,6 +216,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "form.name.setValue('Full Automation')",
         "title" : "set value to input",
+        "anchorId" : "default-input-set-value-to-input",
         "type" : "Snippet"
       } ]
     }, {
@@ -223,6 +227,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "form.startDate.setValue('2016-06-21')",
         "title" : "set value to date input",
+        "anchorId" : "date-input-set-value-to-date-input",
         "type" : "Snippet"
       } ]
     }, {
@@ -233,6 +238,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "form.rank.setValue('B')",
         "title" : "set value to select",
+        "anchorId" : "select-set-value-to-select",
         "type" : "Snippet"
       } ]
     }, {
@@ -243,6 +249,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "form.confirmation.setValue(true)",
         "title" : "set value to checkbox",
+        "anchorId" : "checkbox-set-value-to-checkbox",
         "type" : "Snippet"
       } ]
     }, {
@@ -253,6 +260,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "form.choice.setValue('value-two')",
         "title" : "set value to radio button",
+        "anchorId" : "radio-button-set-value-to-radio-button",
         "type" : "Snippet"
       } ]
     }, {
@@ -274,6 +282,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "form.name.should == 'Full Automation'\nform.rank.should == 'B'\nform.confirmation.should == true\nform.choice.should == 'value-two'\nform.startDate.should == '2016-06-21'",
         "title" : "universal assert",
+        "anchorId" : "universal-assert-universal-assert",
         "type" : "Snippet"
       } ]
     }, {
@@ -324,6 +333,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "html",
         "snippet" : "<div id=\"answer\" class=\"special-selector\" onclick=\"activate('answer')\"> \n <div class=\"current-value\">\n   current value \n </div> \n <input class=\"value-input\" value=\"\" onblur=\"valueEntered('answer')\"> \n</div>",
         "title" : "Custom input",
+        "anchorId" : "custom-form-elements-custom-input",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -335,6 +345,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "def customFormElement = $('#answer')\n\ncustomFormElement.setValue('hello')\ncustomFormElement.should == 'hello'",
         "title" : "set value to custom component",
+        "anchorId" : "custom-form-elements-set-value-to-custom-component",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -346,17 +357,19 @@ ReactDOM.render(React.createElement(Documentation, {
         "lang" : "groovy",
         "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('open forms') {\n    browser.open('/special-forms')\n}\n\nscenario('get set custom based on registered handler') {\n    def customFormElement = $('#answer')\n\n    customFormElement.setValue('hello')\n    customFormElement.should == 'hello'\n}",
         "title" : "webtau.cfg.groovy",
+        "anchorId" : "custom-form-elements-webtau-cfg-groovy",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "package formHandlers\n\nimport org.openqa.selenium.Keys\nimport org.testingisdocumenting.webtau.browser.page.HtmlNode\nimport org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList\nimport org.testingisdocumenting.webtau.browser.page.PageElement\nimport org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor\nimport org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler\nimport org.testingisdocumenting.webtau.reporter.TokenizedMessage\n\nclass CustomInput implements PageElementGetSetValueHandler {\n    @Override\n    boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {\n        def htmlNode = htmlNodeAndWebElements.firstHtmlNode()\n        return htmlNode.attributes.class =~ /special-selector/\n    }\n\n    @Override\n    void setValue(PageElementStepExecutor stepExecutor,\n                  TokenizedMessage pathDescription,\n                  HtmlNodeAndWebElementList htmlNodeAndWebElements,\n                  PageElement pageElement,\n                  Object value) {\n        pageElement.click()\n        pageElement.find('input').sendKeys(\"${value}\" + Keys.TAB)\n    }\n\n    @Override\n    Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {\n        return pageElement.find('.current-value').getUnderlyingValue()\n    }\n}",
+        "snippet" : "package formHandlers\n\nimport org.openqa.selenium.Keys\nimport org.testingisdocumenting.webtau.browser.page.HtmlNode\nimport org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList\nimport org.testingisdocumenting.webtau.browser.page.PageElement\nimport org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor\nimport org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler\nimport org.testingisdocumenting.webtau.reporter.TokenizedMessage\n\nclass CustomInput implements PageElementGetSetValueHandler {\n    @Override\n    boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {\n        def htmlNode = htmlNodeAndWebElements.firstHtmlNode()\n        return htmlNode.attributes.class =~ /special-selector/\n    }\n\n    @Override\n    void setValue(PageElementStepExecutor stepExecutor,\n                  TokenizedMessage pathDescription,\n                  HtmlNodeAndWebElementList htmlNodeAndWebElements,\n                  PageElement pageElement,\n                  Object value,\n                  boolean noLog) {\n        pageElement.click()\n        pageElement.find('input').sendKeys(\"${value}\" + Keys.TAB)\n    }\n\n    @Override\n    Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {\n        return pageElement.find('.current-value').getUnderlyingValue()\n    }\n}",
         "title" : "Custom input handler",
+        "anchorId" : "custom-form-elements-custom-input-handler",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "Browser",
+      "chapterTitle" : "Browser",
       "pageTitle" : "Forms",
       "pageMeta" : { },
       "dirName" : "browser",

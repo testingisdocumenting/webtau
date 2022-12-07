@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Temporary Dirs And Files</h1></header>
-<p>def dir = fs.tempDir(&quot;my-dir-prefix&quot;) def path = dir.resolve(&quot;my-file&quot;) fs.writeText(path, &quot;hello world&quot;) def parentDir = fs.tempDir(&quot;my-dir-prefix&quot;) def dir = fs.tempDir(parentDir, &quot;nested-temp-dir&quot;) def file = fs.tempFile(&quot;my-file-prefix&quot;, &quot;.txt&quot;) fs.writeText(file, &quot;hello world&quot;) def dir = fs.tempDir(&quot;temp-dir-prefix&quot;) def file = fs.tempFile(dir, &quot;my-file-prefix&quot;, &quot;.txt&quot;) /tmp/temp-dir-prefix5970317973824424828/my-file-prefix4997577316681341737.txt Note: temp files and temp directories will be automatically deleted at the end of run</p>
+<p>def dir = fs.tempDir(&quot;my-dir-prefix&quot;) def path = dir.resolve(&quot;my-file&quot;) fs.writeText(path, &quot;hello world&quot;) def parentDir = fs.tempDir(&quot;my-dir-prefix&quot;) def dir = fs.tempDir(parentDir, &quot;nested-temp-dir&quot;) def file = fs.tempFile(&quot;my-file-prefix&quot;, &quot;.txt&quot;) fs.writeText(file, &quot;hello world&quot;) def dir = fs.tempDir(&quot;temp-dir-prefix&quot;) def file = fs.tempFile(dir, &quot;my-file-prefix&quot;, &quot;.txt&quot;) /tmp/temp-dir-prefix3659188618247128804/my-file-prefix4041625985530876994.txt Note: temp files and temp directories will be automatically deleted at the end of run</p>
 </article>
 </section>
 </div>
@@ -124,7 +124,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -138,12 +139,14 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "def path = fs.writeText('my-test-file.txt', 'hello world')",
         "title" : "write content to a file",
         "includeRegexp" : [ "fs\\.writeText" ],
+        "anchorId" : "file-content-write-content-to-a-file",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "fs.textContent('my-test-file.txt').should == 'hello world\\nid=15'",
         "title" : "validate file content",
         "surroundedBy" : "assert-file",
+        "anchorId" : "file-content-validate-file-content",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -164,6 +167,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "def fileTextContent = fs.textContent('my-test-file.txt')\nfileTextContent.waitTo contain('id=15')",
         "title" : "wait for file content",
         "surroundedBy" : "wait-for-id",
+        "anchorId" : "file-content-wait-for-file-content",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -182,6 +186,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "def actualFileContent = fileTextContent.data",
         "title" : "access file content",
         "surroundedBy" : "actual-file-content",
+        "anchorId" : "file-content-access-file-content",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -201,6 +206,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "extract file content",
         "surroundedBy" : "extract-id",
         "excludeRegexp" : "statusCode",
+        "anchorId" : "file-content-extract-file-content",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -219,6 +225,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "fs.replaceText(path, ~/(\\d+)/, '\"$1\"')",
         "title" : "replace file content",
         "surroundedBy" : "replace-text",
+        "anchorId" : "file-content-replace-file-content",
         "type" : "Snippet"
       }, {
         "columns" : [ {
@@ -226,6 +233,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "txt",
             "snippet" : "a=1\nb=2",
             "title" : "file to replace",
+            "anchorId" : "file-content-file-to-replace",
             "type" : "Snippet"
           } ]
         }, {
@@ -233,6 +241,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "txt",
             "snippet" : "a=\"1\"\nb=\"2\"",
             "title" : "result of replace",
+            "anchorId" : "file-content-result-of-replace",
             "type" : "Snippet"
           } ]
         } ],
@@ -248,18 +257,21 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "def dir = fs.createDir(\"my-dir\")\nfs.copy(\"data/message.txt\", dir)",
         "title" : "copy single file to a directory",
         "includeRegexp" : [ "fs\\.copy", "createDir" ],
+        "anchorId" : "copy-copy-single-file-to-a-directory",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def dir = fs.tempDir(\"fs-copy\")\nfs.copy(\"data/message.txt\", dir)",
         "title" : "copy single file to a temp directory",
         "includeRegexp" : [ "fs\\.copy", "tempDir" ],
+        "anchorId" : "copy-copy-single-file-to-a-temp-directory",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "fs.copy(\"data/message.txt\", \"data/new-message.txt\")",
         "title" : "copy single file to a file",
         "includeRegexp" : [ "fs\\.copy" ],
+        "anchorId" : "copy-copy-single-file-to-a-file",
         "type" : "Snippet"
       } ]
     }, {
@@ -271,18 +283,21 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "def dest = fs.tempDir(\"for-zip\").resolve(\"content.zip\")\nfs.zip('data/staticcontent', dest)",
         "title" : "zip a directory",
         "surroundedBy" : "// zip",
+        "anchorId" : "archive-zip-a-directory",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def dir = fs.tempDir('for-unzip')\nfs.unzip('data/data.zip', dir)",
         "title" : "unzip a file",
         "surroundedBy" : "// unzip",
+        "anchorId" : "archive-unzip-a-file",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def dir = fs.tempDir('for-untar')\nfs.untar('data/data.tar', dir)",
         "title" : "untar a file",
         "surroundedBy" : "// untar",
+        "anchorId" : "archive-untar-a-file",
         "type" : "Snippet"
       } ]
     }, {
@@ -294,29 +309,34 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "def dir = fs.tempDir(\"my-dir-prefix\")\ndef path = dir.resolve(\"my-file\")\nfs.writeText(path, \"hello world\")",
         "title" : "create temp directory",
         "surroundedBy" : "// temp-dir",
+        "anchorId" : "temporary-dirs-and-files-create-temp-directory",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def parentDir = fs.tempDir(\"my-dir-prefix\")\ndef dir = fs.tempDir(parentDir, \"nested-temp-dir\")",
         "title" : "create temp directory inside directory",
         "surroundedBy" : "// temp-dir-parent",
+        "anchorId" : "temporary-dirs-and-files-create-temp-directory-inside-directory",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def file = fs.tempFile(\"my-file-prefix\", \".txt\")\nfs.writeText(file, \"hello world\")",
         "title" : "create temp file",
         "surroundedBy" : "// temp-file",
+        "anchorId" : "temporary-dirs-and-files-create-temp-file",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def dir = fs.tempDir(\"temp-dir-prefix\")\ndef file = fs.tempFile(dir, \"my-file-prefix\", \".txt\")",
         "title" : "create temp file inside a directory",
         "surroundedBy" : "// temp-file-parent",
+        "anchorId" : "temporary-dirs-and-files-create-temp-file-inside-a-directory",
         "type" : "Snippet"
       }, {
         "lang" : "txt",
-        "snippet" : "/tmp/temp-dir-prefix5970317973824424828/my-file-prefix4997577316681341737.txt",
+        "snippet" : "/tmp/temp-dir-prefix3659188618247128804/my-file-prefix4041625985530876994.txt",
         "title" : "example of temp file location",
+        "anchorId" : "temporary-dirs-and-files-example-of-temp-file-location",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -326,9 +346,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658346107246,
+    "lastModifiedTime" : 1670451504506,
     "tocItem" : {
-      "sectionTitle" : "Utilities",
+      "chapterTitle" : "Utilities",
       "pageTitle" : "File System",
       "pageMeta" : { },
       "dirName" : "utilities",

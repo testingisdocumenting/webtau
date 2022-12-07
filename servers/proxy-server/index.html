@@ -139,7 +139,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -165,6 +166,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "def proxyServer = server.proxy(\"test-proxy-server\", targetServer.baseUrl)",
         "title" : "proxy server creation example",
         "surroundedBy" : "proxy-server-creation",
+        "anchorId" : "proxy-servers-creation-proxy-server-creation-example",
         "type" : "Snippet"
       } ]
     }, {
@@ -188,6 +190,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "def router = server.router(\"optional-router-id\")\nrouter.get(\"/another/{id}\", (request) -> server.response([anotherId: request.param(\"id\")]))\n\nproxyServer.addOverride(router)",
         "title" : "call override",
         "surroundedBy" : "proxy-add-override",
+        "anchorId" : "override-calls-call-override",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -234,6 +237,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "original call and faked error response",
         "surroundedBy" : "override-with-original-call",
         "excludeRegexp" : "capturedMessages",
+        "anchorId" : "preserve-original-call-original-call-and-faked-error-response",
         "type" : "Snippet"
       } ]
     }, {
@@ -257,12 +261,14 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "proxyServer.markUnresponsive()",
         "title" : "mark as unresponsive",
         "surroundedBy" : "mark-unresponsive",
+        "anchorId" : "server-slowdown-mark-as-unresponsive",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "code {\n    http.get(\"${proxyServer.baseUrl}/another/hello\") {\n        body.should == [anotherId: \"hello\"]\n    }\n} should throwException(~/Read timed out/)",
         "title" : "unresponsive timeout",
         "surroundedBy" : "unresponsive-time-out-throw",
+        "anchorId" : "server-slowdown-unresponsive-timeout",
         "type" : "Snippet"
       } ]
     }, {
@@ -286,12 +292,14 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "proxyServer.markBroken()",
         "title" : "mark as broken",
         "surroundedBy" : "mark-broken",
+        "anchorId" : "server-break-mark-as-broken",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "http.get(\"${proxyServer.baseUrl}/hello.html\") {\n    statusCode.should == 500\n    body.should == null\n}",
         "title" : "broken server response",
         "surroundedBy" : "mark-broken-response",
+        "anchorId" : "server-break-broken-server-response",
         "type" : "Snippet"
       } ]
     }, {
@@ -315,6 +323,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "proxyServer.fix()",
         "title" : "fix server",
         "surroundedBy" : "mark-fix",
+        "anchorId" : "server-fix-fix-server",
         "type" : "Snippet"
       } ]
     }, {
@@ -335,9 +344,9 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1658346107246,
+    "lastModifiedTime" : 1670451504506,
     "tocItem" : {
-      "sectionTitle" : "Servers",
+      "chapterTitle" : "Servers",
       "pageTitle" : "Proxy Server",
       "pageMeta" : { },
       "dirName" : "servers",

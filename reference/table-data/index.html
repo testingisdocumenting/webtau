@@ -94,13 +94,28 @@
 </article>
 
 <article>
+<header><h1>Create From List</h1></header>
+<p>Use to create TableData from a list of maps. Groovy def list = [ [k1: &quot;v1&quot;, k2: &quot;v2&quot;], [k1: &quot;v3&quot;, k3: &quot;v4&quot;]] TableData tableData = TableData.fromListOfMaps(list) TableData expected = [&quot;k1&quot; | &quot;k2&quot; | &quot;k3&quot;] { ____________________ &quot;v1&quot; | &quot;v2&quot; | null &quot;v3&quot; | null | &quot;v4&quot; } tableData.should == expected Java List&lt;Map&lt;String, ?&gt;&gt; list = new ArrayList&lt;&gt;(); list.add(CollectionUtils.aMapOf(&quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, &quot;v2&quot;)); list.add(CollectionUtils.aMapOf(&quot;k1&quot;, &quot;v3&quot;, &quot;k3&quot;, &quot;v4&quot;)); TableData tableData = TableData.fromListOfMaps(list); TableData expected = table(&quot;k1&quot;, &quot;k2&quot;, &quot;k3&quot;, _________________, &quot;v1&quot;, &quot;v2&quot;, null, &quot;v3&quot;, null, &quot;v4&quot;); actual(tableData).should(equal(expected)); Note: WebTau merges keys from all list elements to create the table header</p>
+</article>
+
+<article>
+<header><h1>Serialization</h1></header>
+<p>Use to serialize as JSON System.out.println(tableData.toJson()); [ { &quot;A&quot; : 1.3, &quot;B&quot; : 2 }, { &quot;A&quot; : &quot;Hello&quot;, &quot;B&quot; : &quot;World&quot; } ] Use to serialize as CSV System.out.println(tableData.toCsv()); A,B 1.3,2 Hello,World</p>
+</article>
+
+<article>
+<header><h1>Serialization To File</h1></header>
+<p>Use data/csv#write-table data.csv.write and data/json#write-table-data data.json.write to serialize Table Data to a file</p>
+</article>
+
+<article>
 <header><h1>Permutations</h1></header>
 <p>Use permute(v1, v2) to automatically generate multiple rows. Groovy [&quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ___________________________________________________________ permute(true, false) | &quot;v1b&quot; | permute('a', 'b') &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ________________________________________________________________, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) Col A Col B Col C true v1b a false v1b a true v1b b false v1b b v2a 10 v2c v2a 20 v2c</p>
 </article>
 
 <article>
 <header><h1>GUID</h1></header>
-<p>Use cell.guid to automatically generate unique ids. Groovy [&quot;ID&quot; | &quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________________________________________________ cell.guid | permute(true, false) | &quot;v1b&quot; | permute('a', 'b') cell.guid | &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C c943b637-5fb0-4c1d-9552-edcdbde8510e true v1b a 1ea368b3-6117-4b98-bb9d-bce2a16ef339 false v1b a 1a557ab7-78e5-4bc5-8b1b-1da765e5d0e5 true v1b b b671816b-838d-4d2d-9b02-63a4267f3182 false v1b b f1703467-07f7-4b9b-bd75-8a8c2e9ff4dc v2a 10 v2c edc433ad-f729-438f-bb59-05e3602bb7d1 v2a 20 v2c</p>
+<p>Use cell.guid to automatically generate unique ids. Groovy [&quot;ID&quot; | &quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________________________________________________ cell.guid | permute(true, false) | &quot;v1b&quot; | permute('a', 'b') cell.guid | &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C fd47b313-88d7-4823-a1c5-ca090bce061f true v1b a cf50388f-1a63-46c2-b155-ae178cd097b9 false v1b a 7fe655aa-113b-4ec4-a809-2d12a79c7c2d true v1b b 63266679-0193-48d3-a515-6c04e64adef7 false v1b b c98e26d7-cb9c-43c9-bfaa-7f4aaf4c0bcd v2a 10 v2c 6dc37501-4401-4ac8-9005-a718db8afe7e v2a 20 v2c</p>
 </article>
 
 <article>
@@ -139,7 +154,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -368,6 +384,157 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
+      "id" : "create-from-list",
+      "title" : "Create From List",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "fromListOfMaps",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to create ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from a list of maps.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def list = [\n        [k1: \"v1\", k2: \"v2\"],\n        [k1: \"v3\", k3: \"v4\"]]\n\nTableData tableData = TableData.fromListOfMaps(list)\n\nTableData expected = [\"k1\" | \"k2\" | \"k3\"] {\n                      ____________________\n                      \"v1\" | \"v2\" | null\n                      \"v3\" | null | \"v4\" }\n\ntableData.should == expected",
+            "title" : "from list of maps",
+            "entry" : "table creation from list of maps",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "List<Map<String, ?>> list = new ArrayList<>();\nlist.add(CollectionUtils.aMapOf(\"k1\", \"v1\", \"k2\", \"v2\"));\nlist.add(CollectionUtils.aMapOf(\"k1\", \"v3\", \"k3\", \"v4\"));\n\nTableData tableData = TableData.fromListOfMaps(list);\n\nTableData expected = table(\"k1\", \"k2\", \"k3\",\n                           _________________,\n                           \"v1\", \"v2\", null,\n                           \"v3\", null, \"v4\");\n\nactual(tableData).should(equal(expected));",
+            "title" : "from list of maps",
+            "entry" : "tableCreationFromListOfMaps",
+            "bodyOnly" : true,
+            "anchorId" : "create-from-list-from-list-of-maps",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: WebTau merges keys from all list elements to create the table header",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "serialization",
+      "title" : "Serialization",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "toJson",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to serialize as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "JSON",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "System.out.println(tableData.toJson());",
+        "title" : "serialize as JSON",
+        "surroundedBy" : "print table data json",
+        "noGap" : true,
+        "anchorId" : "serialization-serialize-as-json",
+        "type" : "Snippet"
+      }, {
+        "lang" : "txt",
+        "snippet" : "[ {\n  \"A\" : 1.3,\n  \"B\" : 2\n}, {\n  \"A\" : \"Hello\",\n  \"B\" : \"World\"\n} ]",
+        "title" : "console output",
+        "noGap" : true,
+        "anchorId" : "serialization-console-output",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "toCsv",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to serialize as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "CSV",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "System.out.println(tableData.toCsv());",
+        "title" : "serialize as CSV",
+        "surroundedBy" : "print table data csv",
+        "noGap" : true,
+        "anchorId" : "serialization-serialize-as-csv",
+        "type" : "Snippet"
+      }, {
+        "lang" : "txt",
+        "snippet" : "A,B\n1.3,2\nHello,World",
+        "title" : "console output",
+        "noGap" : true,
+        "anchorId" : "serialization-console-output-2",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "serialization-to-file",
+      "title" : "Serialization To File",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/data/csv#write-table",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "data.csv.write",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/data/json#write-table-data",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "data.json.write",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " to serialize Table Data to a file",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
       "id" : "permutations",
       "title" : "Permutations",
       "type" : "Section",
@@ -580,7 +747,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "c943b637-5fb0-4c1d-9552-edcdbde8510e",
+              "text" : "fd47b313-88d7-4823-a1c5-ca090bce061f",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -604,7 +771,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "1ea368b3-6117-4b98-bb9d-bce2a16ef339",
+              "text" : "cf50388f-1a63-46c2-b155-ae178cd097b9",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -628,7 +795,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "1a557ab7-78e5-4bc5-8b1b-1da765e5d0e5",
+              "text" : "7fe655aa-113b-4ec4-a809-2d12a79c7c2d",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -652,7 +819,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "b671816b-838d-4d2d-9b02-63a4267f3182",
+              "text" : "63266679-0193-48d3-a515-6c04e64adef7",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -676,7 +843,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "f1703467-07f7-4b9b-bd75-8a8c2e9ff4dc",
+              "text" : "c98e26d7-cb9c-43c9-bfaa-7f4aaf4c0bcd",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -700,7 +867,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "edc433ad-f729-438f-bb59-05e3602bb7d1",
+              "text" : "6dc37501-4401-4ac8-9005-a718db8afe7e",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -1130,9 +1297,9 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107242,
+    "lastModifiedTime" : 1670451504502,
     "tocItem" : {
-      "sectionTitle" : "Reference",
+      "chapterTitle" : "Reference",
       "pageTitle" : "Table Data",
       "pageMeta" : { },
       "dirName" : "reference",
@@ -1144,6 +1311,15 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Key Columns",
         "id" : "key-columns"
+      }, {
+        "title" : "Create From List",
+        "id" : "create-from-list"
+      }, {
+        "title" : "Serialization",
+        "id" : "serialization"
+      }, {
+        "title" : "Serialization To File",
+        "id" : "serialization-to-file"
       }, {
         "title" : "Permutations",
         "id" : "permutations"

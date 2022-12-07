@@ -154,7 +154,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -168,6 +169,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
         "includeRegexp" : "import.*Dsl",
         "title" : "Single import to use",
+        "anchorId" : "imports-to-use-single-import-to-use",
         "type" : "Snippet"
       } ]
     }, {
@@ -386,7 +388,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "k2" : 40
           } ]
         },
-        "paths" : [ "root.id", "root.amount", "root.list[0]", "root.list[1]", "root.list[2]", "root.object.k1", "root.object.k3", "root.complexList[0].k1", "root.complexList[0].k2", "root.complexList[1].k1", "root.complexList[1].k2" ],
+        "paths" : [ "root.amount", "root.complexList[0].k1", "root.complexList[0].k2", "root.complexList[1].k1", "root.complexList[1].k2", "root.id", "root.list[0]", "root.list[1]", "root.list[2]", "root.object.k1", "root.object.k3" ],
         "type" : "Json"
       }, {
         "meta" : {
@@ -444,7 +446,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     }, {
-      "id" : "greaterlessequal",
+      "id" : "greater-less-equal",
       "title" : "Greater/Less/Equal",
       "type" : "Section",
       "content" : [ {
@@ -491,7 +493,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "amount" : 30,
           "list" : [ 1, 2, 3 ]
         },
-        "paths" : [ "root.id", "root.price", "root.amount", "root.list[1]" ],
+        "paths" : [ "root.amount", "root.id", "root.list[1]", "root.price" ],
         "type" : "Json"
       }, {
         "meta" : {
@@ -799,7 +801,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "transactionTime" : "2018-06-12T10:00:00+01:00:00",
           "paymentSchedule" : [ "2018-06-12", "2018-07-10", "2018-08-09", "2018-09-12" ]
         },
-        "paths" : [ "root.tradeDate", "root.transactionTime", "root.paymentSchedule[0]" ],
+        "paths" : [ "root.paymentSchedule[0]", "root.tradeDate", "root.transactionTime" ],
         "type" : "Json"
       }, {
         "meta" : {
@@ -863,7 +865,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "k2" : 200
           } ]
         },
-        "paths" : [ "root.list[0]", "root.list[1]", "root.object.k1", "root.object.k3", "root.complexList[0].k1", "root.complexList[0].k2", "root.complexList[1].k1", "root.complexList[1].k2" ],
+        "paths" : [ "root.complexList[0].k1", "root.complexList[0].k2", "root.complexList[1].k1", "root.complexList[1].k2", "root.list[0]", "root.list[1]", "root.object.k1", "root.object.k3" ],
         "type" : "Json"
       }, {
         "meta" : {
@@ -895,9 +897,9 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1658346107238,
+    "lastModifiedTime" : 1670451504498,
     "tocItem" : {
-      "sectionTitle" : "HTTP",
+      "chapterTitle" : "HTTP",
       "pageTitle" : "Matchers",
       "pageMeta" : {
         "type" : [ "two-sides" ]
@@ -919,7 +921,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "id" : "equality"
       }, {
         "title" : "Greater/Less/Equal",
-        "id" : "greaterlessequal"
+        "id" : "greater-less-equal"
       }, {
         "title" : "Contain",
         "id" : "contain"

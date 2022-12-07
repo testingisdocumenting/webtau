@@ -84,7 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>WebTau server. module lets you create and control static, fake and proxy servers:Static servers to quickly host HTML, JSON, and similar content Fake servers to control response based request Proxy servers to simulate outages and record interactions for failures investigation def myServer = server.serve(&quot;my-server&quot;, &quot;data/staticcontent&quot;) def router = server.router() // router-example .get(&quot;/hello/:name&quot;) { request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } // router-example .get(&quot;/bye/:name&quot;) { request -&gt; server.response([message: &quot;bye ${request.param(&quot;name&quot;)}&quot;]) } // router-example // router-example def myServer = server.fake(&quot;my-rest-server&quot;, router) // router-example def proxyServer = server.proxy(&quot;test-proxy-server&quot;, targetServer.baseUrl) You can apply overrides to any created server. You can also put servers into a &quot;bad&quot; state. proxyServer.markUnresponsive() def router = server.router() .get(&quot;/hello/:name&quot;) {request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } myServer.addOverride(router)</p>
+<p>WebTau server. module lets you create and control static, fake and proxy servers:Static servers to quickly host HTML, JSON, and similar content Fake servers to control response based request Proxy servers to simulate outages and record interactions for failures investigation def myServer = server.serve(&quot;my-server&quot;, &quot;data/staticcontent&quot;) // router-example // router-example def proxyServer = server.proxy(&quot;test-proxy-server&quot;, targetServer.baseUrl) You can apply overrides to any created server. You can also put servers into a &quot;bad&quot; state. proxyServer.markUnresponsive() def router = server.router() .get(&quot;/hello/:name&quot;) {request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } myServer.addOverride(router)</p>
 </article>
 </section>
 </div>
@@ -108,7 +108,8 @@ ReactDOM.render(React.createElement(Documentation, {
     "type" : "Guide",
     "previewEnabled" : false,
     "support" : {
-      "link" : "https://github.com/testingisdocumenting/webtau/discussions"
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
     }
   },
   "page" : {
@@ -162,19 +163,22 @@ ReactDOM.render(React.createElement(Documentation, {
       "snippet" : "def myServer = server.serve(\"my-server\", \"data/staticcontent\")",
       "title" : "static server creation example",
       "surroundedBy" : "static-server-create",
+      "anchorId" : "static-server-creation-example",
       "type" : "Snippet"
     }, {
       "lang" : "groovy",
-      "snippet" : "def router = server.router() // router-example\n        .get(\"/hello/:name\") { request -> server.response([message: \"hello ${request.param(\"name\")}\"]) } // router-example\n        .get(\"/bye/:name\") { request -> server.response([message: \"bye ${request.param(\"name\")}\"]) } // router-example\n// router-example\ndef myServer = server.fake(\"my-rest-server\", router) // router-example",
+      "snippet" : "// router-example\n// router-example",
       "title" : "fake server creation example",
       "includeRegexp" : "router-example",
       "commentsType" : "remove",
+      "anchorId" : "fake-server-creation-example",
       "type" : "Snippet"
     }, {
       "lang" : "groovy",
       "snippet" : "def proxyServer = server.proxy(\"test-proxy-server\", targetServer.baseUrl)",
       "title" : "proxy server creation example",
       "surroundedBy" : "proxy-server-creation",
+      "anchorId" : "proxy-server-creation-example",
       "type" : "Snippet"
     }, {
       "type" : "Paragraph",
@@ -187,17 +191,19 @@ ReactDOM.render(React.createElement(Documentation, {
       "snippet" : "proxyServer.markUnresponsive()",
       "title" : "unresponsive server",
       "surroundedBy" : "mark-unresponsive-example",
+      "anchorId" : "unresponsive-server",
       "type" : "Snippet"
     }, {
       "lang" : "groovy",
       "snippet" : "def router = server.router()\n        .get(\"/hello/:name\") {request -> server.response([message: \"hello ${request.param(\"name\")}\"]) }\nmyServer.addOverride(router)",
       "title" : "content override",
       "surroundedBy" : "override-example",
+      "anchorId" : "content-override",
       "type" : "Snippet"
     } ],
-    "lastModifiedTime" : 1658346107246,
+    "lastModifiedTime" : 1670451504506,
     "tocItem" : {
-      "sectionTitle" : "Servers",
+      "chapterTitle" : "Servers",
       "pageTitle" : "Introduction",
       "pageMeta" : { },
       "dirName" : "servers",

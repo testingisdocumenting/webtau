@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Data Coverage</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Code Coverage VS Data Coverage</h1></header>
+<p>Code Coverage helps to reveal what paths of business logic you forgot to exercise. But it doesn't help as much with HTTP API testing: a single call to an API may exercise the entire code path.One of the main artifacts of HTTP API testing is a response. Does response have correct data? Are there data paths that we never asserted on?WebTau looks across all the executed tests and called HTTP API methods to track what calls have response fields that were never observed. At the end report provides Data Coverage you can act on:Remove fields from the response Add an extra assertion</p>
+</article>
+
+<article>
+<header><h1>Detect Fields That Were Skipped</h1></header>
+<p>Let's consider an end-point that returns a weather temperature in Fahrenheit and Celsius. And Later we decided to add time field to the response.Our tests were asserting on both temperature fields, but we have no assertions on time field. Groovy package scenarios.rest.coverage import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check fahrenheit temperature&quot;) { http.get(&quot;/city/NewYork&quot;) { weather.temperatureF.shouldBe &gt; 80 } } scenario(&quot;check celsius temperature&quot;) { http.get(&quot;/city/NewYork&quot;) { weather.temperatureC.shouldBe &gt; 26 } } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class NewYorkWeatherJavaTest { @Test public void checkFahrenheitTemperature() { http.get(&quot;/city/NewYork&quot;, (header, body) -&gt; { body.get(&quot;weather.temperatureF&quot;).shouldBe(greaterThan(80)); }); } @Test public void checkCelsiusTemperature() { http.get(&quot;/city/NewYork&quot;, (header, body) -&gt; { body.get(&quot;weather.temperatureC&quot;).shouldBe(greaterThan(26)); }); } } When we run our test suite, we will see in the output that both temperatures were asserted ( ~~ in the response). But since we didn't touch time field, at the end of test run, WebTau will print a warning about missing validation scenario checkFahrenheitTemperature (NewYorkWeatherJavaTest) &gt; executing HTTP GET http://localhost:36487/city/NewYork &gt; reading HTTP routes definition from class path resource data/http-routes.txt . read HTTP routes definition from class path resource data/http-routes.txt (2ms) &gt; mapping operation id . mapped operation id as &quot;GET /city/:cityId&quot; (1ms) . body.weather.temperatureF greater than 80 body.weather.temperatureF: actual: 88 &lt;java.lang.Integer&gt; expected: greater than 80 &lt;java.lang.Integer&gt; (1ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer&gt; expected: 200 &lt;java.lang.Integer&gt; (0ms) response (application/json): { &quot;time&quot;: &quot;2018-11-27 13:05:00&quot;, &quot;weather&quot;: { &quot;temperatureF&quot;: ~~88~~, &quot;temperatureC&quot;: 31 } } . executed HTTP GET http://localhost:36487/city/NewYork (12ms) [.] checkFahrenheitTemperature (NewYorkWeatherJavaTest) scenario checkCelsiusTemperature (NewYorkWeatherJavaTest) &gt; executing HTTP GET http://localhost:36487/city/NewYork &gt; mapping operation id . mapped operation id as &quot;GET /city/:cityId&quot; (0ms) . body.weather.temperatureC greater than 26 body.weather.temperatureC: actual: 31 &lt;java.lang.Integer&gt; expected: greater than 26 &lt;java.lang.Integer&gt; (1ms) . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer&gt; expected: 200 &lt;java.lang.Integer&gt; (0ms) response (application/json): { &quot;time&quot;: &quot;2018-11-27 13:05:00&quot;, &quot;weather&quot;: { &quot;temperatureF&quot;: 88, &quot;temperatureC&quot;: ~~31~~ } } . executed HTTP GET http://localhost:36487/city/NewYork (3ms) [.] checkCelsiusTemperature (NewYorkWeatherJavaTest) Data Coverage HTTP routes that have non validated response fields GET /city/:cityId root.time WebTau prints only the first three routes with the skipped fields, and only first three fields. More details is available in the produced HTML report.HTTP Data Coverage leads to more details on Routes that have fields that were skipped Expanding a Route will list all the ignored fields</p>
+</article>
+
+<article>
+<header><h1>Routing</h1></header>
+<p>WebTau needs to know how to group URLs you call. In the example above /city/NewYork and /city/London belongs to the same group. And if you validate Celsius field when calling NewYork and Fahrenheit when calling London, fields will be considered as covered.This is because WebTau identifies both URLs as /city/:id scenario checkFahrenheitTemperature (NewYorkWeatherJavaTest) &gt; executing HTTP GET http://localhost:36487/city/NewYork &gt; reading HTTP routes definition from class path resource data/http-routes.txt . read HTTP routes definition from class path resource data/http-routes.txt (2ms) &gt; mapping operation id . mapped operation id as &quot;GET /city/:cityId&quot; (1ms) . body.weather.temperatureF greater than 80 There are two ways to provide routing information:Provide HTTP/openAPI-spec Open API spec Provide http routes text files</p>
+</article>
+
+<article>
+<header><h1>Text Routes</h1></header>
+<p>If you don't have HTTP/openAPI-spec Open API spec, you can define a plain text files that enumerates your API routes like this GET /city/:cityId Note: variant with curly brackets for parameters also works /city/{id} Specify file path (or resource for java) in your config file to enable it Groovy httpRoutesPath = &quot;data/http-routes.txt&quot; Java httpRoutesPath = data/http-routes.txt</p>
+</article>
+
+<article>
+<header><h1>JSON Output</h1></header>
+<p>Use config option to output Data Coverage in a separate JSON file for further processing. Groovy httpDataCoverageOutput = &quot;generated/data-coverage.json&quot; Java httpDataCoverageOutput = generated/data-coverage.json Data Coverage HTTP routes that have non validated response fields GET /city/:cityId root.time . generated HTTP Data Coverage: /home/runner/work/webtau/webtau/webtau-junit5-examples/generated/data-coverage.json (1ms) [ { &quot;touchedPathsCount&quot; : 2, &quot;untouchedPathsCount&quot; : 1, &quot;untouchedPaths&quot; : [ &quot;root.time&quot; ], &quot;id&quot; : &quot;GET /city/:cityId&quot;, &quot;untouchedPercent&quot; : 33 } ]</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "code-coverage-vs-data-coverage",
+      "title" : "Code Coverage VS Data Coverage",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Code Coverage helps to reveal what paths of business logic you forgot to exercise.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "But it doesn't help as much with HTTP API testing: a single call to an API may exercise the entire code path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "One of the main artifacts of HTTP API testing is a response. Does response have correct data? Are there data paths that we never asserted on?",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau looks across all the executed tests and called HTTP API methods to track what calls have response fields that were never observed.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "At the end report provides ",
+          "type" : "SimpleText"
+        }, {
+          "type" : "StrongEmphasis",
+          "content" : [ {
+            "text" : "Data Coverage",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " you can act on:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Remove fields from the response",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add an extra assertion",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
+      "id" : "detect-fields-that-were-skipped",
+      "title" : "Detect Fields That Were Skipped",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Let's consider an end-point that returns a weather temperature in Fahrenheit and Celsius. And Later we decided to add ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "time",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " field to the response.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "server response",
+        "paths" : [ "root.time" ],
+        "data" : {
+          "time" : "2018-11-27 13:05:00",
+          "weather" : {
+            "temperatureF" : 88,
+            "temperatureC" : 31
+          }
+        },
+        "type" : "Json"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Our tests were asserting on both temperature fields, but we have no assertions on ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "time",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " field.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "package scenarios.rest.coverage\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"check fahrenheit temperature\") {\n    http.get(\"/city/NewYork\") {\n        weather.temperatureF.shouldBe > 80\n    }\n}\n\nscenario(\"check celsius temperature\") {\n    http.get(\"/city/NewYork\") {\n        weather.temperatureC.shouldBe > 26\n    }\n}",
+            "title" : "New York weather test",
+            "anchorId" : "detect-fields-that-were-skipped-new-york-weather-test",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\npublic class NewYorkWeatherJavaTest {\n    @Test\n    public void checkFahrenheitTemperature() {\n        http.get(\"/city/NewYork\", (header, body) -> {\n            body.get(\"weather.temperatureF\").shouldBe(greaterThan(80));\n        });\n    }\n\n    @Test\n    public void checkCelsiusTemperature() {\n        http.get(\"/city/NewYork\", (header, body) -> {\n            body.get(\"weather.temperatureC\").shouldBe(greaterThan(26));\n        });\n    }\n}",
+            "title" : "New York weather test",
+            "anchorId" : "detect-fields-that-were-skipped-new-york-weather-test-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "When we run our test suite, we will see in the output that both temperatures were asserted (",
+          "type" : "SimpleText"
+        }, {
+          "code" : "~~",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " in the response).",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "But since we didn't touch ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "time",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " field, at the end of test run, WebTau will print a warning about missing validation",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "highlight" : [ 16, 38, 44 ],
+        "excludeRegexp" : [ "Total time", "Total: ", "report is generated", "generated" ],
+        "lines" : [ "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m checkFahrenheitTemperature \u001B[35m(NewYorkWeatherJavaTest)\u001B[0m", "\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttp://localhost:36487/city/NewYork\u001B[0m", "  \u001B[33m> \u001B[34mreading \u001B[36mHTTP routes definition \u001B[33mfrom \u001B[36mclass path resource \u001B[35mdata/http-routes.txt\u001B[0m", "  \u001B[32m. \u001B[34mread \u001B[36mHTTP routes definition \u001B[33mfrom \u001B[36mclass path resource \u001B[35mdata/http-routes.txt\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m", "  \u001B[33m> \u001B[34mmapping \u001B[36moperation id\u001B[0m", "  \u001B[32m. \u001B[34mmapped \u001B[36moperation id \u001B[33mas \u001B[32m\"GET /city/:cityId\"\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mbody.weather.temperatureF \u001B[32mgreater than 80", "      body.weather.temperatureF:   actual: 88 <java.lang.Integer>", "                                 expected: greater than 80 <java.lang.Integer>\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[32mequals 200", "      header.statusCode:   actual: 200 <java.lang.Integer>", "                         expected: 200 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"time\": \u001B[32m\"2018-11-27 13:05:00\"\u001B[33m,\u001B[0m", "    \u001B[35m\"weather\": \u001B[33m{\u001B[0m", "      \u001B[35m\"temperatureF\": \u001B[36m\u001B[1m\u001B[32m~~88~~\u001B[33m,\u001B[0m", "      \u001B[35m\"temperatureC\": \u001B[36m31\u001B[0m", "    \u001B[33m}\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP GET \u001B[35mhttp://localhost:36487/city/NewYork\u001B[33m (\u001B[32m12ms\u001B[33m)\u001B[0m", "\u001B[32m[.] \u001B[34mcheckFahrenheitTemperature \u001B[35m(NewYorkWeatherJavaTest)\u001B[0m", "\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m checkCelsiusTemperature \u001B[35m(NewYorkWeatherJavaTest)\u001B[0m", "\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttp://localhost:36487/city/NewYork\u001B[0m", "  \u001B[33m> \u001B[34mmapping \u001B[36moperation id\u001B[0m", "  \u001B[32m. \u001B[34mmapped \u001B[36moperation id \u001B[33mas \u001B[32m\"GET /city/:cityId\"\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mbody.weather.temperatureC \u001B[32mgreater than 26", "      body.weather.temperatureC:   actual: 31 <java.lang.Integer>", "                                 expected: greater than 26 <java.lang.Integer>\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[32mequals 200", "      header.statusCode:   actual: 200 <java.lang.Integer>", "                         expected: 200 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"time\": \u001B[32m\"2018-11-27 13:05:00\"\u001B[33m,\u001B[0m", "    \u001B[35m\"weather\": \u001B[33m{\u001B[0m", "      \u001B[35m\"temperatureF\": \u001B[36m88\u001B[33m,\u001B[0m", "      \u001B[35m\"temperatureC\": \u001B[36m\u001B[1m\u001B[32m~~31~~\u001B[0m", "    \u001B[33m}\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP GET \u001B[35mhttp://localhost:36487/city/NewYork\u001B[33m (\u001B[32m3ms\u001B[33m)\u001B[0m", "\u001B[32m[.] \u001B[34mcheckCelsiusTemperature \u001B[35m(NewYorkWeatherJavaTest)\u001B[0m", "\u001B[0m", "\u001B[41m\u001B[30mData Coverage\u001B[0m HTTP routes that have non validated response fields\u001B[0m", "  \u001B[35mGET /city/:cityId\u001B[0m", "    root.time\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau prints only the first three routes with the skipped fields, and only first three fields.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "More details is available in the produced HTML report.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "annotate" : true,
+        "border" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/http-data-coverage-report.png",
+        "timestamp" : 1670452151338,
+        "shapes" : [ {
+          "type" : "badge",
+          "text" : "1",
+          "x" : 960,
+          "y" : 17,
+          "align" : "Center",
+          "invertedColors" : false
+        }, {
+          "type" : "badge",
+          "text" : "2",
+          "x" : 850,
+          "y" : 145,
+          "align" : "Center",
+          "invertedColors" : false
+        } ],
+        "width" : 1310.0,
+        "height" : 802.0,
+        "type" : "AnnotatedImage"
+      }, {
+        "delimiter" : ".",
+        "startNumber" : 1,
+        "type" : "OrderedList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "HTTP Data Coverage leads to more details on Routes that have fields that were skipped",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Expanding a Route will list all the ignored fields",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
+      "id" : "routing",
+      "title" : "Routing",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau needs to know how to group URLs you call. In the example above ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/city/NewYork",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/city/London",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " belongs to the same group.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "And if you validate Celsius field when calling NewYork and Fahrenheit when calling London, fields will be considered as covered.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "This is because WebTau identifies both URLs as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/city/:id",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "highlight" : [ 2, 5 ],
+        "startLine" : "checkFahrenheitTemperature",
+        "endLine" : "temperatureF",
+        "lines" : [ "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m checkFahrenheitTemperature \u001B[35m(NewYorkWeatherJavaTest)\u001B[0m", "\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttp://localhost:36487/city/NewYork\u001B[0m", "  \u001B[33m> \u001B[34mreading \u001B[36mHTTP routes definition \u001B[33mfrom \u001B[36mclass path resource \u001B[35mdata/http-routes.txt\u001B[0m", "  \u001B[32m. \u001B[34mread \u001B[36mHTTP routes definition \u001B[33mfrom \u001B[36mclass path resource \u001B[35mdata/http-routes.txt\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m", "  \u001B[33m> \u001B[34mmapping \u001B[36moperation id\u001B[0m", "  \u001B[32m. \u001B[34mmapped \u001B[36moperation id \u001B[33mas \u001B[32m\"GET /city/:cityId\"\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mbody.weather.temperatureF \u001B[32mgreater than 80" ],
+        "type" : "CliOutput"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "There are two ways to provide routing information:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "delimiter" : ".",
+        "startNumber" : 1,
+        "type" : "OrderedList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Provide ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/openAPI-spec",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Open API",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " spec",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Provide http routes text files",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
+      "id" : "text-routes",
+      "title" : "Text Routes",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If you don't have ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/HTTP/openAPI-spec",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Open API",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " spec, you can define a plain text files that enumerates your API routes like this",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "txt",
+        "snippet" : "GET /city/:cityId",
+        "autoTitle" : true,
+        "title" : "src/test/resources/data/http-routes.txt",
+        "anchorId" : "text-routes-src-test-resources-data-http-routes-txt",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: variant with curly brackets for parameters also works ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/city/{id}",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Specify file path (or resource for java) in your config file to enable it",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "httpRoutesPath = \"data/http-routes.txt\"",
+            "title" : "webtau.cfg.groovy",
+            "includeRegexp" : "httpRoutesPath",
+            "anchorId" : "text-routes-webtau-cfg-groovy",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "properties",
+            "snippet" : "httpRoutesPath = data/http-routes.txt",
+            "title" : "webtau.properties",
+            "includeRegexp" : "httpRoutesPath",
+            "anchorId" : "text-routes-webtau-properties",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "json-output",
+      "title" : "JSON Output",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "httpDataCoverageOutput",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " config option",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "to output Data Coverage in a separate JSON file for further processing.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "httpDataCoverageOutput = \"generated/data-coverage.json\"",
+            "title" : "webtau.cfg.groovy",
+            "includeRegexp" : "httpDataCoverageOutput",
+            "anchorId" : "json-output-webtau-cfg-groovy",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "properties",
+            "snippet" : "httpDataCoverageOutput = generated/data-coverage.json",
+            "title" : "webtau.properties",
+            "includeRegexp" : "httpDataCoverageOutput",
+            "anchorId" : "json-output-webtau-properties",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "highlight" : [ 3 ],
+        "startLine" : "Data Coverage",
+        "endLine" : "generated",
+        "lines" : [ "\u001B[41m\u001B[30mData Coverage\u001B[0m HTTP routes that have non validated response fields\u001B[0m", "  \u001B[35mGET /city/:cityId\u001B[0m", "    root.time\u001B[0m", "\u001B[32m. \u001B[34mgenerated \u001B[36mHTTP Data Coverage\u001B[37m: \u001B[35m/home/runner/work/webtau/webtau/webtau-junit5-examples/generated/data-coverage.json\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "type" : "CliOutput"
+      }, {
+        "lang" : "json",
+        "snippet" : "[ {\n  \"touchedPathsCount\" : 2,\n  \"untouchedPathsCount\" : 1,\n  \"untouchedPaths\" : [ \"root.time\" ],\n  \"id\" : \"GET /city/:cityId\",\n  \"untouchedPercent\" : 33\n} ]",
+        "autoTitle" : true,
+        "title" : "generated/data-coverage.json",
+        "anchorId" : "json-output-generated-data-coverage-json",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1670451504498,
+    "tocItem" : {
+      "chapterTitle" : "HTTP",
+      "pageTitle" : "Data Coverage",
+      "pageMeta" : { },
+      "dirName" : "HTTP",
+      "fileName" : "data-coverage",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Code Coverage VS Data Coverage",
+        "id" : "code-coverage-vs-data-coverage"
+      }, {
+        "title" : "Detect Fields That Were Skipped",
+        "id" : "detect-fields-that-were-skipped"
+      }, {
+        "title" : "Routing",
+        "id" : "routing"
+      }, {
+        "title" : "Text Routes",
+        "id" : "text-routes"
+      }, {
+        "title" : "JSON Output",
+        "id" : "json-output"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>
