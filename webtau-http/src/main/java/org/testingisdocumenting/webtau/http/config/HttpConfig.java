@@ -27,12 +27,19 @@ public class HttpConfig implements WebTauConfigHandler {
     private static final ConfigValue httpRoutesPath = declare("httpRoutesPath", "path to a file or a resource with operations in a format METHOD route",
             () -> "");
 
+    private final static ConfigValue httpDataCoverageOutput = declare("httpDataCoverageOutput", "path to generated data coverage JSON result for additional processing",
+            () -> "");
+
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
-        return Stream.of(httpRoutesPath);
+        return Stream.of(httpRoutesPath, httpDataCoverageOutput);
     }
 
     public static String getTextOperationsPath() {
         return httpRoutesPath.getAsString();
+    }
+
+    public static String getHttpDataCoverageOutput() {
+        return httpDataCoverageOutput.getAsString();
     }
 }

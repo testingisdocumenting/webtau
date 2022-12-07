@@ -18,3 +18,4 @@ package scenarios.rest.coverage
 
 url = "http://localhost:8080"
 httpRoutesPath = "data/http-routes.txt"
+httpDataCoverageOutput = "generated/data-coverage.json"
