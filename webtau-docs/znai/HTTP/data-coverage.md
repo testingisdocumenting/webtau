@@ -30,7 +30,7 @@ When we run our test suite, we will see in the output that both temperatures wer
 But since we didn't touch `time` field, at the end of test run, WebTau will print a warning about missing validation
 
 :include-cli-output: doc-artifacts/com.example.tests.junit5.NewYorkWeatherJavaTest-console-output.txt {
-  highlight: ["~~88~~", "~~31~~", "Warning"],
+  highlight: ["~~88~~", "~~31~~", "Data Coverage"],
   excludeRegexp: ["Total time", "Total: ", "report is generated"]
 }
 

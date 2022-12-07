@@ -6,5 +6,6 @@
       "numberOfSuccessful" : 6
     }
   } ],
-  "exitCode" : 0
+  "exitCode" : 0,
+  "warnings" : [ "HTTP url does not match any defined Open API operation" ]
 }
