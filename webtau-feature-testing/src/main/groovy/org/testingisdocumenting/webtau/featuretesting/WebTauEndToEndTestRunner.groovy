@@ -46,7 +46,6 @@ class WebTauEndToEndTestRunner implements ReportGenerator, ConsoleOutput {
     WebTauEndToEndTestRunner(Handler handler) {
         this.testServer = new TestServer(handler)
         ConsoleOutputs.add(this)
-        ReportGenerators.add(this)
     }
 
     void setClassifier(String classifier) {
@@ -94,6 +93,7 @@ class WebTauEndToEndTestRunner implements ReportGenerator, ConsoleOutput {
         capturedStepsSummary = [:].withDefault { 0 }
 
         consoleOutputLines.clear()
+        ReportGenerators.add(this)
         warnings.clear()
 
         cliApp.start { exitCode ->
