@@ -5,7 +5,7 @@ WebTau (**Web** **T**est **au**tomation) - concise and expressive way to write e
 :include-image: webtau-logo.png {scale: 0.5, align: "left"}
 
 Test your application across multiple layers:
-* REST API
+* REST API (Including [Data Coverage](HTTP/data-coverage))
 * GraphQL API
 * Browser
 * CLI
