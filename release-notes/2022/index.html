@@ -84,8 +84,13 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>1.51</h1></header>
+<p>Add: report/steps Steps, Trace, Warnings Java examples</p>
+</article>
+
+<article>
 <header><h1>1.50</h1></header>
-<p>Fix: report properly prints browser sendKeys special keys like escape and pageUp Fix: DatabaseTable class is public now to be used in Java tests Doc: add examples and re-arrange getting-started/why Why page Doc: generic-runners/JUnit-5#automatic-extension JUnit5 Automatic Extension Doc: data/import-and-dependencies data dependencies and import Doc: Add server responses to getting-started/what-is-this What Is This page and to README.md Doc: data/csv data Java examples Doc: data/introduction data more console output examples Doc: persona/HTTP-persona HTTP Persona Java Doc: servers/fake-server Fake Server Java examples Doc: servers/static-server Static Server Java examples Add: HTTP/data-coverage HTTP Data Coverage output as HTTP/data-coverage#json-output JSON Add: report/steps#warning warning when HTTP/data-coverage#text-routes HTTP Text Route is missing for a call Add: HTTP/openAPI-spec Open API validation reports uses report/steps#warning Warnings to report undefined URLs Add: report/steps#warning warning concept Add: Java getting-started/configuration#config-file config location override option Remove: HTTP Overall performance report Tab Add: data/csv#table-data-conversion Table Data Conversion function Add: HTTP text based HTTP/data-coverage#text-routes routes definition to support performance and data coverage without Open API spec Add: JUnit5 and JUnit4 runners print failed tests and their failed steps at the end of test runs Add: HTTP data coverage Web Report summary card Add: Generated Report Path is printed last so it is easier to find when there are failing tests Add: groovy-standalone-runner/introduction Groovy Runner prints failed steps info in addition to the test exception at the end Add: data/json data.json.write methods to write list/map/ reference/table-data TableData Add: data/json data.json Java examples Add: data/json#read-tabledata data.json.table Add: create reference/table-data TableData from reference/table-data#create-from-list list of maps Add: return value variant of JVM-business-logic/documentation-artifacts#capture-console-output doc.console.capture Add: data/csv#write-table-data data.csv.write with reference/table-data TableData Add: reference/table-data TableData addRow validates row size against header Add: reference/table-data TableData reference/table-data#serialization toCsv Fix: reference/table-data TableData addRow accepts List&lt;?&gt; instead of List&lt;Object&gt; Fix: properly report missing columns in case of list of maps and reference/table-data TableData comparison Add: HTTP data coverage HTTP/data-coverage#detect-fields-that-were-skipped console warning Add: initial HTTP/data-coverage HTTP data coverage Add: render report/steps#tracing-values trace console output in a special manner Add: setValue to Web Page browser/element-actions#modifications-no-log without logging secret values Add: Better support for groovy-standalone-runner/introduction Groovy Runner without explicit scenario Add: persona/introduction Persona vararg signature for Java Add: remove indentation from JVM-business-logic/documentation-artifacts#capture-console-output Doc Capture Console Output Add: way to provide actual value matchers/universal-compare#reporting name Add: server.removeOverride(WebTauServerOverride override) Add: cache get utilities/cache#cached-value-with-expiration with expiration method</p>
+<p>Fix: report properly prints browser sendKeys special keys like escape and pageUp Fix: DatabaseTable class is public now to be used in Java tests Doc: add examples and re-arrange getting-started/why Why page Doc: generic-runners/JUnit-5#automatic-extension JUnit5 Automatic Extension Doc: data/import-and-dependencies data dependencies and import Doc: Add server responses to getting-started/what-is-this What Is This page and to README.md Doc: data/csv data Java examples Doc: data/introduction data more console output examples Doc: persona/HTTP-persona HTTP Persona Java Doc: servers/fake-server Fake Server Java examples Doc: servers/static-server Static Server Java examples Add: HTTP/data-coverage HTTP Data Coverage output as HTTP/data-coverage#json-output JSON Add: report/steps#warnings warnings when HTTP/data-coverage#text-routes HTTP Text Route is missing for a call Add: HTTP/openAPI-spec Open API validation reports uses report/steps#warnings Warnings to report undefined URLs Add: report/steps#warnings warnings concept Add: Java getting-started/configuration#config-file config location override option Remove: HTTP Overall performance report Tab Add: data/csv#table-data-conversion Table Data Conversion function Add: HTTP text based HTTP/data-coverage#text-routes routes definition to support performance and data coverage without Open API spec Add: JUnit5 and JUnit4 runners print failed tests and their failed steps at the end of test runs Add: HTTP data coverage Web Report summary card Add: Generated Report Path is printed last so it is easier to find when there are failing tests Add: groovy-standalone-runner/introduction Groovy Runner prints failed steps info in addition to the test exception at the end Add: data/json data.json.write methods to write list/map/ reference/table-data TableData Add: data/json data.json Java examples Add: data/json#read-tabledata data.json.table Add: create reference/table-data TableData from reference/table-data#create-from-list list of maps Add: return value variant of JVM-business-logic/documentation-artifacts#capture-console-output doc.console.capture Add: data/csv#write-table-data data.csv.write with reference/table-data TableData Add: reference/table-data TableData addRow validates row size against header Add: reference/table-data TableData reference/table-data#serialization toCsv Fix: reference/table-data TableData addRow accepts List&lt;?&gt; instead of List&lt;Object&gt; Fix: properly report missing columns in case of list of maps and reference/table-data TableData comparison Add: HTTP data coverage HTTP/data-coverage#detect-fields-that-were-skipped console warning Add: initial HTTP/data-coverage HTTP data coverage Add: render report/steps#tracing-values trace console output in a special manner Add: setValue to Web Page browser/element-actions#modifications-no-log without logging secret values Add: Better support for groovy-standalone-runner/introduction Groovy Runner without explicit scenario Add: persona/introduction Persona vararg signature for Java Add: remove indentation from JVM-business-logic/documentation-artifacts#capture-console-output Doc Capture Console Output Add: way to provide actual value matchers/universal-compare#reporting name Add: server.removeOverride(WebTauServerOverride override) Add: cache get utilities/cache#cached-value-with-expiration with expiration method</p>
 </article>
 
 <article>
@@ -136,6 +141,36 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
+      "id" : "1-51",
+      "title" : "1.51",
+      "type" : "Section",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/steps",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Steps, Trace, Warnings",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " Java examples",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
       "id" : "1-50",
       "title" : "1.50",
       "type" : "Section",
@@ -443,11 +478,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Add: ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/report/steps#warning",
+              "url" : "/webtau/report/steps#warnings",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
-                "text" : "warning",
+                "text" : "warnings",
                 "type" : "SimpleText"
               } ]
             }, {
@@ -490,7 +525,7 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : " validation reports uses ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/report/steps#warning",
+              "url" : "/webtau/report/steps#warnings",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
@@ -515,11 +550,11 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Add: ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/report/steps#warning",
+              "url" : "/webtau/report/steps#warnings",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
-                "text" : "warning",
+                "text" : "warnings",
                 "type" : "SimpleText"
               } ]
             }, {
@@ -3094,7 +3129,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1670451504506,
+    "lastModifiedTime" : 1671557712805,
     "tocItem" : {
       "chapterTitle" : "Release Notes",
       "pageTitle" : "2022 Releases",
@@ -3105,6 +3140,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "2022",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "1.51",
+        "id" : "1-51"
+      }, {
         "title" : "1.50",
         "id" : "1-50"
       }, {

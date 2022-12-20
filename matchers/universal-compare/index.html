@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Reporting</h1></header>
-<p>Every comparison failed and successful generates console output with comparison details. . [value] equals &quot;insufficient disk space&quot; [value]: actual: &quot;insufficient disk space&quot; &lt;java.lang.String&gt; expected: &quot;insufficient disk space&quot; &lt;java.lang.String&gt; (0ms) Values have predefined names when they come from HTTP response or Web UI, etc. But regular values default to value .Pass name as a second parameter to actual to set an explicit reporting name. Groovy double price = calculatePrice() actual(price, &quot;price&quot;).shouldBe &gt; 10 // explict name to use in reporting Java double price = calculatePrice(); actual(price, &quot;price&quot;).shouldBe(greaterThan(10)); // explict name to use in reporting . price greater than 10 price: actual: 10.5 &lt;java.math.BigDecimal&gt;(before conversion: 10.5 &lt;java.lang.Double&gt;) expected: greater than 10 &lt;java.math.BigDecimal&gt;(before conversion: 10 &lt;java.lang.Integer&gt;) (1ms) Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
+<p>Every comparison failed and successful generates console output with comparison details. Values have predefined names when they come from HTTP response or Web UI, etc. But regular values default to value .Pass name as a second parameter to actual to set an explicit reporting name. Groovy double price = calculatePrice() actual(price, &quot;price&quot;).shouldBe &gt; 10 // explict name to use in reporting Java double price = calculatePrice(); actual(price, &quot;price&quot;).shouldBe(greaterThan(10)); // explict name to use in reporting Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
 </article>
 
 <article>
@@ -181,7 +181,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "report console output",
-        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[32mequals \"insufficient disk space\"", "    [value]:   actual: \"insufficient disk space\" <java.lang.String>", "             expected: \"insufficient disk space\" <java.lang.String>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "" ],
         "type" : "CliOutput"
       }, {
         "type" : "Paragraph",
@@ -236,7 +236,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "explicit name report console output",
-        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1mprice \u001B[32mgreater than 10", "    price:   actual: 10.5 <java.math.BigDecimal>(before conversion: 10.5 <java.lang.Double>)", "           expected: greater than 10 <java.math.BigDecimal>(before conversion: 10 <java.lang.Integer>)\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "" ],
         "type" : "CliOutput"
       } ]
     }, {
@@ -344,7 +344,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1670451504502,
+    "lastModifiedTime" : 1671557712801,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Universal Compare",

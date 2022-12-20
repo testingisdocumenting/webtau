@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>WebTau</h1></header>
-<p>WebTau (Web Test automation) - concise and expressive way to write end-to-end and unit tests.Test your application across multiple layers:REST API GraphQL API Browser CLI Database Business Logic (JVM only) Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer to validate GraphQL API.Use persona/introduction Persona concept to test API Authorization and collaboration Web Apps like chats and editors. Groovy scenario(&quot;my bank balance&quot;) { Alice { http.get(&quot;/statement&quot;) { balance.shouldBe &gt; 100 } } Bob { http.get(&quot;/statement&quot;) { balance.shouldBe &lt; 50 } } } Java @WebTau public class PersonaHttpJavaTest { @Test public void checkBalance() { Alice.execute(() -&gt; http.get(&quot;/statement&quot;, (header, body) -&gt; { body.get(&quot;balance&quot;).shouldBe(greaterThan(100)); })); Bob.execute(() -&gt; http.get(&quot;/statement&quot;, (header, body) -&gt; { body.get(&quot;balance&quot;).shouldBe(lessThan(50)); })); } } Use powerful REPL/experiments REPL mode to significantly speed up end-to-end tests development. webtau:000&gt; $(&quot;p&quot;) element is found: by css p getText(): hello web page Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.Leverage out of the box report/introduction rich reportingTests can be written in any JVM language. Language specific syntactic sugar is available for Groovy . #rest-api-example REST API example #graphql-api-example GraphQL API example #browser-example Browser example #db-example DB example #cli-example CLI example</p>
+<p>WebTau (Web Test automation) - concise and expressive way to write end-to-end and unit tests.Test your application across multiple layers:REST API (Including HTTP/data-coverage Data Coverage) GraphQL API Browser CLI Database Business Logic (JVM only) Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer to validate GraphQL API.Use persona/introduction Persona concept to test API Authorization and collaboration Web Apps like chats and editors. Groovy scenario(&quot;my bank balance&quot;) { Alice { http.get(&quot;/statement&quot;) { balance.shouldBe &gt; 100 } } Bob { http.get(&quot;/statement&quot;) { balance.shouldBe &lt; 50 } } } Java @WebTau public class PersonaHttpJavaTest { @Test public void checkBalance() { Alice.execute(() -&gt; http.get(&quot;/statement&quot;, (header, body) -&gt; { body.get(&quot;balance&quot;).shouldBe(greaterThan(100)); })); Bob.execute(() -&gt; http.get(&quot;/statement&quot;, (header, body) -&gt; { body.get(&quot;balance&quot;).shouldBe(lessThan(50)); })); } } Use powerful REPL/experiments REPL mode to significantly speed up end-to-end tests development. webtau:000&gt; $(&quot;p&quot;) element is found: by css p getText(): hello web page Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.Leverage out of the box report/introduction rich reportingTests can be written in any JVM language. Language specific syntactic sugar is available for Groovy . #rest-api-example REST API example #graphql-api-example GraphQL API example #browser-example Browser example #db-example DB example #cli-example CLI example</p>
 </article>
 
 <article>
@@ -181,7 +181,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "scale" : 0.5,
         "align" : "left",
         "imageSrc" : "/webtau/webtau-logo.png",
-        "timestamp" : 1670451504506,
+        "timestamp" : 1671557712805,
         "shapes" : [ ],
         "width" : 256.0,
         "height" : 256.0,
@@ -201,7 +201,18 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "REST API",
+              "text" : "REST API (Including ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/data-coverage",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Data Coverage",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ")",
               "type" : "SimpleText"
             } ]
           } ]
@@ -374,7 +385,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-separated-http-calls.png",
-        "timestamp" : 1670452150090,
+        "timestamp" : 1671558351421,
         "shapes" : [ ],
         "width" : 1310.0,
         "height" : 802.0,
@@ -693,7 +704,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1670451504502,
+    "lastModifiedTime" : 1671557712801,
     "tocItem" : {
       "chapterTitle" : "Getting Started",
       "pageTitle" : "What Is This",

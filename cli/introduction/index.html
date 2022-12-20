@@ -84,7 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>WebTau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario(&quot;example of ls run&quot;) { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy data dbproviders doc-artifacts formHandlers generated listeners pages personas scenarios schemas scripts use-cases.csv</p>
+<p>WebTau provides cli. module to run and validate command line tools. Combine it with other modules to create powerful tests: use cli to run a tool, and http , graphql , browser , or db to validate the outcome. scenario(&quot;example of ls run&quot;) { cli.run('ls') { output.should contain('scripts') } } webtau basicLs.groovy data dbproviders doc-artifacts formHandlers fs-new-dir generated listeners pages personas scenarios schemas scripts use-cases.csv webtau.graphql-report.json</p>
 </article>
 </section>
 </div>
@@ -176,12 +176,12 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "CliCommand"
     }, {
       "lang" : "txt",
-      "snippet" : "data\ndbproviders\ndoc-artifacts\nformHandlers\ngenerated\nlisteners\npages\npersonas\nscenarios\nschemas\nscripts\nuse-cases.csv",
+      "snippet" : "data\ndbproviders\ndoc-artifacts\nformHandlers\nfs-new-dir\ngenerated\nlisteners\npages\npersonas\nscenarios\nschemas\nscripts\nuse-cases.csv\nwebtau.graphql-report.json",
       "highlightPath" : "doc-artifacts/ls-run/out.matched.txt",
-      "highlight" : [ 10 ],
+      "highlight" : [ 11 ],
       "type" : "Snippet"
     } ],
-    "lastModifiedTime" : 1670451504498,
+    "lastModifiedTime" : 1671557712801,
     "tocItem" : {
       "chapterTitle" : "Cli",
       "pageTitle" : "Introduction",
