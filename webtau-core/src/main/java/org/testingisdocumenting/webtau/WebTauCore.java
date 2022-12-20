@@ -198,6 +198,14 @@ public class WebTauCore extends Matchers {
     }
 
     /**
+     * outputs provided message for tracing
+     * @param label label to print
+     */
+    public static void trace(String label) {
+        trace(label, Collections.emptyMap());
+    }
+
+    /**
      * outputs provided key-values to console and web report
      * @param label label to print
      * @param firstKey first key

@@ -1,1 +1,1 @@
-* Add: [warning](report/steps#warning) when [HTTP Text Route](HTTP/data-coverage#text-routes) is missing for a call
+* Add: [warnings](report/steps#warnings) when [HTTP Text Route](HTTP/data-coverage#text-routes) is missing for a call
