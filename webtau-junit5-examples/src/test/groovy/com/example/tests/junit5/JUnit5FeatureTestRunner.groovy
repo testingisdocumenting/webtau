@@ -62,6 +62,8 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, Co
         ConsoleOutputs.add(ConsoleOutputs.defaultOutput)
         ConsoleOutputs.add(this)
 
+        JavaReport.INSTANCE.clear()
+
         StepReporters.withAdditionalReporter(this) {
             launcher.execute(request, this)
         }

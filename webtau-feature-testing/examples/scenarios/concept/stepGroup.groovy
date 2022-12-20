@@ -20,7 +20,7 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 scenario('wrap as step') {
     // wrap-step
-    step("group of actions") {
+    step("important actions") {
         actionOne()
         actionTwo()
     }
