@@ -64,7 +64,7 @@ class WebTauEndToEndTestValidator {
         def isEqual = comparator.compareIsEqual(new ActualPath('testDetails'), testDetails, expectedDetails)
 
         if (! isEqual) {
-            ConsoleOutputs.out('reports are different, you can use IDE to compare files: ', Color.PURPLE, actualPath,
+            ConsoleOutputs.defaultOutput.out('reports are different, you can use IDE to compare files: ', Color.PURPLE, actualPath,
                     Color.BLUE, ' and ', Color.PURPLE, expectedPath)
             FileUtils.writeTextContent(actualPath, serializedTestDetails)
             throw new AssertionError(comparator.generateEqualMismatchReport())

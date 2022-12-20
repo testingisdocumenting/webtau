@@ -30,8 +30,8 @@ When we run our test suite, we will see in the output that both temperatures wer
 But since we didn't touch `time` field, at the end of test run, WebTau will print a warning about missing validation
 
 :include-cli-output: doc-artifacts/com.example.tests.junit5.NewYorkWeatherJavaTest-console-output.txt {
-  highlight: ["~~88~~", "~~31~~", "Warning"],
-  excludeRegexp: ["Total time", "Total: ", "report is generated"]
+  highlight: ["~~88~~", "~~31~~", "Data Coverage"],
+  excludeRegexp: ["Total time", "Total: ", "report is generated", "generated"]
 }
 
 WebTau prints only the first three routes with the skipped fields, and only first three fields.
@@ -76,3 +76,24 @@ Groovy:
 Java:
 :include-file: src/test/resources/webtau.routes.properties {title: "webtau.properties", includeRegexp: "httpRoutesPath"}
 ```
+
+# JSON Output
+
+Use `:identifier: httpDataCoverageOutput {validationPath: "scenarios/rest/coverage/textRoutes.cfg.groovy"}` config option
+to output Data Coverage in a separate JSON file for further processing.
+
+```tabs
+Groovy:  
+:include-file: scenarios/rest/coverage/textRoutes.cfg.groovy {title: "webtau.cfg.groovy", includeRegexp: "httpDataCoverageOutput"}
+
+Java:
+:include-file: src/test/resources/webtau.routes.properties {title: "webtau.properties", includeRegexp: "httpDataCoverageOutput"}
+```
+
+:include-cli-output: doc-artifacts/com.example.tests.junit5.NewYorkWeatherJavaTest-console-output.txt {
+  highlight: ["generated"],
+  startLine: "Data Coverage",
+  endLine: "generated"
+}
+
+:include-file: generated/data-coverage.json {autoTitle: true}

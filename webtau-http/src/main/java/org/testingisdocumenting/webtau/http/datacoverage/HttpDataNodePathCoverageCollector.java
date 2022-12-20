@@ -20,20 +20,26 @@ import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.http.config.HttpConfig;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 import org.testingisdocumenting.webtau.report.ReportDataProvider;
 import org.testingisdocumenting.webtau.report.ReportGenerator;
-import org.testingisdocumenting.webtau.reporter.WebTauReport;
-import org.testingisdocumenting.webtau.reporter.WebTauReportCustomData;
-import org.testingisdocumenting.webtau.reporter.WebTauReportLog;
-import org.testingisdocumenting.webtau.reporter.WebTauTestList;
+import org.testingisdocumenting.webtau.reporter.*;
+import org.testingisdocumenting.webtau.utils.FileUtils;
+import org.testingisdocumenting.webtau.utils.JsonUtils;
 
+import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+
 public class HttpDataNodePathCoverageCollector implements HttpValidationHandler, ReportGenerator, WebTauConfigHandler, ReportDataProvider {
+    private static final String REPORT_DATA_ID = "httpDataCoverage";
+
     private static final int CONSOLE_NUMBER_OF_OPERATIONS_TO_SHOW = 3;
     private static final int CONSOLE_NUMBER_OF_PATHS_TO_SHOW = 3;
 
@@ -64,7 +70,7 @@ public class HttpDataNodePathCoverageCollector implements HttpValidationHandler,
             return Stream.empty();
         }
 
-        return Stream.of(new WebTauReportCustomData("httpDataCoverage", buildCoverageData()));
+        return Stream.of(new WebTauReportCustomData(REPORT_DATA_ID, buildCoverageData()));
     }
 
     private List<Map<String, Object>> buildCoverageData() {
@@ -94,6 +100,26 @@ public class HttpDataNodePathCoverageCollector implements HttpValidationHandler,
     @Override
     public void generate(WebTauReport report) {
         generateConsoleWarning();
+
+        if (!HttpConfig.getHttpDataCoverageOutput().isEmpty()) {
+            generateCoverageJson(report, WebTauConfig.getCfg().fullPath(HttpConfig.getHttpDataCoverageOutput()));
+        }
+    }
+
+    private void generateCoverageJson(WebTauReport report, Path path) {
+        if (coverageByOperationId.isEmpty()) {
+            return;
+        }
+
+        WebTauReportCustomData coverageData = report.findCustomData(REPORT_DATA_ID);
+        JsonUtils.serializePrettyPrint(coverageData.getData());
+
+        MessageToken dataCoverage = classifier("HTTP Data Coverage");
+        WebTauStep step = WebTauStep.createStep(tokenizedMessage(action("generating"), dataCoverage, COLON, urlValue(path.toString())),
+                () -> tokenizedMessage(action("generated"), dataCoverage, COLON, urlValue(path.toString())),
+                () -> FileUtils.writeTextContent(path, JsonUtils.serializePrettyPrint(coverageData.getData())));
+
+        step.execute(StepReportOptions.SKIP_START);
     }
 
     private void generateConsoleWarning() {
@@ -109,7 +135,7 @@ public class HttpDataNodePathCoverageCollector implements HttpValidationHandler,
             return;
         }
 
-        ConsoleOutputs.out(Color.BACKGROUND_RED, Color.BLACK, "Warning", Color.RESET,
+        ConsoleOutputs.out(Color.BACKGROUND_RED, Color.BLACK, "Data Coverage", Color.RESET,
                 " HTTP routes that have non validated response fields");
 
         int opsLimit = withTouched.size() - CONSOLE_NUMBER_OF_OPERATIONS_TO_SHOW > 2 ?

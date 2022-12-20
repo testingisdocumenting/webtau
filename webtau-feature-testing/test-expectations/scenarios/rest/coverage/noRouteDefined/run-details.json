@@ -1,0 +1,11 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "no route defined",
+    "shortContainerId" : "noRouteDefined.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 6
+    }
+  } ],
+  "exitCode" : 0,
+  "warnings" : [ "route is not defined for HTTP GET" ]
+}
