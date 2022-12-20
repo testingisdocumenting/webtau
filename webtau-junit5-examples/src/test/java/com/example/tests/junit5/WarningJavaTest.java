@@ -18,38 +18,25 @@ package com.example.tests.junit5;
 
 import org.junit.jupiter.api.Test;
 import org.testingisdocumenting.webtau.junit5.WebTau;
+
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 @WebTau
-public class StepTraceWarningJavaTest {
+public class WarningJavaTest {
     @Test
-    public void wrapAsStep() {
-        // wrap-step
-        step("group of actions", () -> {
-            actionOne();
-            actionTwo();
-        });
-        // wrap-step
+    public void warningLabel() {
+        // warning-label
+        warning("warning message");
+        // warning-label
     }
 
     @Test
-    public void wrapAsStepWithKeyValue() {
-        int myPort = 8080;
-        String baseUrl = "http://baseurl";
-        step("group of actions", aMapOf("myPort", myPort, "baseUrl", baseUrl), () -> {
-            actionThree(myPort, baseUrl);
-        });
-    }
-
-    public static void actionOne() {
-        trace("action one");
-    }
-
-    public static void actionTwo() {
-
-    }
-
-    public static void actionThree(int port, String url) {
-        trace("action three");
+    public void warningKeyValues() {
+        // warning-map
+        warning("warning message with map", aMapOf("k1", "v1", "k2", "v2"));
+        // warning-map
+        // warning-vararg
+        warning("another warning message", "k3", "v3", "k4", "v4");
+        // warning-vararg
     }
 }

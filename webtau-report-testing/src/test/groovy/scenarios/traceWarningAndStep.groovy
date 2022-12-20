@@ -27,14 +27,24 @@ scenario('check steps after trace') {
     report.keyValuesKeys.should == ["k1", "k2", "k3", "k4"]
 }
 
-scenario('check steps after warning') {
+scenario('check steps after warning groovy') {
     report.openGroovyStandaloneReport('concept/warning-webtau-report.html')
     report.selectTest("warning key values")
     report.selectSteps()
 
     report.keyValuesKeys.should == ["k1", "k2", "k3", "k4"]
 
-    browser.doc.capture('report-warning')
+    browser.doc.capture('report-warning-groovy')
+}
+
+scenario('check steps after warning java') {
+    report.openJunit5Report('com.example.tests.junit5.WarningJavaTest.html')
+    report.selectTest("warningKeyValues")
+    report.selectSteps()
+
+    report.keyValuesKeys.should == ["k1", "k2", "k3", "k4"]
+
+    browser.doc.capture('report-warning-java')
 }
 
 scenario('step with key values') {
@@ -47,11 +57,11 @@ scenario('step with key values') {
     browser.doc.capture('report-step-key-value')
 }
 
-scenario('warnings displayed on summary screen') {
+scenario('warnings displayed on summary screen groovy') {
     report.openGroovyStandaloneReport('concept/warning-webtau-report.html')
     report.allWarningsPanel.waitTo == ~/There are 3/
 
-    browser.doc.capture('report-summary-warning-collapsed')
+    browser.doc.capture('report-summary-warning-collapsed-groovy')
 
     report.allWarningsPanel.click()
     report.warningMessage.count.should == 3
@@ -59,6 +69,21 @@ scenario('warnings displayed on summary screen') {
 
     report.warningTestUrl.click()
     report.selectedTestLabel.should == "warning label"
+    report.warningMessage.should == "warning message"
+}
+
+scenario('warnings displayed on summary screen java') {
+    report.openJunit5Report('com.example.tests.junit5.WarningJavaTest.html')
+    report.allWarningsPanel.waitTo == ~/There are 3/
+
+    browser.doc.capture('report-summary-warning-collapsed-java')
+
+    report.allWarningsPanel.click()
+    report.warningMessage.count.should == 3
+    report.warningMessage.should == "warning message"
+
+    report.warningTestUrl.click()
+    report.selectedTestLabel.should == "warningLabel"
     report.warningMessage.should == "warning message"
 }
 

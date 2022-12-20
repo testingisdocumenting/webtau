@@ -1,15 +1,9 @@
 {
   "scenarioDetails" : [ {
-    "scenario" : "warning label",
+    "scenario" : "warning signatures",
     "shortContainerId" : "warning.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 1
-    }
-  }, {
-    "scenario" : "warning key values",
-    "shortContainerId" : "warning.groovy",
-    "stepsSummary" : {
-      "numberOfSuccessful" : 2
+      "numberOfSuccessful" : 3
     }
   } ],
   "exitCode" : 0,

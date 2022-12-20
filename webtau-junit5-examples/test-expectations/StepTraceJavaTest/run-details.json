@@ -1,0 +1,11 @@
+{
+  "wrapAsStep()" : {
+    "numberOfSuccessful" : 1
+  },
+  "tracing()" : {
+    "numberOfSuccessful" : 2
+  },
+  "wrapAsStepWithKeyValue()" : {
+    "numberOfSuccessful" : 2
+  }
+}
