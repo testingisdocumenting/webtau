@@ -9,7 +9,7 @@ Web Test Automation [User Guide](https://testingisdocumenting.org/webtau/)
 WebTau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
 
 Test your application across multiple layers:
-* REST API
+* REST API (including [Data Coverage](https://testingisdocumenting.org/webtau/HTTP/data-coverage/))
 * GraphQL API
 * Web UI
 * CLI
