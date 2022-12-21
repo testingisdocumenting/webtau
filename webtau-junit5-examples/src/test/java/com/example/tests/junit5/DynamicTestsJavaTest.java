@@ -20,22 +20,41 @@ import org.junit.jupiter.api.DynamicTest;
 import org.junit.jupiter.api.TestFactory;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.junit5.DynamicTests;
+import org.testingisdocumenting.webtau.junit5.WebTau;
 
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
+@WebTau
 class DynamicTestsJavaTest {
-    TableData useCases = table("price", "quantity", "outcome",
-                               ______________________________,
-                                   10 ,         30,       300,
-                                  -10 ,         30,      -300);
     @TestFactory
     public Stream<DynamicTest> individualTestsUseGeneratedDisplayLabels() {
+        TableData useCases = table("price", "quantity", "outcome",
+                                   ______________________________,
+                                     10.0 ,         30,     300.0,
+                                    -10.0 ,         30,    -300.0);
+
         return DynamicTests.fromTable(useCases, r -> {
-            int price = r.get("price");
+            double price = r.get("price");
             int quantity = r.get("quantity");
-            int outcome = r.get("outcome");
+            double outcome = r.get("outcome");
+
+            actual(PriceCalculator.calculate(price, quantity)).should(equal(outcome));
+        });
+    }
+
+    @TestFactory
+    public Stream<DynamicTest> individualTestsLabelToClarifyUseCase() {
+        TableData useCases = table("label"         , "price", "quantity", "outcome",
+                                  _________________________________________________,
+                                   "positive price",   10.0 ,         30,     300.0,
+                                   "negative price",  -10.0 ,         30,    -300.0);
+
+        return DynamicTests.fromTable(useCases, r -> {
+            double price = r.get("price");
+            int quantity = r.get("quantity");
+            double outcome = r.get("outcome");
 
             actual(PriceCalculator.calculate(price, quantity)).should(equal(outcome));
         });
