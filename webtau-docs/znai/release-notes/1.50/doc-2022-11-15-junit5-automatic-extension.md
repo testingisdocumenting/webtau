@@ -1,1 +1,1 @@
-* Doc: [JUnit5 Automatic Extension](generic-runners/JUnit-5#automatic-extension) 
+* Doc: [JUnit5 Automatic Extension](junit5/reporting#automatic-extension) 

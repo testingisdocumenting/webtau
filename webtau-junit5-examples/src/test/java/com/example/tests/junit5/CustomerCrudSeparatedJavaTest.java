@@ -6,7 +6,7 @@ import org.junit.jupiter.api.*;
 
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
-@WebTau
+@WebTau // annotation to enable rich console output and html reporting
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order
 @DisplayName("customer CRUD")
 public class CustomerCrudSeparatedJavaTest {

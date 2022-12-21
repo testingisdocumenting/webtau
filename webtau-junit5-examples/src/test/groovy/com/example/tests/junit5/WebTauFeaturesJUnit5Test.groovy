@@ -84,6 +84,16 @@ class WebTauFeaturesJUnit5Test {
     }
 
     @Test
+    void dataTableDynamicTestsGroovy() {
+        testRunner.runAndValidate(DynamicTestsGroovyTest, "")
+    }
+
+    @Test
+    void dataTableDynamicTestsJava() {
+        testRunner.runAndValidate(DynamicTestsJavaTest, "")
+    }
+
+    @Test
     void httpDataCoverage() {
         System.setProperty("webtau.properties", "webtau.routes.properties")
         try {
@@ -109,12 +119,12 @@ class WebTauFeaturesJUnit5Test {
     }
 
     @Test
-    void queryJava() {
+    void customerHttpQueryJava() {
         testRunner.runAndValidate(CustomerQueryJavaTest, "")
     }
 
     @Test
-    void queryGroovy() {
+    void customerHttpQueryGroovy() {
         testRunner.runAndValidate(CustomerQueryGroovyTest, "")
     }
 

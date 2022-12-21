@@ -2,25 +2,27 @@ package com.example.tests.junit5
 
 
 import org.junit.jupiter.api.TestFactory
+import org.testingisdocumenting.webtau.junit5.WebTau
 
+@WebTau
 class DynamicTestsGroovyTest {
     @TestFactory
     def "individual tests use generated display labels"() {
         ["price" | "quantity" | "outcome"] {
         _________________________________
-          10     |  30        |  300
-          -10    |  30        | -300
+            10.0 |  30        |  300.0
+           -10.0 |  30        | -300.0
         }.test {
             PriceCalculator.calculate(price, quantity).should == outcome
         }
     }
 
     @TestFactory
-    def "individual tests can use an optional display label to clarify the use case"() {
+    def "individual tests label to clarify the use case"() {
         ["label"           | "price" | "quantity" | "outcome"] {
-        ___________________________________________________
-          "positive price" | 10      |  30        |  300
-          "negative price" | -10     |  30        | -300
+        _____________________________________________________
+          "positive price" |  10.0   |  30        |  300.0
+          "negative price" | -10.0   |  30        | -300.0
         }.test {
             PriceCalculator.calculate(price, quantity).should == outcome
         }

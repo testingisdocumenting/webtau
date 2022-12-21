@@ -55,7 +55,7 @@ Java:
 :include-file: com/example/tests/junit5/JUnit5ExampleJavaTest.java {title: "JUnit 5 example", commentsType: "inline"}
 ```
 
-[Learn more about JUnit5 features](generic-runners/JUnit-5)
+[Learn more about JUnit5 features](junit5/getting-started)
  
 # JUnit4
 
@@ -75,4 +75,4 @@ Java:
 :include-file: com/example/tests/junit4/JUnit4ExampleJavaTest.java {title: "JUnit 4 example", commentsType: "inline"}
 ```
 
-[Learn more about JUnit4 features](generic-runners/JUnit-4)
+[Learn more about JUnit4 features](junit5/JUnit-4)

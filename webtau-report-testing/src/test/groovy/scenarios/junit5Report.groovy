@@ -19,9 +19,17 @@ package scenarios
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 import static pages.Pages.*
 
-scenario('test lists') {
+scenario("test lists") {
     report.openJunit5ExampleReport()
 
-    report.groupNames.should contain('WeatherJavaTest')
-    report.selectTest('checkWeather')
+    report.groupNames.should contain("WeatherJavaTest")
+    report.selectTest("checkWeather")
+}
+
+scenario("before/after all as tests") {
+    report.openJunit5Report("com.example.tests.junit5.CustomerQueryJavaTest.html")
+    report.selectTest("clean up")
+    report.selectHttpCalls()
+
+    browser.doc.capture("junit5-report-afterall")
 }
