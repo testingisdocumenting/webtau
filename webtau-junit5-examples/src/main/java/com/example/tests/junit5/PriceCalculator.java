@@ -17,7 +17,7 @@
 package com.example.tests.junit5;
 
 public class PriceCalculator {
-    public static long calculate(long price, long quantity) {
+    public static double calculate(double price, long quantity) {
         return price * quantity;
     }
 }

@@ -1,0 +1,17 @@
+{
+  "null" : {
+    "numberOfSuccessful" : 1
+  },
+  "{price=10.0, quantity=30, outcome=300.0}" : {
+    "numberOfSuccessful" : 1
+  },
+  "{price=-10.0, quantity=30, outcome=-300.0}" : {
+    "numberOfSuccessful" : 1
+  },
+  "positive price" : {
+    "numberOfSuccessful" : 1
+  },
+  "negative price" : {
+    "numberOfSuccessful" : 1
+  }
+}

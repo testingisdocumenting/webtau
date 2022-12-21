@@ -91,9 +91,11 @@ groovy-standalone-runner
 configuration
     groovy-config-file
     options
-generic-runners
+junit5 {title: "JUnit 5"}
+    getting-started
+    reporting
+    dynamic-tests
     JUnit-4
-    JUnit-5
 JVM-business-logic
     data-driven
     documentation-artifacts

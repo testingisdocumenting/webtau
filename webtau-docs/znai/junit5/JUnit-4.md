@@ -1,3 +1,5 @@
+Note: Limited features development for JUnit4 runner. Please consider migration to [JUnit5](junit5/getting-started)
+
 # WebTau Runner
 
 You can use WebTau `http.`, `graphql.`, `browser.`, `cli.`, `db.` methods as in a junit 4 tests, but to enable reporting you need to use 
