@@ -83,7 +83,7 @@ scenario('warnings displayed on summary screen java') {
     report.warningMessage.should == "warning message"
 
     report.warningTestUrl.click()
-    report.selectedTestLabel.should == "warningLabel"
+    report.selectedTestLabel.should == "!warningLabel"
     report.warningMessage.should == "warning message"
 }
 
