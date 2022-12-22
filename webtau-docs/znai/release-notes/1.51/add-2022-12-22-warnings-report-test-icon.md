@@ -1,0 +1,1 @@
+* Add: Report shows warning icon next to tests with warnings
