@@ -132,7 +132,7 @@ export const basicReport = {
   envVars: envVars,
   tests: [
     {
-      id: 'test2', // to match a warning
+      id: 'test2', // to match a warning from warnings sample
       scenario: 'customer super read',
       status: 'Passed',
       fileName: 'scenarios/another.groovy',

@@ -40,3 +40,13 @@
     max-height: 70px;
     overflow-y: hidden;
 }
+
+.navigation-entry .warning-sign {
+    display: inline-block;
+    padding-left: var(--webtau-spacing);
+    padding-right: var(--webtau-spacing);
+    margin-right: var(--webtau-spacing);
+
+    color: #333;
+    background-color: var(--webtau-card-warning-background-color);
+}

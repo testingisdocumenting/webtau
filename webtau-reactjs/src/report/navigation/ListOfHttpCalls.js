@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,30 +15,36 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import NavigationEntry from './NavigationEntry'
+import { NavigationEntry } from './NavigationEntry';
 
-import './ListOfHttpCalls.css'
+import './ListOfHttpCalls.css';
 
-function ListOfHttpCalls({httpCalls, onSelect, selectedId}) {
-    return (
-        <div className="list-of-http-calls">
-            {httpCalls.map((httpCall) => <HttpCallEntry key={httpCall.id}
-                                                        httpCall={httpCall}
-                                                        onSelect={onSelect}
-                                                        isSelected={httpCall.id === selectedId}/>)}
-        </div>
-    )
+function ListOfHttpCalls({ httpCalls, onSelect, selectedId }) {
+  return (
+    <div className="list-of-http-calls">
+      {httpCalls.map((httpCall) => (
+        <HttpCallEntry
+          key={httpCall.id}
+          httpCall={httpCall}
+          onSelect={onSelect}
+          isSelected={httpCall.id === selectedId}
+        />
+      ))}
+    </div>
+  );
 }
 
-function HttpCallEntry({httpCall, onSelect, isSelected}) {
-    return (
-        <NavigationEntry label={httpCall.label}
-                         status={httpCall.status}
-                         isSelected={isSelected}
-                         onSelect={() => onSelect(httpCall.id)}/>
-    )
+function HttpCallEntry({ httpCall, onSelect, isSelected }) {
+  return (
+    <NavigationEntry
+      label={httpCall.label}
+      status={httpCall.status}
+      isSelected={isSelected}
+      onSelect={() => onSelect(httpCall.id)}
+    />
+  );
 }
 
-export default ListOfHttpCalls
+export default ListOfHttpCalls;
