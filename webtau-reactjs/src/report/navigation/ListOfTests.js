@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,48 +15,54 @@
  * limitations under the License.
  */
 
-import React from 'react'
+import React from 'react';
 
-import NavigationEntry from './NavigationEntry'
-import NavigationEntryGroupLabel from './NavigationEntryGroupLabel'
+import { NavigationEntry } from './NavigationEntry';
+import NavigationEntryGroupLabel from './NavigationEntryGroupLabel';
 
-import './ListOfTests.css'
+import './ListOfTests.css';
 
-function ListOfTests({testGroups, onTestSelect, onTestGroupSelect, selectedId}) {
-    return (
-        <div className="list-of-tests">
-            {testGroups.map((group) => <TestsGroup key={group.id}
-                                                   tests={group.tests}
-                                                   selectedId={selectedId}
-                                                   onTestSelect={onTestSelect}
-                                                   onTestGroupSelect={onTestGroupSelect}/>)}
-        </div>
-    )
+function ListOfTests({ testGroups, onTestSelect, onTestGroupSelect, selectedId }) {
+  return (
+    <div className="list-of-tests">
+      {testGroups.map((group) => (
+        <TestsGroup
+          key={group.id}
+          tests={group.tests}
+          selectedId={selectedId}
+          onTestSelect={onTestSelect}
+          onTestGroupSelect={onTestGroupSelect}
+        />
+      ))}
+    </div>
+  );
 }
 
-function TestsGroup({tests, onTestSelect, onTestGroupSelect, selectedId}) {
-    const renderedTests = tests.map((test) => <TestEntry key={test.id}
-                                                         test={test}
-                                                         onSelect={onTestSelect}
-                                                         isSelected={test.id === selectedId}/>)
-    const groupLabel = tests[0].shortContainerId
+function TestsGroup({ tests, onTestSelect, onTestGroupSelect, selectedId }) {
+  const renderedTests = tests.map((test) => (
+    <TestEntry key={test.id} test={test} onSelect={onTestSelect} isSelected={test.id === selectedId} />
+  ));
+  const groupLabel = tests[0].shortContainerId;
 
-    return (
-        <div className="group-of-tests">
-            <NavigationEntryGroupLabel label={groupLabel} onSelect={() => onTestGroupSelect(groupLabel)}/>
+  return (
+    <div className="group-of-tests">
+      <NavigationEntryGroupLabel label={groupLabel} onSelect={() => onTestGroupSelect(groupLabel)} />
 
-            {renderedTests}
-        </div>
-    )
+      {renderedTests}
+    </div>
+  );
 }
 
-function TestEntry({test, onSelect, isSelected}) {
-    return (
-        <NavigationEntry label={test.scenario}
-                         status={test.status}
-                         isSelected={isSelected}
-                         onSelect={() => onSelect(test.id)}/>
-    )
+function TestEntry({ test, onSelect, isSelected }) {
+  return (
+    <NavigationEntry
+      label={test.scenario}
+      status={test.status}
+      isSelected={isSelected}
+      withWarning={test.warnings && test.warnings.length > 0}
+      onSelect={() => onSelect(test.id)}
+    />
+  );
 }
 
-export default ListOfTests
+export default ListOfTests;
