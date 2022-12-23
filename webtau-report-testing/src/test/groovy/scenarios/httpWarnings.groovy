@@ -28,7 +28,7 @@ scenario('no warning') {
 
 scenario('test summary http warning') {
     report.openGroovyStandaloneReport('rest/openapi/unspecifiedUrl-webtau-report.html')
-    report.selectTest('unspecified operation warning')
+    report.selectTest('!unspecified operation warning')
 
     report.warningMessage.should == ~/HTTP url does not match any defined Open API operation/
     browser.doc.capture('http-open-api-warning')

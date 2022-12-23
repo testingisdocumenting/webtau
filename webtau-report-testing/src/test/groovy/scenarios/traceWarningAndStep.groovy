@@ -29,7 +29,7 @@ scenario('check steps after trace') {
 
 scenario('check steps after warning groovy') {
     report.openGroovyStandaloneReport('concept/warning-webtau-report.html')
-    report.selectTest("warning key values")
+    report.selectTest("!warning key values")
     report.selectSteps()
 
     report.keyValuesKeys.should == ["k1", "k2", "k3", "k4"]
@@ -39,7 +39,7 @@ scenario('check steps after warning groovy') {
 
 scenario('check steps after warning java') {
     report.openJunit5Report('com.example.tests.junit5.WarningJavaTest.html')
-    report.selectTest("warningKeyValues")
+    report.selectTest("!warningKeyValues")
     report.selectSteps()
 
     report.keyValuesKeys.should == ["k1", "k2", "k3", "k4"]
