@@ -68,7 +68,7 @@ scenario('warnings displayed on summary screen groovy') {
     report.warningMessage.should == "warning message"
 
     report.warningTestUrl.click()
-    report.selectedTestLabel.should == "warning label"
+    report.selectedTestLabel.should == "!warning label"
     report.warningMessage.should == "warning message"
 }
 
@@ -83,7 +83,7 @@ scenario('warnings displayed on summary screen java') {
     report.warningMessage.should == "warning message"
 
     report.warningTestUrl.click()
-    report.selectedTestLabel.should == "!warningLabel"
+    report.selectedTestLabel.should == "warningLabel"
     report.warningMessage.should == "warning message"
 }
 
