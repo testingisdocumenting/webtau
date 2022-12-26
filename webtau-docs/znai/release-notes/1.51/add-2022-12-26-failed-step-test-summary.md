@@ -1,0 +1,1 @@
+* Add: [Report](report/introduction) shows first failed step in test summary instead of an exception message

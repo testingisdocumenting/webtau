@@ -273,6 +273,9 @@ public class WebTauTest {
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
 
+        findFirstFailedStep().ifPresent(failedStep ->
+                result.put("failedStep", failedStep.toMap()));
+
         if (filePath !=null) {
             result.put("fileName", filePath.toString());
         }

@@ -171,6 +171,11 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
+    void "failed matchers"() {
+        runCli("failedMatchers.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
     void "matchers extract snippets"() {
         def root = "matchers"
 

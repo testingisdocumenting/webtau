@@ -140,6 +140,31 @@ export const basicReport = {
       startTime: 1547139662469,
       elapsedTime: 82,
       steps: [],
+      failedStep: {
+        message: [
+          { type: 'error', value: 'failed' },
+          { type: 'action', value: 'expecting' },
+          { type: 'selectorType', value: 'by css' },
+          { type: 'selectorValue', value: '#feedback' },
+          { type: 'matcher', value: 'to be visible' },
+          { type: 'delimiter', value: ':' },
+          { type: 'error', value: '\\nis hidden' },
+        ],
+        startTime: 1672077236898,
+        elapsedTime: 1394,
+        children: [
+          {
+            message: [
+              { type: 'action', value: 'initialized' },
+              { type: 'classifier', value: 'webdriver' },
+              { type: 'preposition', value: 'for' },
+              { type: 'id', value: 'chrome' },
+            ],
+            startTime: 1672077236901,
+            elapsedTime: 1371,
+          },
+        ],
+      },
     },
     {
       id: 'another.groovy-2',
