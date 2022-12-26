@@ -31,6 +31,7 @@ export interface WebTauTest {
   elapsedTime: number;
   contextDescription?: string;
   exceptionMessage?: string;
+  failedStep?: WebTauStep;
   failedCodeSnippets?: FailedCodeSnippet[];
 }
 

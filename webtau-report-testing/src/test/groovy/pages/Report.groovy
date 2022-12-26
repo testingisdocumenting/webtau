@@ -33,6 +33,7 @@ class Report {
     def responseData = $(".response .data")
     def jsonParseErrorMessage = $(".data.json.error")
 
+    def step = $(".step")
     def steps = $(".step")
     def stepPersonaId = $(".step .persona-id")
 
