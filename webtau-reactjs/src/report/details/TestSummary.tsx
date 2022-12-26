@@ -37,6 +37,8 @@ import CardList from '../widgets/CardList';
 import { TestName } from './TestName';
 import { WebTauWarningMessage } from './WebTauWarningMessage';
 
+import { Step } from './steps/Step';
+
 import './TestSummary.css';
 
 interface TestProps {
@@ -70,7 +72,11 @@ export function TestSummary({ test }: TestProps) {
         ) : null}
 
         <OptionalPreBlock className="context-description" message={test.contextDescription} />
-        <CardPreMessage message={test.exceptionMessage} />
+        {test.failedStep ? (
+          <Step step={test.failedStep} isTopLevel={true} />
+        ) : (
+          <CardPreMessage message={test.exceptionMessage} />
+        )}
       </div>
 
       {test.failedCodeSnippets && test.failedCodeSnippets.map((cs, idx) => <SourceCode key={idx} {...cs} />)}
