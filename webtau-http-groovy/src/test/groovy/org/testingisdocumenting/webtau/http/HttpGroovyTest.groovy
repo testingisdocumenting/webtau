@@ -767,6 +767,15 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "send form url encoded data"() {
+        http.post("/submit", http.formDataUrlEncoded([firstName: "F Name", lastName: "L Name"])) {
+            // ...
+            request.should == "firstName=F+Name&lastName=L+Name" // doc-exclude
+            Accept.should == "application/x-www-form-urlencoded" // doc-exclude
+        }
+    }
+
+    @Test
     void "send form data"() {
         byte[] content = [0, 1, 2, 101, 102, 103, 0] as byte[]
 

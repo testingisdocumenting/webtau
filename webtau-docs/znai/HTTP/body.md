@@ -116,13 +116,35 @@ and is there for completeness purpose.
 \
 There is no behavior difference between passing an instance of `java.util.Map` and `http.json`
 
+# Form URL Encoded Data
+
+Use `http.formDataUrlEncoded` to send `application/x-www-form-urlencoded`
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {
+  title: "send text form data",
+  entry: "send form url encoded data",
+  bodyOnly: true,
+  excludeRegexp: "doc-exclude"
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
+  title: "send text form data",
+  entry: "sendFormUrlEncodedData", 
+  bodyOnly: true,
+  excludeRegexp: "doc-exclude"
+}
+```
+
 # Form File Data
 
 Consider example where backend expects a file as `multipart/form-data`.
 Field `file` defines content.  
 Backend responds with file name and file description it received.
 
-To send `multipart/form-data`, use `http.formData` to build a request body. 
+Use `http.formData` to build a request body to send `multipart/form-data`, 
 
 ```tabs
 Groovy:

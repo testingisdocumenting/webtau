@@ -605,6 +605,15 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
+    public void sendFormUrlEncodedData() {
+        http.post("/submit", http.formDataUrlEncoded("firstName", "F Name", "lastName", "L Name"), (header, body) -> {
+            // ...
+            body.get("request").should(equal("firstName=F+Name&lastName=L+Name")); // doc-exclude
+            body.get("Accept").should(equal("application/x-www-form-urlencoded")); // doc-exclude
+        });
+    }
+
+    @Test
     public void fileUploadExampleSimple() {
         Path imagePath = testResourcePath("src/test/resources/image.png");
 

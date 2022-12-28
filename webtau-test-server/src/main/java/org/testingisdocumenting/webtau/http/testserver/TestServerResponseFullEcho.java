@@ -40,12 +40,8 @@ public class TestServerResponseFullEcho implements TestServerResponse {
     @Override
     public byte[] responseBody(HttpServletRequest request) {
         try {
-            String json = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
-            Object parsedRequest = json.equals("") ? Collections.emptyMap() :
-                    json.startsWith("[") ?
-                            JsonUtils.deserializeAsList(json) :
-                            JsonUtils.deserializeAsMap(json);
-
+            String input = IOUtils.toString(request.getInputStream(), StandardCharsets.UTF_8);
+            Object parsedRequest = parsedOrAsIsResponse(input);
             Map<String, Object> response = new LinkedHashMap<>();
             response.put("request", parsedRequest);
             response.put("urlPath", request.getRequestURI());
@@ -73,5 +69,19 @@ public class TestServerResponseFullEcho implements TestServerResponse {
     @Override
     public int responseStatusCode() {
         return statusCode;
+    }
+
+    private Object parsedOrAsIsResponse(String input) {
+        if (input.isEmpty()) {
+            return Collections.emptyMap();
+        }
+
+        if (input.startsWith("[") || input.startsWith("{")) {
+            return input.startsWith("[") ?
+                    JsonUtils.deserializeAsList(input) :
+                    JsonUtils.deserializeAsMap(input);
+        }
+
+        return input;
     }
 }
