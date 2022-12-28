@@ -1,6 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2022 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,16 +16,23 @@
 
 package org.testingisdocumenting.webtau.data;
 
-public class Data {
-    public static final Data data = new Data();
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
 
-    public final DataCsv csv = new DataCsv();
-    public final DataJson json = new DataJson();
-    public final DataPdf pdf = new DataPdf();
+public class DataBase64 {
+    /**
+     * Use <code>data.base64.encode</code> to encode a text value as base64
+     * @return encoded value
+     */
+    public String encode(String text) {
+        return Base64.getEncoder().encodeToString(text.getBytes(StandardCharsets.UTF_8));
+    }
 
-    public final DataGuid guid = new DataGuid();
-    public final DataBase64 base64 = new DataBase64();
-
-    private Data() {
+    /**
+     * Use <code>data.base64.decode</code> to decode base64 back to text
+     * @return decoded value
+     */
+    public String decode(String text) {
+        return new String(Base64.getDecoder().decode(text));
     }
 }
