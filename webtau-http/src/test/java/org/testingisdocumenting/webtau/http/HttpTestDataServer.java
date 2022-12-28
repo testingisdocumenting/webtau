@@ -86,6 +86,7 @@ public class HttpTestDataServer {
         handler.registerPost("/echo-multipart-content-part-one", new TestServerMultiPartContentEcho(201, 0));
         handler.registerPost("/echo-multipart-content-part-two", new TestServerMultiPartContentEcho(201, 1));
         handler.registerPost("/echo-multipart-meta", new TestServerMultiPartMetaEcho(201));
+        handler.registerPost("/submit", new TestServerResponseFullEcho(201));
         handler.registerPost("/empty", new TestServerJsonResponse(null, 201));
         handler.registerPatch("/empty", new TestServerJsonResponse(null, 204));
         handler.registerPost("/file-upload", new TestServerFakeFileUpload());

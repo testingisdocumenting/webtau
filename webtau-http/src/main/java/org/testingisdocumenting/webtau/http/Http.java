@@ -37,6 +37,7 @@ import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
 import org.testingisdocumenting.webtau.http.datanode.StructuredDataNode;
+import org.testingisdocumenting.webtau.http.formdata.FormUrlEncodedRequestBody;
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
 import org.testingisdocumenting.webtau.http.listener.HttpListeners;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFile;
@@ -846,6 +847,14 @@ public class Http {
 
     public HttpRequestBody body(String mimeType, byte[] content) {
         return BinaryRequestBody.withType(mimeType, content);
+    }
+
+    public HttpRequestBody formDataUrlEncoded(Map<CharSequence, CharSequence> data) {
+        return new FormUrlEncodedRequestBody(data);
+    }
+
+    public HttpRequestBody formDataUrlEncoded(CharSequence firstKey, CharSequence firstValue, Object... restKv) {
+        return new FormUrlEncodedRequestBody(CollectionUtils.aMapOf(firstKey, firstValue, restKv));
     }
 
     public MultiPartFormData formData(MultiPartFormField... fields) {
