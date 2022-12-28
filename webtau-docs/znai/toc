@@ -70,6 +70,7 @@ data
     json
     csv
     pdf
+    base64
     import-and-dependencies
 utilities
     introduction
