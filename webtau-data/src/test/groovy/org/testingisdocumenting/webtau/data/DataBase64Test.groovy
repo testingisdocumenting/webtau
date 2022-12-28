@@ -1,6 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2022 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +14,22 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data;
+package org.testingisdocumenting.webtau.data
 
-public class Data {
-    public static final Data data = new Data();
+import org.junit.Test
 
-    public final DataCsv csv = new DataCsv();
-    public final DataJson json = new DataJson();
-    public final DataPdf pdf = new DataPdf();
+import static org.testingisdocumenting.webtau.data.Data.data
 
-    public final DataGuid guid = new DataGuid();
-    public final DataBase64 base64 = new DataBase64();
+class DataBase64Test {
+    @Test
+    void "encode text"() {
+        String encoded = data.base64.encode("hello world")
+        encoded.should == "aGVsbG8gd29ybGQ="
+    }
 
-    private Data() {
+    @Test
+    void "decode text"() {
+        String decoded = data.base64.decode("aGVsbG8gd29ybGQ=")
+        decoded.should == "hello world"
     }
 }

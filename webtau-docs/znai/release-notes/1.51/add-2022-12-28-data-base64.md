@@ -1,0 +1,1 @@
+* Add: [data.base64](data/base64) to encode and decode strings
