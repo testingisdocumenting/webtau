@@ -303,9 +303,24 @@ class StandaloneTestRunner {
     }
 
     void runTestAndNotifyListeners(StandaloneTest standaloneTest) {
-        handleTestAndNotifyListeners(standaloneTest) {
-            runTestIfNotTerminated(it)
-            webTauTestList.add(standaloneTest.test)
+        def handle = { ->
+            handleTestAndNotifyListeners(standaloneTest) {
+                runTestIfNotTerminated(it)
+                webTauTestList.add(standaloneTest.test)
+            }
+        }
+
+        // extra console outputs to capture per test output
+        if (StandaloneRunnerConfig.consoleOutputDirSet) {
+            def scenarioConsoleOutput = new InMemoryConsoleOutput()
+            ConsoleOutputs.withAdditionalOutput(scenarioConsoleOutput) {
+                handle()
+            }
+
+            scenarioConsoleOutput.store(StandaloneRunnerConfig.generateScenarioConsoleOutputPath(
+                    standaloneTest.filePath, standaloneTest.scenario))
+        } else {
+            handle()
         }
     }
 
