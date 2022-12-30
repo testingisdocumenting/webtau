@@ -1,0 +1,1 @@
+* Add: [consoleOutputCaptureDir](configuration/options#consoleOutputCaptureDir) for [Groovy Standalone Runner](groovy-standalone-runner/introduction)

@@ -20,12 +20,13 @@ package org.testingisdocumenting.webtau.featuretesting
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
+import org.testingisdocumenting.webtau.utils.FileUtils
 
 import java.nio.file.Files
 import java.nio.file.Paths
 
+import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
-import static org.testingisdocumenting.webtau.featuretesting.FeaturesDocArtifactsExtractor.extractCodeSnippets
 
 class WebTauConceptFeaturesTest {
     private static WebTauEndToEndTestRunner testRunner
@@ -191,6 +192,16 @@ class WebTauConceptFeaturesTest {
     @Test
     void "report name"() {
         runCli('simpleScenarioReportName.groovy', 'webtau.reportname.cfg.groovy')
+    }
+
+    @Test
+    void "console output capture per test and full"() {
+        runCli("recursive", "webtau.consoleoutput.cfg.groovy")
+
+        def output = FileUtils.fileTextContent(Paths.get("examples/console-output-capture")
+                .resolve("scenarios.concept.recursive.base.operation.groovy-phase-two.out"))
+        output.should contain("scenario phase two (base/operation.groovy)")
+        output.should contain( "[.] phase two (base/operation.groovy)")
     }
 
     private static void runCli(String testName, String configFileName, String... additionalArgs) {

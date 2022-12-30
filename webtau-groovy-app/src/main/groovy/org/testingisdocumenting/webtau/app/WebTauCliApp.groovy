@@ -41,6 +41,8 @@ import org.testingisdocumenting.webtau.report.HtmlReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerator
 import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.*
+import org.testingisdocumenting.webtau.runner.standalone.InMemoryConsoleOutput
+import org.testingisdocumenting.webtau.runner.standalone.StandaloneRunnerConfig
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 import org.testingisdocumenting.webtau.version.WebTauVersion
 
@@ -52,6 +54,7 @@ import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 class WebTauCliApp implements TestListener, ReportGenerator {
     private static ConsoleTestListener consoleTestReporter = new ConsoleTestListener()
     private static ConsoleOutput consoleOutput
+    private static InMemoryConsoleOutput inMemoryConsoleOutput
 
     private static StepReporter stepReporter
     private StandaloneTestRunner runner
@@ -136,11 +139,13 @@ class WebTauCliApp implements TestListener, ReportGenerator {
             code()
         } finally {
             removeListenersAndHandlers()
+            storeCapturedConsoleOutputIfRequired()
         }
     }
 
     private void init() {
         consoleOutput = createConsoleOutput()
+        inMemoryConsoleOutput = createInMemoryConsoleOutput()
         stepReporter = createConsoleStepReporter()
 
         registerListenersAndHandlers()
@@ -154,7 +159,10 @@ class WebTauCliApp implements TestListener, ReportGenerator {
 
     private void registerListenersAndHandlers() {
         StepReporters.add(stepReporter)
+
         ConsoleOutputs.add(consoleOutput)
+        addConsoleCaptureOutputIfDirSet()
+
         TestListeners.add(consoleTestReporter)
         TestListeners.add(this)
         ReportGenerators.add(new ConsoleReportGenerator())
@@ -165,10 +173,23 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     private void removeListenersAndHandlers() {
         StepReporters.remove(stepReporter)
         ConsoleOutputs.remove(consoleOutput)
+        ConsoleOutputs.remove(inMemoryConsoleOutput)
         TestListeners.clearAdded()
         ReportGenerators.clearAdded()
         HttpValidationHandlers.clearAdded()
         GroovyConfigBasedHttpConfiguration.clear()
+    }
+
+    static void addConsoleCaptureOutputIfDirSet() {
+        if (StandaloneRunnerConfig.consoleOutputDirSet) {
+            ConsoleOutputs.add(inMemoryConsoleOutput)
+        }
+    }
+
+    static void storeCapturedConsoleOutputIfRequired() {
+        if (StandaloneRunnerConfig.consoleOutputDirSet) {
+            inMemoryConsoleOutput.store(StandaloneRunnerConfig.generateFullConsoleOutputPath())
+        }
     }
 
     private void runTests() {
@@ -206,6 +227,10 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         return getCfg().isAnsiEnabled() ?
                 new AnsiConsoleOutput():
                 new NoAnsiConsoleOutput()
+    }
+
+    private static ConsoleOutput createInMemoryConsoleOutput() {
+        return new InMemoryConsoleOutput()
     }
 
     private static StepReporter createConsoleStepReporter() {
