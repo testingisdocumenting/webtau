@@ -27,35 +27,58 @@ import org.testingisdocumenting.webtau.utils.TimeUtils;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class ConsoleReportGenerator implements ReportGenerator {
+    private final static int NUMBER_OF_FAILED_TESTS_TO_DISPLAY = 3;
+    private final static int NUMBER_OF_ERRORED_TESTS_TO_DISPLAY = 3;
+    private final static int NUMBER_OF_TESTS_TO_DISPLAY_EXTRA_THRESHOLD = 2;
+
     private final static int NUMBER_OF_WARNINGS_TO_DISPLAY = 3;
+    private final static int NUMBER_OF_WARNINGS_TO_DISPLAY_EXTRA_THRESHOLD = 2;
+
     private final static ConsoleStepReporter consoleStepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(),
             () -> Integer.MAX_VALUE);
 
     @Override
     public void generate(WebTauReport report) {
-        printTestsWithStatus(report, TestStatus.Errored);
-        printTestsWithStatus(report, TestStatus.Failed);
+        ConsoleOutputs.out();
+
+        printTestsWithStatus(report, TestStatus.Errored, NUMBER_OF_ERRORED_TESTS_TO_DISPLAY);
+        printTestsWithStatus(report, TestStatus.Failed, NUMBER_OF_FAILED_TESTS_TO_DISPLAY);
+
         printWarnings(report);
         printTimeTaken(report);
         printTotals(report);
     }
 
-    private static void printTestsWithStatus(WebTauReport report, TestStatus status) {
-        if (report.getTests().countWithStatus(status) == 0) {
+    private static void printTestsWithStatus(WebTauReport report, TestStatus status, int limit) {
+        String statusLabel = status.toString().toLowerCase();
+
+        List<WebTauTest> withStatus = report.getTests().withStatus(status).collect(Collectors.toList());
+        if (withStatus.isEmpty()) {
             return;
         }
 
-        ConsoleOutputs.out(Color.BLUE, status.toString() + " tests:");
-        report.getTests()
-                .withStatus(status)
+        int testsLimit = withStatus.size() - limit > NUMBER_OF_TESTS_TO_DISPLAY_EXTRA_THRESHOLD ?
+                limit:
+                withStatus.size();
+
+        ConsoleOutputs.out(Color.RED, "you have ", Color.BLUE, withStatus.size(),
+                Color.RED, " ", statusLabel, " test(s):");
+
+        withStatus.stream()
+                .limit(testsLimit)
                 .forEach(ConsoleReportGenerator::printFailedTest);
+
+        if (withStatus.size() > testsLimit) {
+            ConsoleOutputs.out(Color.YELLOW, "...(" + (withStatus.size() - testsLimit) + " more " + statusLabel + " tests)");
+        }
     }
 
     private static void printFailedTest(WebTauTest testEntry) {
         ConsoleOutputs.out(Color.RED, "[x] ", testEntry.getScenario(), Color.PURPLE, " ",
-                testEntry.getFilePath());
+                "(", testEntry.getShortContainerId(), ")");
 
         testEntry.findFirstFailedStep().ifPresent(ConsoleReportGenerator::printFailedStep);
 
@@ -78,11 +101,11 @@ public class ConsoleReportGenerator implements ReportGenerator {
         }
 
         // have a delta of warnings to display to avoid messages like (and 1 more) and instead show an extra one or two
-        int warningsLimit = warnings.size() - NUMBER_OF_WARNINGS_TO_DISPLAY > 2 ?
+        int warningsLimit = warnings.size() - NUMBER_OF_WARNINGS_TO_DISPLAY > NUMBER_OF_WARNINGS_TO_DISPLAY_EXTRA_THRESHOLD ?
                 NUMBER_OF_WARNINGS_TO_DISPLAY :
                 warnings.size();
 
-        ConsoleOutputs.out(Color.RED, "There are ", Color.BLUE, warningsLimit, Color.RED, " warning(s) in tests");
+        ConsoleOutputs.out(Color.RED, "There are ", Color.BLUE, warnings.size(), Color.RED, " warning(s) in tests");
 
         warnings.stream().limit(warningsLimit).forEach((warning) -> printWarning(report, warning));
         if (warnings.size() > warningsLimit) {
