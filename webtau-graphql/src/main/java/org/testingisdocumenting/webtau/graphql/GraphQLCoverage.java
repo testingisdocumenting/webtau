@@ -34,7 +34,7 @@ public class GraphQLCoverage {
     }
 
     public void recordQuery(HttpValidationResult validationResult) {
-        if (!schema.isSchemaDefined()) {
+        if (!validationResult.getUrl().equals(GraphQL.GRAPHQL_URL) || !schema.isSchemaDefined()) {
             return;
         }
 
