@@ -17,7 +17,6 @@
 
 package com.example.tests.junit4
 
-import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.featuretesting.WebTauEndToEndTestValidator
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
@@ -26,6 +25,8 @@ import org.junit.runner.JUnitCore
 import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunListener
 import org.testingisdocumenting.webtau.reporter.WebTauStep
+
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 
 class JUnit4FeatureTestRunner extends RunListener implements StepReporter {
     private Map<String, Object> scenariosDetails
@@ -37,7 +38,9 @@ class JUnit4FeatureTestRunner extends RunListener implements StepReporter {
         junit.addListener(this)
         scenariosDetails = [:]
 
-        WebTauConfig.cfg.setBaseUrl(baseUrl)
+        cfg.reset()
+        cfg.triggerConfigHandlers()
+        cfg.setBaseUrl(baseUrl)
 
         StepReporters.withAdditionalReporter(this) {
             junit.run(testClass)
