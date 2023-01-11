@@ -3,7 +3,7 @@
     "scenario" : "list all tasks",
     "shortContainerId" : "query.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 11
+      "numberOfSuccessful" : 12
     }
   } ],
   "exitCode" : 0
