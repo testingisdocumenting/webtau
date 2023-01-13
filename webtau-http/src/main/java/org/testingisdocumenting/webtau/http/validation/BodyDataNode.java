@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.http.validation;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.http.HttpResponse;
@@ -154,8 +154,8 @@ public class BodyDataNode implements DataNode {
     }
 
     @Override
-    public void prettyPrint(ConsoleOutput console) {
-        body.prettyPrint(console);
+    public void prettyPrint(PrettyPrinter printer) {
+        body.prettyPrint(printer);
     }
 
     @Override

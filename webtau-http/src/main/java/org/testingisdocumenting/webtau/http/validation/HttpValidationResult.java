@@ -17,8 +17,8 @@
 
 package org.testingisdocumenting.webtau.http.validation;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
@@ -332,19 +332,19 @@ public class HttpValidationResult implements WebTauStepOutput {
     }
 
     @Override
-    public void prettyPrint(ConsoleOutput console) {
+    public void prettyPrint(PrettyPrinter printer) {
         if (!hasResponseContent()) {
-            console.out(Color.YELLOW, "[no content]");
+            printer.printLine(Color.YELLOW, "[no content]");
         } else if (response.isBinary()) {
-            console.out(Color.YELLOW, "[binary content]");
+            printer.printLine(Color.YELLOW, "[binary content]");
         } else {
-            console.out(Color.YELLOW, "response", Color.CYAN, " (", response.getContentType(), "):");
+            printer.printLine(Color.YELLOW, "response", Color.CYAN, " (", response.getContentType(), "):");
             if (bodyParseErrorMessage != null) {
-                console.out(Color.RED, "can't parse response:");
-                console.out(response.getTextContent());
-                console.out(Color.RED, bodyParseErrorMessage);
+                printer.printLine(Color.RED, "can't parse response:");
+                printer.printLine(response.getTextContent());
+                printer.printLine(Color.RED, bodyParseErrorMessage);
             } else {
-                new DataNodeAnsiPrinter(console).print(responseBodyNode, getCfg().getConsolePayloadOutputLimit());
+                new DataNodeAnsiPrinter(printer.getConsoleOutput()).print(responseBodyNode, getCfg().getConsolePayloadOutputLimit());
             }
         }
     }
