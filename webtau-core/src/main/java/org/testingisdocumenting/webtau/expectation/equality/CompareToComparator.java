@@ -28,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
 
@@ -148,6 +149,10 @@ public class CompareToComparator {
                 generateReportPart("unexpected values", Collections.singletonList(extraMessages)));
     }
 
+    public List<ActualPath> generateEqualMismatchPaths() {
+        return extractActualPaths(notEqualMessages);
+    }
+
     public String generateNotEqualMatchReport() {
         if (missingMessages.isEmpty() && extraMessages.isEmpty()) {
             return generateReportPartWithoutLabel(Collections.singletonList(notEqualMessages));
@@ -177,6 +182,10 @@ public class CompareToComparator {
 
     public String generateEqualMatchReport() {
         return generateReportPartWithoutLabel(Collections.singletonList(equalMessages));
+    }
+
+    public List<ActualPath> generateEqualMatchPaths() {
+        return extractActualPaths(equalMessages);
     }
 
     public void reportMissing(CompareToHandler reporter, ActualPath actualPath, Object value) {
@@ -331,5 +340,12 @@ public class CompareToComparator {
             "no compareUsingCompareTo handler found for" +
                     "\nactual: " + DataRenderers.render(actual) + " " + TraceUtils.renderType(actual) +
                     "\nexpected: " + DataRenderers.render(expected) + " " + TraceUtils.renderType(expected));
+    }
+
+    private List<ActualPath> extractActualPaths(List<ActualPathMessage> notEqualMessages) {
+        return notEqualMessages
+                .stream()
+                .map(ActualPathMessage::getActualPath)
+                .collect(Collectors.toList());
     }
 }

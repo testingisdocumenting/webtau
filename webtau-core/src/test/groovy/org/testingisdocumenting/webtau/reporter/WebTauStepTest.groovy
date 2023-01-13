@@ -22,7 +22,6 @@ import org.junit.Test
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter
 
 import java.util.function.Supplier
-import java.util.stream.Stream
 
 import static java.util.stream.Collectors.*
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*
@@ -38,17 +37,17 @@ class WebTauStepTest {
     static void init() {
         rootStep = createStep("step action") {
             childStep1 = createStep("c1 action")
-            childStep1.setOutputSupplier(() -> new OutputA(id: 'id2'))
+            childStep1.setStepOutputFunc(() -> new OutputA(id: 'id2'))
             childStep1.execute(REPORT_ALL)
             childStep1.setClassifier("typeA")
 
             childStep2 = createStep("c2 action")
-            childStep2.setOutputSupplier(() -> new OutputB(name: 'name3'))
+            childStep2.setStepOutputFunc(() -> new OutputB(name: 'name3'))
             childStep2.execute(REPORT_ALL)
             childStep2.setClassifier("typeB")
         }
 
-        rootStep.setOutputSupplier(() -> new OutputA(id: 'id1'))
+        rootStep.setStepOutputFunc(() -> new OutputA(id: 'id1'))
         rootStep.setClassifier("typeA")
 
         rootStep.execute(REPORT_ALL)

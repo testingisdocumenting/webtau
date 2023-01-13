@@ -14,22 +14,33 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.expectation.equality.stepoutput;
+package org.testingisdocumenting.webtau.expectation.stepoutput;
 
+import org.testingisdocumenting.webtau.data.render.IterablePrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
+import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
-public class IterableCompareToStepOutput implements WebTauStepOutput {
-//    public IterableCompareToStepOutput(CompareTRe)
+public class ValueMatcherIterableStepOutput implements WebTauStepOutput {
+    private final Iterable<?> actual;
+    private final List<ActualPath> actualPaths;
+
+    public ValueMatcherIterableStepOutput(Iterable<?> actual, List<ActualPath> actualPaths) {
+        this.actual = actual;
+        this.actualPaths = actualPaths;
+    }
+
     @Override
     public void prettyPrint(PrettyPrinter printer) {
-
+        new IterablePrettyPrintable(actual).prettyPrint(printer);
     }
 
     @Override
     public Map<String, ?> toMap() {
-        return null;
+        return Collections.emptyMap();
     }
 }

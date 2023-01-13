@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import java.util.Objects;
+
 public class ActualPath {
     public static final ActualPath UNDEFINED = new ActualPath("");
 
@@ -49,5 +51,24 @@ public class ActualPath {
     @Override
     public String toString() {
         return path;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        ActualPath that = (ActualPath) o;
+        return path.equals(that.path);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(path);
     }
 }

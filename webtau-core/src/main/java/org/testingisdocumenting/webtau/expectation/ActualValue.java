@@ -19,12 +19,10 @@ package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler.Flow;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
-import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.reporter.*;
 
 import java.util.function.Function;
+import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
@@ -88,7 +86,7 @@ public class ActualValue implements ActualValueExpectations {
                 StepReportOptions.REPORT_ALL);
     }
 
-    private void shouldStep(ValueMatcher valueMatcher) {
+    private boolean shouldStep(ValueMatcher valueMatcher) {
         boolean matches = valueMatcher.matches(actualPath, actual);
 
         if (matches) {
@@ -96,9 +94,11 @@ public class ActualValue implements ActualValueExpectations {
         } else {
             handleMismatch(valueMatcher, mismatchMessage(valueMatcher, false));
         }
+
+        return matches;
     }
 
-    private void shouldNotStep(ValueMatcher valueMatcher) {
+    private boolean shouldNotStep(ValueMatcher valueMatcher) {
         boolean matches = valueMatcher.negativeMatches(actualPath, actual);
 
         if (matches) {
@@ -106,30 +106,33 @@ public class ActualValue implements ActualValueExpectations {
         } else {
             handleMismatch(valueMatcher, mismatchMessage(valueMatcher, true));
         }
+
+        return matches;
     }
 
-    private void waitToStep(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        waitImpl(valueMatcher, expectationTimer, tickMillis, timeOutMillis, (result) -> result, false);
+    private boolean waitToStep(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
+        return waitImpl(valueMatcher, expectationTimer, tickMillis, timeOutMillis, (result) -> result, false);
     }
 
-    private void waitToNotStep(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        waitImpl(valueMatcher, expectationTimer, tickMillis, timeOutMillis, (result) -> ! result, true);
+    private boolean waitToNotStep(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
+        return waitImpl(valueMatcher, expectationTimer, tickMillis, timeOutMillis, (result) -> ! result, true);
     }
 
-    private void waitImpl(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis,
+    private boolean waitImpl(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis,
                          Function<Boolean, Boolean> isMatchedFunc, boolean isNegative) {
         expectationTimer.start();
         while (! expectationTimer.hasTimedOut(timeOutMillis)) {
             boolean matches = valueMatcher.matches(actualPath, actual);
             if (isMatchedFunc.apply(matches)) {
                 handleMatch(valueMatcher);
-                return;
+                return true;
             }
 
             expectationTimer.tick(tickMillis);
         }
 
         handleMismatch(valueMatcher, mismatchMessage(valueMatcher, isNegative));
+        return false;
     }
 
     private void handleMatch(ValueMatcher valueMatcher) {
@@ -172,7 +175,7 @@ public class ActualValue implements ActualValueExpectations {
 
     private static void executeStep(Object value, TokenizedMessage elementDescription,
                                     ValueMatcher valueMatcher, boolean isNegative,
-                                    TokenizedMessage messageStart, Runnable expectationValidation,
+                                    TokenizedMessage messageStart, Supplier<Object> expectationValidation,
                                     StepReportOptions stepReportOptions) {
         WebTauStep step = createStep(
                 messageStart.add(elementDescription)
@@ -182,6 +185,19 @@ public class ActualValue implements ActualValueExpectations {
                                 valueMatcher.negativeMatchedMessage(null, value) :
                                 valueMatcher.matchedMessage(null, value))),
                 expectationValidation);
+
+        // TODO generalize need more use cases and possible refactoring
+//        if (value instanceof Iterable) {
+//            step.setStepOutputFunc((matched) -> {
+//                if (Boolean.TRUE.equals(matched)) {
+//                    return WebTauStepOutput.EMPTY;
+//                }
+//
+//                return new ValueMatcherIterableStepOutput((Iterable<?>) value, isNegative ?
+//                        valueMatcher.mismatchedPaths() :
+//                        valueMatcher.matchedPaths());
+//            });
+//        }
 
         step.execute(stepReportOptions);
     }

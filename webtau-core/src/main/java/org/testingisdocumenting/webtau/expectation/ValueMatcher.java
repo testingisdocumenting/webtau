@@ -16,6 +16,9 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import java.util.Collections;
+import java.util.List;
+
 public interface ValueMatcher {
     // should
 
@@ -25,6 +28,7 @@ public interface ValueMatcher {
     String matchingMessage();
 
     /**
+     * match details
      * @param actualPath path to the value
      * @param actual actual value
      * @return match message
@@ -33,12 +37,28 @@ public interface ValueMatcher {
     String matchedMessage(ActualPath actualPath, Object actual);
 
     /**
+     * match paths
+     * @return list of paths that matched
+     */
+    default List<ActualPath> matchedPaths() {
+        return Collections.emptyList();
+    }
+
+    /**
      * @param actualPath path to the value
      * @param actual actual value
      * @return mismatch message
      * @see ActualPath
      */
     String mismatchedMessage(ActualPath actualPath, Object actual);
+
+    /**
+     * mismatch paths
+     * @return list of paths that mismatched
+     */
+    default List<ActualPath> mismatchedPaths() {
+        return Collections.emptyList();
+    }
 
     /**
      * Evaluates matcher. Called only for should

@@ -61,7 +61,7 @@ public class CliForegroundCommand {
 
         try {
             step.setInput(config.createStepInput());
-            step.setOutputSupplier(() -> validationResult);
+            step.setStepOutputFunc((stepResult) -> validationResult);
             step.execute(StepReportOptions.REPORT_ALL);
             return new CliRunResult(command,
                     validationResult.getExitCode().get(),
