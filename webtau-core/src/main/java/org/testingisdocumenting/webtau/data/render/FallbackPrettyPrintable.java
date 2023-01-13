@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 webtau maintainers
+ * Copyright 2023 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,10 +16,15 @@
 
 package org.testingisdocumenting.webtau.data.render;
 
-/**
- * Print value to the console using ANSI colors
- * Used in e.g. REPL, {@link org.testingisdocumenting.webtau.reporter.ConsoleStepReporter}
- */
-public interface PrettyPrintable {
-    void prettyPrint(PrettyPrinter printer);
+class FallbackPrettyPrintable implements PrettyPrintable {
+    private final Object object;
+
+    public FallbackPrettyPrintable(Object object) {
+        this.object = object;
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter printer) {
+        printer.printLine(object.toString());
+    }
 }

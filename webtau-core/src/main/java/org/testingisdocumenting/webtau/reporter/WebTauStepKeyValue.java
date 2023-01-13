@@ -16,14 +16,14 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 
 import java.util.Map;
 
 class WebTauStepKeyValue {
-    static void prettyPrint(ConsoleOutput console, Map<String, Object> data) {
-        data.forEach((key, value) -> console.out(Color.PURPLE, key, Color.WHITE, ": ",
+    static void prettyPrint(PrettyPrinter printer, Map<String, Object> data) {
+        data.forEach((key, value) -> printer.printLine(Color.PURPLE, key, Color.WHITE, ": ",
                 valueColor(value), value));
     }
 

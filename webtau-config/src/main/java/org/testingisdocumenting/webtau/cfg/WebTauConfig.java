@@ -37,11 +37,11 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
@@ -365,10 +365,10 @@ public class WebTauConfig implements PrettyPrintable {
     }
 
     public void printEnumerated() {
-        printConfig(ConsoleOutputs.asCombinedConsoleOutput(), enumeratedCfgValues.values());
+        printConfig(new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 0), enumeratedCfgValues.values());
     }
 
-    private void printConfig(ConsoleOutput console, Collection<ConfigValue> configValues) {
+    private void printConfig(PrettyPrinter printer, Collection<ConfigValue> configValues) {
         int maxKeyLength = configValues.stream()
                 .filter(ConfigValue::nonDefault)
                 .map(v -> v.getKey().length()).max(Integer::compareTo).orElse(0);
@@ -381,7 +381,7 @@ public class WebTauConfig implements PrettyPrintable {
             String valueAsText = v.getAsString();
             int valuePadding = maxValueLength - valueAsText.length();
 
-            console.out(Color.BLUE, String.format("%" + maxKeyLength + "s", v.getKey()), ": ",
+            printer.printLine(Color.BLUE, String.format("%" + maxKeyLength + "s", v.getKey()), ": ",
                     Color.YELLOW, valueAsText,
                     StringUtils.createIndentation(valuePadding),
                     FontStyle.NORMAL, " // from ", v.getSource());
@@ -470,9 +470,9 @@ public class WebTauConfig implements PrettyPrintable {
     }
 
     @Override
-    public void prettyPrint(ConsoleOutput console) {
-        printConfig(console, freeFormCfgValues);
-        printConfig(console, enumeratedCfgValues.values());
+    public void prettyPrint(PrettyPrinter printer) {
+        printConfig(printer, freeFormCfgValues);
+        printConfig(printer, enumeratedCfgValues.values());
     }
 
     private static class CfgInstanceHolder {

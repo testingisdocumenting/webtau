@@ -117,11 +117,11 @@ public class ActualValue implements ActualValueExpectations {
     }
 
     private void waitImpl(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis,
-                         Function<Boolean, Boolean> terminate, boolean isNegative) {
+                         Function<Boolean, Boolean> isMatchedFunc, boolean isNegative) {
         expectationTimer.start();
         while (! expectationTimer.hasTimedOut(timeOutMillis)) {
             boolean matches = valueMatcher.matches(actualPath, actual);
-            if (terminate.apply(matches)) {
+            if (isMatchedFunc.apply(matches)) {
                 handleMatch(valueMatcher);
                 return;
             }

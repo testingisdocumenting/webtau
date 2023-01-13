@@ -239,7 +239,7 @@ class DataNodeAnsiPrinterTest {
 
     private static class CaptureOutput implements ConsoleOutput {
         private def stylesAndOutput = []
-        private def textLInes = []
+        private def textLines = []
 
         @Override
         void out(Object... styleOrValues) {
@@ -247,13 +247,13 @@ class DataNodeAnsiPrinterTest {
                 !(it instanceof Color) && !(it instanceof FontStyle)
             }.join('')
 
-            textLInes.add(line)
+            textLines.add(line)
             stylesAndOutput.addAll(Arrays.asList(styleOrValues))
             stylesAndOutput.add('\n')
         }
 
         String getTextOnly() {
-            return textLInes.join('\n')
+            return textLines.join('\n')
         }
 
         @Override

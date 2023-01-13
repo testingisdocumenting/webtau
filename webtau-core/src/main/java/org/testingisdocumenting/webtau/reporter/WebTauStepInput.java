@@ -16,8 +16,8 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 
 import java.util.Collections;
 import java.util.Map;
@@ -34,7 +34,7 @@ public interface WebTauStepInput extends PrettyPrintable {
         }
 
         @Override
-        public void prettyPrint(ConsoleOutput console) {
+        public void prettyPrint(PrettyPrinter printer) {
         }
     }
 }

@@ -18,9 +18,9 @@
 package org.testingisdocumenting.webtau.reporter;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
-import org.testingisdocumenting.webtau.console.IndentedConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 import org.testingisdocumenting.webtau.utils.TimeUtils;
 
@@ -160,7 +160,7 @@ public class ConsoleStepReporter implements StepReporter {
             return;
         }
 
-        step.getInput().prettyPrint(createIndentedConsoleOutput(step));
+        step.getInput().prettyPrint(createPrettyPrinter(step));
     }
 
     private void printStepOutput(WebTauStep step) {
@@ -168,12 +168,12 @@ public class ConsoleStepReporter implements StepReporter {
             return;
         }
 
-        step.getOutput().prettyPrint(createIndentedConsoleOutput(step));
+        step.getOutput().prettyPrint(createPrettyPrinter(step));
     }
 
-    private IndentedConsoleOutput createIndentedConsoleOutput(WebTauStep step) {
-        return new IndentedConsoleOutput(ConsoleOutputs.asCombinedConsoleOutput(),
-                numberOfSpacedForIndentLevel(step.getNumberOfParents() + 1));
+    private PrettyPrinter createPrettyPrinter(WebTauStep step) {
+        return new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(),
+                numberOfSpacesForIndentLevel(step.getNumberOfParents() + 1));
     }
 
     private boolean skipRenderInputOutput() {
@@ -235,10 +235,10 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private String createIndentation(int indentLevel) {
-        return StringUtils.createIndentation(numberOfSpacedForIndentLevel(indentLevel));
+        return StringUtils.createIndentation(numberOfSpacesForIndentLevel(indentLevel));
     }
 
-    private int numberOfSpacedForIndentLevel(int indentLevel) {
+    private int numberOfSpacesForIndentLevel(int indentLevel) {
         return indentLevel * 2;
     }
 

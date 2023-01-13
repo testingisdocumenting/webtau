@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 webtau maintainers
+ * Copyright 2023 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data.render;
+package org.testingisdocumenting.webtau.expectation.equality.stepoutput;
 
-/**
- * Print value to the console using ANSI colors
- * Used in e.g. REPL, {@link org.testingisdocumenting.webtau.reporter.ConsoleStepReporter}
- */
-public interface PrettyPrintable {
-    void prettyPrint(PrettyPrinter printer);
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
+import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
+
+import java.util.Map;
+
+public class IterableCompareToStepOutput implements WebTauStepOutput {
+//    public IterableCompareToStepOutput(CompareTRe)
+    @Override
+    public void prettyPrint(PrettyPrinter printer) {
+
+    }
+
+    @Override
+    public Map<String, ?> toMap() {
+        return null;
+    }
 }
