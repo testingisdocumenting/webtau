@@ -54,6 +54,10 @@ public class PrettyPrinter {
 
     }
 
+    public ConsoleOutput getConsoleOutput() {
+        return consoleOutput;
+    }
+
     public void newLine() {
         consoleOutput.out();
     }

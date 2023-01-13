@@ -18,9 +18,9 @@
 package org.testingisdocumenting.webtau.browser.page;
 
 import org.testingisdocumenting.webtau.browser.BrowserContext;
-import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
@@ -94,11 +94,11 @@ public class PageUrl implements PrettyPrintable, ActualValueExpectations, Actual
     }
 
     @Override
-    public void prettyPrint(ConsoleOutput console) {
-        console.out(Color.YELLOW, " full: ", Color.GREEN, full.get());
-        console.out(Color.YELLOW, " path: ", Color.GREEN, path.get());
-        console.out(Color.YELLOW, "query: ", Color.GREEN, query.get());
-        console.out(Color.YELLOW, "  ref: ", Color.GREEN, ref.get());
+    public void prettyPrint(PrettyPrinter printer) {
+        printer.printLine(Color.YELLOW, " full: ", Color.GREEN, full.get());
+        printer.printLine(Color.YELLOW, " path: ", Color.GREEN, path.get());
+        printer.printLine(Color.YELLOW, "query: ", Color.GREEN, query.get());
+        printer.printLine(Color.YELLOW, "  ref: ", Color.GREEN, ref.get());
     }
 
     @Override

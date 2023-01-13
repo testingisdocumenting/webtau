@@ -18,9 +18,9 @@
 package org.testingisdocumenting.webtau.browser.page;
 
 import org.testingisdocumenting.webtau.browser.page.path.PageElementsFinder;
-import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.reporter.*;
@@ -171,25 +171,25 @@ public interface PageElement extends
     }
 
     @Override
-    default void prettyPrint(ConsoleOutput console) {
+    default void prettyPrint(PrettyPrinter printer) {
         TokenizedMessageToAnsiConverter toAnsiConverter = IntegrationTestsMessageBuilder.getConverter();
 
         if (!isPresent()) {
-            console.out(Stream.concat(
+            printer.printLine(Stream.concat(
                     Stream.of(Color.RED, "element is not present: "),
                     toAnsiConverter.convert(locationDescription()).stream()).toArray());
             return;
         }
 
-        console.out(Stream.concat(
+        printer.printLine(Stream.concat(
                 Stream.of(Color.GREEN, "element is found: "),
                 toAnsiConverter.convert(locationDescription()).stream()).toArray());
 
-        console.out(Color.YELLOW, "           getText(): ", Color.GREEN, getText());
-        console.out(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, getUnderlyingValue());
+        printer.printLine(Color.YELLOW, "           getText(): ", Color.GREEN, getText());
+        printer.printLine(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, getUnderlyingValue());
         Integer count = getCount().get();
         if (count > 1) {
-            console.out(Color.YELLOW, "               count: ", Color.GREEN, count);
+            printer.printLine(Color.YELLOW, "               count: ", Color.GREEN, count);
         }
     }
 }

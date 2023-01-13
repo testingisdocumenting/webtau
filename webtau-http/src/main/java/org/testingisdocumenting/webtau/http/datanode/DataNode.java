@@ -17,9 +17,9 @@
 
 package org.testingisdocumenting.webtau.http.datanode;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.data.BinaryDataProvider;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.expectation.ActualPath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
@@ -108,7 +108,7 @@ public interface DataNode extends DataNodeExpectations, BinaryDataProvider, Comp
     }
 
     @Override
-    default void prettyPrint(ConsoleOutput console) {
-        new DataNodeAnsiPrinter(console).print(this);
+    default void prettyPrint(PrettyPrinter printer) {
+        new DataNodeAnsiPrinter(printer.getConsoleOutput()).print(this);
     }
 }
