@@ -49,6 +49,7 @@ public class IterablePrettyPrintable implements PrettyPrintable {
             boolean isLast = idx == list.size() - 1;
 
             printer.printObject(element);
+
             if (!isLast) {
                 printer.printDelimiter(",");
                 printer.printLine();

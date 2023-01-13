@@ -43,7 +43,7 @@ public class HttpStepInput implements WebTauStepInput {
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
-        renderRequest(printer.getConsoleOutput());
+        renderRequest(printer.createIndentedConsoleOutput());
     }
 
     @Override

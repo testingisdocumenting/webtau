@@ -344,7 +344,7 @@ public class HttpValidationResult implements WebTauStepOutput {
                 printer.printLine(response.getTextContent());
                 printer.printLine(Color.RED, bodyParseErrorMessage);
             } else {
-                new DataNodeAnsiPrinter(printer.getConsoleOutput()).print(responseBodyNode, getCfg().getConsolePayloadOutputLimit());
+                new DataNodeAnsiPrinter(printer.createIndentedConsoleOutput()).print(responseBodyNode, getCfg().getConsolePayloadOutputLimit());
             }
         }
     }

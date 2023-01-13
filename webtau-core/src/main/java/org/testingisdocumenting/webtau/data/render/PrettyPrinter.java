@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.data.render;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.console.IndentedConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
@@ -54,8 +55,9 @@ public class PrettyPrinter {
 
     }
 
-    public ConsoleOutput getConsoleOutput() {
-        return consoleOutput;
+    // TODO remove once DataNode is rewritten using printer
+    public ConsoleOutput createIndentedConsoleOutput() {
+        return new IndentedConsoleOutput(consoleOutput, indentationSize);
     }
 
     public void newLine() {

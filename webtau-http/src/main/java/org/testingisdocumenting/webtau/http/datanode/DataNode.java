@@ -109,6 +109,6 @@ public interface DataNode extends DataNodeExpectations, BinaryDataProvider, Comp
 
     @Override
     default void prettyPrint(PrettyPrinter printer) {
-        new DataNodeAnsiPrinter(printer.getConsoleOutput()).print(this);
+        new DataNodeAnsiPrinter(printer.createIndentedConsoleOutput()).print(this);
     }
 }
