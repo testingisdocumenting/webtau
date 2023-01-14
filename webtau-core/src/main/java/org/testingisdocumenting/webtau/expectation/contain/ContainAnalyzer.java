@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.expectation.contain;
 
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.NullContainHandler;
 import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
@@ -40,17 +40,17 @@ public class ContainAnalyzer {
         return new ContainAnalyzer();
     }
 
-    public boolean contains(ActualPath actualPath, Object actual, Object expected) {
+    public boolean contains(ValuePath actualPath, Object actual, Object expected) {
         return contains(actual, expected,
                 (handler) -> handler.analyzeContain(this, actualPath, actual, expected));
     }
 
-    public boolean notContains(ActualPath actualPath, Object actual, Object expected) {
+    public boolean notContains(ValuePath actualPath, Object actual, Object expected) {
         return contains(actual, expected,
                 (handler) -> handler.analyzeNotContain(this, actualPath, actual, expected));
     }
 
-    public void reportMismatch(ContainHandler reporter, ActualPath actualPath, String mismatch) {
+    public void reportMismatch(ContainHandler reporter, ValuePath actualPath, String mismatch) {
         mismatches.add(new ActualPathMessage(actualPath, mismatch));
     }
 

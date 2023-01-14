@@ -27,7 +27,7 @@ import static java.util.stream.Collectors.toList;
 
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
@@ -1041,7 +1041,7 @@ public class Http {
 
         ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
             @Override
-            public Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
+            public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
                 validationResult.addMismatch(message);
                 return ExpectationHandler.Flow.PassToNext;
             }
@@ -1068,7 +1068,7 @@ public class Http {
         } catch (Throwable e) {
             ExpectationHandlers.withAdditionalHandler(new ExpectationHandler() {
                 @Override
-                public Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
+                public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
                     validationResult.addMismatch(message);
 
                     // another assertion happened before status code check

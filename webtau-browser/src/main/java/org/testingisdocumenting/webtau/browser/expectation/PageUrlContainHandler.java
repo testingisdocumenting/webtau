@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +18,7 @@
 package org.testingisdocumenting.webtau.browser.expectation;
 
 import org.testingisdocumenting.webtau.browser.page.PageUrl;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 
@@ -28,13 +29,13 @@ public class PageUrlContainHandler implements ContainHandler {
     }
 
     @Override
-    public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         PageUrl actualPageUrl = (PageUrl) actual;
         containAnalyzer.contains(actualPath, actualPageUrl.full, expected);
     }
 
     @Override
-    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         PageUrl actualPageUrl = (PageUrl) actual;
         containAnalyzer.notContains(actualPath, actualPageUrl.full, expected);
     }

@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
-import org.testingisdocumenting.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
@@ -25,7 +25,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.createActualPath
 import static org.junit.Assert.assertEquals
 
 class ByteArrayCompareToHandlerTest {
-    private static final ActualPath actualPath = createActualPath("value")
+    private static final ValuePath actualPath = createActualPath("value")
 
     @Test
     void "handles binary arrays"() {

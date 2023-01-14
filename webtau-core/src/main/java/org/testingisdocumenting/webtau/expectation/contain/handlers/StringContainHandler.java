@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 
@@ -29,18 +30,18 @@ public class StringContainHandler implements ContainHandler {
     }
 
     @Override
-    public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         analyze(containAnalyzer, actualPath, actual, expected,
                 (actualCharSeq, expectedCharSeq) -> actualCharSeq.toString().contains(expectedCharSeq));
     }
 
     @Override
-    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         analyze(containAnalyzer, actualPath, actual, expected,
                 (actualString, expectedString) -> !actualString.toString().contains(expectedString));
     }
 
-    private void analyze(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected,
+    private void analyze(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected,
                          BiFunction<CharSequence, CharSequence, Boolean> predicate) {
         CharSequence actualText = (CharSequence) actual;
         CharSequence expectedText = (CharSequence) expected;

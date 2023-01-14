@@ -18,12 +18,12 @@ package org.testingisdocumenting.webtau.expectation.equality
 
 import org.junit.Assert
 import org.junit.Test
-import org.testingisdocumenting.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.data.ValuePath
 
 import static org.testingisdocumenting.webtau.Matchers.*
 
 class AnyOfMatcherTest {
-    private final ActualPath actualPath = new ActualPath("value")
+    private final ValuePath actualPath = new ValuePath("value")
 
     @Test
     void "positive match"() {

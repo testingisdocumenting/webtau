@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.db;
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
@@ -43,7 +43,7 @@ import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
  * To define a query use <code>db.query("select * from table where id=:id", [id: 'my-id'])</code>
  */
 public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptionAware {
-    private static final ActualPath ACTUAL_PATH = new ActualPath("query result");
+    private static final ValuePath ACTUAL_PATH = new ValuePath("query result");
 
     private final Supplier<String> dataSourceLabelSupplier;
     private final Supplier<List<Map<String, Object>>> dataFetcher;
@@ -70,7 +70,7 @@ public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptio
     }
 
     @Override
-    public ActualPath actualPath() {
+    public ValuePath actualPath() {
         return ACTUAL_PATH;
     }
 

@@ -17,15 +17,16 @@
 
 package org.testingisdocumenting.webtau.expectation.equality
 
-import org.testingisdocumenting.webtau.expectation.ActualPath
+
 import org.junit.Test
 import org.testingisdocumenting.webtau.expectation.ValueMatcher
+import org.testingisdocumenting.webtau.data.ValuePath
 
 import static org.testingisdocumenting.webtau.expectation.equality.ActualExpectedTestReportExpectations.simpleActualExpectedWithIntegers
 
 class EqualMatcherTest {
     private final int expected = 8
-    private final ActualPath actualPath = new ActualPath("value")
+    private final ValuePath actualPath = new ValuePath("value")
     private final EqualMatcher matcher = new EqualMatcher(expected)
 
     @Test
@@ -96,17 +97,17 @@ class EqualMatcherTest {
         }
 
         @Override
-        String matchedMessage(ActualPath actualPath, Object actual) {
+        String matchedMessage(ValuePath actualPath, Object actual) {
             return "matchedMessage:" + actualPath + ":" + actual
         }
 
         @Override
-        String mismatchedMessage(ActualPath actualPath, Object actual) {
+        String mismatchedMessage(ValuePath actualPath, Object actual) {
             return "mismatchedMessage:" + actualPath + ":" + actual
         }
 
         @Override
-        boolean matches(ActualPath actualPath, Object actual) {
+        boolean matches(ValuePath actualPath, Object actual) {
             return true
         }
 
@@ -116,17 +117,17 @@ class EqualMatcherTest {
         }
 
         @Override
-        String negativeMatchedMessage(ActualPath actualPath, Object actual) {
+        String negativeMatchedMessage(ValuePath actualPath, Object actual) {
             return "negativeMatchedMessage:" + actualPath + ":" + actual
         }
 
         @Override
-        String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
+        String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
             return "negativeMismatchedMessage:" + actualPath + ":" + actual
         }
 
         @Override
-        boolean negativeMatches(ActualPath actualPath, Object actual) {
+        boolean negativeMatches(ValuePath actualPath, Object actual) {
             return true
         }
     }

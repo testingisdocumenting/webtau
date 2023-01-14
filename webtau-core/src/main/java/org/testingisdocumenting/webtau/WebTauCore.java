@@ -24,7 +24,7 @@ import org.testingisdocumenting.webtau.data.table.TableDataUnderscore;
 import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenFunctions;
 import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.documentation.CoreDocumentation;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.*;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
@@ -90,8 +90,8 @@ public class WebTauCore extends Matchers {
         return CollectionUtils.aMapOf(original, firstKey, firstValue, restKv);
     }
 
-    public static ActualPath createActualPath(String path) {
-        return new ActualPath(path);
+    public static ValuePath createActualPath(String path) {
+        return new ValuePath(path);
     }
 
     public static void defer(String label, Runnable code) {

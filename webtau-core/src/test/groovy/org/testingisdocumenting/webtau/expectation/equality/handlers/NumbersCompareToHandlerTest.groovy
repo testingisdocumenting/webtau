@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
-import org.testingisdocumenting.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
@@ -24,7 +25,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.junit.Assert.assertEquals
 
 class NumbersCompareToHandlerTest {
-    private static final ActualPath actualPath = createActualPath("value")
+    private static final ValuePath actualPath = createActualPath("value")
 
     @Test
     void "handles numbers of different types only for equality"() {

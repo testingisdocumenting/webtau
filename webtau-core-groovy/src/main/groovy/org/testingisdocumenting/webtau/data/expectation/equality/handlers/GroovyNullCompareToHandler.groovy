@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.data.expectation.equality.handlers
 
-import org.testingisdocumenting.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler
 import org.codehaus.groovy.runtime.NullObject
@@ -33,7 +33,7 @@ class GroovyNullCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         comparator.compareUsingEqualOnly(actualPath, (Object)null, expected)
     }
 }

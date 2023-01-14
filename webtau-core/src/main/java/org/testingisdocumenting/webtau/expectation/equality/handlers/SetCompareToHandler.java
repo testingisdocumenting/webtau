@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
@@ -33,9 +34,9 @@ public class SetCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected) {
-        Set<?> actualSet = (Set) actual;
-        Set<?> expectedSet = (Set) expected;
+    public void compareEqualOnly(CompareToComparator compareToComparator, ValuePath actualPath, Object actual, Object expected) {
+        Set<?> actualSet = (Set<?>) actual;
+        Set<?> expectedSet = (Set<?>) expected;
 
         Comparator comparator = new Comparator(compareToComparator, actualPath, actualSet, expectedSet);
         comparator.compare();
@@ -44,11 +45,11 @@ public class SetCompareToHandler implements CompareToHandler {
     private class Comparator {
         private final CompareToComparator comparator;
         private final CompareToComparator localComparator;
-        private final ActualPath actualPath;
+        private final ValuePath actualPath;
         List<?> actualLeft;
         List<?> expectedLeft;
 
-        Comparator(CompareToComparator compareToComparator, ActualPath actualPath, Set<?> actual, Set<?> expected) {
+        Comparator(CompareToComparator compareToComparator, ValuePath actualPath, Set<?> actual, Set<?> expected) {
             this.comparator = compareToComparator;
             this.localComparator = CompareToComparator.comparator(compareToComparator.getAssertionMode());
             this.actualPath = actualPath;

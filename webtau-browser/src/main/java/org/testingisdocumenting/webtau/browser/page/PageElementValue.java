@@ -21,7 +21,7 @@ import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
@@ -67,7 +67,7 @@ public class PageElementValue<E> implements ActualValueExpectations, ActualPathA
     }
 
     @Override
-    public ActualPath actualPath() {
+    public ValuePath actualPath() {
         return createActualPath("pageElementValue");
     }
 

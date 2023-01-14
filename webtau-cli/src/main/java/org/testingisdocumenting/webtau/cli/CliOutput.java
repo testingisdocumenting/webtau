@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cli.expectation.CliResultExpectations;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.RegexpUtils;
@@ -50,8 +50,8 @@ public class CliOutput implements CliResultExpectations {
     }
 
     @Override
-    public ActualPath actualPath() {
-        return new ActualPath(id);
+    public ValuePath actualPath() {
+        return new ValuePath(id);
     }
 
     public String extractByRegexp(String regexp) {

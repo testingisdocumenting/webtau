@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.testingisdocumenting.webtau.data.live.LiveValue;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 
@@ -28,13 +28,13 @@ public class LiveValueContainHandler implements ContainHandler {
     }
 
     @Override
-    public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         LiveValue<?> actualLiveValue = (LiveValue<?>) actual;
         containAnalyzer.contains(actualPath, actualLiveValue.get(), expected);
     }
 
     @Override
-    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         LiveValue<?> actualLiveValue = (LiveValue<?>) actual;
         containAnalyzer.notContains(actualPath, actualLiveValue.get(), expected);
     }

@@ -21,7 +21,7 @@ import org.testingisdocumenting.webtau.data.BinaryDataProvider;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
 import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
@@ -86,7 +86,7 @@ public interface DataNode extends DataNodeExpectations, BinaryDataProvider, Comp
     }
 
     @Override
-    default ActualPath actualPath() {
+    default ValuePath actualPath() {
         return createActualPath(id().getPath());
     }
 

@@ -18,7 +18,7 @@ package org.testingisdocumenting.webtau.http.validation;
 
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.http.HttpResponse;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
@@ -139,7 +139,7 @@ public class BodyDataNode implements DataNode {
     }
 
     @Override
-    public ActualPath actualPath() {
+    public ValuePath actualPath() {
         return body.actualPath();
     }
 

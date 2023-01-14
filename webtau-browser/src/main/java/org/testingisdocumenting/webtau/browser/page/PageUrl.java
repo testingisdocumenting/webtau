@@ -21,7 +21,7 @@ import org.testingisdocumenting.webtau.browser.BrowserContext;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
@@ -102,7 +102,7 @@ public class PageUrl implements PrettyPrintable, ActualValueExpectations, Actual
     }
 
     @Override
-    public ActualPath actualPath() {
+    public ValuePath actualPath() {
         return createActualPath("url");
     }
 

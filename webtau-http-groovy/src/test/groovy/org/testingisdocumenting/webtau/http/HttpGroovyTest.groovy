@@ -88,7 +88,7 @@ class HttpGroovyTest extends HttpTestBase {
         http.get("/end-point") {
             complexList.should == ["k1"   | "k2"] {
                                   __________________
-                                    "v1"  | 30
+                                    "v1"  | 40
                                     "v11" | 40 }
         }
     }

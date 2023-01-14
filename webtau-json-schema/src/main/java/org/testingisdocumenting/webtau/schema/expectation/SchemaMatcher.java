@@ -22,7 +22,7 @@ import com.networknt.schema.JsonSchema;
 import com.networknt.schema.JsonSchemaFactory;
 import com.networknt.schema.SpecVersion;
 import com.networknt.schema.ValidationMessage;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
@@ -65,18 +65,18 @@ public class SchemaMatcher implements ValueMatcher {
     }
 
     @Override
-    public String matchedMessage(ActualPath actualPath, Object actual) {
+    public String matchedMessage(ValuePath actualPath, Object actual) {
         return "complies with schema " + schemaFileName;
     }
 
     @Override
-    public String mismatchedMessage(ActualPath actualPath, Object actual) {
+    public String mismatchedMessage(ValuePath actualPath, Object actual) {
         return actualPath + " expected to comply with schema " + schemaFileName + "\n" +
                 validationsErrors(actual);
     }
 
     @Override
-    public boolean matches(ActualPath actualPath, Object actual) {
+    public boolean matches(ValuePath actualPath, Object actual) {
         return validationsErrors(actual).isEmpty();
     }
 
@@ -100,18 +100,18 @@ public class SchemaMatcher implements ValueMatcher {
     }
 
     @Override
-    public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
         return "does not comply with schema " + schemaFileName;
     }
 
     @Override
-    public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
         return actualPath + " expected to not comply with schema " + schemaFileName + "\n" +
                 validationsErrors(actual);
     }
 
     @Override
-    public boolean negativeMatches(ActualPath actualPath, Object actual) {
+    public boolean negativeMatches(ValuePath actualPath, Object actual) {
         return !validationsErrors(actual).isEmpty();
     }
 

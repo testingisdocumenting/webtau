@@ -17,7 +17,9 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler.Flow;
+import org.testingisdocumenting.webtau.expectation.stepoutput.ValueMatcherIterableStepOutput;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 import org.testingisdocumenting.webtau.reporter.*;
 
@@ -32,24 +34,24 @@ import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
 public class ActualValue implements ActualValueExpectations {
     private final Object actual;
     private final TokenizedMessage valueDescription;
-    private final ActualPath actualPath;
+    private final ValuePath actualPath;
     private final StepReportOptions shouldReportOptions;
 
     public ActualValue(Object actual) {
-        this(actual, ActualPath.UNDEFINED);
+        this(actual, ValuePath.UNDEFINED);
     }
 
-    public ActualValue(Object actual, ActualPath actualPath) {
+    public ActualValue(Object actual, ValuePath actualPath) {
         this(actual, actualPath, StepReportOptions.SKIP_START);
     }
 
     public ActualValue(Object actual, StepReportOptions shouldReportOptions) {
-        this(actual, ActualPath.UNDEFINED, shouldReportOptions);
+        this(actual, ValuePath.UNDEFINED, shouldReportOptions);
     }
 
-    public ActualValue(Object actual, ActualPath actualPath, StepReportOptions shouldReportOptions) {
+    public ActualValue(Object actual, ValuePath actualPath, StepReportOptions shouldReportOptions) {
         this.actual = extractActualValue(actual);
-        this.actualPath = actualPath != ActualPath.UNDEFINED ? actualPath : extractPath(actual);
+        this.actualPath = actualPath != ValuePath.UNDEFINED ? actualPath : extractPath(actual);
         this.valueDescription = extractDescription(actual, this.actualPath);
         this.shouldReportOptions = shouldReportOptions;
     }
@@ -153,13 +155,13 @@ public class ActualValue implements ActualValueExpectations {
                 matcher.mismatchedMessage(actualPath, actual);
     }
 
-    private static ActualPath extractPath(Object actual) {
+    private static ValuePath extractPath(Object actual) {
         return (actual instanceof ActualPathAndDescriptionAware) ?
                 (((ActualPathAndDescriptionAware) actual).actualPath()):
                 createActualPath("[value]");
     }
 
-    private static TokenizedMessage extractDescription(Object actual, ActualPath path) {
+    private static TokenizedMessage extractDescription(Object actual, ValuePath path) {
         return (actual instanceof ActualPathAndDescriptionAware) ?
                 (((ActualPathAndDescriptionAware) actual).describe()):
                 TokenizedMessage.tokenizedMessage(IntegrationTestsMessageBuilder.id(path.getPath()));
@@ -187,17 +189,17 @@ public class ActualValue implements ActualValueExpectations {
                 expectationValidation);
 
         // TODO generalize need more use cases and possible refactoring
-//        if (value instanceof Iterable) {
-//            step.setStepOutputFunc((matched) -> {
-//                if (Boolean.TRUE.equals(matched)) {
-//                    return WebTauStepOutput.EMPTY;
-//                }
-//
-//                return new ValueMatcherIterableStepOutput((Iterable<?>) value, isNegative ?
-//                        valueMatcher.mismatchedPaths() :
-//                        valueMatcher.matchedPaths());
-//            });
-//        }
+        if (value instanceof Iterable) {
+            step.setStepOutputFunc((matched) -> {
+                if (Boolean.TRUE.equals(matched)) {
+                    return WebTauStepOutput.EMPTY;
+                }
+
+                return new ValueMatcherIterableStepOutput((Iterable<?>) value, isNegative ?
+                        valueMatcher.mismatchedPaths() :
+                        valueMatcher.matchedPaths());
+            });
+        }
 
         step.execute(stepReportOptions);
     }

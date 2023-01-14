@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 
@@ -30,7 +30,7 @@ public class IterableContainHandler implements ContainHandler {
     }
 
     @Override
-    public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected);
         List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
 
@@ -41,7 +41,7 @@ public class IterableContainHandler implements ContainHandler {
     }
 
     @Override
-    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected);
         List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
 

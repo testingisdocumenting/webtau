@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.fs;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
@@ -32,11 +32,11 @@ import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBu
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class FileTextContent implements ActualValueExpectations, ActualPathAndDescriptionAware {
-    private final ActualPath actualPath;
+    private final ValuePath actualPath;
     private final Path path;
 
     public FileTextContent(Path path) {
-        this.actualPath = new ActualPath("file <" + path.getFileName().toString() + ">");
+        this.actualPath = new ValuePath("file <" + path.getFileName().toString() + ">");
         this.path = path;
     }
 
@@ -68,7 +68,7 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAndDe
     }
 
     @Override
-    public ActualPath actualPath() {
+    public ValuePath actualPath() {
         return actualPath;
     }
 

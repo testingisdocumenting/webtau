@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 
 import java.util.ArrayList;
@@ -25,12 +25,12 @@ import java.util.Iterator;
 import java.util.List;
 
 public class IterableContainAnalyzer {
-    private final ActualPath actualPath;
+    private final ValuePath actualPath;
     private final Object actual;
     private final Object expected;
     private final CompareToComparator comparator;
 
-    public IterableContainAnalyzer(ActualPath actualPath, Object actual, Object expected) {
+    public IterableContainAnalyzer(ValuePath actualPath, Object actual, Object expected) {
         this.actualPath = actualPath;
         this.actual = actual;
         this.expected = expected;
@@ -46,7 +46,7 @@ public class IterableContainAnalyzer {
         int idx = 0;
         while (iterator.hasNext()) {
             Object actualValue = iterator.next();
-            ActualPath indexedPath = actualPath.index(idx);
+            ValuePath indexedPath = actualPath.index(idx);
 
             boolean isEqual = comparator.compareIsEqual(indexedPath, actualValue, expected);
             if (isEqual) {

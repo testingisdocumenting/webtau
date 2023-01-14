@@ -22,7 +22,7 @@ import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparison;
 import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonReport;
 import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonResult;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
@@ -37,7 +37,7 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
 
     @Override
     @SuppressWarnings("unchecked")
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         TableData expectedTable = (TableData) expected;
         TableData actualTable = createTableFromIterable((Iterable<Object>) actual);
 

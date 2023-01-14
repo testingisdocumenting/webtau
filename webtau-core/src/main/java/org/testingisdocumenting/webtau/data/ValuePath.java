@@ -15,16 +15,16 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.expectation;
+package org.testingisdocumenting.webtau.data;
 
 import java.util.Objects;
 
-public class ActualPath {
-    public static final ActualPath UNDEFINED = new ActualPath("");
+public class ValuePath {
+    public static final ValuePath UNDEFINED = new ValuePath("");
 
     private final String path;
 
-    public ActualPath(String path) {
+    public ValuePath(String path) {
         if (path == null) {
             throw new IllegalArgumentException("path cannot be null");
         }
@@ -32,12 +32,12 @@ public class ActualPath {
         this.path = path;
     }
 
-    public ActualPath property(String propName) {
-        return new ActualPath(isEmpty() ? propName : path + "." + propName);
+    public ValuePath property(String propName) {
+        return new ValuePath(isEmpty() ? propName : path + "." + propName);
     }
 
-    public ActualPath index(int idx) {
-        return new ActualPath(path + "[" + idx + "]");
+    public ValuePath index(int idx) {
+        return new ValuePath(path + "[" + idx + "]");
     }
 
     public String getPath() {
@@ -63,7 +63,7 @@ public class ActualPath {
             return false;
         }
 
-        ActualPath that = (ActualPath) o;
+        ValuePath that = (ValuePath) o;
         return path.equals(that.path);
     }
 

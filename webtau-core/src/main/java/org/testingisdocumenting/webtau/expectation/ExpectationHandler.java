@@ -16,17 +16,19 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
+
 public interface ExpectationHandler {
     enum Flow {
         Terminate,
         PassToNext
     }
 
-    default Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
+    default Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
         return Flow.PassToNext;
     }
 
-    default void onValueMatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue) {}
+    default void onValueMatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue) {}
 
     default Flow onCodeMismatch(CodeMatcher codeMatcher, String message) {
         return Flow.PassToNext;

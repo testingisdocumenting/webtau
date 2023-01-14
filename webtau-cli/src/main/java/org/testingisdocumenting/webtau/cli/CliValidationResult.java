@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.cli;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 
 import java.util.*;
@@ -134,6 +134,6 @@ public class CliValidationResult implements WebTauStepOutput {
     }
 
     @Override
-    public void prettyPrint(ConsoleOutput console) {
+    public void prettyPrint(PrettyPrinter printer) {
     }
 }

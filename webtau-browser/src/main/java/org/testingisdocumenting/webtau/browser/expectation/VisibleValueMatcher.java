@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +18,7 @@
 package org.testingisdocumenting.webtau.browser.expectation;
 
 import org.testingisdocumenting.webtau.browser.page.PageElement;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
 public class VisibleValueMatcher implements ValueMatcher {
@@ -27,17 +28,17 @@ public class VisibleValueMatcher implements ValueMatcher {
     }
 
     @Override
-    public String matchedMessage(ActualPath actualPath, Object actual) {
+    public String matchedMessage(ValuePath actualPath, Object actual) {
         return "is visible";
     }
 
     @Override
-    public String mismatchedMessage(ActualPath actualPath, Object actual) {
+    public String mismatchedMessage(ValuePath actualPath, Object actual) {
         return "is hidden";
     }
 
     @Override
-    public boolean matches(ActualPath actualPath, Object actual) {
+    public boolean matches(ValuePath actualPath, Object actual) {
         PageElement pageElement = (PageElement) actual;
         return pageElement.isVisible();
     }
@@ -48,17 +49,17 @@ public class VisibleValueMatcher implements ValueMatcher {
     }
 
     @Override
-    public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
         return "is hidden";
     }
 
     @Override
-    public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
         return "is visible";
     }
 
     @Override
-    public boolean negativeMatches(ActualPath actualPath, Object actual) {
+    public boolean negativeMatches(ValuePath actualPath, Object actual) {
         return ! matches(actualPath, actual);
     }
 }

@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.browser.expectation;
 
 import org.testingisdocumenting.webtau.browser.page.PageElementValue;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
@@ -36,13 +36,13 @@ public class PageElementValueCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         PageElementValue<?> actualElementValue = (PageElementValue<?>) actual;
         comparator.compareUsingEqualOnly(creataPath(actualElementValue), extractActualValue(actualElementValue), expected);
     }
 
     @Override
-    public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareGreaterLessEqual(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         PageElementValue<?> actualElementValue = (PageElementValue<?>) actual;
         comparator.compareUsingCompareTo(creataPath(actualElementValue), extractActualValue(actualElementValue), expected);
     }
@@ -51,7 +51,7 @@ public class PageElementValueCompareToHandler implements CompareToHandler {
         return actualElementValue.get();
     }
 
-    private ActualPath creataPath(PageElementValue<?> elementValue) {
+    private ValuePath creataPath(PageElementValue<?> elementValue) {
         return createActualPath(elementValue.getName());
     }
 

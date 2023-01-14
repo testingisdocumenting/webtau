@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.utils.TypeUtils;
@@ -33,7 +33,7 @@ public class RegexpEqualCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         Pattern expectedPattern = (Pattern) expected;
 
         boolean isEqual = expectedPattern.matcher(actual.toString()).find();

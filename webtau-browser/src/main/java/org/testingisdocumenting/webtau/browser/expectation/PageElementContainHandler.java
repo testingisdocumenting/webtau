@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.browser.expectation;
 
 import org.testingisdocumenting.webtau.browser.page.PageElement;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 
@@ -29,13 +29,13 @@ public class PageElementContainHandler implements ContainHandler {
     }
 
     @Override
-    public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         PageElement actualPageElement = (PageElement) actual;
         containAnalyzer.contains(actualPath, extractActualValue(actualPageElement), expected);
     }
 
     @Override
-    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         PageElement actualPageElement = (PageElement) actual;
         containAnalyzer.notContains(actualPath, extractActualValue(actualPageElement), expected);
     }

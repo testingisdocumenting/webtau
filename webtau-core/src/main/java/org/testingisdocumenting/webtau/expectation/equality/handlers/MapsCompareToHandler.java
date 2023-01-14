@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
@@ -32,7 +32,7 @@ public class MapsCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator compareToComparator, ValuePath actualPath, Object actual, Object expected) {
         Map<?, ?> actualMap = (Map<?, ?>) actual;
         Map<?, ?> expectedMap = (Map<?, ?>) expected;
 
@@ -42,12 +42,12 @@ public class MapsCompareToHandler implements CompareToHandler {
 
     private class Comparator {
         private final CompareToComparator compareToComparator;
-        private final ActualPath actualPath;
+        private final ValuePath actualPath;
         private final Map<?, ?> actualMap;
         private final Map<?, ?> expectedMap;
         private final Set<Object> allKeys;
 
-        Comparator(CompareToComparator compareToComparator, ActualPath actualPath, Map<?, ?> actualMap, Map<?, ?> expectedMap) {
+        Comparator(CompareToComparator compareToComparator, ValuePath actualPath, Map<?, ?> actualMap, Map<?, ?> expectedMap) {
             this.compareToComparator = compareToComparator;
             this.actualPath = actualPath;
             this.actualMap = actualMap;
@@ -62,7 +62,7 @@ public class MapsCompareToHandler implements CompareToHandler {
         }
 
         private void handleKey(Object key) {
-            ActualPath propertyPath = actualPath.property(key.toString());
+            ValuePath propertyPath = actualPath.property(key.toString());
 
             if (! actualMap.containsKey(key)) {
                 compareToComparator.reportMissing(MapsCompareToHandler.this, propertyPath, expectedMap.get(key));

@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.cli.expectation;
 
 import org.testingisdocumenting.webtau.cli.CliExitCode;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
@@ -34,12 +34,12 @@ public class CliExitCodeCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         comparator.compareUsingEqualOnly(actualPath, extractExitCodeAndMarkAsChecked(actual), expected);
     }
 
     @Override
-    public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareGreaterLessEqual(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         comparator.compareIsGreaterOrEqual(actualPath, extractExitCodeAndMarkAsChecked(actual), expected);
     }
 

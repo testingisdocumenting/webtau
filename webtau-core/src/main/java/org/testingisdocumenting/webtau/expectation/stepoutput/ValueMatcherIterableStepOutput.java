@@ -18,7 +18,7 @@ package org.testingisdocumenting.webtau.expectation.stepoutput;
 
 import org.testingisdocumenting.webtau.data.render.IterablePrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 
 import java.util.Collections;
@@ -27,11 +27,11 @@ import java.util.Map;
 
 public class ValueMatcherIterableStepOutput implements WebTauStepOutput {
     private final Iterable<?> actual;
-    private final List<ActualPath> actualPaths;
+    private final List<ValuePath> valuePaths;
 
-    public ValueMatcherIterableStepOutput(Iterable<?> actual, List<ActualPath> actualPaths) {
+    public ValueMatcherIterableStepOutput(Iterable<?> actual, List<ValuePath> valuePaths) {
         this.actual = actual;
-        this.actualPaths = actualPaths;
+        this.valuePaths = valuePaths;
     }
 
     @Override

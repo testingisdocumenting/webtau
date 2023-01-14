@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.cli.expectation;
 
 import org.testingisdocumenting.webtau.cli.CliOutput;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
@@ -29,7 +29,7 @@ public class CliOutputCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         comparator.compareUsingEqualOnly(actualPath, ((CliOutput) actual).get(), expected);
     }
 }

@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.http.datanode;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
@@ -42,7 +42,7 @@ public class DataNodeCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         if (expected instanceof Map) {
             compareWithMap(comparator, actualPath, (DataNode) actual, (Map<?, ?>) expected);
         } else if (expected instanceof JsonRequestBody && ((JsonRequestBody) expected).isMap()) {
@@ -54,16 +54,16 @@ public class DataNodeCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareGreaterLessEqual(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareGreaterLessEqual(CompareToComparator compareToComparator, ValuePath actualPath, Object actual, Object expected) {
         DataNode actualDataNode = (DataNode) actual;
         compareToComparator.compareUsingCompareTo(actualPath, actualDataNode.getTraceableValue(), expected);
     }
 
-    private void compareWithMap(CompareToComparator comparator, ActualPath actualPath, DataNode actual, Map<?, ?> expected) {
+    private void compareWithMap(CompareToComparator comparator, ValuePath actualPath, DataNode actual, Map<?, ?> expected) {
         Set<?> keys = expected.keySet();
         for (Object key : keys) {
             String p = (String) key;
-            ActualPath propertyPath = actualPath.property(p);
+            ValuePath propertyPath = actualPath.property(p);
 
             Object expectedValue = expected.get(p);
             if (!actual.has(p)) {

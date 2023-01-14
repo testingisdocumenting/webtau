@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler.Flow;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
@@ -46,7 +47,7 @@ public class ExpectationHandlers {
         }
     }
 
-    public static void onValueMatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue) {
+    public static void onValueMatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue) {
         handlersStream().forEach(h -> h.onValueMatch(valueMatcher, actualPath, actualValue));
     }
 
@@ -54,7 +55,7 @@ public class ExpectationHandlers {
         return Stream.concat(localHandlers.get().stream(), globalHandlers.stream());
     }
 
-    public static Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
+    public static Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
         return handlersStream()
                 .map(h -> h.onValueMismatch(valueMatcher, actualPath, actualValue, message))
                 .filter(flow -> flow == Flow.Terminate)

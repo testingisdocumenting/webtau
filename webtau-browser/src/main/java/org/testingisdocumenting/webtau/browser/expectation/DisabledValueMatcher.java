@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.browser.expectation;
 
 import org.testingisdocumenting.webtau.browser.page.PageElement;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
 public class DisabledValueMatcher implements ValueMatcher {
@@ -27,17 +27,17 @@ public class DisabledValueMatcher implements ValueMatcher {
     }
 
     @Override
-    public String matchedMessage(ActualPath actualPath, Object actual) {
+    public String matchedMessage(ValuePath actualPath, Object actual) {
         return "is disabled";
     }
 
     @Override
-    public String mismatchedMessage(ActualPath actualPath, Object actual) {
+    public String mismatchedMessage(ValuePath actualPath, Object actual) {
         return "is enabled";
     }
 
     @Override
-    public boolean matches(ActualPath actualPath, Object actual) {
+    public boolean matches(ValuePath actualPath, Object actual) {
         PageElement pageElement = (PageElement) actual;
         return ! pageElement.isEnabled();
     }
@@ -48,17 +48,17 @@ public class DisabledValueMatcher implements ValueMatcher {
     }
 
     @Override
-    public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
         return "is enabled";
     }
 
     @Override
-    public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
         return "is disabled";
     }
 
     @Override
-    public boolean negativeMatches(ActualPath actualPath, Object actual) {
+    public boolean negativeMatches(ValuePath actualPath, Object actual) {
         return ! matches(actualPath, actual);
     }
 }

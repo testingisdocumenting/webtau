@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.utils.JavaBeanUtils;
@@ -46,13 +46,13 @@ public class MapAndBeanCompareToHandler implements CompareToHandler {
     @Override
     @SuppressWarnings("unchecked")
     public void compareEqualOnly(CompareToComparator comparator,
-                                 ActualPath actualPath, Object actual,
+                                 ValuePath actualPath, Object actual,
                                  Object expected) {
         Map<String, ?> expectedMap = (Map<String, ?>) expected;
         Map<String, ?> actualAsMap = JavaBeanUtils.convertBeanToMap(actual);
 
         expectedMap.keySet().forEach(p -> { // going only through expected keys, ignoring all other bean properties
-            ActualPath propertyPath = actualPath.property(p);
+            ValuePath propertyPath = actualPath.property(p);
 
             if (actualAsMap.containsKey(p)) {
                 // use provided comparator to delegate comparison of properties
