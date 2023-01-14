@@ -22,10 +22,7 @@ import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Stream;
 
 /**
@@ -41,6 +38,9 @@ public class PrettyPrinter {
     private static final int INDENTATION_STEP = 2;
     private static final List<PrettyPrintableProvider> prettyPrintProviders = ServiceLoaderUtils.load(PrettyPrintableProvider.class);
 
+    private Set<String> pathsToDecorate;
+    private PrettyPrinterDecorationToken decorationToken;
+
     private final Line currentLine;
 
     private final ConsoleOutput consoleOutput;
@@ -52,7 +52,11 @@ public class PrettyPrinter {
         this.currentLine = new Line();
 
         setIndentationSize(indentationSize);
+    }
 
+    public void setPathsDecoration(PrettyPrinterDecorationToken decorationToken, List<String> paths) {
+        this.pathsToDecorate = new HashSet<>(paths);
+        this.decorationToken = decorationToken;
     }
 
     // TODO remove once DataNode is rewritten using printer
@@ -96,29 +100,38 @@ public class PrettyPrinter {
     }
 
     public void printObject(Object o) {
+        printObject(o, "");
+    }
+
+    public void printObject(Object o, String valuePath) {
         if (o instanceof PrettyPrintable) {
             ((PrettyPrintable) o).prettyPrint(this);
             return;
         }
 
+        boolean needToDecorate = pathsToDecorate.contains(valuePath);
+        if (needToDecorate) {
+            print(decorationToken);
+        }
+
         if (o instanceof Number) {
             print(NUMBER_COLOR, o);
-            return;
-        }
-
-        if (o instanceof String) {
+        } else if (o instanceof String) {
             print(STRING_COLOR, quoteString(o));
-            return;
+        } else {
+            PrettyPrintable prettyPrintable = prettyPrintProviders.stream()
+                    .map(provider -> provider.prettyPrintableFor(o))
+                    .filter(Optional::isPresent)
+                    .findFirst()
+                    .orElseGet(() -> Optional.of(new FallbackPrettyPrintable(o)))
+                    .get();
+
+            prettyPrintable.prettyPrint(this, valuePath);
         }
 
-        PrettyPrintable prettyPrintable = prettyPrintProviders.stream()
-                .map(provider -> provider.prettyPrintableFor(o))
-                .filter(Optional::isPresent)
-                .findFirst()
-                .orElseGet(() -> Optional.of(new FallbackPrettyPrintable(o)))
-                .get();
-
-        prettyPrintable.prettyPrint(this);
+        if (needToDecorate) {
+            print(decorationToken);
+        }
     }
 
     private String quoteString(Object text) {

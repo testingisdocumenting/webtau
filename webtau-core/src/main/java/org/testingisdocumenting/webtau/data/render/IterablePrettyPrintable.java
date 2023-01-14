@@ -31,15 +31,20 @@ public class IterablePrettyPrintable implements PrettyPrintable {
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
+        prettyPrint(printer, "");
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter printer, String rootPath) {
         if (list.isEmpty()) {
             printEmptyList(printer);
         } else {
-            printNonEmptyList(printer);
+            printNonEmptyList(printer, rootPath);
         }
         printer.printLine();
     }
 
-    private void printNonEmptyList(PrettyPrinter printer) {
+    private void printNonEmptyList(PrettyPrinter printer, String path) {
         printer.printDelimiter("[");
         printer.printLine();
         printer.increaseIndentation();
