@@ -21,6 +21,7 @@ import org.junit.Test
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.data.render.TestConsoleOutput
+import org.testingisdocumenting.webtau.reporter.StepReporters
 
 import static org.testingisdocumenting.webtau.Matchers.actual
 import static org.testingisdocumenting.webtau.Matchers.equal
@@ -46,6 +47,7 @@ class ActualValueStepOutputTest {
         def testOutput = new TestConsoleOutput()
 
         ConsoleOutputs.add(ConsoleOutputs.defaultOutput)
+        StepReporters.add(StepReporters.defaultStepReporter)
         try {
             ExpectationHandlers.withAdditionalHandler(new MismatchHandler()) {
                 ConsoleOutputs.withAdditionalOutput(testOutput) {
@@ -53,6 +55,7 @@ class ActualValueStepOutputTest {
                 }
             }
         } finally {
+            StepReporters.remove(StepReporters.defaultStepReporter)
             ConsoleOutputs.remove(ConsoleOutputs.defaultOutput)
         }
 
@@ -67,7 +70,7 @@ class ActualValueStepOutputTest {
     private static class MismatchHandler implements ExpectationHandler {
         @Override
         Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
-            return Flow.Terminate;
+            return Flow.Terminate
         }
     }
 }

@@ -36,6 +36,8 @@ class CoreDocumentationTest implements StepReporter {
     @Before
     void initiateStepReporter() {
         allStepMessages.clear()
+        failedStepMessages.clear()
+        completedStepMessages.clear()
         StepReporters.add(this)
     }
 
