@@ -18,8 +18,9 @@
 package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler.Flow;
-import org.testingisdocumenting.webtau.expectation.stepoutput.ValueMatcherIterableStepOutput;
+import org.testingisdocumenting.webtau.expectation.stepoutput.ValueMatcherStepOutput;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 import org.testingisdocumenting.webtau.reporter.*;
 
@@ -58,14 +59,14 @@ public class ActualValue implements ActualValueExpectations {
 
     @Override
     public void should(ValueMatcher valueMatcher) {
-        executeStep(actual, valueDescription, valueMatcher, false,
+        executeStep(valueMatcher, false,
                 tokenizedMessage(action("expecting")),
                 () -> shouldStep(valueMatcher), shouldReportOptions);
     }
 
     @Override
     public void shouldNot(ValueMatcher valueMatcher) {
-        executeStep(actual, valueDescription, valueMatcher, true,
+        executeStep(valueMatcher, true,
                 tokenizedMessage(action("expecting")),
                 () -> shouldNotStep(valueMatcher), shouldReportOptions);
     }
@@ -73,7 +74,7 @@ public class ActualValue implements ActualValueExpectations {
     @Override
     public void waitTo(ValueMatcher valueMatcher,
                      ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        executeStep(actual, valueDescription, valueMatcher, false,
+        executeStep(valueMatcher, false,
                 tokenizedMessage(action("waiting"), TO),
                 () -> waitToStep(valueMatcher, expectationTimer, tickMillis, timeOutMillis),
                 StepReportOptions.REPORT_ALL);
@@ -82,7 +83,7 @@ public class ActualValue implements ActualValueExpectations {
     @Override
     public void waitToNot(ValueMatcher valueMatcher,
                           ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        executeStep(actual, valueDescription, valueMatcher, true,
+        executeStep(valueMatcher, true,
                 tokenizedMessage(action("waiting"), TO),
                 () -> waitToNotStep(valueMatcher, expectationTimer, tickMillis, timeOutMillis),
                 StepReportOptions.REPORT_ALL);
@@ -175,31 +176,27 @@ public class ActualValue implements ActualValueExpectations {
         return actual;
     }
 
-    private static void executeStep(Object value, TokenizedMessage elementDescription,
-                                    ValueMatcher valueMatcher, boolean isNegative,
-                                    TokenizedMessage messageStart, Supplier<Object> expectationValidation,
-                                    StepReportOptions stepReportOptions) {
+    private void executeStep(ValueMatcher valueMatcher, boolean isNegative,
+                             TokenizedMessage messageStart, Supplier<Object> expectationValidation,
+                             StepReportOptions stepReportOptions) {
         WebTauStep step = createStep(
-                messageStart.add(elementDescription)
+                messageStart.add(valueDescription)
                         .add(matcher(isNegative ? valueMatcher.negativeMatchingMessage() : valueMatcher.matchingMessage())),
-                () -> tokenizedMessage(elementDescription)
+                () -> tokenizedMessage(valueDescription)
                         .add(matcher(isNegative ?
-                                valueMatcher.negativeMatchedMessage(null, value) :
-                                valueMatcher.matchedMessage(null, value))),
+                                valueMatcher.negativeMatchedMessage(null, actual) :
+                                valueMatcher.matchedMessage(null, actual))),
                 expectationValidation);
 
-        // TODO generalize need more use cases and possible refactoring
-        if (value instanceof Iterable) {
-            step.setStepOutputFunc((matched) -> {
-                if (Boolean.TRUE.equals(matched)) {
-                    return WebTauStepOutput.EMPTY;
-                }
+        step.setStepOutputFunc((matched) -> {
+            if (Boolean.TRUE.equals(matched) || !PrettyPrinter.isPrettyPrintable(actual)) {
+                return WebTauStepOutput.EMPTY;
+            }
 
-                return new ValueMatcherIterableStepOutput((Iterable<?>) value, isNegative ?
-                        valueMatcher.mismatchedPaths() :
-                        valueMatcher.matchedPaths());
-            });
-        }
+            return new ValueMatcherStepOutput(actualPath, actual, isNegative ?
+                    valueMatcher.matchedPaths() :
+                    valueMatcher.mismatchedPaths());
+        });
 
         step.execute(stepReportOptions);
     }

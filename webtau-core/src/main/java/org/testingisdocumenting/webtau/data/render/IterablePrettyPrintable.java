@@ -16,6 +16,8 @@
 
 package org.testingisdocumenting.webtau.data.render;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
+
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -31,11 +33,11 @@ public class IterablePrettyPrintable implements PrettyPrintable {
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
-        prettyPrint(printer, "");
+        prettyPrint(printer, ValuePath.UNDEFINED);
     }
 
     @Override
-    public void prettyPrint(PrettyPrinter printer, String rootPath) {
+    public void prettyPrint(PrettyPrinter printer, ValuePath rootPath) {
         if (list.isEmpty()) {
             printEmptyList(printer);
         } else {
@@ -44,7 +46,7 @@ public class IterablePrettyPrintable implements PrettyPrintable {
         printer.printLine();
     }
 
-    private void printNonEmptyList(PrettyPrinter printer, String path) {
+    private void printNonEmptyList(PrettyPrinter printer, ValuePath path) {
         printer.printDelimiter("[");
         printer.printLine();
         printer.increaseIndentation();
@@ -53,7 +55,7 @@ public class IterablePrettyPrintable implements PrettyPrintable {
         for (Object element : list) {
             boolean isLast = idx == list.size() - 1;
 
-            printer.printObject(element);
+            printer.printObject(path.index(idx), element);
 
             if (!isLast) {
                 printer.printDelimiter(",");

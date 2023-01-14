@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.data.render;
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.IndentedConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
@@ -38,7 +39,7 @@ public class PrettyPrinter {
     private static final int INDENTATION_STEP = 2;
     private static final List<PrettyPrintableProvider> prettyPrintProviders = ServiceLoaderUtils.load(PrettyPrintableProvider.class);
 
-    private Set<String> pathsToDecorate;
+    private Set<ValuePath> pathsToDecorate;
     private PrettyPrinterDecorationToken decorationToken;
 
     private final Line currentLine;
@@ -55,7 +56,17 @@ public class PrettyPrinter {
         setIndentationSize(indentationSize);
     }
 
-    public void setPathsDecoration(PrettyPrinterDecorationToken decorationToken, List<String> paths) {
+    public static boolean isPrettyPrintable(Object value) {
+        if (value instanceof PrettyPrintable) {
+            return true;
+        }
+
+        return prettyPrintProviders.stream()
+                .map(provider -> provider.prettyPrintableFor(value))
+                .anyMatch(Optional::isPresent);
+    }
+
+    public void setPathsDecoration(PrettyPrinterDecorationToken decorationToken, List<ValuePath> paths) {
         this.pathsToDecorate.clear();
         this.pathsToDecorate.addAll(paths);
         this.decorationToken = decorationToken;
@@ -102,24 +113,21 @@ public class PrettyPrinter {
     }
 
     public void printObject(Object o) {
-        printObject(o, "");
+        printObject(ValuePath.UNDEFINED, o);
     }
 
-    public void printObject(Object o, String valuePath) {
+    public void printObject(ValuePath valuePath, Object o) {
         if (o instanceof PrettyPrintable) {
             ((PrettyPrintable) o).prettyPrint(this);
             return;
         }
 
         boolean needToDecorate = pathsToDecorate.contains(valuePath);
-        if (needToDecorate) {
-            print(decorationToken);
-        }
 
         if (o instanceof Number) {
-            print(NUMBER_COLOR, o);
+            printPrimitive(NUMBER_COLOR, o, needToDecorate);
         } else if (o instanceof String) {
-            print(STRING_COLOR, quoteString(o));
+            printPrimitive(STRING_COLOR, quoteString(o), needToDecorate);
         } else {
             PrettyPrintable prettyPrintable = prettyPrintProviders.stream()
                     .map(provider -> provider.prettyPrintableFor(o))
@@ -128,11 +136,23 @@ public class PrettyPrinter {
                     .orElseGet(() -> Optional.of(new FallbackPrettyPrintable(o)))
                     .get();
 
-            prettyPrintable.prettyPrint(this, valuePath);
-        }
+            if (needToDecorate) {
+                print(decorationToken.getColor(), decorationToken.getWrapWith());
+            }
 
+            prettyPrintable.prettyPrint(this, valuePath);
+
+            if (needToDecorate) {
+                print(decorationToken.getColor(), decorationToken.getWrapWith());
+            }
+        }
+    }
+
+    private void printPrimitive(Color color, Object o, boolean needToDecorate) {
         if (needToDecorate) {
-            print(decorationToken);
+            print(decorationToken.getColor(), decorationToken.getWrapWith(), o, decorationToken.getWrapWith());
+        } else {
+            print(color, o);
         }
     }
 

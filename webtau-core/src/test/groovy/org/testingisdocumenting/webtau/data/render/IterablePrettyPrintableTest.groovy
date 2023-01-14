@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.data.render
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.testingisdocumenting.webtau.console.ansi.Color
+import org.testingisdocumenting.webtau.data.ValuePath
 
 class IterablePrettyPrintableTest {
     def consoleOutput = new TestConsoleOutput()
@@ -49,6 +51,23 @@ class IterablePrettyPrintableTest {
                 "  1,\n" +
                 "  2,\n" +
                 "  \"hello\",\n" +
+                "  \"world\"\n" +
+                "]")
+    }
+
+    @Test
+    void "decorated list"() {
+        def printer = new PrettyPrinter(consoleOutput, 0)
+        printer.setPathsDecoration(new PrettyPrinterDecorationToken("*", Color.RED),
+            [new ValuePath("[0]"), new ValuePath("[2]")])
+
+        def prettyPrintable = new IterablePrettyPrintable([1, 2, "hello", "world"])
+        prettyPrintable.prettyPrint(printer)
+
+        expectOutput("[\n" +
+                "  *1*,\n" +
+                "  2,\n" +
+                "  *\"hello\"*,\n" +
                 "  \"world\"\n" +
                 "]")
     }

@@ -16,27 +16,31 @@
 
 package org.testingisdocumenting.webtau.expectation.stepoutput;
 
-import org.testingisdocumenting.webtau.data.render.IterablePrettyPrintable;
+import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinterDecorationToken;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-public class ValueMatcherIterableStepOutput implements WebTauStepOutput {
-    private final Iterable<?> actual;
-    private final List<ValuePath> valuePaths;
+public class ValueMatcherStepOutput implements WebTauStepOutput {
+    private final ValuePath root;
+    private final Object actual;
+    private final List<ValuePath> valuePathsToHighlight;
 
-    public ValueMatcherIterableStepOutput(Iterable<?> actual, List<ValuePath> valuePaths) {
+    public ValueMatcherStepOutput(ValuePath root, Object actual, List<ValuePath> valuePathsToHighlight) {
+        this.root = root;
         this.actual = actual;
-        this.valuePaths = valuePaths;
+        this.valuePathsToHighlight = valuePathsToHighlight;
     }
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
-        new IterablePrettyPrintable(actual).prettyPrint(printer);
+        printer.setPathsDecoration(new PrettyPrinterDecorationToken("**", Color.RED), valuePathsToHighlight);
+        printer.printObject(root, actual);
     }
 
     @Override
