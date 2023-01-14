@@ -50,12 +50,14 @@ public class PrettyPrinter {
     public PrettyPrinter(ConsoleOutput consoleOutput, int indentationSize) {
         this.consoleOutput = consoleOutput;
         this.currentLine = new Line();
+        this.pathsToDecorate = new HashSet<>();
 
         setIndentationSize(indentationSize);
     }
 
     public void setPathsDecoration(PrettyPrinterDecorationToken decorationToken, List<String> paths) {
-        this.pathsToDecorate = new HashSet<>(paths);
+        this.pathsToDecorate.clear();
+        this.pathsToDecorate.addAll(paths);
         this.decorationToken = decorationToken;
     }
 
