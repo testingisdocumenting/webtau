@@ -37,17 +37,17 @@ class WebTauStepTest {
     static void init() {
         rootStep = createStep("step action") {
             childStep1 = createStep("c1 action")
-            childStep1.setStepOutputFunc(() -> new OutputA(id: 'id2'))
+            childStep1.setStepOutputFunc((result) -> new OutputA(id: 'id2'))
             childStep1.execute(REPORT_ALL)
             childStep1.setClassifier("typeA")
 
             childStep2 = createStep("c2 action")
-            childStep2.setStepOutputFunc(() -> new OutputB(name: 'name3'))
+            childStep2.setStepOutputFunc((result) -> new OutputB(name: 'name3'))
             childStep2.execute(REPORT_ALL)
             childStep2.setClassifier("typeB")
         }
 
-        rootStep.setStepOutputFunc(() -> new OutputA(id: 'id1'))
+        rootStep.setStepOutputFunc((result) -> new OutputA(id: 'id1'))
         rootStep.setClassifier("typeA")
 
         rootStep.execute(REPORT_ALL)
