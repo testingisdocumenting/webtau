@@ -18,10 +18,10 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cli.expectation.CliResultExpectations;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 
 public class CliExitCode implements CliResultExpectations {
-    private static final ActualPath path = new ActualPath("exitCode");
+    private static final ValuePath path = new ValuePath("exitCode");
     private final int exitCode;
 
     private boolean isChecked;
@@ -31,7 +31,7 @@ public class CliExitCode implements CliResultExpectations {
     }
 
     @Override
-    public ActualPath actualPath() {
+    public ValuePath actualPath() {
         return path;
     }
 

@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.featuretesting
 
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.Color
-import org.testingisdocumenting.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.testingisdocumenting.webtau.utils.FileUtils
 import org.testingisdocumenting.webtau.utils.JsonUtils
@@ -61,7 +61,7 @@ class WebTauEndToEndTestValidator {
                 FileUtils.fileTextContent(expectedPath)))
 
         CompareToComparator comparator = CompareToComparator.comparator()
-        def isEqual = comparator.compareIsEqual(new ActualPath('testDetails'), testDetails, expectedDetails)
+        def isEqual = comparator.compareIsEqual(new ValuePath('testDetails'), testDetails, expectedDetails)
 
         if (! isEqual) {
             ConsoleOutputs.defaultOutput.out('reports are different, you can use IDE to compare files: ', Color.PURPLE, actualPath,

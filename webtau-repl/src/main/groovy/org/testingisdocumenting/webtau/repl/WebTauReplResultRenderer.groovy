@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.repl
 import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.data.render.DataRenderers
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter
 import org.testingisdocumenting.webtau.db.DbQuery
 import org.testingisdocumenting.webtau.fs.FileTextContent
 import org.testingisdocumenting.webtau.repl.tabledata.ReplTableRenderer
@@ -35,7 +36,7 @@ class WebTauReplResultRenderer {
         } else if (result instanceof FileTextContent) {
             renderTextLimitingSize(result.data)
         } else if (result instanceof PrettyPrintable) {
-            result.prettyPrint(ConsoleOutputs.asCombinedConsoleOutput())
+            result.prettyPrint(createPrettyPrinter())
         } else if (result != null) {
             ConsoleOutputs.out(DataRenderers.render(result))
         }
@@ -52,7 +53,11 @@ class WebTauReplResultRenderer {
     }
 
     private static void renderPageElementAndHighlight(PageElement pageElement) {
-        pageElement.prettyPrint(ConsoleOutputs.asCombinedConsoleOutput())
+        pageElement.prettyPrint(createPrettyPrinter())
         pageElement.highlight()
+    }
+
+    private static PrettyPrinter createPrettyPrinter() {
+        return new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 0)
     }
 }

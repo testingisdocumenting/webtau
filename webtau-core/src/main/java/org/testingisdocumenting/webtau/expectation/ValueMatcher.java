@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,11 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
+
+import java.util.Collections;
+import java.util.List;
+
 public interface ValueMatcher {
     // should
 
@@ -25,29 +31,46 @@ public interface ValueMatcher {
     String matchingMessage();
 
     /**
+     * match details
      * @param actualPath path to the value
      * @param actual actual value
      * @return match message
-     * @see ActualPath
+     * @see ValuePath
      */
-    String matchedMessage(ActualPath actualPath, Object actual);
+    String matchedMessage(ValuePath actualPath, Object actual);
+
+    /**
+     * match paths
+     * @return list of paths that matched
+     */
+    default List<ValuePath> matchedPaths() {
+        return Collections.emptyList();
+    }
 
     /**
      * @param actualPath path to the value
      * @param actual actual value
      * @return mismatch message
-     * @see ActualPath
+     * @see ValuePath
      */
-    String mismatchedMessage(ActualPath actualPath, Object actual);
+    String mismatchedMessage(ValuePath actualPath, Object actual);
+
+    /**
+     * mismatch paths
+     * @return list of paths that mismatched
+     */
+    default List<ValuePath> mismatchedPaths() {
+        return Collections.emptyList();
+    }
 
     /**
      * Evaluates matcher. Called only for should
      * @param actualPath path to the value
      * @param actual actual value
      * @return true in case of a match
-     * @see ActualPath
+     * @see ValuePath
      */
-    boolean matches(ActualPath actualPath, Object actual);
+    boolean matches(ValuePath actualPath, Object actual);
 
     // shouldNot
 
@@ -60,24 +83,24 @@ public interface ValueMatcher {
      * @param actualPath path to the value
      * @param actual actual value
      * @return negative match message (shouldNot case)
-     * @see ActualPath
+     * @see ValuePath
      */
-    String negativeMatchedMessage(ActualPath actualPath, Object actual);
+    String negativeMatchedMessage(ValuePath actualPath, Object actual);
 
     /**
      * @param actualPath path to the value
      * @param actual actual value
      * @return negative mismatch message (shouldNot case)
-     * @see ActualPath
+     * @see ValuePath
      */
-    String negativeMismatchedMessage(ActualPath actualPath, Object actual);
+    String negativeMismatchedMessage(ValuePath actualPath, Object actual);
 
     /**
      * Evaluates matcher. Called only for shouldNot
      * @param actualPath path to the value
      * @param actual actual value
      * @return true in case of a negative match (shouldNot case)
-     * @see ActualPath
+     * @see ValuePath
      */
-    boolean negativeMatches(ActualPath actualPath, Object actual);
+    boolean negativeMatches(ValuePath actualPath, Object actual);
 }

@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Map;
@@ -38,8 +38,8 @@ public class WebTauStepOutputKeyValue implements WebTauStepOutput {
     }
 
     @Override
-    public void prettyPrint(ConsoleOutput console) {
-        WebTauStepKeyValue.prettyPrint(console, data);
+    public void prettyPrint(PrettyPrinter printer) {
+        WebTauStepKeyValue.prettyPrint(printer, data);
     }
 
     @Override

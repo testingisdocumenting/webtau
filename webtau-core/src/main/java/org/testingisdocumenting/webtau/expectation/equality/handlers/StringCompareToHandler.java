@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
@@ -35,7 +35,7 @@ public class StringCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator compareToComparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator compareToComparator, ValuePath actualPath, Object actual, Object expected) {
         Comparator comparator = new Comparator(compareToComparator, actualPath, actual, expected);
         comparator.compare();
     }
@@ -44,7 +44,7 @@ public class StringCompareToHandler implements CompareToHandler {
         private final Object actual;
         private final Object expected;
         private final CompareToComparator compareToComparator;
-        private final ActualPath actualPath;
+        private final ValuePath actualPath;
         private String actualString;
         private String expectedString;
 
@@ -58,7 +58,7 @@ public class StringCompareToHandler implements CompareToHandler {
 
         private final List<String> mismatchDetails;
 
-        Comparator(CompareToComparator compareToComparator, ActualPath actualPath,
+        Comparator(CompareToComparator compareToComparator, ValuePath actualPath,
                    Object actual, Object expected) {
             this.compareToComparator = compareToComparator;
             this.actualPath = actualPath;

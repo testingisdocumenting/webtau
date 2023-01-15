@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.testingisdocumenting.webtau.data.live.LiveValue;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
@@ -28,7 +28,7 @@ public class LiveValueCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         LiveValue actualLiveValue = (LiveValue) actual;
         comparator.compareUsingEqualOnly(actualPath, actualLiveValue.get(), expected);
     }

@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.repl
 
 import org.apache.groovy.groovysh.Groovysh
 import org.testingisdocumenting.webtau.browser.page.PageElement
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter
 import org.testingisdocumenting.webtau.repl.tabledata.ReplTableRenderer
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable
@@ -42,7 +43,7 @@ class ReplResultRenderer {
         } else if (result instanceof FileTextContent) {
             renderTextLimitingSize(result.data)
         } else if (result instanceof PrettyPrintable) {
-            result.prettyPrint(ConsoleOutputs.asCombinedConsoleOutput())
+            result.prettyPrint(createPrettyPrinter())
         } else {
             groovysh.defaultResultHook(result)
         }
@@ -59,7 +60,11 @@ class ReplResultRenderer {
     }
 
     private static void renderPageElementAndHighlight(PageElement pageElement) {
-        pageElement.prettyPrint(ConsoleOutputs.asCombinedConsoleOutput())
+        pageElement.prettyPrint(createPrettyPrinter())
         pageElement.highlight()
+    }
+
+    private static PrettyPrinter createPrettyPrinter() {
+        return new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 0)
     }
 }

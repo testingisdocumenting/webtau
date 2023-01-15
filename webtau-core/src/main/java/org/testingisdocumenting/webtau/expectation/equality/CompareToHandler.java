@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 
 public interface CompareToHandler {
     /**
@@ -53,7 +53,7 @@ public interface CompareToHandler {
      * @param expected expected value
      */
     void compareEqualOnly(CompareToComparator comparator,
-                          ActualPath actualPath, Object actual,
+                          ValuePath actualPath, Object actual,
                           Object expected);
 
     /**
@@ -64,7 +64,7 @@ public interface CompareToHandler {
      * @param expected expected value
      */
     default void compareGreaterLessEqual(CompareToComparator comparator,
-                                         ActualPath actualPath, Object actual,
+                                         ValuePath actualPath, Object actual,
                                          Object expected) {
         throw new UnsupportedOperationException("greater-less comparison is not implemented");
     }

@@ -17,14 +17,14 @@
 
 package org.testingisdocumenting.webtau.expectation.equality
 
-import org.testingisdocumenting.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.data.ValuePath
 import org.junit.Test
 
 import static org.testingisdocumenting.webtau.expectation.equality.ActualExpectedTestReportExpectations.*
 
 class GreaterThanMatcherTest {
     private final int expected = 8
-    private final ActualPath actualPath = new ActualPath('value')
+    private final ValuePath actualPath = new ValuePath('value')
     private final GreaterThanMatcher matcher = new GreaterThanMatcher(expected)
 
     @Test

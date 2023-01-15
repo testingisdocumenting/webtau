@@ -18,7 +18,7 @@ package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationExitCodeOutputHandler;
 import org.testingisdocumenting.webtau.cli.expectation.CliValidationOutputOnlyHandler;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
@@ -61,7 +61,7 @@ public class CliForegroundCommand {
 
         try {
             step.setInput(config.createStepInput());
-            step.setOutputSupplier(() -> validationResult);
+            step.setStepOutputFunc((stepResult) -> validationResult);
             step.execute(StepReportOptions.REPORT_ALL);
             return new CliRunResult(command,
                     validationResult.getExitCode().get(),
@@ -104,7 +104,7 @@ public class CliForegroundCommand {
 
             ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
                 @Override
-                public Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
+                public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
                     validationResult.addMismatch(message);
                     return ExpectationHandler.Flow.PassToNext;
                 }

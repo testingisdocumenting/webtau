@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.*;
 import org.testingisdocumenting.webtau.expectation.code.ThrowExceptionMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAllMatcher;
@@ -56,7 +57,7 @@ public class Matchers {
      * @return Object to chain a matcher against
      */
     public static ActualValueExpectations actual(Object actual, String path) {
-        return new ActualValue(actual, new ActualPath(path));
+        return new ActualValue(actual, new ValuePath(path));
     }
 
     /**

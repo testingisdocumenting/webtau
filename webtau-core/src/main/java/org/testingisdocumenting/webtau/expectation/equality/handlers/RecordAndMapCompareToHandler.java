@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +18,7 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.testingisdocumenting.webtau.data.table.Record;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
@@ -35,13 +36,13 @@ public class RecordAndMapCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         Record actualRecord = (Record) actual;
         Map expectedMap = (Map) expected;
 
         for (Object key : expectedMap.keySet()) {
             String name = key.toString();
-            ActualPath propertyPath = actualPath.property(name);
+            ValuePath propertyPath = actualPath.property(name);
 
             if (actualRecord.getHeader().has(name)) {
                 Object actualValue = actualRecord.get(name);

@@ -17,11 +17,12 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 public interface ActualPathAndDescriptionAware {
-    ActualPath actualPath();
+    ValuePath actualPath();
 
     default TokenizedMessage describe() {
         return TokenizedMessage.tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath()));

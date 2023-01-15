@@ -18,10 +18,11 @@
 package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
+import java.util.List;
 import java.util.stream.Stream;
 
 public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
@@ -46,7 +47,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String matchedMessage(ActualPath actualPath, Object actual) {
+    public String matchedMessage(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
             return expectedMatcher.matchedMessage(actualPath, actual);
         }
@@ -56,7 +57,12 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String mismatchedMessage(ActualPath actualPath, Object actual) {
+    public List<ValuePath> matchedPaths() {
+        return comparator.generateEqualMatchPaths();
+    }
+
+    @Override
+    public String mismatchedMessage(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
             return expectedMatcher.mismatchedMessage(actualPath, actual);
         }
@@ -65,7 +71,12 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public boolean matches(ActualPath actualPath, Object actual) {
+    public List<ValuePath> mismatchedPaths() {
+        return comparator.generateEqualMismatchPaths();
+    }
+
+    @Override
+    public boolean matches(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
             return expectedMatcher.matches(actualPath, actual);
         }
@@ -84,7 +95,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
             return expectedMatcher.negativeMatchedMessage(actualPath, actual);
         }
@@ -94,7 +105,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
             return expectedMatcher.negativeMismatchedMessage(actualPath, actual);
         }
@@ -103,7 +114,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public boolean negativeMatches(ActualPath actualPath, Object actual) {
+    public boolean negativeMatches(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
             return expectedMatcher.negativeMatches(actualPath, actual);
         }

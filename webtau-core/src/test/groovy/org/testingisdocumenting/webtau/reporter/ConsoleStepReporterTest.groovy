@@ -17,20 +17,20 @@
 
 package org.testingisdocumenting.webtau.reporter
 
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 import org.testingisdocumenting.webtau.WebTauCore
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
 import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter
 import org.testingisdocumenting.webtau.time.ControlledTimeProvider
 import org.testingisdocumenting.webtau.time.Time
-import org.junit.After
-import org.junit.Before
-import org.junit.Test
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.matcher
-import static org.junit.Assert.assertEquals
+import static org.junit.Assert.*
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*
 
 class ConsoleStepReporterTest implements ConsoleOutput {
     private static ConsoleOutput ansiConsoleOutput = new AnsiConsoleOutput()
@@ -153,7 +153,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
             }
 
             secondLevelStepSuccess.setInput(new TestStepInput())
-            secondLevelStepSuccess.setOutputSupplier(() -> new TestStepOutput())
+            secondLevelStepSuccess.setStepOutputFunc((result) -> new TestStepOutput())
             secondLevelStepSuccess.execute(StepReportOptions.REPORT_ALL)
         }
 
@@ -310,7 +310,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     private void expectReport(int verbosityLevel, String expectedReport, Closure code) {
         lines = new ArrayList<>()
-        def stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> verbosityLevel)
+        def stepReporter = new ConsoleStepReporter(getConverter(), () -> verbosityLevel)
 
         try {
             StepReporters.add(stepReporter)
@@ -343,9 +343,9 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     private static class TestStepInput implements WebTauStepInput {
         @Override
-        void prettyPrint(ConsoleOutput console) {
-            console.out("hello input")
-            console.out("world")
+        void prettyPrint(PrettyPrinter printer) {
+            printer.printLine("hello input")
+            printer.printLine("world")
         }
 
         @Override
@@ -356,9 +356,9 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     private static class TestStepOutput implements WebTauStepOutput {
         @Override
-        void prettyPrint(ConsoleOutput console) {
-            console.out("hello output")
-            console.out("world")
+        void prettyPrint(PrettyPrinter printer) {
+            printer.printLine("hello output")
+            printer.printLine("world")
         }
 
         @Override

@@ -97,6 +97,8 @@ public class ConsoleOutputs {
 
     private static Stream<ConsoleOutput> getOutputsStream() {
         if (outputs.isEmpty()) {
+            // this is the default case for JUnit like runners
+            // we don't merge here with local outputs to slightly speed up the process
             return Stream.of(defaultOutput);
         }
 

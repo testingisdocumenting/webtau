@@ -18,10 +18,10 @@ package org.testingisdocumenting.webtau.http.validation;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
-import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
 import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
 import org.testingisdocumenting.webtau.http.request.HttpApplicationMime;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
@@ -42,8 +42,8 @@ public class HttpStepInput implements WebTauStepInput {
     }
 
     @Override
-    public void prettyPrint(ConsoleOutput console) {
-        renderRequest(console);
+    public void prettyPrint(PrettyPrinter printer) {
+        renderRequest(printer.createIndentedConsoleOutput());
     }
 
     @Override

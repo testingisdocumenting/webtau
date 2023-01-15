@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.expectation
 
 import org.testingisdocumenting.webtau.data.DummyLiveValue
+import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.data.live.LiveValue
 import org.testingisdocumenting.webtau.expectation.timer.DummyExpectationTimer
 import org.junit.Before
@@ -123,7 +124,7 @@ class ActualValueTest {
 
         def handler = new ExpectationHandler() {
             @Override
-            ExpectationHandler.Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath path, Object actualValue, String message) {
+            ExpectationHandler.Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath path, Object actualValue, String message) {
                 messages.add([path: path, value: actualValue, message: message])
                 return ExpectationHandler.Flow.Terminate
             }
@@ -144,7 +145,7 @@ class ActualValueTest {
 
         def handler = new ExpectationHandler() {
             @Override
-            void onValueMatch(ValueMatcher valueMatcher, ActualPath path, Object value) {
+            void onValueMatch(ValueMatcher valueMatcher, ValuePath path, Object value) {
                 messages.add([path: path, value: value])
             }
         }

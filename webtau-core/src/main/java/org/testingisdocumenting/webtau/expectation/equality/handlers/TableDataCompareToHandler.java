@@ -21,7 +21,7 @@ import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparison;
 import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonReport;
 import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonResult;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
@@ -32,7 +32,7 @@ public class TableDataCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         TableDataComparisonResult result = TableDataComparison.compare((TableData) actual, (TableData) expected);
         if (!result.areEqual()) {
             comparator.reportNotEqual(this, actualPath, new TableDataComparisonReport(result).generate());

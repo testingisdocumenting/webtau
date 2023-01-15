@@ -18,8 +18,8 @@ package org.testingisdocumenting.webtau.report;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
-import org.testingisdocumenting.webtau.console.IndentedConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.reporter.*;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 import org.testingisdocumenting.webtau.utils.TimeUtils;
@@ -127,8 +127,7 @@ public class ConsoleReportGenerator implements ReportGenerator {
         ConsoleOutputs.out(Color.RED, "*", Color.YELLOW, " ", message, " ",
                 Color.RESET, "(", Color.PURPLE, test.getShortContainerId(), " -> ", Color.BLUE, test.getScenario(), Color.RESET, ")");
 
-        IndentedConsoleOutput indentedConsoleOutput = new IndentedConsoleOutput(ConsoleOutputs.asCombinedConsoleOutput(), 2);
-        WebTauStepInputKeyValue.stepInput(input).prettyPrint(indentedConsoleOutput);
+        WebTauStepInputKeyValue.stepInput(input).prettyPrint(new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 2));
     }
 
     private static void printTimeTaken(WebTauReport report) {

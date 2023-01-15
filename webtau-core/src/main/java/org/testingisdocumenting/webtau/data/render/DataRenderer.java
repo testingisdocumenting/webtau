@@ -1,4 +1,5 @@
 /*
+ * Copyright 2022 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +23,7 @@ public interface DataRenderer {
      * returns string representation of a data in case it can handle it.
      * returns null otherwise
      * @param data data to be rendered
-     * @return String representation or null if can't handle
+     * @return String representation or null if it can't handle
      */
     String render(Object data);
 }

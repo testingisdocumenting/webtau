@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,7 +19,7 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
@@ -41,7 +42,7 @@ public class TraceableValueCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareGreaterLessEqual(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         TraceableValue traceableValue = (TraceableValue) actual;
 
         CompareToResult result = comparator.compareUsingCompareTo(actualPath, traceableValue.getValue(), expected);
@@ -49,7 +50,7 @@ public class TraceableValueCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         TraceableValue traceableValue = (TraceableValue) actual;
 
         CompareToResult result = comparator.compareUsingEqualOnly(actualPath, traceableValue.getValue(), expected);

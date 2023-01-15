@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.http.datanode
 
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue
-import org.testingisdocumenting.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.data.ValuePath
 
 import java.util.function.Predicate
 
@@ -168,7 +168,7 @@ class GroovyDataNode implements DataNodeExpectations, DataNode {
     }
 
     @Override
-    ActualPath actualPath() {
+    ValuePath actualPath() {
         return node.actualPath()
     }
 

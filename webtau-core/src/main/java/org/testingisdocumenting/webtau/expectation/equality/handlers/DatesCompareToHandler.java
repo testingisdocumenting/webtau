@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.utils.TypeUtils;
@@ -53,13 +53,13 @@ public class DatesCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         Comparator dateComparator = new Comparator(comparator, actualPath, actual, expected, true);
         dateComparator.compare();
     }
 
     @Override
-    public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareGreaterLessEqual(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         Comparator dateComparator = new Comparator(comparator, actualPath, actual, expected, false);
         dateComparator.compare();
     }
@@ -77,12 +77,12 @@ public class DatesCompareToHandler implements CompareToHandler {
 
     private class Comparator {
         private final CompareToComparator compareToComparator;
-        private final ActualPath actualPath;
+        private final ValuePath actualPath;
         private final TemporalAccessor actual;
         private final Object expected;
         private final boolean isEqualOnly;
 
-        Comparator(CompareToComparator compareToComparator, ActualPath actualPath,
+        Comparator(CompareToComparator compareToComparator, ValuePath actualPath,
                    Object actual, Object expected, boolean isEqualOnly) {
             this.compareToComparator = compareToComparator;
             this.actualPath = actualPath;

@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
@@ -30,16 +30,16 @@ public class MapContainHandler implements ContainHandler {
     }
 
     @Override
-    public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         analyze(containAnalyzer, actualPath, actual, expected, false);
     }
 
     @Override
-    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         analyze(containAnalyzer, actualPath, actual, expected, true);
     }
 
-    private void analyze(ContainAnalyzer containAnalyzer, ActualPath actualPath,
+    private void analyze(ContainAnalyzer containAnalyzer, ValuePath actualPath,
                          Object actual, Object expected,
                          boolean isNegative) {
         Map<?, ?> actualMap = (Map<?, ?>) actual;
@@ -48,7 +48,7 @@ public class MapContainHandler implements ContainHandler {
         for (Map.Entry<?, ?> expectedEntry : expectedMap.entrySet()) {
             Object expectedKey = expectedEntry.getKey();
 
-            ActualPath propertyPath = actualPath.property(expectedKey.toString());
+            ValuePath propertyPath = actualPath.property(expectedKey.toString());
 
             if (isNegative) {
                 analyzeNegative(containAnalyzer, actualMap, propertyPath, expectedEntry);
@@ -60,7 +60,7 @@ public class MapContainHandler implements ContainHandler {
 
     private void analyzePositive(ContainAnalyzer containAnalyzer,
                                  Map<?, ?> actualMap,
-                                 ActualPath propertyPath,
+                                 ValuePath propertyPath,
                                  Map.Entry<?, ?> expectedEntry) {
         if (!actualMap.containsKey(expectedEntry.getKey())) {
             containAnalyzer.reportMismatch(this, propertyPath, "is missing");
@@ -79,7 +79,7 @@ public class MapContainHandler implements ContainHandler {
 
     private void analyzeNegative(ContainAnalyzer containAnalyzer,
                                  Map<?, ?> actualMap,
-                                 ActualPath propertyPath,
+                                 ValuePath propertyPath,
                                  Map.Entry<?, ?> expectedEntry) {
         if (actualMap.containsKey(expectedEntry.getKey())) {
             CompareToComparator comparator = CompareToComparator.comparator();

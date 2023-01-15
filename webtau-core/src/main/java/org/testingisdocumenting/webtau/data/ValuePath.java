@@ -15,14 +15,16 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.expectation;
+package org.testingisdocumenting.webtau.data;
 
-public class ActualPath {
-    public static final ActualPath UNDEFINED = new ActualPath("");
+import java.util.Objects;
+
+public class ValuePath {
+    public static final ValuePath UNDEFINED = new ValuePath("");
 
     private final String path;
 
-    public ActualPath(String path) {
+    public ValuePath(String path) {
         if (path == null) {
             throw new IllegalArgumentException("path cannot be null");
         }
@@ -30,12 +32,12 @@ public class ActualPath {
         this.path = path;
     }
 
-    public ActualPath property(String propName) {
-        return new ActualPath(isEmpty() ? propName : path + "." + propName);
+    public ValuePath property(String propName) {
+        return new ValuePath(isEmpty() ? propName : path + "." + propName);
     }
 
-    public ActualPath index(int idx) {
-        return new ActualPath(path + "[" + idx + "]");
+    public ValuePath index(int idx) {
+        return new ValuePath(path + "[" + idx + "]");
     }
 
     public String getPath() {
@@ -49,5 +51,24 @@ public class ActualPath {
     @Override
     public String toString() {
         return path;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+
+        ValuePath that = (ValuePath) o;
+        return path.equals(that.path);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(path);
     }
 }

@@ -17,14 +17,14 @@
 
 package org.testingisdocumenting.webtau.expectation.equality
 
-import org.testingisdocumenting.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.data.ValuePath
 import org.junit.Test
 
 import static org.testingisdocumenting.webtau.expectation.equality.ActualExpectedTestReportExpectations.simpleActualExpectedWithIntegers
 
 class NotEqualMatcherTest {
     private final int expected = 8
-    private final ActualPath actualPath = new ActualPath("value")
+    private final ValuePath actualPath = new ValuePath("value")
     private final NotEqualMatcher matcher = new NotEqualMatcher(expected)
 
     @Test

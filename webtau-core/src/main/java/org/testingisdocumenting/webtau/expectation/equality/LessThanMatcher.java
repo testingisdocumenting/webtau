@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
@@ -39,18 +39,18 @@ public class LessThanMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String matchedMessage(ActualPath actualPath, Object actual) {
+    public String matchedMessage(ValuePath actualPath, Object actual) {
         return "less than " + DataRenderers.render(expected) + "\n" +
                 compareToComparator.generateLessThanMatchReport();
     }
 
     @Override
-    public String mismatchedMessage(ActualPath actualPath, Object actual) {
+    public String mismatchedMessage(ValuePath actualPath, Object actual) {
         return compareToComparator.generateLessThanMismatchReport();
     }
 
     @Override
-    public boolean matches(ActualPath actualPath, Object actual) {
+    public boolean matches(ValuePath actualPath, Object actual) {
         compareToComparator = CompareToComparator.comparator();
         return compareToComparator.compareIsLess(actualPath, actual, expected);
     }
@@ -61,18 +61,18 @@ public class LessThanMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
         return "greater than or equal to " + DataRenderers.render(expected) + '\n' +
                 compareToComparator.generateGreaterThanOrEqualMatchReport();
     }
 
     @Override
-    public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
         return compareToComparator.generateGreaterThanOrEqualMismatchReport();
     }
 
     @Override
-    public boolean negativeMatches(ActualPath actualPath, Object actual) {
+    public boolean negativeMatches(ValuePath actualPath, Object actual) {
         compareToComparator = CompareToComparator.comparator();
         return compareToComparator.compareIsGreaterOrEqual(actualPath, actual, expected);
     }

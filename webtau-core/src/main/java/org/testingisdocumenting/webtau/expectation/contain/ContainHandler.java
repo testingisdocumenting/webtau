@@ -16,11 +16,11 @@
 
 package org.testingisdocumenting.webtau.expectation.contain;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 
 public interface ContainHandler {
     boolean handle(Object actual, Object expected);
 
-    void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected);
-    void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected);
+    void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected);
+    void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected);
 }

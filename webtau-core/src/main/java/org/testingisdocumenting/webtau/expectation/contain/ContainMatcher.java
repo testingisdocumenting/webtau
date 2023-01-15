@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.expectation.contain;
 
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
@@ -38,18 +38,18 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String matchedMessage(ActualPath actualPath, Object actual) {
+    public String matchedMessage(ValuePath actualPath, Object actual) {
         return "contains " + DataRenderers.render(expected);
     }
 
     @Override
-    public String mismatchedMessage(ActualPath actualPath, Object actual) {
+    public String mismatchedMessage(ValuePath actualPath, Object actual) {
         return actualPath + " expects to contain " + DataRenderers.render(expected) + "\n" +
                 containAnalyzer.generateMismatchReport();
     }
 
     @Override
-    public boolean matches(ActualPath actualPath, Object actual) {
+    public boolean matches(ValuePath actualPath, Object actual) {
         containAnalyzer = ContainAnalyzer.containAnalyzer();
         isNegative = false;
 
@@ -63,18 +63,18 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
         return "does not contain " + DataRenderers.render(expected);
     }
 
     @Override
-    public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
         return actualPath + " expects to not contain " + DataRenderers.render(expected) + "\n" +
                 containAnalyzer.generateMismatchReport();
     }
 
     @Override
-    public boolean negativeMatches(ActualPath actualPath, Object actual) {
+    public boolean negativeMatches(ValuePath actualPath, Object actual) {
         containAnalyzer = ContainAnalyzer.containAnalyzer();
         isNegative = true;
 

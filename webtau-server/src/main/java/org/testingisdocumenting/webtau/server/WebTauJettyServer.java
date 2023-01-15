@@ -88,7 +88,7 @@ abstract public class WebTauJettyServer implements WebTauServer {
                 tokenizedMessage(action("starting"), classifier(getType()), id(serverId)),
                 stepInput(input),
                 () -> tokenizedMessage(action("started"), classifier(getType()), id(serverId)),
-                () -> isRunning() ? stepOutput("running port", getPort()) : WebTauStepOutput.EMPTY,
+                (stepResult) -> isRunning() ? stepOutput("running port", getPort()) : WebTauStepOutput.EMPTY,
                 this::startStep);
     }
 

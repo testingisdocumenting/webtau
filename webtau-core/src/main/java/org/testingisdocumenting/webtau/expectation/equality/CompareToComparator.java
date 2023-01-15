@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.handlers.AnyCompareToHandler;
 import org.testingisdocumenting.webtau.expectation.equality.handlers.NullCompareToHandler;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Stream;
+import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
 
@@ -78,42 +78,42 @@ public class CompareToComparator {
         this.assertionMode = assertionMode;
     }
 
-    public boolean compareIsEqual(ActualPath actualPath, Object actual, Object expected) {
+    public boolean compareIsEqual(ValuePath actualPath, Object actual, Object expected) {
         CompareToResult compareResult = compareUsingEqualOnly(AssertionMode.EQUAL, actualPath, actual, expected);
         return compareResult.isEqual();
     }
 
-    public boolean compareIsNotEqual(ActualPath actualPath, Object actual, Object expected) {
+    public boolean compareIsNotEqual(ValuePath actualPath, Object actual, Object expected) {
         CompareToResult compareResult = compareUsingEqualOnly(AssertionMode.NOT_EQUAL, actualPath, actual, expected);
         return compareResult.isNotEqual();
     }
 
-    public boolean compareIsGreater(ActualPath actualPath, Object actual, Object expected) {
+    public boolean compareIsGreater(ValuePath actualPath, Object actual, Object expected) {
         CompareToResult compareResult = compareUsingCompareTo(AssertionMode.GREATER_THAN, actualPath, actual, expected);
         return compareResult.isGreater();
     }
 
-    public boolean compareIsGreaterOrEqual(ActualPath actualPath, Object actual, Object expected) {
+    public boolean compareIsGreaterOrEqual(ValuePath actualPath, Object actual, Object expected) {
         CompareToResult compareResult = compareUsingCompareTo(AssertionMode.GREATER_THAN_OR_EQUAL, actualPath, actual, expected);
         return compareResult.isGreaterOrEqual();
     }
 
-    public boolean compareIsLess(ActualPath actualPath, Object actual, Object expected) {
+    public boolean compareIsLess(ValuePath actualPath, Object actual, Object expected) {
         CompareToResult compareResult = compareUsingCompareTo(AssertionMode.LESS_THAN, actualPath, actual, expected);
         return compareResult.isLess();
     }
 
-    public boolean compareIsLessOrEqual(ActualPath actualPath, Object actual, Object expected) {
+    public boolean compareIsLessOrEqual(ValuePath actualPath, Object actual, Object expected) {
         CompareToResult compareResult = compareUsingCompareTo(AssertionMode.LESS_THAN_OR_EQUAL, actualPath, actual, expected);
         return compareResult.isLessOrEqual();
     }
 
-    public CompareToResult compareUsingEqualOnly(ActualPath actualPath, Object actual, Object expected) {
+    public CompareToResult compareUsingEqualOnly(ValuePath actualPath, Object actual, Object expected) {
         validateAssertionModeIsPresent();
         return compareUsingEqualOnly(assertionMode, actualPath, actual, expected);
     }
 
-    public CompareToResult compareUsingCompareTo(ActualPath actualPath, Object actual, Object expected) {
+    public CompareToResult compareUsingCompareTo(ValuePath actualPath, Object actual, Object expected) {
         validateAssertionModeIsPresent();
         return compareUsingCompareTo(assertionMode, actualPath, actual, expected);
     }
@@ -149,6 +149,10 @@ public class CompareToComparator {
                 generateReportPart("unexpected values", Collections.singletonList(extraMessages)));
     }
 
+    public List<ValuePath> generateEqualMismatchPaths() {
+        return extractActualPaths(notEqualMessages);
+    }
+
     public String generateNotEqualMatchReport() {
         if (missingMessages.isEmpty() && extraMessages.isEmpty()) {
             return generateReportPartWithoutLabel(Collections.singletonList(notEqualMessages));
@@ -180,31 +184,35 @@ public class CompareToComparator {
         return generateReportPartWithoutLabel(Collections.singletonList(equalMessages));
     }
 
-    public void reportMissing(CompareToHandler reporter, ActualPath actualPath, Object value) {
+    public List<ValuePath> generateEqualMatchPaths() {
+        return extractActualPaths(equalMessages);
+    }
+
+    public void reportMissing(CompareToHandler reporter, ValuePath actualPath, Object value) {
         missingMessages.add(new ActualPathMessage(actualPath, DataRenderers.render(value)));
     }
 
-    public void reportExtra(CompareToHandler reporter, ActualPath actualPath, Object value) {
+    public void reportExtra(CompareToHandler reporter, ValuePath actualPath, Object value) {
         extraMessages.add(new ActualPathMessage(actualPath, DataRenderers.render(value)));
     }
 
-    public void reportEqual(CompareToHandler reporter, ActualPath actualPath, String message) {
+    public void reportEqual(CompareToHandler reporter, ValuePath actualPath, String message) {
         equalMessages.add(new ActualPathMessage(actualPath, message));
     }
 
-    public void reportNotEqual(CompareToHandler reporter, ActualPath actualPath, String message) {
+    public void reportNotEqual(CompareToHandler reporter, ValuePath actualPath, String message) {
         notEqualMessages.add(new ActualPathMessage(actualPath, message));
     }
 
-    public void reportGreater(CompareToHandler reporter, ActualPath actualPath, String message) {
+    public void reportGreater(CompareToHandler reporter, ValuePath actualPath, String message) {
         greaterMessages.add(new ActualPathMessage(actualPath, message));
     }
 
-    public void reportLess(CompareToHandler reporter, ActualPath actualPath, String message) {
+    public void reportLess(CompareToHandler reporter, ValuePath actualPath, String message) {
         lessMessages.add(new ActualPathMessage(actualPath, message));
     }
 
-    public void reportEqualOrNotEqual(CompareToHandler reporter, boolean isEqual, ActualPath actualPath, String message) {
+    public void reportEqualOrNotEqual(CompareToHandler reporter, boolean isEqual, ValuePath actualPath, String message) {
         if (isEqual) {
             reportEqual(reporter, actualPath, message);
         } else {
@@ -212,7 +220,7 @@ public class CompareToComparator {
         }
     }
 
-    public void reportCompareToValue(CompareToHandler reporter, int compareTo, ActualPath actualPath, String message) {
+    public void reportCompareToValue(CompareToHandler reporter, int compareTo, ValuePath actualPath, String message) {
         if (compareTo == 0) {
             reportEqual(reporter, actualPath, message);
         } else if (compareTo < 0) {
@@ -224,7 +232,7 @@ public class CompareToComparator {
         }
     }
 
-    private CompareToResult compareUsingEqualOnly(AssertionMode mode, ActualPath actualPath, Object actual, Object expected) {
+    private CompareToResult compareUsingEqualOnly(AssertionMode mode, ValuePath actualPath, Object actual, Object expected) {
         setAssertionMode(mode);
         CompareToHandler handler = findCompareToEqualHandler(actual, expected);
 
@@ -236,7 +244,7 @@ public class CompareToComparator {
         return createCompareToResult(comparator);
     }
 
-    private CompareToResult compareUsingCompareTo(AssertionMode mode, ActualPath actualPath, Object actual, Object expected) {
+    private CompareToResult compareUsingCompareTo(AssertionMode mode, ValuePath actualPath, Object actual, Object expected) {
         setAssertionMode(mode);
         CompareToHandler handler = findCompareToGreaterLessHandler(actual, expected);
 
@@ -332,5 +340,12 @@ public class CompareToComparator {
             "no compareUsingCompareTo handler found for" +
                     "\nactual: " + DataRenderers.render(actual) + " " + TraceUtils.renderType(actual) +
                     "\nexpected: " + DataRenderers.render(expected) + " " + TraceUtils.renderType(expected));
+    }
+
+    private List<ValuePath> extractActualPaths(List<ActualPathMessage> notEqualMessages) {
+        return notEqualMessages
+                .stream()
+                .map(ActualPathMessage::getActualPath)
+                .collect(Collectors.toList());
     }
 }

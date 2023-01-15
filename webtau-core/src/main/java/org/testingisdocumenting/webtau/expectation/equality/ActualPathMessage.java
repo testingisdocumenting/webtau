@@ -17,21 +17,21 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 public class ActualPathMessage {
-    private final ActualPath actualPath;
+    private final ValuePath actualPath;
     private final String message;
     private final String fullMessage;
 
-    public ActualPathMessage(ActualPath actualPath, String message) {
+    public ActualPathMessage(ValuePath actualPath, String message) {
         this.actualPath = actualPath;
         this.message = message;
         this.fullMessage = StringUtils.concatWithIndentation(actualPath.getPath() + ": ", message);
     }
 
-    public ActualPath getActualPath() {
+    public ValuePath getActualPath() {
         return actualPath;
     }
 

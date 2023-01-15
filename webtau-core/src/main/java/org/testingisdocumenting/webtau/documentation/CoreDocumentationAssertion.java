@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.documentation;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.*;
 
 import java.util.List;
@@ -27,7 +28,7 @@ public class CoreDocumentationAssertion implements ExpectationHandler {
     private final ThreadLocal<Object> lastExpectedValues = new ThreadLocal<>();
 
     @Override
-    public void onValueMatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue) {
+    public void onValueMatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue) {
         lastActualValue.set(actualValue);
         lastExpectedValues.set(extractExpectedValues(valueMatcher));
     }

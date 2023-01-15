@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.groovy.ast
 
-import org.testingisdocumenting.webtau.expectation.ActualPath
+import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers
 import org.testingisdocumenting.webtau.expectation.ValueMatcher
@@ -81,7 +82,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
 
         def expectationHandler = new ExpectationHandler() {
             @Override
-            ExpectationHandler.Flow onValueMismatch(ValueMatcher valueMatcher, ActualPath actualPath, Object actualValue, String message) {
+            ExpectationHandler.Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
                 failedMatchers.add(valueMatcher.getClass())
                 return ExpectationHandler.Flow.Terminate
             }

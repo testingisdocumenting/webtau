@@ -17,8 +17,8 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
-import org.testingisdocumenting.webtau.expectation.ActualPath
 import org.testingisdocumenting.webtau.expectation.ValueMatcher
+import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
@@ -26,7 +26,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.junit.Assert.assertEquals
 
 class ValueMatcherCompareToHandlerTest {
-    private static final ActualPath actualPath = createActualPath("value")
+    private static final ValuePath actualPath = createActualPath("value")
 
     @Test
     void "handles expected as ValueMatcher"() {
@@ -104,17 +104,17 @@ class ValueMatcherCompareToHandlerTest {
         }
 
         @Override
-        String matchedMessage(ActualPath actualPath, Object actual) {
+        String matchedMessage(ValuePath actualPath, Object actual) {
             return "matchedMessage"
         }
 
         @Override
-        String mismatchedMessage(ActualPath actualPath, Object actual) {
+        String mismatchedMessage(ValuePath actualPath, Object actual) {
             return "mismatchedMessage"
         }
 
         @Override
-        boolean matches(ActualPath actualPath, Object actual) {
+        boolean matches(ValuePath actualPath, Object actual) {
             return matches
         }
 
@@ -124,17 +124,17 @@ class ValueMatcherCompareToHandlerTest {
         }
 
         @Override
-        String negativeMatchedMessage(ActualPath actualPath, Object actual) {
+        String negativeMatchedMessage(ValuePath actualPath, Object actual) {
             return "negativeMatchedMessage"
         }
 
         @Override
-        String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
+        String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
             return "negativeMismatchedMessage"
         }
 
         @Override
-        boolean negativeMatches(ActualPath actualPath, Object actual) {
+        boolean negativeMatches(ValuePath actualPath, Object actual) {
             return matches
         }
     }

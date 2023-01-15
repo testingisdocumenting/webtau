@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.pdf;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 
@@ -34,7 +35,7 @@ public class PdfText implements ActualValueExpectations, ActualPathAndDescriptio
     }
 
     @Override
-    public ActualPath actualPath() {
-        return new ActualPath(id);
+    public ValuePath actualPath() {
+        return new ValuePath(id);
     }
 }

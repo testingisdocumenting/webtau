@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.http.datanode;
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IndexedValue;
@@ -38,7 +38,7 @@ public class DataNodeListContainHandler implements ContainHandler {
     }
 
     @Override
-    public void analyzeContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         List<DataNode> dataNodes = getDataNodes(actual);
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, dataNodes, expected);
         List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::containingIndexedValues);
@@ -59,7 +59,7 @@ public class DataNodeListContainHandler implements ContainHandler {
     }
 
     @Override
-    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ActualPath actualPath, Object actual, Object expected) {
+    public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         List<DataNode> dataNodes = getDataNodes(actual);
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, dataNodes, expected);
         List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::containingIndexedValues);
@@ -70,7 +70,7 @@ public class DataNodeListContainHandler implements ContainHandler {
             CompareToComparator comparator = comparator(AssertionMode.NOT_EQUAL);
 
             indexedValues.forEach(indexedValue -> {
-                ActualPath indexedPath = actualPath.index(indexedValue.getIdx());
+                ValuePath indexedPath = actualPath.index(indexedValue.getIdx());
 
                 containAnalyzer.reportMismatch(this, indexedPath,
                         "equals " + DataRenderers.render(indexedValue.getValue()));

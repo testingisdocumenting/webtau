@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
@@ -41,7 +42,7 @@ public class NullCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         if (actual == null && expected == null) {
             comparator.reportEqual(this, actualPath,
                     "  actual: null\n" + expected(comparator.getAssertionMode(), null));
@@ -55,7 +56,7 @@ public class NullCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareGreaterLessEqual(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareGreaterLessEqual(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         if (actual == null && expected == null && checksEquality(comparator)) {
             comparator.reportEqual(this, actualPath,
                     "  actual: null\n" + expected(comparator.getAssertionMode(), null));
@@ -69,7 +70,7 @@ public class NullCompareToHandler implements CompareToHandler {
         }
     }
 
-    private void generateOppositeReport(CompareToComparator comparator, ActualPath actualPath, String message) {
+    private void generateOppositeReport(CompareToComparator comparator, ValuePath actualPath, String message) {
         switch (comparator.getAssertionMode()) {
             case GREATER_THAN:
             case GREATER_THAN_OR_EQUAL:

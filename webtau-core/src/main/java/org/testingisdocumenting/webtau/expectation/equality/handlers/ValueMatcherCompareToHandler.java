@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode;
@@ -29,7 +30,7 @@ public class ValueMatcherCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ActualPath actualPath, Object actual, Object expected) {
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         ValueMatcher expectedMatcher = (ValueMatcher) expected;
 
         if (comparator.getAssertionMode() == AssertionMode.EQUAL) {
@@ -39,7 +40,7 @@ public class ValueMatcherCompareToHandler implements CompareToHandler {
         }
     }
 
-    private void handleMatcher(CompareToComparator comparator, ActualPath actualPath, Object actual, ValueMatcher expectedMatcher) {
+    private void handleMatcher(CompareToComparator comparator, ValuePath actualPath, Object actual, ValueMatcher expectedMatcher) {
         boolean matches = expectedMatcher.matches(actualPath, actual);
         if (matches) {
             comparator.reportEqual(this, actualPath, expectedMatcher.matchedMessage(actualPath, actual));
@@ -48,7 +49,7 @@ public class ValueMatcherCompareToHandler implements CompareToHandler {
         }
     }
 
-    private void handleNegativeMatcher(CompareToComparator comparator, ActualPath actualPath, Object actual, ValueMatcher expectedMatcher) {
+    private void handleNegativeMatcher(CompareToComparator comparator, ValuePath actualPath, Object actual, ValueMatcher expectedMatcher) {
         boolean matches = expectedMatcher.negativeMatches(actualPath, actual);
         if (matches) {
             comparator.reportNotEqual(this, actualPath, expectedMatcher.negativeMatchedMessage(actualPath, actual));

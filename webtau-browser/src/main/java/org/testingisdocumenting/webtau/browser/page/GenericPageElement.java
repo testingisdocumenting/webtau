@@ -30,7 +30,7 @@ import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpPageElem
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextPageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage;
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandlers;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.reporter.*;
 
 import java.util.*;
@@ -133,7 +133,7 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
-    public ActualPath actualPath() {
+    public ValuePath actualPath() {
         return createActualPath("pageElement");
     }
 

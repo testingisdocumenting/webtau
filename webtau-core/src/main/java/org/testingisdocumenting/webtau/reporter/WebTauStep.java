@@ -49,7 +49,7 @@ public class WebTauStep {
     private WebTauStepInput input = WebTauStepInput.EMPTY;
     private WebTauStepOutput output = WebTauStepOutput.EMPTY;
 
-    private Supplier<WebTauStepOutput> outputSupplier = null;
+    private Function<Object, WebTauStepOutput> stepOutputFunc = null;
 
     private long startTime;
     private long elapsedTime;
@@ -157,11 +157,11 @@ public class WebTauStep {
     public static void createAndExecuteStep(TokenizedMessage inProgressMessage,
                                             WebTauStepInput input,
                                             Supplier<TokenizedMessage> completionMessageSupplier,
-                                            Supplier<WebTauStepOutput> output,
+                                            Function<Object, WebTauStepOutput> output,
                                             Runnable action) {
         WebTauStep step = createStep(inProgressMessage, completionMessageSupplier, toSupplier(action));
         step.setInput(input);
-        step.setOutputSupplier(output);
+        step.setStepOutputFunc(output);
         step.execute(StepReportOptions.REPORT_ALL);
     }
 
@@ -202,8 +202,8 @@ public class WebTauStep {
         return input;
     }
 
-    public void setOutputSupplier(Supplier<WebTauStepOutput> outputSupplier) {
-        this.outputSupplier = outputSupplier;
+    public void setStepOutputFunc(Function<Object, WebTauStepOutput> stepOutputFunc) {
+        this.stepOutputFunc = stepOutputFunc;
     }
 
     public void setOutput(WebTauStepOutput output) {
@@ -325,12 +325,12 @@ public class WebTauStep {
             complete(completionMessageFunc.apply(result));
             stopClock();
 
-            if (!output.isEmpty() && outputSupplier != null) {
+            if (!output.isEmpty() && stepOutputFunc != null) {
                 throw new IllegalStateException("output and outputSupplier is provided before test is executed, only one is allowed");
             }
 
-            if (outputSupplier != null) {
-                output = outputSupplier.get();
+            if (stepOutputFunc != null) {
+                output = stepOutputFunc.apply(result);
             }
 
             if (stepReportOptions != StepReportOptions.SKIP_ALL) {
@@ -342,9 +342,10 @@ public class WebTauStep {
             stopClock();
 
             fail(e);
-            if (outputSupplier != null) {
-                output = outputSupplier.get();
+            if (stepOutputFunc != null) {
+                output = stepOutputFunc.apply(null);
             }
+
             StepReporters.onFailure(this);
             throw e;
         } finally {

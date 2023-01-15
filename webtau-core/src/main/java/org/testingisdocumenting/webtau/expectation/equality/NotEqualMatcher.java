@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
@@ -37,19 +37,19 @@ public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String matchedMessage(ActualPath actualPath, Object actual) {
+    public String matchedMessage(ValuePath actualPath, Object actual) {
         return "doesn't equal " + DataRenderers.render(expected) + "\n" +
                 comparator.generateNotEqualMatchReport();
     }
 
     @Override
-    public String mismatchedMessage(ActualPath actualPath, Object actual) {
+    public String mismatchedMessage(ValuePath actualPath, Object actual) {
         return "equals " + DataRenderers.render(expected) + ", but shouldn't\n" +
                 comparator.generateNotEqualMismatchReport();
     }
 
     @Override
-    public boolean matches(ActualPath actualPath, Object actual) {
+    public boolean matches(ValuePath actualPath, Object actual) {
         comparator = CompareToComparator.comparator();
         return comparator.compareIsNotEqual(actualPath, actual, expected);
     }
@@ -60,19 +60,19 @@ public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String negativeMatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
         return "equals " + DataRenderers.render(expected) + "\n" +
                 comparator.generateEqualMatchReport();
     }
 
     @Override
-    public String negativeMismatchedMessage(ActualPath actualPath, Object actual) {
+    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
         return "doesn't equal " + DataRenderers.render(expected) + ", but should\n" +
                 comparator.generateEqualMismatchReport();
     }
 
     @Override
-    public boolean negativeMatches(ActualPath actualPath, Object actual) {
+    public boolean negativeMatches(ValuePath actualPath, Object actual) {
         comparator = CompareToComparator.comparator();
         return comparator.compareIsEqual(actualPath, actual, expected);
     }

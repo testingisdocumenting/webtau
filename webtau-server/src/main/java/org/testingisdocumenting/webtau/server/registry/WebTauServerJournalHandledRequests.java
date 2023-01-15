@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.server.registry;
 
 import org.testingisdocumenting.webtau.data.live.LiveValue;
-import org.testingisdocumenting.webtau.expectation.ActualPath;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
@@ -50,7 +50,7 @@ class WebTauServerJournalHandledRequests {
             ActualValueExpectations,
             ActualValueAware,
             ActualPathAndDescriptionAware {
-        final ActualPath actualPath;
+        final ValuePath actualPath;
 
         final WebTauServerJournal journal;
         final String method;
@@ -58,7 +58,7 @@ class WebTauServerJournalHandledRequests {
         private HandledRequestsLiveValue(WebTauServerJournal journal, String method) {
             this.journal = journal;
             this.method = method;
-            this.actualPath = new ActualPath(journal.getServerId());
+            this.actualPath = new ValuePath(journal.getServerId());
         }
 
         public Object get() {
@@ -68,7 +68,7 @@ class WebTauServerJournalHandledRequests {
         }
 
         @Override
-        public ActualPath actualPath() {
+        public ValuePath actualPath() {
             return actualPath;
         }
 
