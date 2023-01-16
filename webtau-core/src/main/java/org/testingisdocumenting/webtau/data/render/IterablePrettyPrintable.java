@@ -34,7 +34,6 @@ public class IterablePrettyPrintable implements PrettyPrintable {
     @Override
     public void prettyPrint(PrettyPrinter printer) {
         prettyPrint(printer, ValuePath.UNDEFINED);
-        printer.flush();
     }
 
     @Override
@@ -53,10 +52,9 @@ public class IterablePrettyPrintable implements PrettyPrintable {
 
         int idx = 0;
         for (Object element : list) {
-            boolean isLast = idx == list.size() - 1;
-
             printer.printObject(path.index(idx), element);
 
+            boolean isLast = idx == list.size() - 1;
             if (!isLast) {
                 printer.printDelimiter(",");
                 printer.printLine();

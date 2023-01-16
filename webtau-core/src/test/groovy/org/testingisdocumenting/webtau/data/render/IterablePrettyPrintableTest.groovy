@@ -16,22 +16,11 @@
 
 package org.testingisdocumenting.webtau.data.render
 
-import org.junit.Assert
-import org.junit.Before
 import org.junit.Test
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.data.ValuePath
 
-class IterablePrettyPrintableTest {
-    def consoleOutput = new TestConsoleOutput()
-    PrettyPrinter printer
-
-    @Before
-    void init() {
-        consoleOutput.clear()
-        printer = new PrettyPrinter(consoleOutput, 0)
-    }
-
+class IterablePrettyPrintableTest extends PrettyPrintableTestBase {
     @Test
     void "empty list"() {
         def prettyPrintable = new IterablePrettyPrintable([])
@@ -90,8 +79,21 @@ class IterablePrettyPrintableTest {
                 "]")
     }
 
-    void expectOutput(String expected) {
-        println consoleOutput.colorOutput
-        Assert.assertEquals(expected, consoleOutput.noColorOutput)
+    @Test
+    void "list of maps with decorations"() {
+        printer.setPathsDecoration(new PrettyPrinterDecorationToken("*", Color.RED),
+                [new ValuePath("[0].k2"), new ValuePath("[1].k3")])
+        def prettyPrintable = new IterablePrettyPrintable([[k1: "v1", k2: "v2"], [k3: "v3"]])
+        prettyPrintable.prettyPrint(printer)
+
+        expectOutput("[\n" +
+                "  {\n" +
+                "    \"k1\": \"v1\",\n" +
+                "    \"k2\": *\"v2\"*\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"k3\": *\"v3\"*\n" +
+                "  }\n" +
+                "]")
     }
 }
