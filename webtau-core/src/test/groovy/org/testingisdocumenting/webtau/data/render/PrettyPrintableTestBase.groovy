@@ -14,20 +14,24 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data.render;
+package org.testingisdocumenting.webtau.data.render
 
-import java.util.Map;
-import java.util.Optional;
+import org.junit.Assert
+import org.junit.Before
 
-public class CommonTypesPrettyPrintableProvider implements PrettyPrintableProvider {
-    @Override
-    public Optional<PrettyPrintable> prettyPrintableFor(Object o) {
-        if (o instanceof Iterable) {
-            return Optional.of(new IterablePrettyPrintable((Iterable<?>) o));
-        } else if (o instanceof Map) {
-            return Optional.of(new MapPrettyPrintable((Map<?, ?>) o));
-        }
+class PrettyPrintableTestBase {
+    def consoleOutput = new TestConsoleOutput()
+    PrettyPrinter printer
 
-        return Optional.empty();
+    @Before
+    void init() {
+        consoleOutput.clear()
+        printer = new PrettyPrinter(consoleOutput, 0)
+    }
+
+    void expectOutput(String expected) {
+        printer.flush()
+        println consoleOutput.colorOutput
+        Assert.assertEquals(expected, consoleOutput.noColorOutput)
     }
 }

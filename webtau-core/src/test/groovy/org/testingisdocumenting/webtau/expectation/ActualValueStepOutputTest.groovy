@@ -43,6 +43,19 @@ class ActualValueStepOutputTest {
         }
     }
 
+    @Test
+    void "should print map with marked failed values in case of mismatch"() {
+        runAndValidateOutput("  {\n" +
+                "    \"key\": \"value1\",\n" +
+                "    \"another\": **22**\n" +
+                "  }\n" +
+                ". [value] equals {key=value1, another=23}\n" +
+                "    [value].key:   actual: \"value1\" <java.lang.String>\n" +
+                "                 expected: \"value1\" <java.lang.String> (Xms)") {
+            actual([key: "value1", another: 22]).should(equal([key: "value1", another: 23]))
+        }
+    }
+
     static void runAndValidateOutput(String expectedOutput, Closure code) {
         def testOutput = new TestConsoleOutput()
 
