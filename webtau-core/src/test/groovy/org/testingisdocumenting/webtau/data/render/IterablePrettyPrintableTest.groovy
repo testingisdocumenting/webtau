@@ -24,16 +24,16 @@ import org.testingisdocumenting.webtau.data.ValuePath
 
 class IterablePrettyPrintableTest {
     def consoleOutput = new TestConsoleOutput()
+    PrettyPrinter printer
 
     @Before
     void init() {
         consoleOutput.clear()
+        printer = new PrettyPrinter(consoleOutput, 0)
     }
 
     @Test
     void "empty list"() {
-        def printer = new PrettyPrinter(consoleOutput, 0)
-
         def prettyPrintable = new IterablePrettyPrintable([])
         prettyPrintable.prettyPrint(printer)
 
@@ -42,8 +42,6 @@ class IterablePrettyPrintableTest {
 
     @Test
     void "non-empty list"() {
-        def printer = new PrettyPrinter(consoleOutput, 0)
-
         def prettyPrintable = new IterablePrettyPrintable([1, 2, "hello", "world"])
         prettyPrintable.prettyPrint(printer)
 
@@ -57,9 +55,8 @@ class IterablePrettyPrintableTest {
 
     @Test
     void "decorated list"() {
-        def printer = new PrettyPrinter(consoleOutput, 0)
         printer.setPathsDecoration(new PrettyPrinterDecorationToken("*", Color.RED),
-            [new ValuePath("[0]"), new ValuePath("[2]")])
+                [new ValuePath("[0]"), new ValuePath("[2]")])
 
         def prettyPrintable = new IterablePrettyPrintable([1, 2, "hello", "world"])
         prettyPrintable.prettyPrint(printer)
@@ -69,6 +66,27 @@ class IterablePrettyPrintableTest {
                 "  2,\n" +
                 "  *\"hello\"*,\n" +
                 "  \"world\"\n" +
+                "]")
+    }
+
+    @Test
+    void "list of lists"() {
+        def prettyPrintable = new IterablePrettyPrintable([[1, 2], [3, 4], ["hello", "world"]])
+        prettyPrintable.prettyPrint(printer)
+
+        expectOutput("[\n" +
+                "  [\n" +
+                "    1,\n" +
+                "    2\n" +
+                "  ],\n" +
+                "  [\n" +
+                "    3,\n" +
+                "    4\n" +
+                "  ],\n" +
+                "  [\n" +
+                "    \"hello\",\n" +
+                "    \"world\"\n" +
+                "  ]\n" +
                 "]")
     }
 
