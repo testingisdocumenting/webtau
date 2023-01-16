@@ -34,6 +34,7 @@ public class IterablePrettyPrintable implements PrettyPrintable {
     @Override
     public void prettyPrint(PrettyPrinter printer) {
         prettyPrint(printer, ValuePath.UNDEFINED);
+        printer.flush();
     }
 
     @Override
@@ -43,7 +44,6 @@ public class IterablePrettyPrintable implements PrettyPrintable {
         } else {
             printNonEmptyList(printer, rootPath);
         }
-        printer.printLine();
     }
 
     private void printNonEmptyList(PrettyPrinter printer, ValuePath path) {

@@ -108,6 +108,10 @@ public class PrettyPrinter {
 
     public void printLine(Object... styleOrValues) {
         currentLine.append(styleOrValues);
+        flush();
+    }
+
+    public void flush() {
         consoleOutput.out(Stream.concat(Stream.of(indentation), currentLine.styleAndValues.stream()).toArray());
         currentLine.clear();
     }
