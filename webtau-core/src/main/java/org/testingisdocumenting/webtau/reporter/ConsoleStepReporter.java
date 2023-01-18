@@ -98,12 +98,19 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private void printStepFailure(WebTauStep step) {
+        if (step.getClassifier().equals(WebTauStepClassifiers.MATCHER)) {
+            printStepFailureWithoutOutput(step);
+            printStepOutput(step);
+        } else {
+            printStepOutput(step);
+            printStepFailureWithoutOutput(step);
+        }
+    }
+
+    private void printStepFailureWithoutOutput(WebTauStep step) {
         TokenizedMessage completionMessageToUse = messageTokensForFailedStep(step);
-
-        printStepOutput(step);
-
         ConsoleOutputs.out(Stream.concat(Stream.concat(Stream.concat(stepFailureBeginningStream(step), personaStream(step)),
-                toAnsiConverter.convert(completionMessageToUse).stream()),
+                        toAnsiConverter.convert(completionMessageToUse).stream()),
                 timeTakenTokenStream(step)).toArray());
     }
 

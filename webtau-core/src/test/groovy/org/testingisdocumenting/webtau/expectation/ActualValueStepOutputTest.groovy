@@ -29,29 +29,32 @@ import static org.testingisdocumenting.webtau.Matchers.equal
 class ActualValueStepOutputTest {
     @Test
     void "should print iterable with marked failed values in case of mismatch"() {
-        runAndValidateOutput("  [\n" +
+        runAndValidateOutput("X failed expecting [value] to equal [1, world, 2]: \n" +
+                "    mismatches:\n" +
+                "    \n" +
+                "    [value][1]:   actual: \"hello\" <java.lang.String>\n" +
+                "                expected: \"world\" <java.lang.String>\n" +
+                "                           ^ (Xms)\n" +
+                "  [\n" +
                 "    1,\n" +
                 "    **\"hello\"**,\n" +
                 "    2\n" +
-                "  ]\n" +
-                ". [value] equals [1, world, 2]\n" +
-                "    [value][0]:   actual: 1 <java.lang.Integer>\n" +
-                "                expected: 1 <java.lang.Integer>\n" +
-                "    [value][2]:   actual: 2 <java.lang.Integer>\n" +
-                "                expected: 2 <java.lang.Integer> (Xms)") {
+                "  ]") {
             actual([1, "hello", 2]).should(equal([1, "world", 2]))
         }
     }
 
     @Test
     void "should print map with marked failed values in case of mismatch"() {
-        runAndValidateOutput("  {\n" +
+        runAndValidateOutput("X failed expecting [value] to equal {key=value1, another=23}: \n" +
+                "    mismatches:\n" +
+                "    \n" +
+                "    [value].another:   actual: 22 <java.lang.Integer>\n" +
+                "                     expected: 23 <java.lang.Integer> (Xms)\n" +
+                "  {\n" +
                 "    \"key\": \"value1\",\n" +
                 "    \"another\": **22**\n" +
-                "  }\n" +
-                ". [value] equals {key=value1, another=23}\n" +
-                "    [value].key:   actual: \"value1\" <java.lang.String>\n" +
-                "                 expected: \"value1\" <java.lang.String> (Xms)") {
+                "  }") {
             actual([key: "value1", another: 22]).should(equal([key: "value1", another: 23]))
         }
     }
@@ -62,9 +65,10 @@ class ActualValueStepOutputTest {
         ConsoleOutputs.add(ConsoleOutputs.defaultOutput)
         StepReporters.add(StepReporters.defaultStepReporter)
         try {
-            ExpectationHandlers.withAdditionalHandler(new MismatchHandler()) {
-                ConsoleOutputs.withAdditionalOutput(testOutput) {
+            ConsoleOutputs.withAdditionalOutput(testOutput) {
+                try {
                     code()
+                } catch (AssertionError ignored) {
                 }
             }
         } finally {
@@ -78,12 +82,5 @@ class ActualValueStepOutputTest {
 
     private static String replaceTime(String original) {
         return original.replaceAll("\\d+ms", "Xms")
-    }
-
-    private static class MismatchHandler implements ExpectationHandler {
-        @Override
-        Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
-            return Flow.Terminate
-        }
     }
 }

@@ -19,4 +19,5 @@ package org.testingisdocumenting.webtau.reporter;
 public class WebTauStepClassifiers {
     public static final String TRACE = "trace";
     public static final String WARNING = "warning";
+    public static final String MATCHER = "matcher";
 }

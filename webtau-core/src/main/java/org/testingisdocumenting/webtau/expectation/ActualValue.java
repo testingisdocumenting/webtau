@@ -187,6 +187,7 @@ public class ActualValue implements ActualValueExpectations {
                                 valueMatcher.negativeMatchedMessage(null, actual) :
                                 valueMatcher.matchedMessage(null, actual))),
                 expectationValidation);
+        step.setClassifier(WebTauStepClassifiers.MATCHER);
 
         step.setStepOutputFunc((matched) -> {
             if (Boolean.TRUE.equals(matched) || !PrettyPrinter.isPrettyPrintable(actual)) {
