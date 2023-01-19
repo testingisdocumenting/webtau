@@ -190,7 +190,7 @@ public class ActualValue implements ActualValueExpectations {
         step.setClassifier(WebTauStepClassifiers.MATCHER);
 
         step.setStepOutputFunc((matched) -> {
-            if (Boolean.TRUE.equals(matched) || !PrettyPrinter.isPrettyPrintable(actual)) {
+            if (Boolean.TRUE.equals(matched) || !PrettyPrinter.isPrettyPrintable(actual) || step.hasParentWithDisabledMatcherOutput()) {
                 return WebTauStepOutput.EMPTY;
             }
 

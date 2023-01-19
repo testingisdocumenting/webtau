@@ -19,12 +19,15 @@ package org.testingisdocumenting.webtau.expectation
 import org.junit.Assert
 import org.junit.Test
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
-import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.data.render.TestConsoleOutput
+import org.testingisdocumenting.webtau.reporter.StepReportOptions
 import org.testingisdocumenting.webtau.reporter.StepReporters
+import org.testingisdocumenting.webtau.reporter.WebTauStep
 
 import static org.testingisdocumenting.webtau.Matchers.actual
 import static org.testingisdocumenting.webtau.Matchers.equal
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
 
 class ActualValueStepOutputTest {
     @Test
@@ -56,6 +59,26 @@ class ActualValueStepOutputTest {
                 "    \"another\": **22**\n" +
                 "  }") {
             actual([key: "value1", another: 22]).should(equal([key: "value1", another: 23]))
+        }
+    }
+
+    @Test
+    void "should not print actual if a parent step handles it"() {
+        def step = WebTauStep.createStep(tokenizedMessage(action("parent step")),
+                () -> tokenizedMessage(action("parent step done")),
+                        () -> {
+                            actual([key: "value1", another: 22]).should(equal([key: "value1", another: 23]))
+                        })
+        step.matcherOutputDisabled = true
+
+        runAndValidateOutput("> parent step\n" +
+                "  X failed expecting [value] to equal {key=value1, another=23}: \n" +
+                "      mismatches:\n" +
+                "      \n" +
+                "      [value].another:   actual: 22 <java.lang.Integer>\n" +
+                "                       expected: 23 <java.lang.Integer> (Xms)\n" +
+                "X failed parent step (Xms)") {
+            step.execute(StepReportOptions.REPORT_ALL)
         }
     }
 

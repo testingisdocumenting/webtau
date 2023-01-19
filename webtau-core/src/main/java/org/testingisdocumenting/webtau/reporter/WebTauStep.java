@@ -58,6 +58,10 @@ public class WebTauStep {
 
     private String classifier;
 
+    // when true, nested matcher steps won't render extra details (step output pretty print) in case of failures
+    // e.g. HTTP step consolidates all the failures/matches and renders a single response with details
+    private boolean isMatcherOutputDisabled;
+
     private static final ThreadLocal<WebTauStep> currentStep = new ThreadLocal<>();
 
     public static WebTauStep createStep(TokenizedMessage inProgressMessage,
@@ -220,6 +224,26 @@ public class WebTauStep {
 
     public String getClassifier() {
         return classifier;
+    }
+
+    public boolean isMatcherOutputDisabled() {
+        return isMatcherOutputDisabled;
+    }
+
+    public void setMatcherOutputDisabled(boolean isMatcherOutputDisabled) {
+        this.isMatcherOutputDisabled = isMatcherOutputDisabled;
+    }
+
+    public boolean hasParentWithDisabledMatcherOutput() {
+        WebTauStep it = parent;
+        while (it != null) {
+            if (it.isMatcherOutputDisabled()) {
+                return true;
+            }
+            it = parent.parent;
+        }
+
+        return false;
     }
 
     public Stream<WebTauStepOutput> collectOutputs() {
