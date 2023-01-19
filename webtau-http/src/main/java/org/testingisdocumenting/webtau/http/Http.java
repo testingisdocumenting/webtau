@@ -1004,10 +1004,13 @@ public class Http {
             }
         };
 
-        return WebTauStep.createStep(
+        WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("executing HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 () -> tokenizedMessage(action("executed HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
                 httpCallSupplier);
+        step.setMatcherOutputDisabled(true);
+
+        return step;
     }
 
     private HttpResponse followRedirects(String requestMethod, HttpCall httpCall, HttpHeader fullRequestHeader, HttpResponse response) {
