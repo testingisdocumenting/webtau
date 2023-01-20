@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.live.LiveValue;
 import org.testingisdocumenting.webtau.expectation.*;
 import org.testingisdocumenting.webtau.expectation.code.ThrowExceptionMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAllMatcher;
@@ -25,6 +26,7 @@ import org.testingisdocumenting.webtau.expectation.equality.*;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 /**
@@ -58,6 +60,10 @@ public class Matchers {
      */
     public static ActualValueExpectations actual(Object actual, String path) {
         return new ActualValue(actual, new ValuePath(path));
+    }
+
+    public static <E> ActualValueExpectations actual(Supplier<E> supplier) {
+        return new ActualValue((LiveValue<E>) supplier::get);
     }
 
     /**

@@ -15,3 +15,4 @@
 #
 
 org.testingisdocumenting.webtau.data.expectation.equality.handlers.GroovyNullCompareToHandler
+org.testingisdocumenting.webtau.data.expectation.equality.handlers.ClosureCompareToHandler
