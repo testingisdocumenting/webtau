@@ -44,7 +44,7 @@ public class MatchersTest {
     public void stringWaitExample() {
         doc.console.capture("wait-message", () -> {
             // wait-consume-message
-            actual(this::consumeMessage).waitTo(equal("message we wait for"));
+            actual(liveValue(this::consumeMessage)).waitTo(equal("message we wait for"));
             // wait-consume-message
         });
     }

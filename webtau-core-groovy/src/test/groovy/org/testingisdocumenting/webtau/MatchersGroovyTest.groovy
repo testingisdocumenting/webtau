@@ -24,6 +24,7 @@ import static org.testingisdocumenting.webtau.Matchers.actual
 import static org.testingisdocumenting.webtau.Matchers.anyOf
 import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.Matchers.greaterThan
+import static org.testingisdocumenting.webtau.Matchers.liveValue
 
 class MatchersGroovyTest {
     private final List<String> messages = Arrays.asList("message one", "message two", "message we wait for")
@@ -46,7 +47,7 @@ class MatchersGroovyTest {
     @Test
     void "string wait example"() {
         // wait-consume-message
-        actual(this.&consumeMessage).waitTo == "message we wait for"
+        actual(liveValue(this.&consumeMessage)).waitTo == "message we wait for"
         // wait-consume-message
     }
 

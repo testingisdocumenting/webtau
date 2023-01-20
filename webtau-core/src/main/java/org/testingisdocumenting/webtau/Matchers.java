@@ -39,7 +39,7 @@ public class Matchers {
      * actual(value).should(beGreaterThan(10));
      * actual(value).shouldNot(beGreaterThan(10));
      * </pre>
-     * Note: In Groovy you can just do <code>value.should beGreaterThan(10)</code>
+     * Note: In Groovy you can do <code>value.should beGreaterThan(10)</code>
      * @param actual value to assert against
      * @return Object to chain a matcher against
      */
@@ -53,7 +53,7 @@ public class Matchers {
      * actual(price, "price").should(beGreaterThan(10));
      * actual(price, "price").shouldNot(beGreaterThan(10));
      * </pre>
-     * Note: In Groovy you can just do <code>price.should beGreaterThan(10)</code>
+     * Note: In Groovy you can do <code>price.should beGreaterThan(10)</code>
      * @param actual value to assert against
      * @param path path to use in the reporting
      * @return Object to chain a matcher against
@@ -62,8 +62,16 @@ public class Matchers {
         return new ActualValue(actual, new ValuePath(path));
     }
 
-    public static ActualValueExpectations actual(Supplier<?> supplier) {
-        return new ActualValue((LiveValue<?>) supplier::get);
+    /**
+     * wraps supplier into an instance of LiveValue
+     * <pre>
+     * actual(liveValue(this::consumeMessage)).waitTo(equal("message we wait for"));
+     * </pre>
+     * @param supplier value supplier that will be re-queried if required
+     * @return LiveValue instance
+     */
+    public static <E> LiveValue<E> liveValue(Supplier<E> supplier) {
+        return supplier::get;
     }
 
     /**
