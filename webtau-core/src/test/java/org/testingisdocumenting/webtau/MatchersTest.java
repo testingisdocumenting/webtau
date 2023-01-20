@@ -19,12 +19,17 @@ package org.testingisdocumenting.webtau;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.util.Arrays;
+import java.util.List;
 
 // import-dsl
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 // import-dsl
 
 public class MatchersTest {
+    private final List<String> messages = Arrays.asList("message one", "message two", "message we wait for");
+    private int messagesIdx = 0;
+
     @Test
     public void stringComparisonExample() {
         doc.console.capture("string-string-comparison", () -> {
@@ -33,6 +38,19 @@ public class MatchersTest {
             actual(errorMessage).should(equal("insufficient disk space")); // string and string equality comparison
             // string-string-example
         });
+    }
+
+    @Test
+    public void stringWaitExample() {
+        doc.console.capture("wait-message", () -> {
+            // wait-consume-message
+            actual(liveValue(this::consumeMessage)).waitTo(equal("message we wait for"));
+            // wait-consume-message
+        });
+    }
+
+    private String consumeMessage() {
+        return messages.get(messagesIdx++);
     }
 
     @Test

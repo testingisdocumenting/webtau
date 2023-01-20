@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.live.LiveValue;
 import org.testingisdocumenting.webtau.expectation.*;
 import org.testingisdocumenting.webtau.expectation.code.ThrowExceptionMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAllMatcher;
@@ -25,6 +26,7 @@ import org.testingisdocumenting.webtau.expectation.equality.*;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
 /**
@@ -37,11 +39,11 @@ public class Matchers {
      * actual(value).should(beGreaterThan(10));
      * actual(value).shouldNot(beGreaterThan(10));
      * </pre>
-     * Note: In Groovy you can just do <code>value.should beGreaterThan(10)</code>
+     * Note: In Groovy you can do <code>value.should beGreaterThan(10)</code>
      * @param actual value to assert against
      * @return Object to chain a matcher against
      */
-    public static ActualValueExpectations actual(Object actual) {
+    public static <E> ActualValueExpectations actual(E actual) {
         return new ActualValue(actual);
     }
 
@@ -51,13 +53,25 @@ public class Matchers {
      * actual(price, "price").should(beGreaterThan(10));
      * actual(price, "price").shouldNot(beGreaterThan(10));
      * </pre>
-     * Note: In Groovy you can just do <code>price.should beGreaterThan(10)</code>
+     * Note: In Groovy you can do <code>price.should beGreaterThan(10)</code>
      * @param actual value to assert against
      * @param path path to use in the reporting
      * @return Object to chain a matcher against
      */
     public static ActualValueExpectations actual(Object actual, String path) {
         return new ActualValue(actual, new ValuePath(path));
+    }
+
+    /**
+     * wraps supplier into an instance of LiveValue
+     * <pre>
+     * actual(liveValue(this::consumeMessage)).waitTo(equal("message we wait for"));
+     * </pre>
+     * @param supplier value supplier that will be re-queried if required
+     * @return LiveValue instance
+     */
+    public static <E> LiveValue<E> liveValue(Supplier<E> supplier) {
+        return supplier::get;
     }
 
     /**

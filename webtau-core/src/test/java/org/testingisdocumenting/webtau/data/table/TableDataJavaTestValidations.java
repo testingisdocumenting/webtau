@@ -69,11 +69,11 @@ public class TableDataJavaTestValidations {
         actual(tableData.row(5).toMap()).should(equal(
                 aMapOf("ID", notEqual(""), "Col A", "v2a", "Col B", 20, "Col C", "v2c")));
 
-        actual(tableData.row(0).get("ID")).shouldNot(equal(tableData.row(1).get("ID")));
-        actual(tableData.row(0).get("ID")).shouldNot(equal(tableData.row(2).get("ID")));
-        actual(tableData.row(0).get("ID")).shouldNot(equal(tableData.row(3).get("ID")));
-        actual(tableData.row(0).get("ID")).shouldNot(equal(tableData.row(4).get("ID")));
-        actual(tableData.row(0).get("ID")).shouldNot(equal(tableData.row(5).get("ID")));
+        actual((String) tableData.row(0).get("ID")).shouldNot(equal(tableData.row(1).get("ID")));
+        actual((String) tableData.row(0).get("ID")).shouldNot(equal(tableData.row(2).get("ID")));
+        actual((String) tableData.row(0).get("ID")).shouldNot(equal(tableData.row(3).get("ID")));
+        actual((String) tableData.row(0).get("ID")).shouldNot(equal(tableData.row(4).get("ID")));
+        actual((String) tableData.row(0).get("ID")).shouldNot(equal(tableData.row(5).get("ID")));
     }
 
     public static void validateAboveValue(TableData tableData) {

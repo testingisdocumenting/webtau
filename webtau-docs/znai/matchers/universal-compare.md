@@ -43,8 +43,6 @@ Java:
 
 :include-cli-output: doc-artifacts/number-number-comparison.txt {title: "explicit name report console output"}
 
-
-
 :include-markdown: static-import.md
 
 # Java Beans And Maps

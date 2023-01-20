@@ -24,8 +24,12 @@ import static org.testingisdocumenting.webtau.Matchers.actual
 import static org.testingisdocumenting.webtau.Matchers.anyOf
 import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.Matchers.greaterThan
+import static org.testingisdocumenting.webtau.Matchers.liveValue
 
 class MatchersGroovyTest {
+    private final List<String> messages = Arrays.asList("message one", "message two", "message we wait for")
+    private int messagesIdx = 0
+
     @Test
     void "list of strings"() {
         def list = ["hello", "world"]
@@ -38,6 +42,17 @@ class MatchersGroovyTest {
         def errorMessage = generateErrorMessage()
         errorMessage.should == "insufficient disk space" // string and string equality comparison
         // string-string-example
+    }
+
+    @Test
+    void "string wait example"() {
+        // wait-consume-message
+        actual(liveValue(this.&consumeMessage)).waitTo == "message we wait for"
+        // wait-consume-message
+    }
+
+    private String consumeMessage() {
+        return messages.get(messagesIdx++)
     }
 
     @Test
