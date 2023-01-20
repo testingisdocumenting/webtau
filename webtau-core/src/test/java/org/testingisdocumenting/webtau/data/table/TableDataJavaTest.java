@@ -204,7 +204,8 @@ public class TableDataJavaTest {
 
     private static void findByKeyAndValidate(TableData tableData) {
         Record found = tableData.find(key("id2"));
-        actual(found.get("Name")).should(equal("N2"));
+        String name = found.get("Name");
+        actual(name).should(equal("N2"));
     }
 
     private static TableData createTableDataSeparateValues() {

@@ -43,7 +43,7 @@ public class Matchers {
      * @param actual value to assert against
      * @return Object to chain a matcher against
      */
-    public static ActualValueExpectations actual(Object actual) {
+    public static <E> ActualValueExpectations actual(E actual) {
         return new ActualValue(actual);
     }
 
@@ -62,8 +62,8 @@ public class Matchers {
         return new ActualValue(actual, new ValuePath(path));
     }
 
-    public static <E> ActualValueExpectations actual(Supplier<E> supplier) {
-        return new ActualValue((LiveValue<E>) supplier::get);
+    public static ActualValueExpectations actual(Supplier<?> supplier) {
+        return new ActualValue((LiveValue<?>) supplier::get);
     }
 
     /**
