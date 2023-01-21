@@ -29,8 +29,19 @@ public class LiveValueCompareToHandler implements CompareToHandler {
     }
 
     @Override
+    public boolean handleGreaterLessEqual(Object actual, Object expected) {
+        return actual instanceof LiveValue;
+    }
+
+    @Override
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         LiveValue<?> actualLiveValue = (LiveValue<?>) actual;
         comparator.compareUsingEqualOnly(actualPath, actualLiveValue.get(), expected);
+    }
+
+    @Override
+    public void compareGreaterLessEqual(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
+        LiveValue<?> actualLiveValue = (LiveValue<?>) actual;
+        comparator.compareUsingCompareTo(actualPath, actualLiveValue.get(), expected);
     }
 }
