@@ -97,8 +97,8 @@ public class DataCsvJavaTest {
     public void writeListOfMaps() {
         // list-data
         List<Map<String, ?>> list = Arrays.asList(
-                aMapOf("colA", 1, "colB", "R1"),
-                aMapOf("colA", 2, "colB", "R2"));
+                mapOf("colA", 1, "colB", "R1"),
+                mapOf("colA", 2, "colB", "R2"));
         // list-data
 
         // write-csv-list-maps

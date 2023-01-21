@@ -48,7 +48,7 @@ public class HttpOverloadsTestCommon {
     public static final String PATH_EXPECTED_RETURN = "/full-echo";
 
     public static final HttpQueryParams query = http.query("a", "1", "b", "text");
-    public static final Map<CharSequence, ?> queryAsMap = WebTauCore.aMapOf("a", "1", "b", "text");
+    public static final Map<CharSequence, ?> queryAsMap = WebTauCore.mapOf("a", "1", "b", "text");
     public static final HttpHeader requestHeader = http.header(HEADER_KEY, HEADER_EXPECTED_RETURN);
 
     public static final Map<String, Object> requestBodyMap = Collections.singletonMap(BODY_KEY, BODY_EXPECTED_RETURN);

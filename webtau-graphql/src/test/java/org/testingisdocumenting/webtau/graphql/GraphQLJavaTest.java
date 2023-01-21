@@ -25,7 +25,7 @@ import java.util.Map;
 import static org.testingisdocumenting.webtau.Matchers.actual;
 import static org.testingisdocumenting.webtau.Matchers.equal;
 import static org.testingisdocumenting.webtau.graphql.GraphQL.graphql;
-import static org.testingisdocumenting.webtau.utils.CollectionUtils.aMapOf;
+import static org.testingisdocumenting.webtau.utils.CollectionUtils.*;
 
 public class GraphQLJavaTest extends GraphQLTestBase {
     @Test
@@ -59,7 +59,7 @@ public class GraphQLJavaTest extends GraphQLTestBase {
                 "}";
 
         String id = "a";
-        Map<String, Object> variables = aMapOf("id", id);
+        Map<String, Object> variables = mapOf("id", id);
         graphql.execute(query, variables, (header, body) -> {
             body.get("errors").should(equal(null));
             body.get("data.taskById.id").should(equal(id));

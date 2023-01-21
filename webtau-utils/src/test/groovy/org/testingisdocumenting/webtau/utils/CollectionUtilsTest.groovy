@@ -22,19 +22,19 @@ import org.junit.Test
 class CollectionUtilsTest {
     @Test
     void "should create map from the vararg sequence"() {
-        def map = CollectionUtils.aMapOf("key1", 10, "key2", 20, "key3", 30)
+        def map = CollectionUtils.mapOf("key1", 10, "key2", 20, "key3", 30)
         assert map == [key1: 10, key2: 20, key3: 30]
     }
 
     @Test(expected = IllegalArgumentException)
     void "should validate completeness of the map when create from varargs"() {
-        CollectionUtils.aMapOf("key1", 10, "key2")
+        CollectionUtils.mapOf("key1", 10, "key2")
     }
 
     @Test
     void "should create a new map from given map and value overrides"() {
-        def original = CollectionUtils.aMapOf("key1", 10, "key2", 20, "key3", 30, "key4", 40)
-        def withOverrides = CollectionUtils.aMapOf(original, "key2", 22, "key3", 33)
+        def original = CollectionUtils.mapOf("key1", 10, "key2", 20, "key3", 30, "key4", 40)
+        def withOverrides = CollectionUtils.mapOf(original, "key2", 22, "key3", 33)
 
         assert original == [key1: 10, key2: 20, key3: 30, key4: 40]
         assert withOverrides == [key1: 10, key2: 22, key3: 33, key4: 40]
@@ -42,7 +42,7 @@ class CollectionUtilsTest {
 
     @Test
     void "should convert a map to string string map"() {
-        def original = CollectionUtils.aMapOf("key1", 10, "key2", 20, "key3", 30, "key4", 40)
+        def original = CollectionUtils.mapOf("key1", 10, "key2", 20, "key3", 30, "key4", 40)
         def converted = CollectionUtils.toStringStringMap(original)
 
         assert converted == [key1: "10", key2: "20", key3: "30", key4: "40"]

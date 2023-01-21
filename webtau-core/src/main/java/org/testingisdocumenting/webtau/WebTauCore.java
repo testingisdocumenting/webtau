@@ -73,8 +73,8 @@ public class WebTauCore extends Matchers {
      * @param <K> type of key
      * @return map with preserved order
      */
-    public static <K> Map<K, Object> aMapOf(K firstKey, Object firstValue, Object... restKv) {
-        return CollectionUtils.aMapOf(firstKey, firstValue, restKv);
+    public static <K> Map<K, Object> mapOf(K firstKey, Object firstValue, Object... restKv) {
+        return CollectionUtils.mapOf(firstKey, firstValue, restKv);
     }
 
     /**
@@ -86,8 +86,8 @@ public class WebTauCore extends Matchers {
      * @param <K> type of key
      * @return map with preserved order
      */
-    public static <K> Map<K, Object> aMapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
-        return CollectionUtils.aMapOf(original, firstKey, firstValue, restKv);
+    public static <K> Map<K, Object> mapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
+        return CollectionUtils.mapOf(original, firstKey, firstValue, restKv);
     }
 
     public static ValuePath createActualPath(String path) {
@@ -213,7 +213,7 @@ public class WebTauCore extends Matchers {
      * @param restKv key-values as vararg
      */
     public static void trace(String label, String firstKey, Object firstValue, Object... restKv) {
-        trace(label, CollectionUtils.aMapOf(firstKey, firstValue, restKv));
+        trace(label, CollectionUtils.mapOf(firstKey, firstValue, restKv));
     }
 
     /**
@@ -251,7 +251,7 @@ public class WebTauCore extends Matchers {
      * @param restKv key-values as vararg
      */
     public static void warning(String label, String firstKey, Object firstValue, Object... restKv) {
-        warning(label, CollectionUtils.aMapOf(firstKey, firstValue, restKv));
+        warning(label, CollectionUtils.mapOf(firstKey, firstValue, restKv));
     }
 
     /**
@@ -280,6 +280,22 @@ public class WebTauCore extends Matchers {
 
     public static void fail() {
         throw new AssertionError();
+    }
+
+    /**
+     * @deprecated use {@link #mapOf} instead
+     */
+    @Deprecated
+    public static <K> Map<K, Object> aMapOf(K firstKey, Object firstValue, Object... rest) {
+        return mapOf(firstKey, firstValue, rest);
+    }
+
+    /**
+     * @deprecated use {@link #mapOf} instead
+     */
+    @Deprecated
+    public static <K> Map<K, Object> aMapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
+        return mapOf(original, firstKey, firstValue, restKv);
     }
 
     public static final TableDataUnderscore __ = UNDERSCORE;

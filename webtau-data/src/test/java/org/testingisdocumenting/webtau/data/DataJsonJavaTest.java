@@ -40,7 +40,7 @@ public class DataJsonJavaTest {
         // validate-json-list
         actual(list.get(0).get("name")).should(equal("hello"));
         actual(list.get(1).get("payload")).should(
-                equal(aMapOf("info", Pattern.compile("id2 payload"))));
+                equal(mapOf("info", Pattern.compile("id2 payload"))));
         // validate-json-list
     }
 
@@ -48,7 +48,7 @@ public class DataJsonJavaTest {
     public void readMap() {
         // read-json-map
         Map<String, ?> map = data.json.map("data/root-map.json");
-        actual(map.get("payload")).should(equal(aMapOf("info", "additional id1 payload")));
+        actual(map.get("payload")).should(equal(mapOf("info", "additional id1 payload")));
         // read-json-map
     }
 
@@ -58,8 +58,8 @@ public class DataJsonJavaTest {
         TableData jsonTable = data.json.table("data/flat-list.json");
         TableData expected = table("id" , "name"  ,                                      "payload",
                                   ________________________________________________________________,
-                                   "id1", "hello" , aMapOf("info", Pattern.compile("id1 payload")),
-                                   "id2", "world" , aMapOf("info", Pattern.compile("id2 payload")));
+                                   "id1", "hello" , mapOf("info", Pattern.compile("id1 payload")),
+                                   "id2", "world" , mapOf("info", Pattern.compile("id2 payload")));
         actual(jsonTable).should(equal(expected));
         // read-json-table
     }
@@ -68,8 +68,8 @@ public class DataJsonJavaTest {
     public void writeList() {
         // list-data
         List<Map<String, ?>> list = Arrays.asList(
-                aMapOf("colA", 1, "colB", "R1"),
-                aMapOf("colA", 2, "colB", "R2"));
+                mapOf("colA", 1, "colB", "R1"),
+                mapOf("colA", 2, "colB", "R2"));
         // list-data
 
         // write-json-list-maps
@@ -87,7 +87,7 @@ public class DataJsonJavaTest {
     @Test
     public void writeMap() {
         // map-data
-        Map<String, ?> map = aMapOf("colA", 1, "colB", "R1");
+        Map<String, ?> map = mapOf("colA", 1, "colB", "R1");
         // map-data
 
         // write-json-map

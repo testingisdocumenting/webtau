@@ -113,7 +113,7 @@ public class HttpHeader {
      * @return new header
      */
     public HttpHeader with(CharSequence firstKey, CharSequence firstValue, CharSequence... restKv) {
-        Map<Object, Object> mapFromVararg = CollectionUtils.aMapOf(firstKey, firstValue, (Object[]) restKv);
+        Map<Object, Object> mapFromVararg = CollectionUtils.mapOf(firstKey, firstValue, (Object[]) restKv);
 
         Map<String, String> copy = new LinkedHashMap<>(this.header);
         mapFromVararg.forEach((k, v) -> copy.put(toStringOrNull(k), toStringOrNull(v)));

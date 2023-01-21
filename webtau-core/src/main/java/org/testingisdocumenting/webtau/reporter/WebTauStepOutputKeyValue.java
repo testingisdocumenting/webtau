@@ -33,7 +33,7 @@ public class WebTauStepOutputKeyValue implements WebTauStepOutput {
     }
 
     public static WebTauStepOutput stepOutput(CharSequence firstKey, Object firstValue, Object... restKv) {
-        Map<CharSequence, Object> map = CollectionUtils.aMapOf(firstKey, firstValue, restKv);
+        Map<CharSequence, Object> map = CollectionUtils.mapOf(firstKey, firstValue, restKv);
         return new WebTauStepOutputKeyValue(CollectionUtils.toStringObjectMap(map));
     }
 

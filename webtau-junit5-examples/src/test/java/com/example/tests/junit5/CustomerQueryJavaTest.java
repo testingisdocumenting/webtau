@@ -55,7 +55,7 @@ class CustomerQueryJavaTest {
     }
 
     private static int createCustomer(String firstName, String lastName) {
-        Map<String, Object> payload = aMapOf(
+        Map<String, Object> payload = mapOf(
                 "firstName", firstName,
                 "lastName", lastName);
 
