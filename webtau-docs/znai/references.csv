@@ -13,3 +13,7 @@ http.json,HTTP/body#json-request
 data.csv,data/csv
 data.json,data/json
 data.pdf,data/pdf
+should,matchers/introduction#should
+shouldBe,matchers/introduction#should
+waitTo,matchers/introduction#waitto
+waitToBe,matchers/introduction#waitto

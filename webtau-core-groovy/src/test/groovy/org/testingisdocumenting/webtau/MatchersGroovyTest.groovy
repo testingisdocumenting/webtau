@@ -22,9 +22,11 @@ import java.time.LocalDate
 
 import static org.testingisdocumenting.webtau.Matchers.actual
 import static org.testingisdocumenting.webtau.Matchers.anyOf
+import static org.testingisdocumenting.webtau.Matchers.code
 import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.Matchers.greaterThan
 import static org.testingisdocumenting.webtau.Matchers.liveValue
+import static org.testingisdocumenting.webtau.Matchers.throwException
 
 class MatchersGroovyTest {
     private final List<String> messages = Arrays.asList("message one", "message two", "message we wait for")
@@ -94,6 +96,21 @@ class MatchersGroovyTest {
 
         def message = "hello world"
         message.shouldNot == anyOf("hello", contain("super"))
+    }
+
+    @Test
+    void "list failure example"() {
+        code {
+            def values = [1,
+                          "testing",
+                          [key1: "hello", key2: "world"]]
+            // failed-list
+            values.should == [
+                    1,
+                    "teasing",
+                    [key1: "hello", key2: "work"]]
+            // failed-list
+        } should throwException(AssertionError)
     }
 
     private static String generateErrorMessage() {
