@@ -75,7 +75,7 @@ public class ActualValue implements ActualValueExpectations {
     public void waitTo(ValueMatcher valueMatcher,
                      ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
         executeStep(valueMatcher, false,
-                tokenizedMessage(action("waiting"), TO),
+                tokenizedMessage(action("waiting"), FOR),
                 () -> waitToStep(valueMatcher, expectationTimer, tickMillis, timeOutMillis),
                 StepReportOptions.REPORT_ALL);
     }
@@ -84,7 +84,7 @@ public class ActualValue implements ActualValueExpectations {
     public void waitToNot(ValueMatcher valueMatcher,
                           ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
         executeStep(valueMatcher, true,
-                tokenizedMessage(action("waiting"), TO),
+                tokenizedMessage(action("waiting"), FOR),
                 () -> waitToNotStep(valueMatcher, expectationTimer, tickMillis, timeOutMillis),
                 StepReportOptions.REPORT_ALL);
     }
