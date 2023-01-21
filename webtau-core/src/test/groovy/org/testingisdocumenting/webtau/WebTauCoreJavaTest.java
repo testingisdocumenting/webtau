@@ -19,7 +19,6 @@ package org.testingisdocumenting.webtau;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
@@ -34,6 +33,6 @@ public class WebTauCoreJavaTest {
             captured.add(ctx.getAttemptNumber());
         });
 
-        actual(captured).should(equal(Arrays.asList(1, 2, 3, 4, 5)));
+        actual(captured).should(equal(listOf(1, 2, 3, 4, 5)));
     }
 }

@@ -31,6 +31,7 @@ import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 import java.util.function.Consumer;
 import java.util.function.Function;
@@ -88,6 +89,17 @@ public class WebTauCore extends Matchers {
      */
     public static <K> Map<K, Object> mapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
         return CollectionUtils.mapOf(original, firstKey, firstValue, restKv);
+    }
+
+    /**
+     * creates a list of elements from varargs. Alias to Arrays.asList and defined here for single static import convenience
+     * @param <E> type of elements
+     * @param values values to put in the list
+     * @return list of values from vararg
+     */
+    @SafeVarargs
+    public static <E> List<E> listOf(E... values) {
+        return Arrays.asList(values);
     }
 
     public static ValuePath createActualPath(String path) {

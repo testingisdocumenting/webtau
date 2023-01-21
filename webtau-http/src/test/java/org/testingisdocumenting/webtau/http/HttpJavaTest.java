@@ -29,7 +29,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +82,7 @@ public class HttpJavaTest extends HttpTestBase {
     @Test
     public void childrenKeyShortcut() {
         http.get("/end-point", ((header, body) -> {
-            body.get("complexList").get("k2").should(equal(Arrays.asList(30, 40)));
+            body.get("complexList").get("k2").should(equal(listOf(30, 40)));
         }));
     }
 
@@ -195,7 +194,7 @@ public class HttpJavaTest extends HttpTestBase {
             body.get("id").shouldNot(equal(0));
             body.get("amount").should(equal(30));
 
-            body.get("list").should(equal(Arrays.asList(1, 2, 3)));
+            body.get("list").should(equal(listOf(1, 2, 3)));
 
             body.get("object").get("k1").should(equal(
                     Pattern.compile("v\\d"))); // regular expression matching
@@ -523,7 +522,7 @@ public class HttpJavaTest extends HttpTestBase {
     @Test
     public void canQueryListByNodePath() {
         http.get("/end-point", (header, body) -> {
-            body.get("complexList.k1").should(equal(Arrays.asList("v1", "v11")));
+            body.get("complexList.k1").should(equal(listOf("v1", "v11")));
         });
     }
 

@@ -18,12 +18,10 @@ package org.testingisdocumenting.webtau.graphql;
 
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static org.testingisdocumenting.webtau.Matchers.actual;
-import static org.testingisdocumenting.webtau.Matchers.equal;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.graphql.GraphQL.graphql;
 import static org.testingisdocumenting.webtau.utils.CollectionUtils.*;
 
@@ -37,7 +35,7 @@ public class GraphQLJavaTest extends GraphQLTestBase {
                 "    }" +
                 "}";
 
-        List<String> expectedIds = Arrays.asList("a", "b", "c");
+        List<String> expectedIds = listOf("a", "b", "c");
 
         List<String> ids = graphql.execute(query, (header, body) -> {
             body.get("errors").should(equal(null));
