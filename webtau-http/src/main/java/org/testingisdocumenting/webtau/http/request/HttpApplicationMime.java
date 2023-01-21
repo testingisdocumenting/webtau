@@ -32,7 +32,7 @@ public class HttpApplicationMime {
     }
 
     public HttpRequestBody json(String firstKey, Object firstValue, Object... rest) {
-        return new JsonRequestBody(CollectionUtils.mapOf(firstKey, firstValue, rest));
+        return new JsonRequestBody(CollectionUtils.map(firstKey, firstValue, rest));
     }
 
     public HttpRequestBody octetStream(byte[] content) {

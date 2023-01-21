@@ -1,1 +1,1 @@
-* Add: renamed `aMapOf` to `mapOf` and deprecated former
+* Add: renamed `aMapOf` to `map` and deprecated former

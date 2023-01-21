@@ -50,11 +50,11 @@ public class WebTauFakeRestServerTest {
     @Test
     public void pathParamsBasedResponse() {
         WebTauRouter router = server.router("customers")
-                .get("/customer/{id}", (request) -> server.response(mapOf("getId", request.param("id"))))
-                .post("/customer/{id}", (request) -> server.response(mapOf("postId", request.param(("id")))))
-                .put("/customer/{id}", (request) -> server.response(mapOf("putId", request.param(("id")))))
-                .delete("/customer/{id}", (request) -> server.response(mapOf("deleteId", request.param(("id")))))
-                .patch("/customer/{id}", (request) -> server.response(mapOf("patchId", request.param(("id")))));
+                .get("/customer/{id}", (request) -> server.response(map("getId", request.param("id"))))
+                .post("/customer/{id}", (request) -> server.response(map("postId", request.param(("id")))))
+                .put("/customer/{id}", (request) -> server.response(map("putId", request.param(("id")))))
+                .delete("/customer/{id}", (request) -> server.response(map("deleteId", request.param(("id")))))
+                .patch("/customer/{id}", (request) -> server.response(map("patchId", request.param(("id")))));
 
         try (WebTauServer restServer = server.fake("route-crud", router)) {
             http.get(restServer.getBaseUrl() + "/customer/11", (header, body) -> {
@@ -82,11 +82,11 @@ public class WebTauFakeRestServerTest {
     @Test
     public void pathParamsBasedResponseWithStatusCode() {
         WebTauRouter router = server.router("customers")
-                .get("/customer/{id}", (request) -> server.response(203, mapOf("getId", request.param("id"))))
-                .post("/customer/{id}", (request) -> server.response(203, mapOf("postId", request.param(("id")))))
-                .put("/customer/{id}", (request) -> server.response(203, mapOf("putId", request.param(("id")))))
-                .delete("/customer/{id}", (request) -> server.response(203, mapOf("deleteId", request.param(("id")))))
-                .patch("/customer/{id}", (request) -> server.response(203, mapOf("patchId", request.param(("id")))));
+                .get("/customer/{id}", (request) -> server.response(203, map("getId", request.param("id"))))
+                .post("/customer/{id}", (request) -> server.response(203, map("postId", request.param(("id")))))
+                .put("/customer/{id}", (request) -> server.response(203, map("putId", request.param(("id")))))
+                .delete("/customer/{id}", (request) -> server.response(203, map("deleteId", request.param(("id")))))
+                .patch("/customer/{id}", (request) -> server.response(203, map("patchId", request.param(("id")))));
 
         try (WebTauServer restServer = server.fake("route-crud-status-code", router)) {
             http.get(restServer.getBaseUrl() + "/customer/11", (header, body) -> {
@@ -119,10 +119,10 @@ public class WebTauFakeRestServerTest {
     @Test
     public void shouldPreventFromRegisteringSamePath() {
         WebTauRouter router = server.router("customers");
-        router.get("/customer/{id}", (request) -> server.response(mapOf("id", request.param("id"))));
+        router.get("/customer/{id}", (request) -> server.response(map("id", request.param("id"))));
 
         code(() ->
-                router.get("/customer/{id}", (request) -> server.response(mapOf("id", request.param("id"))))
+                router.get("/customer/{id}", (request) -> server.response(map("id", request.param("id"))))
         ).should(throwException("already found an override for list id: customers, with override id: GET-/customer/{id}, " +
                 "existing override: WebTauServerOverrideRouteFake{method='GET', route=/customer/{id}}"));
     }
@@ -131,8 +131,8 @@ public class WebTauFakeRestServerTest {
     public void shouldPreventFromRegisteringSameRouter() {
         WebTauFakeRestServer restServer = new WebTauFakeRestServer("route-crud-duplicate-router-check", 0);
         WebTauRouter router = new WebTauRouter("customers");
-        router.post("/customer/{id}", (request) -> server.response(mapOf("postId", request.param("id"))));
-        router.put("/customer/{id}", (request) -> server.response(mapOf("putId", request.param("id"))));
+        router.post("/customer/{id}", (request) -> server.response(map("postId", request.param("id"))));
+        router.put("/customer/{id}", (request) -> server.response(map("putId", request.param("id"))));
 
         restServer.addOverride(router);
 

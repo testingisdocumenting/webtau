@@ -38,7 +38,7 @@ public class StepTraceJavaTest {
         String baseUrl = "http://baseurl";
 
         // wrap-step-key-value
-        step("important actions", mapOf("myPort", myPort, "baseUrl", baseUrl), () -> {
+        step("important actions", map("myPort", myPort, "baseUrl", baseUrl), () -> {
             actionThree(myPort, baseUrl);
         });
         // wrap-step-key-value
@@ -47,7 +47,7 @@ public class StepTraceJavaTest {
     @Test
     public void tracing() {
         // trace-map
-        trace("trace label", mapOf("k1", "v1", "k2", "v2"));
+        trace("trace label", map("k1", "v1", "k2", "v2"));
         // trace-map
         // trace-vararg
         trace("another trace label", "k3", "v3", "k4", "v4");

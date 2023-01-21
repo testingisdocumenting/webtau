@@ -43,7 +43,7 @@ public class Persona {
     }
 
     public static Persona persona(String id, String firstKey, Object firstValue, Object... restKv) {
-        Map<String, Object> payload = CollectionUtils.mapOf(firstKey, firstValue, restKv);
+        Map<String, Object> payload = CollectionUtils.map(firstKey, firstValue, restKv);
         return persona(id, payload);
     }
 

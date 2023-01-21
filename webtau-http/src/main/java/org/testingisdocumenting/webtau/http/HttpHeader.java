@@ -92,7 +92,7 @@ public class HttpHeader {
      * Adds an addition header to this HttpHeader object.  This function
      * may throw UnsupportedOperationException depending on how HttpHeader
      * was constructed.
-     *
+     * <p>
      * For that reason, this method is deprecated and you should use either
      * <code>with("MY_HEADER", "my_value")</code> or one of the <code>merge</code>
      * methods which are non-mutating.
@@ -113,7 +113,7 @@ public class HttpHeader {
      * @return new header
      */
     public HttpHeader with(CharSequence firstKey, CharSequence firstValue, CharSequence... restKv) {
-        Map<Object, Object> mapFromVararg = CollectionUtils.mapOf(firstKey, firstValue, (Object[]) restKv);
+        Map<Object, Object> mapFromVararg = CollectionUtils.map(firstKey, firstValue, (Object[]) restKv);
 
         Map<String, String> copy = new LinkedHashMap<>(this.header);
         mapFromVararg.forEach((k, v) -> copy.put(toStringOrNull(k), toStringOrNull(v)));

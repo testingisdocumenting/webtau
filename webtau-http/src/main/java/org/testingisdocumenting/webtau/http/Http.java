@@ -838,7 +838,7 @@ public class Http {
     }
 
     public HttpQueryParams query(CharSequence firstKey, Object firstValue, Object... restKv) {
-        return new HttpQueryParams(CollectionUtils.mapOf(firstKey, firstValue, restKv));
+        return new HttpQueryParams(CollectionUtils.map(firstKey, firstValue, restKv));
     }
 
     public HttpRequestBody body(String mimeType, String content) {
@@ -854,7 +854,7 @@ public class Http {
     }
 
     public HttpRequestBody formDataUrlEncoded(CharSequence firstKey, CharSequence firstValue, Object... restKv) {
-        return new FormUrlEncodedRequestBody(CollectionUtils.mapOf(firstKey, firstValue, restKv));
+        return new FormUrlEncodedRequestBody(CollectionUtils.map(firstKey, firstValue, restKv));
     }
 
     public MultiPartFormData formData(MultiPartFormField... fields) {

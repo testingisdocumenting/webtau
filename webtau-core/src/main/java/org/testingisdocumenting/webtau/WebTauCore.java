@@ -74,8 +74,8 @@ public class WebTauCore extends Matchers {
      * @param <K> type of key
      * @return map with preserved order
      */
-    public static <K> Map<K, Object> mapOf(K firstKey, Object firstValue, Object... restKv) {
-        return CollectionUtils.mapOf(firstKey, firstValue, restKv);
+    public static <K> Map<K, Object> map(K firstKey, Object firstValue, Object... restKv) {
+        return CollectionUtils.map(firstKey, firstValue, restKv);
     }
 
     /**
@@ -87,8 +87,8 @@ public class WebTauCore extends Matchers {
      * @param <K> type of key
      * @return map with preserved order
      */
-    public static <K> Map<K, Object> mapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
-        return CollectionUtils.mapOf(original, firstKey, firstValue, restKv);
+    public static <K> Map<K, Object> map(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
+        return CollectionUtils.map(original, firstKey, firstValue, restKv);
     }
 
     /**
@@ -98,7 +98,7 @@ public class WebTauCore extends Matchers {
      * @return list of values from vararg
      */
     @SafeVarargs
-    public static <E> List<E> listOf(E... values) {
+    public static <E> List<E> list(E... values) {
         return Arrays.asList(values);
     }
 
@@ -225,7 +225,7 @@ public class WebTauCore extends Matchers {
      * @param restKv key-values as vararg
      */
     public static void trace(String label, String firstKey, Object firstValue, Object... restKv) {
-        trace(label, CollectionUtils.mapOf(firstKey, firstValue, restKv));
+        trace(label, CollectionUtils.map(firstKey, firstValue, restKv));
     }
 
     /**
@@ -263,7 +263,7 @@ public class WebTauCore extends Matchers {
      * @param restKv key-values as vararg
      */
     public static void warning(String label, String firstKey, Object firstValue, Object... restKv) {
-        warning(label, CollectionUtils.mapOf(firstKey, firstValue, restKv));
+        warning(label, CollectionUtils.map(firstKey, firstValue, restKv));
     }
 
     /**
@@ -295,19 +295,19 @@ public class WebTauCore extends Matchers {
     }
 
     /**
-     * @deprecated use {@link #mapOf} instead
+     * @deprecated use {@link #map} instead
      */
     @Deprecated
     public static <K> Map<K, Object> aMapOf(K firstKey, Object firstValue, Object... rest) {
-        return mapOf(firstKey, firstValue, rest);
+        return map(firstKey, firstValue, rest);
     }
 
     /**
-     * @deprecated use {@link #mapOf} instead
+     * @deprecated use {@link #map} instead
      */
     @Deprecated
     public static <K> Map<K, Object> aMapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
-        return mapOf(original, firstKey, firstValue, restKv);
+        return map(original, firstKey, firstValue, restKv);
     }
 
     public static final TableDataUnderscore __ = UNDERSCORE;

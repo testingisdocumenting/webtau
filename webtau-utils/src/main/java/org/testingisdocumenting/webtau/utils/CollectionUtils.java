@@ -33,7 +33,7 @@ public class CollectionUtils {
      * @return map with preserved order
      */
     @SuppressWarnings("unchecked")
-    public static <K> Map<K, Object> mapOf(K firstKey, Object firstValue, Object... rest) {
+    public static <K> Map<K, Object> map(K firstKey, Object firstValue, Object... rest) {
         if (rest.length % 2 != 0) {
             throw new IllegalArgumentException("key value sequence must have even number of values");
         }
@@ -56,9 +56,9 @@ public class CollectionUtils {
      * @param <K> type of key
      * @return map with preserved order
      */
-    public static <K> Map<K, Object> mapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
+    public static <K> Map<K, Object> map(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
         Map<K, Object> result = new LinkedHashMap<>(original);
-        Map<K, Object> overrides = mapOf(firstKey, firstValue, restKv);
+        Map<K, Object> overrides = map(firstKey, firstValue, restKv);
 
         result.putAll(overrides);
         return result;
@@ -116,19 +116,19 @@ public class CollectionUtils {
     }
 
     /**
-     * @deprecated use {@link CollectionUtils#mapOf} instead
+     * @deprecated use {@link CollectionUtils#map} instead
      */
     @Deprecated
     public static <K> Map<K, Object> aMapOf(K firstKey, Object firstValue, Object... rest) {
-        return mapOf(firstKey, firstValue, rest);
+        return map(firstKey, firstValue, rest);
     }
 
     /**
-     * @deprecated use {@link CollectionUtils#mapOf} instead
+     * @deprecated use {@link CollectionUtils#map} instead
      */
     @Deprecated
     public static <K> Map<K, Object> aMapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
-        return mapOf(original, firstKey, firstValue, restKv);
+        return map(original, firstKey, firstValue, restKv);
     }
 
     private static List<Boolean> toList(boolean[] booleans) {

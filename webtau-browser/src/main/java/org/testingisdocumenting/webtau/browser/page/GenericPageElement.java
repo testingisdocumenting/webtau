@@ -270,7 +270,7 @@ public class GenericPageElement implements PageElement {
     @Override
     public void dragAndDropBy(int offsetX, int offsetY) {
         execute(tokenizedMessage(action("dragging")).add(pathDescription),
-                mapOf("offsetX", offsetX, "offsetY", offsetY),
+                map("offsetX", offsetX, "offsetY", offsetY),
                 () -> tokenizedMessage(action("dropped")).add(pathDescription),
                 () -> dragAndDropByStep(offsetX, offsetY));
     }

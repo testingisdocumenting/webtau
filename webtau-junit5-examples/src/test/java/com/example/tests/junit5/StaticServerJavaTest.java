@@ -70,7 +70,7 @@ public class StaticServerJavaTest {
     public void contentOverride() {
         // override-example
         WebTauRouter router = server.router()
-                .get("/hello/:name", (request) -> server.response(mapOf("message", "hello " + request.param("name"))));
+                .get("/hello/:name", (request) -> server.response(map("message", "hello " + request.param("name"))));
         myServer.addOverride(router);
         // override-example
 

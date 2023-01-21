@@ -28,9 +28,9 @@ public class WebTauFakeRestServerHandledRequestsTest {
     @Test
     public void shouldWaitOnACall() throws InterruptedException {
         WebTauRouter router = new WebTauRouter("customers");
-        router.get("/customer/{id}", (request) -> server.response(mapOf("getId", request.param("id"))))
-                .post("/customer/{id}", (request) -> server.response(mapOf("postId", request.param("id"))))
-                .put("/customer/{id}", (request) -> server.response(mapOf("putId", request.param("id"))));
+        router.get("/customer/{id}", (request) -> server.response(map("getId", request.param("id"))))
+                .post("/customer/{id}", (request) -> server.response(map("postId", request.param("id"))))
+                .put("/customer/{id}", (request) -> server.response(map("putId", request.param("id"))));
 
         try (WebTauServer restServer = server.fake("router-crud-journal", router)) {
             Thread thread = new Thread(() -> {
@@ -55,7 +55,7 @@ public class WebTauFakeRestServerHandledRequestsTest {
         router.post("/customer", (request) -> server.response(null));
 
         try (WebTauServer restServer = server.fake("router-crud-journal-request", router)) {
-            http.post(restServer.getBaseUrl() + "/customer", mapOf("name", "new name"));
+            http.post(restServer.getBaseUrl() + "/customer", map("name", "new name"));
 
             actual(restServer.getJournal().getLastHandledRequest()
                     .getCapturedRequest()).should(equal("{\"name\":\"new name\"}"));
@@ -65,7 +65,7 @@ public class WebTauFakeRestServerHandledRequestsTest {
     @Test
     public void shouldCaptureResponse() {
         WebTauRouter router = new WebTauRouter("customers");
-        router.get("/customer/{id}", (request) -> server.response(mapOf("getId", request.param("id"))));
+        router.get("/customer/{id}", (request) -> server.response(map("getId", request.param("id"))));
         try (WebTauServer restServer = server.fake("router-crud-journal-response", router)) {
             http.get(restServer.getBaseUrl() + "/customer/id3");
 

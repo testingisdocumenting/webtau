@@ -86,7 +86,7 @@ public class DataCsvJavaTest {
     @Test
     public void readListOfMapsHeader() {
         // read-list-of-maps-header
-        List<Map<String, ?>> list = data.csv.listOfMapsAutoConverted(listOf("C1", "C2", "C3"), "data/table-no-header.csv");
+        List<Map<String, ?>> list = data.csv.listOfMapsAutoConverted(list("C1", "C2", "C3"), "data/table-no-header.csv");
         actual(list.get(0).get("C2")).should(equal(2));
         actual(list.get(0).get("C2").getClass().getCanonicalName()).should(equal("java.lang.Long"));
         // read-list-of-maps-header
@@ -95,9 +95,9 @@ public class DataCsvJavaTest {
     @Test
     public void writeListOfMaps() {
         // list-data
-        List<Map<String, ?>> list = listOf(
-                aMapOf("colA", 1, "colB", "R1"),
-                aMapOf("colA", 2, "colB", "R2"));
+        List<Map<String, ?>> list = list(
+                map("colA", 1, "colB", "R1"),
+                map("colA", 2, "colB", "R2"));
         // list-data
 
         // write-csv-list-maps
