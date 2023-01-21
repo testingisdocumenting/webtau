@@ -23,7 +23,6 @@ import java.util.Map;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.graphql.GraphQL.graphql;
-import static org.testingisdocumenting.webtau.utils.CollectionUtils.*;
 
 public class GraphQLJavaTest extends GraphQLTestBase {
     @Test
