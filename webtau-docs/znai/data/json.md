@@ -94,4 +94,6 @@ Java:
 
 `write` methods produce additional information that helps with tests investigation
 
+:include-cli-output: doc-artifacts/data-json-write-table.txt {title: "console output"}
+
 :include-file: generated/from-table-data.json { autoTitle: true }

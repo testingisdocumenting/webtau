@@ -1,0 +1,1 @@
+* Doc: [data.json.write](data/json#write-table-data) `TableData` add missing report output
