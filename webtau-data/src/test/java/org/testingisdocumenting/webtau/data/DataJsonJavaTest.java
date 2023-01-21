@@ -21,7 +21,6 @@ import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -67,7 +66,7 @@ public class DataJsonJavaTest {
     @Test
     public void writeList() {
         // list-data
-        List<Map<String, ?>> list = Arrays.asList(
+        List<Map<String, ?>> list = listOf(
                 aMapOf("colA", 1, "colB", "R1"),
                 aMapOf("colA", 2, "colB", "R2"));
         // list-data

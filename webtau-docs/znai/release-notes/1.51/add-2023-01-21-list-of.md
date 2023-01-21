@@ -1,0 +1,1 @@
+* Add: `listOf` companion to `mapOf`
