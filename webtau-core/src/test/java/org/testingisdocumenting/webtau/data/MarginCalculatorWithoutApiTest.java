@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,12 +19,11 @@ package org.testingisdocumenting.webtau.data;
 
 import org.junit.Test;
 
-import java.util.Arrays;
-
 import static org.junit.Assert.assertEquals;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class MarginCalculatorWithoutApiTest {
-    private MarginCalculator marginCalculator = new MarginCalculator();
+    private final MarginCalculator marginCalculator = new MarginCalculator();
 
     @Test
     public void marginShouldBeZeroIfNoLotsSet() {
@@ -37,7 +37,7 @@ public class MarginCalculatorWithoutApiTest {
         t1.setLot(0);
         t1.setPrice(19);
 
-        assertEquals(0, marginCalculator.calculate(Arrays.asList(t1, t2)),
+        assertEquals(0, marginCalculator.calculate(listOf(t1, t2)),
                 0.0000001);
     }
 }
