@@ -31,6 +31,7 @@ import static org.testingisdocumenting.webtau.Matchers.throwException
 class MatchersGroovyTest {
     private final List<String> messages = Arrays.asList("message one", "message two", "message we wait for")
     private int messagesIdx = 0
+    private int numberOfRecords = 0
 
     @Test
     void "list of strings"() {
@@ -51,6 +52,13 @@ class MatchersGroovyTest {
         // wait-consume-message
         actual(liveValue(this.&consumeMessage)).waitTo == "message we wait for"
         // wait-consume-message
+    }
+
+    @Test
+    void "number wait example"() {
+        // wait-number-records
+        actual(liveValue(this.&countRecords)).waitToBe >= 5
+        // wait-number-records
     }
 
     private String consumeMessage() {
@@ -119,5 +127,10 @@ class MatchersGroovyTest {
 
     private static double calculatePrice() {
         return 10.5
+    }
+
+    private int countRecords() {
+        numberOfRecords += 1
+        return numberOfRecords
     }
 }

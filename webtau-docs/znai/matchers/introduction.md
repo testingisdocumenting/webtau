@@ -33,12 +33,14 @@ Use `shouldBe` alias to make a better flow with matchers like `greaterThan`:
 ```tabs
 Groovy: 
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
+    title: "shouldBe example",
     surroundedBy: "string-number-example",
     commentsType: "remove"
 }
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
+    title: "shouldBe example",
     surroundedBy: "string-number-example",
     commentsType: "remove"
 } 
@@ -51,18 +53,34 @@ Use `waitTo` to wait for a value to eventually match a matcher.
 ```tabs
 Groovy: 
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
-    title: "wait example",
+    title: "waitTo example",
     surroundedBy: "wait-consume-message"
 }
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
-    title: "wait example",
+    title: "waitTo example",
     surroundedBy: "wait-consume-message"
 } 
 ``` 
 
 :include-cli-output: doc-artifacts/wait-message.txt {title: "wait console output"}
+
+Use `waitToBe` alias to make a better flow with matchers like `greaterThan`:
+
+```tabs
+Groovy: 
+:include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
+    title: "waitToBe example",
+    surroundedBy: "wait-number-records"
+}
+
+Java: 
+:include-file: org/testingisdocumenting/webtau/MatchersTest.java {
+    title: "waitToBe example",
+    surroundedBy: "wait-number-records"
+} 
+``` 
 
 # Failure Output
 

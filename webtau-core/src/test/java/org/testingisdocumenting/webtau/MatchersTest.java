@@ -52,9 +52,9 @@ public class MatchersTest {
 
     @Test
     public void numberWaitExample() {
-        // wait-completion-percentage
+        // wait-number-records
         actual(liveValue(this::countRecords)).waitToBe(greaterThanOrEqual(5));
-        // wait-completion-percentage
+        // wait-number-records
     }
 
     private String consumeMessage() {
