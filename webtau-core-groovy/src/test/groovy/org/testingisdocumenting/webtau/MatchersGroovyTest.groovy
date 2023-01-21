@@ -22,13 +22,16 @@ import java.time.LocalDate
 
 import static org.testingisdocumenting.webtau.Matchers.actual
 import static org.testingisdocumenting.webtau.Matchers.anyOf
+import static org.testingisdocumenting.webtau.Matchers.code
 import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.Matchers.greaterThan
 import static org.testingisdocumenting.webtau.Matchers.liveValue
+import static org.testingisdocumenting.webtau.Matchers.throwException
 
 class MatchersGroovyTest {
     private final List<String> messages = Arrays.asList("message one", "message two", "message we wait for")
     private int messagesIdx = 0
+    private int numberOfRecords = 0
 
     @Test
     void "list of strings"() {
@@ -49,6 +52,13 @@ class MatchersGroovyTest {
         // wait-consume-message
         actual(liveValue(this.&consumeMessage)).waitTo == "message we wait for"
         // wait-consume-message
+    }
+
+    @Test
+    void "number wait example"() {
+        // wait-number-records
+        actual(liveValue(this.&countRecords)).waitToBe >= 5
+        // wait-number-records
     }
 
     private String consumeMessage() {
@@ -96,11 +106,31 @@ class MatchersGroovyTest {
         message.shouldNot == anyOf("hello", contain("super"))
     }
 
+    @Test
+    void "list failure example"() {
+        code {
+            def values = [1,
+                          "testing",
+                          [key1: "hello", key2: "world"]]
+            // failed-list
+            values.should == [
+                    1,
+                    "teasing",
+                    [key1: "hello", key2: "work"]]
+            // failed-list
+        } should throwException(AssertionError)
+    }
+
     private static String generateErrorMessage() {
         return "insufficient disk space"
     }
 
     private static double calculatePrice() {
         return 10.5
+    }
+
+    private int countRecords() {
+        numberOfRecords += 1
+        return numberOfRecords
     }
 }

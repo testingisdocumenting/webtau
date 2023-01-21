@@ -29,6 +29,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.*;
 public class MatchersTest {
     private final List<String> messages = Arrays.asList("message one", "message two", "message we wait for");
     private int messagesIdx = 0;
+    private int numberOfRecords = 0;
 
     @Test
     public void stringComparisonExample() {
@@ -49,8 +50,20 @@ public class MatchersTest {
         });
     }
 
+    @Test
+    public void numberWaitExample() {
+        // wait-number-records
+        actual(liveValue(this::countRecords)).waitToBe(greaterThanOrEqual(5));
+        // wait-number-records
+    }
+
     private String consumeMessage() {
         return messages.get(messagesIdx++);
+    }
+
+    private int countRecords() {
+        numberOfRecords += 1;
+        return numberOfRecords;
     }
 
     @Test
@@ -95,6 +108,25 @@ public class MatchersTest {
         String message = "hello world";
         actual(message).shouldNotBe(anyOf("hello", contain("super")));
     }
+
+    @Test
+    public void listFailureExample() {
+        doc.console.capture("list-failure", () -> {
+            code(() -> {
+                List<?> values = Arrays.asList(
+                        1,
+                        "testing",
+                        aMapOf("key1", "hello", "key2", "world"));
+                // failed-list
+                actual(values).should(equal(Arrays.asList(
+                        1,
+                        "teasing",
+                        aMapOf("key1", "hello", "key2", "work"))));
+                // failed-list
+            }).should(throwException(AssertionError.class));
+        });
+    }
+
 
     private static String generateErrorMessage() {
         return "insufficient disk space";
