@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -30,15 +31,18 @@ class LiveValueCompareToHandlerTest {
 
         assert handler.handleEquality(liveValue, "hello")
         assert handler.handleEquality(liveValue, 100)
+        assert handler.handleGreaterLessEqual(liveValue, 100)
 
-        assert ! handler.handleEquality(100, 100)
+        assert !handler.handleEquality(100, 100)
+        assert !handler.handleGreaterLessEqual(100, 100)
     }
 
     @Test
     void "calculates new value for comparison"() {
-        def liveValue = new DummyLiveValue([1, 10, 100])
+        def liveValue = new DummyLiveValue([1, 10, 100, 200])
         actual(liveValue).should(equal(1))
         actual(liveValue).should(equal(10))
         actual(liveValue).should(equal(100))
+        actual(liveValue).shouldBe(greaterThan(150))
     }
 }
