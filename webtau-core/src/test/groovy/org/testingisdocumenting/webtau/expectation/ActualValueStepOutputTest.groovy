@@ -16,13 +16,10 @@
 
 package org.testingisdocumenting.webtau.expectation
 
-import org.junit.Assert
 import org.junit.Test
-import org.testingisdocumenting.webtau.console.ConsoleOutputs
-import org.testingisdocumenting.webtau.data.render.TestConsoleOutput
 import org.testingisdocumenting.webtau.reporter.StepReportOptions
-import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.WebTauStep
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.Matchers.actual
 import static org.testingisdocumenting.webtau.Matchers.equal
@@ -32,7 +29,7 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 class ActualValueStepOutputTest {
     @Test
     void "should print iterable with marked failed values in case of mismatch"() {
-        runAndValidateOutput("X failed expecting [value] to equal [1, world, 2]: \n" +
+        TestConsoleOutput.runAndValidateOutput("X failed expecting [value] to equal [1, world, 2]: \n" +
                 "    mismatches:\n" +
                 "    \n" +
                 "    [value][1]:   actual: \"hello\" <java.lang.String>\n" +
@@ -49,7 +46,7 @@ class ActualValueStepOutputTest {
 
     @Test
     void "should print map with marked failed values in case of mismatch"() {
-        runAndValidateOutput("X failed expecting [value] to equal {key=value1, another=23}: \n" +
+        TestConsoleOutput.runAndValidateOutput("X failed expecting [value] to equal {key=value1, another=23}: \n" +
                 "    mismatches:\n" +
                 "    \n" +
                 "    [value].another:   actual: 22 <java.lang.Integer>\n" +
@@ -71,7 +68,7 @@ class ActualValueStepOutputTest {
                         })
         step.matcherOutputDisabled = true
 
-        runAndValidateOutput("> parent step\n" +
+        TestConsoleOutput.runAndValidateOutput("> parent step\n" +
                 "  X failed expecting [value] to equal {key=value1, another=23}: \n" +
                 "      mismatches:\n" +
                 "      \n" +
@@ -80,30 +77,5 @@ class ActualValueStepOutputTest {
                 "X failed parent step (Xms)") {
             step.execute(StepReportOptions.REPORT_ALL)
         }
-    }
-
-    static void runAndValidateOutput(String expectedOutput, Closure code) {
-        def testOutput = new TestConsoleOutput()
-
-        ConsoleOutputs.add(ConsoleOutputs.defaultOutput)
-        StepReporters.add(StepReporters.defaultStepReporter)
-        try {
-            ConsoleOutputs.withAdditionalOutput(testOutput) {
-                try {
-                    code()
-                } catch (AssertionError ignored) {
-                }
-            }
-        } finally {
-            StepReporters.remove(StepReporters.defaultStepReporter)
-            ConsoleOutputs.remove(ConsoleOutputs.defaultOutput)
-        }
-
-        def output = replaceTime(testOutput.noColorOutput)
-        Assert.assertEquals(expectedOutput, output)
-    }
-
-    private static String replaceTime(String original) {
-        return original.replaceAll("\\d+ms", "Xms")
     }
 }

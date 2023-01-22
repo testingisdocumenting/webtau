@@ -1,0 +1,1 @@
+* Fix: properly render Arrays as actual instead of reference hash
