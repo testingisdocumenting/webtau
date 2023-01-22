@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -39,6 +40,7 @@ public class DataRenderers {
         renders.add(new NullRenderer());
         renders.addAll(ServiceLoaderUtils.load(DataRenderer.class));
         renders.add(new ByteArrayRenderer());
+        renders.add(new ArrayRenderer());
         renders.add(new TableDataRenderer());
         renders.add(new StringRenderer());
         renders.add(new PatternRenderer());

@@ -14,25 +14,23 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data.render
+package org.testingisdocumenting.webtau.data.render;
 
-import org.junit.Assert
-import org.junit.Before
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
-class PrettyPrintableTestBase {
-    def consoleOutput = new TestConsoleOutput()
-    PrettyPrinter printer
+import java.util.List;
+import java.util.stream.Collectors;
 
-    @Before
-    void init() {
-        consoleOutput.clear()
-        printer = new PrettyPrinter(consoleOutput, 0)
-    }
+public class ArrayRenderer implements DataRenderer {
+    @Override
+    public String render(Object data) {
+        if (!data.getClass().isArray()) {
+            return null;
+        }
 
-    void expectOutput(String expected) {
-        printer.flush()
-        println consoleOutput.colorOutput
-        Assert.assertEquals(expected, consoleOutput.noColorOutput)
+        List<?> arrayData = CollectionUtils.convertArrayToList(data);
+        return "[" + arrayData.stream()
+                .map(DataRenderers::render)
+                .collect(Collectors.joining(", ")) + "]";
     }
 }
