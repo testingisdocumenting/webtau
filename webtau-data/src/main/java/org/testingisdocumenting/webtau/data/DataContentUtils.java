@@ -36,19 +36,40 @@ class DataContentUtils {
     }
 
     @SuppressWarnings("unchecked")
-    static <R> R readAndConvertTextContentAsStep(String dataType, DataPath dataPath, Function<String, R> convertor) {
+    static <R> R readAndConvertTextContentFromDataPathAsStep(String dataType, DataPath dataPath, Function<String, R> convertor) {
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("reading"), classifier(dataType), FROM, classifier("file or resource"),
                         urlValue(dataPath.getGivenPathAsString())),
                 (result) -> {
-                    ContentResult contentResult = (ContentResult) result;
+                    ExternalContentResult contentResult = (ExternalContentResult) result;
                     return tokenizedMessage(action("read"), numberValue(contentResult.numberOfLines),
-                            classifier("lines of " + dataType), FROM, classifier(contentResult.source),
+                            classifier(lineOrLinesLabel(contentResult.numberOfLines) + " of " + dataType), FROM, classifier(contentResult.source),
                             urlValue(contentResult.path));
                 },
                 () -> {
-                    ContentResult contentResult = dataTextContentImpl(dataPath);
+                    ExternalContentResult contentResult = dataTextContentImpl(dataPath);
                     contentResult.parseResult = convertor.apply(contentResult.textContent);
+
+                    return contentResult;
+                }
+        );
+
+        ExternalContentResult stepResult = step.execute(StepReportOptions.REPORT_ALL);
+        return (R) stepResult.parseResult;
+    }
+
+    @SuppressWarnings("unchecked")
+    static <R> R convertTextContent(String dataType, String content, Function<String, R> convertor) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage(action("parsing"), classifier(dataType), FROM, classifier("string")),
+                (result) -> {
+                    ContentResult contentResult = (ContentResult) result;
+                    return tokenizedMessage(action("parsed"), numberValue(contentResult.numberOfLines),
+                            classifier(lineOrLinesLabel(contentResult.numberOfLines) + " of " + dataType));
+                },
+                () -> {
+                    ContentResult contentResult = new ContentResult(content);
+                    contentResult.parseResult = convertor.apply(content);
 
                     return contentResult;
                 }
@@ -62,10 +83,10 @@ class DataContentUtils {
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage(action("writing"), classifier(dataType), TO, classifier("file"), urlValue(path)),
                 (result) -> {
-                    ContentResult contentResult = (ContentResult) result;
+                    ExternalContentResult contentResult = (ExternalContentResult) result;
 
                     return tokenizedMessage(action("wrote"), numberValue(contentResult.numberOfLines),
-                            classifier("lines"), TO, classifier(dataType),
+                            classifier(lineOrLinesLabel(contentResult.numberOfLines)), TO, classifier(dataType),
                             urlValue(contentResult.path));
                 },
                 () -> {
@@ -74,15 +95,15 @@ class DataContentUtils {
                     String content = convertor.get();
                     FileUtils.writeTextContent(fullPath, content);
 
-                    return new ContentResult("file", fullPath.toString(), content);
+                    return new ExternalContentResult("file", fullPath.toString(), content);
                 }
         );
 
-        ContentResult stepResult = step.execute(StepReportOptions.REPORT_ALL);
+        ExternalContentResult stepResult = step.execute(StepReportOptions.REPORT_ALL);
         return Paths.get(stepResult.path);
     }
 
-    static ContentResult dataTextContentImpl(DataPath path) {
+    static ExternalContentResult dataTextContentImpl(DataPath path) {
         if (!path.isResource() && !path.isFile()) {
             if (path.isResourceSpecified()) {
                 throw new IllegalArgumentException("Can't find resource \"" + path.getFileOrResourcePath() + "\" or " +
@@ -93,24 +114,37 @@ class DataContentUtils {
         }
 
         return path.isResource() ?
-                new ContentResult("classpath resource", path.getFileOrResourcePath(),
+                new ExternalContentResult("classpath resource", path.getFileOrResourcePath(),
                         ResourceUtils.textContent(path.getFileOrResourcePath())) :
-                new ContentResult("file", path.getFullFilePath().toString(),
+                new ExternalContentResult("file", path.getFullFilePath().toString(),
                         FileUtils.fileTextContent(path.getFullFilePath()));
     }
 
+    static String lineOrLinesLabel(int count) {
+        return count == 1 ? "line" : "lines";
+    }
+
     static class ContentResult {
+        final int numberOfLines;
+        Object parseResult;
+
+        public ContentResult(String textContent) {
+            this.numberOfLines = StringUtils.countMatches(textContent, '\n') + 1;
+        }
+    }
+
+    static class ExternalContentResult {
         final String source;
         final String path;
         final String textContent;
         final int numberOfLines;
         Object parseResult;
 
-        public ContentResult(String source, String path, String textContent) {
+        public ExternalContentResult(String source, String path, String textContent) {
             this.source = source;
             this.path = path;
             this.textContent = textContent;
-            this.numberOfLines = StringUtils.countMatches(textContent, '\n');
+            this.numberOfLines = StringUtils.countMatches(textContent, '\n') + 1;
         }
     }
 }
