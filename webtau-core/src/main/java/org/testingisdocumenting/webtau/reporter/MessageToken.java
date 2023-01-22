@@ -39,7 +39,7 @@ public class MessageToken {
     }
 
     public Map<String, ?> toMap() {
-        return CollectionUtils.aMapOf("type", type, "value", value);
+        return CollectionUtils.map("type", type, "value", value);
     }
 
     public boolean isEmpty() {

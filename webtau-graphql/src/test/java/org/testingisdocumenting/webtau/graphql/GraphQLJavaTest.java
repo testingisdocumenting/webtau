@@ -23,7 +23,6 @@ import java.util.Map;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.graphql.GraphQL.graphql;
-import static org.testingisdocumenting.webtau.utils.CollectionUtils.aMapOf;
 
 public class GraphQLJavaTest extends GraphQLTestBase {
     @Test
@@ -35,7 +34,7 @@ public class GraphQLJavaTest extends GraphQLTestBase {
                 "    }" +
                 "}";
 
-        List<String> expectedIds = listOf("a", "b", "c");
+        List<String> expectedIds = list("a", "b", "c");
 
         List<String> ids = graphql.execute(query, (header, body) -> {
             body.get("errors").should(equal(null));
@@ -57,7 +56,7 @@ public class GraphQLJavaTest extends GraphQLTestBase {
                 "}";
 
         String id = "a";
-        Map<String, Object> variables = aMapOf("id", id);
+        Map<String, Object> variables = map("id", id);
         graphql.execute(query, variables, (header, body) -> {
             body.get("errors").should(equal(null));
             body.get("data.taskById.id").should(equal(id));

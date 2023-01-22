@@ -40,7 +40,7 @@ public class Cli {
     }
 
     public CliProcessConfig env(String firstKey, CharSequence firstValue, Object... restKv) {
-        return new CliProcessConfig().env(CollectionUtils.aMapOf(firstKey, firstValue, restKv));
+        return new CliProcessConfig().env(CollectionUtils.map(firstKey, firstValue, restKv));
     }
 
     public CliProcessConfig timeout(long millis) {

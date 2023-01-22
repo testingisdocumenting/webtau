@@ -33,7 +33,7 @@ public class WarningJavaTest {
     @Test
     public void warningKeyValues() {
         // warning-map
-        warning("warning message with map", aMapOf("k1", "v1", "k2", "v2"));
+        warning("warning message with map", map("k1", "v1", "k2", "v2"));
         // warning-map
         // warning-vararg
         warning("another warning message", "k3", "v3", "k4", "v4");

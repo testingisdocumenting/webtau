@@ -31,11 +31,11 @@ public class WebTauProxyServerTest {
     @Test
     public void shouldCaptureRequestResponseSuccessful()  {
         WebTauRouter router = new WebTauRouter("customers");
-        router.put("/customer/{id}", (request) -> server.response(aMapOf("putId", request.param("id"))));
+        router.put("/customer/{id}", (request) -> server.response(map("putId", request.param("id"))));
 
         try (WebTauServer restServer = server.fake("router-crud-for-proxy", router)) {
             try (WebTauServer proxyServer = server.proxy("proxy-for-journal", restServer.getBaseUrl())) {
-                http.put(proxyServer.getBaseUrl() + "/customer/id3", aMapOf("hello", "world"), (header, body) -> {
+                http.put(proxyServer.getBaseUrl() + "/customer/id3", map("hello", "world"), (header, body) -> {
                     body.get("putId").should(equal("id3"));
                 });
 
@@ -63,7 +63,7 @@ public class WebTauProxyServerTest {
 
         try (WebTauServer restServer = server.fake("router-crud-for-proxy-fail", router)) {
             try (WebTauServer proxyServer = server.proxy("proxy-for-journal-fail", restServer.getBaseUrl())) {
-                http.put(proxyServer.getBaseUrl() + "/customer/id3", aMapOf("hello", "world"), (header, body) -> {
+                http.put(proxyServer.getBaseUrl() + "/customer/id3", map("hello", "world"), (header, body) -> {
                     header.statusCode.should(equal(500));
                 });
 

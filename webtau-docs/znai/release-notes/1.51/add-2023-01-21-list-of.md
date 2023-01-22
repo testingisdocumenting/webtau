@@ -1,1 +1,1 @@
-* Add: `listOf` companion to `mapOf`
+* Add: `list` companion to `map`

@@ -33,6 +33,6 @@ public class WebTauCoreJavaTest {
             captured.add(ctx.getAttemptNumber());
         });
 
-        actual(captured).should(equal(listOf(1, 2, 3, 4, 5)));
+        actual(captured).should(equal(list(1, 2, 3, 4, 5)));
     }
 }

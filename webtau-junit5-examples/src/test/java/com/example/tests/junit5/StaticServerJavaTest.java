@@ -19,7 +19,6 @@ package com.example.tests.junit5;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.testingisdocumenting.webtau.http.config.WebTauCfgBasedUrlHttpConfiguration;
 import org.testingisdocumenting.webtau.server.WebTauServer;
 import org.testingisdocumenting.webtau.server.route.WebTauRouter;
 
@@ -71,7 +70,7 @@ public class StaticServerJavaTest {
     public void contentOverride() {
         // override-example
         WebTauRouter router = server.router()
-                .get("/hello/:name", (request) -> server.response(aMapOf("message", "hello " + request.param("name"))));
+                .get("/hello/:name", (request) -> server.response(map("message", "hello " + request.param("name"))));
         myServer.addOverride(router);
         // override-example
 

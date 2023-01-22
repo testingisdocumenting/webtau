@@ -21,7 +21,6 @@ import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;
-import org.testingisdocumenting.webtau.utils.CollectionUtils;
 import org.junit.*;
 
 import java.nio.file.Path;
@@ -83,7 +82,7 @@ public class HttpJavaTest extends HttpTestBase {
     @Test
     public void childrenKeyShortcut() {
         http.get("/end-point", ((header, body) -> {
-            body.get("complexList").get("k2").should(equal(listOf(30, 40)));
+            body.get("complexList").get("k2").should(equal(list(30, 40)));
         }));
     }
 
@@ -186,7 +185,7 @@ public class HttpJavaTest extends HttpTestBase {
             return body.get("complexList").find(node -> node.get("id").get().equals("id1"));
         }));
 
-        actual(found).should(equal(aMapOf("id", "id1", "k1", "v1", "k2", 30)));  // doc-exclude
+        actual(found).should(equal(map("id", "id1", "k1", "v1", "k2", 30)));  // doc-exclude
     }
 
     @Test
@@ -195,12 +194,12 @@ public class HttpJavaTest extends HttpTestBase {
             body.get("id").shouldNot(equal(0));
             body.get("amount").should(equal(30));
 
-            body.get("list").should(equal(listOf(1, 2, 3)));
+            body.get("list").should(equal(list(1, 2, 3)));
 
             body.get("object").get("k1").should(equal(
                     Pattern.compile("v\\d"))); // regular expression matching
 
-            body.get("object").should(equal(aMapOf(
+            body.get("object").should(equal(map(
                     "k1", "v1",
                     "k3", "v3"))); // matching only specified fields and can be nested multiple times
 
@@ -258,7 +257,7 @@ public class HttpJavaTest extends HttpTestBase {
     @Test
     public void containMatcher() {
         http.get("/end-point-list", (header, body) -> {
-            body.should(contain(aMapOf(
+            body.should(contain(map(
                     "k1", "v1",
                     "k2", "v2")));
             body.get(1).get("k2").shouldNot(contain(22));
@@ -311,15 +310,15 @@ public class HttpJavaTest extends HttpTestBase {
         http.get("/end-point-mixed", (header, body) -> {
             body.get("list").should(contain(lessThanOrEqual(2))); // lessThanOrEqual will be matched against each value
 
-            body.get("object").should(equal(aMapOf(
+            body.get("object").should(equal(map(
                     "k1", "v1",
                     "k3", withNumber))); // regular expression match against k3
 
-            body.get("complexList").get(0).should(equal(aMapOf(
+            body.get("complexList").get(0).should(equal(map(
                     "k1", "v1",
                     "k2", lessThan(120)))); // lessThen match against k2
 
-            body.get("complexList").get(1).should(equal(aMapOf(
+            body.get("complexList").get(1).should(equal(map(
                     "k1", notEqual("v1"), // any value but v1
                     "k2", greaterThanOrEqual(120))));
 
@@ -400,7 +399,7 @@ public class HttpJavaTest extends HttpTestBase {
 
     @Test
     public void queryParamsUsingQueryAsMapExample() {
-        http.get("/path", aMapOf("a", 1, "b", "text"), ((header, body) -> {
+        http.get("/path", map("a", 1, "b", "text"), ((header, body) -> {
             // assertions go here
         }));
     }
@@ -427,7 +426,7 @@ public class HttpJavaTest extends HttpTestBase {
             body.get("b").should(equal("text"));
         });
 
-        Map<String, ?> queryParams = CollectionUtils.aMapOf("a", 1, "b", "text");
+        Map<String, ?> queryParams = map("a", 1, "b", "text");
         http.get("/path", http.query(queryParams), (header, body) -> {
             body.get("a").should(equal(1));
             body.get("b").should(equal("text"));
@@ -523,7 +522,7 @@ public class HttpJavaTest extends HttpTestBase {
     @Test
     public void canQueryListByNodePath() {
         http.get("/end-point", (header, body) -> {
-            body.get("complexList.k1").should(equal(listOf("v1", "v11")));
+            body.get("complexList.k1").should(equal(list("v1", "v11")));
         });
     }
 
@@ -616,7 +615,7 @@ public class HttpJavaTest extends HttpTestBase {
     public void fileUploadExampleSimple() {
         Path imagePath = testResourcePath("src/test/resources/image.png");
 
-        http.post("/file-upload", http.formData(aMapOf("file", imagePath)), (header, body) -> {
+        http.post("/file-upload", http.formData(map("file", imagePath)), (header, body) -> {
             body.get("fileName").should(equal("image.png"));
         });
     }
@@ -625,7 +624,7 @@ public class HttpJavaTest extends HttpTestBase {
     public void fileUploadExampleWithFileNameOverride() {
         Path imagePath = testResourcePath("src/test/resources/image.png");
 
-        http.post("/file-upload", http.formData(aMapOf(
+        http.post("/file-upload", http.formData(map(
                 "file", http.formFile("myFileName.png", imagePath))), (header, body) -> {
             body.get("fileName").should(equal("myFileName.png"));
         });
@@ -635,7 +634,7 @@ public class HttpJavaTest extends HttpTestBase {
     public void fileUploadExampleMultipleFields() {
         Path imagePath = testResourcePath("src/test/resources/image.png");
 
-        http.post("/file-upload", http.formData(aMapOf(
+        http.post("/file-upload", http.formData(map(
                 "file", imagePath,
                 "fileDescription", "new report")), (header, body) -> {
             body.get("fileName").should(equal("image.png"));
@@ -647,7 +646,7 @@ public class HttpJavaTest extends HttpTestBase {
     public void fileUploadExampleWithInMemoryContent() {
         byte[] fileContent = new byte[] {1, 2, 3, 4};
 
-        http.post("/file-upload", http.formData(aMapOf("file", fileContent)), (header, body) -> {
+        http.post("/file-upload", http.formData(map("file", fileContent)), (header, body) -> {
             body.get("fileName").should(equal("backend-generated-name-as-no-name-provided"));
         });
     }
@@ -656,7 +655,7 @@ public class HttpJavaTest extends HttpTestBase {
     public void fileUploadExampleWithInMemoryContentAndFileName() {
         byte[] fileContent = new byte[] {1, 2, 3, 4};
 
-        http.post("/file-upload", http.formData(aMapOf(
+        http.post("/file-upload", http.formData(map(
                 "file", http.formFile("myFileName.dat", fileContent))), (header, body) -> {
             body.get("fileName").should(equal("myFileName.dat"));
         });

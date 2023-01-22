@@ -19,7 +19,6 @@ package org.testingisdocumenting.webtau.utils;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 public class CollectionUtils {
     private CollectionUtils() {
@@ -34,7 +33,7 @@ public class CollectionUtils {
      * @return map with preserved order
      */
     @SuppressWarnings("unchecked")
-    public static <K> Map<K, Object> aMapOf(K firstKey, Object firstValue, Object... rest) {
+    public static <K> Map<K, Object> map(K firstKey, Object firstValue, Object... rest) {
         if (rest.length % 2 != 0) {
             throw new IllegalArgumentException("key value sequence must have even number of values");
         }
@@ -57,9 +56,9 @@ public class CollectionUtils {
      * @param <K> type of key
      * @return map with preserved order
      */
-    public static <K> Map<K, Object> aMapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
+    public static <K> Map<K, Object> map(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
         Map<K, Object> result = new LinkedHashMap<>(original);
-        Map<K, Object> overrides = aMapOf(firstKey, firstValue, restKv);
+        Map<K, Object> overrides = map(firstKey, firstValue, restKv);
 
         result.putAll(overrides);
         return result;
@@ -114,6 +113,22 @@ public class CollectionUtils {
 
     public static <K, V> boolean notNullOrEmpty(Map<K, V> map) {
         return !nullOrEmpty(map);
+    }
+
+    /**
+     * @deprecated use {@link CollectionUtils#map} instead
+     */
+    @Deprecated
+    public static <K> Map<K, Object> aMapOf(K firstKey, Object firstValue, Object... rest) {
+        return map(firstKey, firstValue, rest);
+    }
+
+    /**
+     * @deprecated use {@link CollectionUtils#map} instead
+     */
+    @Deprecated
+    public static <K> Map<K, Object> aMapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
+        return map(original, firstKey, firstValue, restKv);
     }
 
     private static List<Boolean> toList(boolean[] booleans) {

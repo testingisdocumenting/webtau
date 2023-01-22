@@ -45,7 +45,7 @@ public class GraphQLTestBase implements WebTauHttpConfiguration {
     protected final static String OP_NAME = "task";
 
     protected final static String QUERY_WITH_VARS = "query task($id: ID!) { taskById(id: $id) { id } }";
-    protected final static Map<String, Object> VARS = CollectionUtils.aMapOf("id", "a");
+    protected final static Map<String, Object> VARS = CollectionUtils.map("id", "a");
 
     protected final static String MULTI_OP_QUERY_WITH_VARS = "query task($id: ID!) { taskById(id: $id) { id } } " +
             "query openTasks { allTasks(uncompletedOnly: true) { id } }";

@@ -50,7 +50,7 @@ public class CustomerQueryJavaTest {
     }
 
     private static int createCustomer(String firstName, String lastName) {
-        Map<String, Object> payload = aMapOf(
+        Map<String, Object> payload = map(
                 "firstName", firstName,
                 "lastName", lastName);
 

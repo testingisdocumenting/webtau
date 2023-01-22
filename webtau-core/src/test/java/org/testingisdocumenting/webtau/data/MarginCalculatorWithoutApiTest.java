@@ -37,7 +37,7 @@ public class MarginCalculatorWithoutApiTest {
         t1.setLot(0);
         t1.setPrice(19);
 
-        assertEquals(0, marginCalculator.calculate(listOf(t1, t2)),
+        assertEquals(0, marginCalculator.calculate(list(t1, t2)),
                 0.0000001);
     }
 }

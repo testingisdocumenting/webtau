@@ -59,8 +59,8 @@ public class FakeServerJavaTest {
     static WebTauRouter createRouter() {
         // router-example
         WebTauRouter router = server.router()
-                .get("/hello/:name", (request) -> server.response(aMapOf("message", "hello " + request.param("name"))))
-                .get("/bye/:name", (request) -> server.response(aMapOf("message", "bye " + request.param("name"))));
+                .get("/hello/:name", (request) -> server.response(map("message", "hello " + request.param("name"))))
+                .get("/bye/:name", (request) -> server.response(map("message", "bye " + request.param("name"))));
         // router-example
 
         return router;

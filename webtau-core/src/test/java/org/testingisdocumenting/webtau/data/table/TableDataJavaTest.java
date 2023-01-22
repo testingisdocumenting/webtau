@@ -140,8 +140,8 @@ public class TableDataJavaTest {
     @Test
     public void tableCreationFromListOfMaps() {
         List<Map<String, ?>> list = new ArrayList<>();
-        list.add(CollectionUtils.aMapOf("k1", "v1", "k2", "v2"));
-        list.add(CollectionUtils.aMapOf("k1", "v3", "k3", "v4"));
+        list.add(CollectionUtils.map("k1", "v1", "k2", "v2"));
+        list.add(CollectionUtils.map("k1", "v3", "k3", "v4"));
 
         TableData tableData = TableData.fromListOfMaps(list);
 

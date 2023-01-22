@@ -1,0 +1,1 @@
+* Add: renamed `aMapOf` to `map` and deprecated former

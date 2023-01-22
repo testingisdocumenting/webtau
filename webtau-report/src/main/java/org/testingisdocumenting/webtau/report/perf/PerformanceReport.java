@@ -74,7 +74,7 @@ public class PerformanceReport {
                 .map(OperationAggregatedPerformance::toMap)
                 .collect(Collectors.toList());
 
-        return new WebTauReportCustomData(id, CollectionUtils.aMapOf(
+        return new WebTauReportCustomData(id, CollectionUtils.map(
                 "aggregated", aggregated,
                 "operationsById", operations.stream()
                         .collect(Collectors.toMap(OperationPerformance::getUniqueId, OperationPerformance::toMap)),

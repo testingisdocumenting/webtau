@@ -88,7 +88,7 @@ public class MatchersTest {
     public void beanAndMapExample() {
         // bean-map-example
         Account account = new Account("ac1", "My Account", "test account");
-        actual(account).should(equal(aMapOf( // utility function from WebTauCore static import
+        actual(account).should(equal(map( // utility function from WebTauCore static import
                 "id", "ac1",
                 "name", "My Account"))); // only specified properties will be compared
         // bean-map-example
@@ -116,12 +116,12 @@ public class MatchersTest {
                 List<?> values = Arrays.asList(
                         1,
                         "testing",
-                        aMapOf("key1", "hello", "key2", "world"));
+                        map("key1", "hello", "key2", "world"));
                 // failed-list
                 actual(values).should(equal(Arrays.asList(
                         1,
                         "teasing",
-                        aMapOf("key1", "hello", "key2", "work"))));
+                        map("key1", "hello", "key2", "work"))));
                 // failed-list
             }).should(throwException(AssertionError.class));
         });
