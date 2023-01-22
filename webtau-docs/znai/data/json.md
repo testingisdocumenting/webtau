@@ -46,6 +46,68 @@ Java:
 :include-file: org/testingisdocumenting/webtau/data/DataJsonJavaTest.java {title: "read json as table", surroundedBy: ["// read-json-table"]}
 ```
 
+# Read Object
+
+:include-java-doc: org/testingisdocumenting/webtau/data/DataJson.java {entry: "object"}
+
+:include-json: data/single.json {autoTitle: true}
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/DataJsonTest.groovy {title: "read json as object", entry: "parse json as object from resource", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/DataJsonJavaTest.java {title: "read json as object", entry: "readObject", bodyOnly: true}
+```
+
+# Parse Map
+
+:include-java-doc: org/testingisdocumenting/webtau/data/DataJson.java {entry: "mapFromString"}
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/DataJsonTest.groovy {title: "parse json as map", entry: "parse map from string", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/DataJsonJavaTest.java {title: "parse json as map", entry: "parseMap", bodyOnly: true}
+```
+
+# Parse List
+
+:include-java-doc: org/testingisdocumenting/webtau/data/DataJson.java {entry: "listFromString"}
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/DataJsonTest.groovy {title: "parse json as list", entry: "parse list from string", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/DataJsonJavaTest.java {title: "parse json as list", entry: "parseList", bodyOnly: true}
+```
+
+# Parse TableData
+
+:include-java-doc: org/testingisdocumenting/webtau/data/DataJson.java {entry: "tableFromString"}
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/DataJsonTest.groovy {title: "parse json as table", entry: "parse table from string", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/DataJsonJavaTest.java {title: "parse json as table", entry: "parseTable", bodyOnly: true}
+```
+
+# Parse Object
+
+:include-java-doc: org/testingisdocumenting/webtau/data/DataJson.java {entry: "objectFromString"}
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/DataJsonTest.groovy {title: "parse json as object", entry: "parse json as object from string", bodyOnly: true}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/DataJsonJavaTest.java {title: "parse json as object", entry: "parseObject", bodyOnly: true}
+```
+
 # Write List
 
 :include-java-doc: org/testingisdocumenting/webtau/data/DataJson.java {entry: "write"}

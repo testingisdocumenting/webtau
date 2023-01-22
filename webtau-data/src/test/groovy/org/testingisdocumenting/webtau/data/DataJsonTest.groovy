@@ -38,12 +38,14 @@ class DataJsonTest implements StepReporter {
     @Before
     void init() {
         StepReporters.add(this)
+        StepReporters.add(StepReporters.defaultStepReporter)
         failedSteps.clear()
     }
 
     @After
     void cleanup() {
         StepReporters.remove(this)
+        StepReporters.remove(StepReporters.defaultStepReporter)
     }
 
     @Test
@@ -65,11 +67,37 @@ class DataJsonTest implements StepReporter {
     }
 
     @Test
+    void "parse json as object from resource"() {
+        def object = data.json.object("data/single.json")
+        object.should == "hello world"
+    }
+
+    @Test
+    void "parse json as object from string"() {
+        def object = data.json.objectFromString("\"hello world\"")
+        object.should == "hello world"
+    }
+
+    @Test
+    void "parse map from string"() {
+        def map = data.json.mapFromString("""{"key": "value"}""")
+        map.should == [key: "value"]
+    }
+
+    @Test
     void "parse json as list"() {
         List list = data.json.list("list.json")
         list.should == [
                 [key: 'value1', another: 1],
                 [key: 'value2', another: 2]]
+    }
+
+    @Test
+    void "parse list from string"() {
+        def list = data.json.listFromString("""[{"key1": "value1"}, {"key2": "value2"}]""")
+        list.should == [
+                [key1: "value1"],
+                [key2: "value2"]]
     }
 
     @Test
@@ -85,6 +113,33 @@ class DataJsonTest implements StepReporter {
                         ________________________
                          "value1" |     1
                          "value2" |     2 }
+    }
+
+    @Test
+    void "parse table from string"() {
+       def table = data.json.tableFromString("""
+        [
+          {
+            "id": "id1",
+            "name": "hello",
+            "payload": {
+              "info": "additional id1 payload"
+            }
+          },
+          {
+            "id": "id2",
+            "name": "world",
+            "payload": {
+              "info": "additional id2 payload"
+            }
+          }
+        ]
+        """)
+
+        table.should == [ "id" |  "name" |           "payload"] {
+                         _________________________________________
+                         "id1" | "hello" | [info: ~/id1 payload/]
+                         "id2" | "world" | [info: ~/id2 payload/] }
     }
 
     @Test

@@ -31,7 +31,7 @@ import static org.testingisdocumenting.webtau.data.Data.data;
 
 public class DataJsonJavaTest {
     @Test
-    public void readFlatList() {
+    public void readList() {
         // read-json-list
         List<Map<String, ?>> list = data.json.list("data/flat-list.json");
         // read-json-list
@@ -44,11 +44,25 @@ public class DataJsonJavaTest {
     }
 
     @Test
+    public void parseList() {
+        List<Map<String, ?>> list = data.json.listFromString("[{\"key1\": \"value1\"}, {\"key2\": \"value2\"}]");
+        actual(list).should(equal(list(
+                map("key1", "value1"),
+                map("key2", "value2"))));
+    }
+
+    @Test
     public void readMap() {
         // read-json-map
         Map<String, ?> map = data.json.map("data/root-map.json");
         actual(map.get("payload")).should(equal(map("info", "additional id1 payload")));
         // read-json-map
+    }
+
+    @Test
+    public void parseMap() {
+        Map<String, ?> map = data.json.mapFromString("{\"key\": \"value\"})");
+        actual(map).should(equal(map("key", "value")));
     }
 
     @Test
@@ -61,6 +75,45 @@ public class DataJsonJavaTest {
                                    "id2", "world" , map("info", Pattern.compile("id2 payload")));
         actual(jsonTable).should(equal(expected));
         // read-json-table
+    }
+
+    @Test
+    public void parseTable() {
+        TableData jsonTable = data.json.tableFromString("[\n" +
+                "  {\n" +
+                "    \"id\": \"id1\",\n" +
+                "    \"name\": \"hello\",\n" +
+                "    \"payload\": {\n" +
+                "      \"info\": \"additional id1 payload\"\n" +
+                "    }\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"id\": \"id2\",\n" +
+                "    \"name\": \"world\",\n" +
+                "    \"payload\": {\n" +
+                "      \"info\": \"additional id2 payload\"\n" +
+                "    }\n" +
+                "  }\n" +
+                "]");
+
+        TableData expected = table("id" , "name"  ,                                      "payload",
+                                   __________________________________________________________________,
+                                   "id1", "hello" , map("info", Pattern.compile("id1 payload")),
+                                   "id2", "world" , map("info", Pattern.compile("id2 payload")));
+
+        actual(jsonTable).should(equal(expected));
+    }
+
+    @Test
+    public void readObject() {
+        Object object = data.json.object("data/single.json");
+        actual(object).should(equal("hello world"));
+    }
+
+    @Test
+    public void parseObject() {
+        Object list = data.json.objectFromString("\"hello world\"");
+        actual(list).should(equal("hello world"));
     }
 
     @Test

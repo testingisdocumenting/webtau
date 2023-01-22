@@ -262,7 +262,7 @@ public class DataCsv {
     }
 
     private static <R> R parseCsvTextAsStep(DataPath dataPath, Function<String, R> convertor) {
-        return readAndConvertTextContentAsStep("csv", dataPath, convertor);
+        return readAndConvertTextContentFromDataPathAsStep("csv", dataPath, convertor);
     }
 
     private static Path writeCsvContentAsStep(Path path, Supplier<String> convertor) {
