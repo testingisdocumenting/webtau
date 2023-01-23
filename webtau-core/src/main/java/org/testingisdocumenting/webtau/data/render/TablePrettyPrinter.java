@@ -74,16 +74,21 @@ public class TablePrettyPrinter {
     }
 
     private void renderBody(PrettyPrinter printer) {
-        for (int rowIdx = 0; rowIdx < prettyPrintersTable.numberOfRows(); rowIdx++) {
+        int numberOfRows = prettyPrintersTable.numberOfRows();
+        for (int rowIdx = 0; rowIdx < numberOfRows; rowIdx++) {
             Record row = prettyPrintersTable.row(rowIdx);
-            renderRow(printer, row, rowIdx);
+            renderRow(printer, row, rowIdx, rowIdx == numberOfRows - 1);
         }
-
     }
 
-    private void renderRow(PrettyPrinter printer, Record row, int rowIdx) {
+    private void renderRow(PrettyPrinter printer, Record row, int rowIdx, boolean isLastRow) {
         Integer rowHeight = rowHeightByIdx.get(rowIdx);
-        for (int rowLineIdx = 0; rowLineIdx < rowHeight; rowLineIdx++) {
+
+        // we leave an extra emtpy space at the end of a multiline value if any
+        // but only when not the last row
+        int effectiveHeight = rowHeight > 1 && !isLastRow ? rowHeight + 1 : rowHeight;
+
+        for (int rowLineIdx = 0; rowLineIdx < effectiveHeight; rowLineIdx++) {
             int columnIdx = 0;
             for (Object cellValue : row.getValues()) {
                 PrettyPrinter cellPrettyPrinter = (PrettyPrinter) cellValue;
@@ -92,10 +97,21 @@ public class TablePrettyPrinter {
                 Integer columnWidth = columnWidthByIdx.get(columnIdx);
 
                 if (rowLineIdx < cellPrettyPrinter.getNumberOfLines()) {
+                    Object originalTableValue = tableData.row(rowIdx).get(columnIdx);
                     PrettyPrinterLine line = cellPrettyPrinter.getLine(rowLineIdx);
-                    printer.print(line.getStyleAndValues().toArray());
                     Integer contentWidth = line.getWidth();
-                    printer.print(StringUtils.rightPad("", columnWidth - contentWidth, " "));
+
+                    boolean isOriginalNumber = originalTableValue instanceof Number;
+
+                    if (isOriginalNumber) {
+                        printer.print(StringUtils.rightPad("", columnWidth - contentWidth, " "));
+                    }
+
+                    printer.print(line.getStyleAndValues().toArray());
+
+                    if (!isOriginalNumber) {
+                        printer.print(StringUtils.rightPad("", columnWidth - contentWidth, " "));
+                    }
                 } else {
                     printer.print(StringUtils.rightPad("", columnWidth, " "));
                 }
@@ -139,24 +155,3 @@ public class TablePrettyPrinter {
         }));
     }
 }
-
-/*
-
-col1      │ col2                 │ col 3
-"hello"   │ ┌ {                ┐ │ "world"
-          │     "key": "value",  │
-          │     "amount": 100    │
-          │ └ }                ┘ │
-100       │ 200                  │ "test"
-
-
-┌ {                ┐
-    "key": "value",
-    "amount": 100
-└ }                ┘
-
-┌  ┐
-
-└  ┘
-
- */
