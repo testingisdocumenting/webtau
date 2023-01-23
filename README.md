@@ -1,5 +1,9 @@
 ![build](https://github.com/testingisdocumenting/webtau/workflows/Build%20webtau/badge.svg)
 
+# Discord Server
+
+Join `Testing Is Documenting` [Discord Server](https://discord.gg/Z5yjatDy) to ask questions and discuss features/bugs
+
 # WebTau
 
 Web Test Automation [User Guide](https://testingisdocumenting.org/webtau/)
