@@ -167,7 +167,9 @@ public class ConsoleStepReporter implements StepReporter {
             return;
         }
 
-        step.getInput().prettyPrint(createPrettyPrinter(step));
+        PrettyPrinter printer = createPrettyPrinter(step);
+        step.getInput().prettyPrint(printer);
+        printer.renderToConsole();
     }
 
     private void printStepOutput(WebTauStep step) {
@@ -175,7 +177,9 @@ public class ConsoleStepReporter implements StepReporter {
             return;
         }
 
-        step.getOutput().prettyPrint(createPrettyPrinter(step));
+        PrettyPrinter printer = createPrettyPrinter(step);
+        step.getOutput().prettyPrint(printer);
+        printer.renderToConsole();
     }
 
     private PrettyPrinter createPrettyPrinter(WebTauStep step) {

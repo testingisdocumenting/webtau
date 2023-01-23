@@ -16,25 +16,21 @@
 
 package org.testingisdocumenting.webtau.data.render
 
-import org.junit.Assert
-import org.junit.Before
+import org.junit.Test
 import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
-class PrettyPrintableTestBase {
-    def consoleOutput = new TestConsoleOutput()
-    PrettyPrinter printer
+import static org.testingisdocumenting.webtau.Matchers.actual
+import static org.testingisdocumenting.webtau.Matchers.equal
 
-    @Before
-    void init() {
-        consoleOutput.clear()
-        printer = new PrettyPrinter(consoleOutput, 0)
-    }
+class PrettyPrinterTest {
+    @Test
+    void "should calc max width and height of all printed lines"() {
+        def printer = new PrettyPrinter(new TestConsoleOutput(), 0)
+        printer.printLine("hello")
+        printer.printLine("hello world")
+        printer.printLine("world")
 
-    void expectOutput(String expected) {
-        printer.flushCurrentLine()
-        printer.renderToConsole()
-
-        println consoleOutput.colorOutput
-        Assert.assertEquals(expected, consoleOutput.noColorOutput)
-    }
+        actual(printer.calcMaxWidth()).should(equal(11))
+        actual(printer.getNumberOfLines()).should(equal(3))
+   }
 }

@@ -99,14 +99,12 @@ public class TableDataHeader {
         }
 
         namesByIndex.add(name);
-
     }
 
     public String columnNameByIdx(int idx) {
         validateIdx(idx);
         return namesByIndex.get(idx);
     }
-
 
     public int size() {
         return namesByIndex.size();
