@@ -43,7 +43,9 @@ class ReplResultRenderer {
         } else if (result instanceof FileTextContent) {
             renderTextLimitingSize(result.data)
         } else if (result instanceof PrettyPrintable) {
-            result.prettyPrint(createPrettyPrinter())
+            def printer = createPrettyPrinter()
+            result.prettyPrint(printer)
+            printer.renderToConsole()
         } else {
             groovysh.defaultResultHook(result)
         }
@@ -60,7 +62,9 @@ class ReplResultRenderer {
     }
 
     private static void renderPageElementAndHighlight(PageElement pageElement) {
-        pageElement.prettyPrint(createPrettyPrinter())
+        def printer = createPrettyPrinter()
+        pageElement.prettyPrint(printer)
+        printer.renderToConsole()
         pageElement.highlight()
     }
 

@@ -24,7 +24,6 @@ import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 /**
  * prints values using pretty ANSI colors, maintains indentation
@@ -39,10 +38,11 @@ public class PrettyPrinter {
     private static final int INDENTATION_STEP = 2;
     private static final List<PrettyPrintableProvider> prettyPrintProviders = ServiceLoaderUtils.load(PrettyPrintableProvider.class);
 
-    private Set<ValuePath> pathsToDecorate;
+    private final Set<ValuePath> pathsToDecorate;
     private PrettyPrinterDecorationToken decorationToken;
 
-    private final Line currentLine;
+    private final List<PrettyPrinterLine> lines;
+    private PrettyPrinterLine currentLine;
 
     private final ConsoleOutput consoleOutput;
     private int indentationSize;
@@ -50,7 +50,8 @@ public class PrettyPrinter {
 
     public PrettyPrinter(ConsoleOutput consoleOutput, int indentationSize) {
         this.consoleOutput = consoleOutput;
-        this.currentLine = new Line();
+        this.lines = new ArrayList<>();
+        this.currentLine = new PrettyPrinterLine();
         this.pathsToDecorate = new HashSet<>();
 
         setIndentationSize(indentationSize);
@@ -81,6 +82,39 @@ public class PrettyPrinter {
         consoleOutput.out();
     }
 
+    public ConsoleOutput getConsoleOutput() {
+        return consoleOutput;
+    }
+
+    public Set<ValuePath> getPathsToDecorate() {
+        return pathsToDecorate;
+    }
+
+    public PrettyPrinterDecorationToken getDecorationToken() {
+        return decorationToken;
+    }
+
+    public void renderToConsole() {
+        for (PrettyPrinterLine line : lines) {
+            consoleOutput.out(line.getStyleAndValues().toArray());
+        }
+    }
+
+    public int calcMaxWidth() {
+        return lines.stream()
+                .map(PrettyPrinterLine::getWidth)
+                .max(Integer::compareTo)
+                .orElse(0);
+    }
+
+    public int getNumberOfLines() {
+        return lines.size();
+    }
+
+    public PrettyPrinterLine getLine(int lineIdx) {
+        return lines.get(lineIdx);
+    }
+
     public void setIndentationSize(int indentationSize) {
         if (indentationSize < 0) {
             throw new IllegalStateException("can't set indentation to a negative value: " + indentationSize);
@@ -98,6 +132,10 @@ public class PrettyPrinter {
         setIndentationSize(this.indentationSize - INDENTATION_STEP);
     }
 
+    public void print(PrettyPrinterLine line) {
+        currentLine.append(line.getStyleAndValues());
+    }
+
     public void print(Object... styleOrValues) {
         currentLine.append(styleOrValues);
     }
@@ -108,12 +146,14 @@ public class PrettyPrinter {
 
     public void printLine(Object... styleOrValues) {
         currentLine.append(styleOrValues);
-        flush();
+        flushCurrentLine();
     }
 
-    public void flush() {
-        consoleOutput.out(Stream.concat(Stream.of(indentation), currentLine.styleAndValues.stream()).toArray());
-        currentLine.clear();
+    public void flushCurrentLine() {
+        currentLine.prepend(indentation);
+        lines.add(currentLine);
+
+        currentLine = new PrettyPrinterLine();
     }
 
     public void printObject(Object o) {
@@ -162,17 +202,5 @@ public class PrettyPrinter {
 
     private String quoteString(Object text) {
         return "\"" + text + "\"";
-    }
-
-    private static class Line {
-        private final List<Object> styleAndValues = new ArrayList<>();
-
-        public void append(Object... styleAndValues) {
-            this.styleAndValues.addAll(Arrays.asList(styleAndValues));
-        }
-
-        public void clear() {
-            styleAndValues.clear();
-        }
     }
 }

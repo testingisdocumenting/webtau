@@ -127,7 +127,9 @@ public class ConsoleReportGenerator implements ReportGenerator {
         ConsoleOutputs.out(Color.RED, "*", Color.YELLOW, " ", message, " ",
                 Color.RESET, "(", Color.PURPLE, test.getShortContainerId(), " -> ", Color.BLUE, test.getScenario(), Color.RESET, ")");
 
-        WebTauStepInputKeyValue.stepInput(input).prettyPrint(new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 2));
+        PrettyPrinter printer = new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 2);
+        WebTauStepInputKeyValue.stepInput(input).prettyPrint(printer);
+        printer.renderToConsole();
     }
 
     private static void printTimeTaken(WebTauReport report) {

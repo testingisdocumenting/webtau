@@ -151,7 +151,10 @@ class TableDataGroovyTest implements ConsoleOutput {
                         20      | "world"
                         30      | null    }
 
-        table.prettyPrint(new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 0))
+
+        def printer = new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 0)
+        table.prettyPrint(printer)
+        printer.renderToConsole()
 
         capturedOutLines.join("\n").should == "\u001B[33mcolumn A\u001B[33m, \u001B[0m\u001B[33mcolumn B\u001B[0m\n" +
                 "\u001B[36m      10\u001B[0m\u001B[33m, \u001B[0m\"hello\" \n" +
