@@ -2,7 +2,7 @@
 
 # Discord Server
 
-Join `Testing Is Documenting` [Discord Server](https://discord.gg/Z5yjatDy) to ask questions and discuss features/bugs
+Join `Testing Is Documenting` [Discord Server](https://discord.gg/aEHbzXTX6N) to ask questions and discuss features/bugs
 
 # WebTau
 
