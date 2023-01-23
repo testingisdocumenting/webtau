@@ -28,30 +28,33 @@ class TablePrettyPrinterTest {
     void "render table of simple values"() {
         def simpleTable = table("colA", "colB", "colC",
                                  ________________________,
-                                "hello", "world", 100,
+                                "hello", "world", 10,
                                 "another", "world", 200)
 
         prettyPrintTable(simpleTable, "colA      │ colB    │ colC\n" +
-                "\"hello\"   │ \"world\" │ 100 \n" +
-                "\"another\" │ \"world\" │ 200 ")
+                "\"hello\"   │ \"world\" │   10\n" +
+                "\"another\" │ \"world\" │  200")
     }
 
     @Test
     void "render table with map inside"() {
         def table = table("colA", "colB",               "colC",
                          ______________________________________,
+                         "text",     100, "12",
                          "hello", map("key", "value"), [2, 5],
                        "another", "world", [3, 8])
 
-        prettyPrintTable(table, """colA      │ colB             │ colC
-"hello"   │ {                │ [   
-          │   "key": "value" │   2,
-          │ }                │   5 
-          │                  │ ]   
-"another" │ "world"          │ [   
-          │                  │   3,
-          │                  │   8 
-          │                  │ ]   """)
+        prettyPrintTable(table,'colA      │ colB             │ colC\n' +
+                '"text"    │              100 │ "12"\n' +
+                '"hello"   │ {                │ [   \n' +
+                '          │   "key": "value" │   2,\n' +
+                '          │ }                │   5 \n' +
+                '          │                  │ ]   \n' +
+                '          │                  │     \n' +
+                '"another" │ "world"          │ [   \n' +
+                '          │                  │   3,\n' +
+                '          │                  │   8 \n' +
+                '          │                  │ ]   ')
     }
 
     private static void prettyPrintTable(TableData tableData, String expected) {
