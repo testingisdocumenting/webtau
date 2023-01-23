@@ -62,7 +62,9 @@ class ReplResultRenderer {
     }
 
     private static void renderPageElementAndHighlight(PageElement pageElement) {
-        pageElement.prettyPrint(createPrettyPrinter())
+        def printer = createPrettyPrinter()
+        pageElement.prettyPrint(printer)
+        printer.renderToConsole()
         pageElement.highlight()
     }
 
