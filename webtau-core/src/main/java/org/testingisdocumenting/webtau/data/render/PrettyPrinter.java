@@ -73,6 +73,10 @@ public class PrettyPrinter {
         this.decorationToken = decorationToken;
     }
 
+    public void setPathsDecoration(PrettyPrinterDecorationToken decorationToken, List<ValuePath> paths) {
+        setPathsDecoration(decorationToken, new HashSet<>(paths));
+    }
+
     // TODO remove once DataNode is rewritten using printer
     public ConsoleOutput createIndentedConsoleOutput() {
         return new IndentedConsoleOutput(consoleOutput, indentationSize);
