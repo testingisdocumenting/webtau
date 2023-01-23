@@ -23,15 +23,15 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinterDecorationToken;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 
 import java.util.Collections;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ValueMatcherStepOutput implements WebTauStepOutput {
     private final ValuePath root;
     private final Object actual;
-    private final List<ValuePath> valuePathsToHighlight;
+    private final Set<ValuePath> valuePathsToHighlight;
 
-    public ValueMatcherStepOutput(ValuePath root, Object actual, List<ValuePath> valuePathsToHighlight) {
+    public ValueMatcherStepOutput(ValuePath root, Object actual, Set<ValuePath> valuePathsToHighlight) {
         this.root = root;
         this.actual = actual;
         this.valuePathsToHighlight = valuePathsToHighlight;

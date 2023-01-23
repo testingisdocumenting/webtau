@@ -22,7 +22,7 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
-import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
@@ -57,7 +57,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public List<ValuePath> matchedPaths() {
+    public Set<ValuePath> matchedPaths() {
         return comparator.generateEqualMatchPaths();
     }
 
@@ -71,7 +71,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public List<ValuePath> mismatchedPaths() {
+    public Set<ValuePath> mismatchedPaths() {
         return comparator.generateEqualMismatchPaths();
     }
 

@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.data.render;
 
 import org.apache.commons.lang3.StringUtils;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.table.Record;
 import org.testingisdocumenting.webtau.data.table.TableData;
 
@@ -45,8 +46,8 @@ public class TablePrettyPrinter {
                 .collect(Collectors.toList());
     }
 
-    public void prettyPrint(PrettyPrinter printer) {
-        prettyPrintersTable = createPrettyPrintersTable(printer, tableData);
+    public void prettyPrint(PrettyPrinter printer, ValuePath root) {
+        prettyPrintersTable = createPrettyPrintersTable(printer, root, tableData);
         calcColumnWidthsAndHeights();
 
         renderHeader(printer);
@@ -145,10 +146,11 @@ public class TablePrettyPrinter {
         }
     }
 
-    private TableData createPrettyPrintersTable(PrettyPrinter prettyPrinter, TableData tableData) {
+    private TableData createPrettyPrintersTable(PrettyPrinter prettyPrinter, ValuePath root, TableData tableData) {
         return tableData.map(((rowIdx, colIdx, columnName, v) -> {
             PrettyPrinter cellPrettyPrinter = new PrettyPrinter(prettyPrinter.getConsoleOutput(), 0);
-            cellPrettyPrinter.printObject(v);
+            cellPrettyPrinter.setPathsDecoration(prettyPrinter.getDecorationToken(), prettyPrinter.getPathsToDecorate());
+            cellPrettyPrinter.printObject(root.index(rowIdx).property(columnName), v);
             cellPrettyPrinter.flushCurrentLine();
 
             return cellPrettyPrinter;
