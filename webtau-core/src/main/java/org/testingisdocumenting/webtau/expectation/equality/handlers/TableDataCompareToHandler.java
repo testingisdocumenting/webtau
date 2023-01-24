@@ -33,9 +33,24 @@ public class TableDataCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
-        TableDataComparisonResult result = TableDataComparison.compare((TableData) actual, (TableData) expected);
+        TableDataComparisonResult result = TableDataComparison.compare(actualPath, (TableData) actual, (TableData) expected);
+        TableDataComparisonReport comparisonReportGenerator = new TableDataComparisonReport(result);
+
         if (!result.areEqual()) {
-            comparator.reportNotEqual(this, actualPath, new TableDataComparisonReport(result).generate());
+            result.getValueMismatchMessages().forEach(message ->
+                    comparator.reportNotEqual(this, message.getActualPath(), message.getMessage()));
+
+            if (result.hasMissingColumns()) {
+                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingColumnsReport());
+            }
+
+            if (result.hasMissingRows()) {
+                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingRowsReport());
+            }
+
+            if (result.hasExtraRows()) {
+                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.extraRowsReport());
+            }
         }
     }
 }

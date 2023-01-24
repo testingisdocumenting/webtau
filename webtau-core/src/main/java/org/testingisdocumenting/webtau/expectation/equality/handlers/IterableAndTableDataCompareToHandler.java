@@ -19,9 +19,6 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.testingisdocumenting.webtau.data.converters.ToMapConverters;
 import org.testingisdocumenting.webtau.data.table.TableData;
-import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparison;
-import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonReport;
-import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonResult;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
@@ -41,10 +38,7 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
         TableData expectedTable = (TableData) expected;
         TableData actualTable = createTableFromIterable((Iterable<Object>) actual);
 
-        TableDataComparisonResult result = TableDataComparison.compare(actualTable, expectedTable);
-        if (!result.areEqual()) {
-            comparator.reportNotEqual(this, actualPath, new TableDataComparisonReport(result).generate());
-        }
+        comparator.compareUsingEqualOnly(actualPath, actualTable, expectedTable);
     }
 
     private static TableData createTableFromIterable(Iterable<Object> actualList) {

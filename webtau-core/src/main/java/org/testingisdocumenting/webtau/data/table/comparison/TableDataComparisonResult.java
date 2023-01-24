@@ -17,15 +17,15 @@
 
 package org.testingisdocumenting.webtau.data.table.comparison;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import org.testingisdocumenting.webtau.data.table.Record;
 import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
 
 public class TableDataComparisonResult {
+    private final List<ActualPathMessage> valueMismatchMessages;
+
     private final Map<Integer, Map<String, String>> messageByActualRowIdxAndColumn;
     private final Map<Integer, Map<String, String>> messageByExpectedRowIdxAndColumn;
 
@@ -40,6 +40,8 @@ public class TableDataComparisonResult {
         this.actual = actual;
         this.expected = expected;
 
+        valueMismatchMessages = new ArrayList<>();
+
         messageByActualRowIdxAndColumn = new HashMap<>();
         messageByExpectedRowIdxAndColumn = new HashMap<>();
 
@@ -53,6 +55,10 @@ public class TableDataComparisonResult {
             missingColumns.isEmpty() &&
             missingRows.isEmpty() &&
             extraRows.isEmpty();
+    }
+
+    public List<ActualPathMessage> getValueMismatchMessages() {
+        return valueMismatchMessages;
     }
 
     public Map<Integer, Map<String, String>> getMessageByActualRowIdxAndColumn() {
@@ -83,12 +89,24 @@ public class TableDataComparisonResult {
         missingRows.addRow(row);
     }
 
+    public boolean hasMissingColumns() {
+        return !missingColumns.isEmpty();
+    }
+
     public Set<String> getMissingColumns() {
         return missingColumns;
     }
 
+    public boolean hasMissingRows() {
+        return !missingRows.isEmpty();
+    }
+
     public TableData getMissingRows() {
         return missingRows;
+    }
+
+    public boolean hasExtraRows() {
+        return !extraRows.isEmpty();
     }
 
     public TableData getExtraRows() {
@@ -98,6 +116,10 @@ public class TableDataComparisonResult {
     public void addMismatch(Integer actualRowIdx, Integer expectedRowIdx, String columnName, String message) {
         addMismatch(messageByActualRowIdxAndColumn, actualRowIdx, columnName, message);
         addMismatch(messageByExpectedRowIdxAndColumn, expectedRowIdx, columnName, message);
+    }
+
+    public void addPathMessage(ActualPathMessage message) {
+        valueMismatchMessages.add(message);
     }
 
     public String getActualMismatch(Integer rowIdx, String columnName) {

@@ -146,6 +146,10 @@ public class CompareToComparator {
                 generateReportPart("unexpected values", Collections.singletonList(extraMessages)));
     }
 
+    public List<ActualPathMessage> getNotEqualMessages() {
+        return notEqualMessages;
+    }
+
     public Set<ValuePath> generateEqualMismatchPaths() {
         return extractActualPaths(notEqualMessages);
     }
