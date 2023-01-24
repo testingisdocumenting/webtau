@@ -16,6 +16,8 @@
 
 package org.testingisdocumenting.webtau.data.render;
 
+import java.util.Objects;
+
 class FallbackPrettyPrintable implements PrettyPrintable {
     private final Object object;
 
@@ -25,6 +27,6 @@ class FallbackPrettyPrintable implements PrettyPrintable {
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
-        printer.printLine(object.toString());
+        printer.printLine(Objects.toString(object));
     }
 }

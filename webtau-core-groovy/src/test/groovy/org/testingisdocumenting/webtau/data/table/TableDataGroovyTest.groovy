@@ -143,25 +143,6 @@ class TableDataGroovyTest implements ConsoleOutput {
                 "{id=id3, Name=N, Type=T}")
     }
 
-    @Test
-    void "should pretty print"() {
-        def table = ["column A" | "column B"] {
-                    ____________________________
-                        10      | "hello"
-                        20      | "world"
-                        30      | null    }
-
-
-        def printer = new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 0)
-        table.prettyPrint(printer)
-        printer.renderToConsole()
-
-        capturedOutLines.join("\n").should == "\u001B[33mcolumn A\u001B[33m, \u001B[0m\u001B[33mcolumn B\u001B[0m\n" +
-                "\u001B[36m      10\u001B[0m\u001B[33m, \u001B[0m\"hello\" \n" +
-                "\u001B[36m      20\u001B[0m\u001B[33m, \u001B[0m\"world\" \n" +
-                "\u001B[36m      30\u001B[0m\u001B[33m, \u001B[0m\u001B[33m[null]  \u001B[0m\n"
-    }
-
     private static TableData replaceValue(TableData tableData) {
         tableData.replace("v1b", "v1b_")
     }

@@ -24,10 +24,7 @@ import org.testingisdocumenting.webtau.expectation.equality.handlers.NullCompare
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.TraceUtils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.joining;
@@ -149,7 +146,7 @@ public class CompareToComparator {
                 generateReportPart("unexpected values", Collections.singletonList(extraMessages)));
     }
 
-    public List<ValuePath> generateEqualMismatchPaths() {
+    public Set<ValuePath> generateEqualMismatchPaths() {
         return extractActualPaths(notEqualMessages);
     }
 
@@ -184,7 +181,7 @@ public class CompareToComparator {
         return generateReportPartWithoutLabel(Collections.singletonList(equalMessages));
     }
 
-    public List<ValuePath> generateEqualMatchPaths() {
+    public Set<ValuePath> generateEqualMatchPaths() {
         return extractActualPaths(equalMessages);
     }
 
@@ -342,10 +339,10 @@ public class CompareToComparator {
                     "\nexpected: " + DataRenderers.render(expected) + " " + TraceUtils.renderType(expected));
     }
 
-    private List<ValuePath> extractActualPaths(List<ActualPathMessage> notEqualMessages) {
+    private Set<ValuePath> extractActualPaths(List<ActualPathMessage> notEqualMessages) {
         return notEqualMessages
                 .stream()
                 .map(ActualPathMessage::getActualPath)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 }

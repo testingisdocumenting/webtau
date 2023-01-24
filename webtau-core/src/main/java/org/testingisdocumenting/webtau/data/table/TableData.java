@@ -17,9 +17,11 @@
 
 package org.testingisdocumenting.webtau.data.table;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.render.TableDataRenderer;
+import org.testingisdocumenting.webtau.data.render.TablePrettyPrinter;
 import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 import org.testingisdocumenting.webtau.utils.CsvUtils;
@@ -258,8 +260,14 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
     }
 
     @Override
-    public void prettyPrint(PrettyPrinter prettyPrinter) {
-        prettyPrinter.printLine(PrettyPrintTableRenderer.render(this));
+    public void prettyPrint(PrettyPrinter printer) {
+        prettyPrint(printer, ValuePath.UNDEFINED);
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter prettyPrinter, ValuePath valuePath) {
+        TablePrettyPrinter tablePrinter = new TablePrettyPrinter(this);
+        tablePrinter.prettyPrint(prettyPrinter, valuePath);
     }
 
     private static TableDataHeader createCombinedActualHeader(List<Map<String, ?>> rows) {

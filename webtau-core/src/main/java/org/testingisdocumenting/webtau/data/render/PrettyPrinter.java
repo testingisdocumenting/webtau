@@ -67,10 +67,14 @@ public class PrettyPrinter {
                 .anyMatch(Optional::isPresent);
     }
 
-    public void setPathsDecoration(PrettyPrinterDecorationToken decorationToken, List<ValuePath> paths) {
+    public void setPathsDecoration(PrettyPrinterDecorationToken decorationToken, Set<ValuePath> paths) {
         this.pathsToDecorate.clear();
         this.pathsToDecorate.addAll(paths);
         this.decorationToken = decorationToken;
+    }
+
+    public void setPathsDecoration(PrettyPrinterDecorationToken decorationToken, List<ValuePath> paths) {
+        setPathsDecoration(decorationToken, new HashSet<>(paths));
     }
 
     // TODO remove once DataNode is rewritten using printer

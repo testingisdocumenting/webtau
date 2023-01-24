@@ -20,7 +20,7 @@ package org.testingisdocumenting.webtau.expectation;
 import org.testingisdocumenting.webtau.data.ValuePath;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Set;
 
 public interface ValueMatcher {
     // should
@@ -43,8 +43,8 @@ public interface ValueMatcher {
      * match paths
      * @return list of paths that matched
      */
-    default List<ValuePath> matchedPaths() {
-        return Collections.emptyList();
+    default Set<ValuePath> matchedPaths() {
+        return Collections.emptySet();
     }
 
     /**
@@ -59,8 +59,8 @@ public interface ValueMatcher {
      * mismatch paths
      * @return list of paths that mismatched
      */
-    default List<ValuePath> mismatchedPaths() {
-        return Collections.emptyList();
+    default Set<ValuePath> mismatchedPaths() {
+        return Collections.emptySet();
     }
 
     /**
