@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.data.table.comparison;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.data.table.Record;
 import org.testingisdocumenting.webtau.data.table.TableData;
@@ -27,27 +29,29 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 import static java.util.stream.Collectors.toSet;
 
 public class TableDataComparison {
-    private TableData actual;
-    private TableData expected;
+    private final TableData actual;
+    private final TableData expected;
 
     private final Map<CompositeKey, Record> actualRowsByKey;
     private final Map<CompositeKey, Integer> actualRowIdxByKey;
 
-    private TableDataComparisonResult comparisonResult;
+    private final TableDataComparisonResult comparisonResult;
     private Set<String> columnsToCompare;
 
-    public static TableDataComparisonResult compare(TableData actual, TableData expected) {
-        TableDataComparison comparison = new TableDataComparison(actual, expected);
+    private final ValuePath rootPath;
+
+    public static TableDataComparisonResult compare(ValuePath rootPath, TableData actual, TableData expected) {
+        TableDataComparison comparison = new TableDataComparison(rootPath, actual, expected);
         comparison.compare();
 
         return comparison.comparisonResult;
     }
 
-    private TableDataComparison(TableData actual, TableData expected) {
+    private TableDataComparison(ValuePath rootPath, TableData actual, TableData expected) {
+        this.rootPath = rootPath;
         this.actual = actual;
         this.expected = expected;
 
@@ -114,11 +118,14 @@ public class TableDataComparison {
 
     private void compare(Integer actualRowIdx, Integer expectedRowIdx, String columnName, Object actual, Object expected) {
         CompareToComparator comparator = CompareToComparator.comparator();
-        boolean isEqual = comparator.compareIsEqual(createActualPath(columnName), actual, expected);
+        ValuePath path = rootPath.index(actualRowIdx).property(columnName);
+        boolean isEqual = comparator.compareIsEqual(path, actual, expected);
 
         if (isEqual) {
             return;
         }
+
+        comparator.getNotEqualMessages().forEach(comparisonResult::addPathMessage);
 
         comparisonResult.addMismatch(actualRowIdx, expectedRowIdx, columnName, comparator.generateEqualMismatchReport());
     }

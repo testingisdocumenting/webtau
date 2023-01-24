@@ -166,7 +166,7 @@ public class PrettyPrinter {
 
     public void printObject(ValuePath valuePath, Object o) {
         if (o instanceof PrettyPrintable) {
-            ((PrettyPrintable) o).prettyPrint(this);
+            ((PrettyPrintable) o).prettyPrint(this, valuePath);
             return;
         }
 

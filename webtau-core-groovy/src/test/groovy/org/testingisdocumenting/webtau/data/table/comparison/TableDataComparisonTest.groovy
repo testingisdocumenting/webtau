@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,9 +18,12 @@
 package org.testingisdocumenting.webtau.data.table.comparison
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.data.table.TableData
 
 class TableDataComparisonTest {
+    ValuePath valuePath = new ValuePath("table")
+    
     @Test
     void "should have no mismatches when values in rows match"() {
         def actual = ["a" | "b" | "c"] {
@@ -33,7 +37,7 @@ class TableDataComparisonTest {
                          20 | 40  | 60 }
 
 
-        def result = TableDataComparison.compare(actual, expected)
+        def result = TableDataComparison.compare(valuePath, actual, expected)
         assertNoMismatches(result)
     }
 
@@ -49,7 +53,7 @@ class TableDataComparisonTest {
                            20 | 40  | 60
                            10 | 20  | 30 }
 
-        def result = TableDataComparison.compare(actual, expected)
+        def result = TableDataComparison.compare(valuePath, actual, expected)
         assertNoMismatches(result)
     }
 
@@ -65,7 +69,7 @@ class TableDataComparisonTest {
                            20 | 40  | 60
                            10 | 20  | 30 }
 
-        def result = TableDataComparison.compare(actual, expected)
+        def result = TableDataComparison.compare(valuePath, actual, expected)
         assertNoMismatches(result)
     }
 
@@ -82,7 +86,7 @@ class TableDataComparisonTest {
                          20 | 40  | 61 }
 
 
-        def result = TableDataComparison.compare(actual, expected)
+        def result = TableDataComparison.compare(valuePath, actual, expected)
         result.messageByActualRowIdxAndColumn.should == [
                 0: [b: ~/expected: 22/],
                 1: [c: ~/expected: 61/]]
@@ -101,7 +105,7 @@ class TableDataComparisonTest {
                         ____________________________
                          10 | 20  | 1   | 30  | 40 }
 
-        def result = TableDataComparison.compare(actual, expected)
+        def result = TableDataComparison.compare(valuePath, actual, expected)
         result.missingColumns.should == ["d", "e"]
     }
 
@@ -110,7 +114,7 @@ class TableDataComparisonTest {
         def actual = new TableData(["a", "b"])
         def expected = new TableData(["A", "B"])
 
-        def result = TableDataComparison.compare(actual, expected)
+        def result = TableDataComparison.compare(valuePath, actual, expected)
         result.missingColumns.should == ["A", "B"]
 
         result.areEqual().should == false
@@ -128,7 +132,7 @@ class TableDataComparisonTest {
                         20 | 60 | 130
                         40 | 80 | 230 }
 
-        def result = TableDataComparison.compare(actual, expected)
+        def result = TableDataComparison.compare(valuePath, actual, expected)
         def missingRows = result.getMissingRows()
 
         missingRows.size().should == 2
@@ -148,7 +152,7 @@ class TableDataComparisonTest {
                           10 | 20 | 30
                           40 | 80 | 230 }
 
-        def result = TableDataComparison.compare(actual, expected)
+        def result = TableDataComparison.compare(valuePath, actual, expected)
         def missingRows = result.getMissingRows()
 
         missingRows.size().should == 2
@@ -168,7 +172,7 @@ class TableDataComparisonTest {
                         ______________
                         10 | 20 | 30 }
 
-        def result = TableDataComparison.compare(actual, expected)
+        def result = TableDataComparison.compare(valuePath, actual, expected)
         def extraRows = result.getExtraRows()
 
         extraRows.numberOfRows().should == 2
@@ -188,7 +192,7 @@ class TableDataComparisonTest {
                         _________________
                            10 | 20 | 30 }
 
-        def result = TableDataComparison.compare(actual, expected)
+        def result = TableDataComparison.compare(valuePath, actual, expected)
         def extraRows = result.getExtraRows()
 
         extraRows.numberOfRows().should == 2
@@ -208,7 +212,7 @@ class TableDataComparisonTest {
                         _________________
                            10 | 20 | 30 }
 
-        def result = TableDataComparison.compare(actual, expected)
+        def result = TableDataComparison.compare(valuePath, actual, expected)
         def extraRows = result.getExtraRows()
 
         extraRows.numberOfRows().should == 2
