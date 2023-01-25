@@ -61,6 +61,8 @@ public class CompareToComparator {
     private final List<ActualPathMessage> missingMessages = new ArrayList<>();
     private final List<ActualPathMessage> extraMessages = new ArrayList<>();
 
+    private Object topLevelActual;
+
     private AssertionMode assertionMode;
 
     public static CompareToComparator comparator() {
@@ -73,6 +75,10 @@ public class CompareToComparator {
 
     private CompareToComparator(AssertionMode assertionMode) {
         this.assertionMode = assertionMode;
+    }
+
+    public Object getTopLevelActual() {
+        return topLevelActual;
     }
 
     public boolean compareIsEqual(ValuePath actualPath, Object actual, Object expected) {
@@ -237,8 +243,11 @@ public class CompareToComparator {
         setAssertionMode(mode);
         CompareToHandler handler = findCompareToEqualHandler(actual, expected);
 
+        Object convertedActual = handler.convertedActual(actual);
+        setTopLevelActualIfNotSet(convertedActual);
+
         CompareToComparator comparator = CompareToComparator.comparator(mode);
-        handler.compareEqualOnly(comparator, actualPath, actual, expected);
+        handler.compareEqualOnly(comparator, actualPath, convertedActual, expected);
 
         mergeResults(comparator);
 
@@ -249,12 +258,21 @@ public class CompareToComparator {
         setAssertionMode(mode);
         CompareToHandler handler = findCompareToGreaterLessHandler(actual, expected);
 
+        Object convertedActual = handler.convertedActual(actual);
+        setTopLevelActualIfNotSet(convertedActual);
+
         CompareToComparator comparator = CompareToComparator.comparator(mode);
-        handler.compareGreaterLessEqual(comparator, actualPath, actual, expected);
+        handler.compareGreaterLessEqual(comparator, actualPath, convertedActual, expected);
 
         mergeResults(comparator);
 
         return createCompareToResult(comparator);
+    }
+
+    private void setTopLevelActualIfNotSet(Object actual) {
+        if (topLevelActual == null) {
+            topLevelActual = actual;
+        }
     }
 
     private void setAssertionMode(AssertionMode mode) {

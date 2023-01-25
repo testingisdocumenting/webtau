@@ -38,6 +38,11 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
+    public Object convertedActual(Object actual) {
+        return comparator.getTopLevelActual();
+    }
+
+    @Override
     public String matchingMessage() {
         if (expectedMatcher != null) {
             return expectedMatcher.matchingMessage();

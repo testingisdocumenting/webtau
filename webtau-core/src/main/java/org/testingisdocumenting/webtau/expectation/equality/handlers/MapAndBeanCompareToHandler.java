@@ -39,8 +39,9 @@ public class MapAndBeanCompareToHandler implements CompareToHandler {
         return ((Map<?, Object>) o).keySet().stream().allMatch(k -> k instanceof String); // making sure all the keys are strings
     }
 
-    private boolean isBean(Object o) {
-        return !(o instanceof Iterable || o instanceof Map);
+    @Override
+    public Object convertedActual(Object actual) {
+        return JavaBeanUtils.convertBeanToMap(actual);
     }
 
     @Override
@@ -49,7 +50,7 @@ public class MapAndBeanCompareToHandler implements CompareToHandler {
                                  ValuePath actualPath, Object actual,
                                  Object expected) {
         Map<String, ?> expectedMap = (Map<String, ?>) expected;
-        Map<String, ?> actualAsMap = JavaBeanUtils.convertBeanToMap(actual);
+        Map<String, ?> actualAsMap = (Map<String, ?>) actual;
 
         expectedMap.keySet().forEach(p -> { // going only through expected keys, ignoring all other bean properties
             ValuePath propertyPath = actualPath.property(p);
@@ -62,5 +63,9 @@ public class MapAndBeanCompareToHandler implements CompareToHandler {
                 comparator.reportMissing(this, propertyPath, expectedMap.get(p));
             }
         });
+    }
+
+    private boolean isBean(Object o) {
+        return !(o instanceof Iterable || o instanceof Map);
     }
 }

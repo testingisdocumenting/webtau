@@ -26,6 +26,8 @@ import org.testingisdocumenting.webtau.reporter.StepReporters;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+
 public class TestConsoleOutput implements ConsoleOutput {
     private final List<String> noColorLines = new ArrayList<>();
     private final List<String> colorLines = new ArrayList<>();
@@ -53,7 +55,7 @@ public class TestConsoleOutput implements ConsoleOutput {
     public void err(Object... styleOrValues) {
     }
 
-    public static void runAndValidateOutput(String expectedOutput, Runnable code) {
+    public static TestConsoleOutput runAndValidateOutput(String expectedOutput, Runnable code) {
         TestConsoleOutput testOutput = new TestConsoleOutput();
 
         ConsoleOutputs.add(ConsoleOutputs.defaultOutput);
@@ -73,6 +75,13 @@ public class TestConsoleOutput implements ConsoleOutput {
 
         String output = replaceTime(testOutput.getNoColorOutput());
         Assert.assertEquals(expectedOutput, output);
+
+        return testOutput;
+    }
+
+    public static void runCaptureAndValidateOutput(String artifactName, String expectedOutput, Runnable code) {
+        TestConsoleOutput testConsoleOutput = runAndValidateOutput(expectedOutput, code);
+        doc.capture(artifactName, testConsoleOutput.getColorOutput());
     }
 
     private static String replaceTime(String original) {
