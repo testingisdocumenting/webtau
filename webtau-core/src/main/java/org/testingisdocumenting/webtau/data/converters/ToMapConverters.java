@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +23,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ToMapConverters {
-    private static List<ToMapConverter> converters = discover();
+    private static final List<ToMapConverter> converters = discover();
 
     public static Map<String, ?> convert(Object v) {
         return TypeConvertersUtils.convertAndThrow(converters.stream(), "map", v);

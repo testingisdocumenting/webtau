@@ -14,19 +14,24 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data.render;
+package org.testingisdocumenting.webtau;
 
-import java.util.Objects;
+// address
+public class Address {
+    private final String city;
+    private final String zipCode;
 
-class FallbackPrettyPrintable implements PrettyPrintable {
-    private final Object object;
-
-    public FallbackPrettyPrintable(Object object) {
-        this.object = object;
+    public Address(String city, String zipCode) {
+        this.city = city;
+        this.zipCode = zipCode;
     }
 
-    @Override
-    public void prettyPrint(PrettyPrinter printer) {
-        printer.print(PrettyPrinter.UNKNOWN_COLOR, Objects.toString(object));
+    public String getCity() {
+        return city;
+    }
+
+    public String getZipCode() {
+        return zipCode;
     }
 }
+// address

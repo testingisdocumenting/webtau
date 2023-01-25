@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
@@ -38,8 +39,8 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public Object convertedActual(Object actual) {
-        return comparator == null ? actual : comparator.getTopLevelActual();
+    public ValueConverter valueConverter() {
+        return comparator == null ? ValueConverter.EMPTY : comparator.createValueConverter();
     }
 
     @Override

@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.expectation.stepoutput;
 
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinterDecorationToken;
@@ -30,16 +31,19 @@ public class ValueMatcherStepOutput implements WebTauStepOutput {
     private final ValuePath root;
     private final Object actual;
     private final Set<ValuePath> valuePathsToHighlight;
+    private final ValueConverter valueConverter;
 
-    public ValueMatcherStepOutput(ValuePath root, Object actual, Set<ValuePath> valuePathsToHighlight) {
+    public ValueMatcherStepOutput(ValuePath root, Object actual, ValueConverter valueConverter, Set<ValuePath> valuePathsToHighlight) {
         this.root = root;
         this.actual = actual;
+        this.valueConverter = valueConverter;
         this.valuePathsToHighlight = valuePathsToHighlight;
     }
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
         printer.setPathsDecoration(new PrettyPrinterDecorationToken("**", Color.RED), valuePathsToHighlight);
+        printer.setValueConverter(valueConverter);
 
         printer.printObject(root, actual);
         printer.flushCurrentLine();

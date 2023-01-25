@@ -63,7 +63,10 @@ Java:
 } 
 ``` 
 
-:include-file: org/testingisdocumenting/webtau/Account.java { surroundedBy: "account", title: "Account Bean" }
+```columns
+left: :include-file: org/testingisdocumenting/webtau/Account.java { surroundedBy: "account", title: "Account Java Bean" }
+right: :include-file: org/testingisdocumenting/webtau/Address.java { surroundedBy: "address", title: "Address Java Bean" }
+```
 
 :include-cli-output: doc-artifacts/bean-map-compare-output.txt {title: "bean mismatches highlighted"}
 

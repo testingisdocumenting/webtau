@@ -21,11 +21,14 @@ public class Account {
     private final String id;
     private final String name;
     private final String description;
+    private final Address address;
 
-    public Account(String id, String name, String description) {
+    public Account(String id, String name, String description,
+                   Address address) {
         this.id = id;
         this.name = name;
         this.description = description;
+        this.address = address;
     }
 
     public String getId() {
@@ -38,6 +41,10 @@ public class Account {
 
     public String getDescription() {
         return description;
+    }
+
+    public Address getAddress() {
+        return address;
     }
 }
 // account
