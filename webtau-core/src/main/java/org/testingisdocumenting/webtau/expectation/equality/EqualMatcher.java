@@ -39,7 +39,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public Object convertedActual(Object actual) {
-        return comparator.getTopLevelActual();
+        return comparator == null ? actual : comparator.getTopLevelActual();
     }
 
     @Override
