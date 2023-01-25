@@ -85,10 +85,11 @@ class MatchersGroovyTest {
     void "bean and map example"() {
         code {
             // bean-map-example
-            def account = new Account("ac1", "My Account", "test account")
+            def account = new Account("ac1", "My Account", "test account", new Address("TestingCity", "88888888"))
             account.should == [
-                    id  : "ac1",
-                    name: "My Second Account"] // only specified properties will be compared
+                    id: "ac1",
+                    name: "My Second Account",
+                    address: [zipCode: "7777777"]] // only specified properties will be compared
             // bean-map-example
         } should throwException(~/expected: "My Second Account"/)
     }

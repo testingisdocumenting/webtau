@@ -87,24 +87,46 @@ public class MatchersTest {
 
     @Test
     public void beanAndMapExample() {
-        TestConsoleOutput.runCaptureAndValidateOutput("bean-map-compare-output", "X failed expecting [value] to equal {id=ac1, name=My Second Account}: \n" +
-                        "    mismatches:\n" +
-                        "    \n" +
-                        "    [value].name:   actual: \"My Account\" <java.lang.String>\n" +
-                        "                  expected: \"My Second Account\" <java.lang.String>\n" +
-                        "                                ^ (Xms)\n" +
-                        "  {\n" +
-                        "    \"description\": \"test account\",\n" +
-                        "    \"id\": \"ac1\",\n" +
-                        "    \"name\": **\"My Account\"**\n" +
-                        "  }", () -> {
+        TestConsoleOutput.runCaptureAndValidateOutput("bean-map-compare-output", "X failed expecting [value] to equal {id=ac1, name=My Second Account, address={zipCode=7777777}}: \n" +
+                "    mismatches:\n" +
+                "    \n" +
+                "    [value].name:   actual: \"My Account\" <java.lang.String>\n" +
+                "                  expected: \"My Second Account\" <java.lang.String>\n" +
+                "                                ^\n" +
+                "    [value].address.zipCode:   actual: \"88888888\" <java.lang.String>\n" +
+                "                             expected: \"7777777\" <java.lang.String>\n" +
+                "                                        ^ (Xms)\n" +
+                "  {\n" +
+                "    \"address\": {\n" +
+                "      \"city\": \"TestingCity\",\n" +
+                "      \"zipCode\": **\"88888888\"**\n" +
+                "    },\n" +
+                "    \"description\": \"test account\",\n" +
+                "    \"id\": \"ac1\",\n" +
+                "    \"name\": **\"My Account\"**\n" +
+                "  }", () -> {
             // bean-map-example
-            Account account = new Account("ac1", "My Account", "test account");
+            Address address = new Address("TestingCity", "88888888");
+            Account account = new Account("ac1", "My Account", "test account", address);
             actual(account).should(equal(map( // utility function from WebTauCore static import
                     "id", "ac1",
-                    "name", "My Second Account"))); // only specified properties will be compared
+                    "name", "My Second Account",
+                    "address", map("zipCode", "7777777")))); // only specified properties will be compared
             // bean-map-example
         });
+    }
+
+    @Test
+    public void listOfBeansAndTable() {
+        List<Account> accounts = fetchAccounts();
+
+    }
+
+    private List<Account> fetchAccounts() {
+        return Arrays.asList(
+                new Account("ac1", "Home", "test account", new Address("TC1", "zip1")),
+                new Account("ac1", "", "test account", new Address("TC2", "zip2")),
+                new Account("ac1", "My Account", "test account", new Address("TC3", "zip3")));
     }
 
     @Test

@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.handlers.AnyCompareToHandler;
@@ -61,7 +62,8 @@ public class CompareToComparator {
     private final List<ActualPathMessage> missingMessages = new ArrayList<>();
     private final List<ActualPathMessage> extraMessages = new ArrayList<>();
 
-    private Object topLevelActual;
+    // when actual value was converted for comparison, e.g. bean to Map, it will go into this map
+    private final Map<ValuePath, Object> convertedActualByPath = new HashMap<>();
 
     private AssertionMode assertionMode;
 
@@ -77,8 +79,8 @@ public class CompareToComparator {
         this.assertionMode = assertionMode;
     }
 
-    public Object getTopLevelActual() {
-        return topLevelActual;
+    public ValueConverter createValueConverter() {
+        return convertedActualByPath::getOrDefault;
     }
 
     public boolean compareIsEqual(ValuePath actualPath, Object actual, Object expected) {
@@ -244,7 +246,7 @@ public class CompareToComparator {
         CompareToHandler handler = findCompareToEqualHandler(actual, expected);
 
         Object convertedActual = handler.convertedActual(actual);
-        setTopLevelActualIfNotSet(convertedActual);
+        recordConvertedActual(actualPath, actual, convertedActual);
 
         CompareToComparator comparator = CompareToComparator.comparator(mode);
         handler.compareEqualOnly(comparator, actualPath, convertedActual, expected);
@@ -259,7 +261,7 @@ public class CompareToComparator {
         CompareToHandler handler = findCompareToGreaterLessHandler(actual, expected);
 
         Object convertedActual = handler.convertedActual(actual);
-        setTopLevelActualIfNotSet(convertedActual);
+        recordConvertedActual(actualPath, actual, convertedActual);
 
         CompareToComparator comparator = CompareToComparator.comparator(mode);
         handler.compareGreaterLessEqual(comparator, actualPath, convertedActual, expected);
@@ -269,10 +271,12 @@ public class CompareToComparator {
         return createCompareToResult(comparator);
     }
 
-    private void setTopLevelActualIfNotSet(Object actual) {
-        if (topLevelActual == null) {
-            topLevelActual = actual;
+    private void recordConvertedActual(ValuePath actualPath, Object actual, Object convertedActual) {
+        if (actual == convertedActual) {
+            return;
         }
+
+        convertedActualByPath.put(actualPath, convertedActual);
     }
 
     private void setAssertionMode(AssertionMode mode) {
@@ -304,6 +308,7 @@ public class CompareToComparator {
         lessMessages.addAll(comparator.lessMessages);
         missingMessages.addAll(comparator.missingMessages);
         extraMessages.addAll(comparator.extraMessages);
+        convertedActualByPath.putAll(comparator.convertedActualByPath);
     }
 
     private String generateReportPart(String label, List<List<ActualPathMessage>> messagesGroups) {

@@ -18,20 +18,20 @@
 package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 
 import java.util.Collections;
 import java.util.Set;
 
 public interface ValueMatcher {
     /**
-     * value optionally can be converted to another value to be passed down comparison chain.
-     * exposed as outside method for more precise reporting of actual values in case of a failure.
+     * value optionally can be converted to another value to be passed down to comparison chain.
+     * matchers can optionally return value converters so reporting can render the best representation
      *
-     * @param actual original actual
-     * @return optionally converted actual
+     * @return value converter
      */
-    default Object convertedActual(Object actual) {
-        return actual;
+    default ValueConverter valueConverter() {
+        return ValueConverter.EMPTY;
     }
 
     // should

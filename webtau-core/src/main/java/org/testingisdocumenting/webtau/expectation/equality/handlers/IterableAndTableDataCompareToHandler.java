@@ -34,9 +34,14 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
 
     @Override
     @SuppressWarnings("unchecked")
+    public Object convertedActual(Object actual) {
+        return createTableFromIterable((Iterable<Object>) actual);
+    }
+
+    @Override
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         TableData expectedTable = (TableData) expected;
-        TableData actualTable = createTableFromIterable((Iterable<Object>) actual);
+        TableData actualTable = (TableData) actual;
 
         comparator.compareUsingEqualOnly(actualPath, actualTable, expectedTable);
     }

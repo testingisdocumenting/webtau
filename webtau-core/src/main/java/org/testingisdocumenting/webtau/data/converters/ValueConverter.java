@@ -14,19 +14,12 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data.render;
+package org.testingisdocumenting.webtau.data.converters;
 
-import java.util.Objects;
+import org.testingisdocumenting.webtau.data.ValuePath;
 
-class FallbackPrettyPrintable implements PrettyPrintable {
-    private final Object object;
+public interface ValueConverter {
+    ValueConverter EMPTY = (path, original) -> original;
 
-    public FallbackPrettyPrintable(Object object) {
-        this.object = object;
-    }
-
-    @Override
-    public void prettyPrint(PrettyPrinter printer) {
-        printer.print(PrettyPrinter.UNKNOWN_COLOR, Objects.toString(object));
-    }
+    Object convertValue(ValuePath valuePath, Object original);
 }

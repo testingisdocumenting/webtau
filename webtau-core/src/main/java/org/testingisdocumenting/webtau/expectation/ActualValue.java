@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler.Flow;
 import org.testingisdocumenting.webtau.expectation.stepoutput.ValueMatcherStepOutput;
@@ -190,7 +191,8 @@ public class ActualValue implements ActualValueExpectations {
         step.setClassifier(WebTauStepClassifiers.MATCHER);
 
         step.setStepOutputFunc((matched) -> {
-            Object convertedActual = valueMatcher.convertedActual(actual);
+            ValueConverter valueConverter = valueMatcher.valueConverter();
+            Object convertedActual = valueConverter.convertValue(actualPath, actual);
 
             if (Boolean.TRUE.equals(matched) || !PrettyPrinter.isPrettyPrintable(convertedActual) || step.hasParentWithDisabledMatcherOutput()) {
                 return WebTauStepOutput.EMPTY;
@@ -198,6 +200,7 @@ public class ActualValue implements ActualValueExpectations {
 
             return new ValueMatcherStepOutput(actualPath,
                     convertedActual,
+                    valueConverter,
                     isNegative ?
                             valueMatcher.matchedPaths() :
                             valueMatcher.mismatchedPaths());
