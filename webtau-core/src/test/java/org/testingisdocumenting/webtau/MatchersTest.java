@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau;
 
 import org.junit.Test;
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -86,12 +87,24 @@ public class MatchersTest {
 
     @Test
     public void beanAndMapExample() {
-        // bean-map-example
-        Account account = new Account("ac1", "My Account", "test account");
-        actual(account).should(equal(map( // utility function from WebTauCore static import
-                "id", "ac1",
-                "name", "My Account"))); // only specified properties will be compared
-        // bean-map-example
+        TestConsoleOutput.runCaptureAndValidateOutput("bean-map-compare-output", "X failed expecting [value] to equal {id=ac1, name=My Second Account}: \n" +
+                        "    mismatches:\n" +
+                        "    \n" +
+                        "    [value].name:   actual: \"My Account\" <java.lang.String>\n" +
+                        "                  expected: \"My Second Account\" <java.lang.String>\n" +
+                        "                                ^ (Xms)\n" +
+                        "  {\n" +
+                        "    \"description\": \"test account\",\n" +
+                        "    \"id\": \"ac1\",\n" +
+                        "    \"name\": **\"My Account\"**\n" +
+                        "  }", () -> {
+            // bean-map-example
+            Account account = new Account("ac1", "My Account", "test account");
+            actual(account).should(equal(map( // utility function from WebTauCore static import
+                    "id", "ac1",
+                    "name", "My Second Account"))); // only specified properties will be compared
+            // bean-map-example
+        });
     }
 
     @Test

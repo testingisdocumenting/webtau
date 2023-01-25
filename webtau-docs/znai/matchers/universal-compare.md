@@ -65,6 +65,8 @@ Java:
 
 :include-file: org/testingisdocumenting/webtau/Account.java { surroundedBy: "account", title: "Account Bean" }
 
+:include-cli-output: doc-artifacts/bean-map-compare-output.txt {title: "bean mismatches highlighted"}
+
 # Dates
 
 Universal compare lets you compare dates, local dates, strings, and times with timezones against each other. 

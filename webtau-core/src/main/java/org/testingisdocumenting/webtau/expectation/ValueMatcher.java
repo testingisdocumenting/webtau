@@ -23,6 +23,17 @@ import java.util.Collections;
 import java.util.Set;
 
 public interface ValueMatcher {
+    /**
+     * value optionally can be converted to another value to be passed down comparison chain.
+     * exposed as outside method for more precise reporting of actual values in case of a failure.
+     *
+     * @param actual original actual
+     * @return optionally converted actual
+     */
+    default Object convertedActual(Object actual) {
+        return actual;
+    }
+
     // should
 
     /**

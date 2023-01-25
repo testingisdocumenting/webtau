@@ -1,0 +1,1 @@
+* Add: [Bean And Map](matchers/universal-compare#java-beans-and-maps) comparison pretty prints actual bean data in case of mismatch
