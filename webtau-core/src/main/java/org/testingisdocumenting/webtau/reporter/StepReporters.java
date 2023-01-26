@@ -42,6 +42,10 @@ public class StepReporters {
     private static final AtomicBoolean explicitlyAdded = new AtomicBoolean(false);
 
     public static void add(StepReporter reporter) {
+        if (reporters.contains(reporter)) {
+            return;
+        }
+
         reporters.add(reporter);
         explicitlyAdded.set(true);
     }

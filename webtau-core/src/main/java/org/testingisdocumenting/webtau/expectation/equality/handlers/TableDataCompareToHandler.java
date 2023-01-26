@@ -20,7 +20,7 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparison;
 import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonReport;
-import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonResult;
+import org.testingisdocumenting.webtau.data.table.comparison.TableDataComparisonAdditionalResult;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
@@ -33,24 +33,19 @@ public class TableDataCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
-        TableDataComparisonResult result = TableDataComparison.compare(actualPath, (TableData) actual, (TableData) expected);
+        TableDataComparisonAdditionalResult result = TableDataComparison.compare(comparator, actualPath, (TableData) actual, (TableData) expected);
         TableDataComparisonReport comparisonReportGenerator = new TableDataComparisonReport(result);
 
-        if (!result.areEqual()) {
-            result.getValueMismatchMessages().forEach(message ->
-                    comparator.reportNotEqual(this, message.getActualPath(), message.getMessage()));
+        if (result.hasMissingColumns()) {
+            comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingColumnsReport());
+        }
 
-            if (result.hasMissingColumns()) {
-                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingColumnsReport());
-            }
+        if (result.hasMissingRows()) {
+            comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingRowsReport());
+        }
 
-            if (result.hasMissingRows()) {
-                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingRowsReport());
-            }
-
-            if (result.hasExtraRows()) {
-                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.extraRowsReport());
-            }
+        if (result.hasExtraRows()) {
+            comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.extraRowsReport());
         }
     }
 }

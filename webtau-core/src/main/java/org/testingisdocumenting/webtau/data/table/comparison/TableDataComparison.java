@@ -38,19 +38,27 @@ public class TableDataComparison {
     private final Map<CompositeKey, Record> actualRowsByKey;
     private final Map<CompositeKey, Integer> actualRowIdxByKey;
 
-    private final TableDataComparisonResult comparisonResult;
+    private final TableDataComparisonAdditionalResult comparisonAdditionalResult;
+    private final CompareToComparator comparator;
     private Set<String> columnsToCompare;
 
     private final ValuePath rootPath;
 
-    public static TableDataComparisonResult compare(ValuePath rootPath, TableData actual, TableData expected) {
-        TableDataComparison comparison = new TableDataComparison(rootPath, actual, expected);
+    public static TableDataComparisonAdditionalResult compare(CompareToComparator comparator,
+                                                              ValuePath rootPath,
+                                                              TableData actual,
+                                                              TableData expected) {
+        TableDataComparison comparison = new TableDataComparison(comparator, rootPath, actual, expected);
         comparison.compare();
 
-        return comparison.comparisonResult;
+        return comparison.comparisonAdditionalResult;
     }
 
-    private TableDataComparison(ValuePath rootPath, TableData actual, TableData expected) {
+    private TableDataComparison(CompareToComparator comparator,
+                                ValuePath rootPath,
+                                TableData actual,
+                                TableData expected) {
+        this.comparator = comparator;
         this.rootPath = rootPath;
         this.actual = actual;
         this.expected = expected;
@@ -59,7 +67,7 @@ public class TableDataComparison {
         this.actualRowsByKey = new HashMap<>();
         mapActualRowsByKeyDefinedInExpected();
 
-        this.comparisonResult = new TableDataComparisonResult(actual, expected);
+        this.comparisonAdditionalResult = new TableDataComparisonAdditionalResult(actual, expected);
     }
 
     private void compare() {
@@ -72,7 +80,7 @@ public class TableDataComparison {
         Set<String> expectedColumns = expected.getHeader().getNamesStream().collect(toSet());
 
         columnsToCompare = expectedColumns.stream().filter(actualColumns::contains).collect(toSet());
-        expectedColumns.stream().filter(c -> ! actualColumns.contains(c)).forEach(comparisonResult::addMissingColumn);
+        expectedColumns.stream().filter(c -> ! actualColumns.contains(c)).forEach(comparisonAdditionalResult::addMissingColumn);
     }
 
     private void compareRows() {
@@ -86,7 +94,7 @@ public class TableDataComparison {
         actualKeys.removeAll(expected.keySet());
 
         for (CompositeKey actualKey : actualKeys) {
-            comparisonResult.addExtraRow(actualRowsByKey.get(actualKey));
+            comparisonAdditionalResult.addExtraRow(actualRowsByKey.get(actualKey));
         }
     }
 
@@ -95,7 +103,7 @@ public class TableDataComparison {
         expectedKeys.removeAll(actualRowIdxByKey.keySet());
 
         for (CompositeKey expectedKey : expectedKeys) {
-            comparisonResult.addMissingRow(expected.find(expectedKey));
+            comparisonAdditionalResult.addMissingRow(expected.find(expectedKey));
         }
     }
 
@@ -106,28 +114,19 @@ public class TableDataComparison {
         for (CompositeKey actualKey : actualKeys) {
             Integer actualRowIdx = actualRowIdxByKey.get(actualKey);
             Integer expectedRowIdx = expected.findRowIdxByKey(actualKey);
-            compare(actualRowIdx, expectedRowIdx,
-                    actual.row(actualRowIdx), expected.row(expectedRowIdx));
+
+            compare(actualRowIdx, actual.row(actualRowIdx), expected.row(expectedRowIdx));
         }
     }
 
-    private void compare(Integer actualRowIdx, Integer expectedRowIdx, Record actual, Record expected) {
-        columnsToCompare.forEach(columnName -> compare(actualRowIdx, expectedRowIdx, columnName,
+    private void compare(Integer actualRowIdx, Record actual, Record expected) {
+        columnsToCompare.forEach(columnName -> compare(actualRowIdx, columnName,
                 actual.get(columnName), expected.get(columnName)));
     }
 
-    private void compare(Integer actualRowIdx, Integer expectedRowIdx, String columnName, Object actual, Object expected) {
-        CompareToComparator comparator = CompareToComparator.comparator();
+    private void compare(Integer actualRowIdx, String columnName, Object actual, Object expected) {
         ValuePath path = rootPath.index(actualRowIdx).property(columnName);
-        boolean isEqual = comparator.compareIsEqual(path, actual, expected);
-
-        if (isEqual) {
-            return;
-        }
-
-        comparator.getNotEqualMessages().forEach(comparisonResult::addPathMessage);
-
-        comparisonResult.addMismatch(actualRowIdx, expectedRowIdx, columnName, comparator.generateEqualMismatchReport());
+        comparator.compareIsEqual(path, actual, expected);
     }
 
     private void mapActualRowsByKeyDefinedInExpected() {

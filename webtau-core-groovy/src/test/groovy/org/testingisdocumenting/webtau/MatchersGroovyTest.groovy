@@ -17,16 +17,11 @@
 package org.testingisdocumenting.webtau
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.table.TableData
 
 import java.time.LocalDate
 
-import static org.testingisdocumenting.webtau.Matchers.actual
-import static org.testingisdocumenting.webtau.Matchers.anyOf
-import static org.testingisdocumenting.webtau.Matchers.code
-import static org.testingisdocumenting.webtau.Matchers.contain
-import static org.testingisdocumenting.webtau.Matchers.greaterThan
-import static org.testingisdocumenting.webtau.Matchers.liveValue
-import static org.testingisdocumenting.webtau.Matchers.throwException
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class MatchersGroovyTest {
     private final List<String> messages = Arrays.asList("message one", "message two", "message we wait for")
@@ -92,6 +87,28 @@ class MatchersGroovyTest {
                     address: [zipCode: "7777777"]] // only specified properties will be compared
             // bean-map-example
         } should throwException(~/expected: "My Second Account"/)
+    }
+
+    @Test
+    void "beans and table example"() {
+        code {
+            // beans-table-example
+            List<Account> accounts = fetchAccounts()
+            TableData expected = ["*id" | "name"       | "address"] {
+                                  ___________________________________________
+                                  "ac2" | "Works"      | [zipCode: "zip2"]
+                                  "ac1" | "Home"       | [zipCode: "zip1"]
+                                  "ac3" | "My Account" | [zipCode: "zip8"] }
+
+            accounts.should == expected
+            // beans-table-example
+        } should throwException(~/expected: "zip8"/)
+    }
+
+    private static List<Account> fetchAccounts() {
+        return [new Account("ac1", "Home", "test account", new Address("TC1", "zip1")),
+                new Account("ac2", "Work", "test account", new Address("TC2", "zip2")),
+                new Account("ac3", "My Account", "test account", new Address("TC3", "zip3"))]
     }
 
     @Test

@@ -20,9 +20,9 @@ package org.testingisdocumenting.webtau.data.table.comparison;
 import org.testingisdocumenting.webtau.data.table.render.TableRenderer;
 
 public class TableDataComparisonReport {
-    private final TableDataComparisonResult result;
+    private final TableDataComparisonAdditionalResult result;
 
-    public TableDataComparisonReport(TableDataComparisonResult result) {
+    public TableDataComparisonReport(TableDataComparisonAdditionalResult result) {
         this.result = result;
     }
 

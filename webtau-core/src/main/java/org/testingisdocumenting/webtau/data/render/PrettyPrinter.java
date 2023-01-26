@@ -65,6 +65,10 @@ public class PrettyPrinter {
         this.valueConverter = valueConverter;
     }
 
+    public ValueConverter getValueConverter() {
+        return valueConverter;
+    }
+
     public static boolean isPrettyPrintable(Object value) {
         if (value instanceof PrettyPrintable) {
             return true;

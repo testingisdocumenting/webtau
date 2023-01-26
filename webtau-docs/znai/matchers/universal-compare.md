@@ -43,36 +43,9 @@ Java:
 
 :include-cli-output: doc-artifacts/number-number-comparison.txt {title: "explicit name report console output"}
 
-:include-markdown: static-import.md
-
-# Java Beans And Maps
-
-Use map and bean comparison to validate individual java bean properties.
-
-```tabs
-Groovy: 
-:include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
-    surroundedBy: "bean-map-example",
-    commentsType: "inline"
-}
-
-Java: 
-:include-file: org/testingisdocumenting/webtau/MatchersTest.java {
-    surroundedBy: "bean-map-example",
-    commentsType: "inline"
-} 
-``` 
-
-```columns
-left: :include-file: org/testingisdocumenting/webtau/Account.java { surroundedBy: "account", title: "Account Java Bean" }
-right: :include-file: org/testingisdocumenting/webtau/Address.java { surroundedBy: "address", title: "Address Java Bean" }
-```
-
-:include-cli-output: doc-artifacts/bean-map-compare-output.txt {title: "bean mismatches highlighted"}
-
 # Dates
 
-Universal compare lets you compare dates, local dates, strings, and times with timezones against each other. 
+Universal compare lets you compare dates, local dates, strings, and times with timezones against each other.
 
 ```tabs
 Groovy: 
@@ -99,3 +72,6 @@ Java:
     commentsType: "inline"
 }
  ``` 
+
+:include-markdown: static-import.md
+

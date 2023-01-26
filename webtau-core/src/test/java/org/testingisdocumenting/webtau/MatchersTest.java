@@ -16,7 +16,9 @@
 
 package org.testingisdocumenting.webtau;
 
-import org.junit.Test;
+import org.junit.*;
+import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.reporter.StepReporters;
 import org.testingisdocumenting.webtau.testutils.TestConsoleOutput;
 
 import java.time.LocalDate;
@@ -31,6 +33,16 @@ public class MatchersTest {
     private final List<String> messages = Arrays.asList("message one", "message two", "message we wait for");
     private int messagesIdx = 0;
     private int numberOfRecords = 0;
+
+    @Before
+    public void addStepReporter() {
+        StepReporters.add(StepReporters.defaultStepReporter);
+    }
+
+    @After
+    public void removeStepReporter() {
+        StepReporters.remove(StepReporters.defaultStepReporter);
+    }
 
     @Test
     public void stringComparisonExample() {
@@ -118,15 +130,58 @@ public class MatchersTest {
 
     @Test
     public void listOfBeansAndTable() {
-        List<Account> accounts = fetchAccounts();
+        TestConsoleOutput.runCaptureAndValidateOutput("beans-table-compare-output", "X failed expecting [value] to equal \n" +
+                ":id   |name        |address       :\n" +
+                "._____.____________.______________.\n" +
+                "|\"ac2\"|\"Works\"     |{zipCode=zip2}|\n" +
+                "._____.____________.______________|\n" +
+                "|\"ac1\"|\"Home\"      |{zipCode=zip1}|\n" +
+                "._____.____________.______________|\n" +
+                "|\"ac3\"|\"My Account\"|{zipCode=zip8}|\n" +
+                "._____.____________.______________|\n" +
+                ": \n" +
+                "    mismatches:\n" +
+                "    \n" +
+                "    [value][2].address.zipCode:   actual: \"zip3\" <java.lang.String>\n" +
+                "                                expected: \"zip8\" <java.lang.String>\n" +
+                "                                              ^\n" +
+                "    [value][1].name:   actual: \"Work\" <java.lang.String>\n" +
+                "                     expected: \"Works\" <java.lang.String>\n" +
+                "                                    ^ (Xms)\n" +
+                "  address                 │ description    │ id    │ name        \n" +
+                "  {                       │ \"test account\" │ \"ac1\" │ \"Home\"      \n" +
+                "    \"city\": \"TC1\",        │                │       │             \n" +
+                "    \"zipCode\": \"zip1\"     │                │       │             \n" +
+                "  }                       │                │       │             \n" +
+                "                          │                │       │             \n" +
+                "  {                       │ \"test account\" │ \"ac2\" │ **\"Work\"**  \n" +
+                "    \"city\": \"TC2\",        │                │       │             \n" +
+                "    \"zipCode\": \"zip2\"     │                │       │             \n" +
+                "  }                       │                │       │             \n" +
+                "                          │                │       │             \n" +
+                "  {                       │ \"test account\" │ \"ac3\" │ \"My Account\"\n" +
+                "    \"city\": \"TC3\",        │                │       │             \n" +
+                "    \"zipCode\": **\"zip3\"** │                │       │             \n" +
+                "  }                       │                │       │             \n" +
+                "  ", () -> {
+            // beans-table-example
+            List<Account> accounts = fetchAccounts();
+            TableData expected = table("*id",       "name", "address",
+                                       ________________________________________,
+                                       "ac2",      "Works", map("zipCode", "zip2"),
+                                       "ac1",       "Home", map("zipCode", "zip1"),
+                                       "ac3", "My Account", map("zipCode", "zip8"));
 
+            actual(accounts).should(equal(expected));
+            // beans-table-example
+        });
     }
 
-    private List<Account> fetchAccounts() {
+    private static List<Account> fetchAccounts() {
         return Arrays.asList(
                 new Account("ac1", "Home", "test account", new Address("TC1", "zip1")),
-                new Account("ac1", "", "test account", new Address("TC2", "zip2")),
-                new Account("ac1", "My Account", "test account", new Address("TC3", "zip3")));
+                new Account("ac2", "Work", "test account", new Address("TC2", "zip2")),
+                new Account("ac3", "My Account", "test account", new Address("TC3", "zip3")));
     }
 
     @Test
