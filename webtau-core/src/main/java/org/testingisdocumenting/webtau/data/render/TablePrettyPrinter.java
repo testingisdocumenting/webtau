@@ -150,7 +150,10 @@ public class TablePrettyPrinter {
         return tableData.map(((rowIdx, colIdx, columnName, v) -> {
             PrettyPrinter cellPrettyPrinter = new PrettyPrinter(prettyPrinter.getConsoleOutput(), 0);
             cellPrettyPrinter.setPathsDecoration(prettyPrinter.getDecorationToken(), prettyPrinter.getPathsToDecorate());
+            cellPrettyPrinter.setValueConverter(prettyPrinter.getValueConverter());
+
             cellPrettyPrinter.printObject(root.index(rowIdx).property(columnName), v);
+
             cellPrettyPrinter.flushCurrentLine();
 
             return cellPrettyPrinter;

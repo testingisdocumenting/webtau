@@ -17,12 +17,22 @@
 
 package org.testingisdocumenting.webtau.data.table.comparison
 
+import org.junit.Before
 import org.junit.Test
 import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.data.table.TableData
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
+
+import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.comparator
 
 class TableDataComparisonTest {
     ValuePath valuePath = new ValuePath("table")
+    CompareToComparator comparator
+
+    @Before
+    void createComparator() {
+        comparator = comparator()
+    }
     
     @Test
     void "should have no mismatches when values in rows match"() {
@@ -37,7 +47,7 @@ class TableDataComparisonTest {
                          20 | 40  | 60 }
 
 
-        def result = TableDataComparison.compare(valuePath, actual, expected)
+        def result = TableDataComparison.compare(comparator, valuePath, actual, expected)
         assertNoMismatches(result)
     }
 
@@ -53,7 +63,7 @@ class TableDataComparisonTest {
                            20 | 40  | 60
                            10 | 20  | 30 }
 
-        def result = TableDataComparison.compare(valuePath, actual, expected)
+        def result = TableDataComparison.compare(comparator, valuePath, actual, expected)
         assertNoMismatches(result)
     }
 
@@ -69,12 +79,12 @@ class TableDataComparisonTest {
                            20 | 40  | 60
                            10 | 20  | 30 }
 
-        def result = TableDataComparison.compare(valuePath, actual, expected)
+        def result = TableDataComparison.compare(comparator, valuePath, actual, expected)
         assertNoMismatches(result)
     }
 
     @Test
-    void "should record mismatches associated with row and column"() {
+    void "should record cell mismatches"() {
         def actual = ["a" | "b" | "c"] {
                       ______________
                        10 | 20  | 30
@@ -85,14 +95,14 @@ class TableDataComparisonTest {
                          10 | 22  | 30
                          20 | 40  | 61 }
 
+        TableDataComparison.compare(comparator, valuePath, actual, expected)
 
-        def result = TableDataComparison.compare(valuePath, actual, expected)
-        result.messageByActualRowIdxAndColumn.should == [
-                0: [b: ~/expected: 22/],
-                1: [c: ~/expected: 61/]]
-        result.messageByExpectedRowIdxAndColumn.should == [
-                0: [b: ~/expected: 22/],
-                1: [c: ~/expected: 61/]]
+        comparator.generateEqualMismatchReport().should == "mismatches:\n" +
+                "\n" +
+                "table[0].b:   actual: 20 <java.lang.Integer>\n" +
+                "            expected: 22 <java.lang.Integer>\n" +
+                "table[1].c:   actual: 60 <java.lang.Integer>\n" +
+                "            expected: 61 <java.lang.Integer>"
     }
 
     @Test
@@ -105,7 +115,7 @@ class TableDataComparisonTest {
                         ____________________________
                          10 | 20  | 1   | 30  | 40 }
 
-        def result = TableDataComparison.compare(valuePath, actual, expected)
+        def result = TableDataComparison.compare(comparator, valuePath, actual, expected)
         result.missingColumns.should == ["d", "e"]
     }
 
@@ -114,7 +124,7 @@ class TableDataComparisonTest {
         def actual = new TableData(["a", "b"])
         def expected = new TableData(["A", "B"])
 
-        def result = TableDataComparison.compare(valuePath, actual, expected)
+        def result = TableDataComparison.compare(comparator, valuePath, actual, expected)
         result.missingColumns.should == ["A", "B"]
 
         result.areEqual().should == false
@@ -132,7 +142,7 @@ class TableDataComparisonTest {
                         20 | 60 | 130
                         40 | 80 | 230 }
 
-        def result = TableDataComparison.compare(valuePath, actual, expected)
+        def result = TableDataComparison.compare(comparator, valuePath, actual, expected)
         def missingRows = result.getMissingRows()
 
         missingRows.size().should == 2
@@ -152,7 +162,7 @@ class TableDataComparisonTest {
                           10 | 20 | 30
                           40 | 80 | 230 }
 
-        def result = TableDataComparison.compare(valuePath, actual, expected)
+        def result = TableDataComparison.compare(comparator, valuePath, actual, expected)
         def missingRows = result.getMissingRows()
 
         missingRows.size().should == 2
@@ -172,7 +182,7 @@ class TableDataComparisonTest {
                         ______________
                         10 | 20 | 30 }
 
-        def result = TableDataComparison.compare(valuePath, actual, expected)
+        def result = TableDataComparison.compare(comparator, valuePath, actual, expected)
         def extraRows = result.getExtraRows()
 
         extraRows.numberOfRows().should == 2
@@ -192,7 +202,7 @@ class TableDataComparisonTest {
                         _________________
                            10 | 20 | 30 }
 
-        def result = TableDataComparison.compare(valuePath, actual, expected)
+        def result = TableDataComparison.compare(comparator, valuePath, actual, expected)
         def extraRows = result.getExtraRows()
 
         extraRows.numberOfRows().should == 2
@@ -212,7 +222,7 @@ class TableDataComparisonTest {
                         _________________
                            10 | 20 | 30 }
 
-        def result = TableDataComparison.compare(valuePath, actual, expected)
+        def result = TableDataComparison.compare(comparator, valuePath, actual, expected)
         def extraRows = result.getExtraRows()
 
         extraRows.numberOfRows().should == 2
@@ -220,10 +230,10 @@ class TableDataComparisonTest {
         extraRows.row(1).should == [id: 42, b: 82, c: 232]
     }
 
-    private static void assertNoMismatches(TableDataComparisonResult result) {
+    private void assertNoMismatches(TableDataComparisonAdditionalResult result) {
+        comparator.generateEqualMismatchReport().should == ""
         result.missingColumns.should == []
         result.extraRows.should == []
         result.missingRows.should == []
-        result.messageByActualRowIdxAndColumn.should == [:]
     }
 }

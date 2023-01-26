@@ -79,6 +79,7 @@ utilities
 matchers
     introduction
     universal-compare
+    java-bean
     any-of
     custom-compare-to-handler
 groovy-standalone-runner
