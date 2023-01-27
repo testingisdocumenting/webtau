@@ -40,11 +40,11 @@ public class BrowserTestContainerJavaTest {
 
     @BeforeAll
     public static void setupDriverUsingTestContainer() {
-        Testcontainers.exposeHostPorts(BrowserConfig.getBaseUrlPort());
-        seleniumContainer = new BrowserWebDriverContainer<>()
-                .withCapabilities(new FirefoxOptions());
-
         step("preparing selenium test container", () -> {
+            Testcontainers.exposeHostPorts(BrowserConfig.getBaseUrlPort());
+            seleniumContainer = new BrowserWebDriverContainer<>()
+                    .withCapabilities(new FirefoxOptions());
+
             seleniumContainer.start();
             browser.setDriver(new RemoteWebDriver(seleniumContainer.getSeleniumAddress(), new FirefoxOptions()));
         });
