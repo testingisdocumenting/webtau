@@ -87,6 +87,19 @@ class UrlUtilsTest {
     }
 
     @Test
+    void "extract port from a given url"() {
+        assert UrlUtils.extractPort("") == -1
+        assert UrlUtils.extractPort("http") == -1
+        assert UrlUtils.extractPort("https") == -1
+        assert UrlUtils.extractPort("http://site.com") == 80
+        assert UrlUtils.extractPort("https://site.com") == 443
+        assert UrlUtils.extractPort("http://site.com:9343") == 9343
+        assert UrlUtils.extractPort("https://site.com:9343") == 9343
+        assert UrlUtils.extractPort("http://site.com:9343/basepath") == 9343
+        assert UrlUtils.extractPort("https://site.com:9343/basepath") == 9343
+    }
+
+    @Test
     void "validates full url before before extracting path portion"() {
         exception.expect(IllegalArgumentException)
         exception.expectMessage('invalid url: garbage://localhost:8080/relative/path')

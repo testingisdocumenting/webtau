@@ -20,6 +20,7 @@ import com.example.tests.junit5.config.HttpPersonaAuthHeaderProvider
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
+import org.testingisdocumenting.webtau.browser.Browser
 import org.testingisdocumenting.webtau.featuretesting.WebTauBrowserFeaturesTestData
 import org.testingisdocumenting.webtau.featuretesting.WebTauRestFeaturesTestData
 import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations
@@ -68,6 +69,12 @@ class WebTauFeaturesJUnit5Test {
     @Test
     void browserCookies() {
         testRunner.runAndValidate(BrowserCookieJavaTest, testServer.uri.toString())
+    }
+
+    @Test
+    void browserTestContainer() {
+        testRunner.runAndValidate(BrowserTestContainerJavaTest, "http://host.testcontainers.internal:" + testServer.uri.port)
+        Browser.browser.setDriver(null) // clean test container manually set driver
     }
 
     @Test

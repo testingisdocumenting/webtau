@@ -31,7 +31,6 @@ import org.openqa.selenium.interactions.*;
 import org.testingisdocumenting.webtau.persona.Persona;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class CurrentWebDriver implements
         WebDriver,
@@ -130,22 +129,6 @@ public class CurrentWebDriver implements
         return ((JavascriptExecutor) getDriver()).executeAsyncScript(script, args);
     }
 
-    private WebDriver getDriver() {
-        Map<String, WebDriver> driverByPersonaId = local.get();
-
-        Persona currentPersona = Persona.getCurrentPersona();
-        WebDriver webDriver = driverByPersonaId.get(currentPersona.getId());
-
-        if (webDriver != null) {
-            return webDriver;
-        }
-
-        WebDriver newDriver = WebDriverCreator.create();
-        driverByPersonaId.put(currentPersona.getId(), newDriver);
-
-        return newDriver;
-    }
-
     @Override
     public LocalStorage getLocalStorage() {
         return ((WebStorage)getDriver()).getLocalStorage();
@@ -193,4 +176,28 @@ public class CurrentWebDriver implements
     public Mouse getMouse() {
         return ((HasInputDevices) getDriver()).getMouse();
     }
+
+    public void setDriver(WebDriver driver) {
+        Map<String, WebDriver> driverByPersonaId = local.get();
+
+        Persona currentPersona = Persona.getCurrentPersona();
+        driverByPersonaId.put(currentPersona.getId(), driver);
+    }
+
+    private WebDriver getDriver() {
+        Map<String, WebDriver> driverByPersonaId = local.get();
+
+        Persona currentPersona = Persona.getCurrentPersona();
+        WebDriver webDriver = driverByPersonaId.get(currentPersona.getId());
+
+        if (webDriver != null) {
+            return webDriver;
+        }
+
+        WebDriver newDriver = WebDriverCreator.create();
+        driverByPersonaId.put(currentPersona.getId(), newDriver);
+
+        return newDriver;
+    }
+
 }

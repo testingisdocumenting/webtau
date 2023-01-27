@@ -103,6 +103,15 @@ public class StringUtils {
         return text.length() == pos.getIndex();
     }
 
+    public static Number convertToNumber(String text) {
+        try {
+            NumberFormat numberFormat = NumberFormat.getNumberInstance();
+            return numberFormat.parse(text);
+        } catch (ParseException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static Number convertToNumber(NumberFormat numberFormat, String text) {
         try {
             return numberFormat.parse(text);
