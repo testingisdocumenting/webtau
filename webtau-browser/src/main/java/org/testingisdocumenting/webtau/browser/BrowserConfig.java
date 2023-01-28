@@ -73,16 +73,18 @@ public class BrowserConfig implements WebTauConfigHandler {
         return FIREFOX.equals(browserId.getAsString());
     }
 
+    public static String getBaseUrl() {
+        return !BrowserConfig.getBrowserUrl().isEmpty() ?
+                BrowserConfig.getBrowserUrl():
+                getCfg().getBaseUrl();
+    }
+
     public static String createFullUrl(String url) {
         if (UrlUtils.isFull(url)) {
             return url;
         }
 
-        if (!BrowserConfig.getBrowserUrl().isEmpty()) {
-            return UrlUtils.concat(BrowserConfig.getBrowserUrl(), url);
-        }
-
-        return UrlUtils.concat(getCfg().getBaseUrl(), url);
+        return UrlUtils.concat(getBaseUrl(), url);
     }
 
     public static int getBaseUrlPort() {

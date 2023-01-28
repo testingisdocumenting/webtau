@@ -67,6 +67,14 @@ public class Browser {
                 () -> driver.setDriver(userDriver));
     }
 
+    public String getBaseUrl() {
+        return BrowserConfig.getBaseUrl();
+    }
+
+    public int getBaseUrlPort() {
+        return BrowserConfig.getBaseUrlPort();
+    }
+
     public void open(String url) {
         String fullUrl = createFullUrl(url);
 

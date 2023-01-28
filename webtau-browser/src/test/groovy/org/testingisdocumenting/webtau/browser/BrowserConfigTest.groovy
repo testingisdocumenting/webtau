@@ -19,10 +19,26 @@ package org.testingisdocumenting.webtau.browser
 import org.junit.Test
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 
+import static org.testingisdocumenting.webtau.browser.Browser.browser
+
 class BrowserConfigTest {
     @Test
     void "base url port"() {
         WebTauConfig.getCfg().setBaseUrl("http://localhost:8903")
         BrowserConfig.getBaseUrlPort().should == 8903
+    }
+
+    @Test
+    void "shortcut through browser module"() {
+        WebTauConfig.getCfg().setBaseUrl("http://localhost:8903")
+        // on separate lines for docs extraction
+        // base-url
+        browser.getBaseUrl()
+        // base-url
+                    .should == "http://localhost:8903"
+        // base-port
+        browser.getBaseUrlPort()
+        // base-port
+                .should == 8903
     }
 }

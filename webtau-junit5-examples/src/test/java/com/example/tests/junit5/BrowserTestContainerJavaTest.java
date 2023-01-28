@@ -23,7 +23,6 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.remote.RemoteWebDriver;
 import org.testcontainers.Testcontainers;
 import org.testcontainers.containers.BrowserWebDriverContainer;
-import org.testingisdocumenting.webtau.browser.BrowserConfig;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElementValue;
 import org.testingisdocumenting.webtau.junit5.WebTau;
@@ -41,7 +40,7 @@ public class BrowserTestContainerJavaTest {
     @BeforeAll
     public static void setupDriverUsingTestContainer() {
         step("preparing selenium test container", () -> {
-            Testcontainers.exposeHostPorts(BrowserConfig.getBaseUrlPort());
+            Testcontainers.exposeHostPorts(browser.getBaseUrlPort());
             seleniumContainer = new BrowserWebDriverContainer<>()
                     .withCapabilities(new FirefoxOptions());
 
