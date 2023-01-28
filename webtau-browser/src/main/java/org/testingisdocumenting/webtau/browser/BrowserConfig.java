@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.browser;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 import java.nio.file.Path;
 import java.util.function.Supplier;
@@ -25,6 +26,8 @@ import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*;
+import static org.testingisdocumenting.webtau.utils.UrlUtils.*;
 
 public class BrowserConfig implements WebTauConfigHandler {
     public static final String CHROME = "chrome";
@@ -68,6 +71,26 @@ public class BrowserConfig implements WebTauConfigHandler {
 
     public static boolean isFirefox() {
         return FIREFOX.equals(browserId.getAsString());
+    }
+
+    public static String createFullUrl(String url) {
+        if (UrlUtils.isFull(url)) {
+            return url;
+        }
+
+        if (!BrowserConfig.getBrowserUrl().isEmpty()) {
+            return UrlUtils.concat(BrowserConfig.getBrowserUrl(), url);
+        }
+
+        return UrlUtils.concat(getCfg().getBaseUrl(), url);
+    }
+
+    public static int getBaseUrlPort() {
+        if (!BrowserConfig.getBrowserUrl().isEmpty()) {
+            return extractPort(BrowserConfig.getBrowserUrl());
+        }
+
+        return extractPort(getCfg().getBaseUrl());
     }
 
     public static String getBrowserUrl() {

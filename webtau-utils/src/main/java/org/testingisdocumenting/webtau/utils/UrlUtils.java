@@ -27,6 +27,9 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class UrlUtils {
+    private static final String HTTPS_URL_PREFIX = "https://";
+    private static final String HTTP_URL_PREFIX = "http://";
+
     private static final Pattern ROUTE_CHARS_TO_ESCAPE = Pattern.compile("([<(\\[^\\-=\\\\$!|\\])?*+.>])");
     private static final Pattern ROUTE_NAMED_PARAM_REGEXP_CURLY = Pattern.compile("\\{(\\w+)}");
     private static final Pattern ROUTE_NAMED_PARAM_REGEXP_COLON = Pattern.compile(":(\\w+)");
@@ -51,6 +54,38 @@ public class UrlUtils {
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("invalid url: " + url, e);
         }
+    }
+
+    public static int extractPort(String url) {
+        if (url.isEmpty()) {
+            return -1;
+        }
+
+        int httpIdx = url.indexOf(HTTP_URL_PREFIX);
+        int httpsIdx = url.indexOf(HTTPS_URL_PREFIX);
+
+        if (httpIdx == -1 && httpsIdx == -1) {
+            return -1;
+        }
+
+        int colonStartIdx = httpIdx == -1 ?
+                HTTPS_URL_PREFIX.length() :
+                HTTP_URL_PREFIX.length();
+
+        int colonIdx = url.indexOf(':', colonStartIdx);
+        if (colonIdx == -1) {
+            return url.startsWith("https:") ? 443 :
+                    url.startsWith("http:") ? 80 : -1;
+        }
+
+        int slashIdx = url.indexOf('/', colonIdx);
+        if (slashIdx == -1) {
+            String portAsText = url.substring(colonIdx + 1);
+            return StringUtils.convertToNumber(portAsText).intValue();
+        }
+
+        String portAsText = url.substring(colonIdx + 1, slashIdx);
+        return StringUtils.convertToNumber(portAsText).intValue();
     }
 
     public static Map<String, List<String>> parseQueryParams(String queryParams) {
@@ -91,7 +126,7 @@ public class UrlUtils {
             return left + right;
         }
 
-        if (! left.endsWith("/") && right.startsWith("/")) {
+        if (!left.endsWith("/") && right.startsWith("/")) {
             return left + right;
         }
 

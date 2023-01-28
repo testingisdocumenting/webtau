@@ -17,20 +17,24 @@
 
 package org.testingisdocumenting.webtau.browser;
 
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebDriver;
 import org.testingisdocumenting.webtau.browser.documentation.BrowserDocumentation;
 import org.testingisdocumenting.webtau.browser.driver.CurrentWebDriver;
 import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator;
 import org.testingisdocumenting.webtau.browser.navigation.BrowserPageNavigation;
-import org.testingisdocumenting.webtau.browser.page.*;
+import org.testingisdocumenting.webtau.browser.page.GenericPageElement;
+import org.testingisdocumenting.webtau.browser.page.PageElement;
+import org.testingisdocumenting.webtau.browser.page.PageElementValue;
+import org.testingisdocumenting.webtau.browser.page.PageUrl;
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath;
 import org.testingisdocumenting.webtau.cache.Cache;
-import org.testingisdocumenting.webtau.utils.UrlUtils;
-import org.openqa.selenium.OutputType;
+import org.testingisdocumenting.webtau.reporter.MessageToken;
 
-import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
+import static org.testingisdocumenting.webtau.browser.BrowserConfig.*;
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
 
 public class Browser {
     private static final String DEFAULT_URL_CACHE_KEY = "current";
@@ -54,6 +58,13 @@ public class Browser {
 
     private Browser() {
         additionalBrowserInteractions = new BrowserInjectedJavaScript(driver);
+    }
+
+    public void setDriver(WebDriver userDriver) {
+        MessageToken webDriver = classifier("web driver");
+        createAndExecuteStep(tokenizedMessage(action("setting"), webDriver),
+                () -> tokenizedMessage(action("set"), webDriver),
+                () -> driver.setDriver(userDriver));
     }
 
     public void open(String url) {
@@ -157,18 +168,6 @@ public class Browser {
 
     public String extractPageTitle() {
         return driver.getTitle();
-    }
-
-    private String createFullUrl(String url) {
-        if (UrlUtils.isFull(url)) {
-            return url;
-        }
-
-        if (!BrowserConfig.getBrowserUrl().isEmpty()) {
-            return UrlUtils.concat(BrowserConfig.getBrowserUrl(), url);
-        }
-
-        return UrlUtils.concat(getCfg().getBaseUrl(), url);
     }
 
     private static String makeCacheKey(String givenKey) {

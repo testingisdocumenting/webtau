@@ -76,9 +76,10 @@ line #_3\r""")
 
     @Test
     void "converts text to a number"() {
+        assert StringUtils.convertToNumber("123,100") == 123100
+
         def formatter = NumberFormat.getNumberInstance()
-        def number = StringUtils.convertToNumber(formatter, "123,000")
-        assert number == 123000
+        assert StringUtils.convertToNumber(formatter, "123,000") == 123000
     }
 
     @Test
