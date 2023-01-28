@@ -20,10 +20,11 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
-import org.testingisdocumenting.webtau.utils.NumberUtils;
 import org.testingisdocumenting.webtau.utils.TypeUtils;
 
+import java.text.NumberFormat;
 import java.text.ParseException;
+import java.util.Objects;
 
 import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.renderActualExpected;
 
@@ -79,7 +80,7 @@ public class NumberAndStringCompareToHandler implements CompareToHandler {
 
     private Number convertToNumber(Object actual) {
         try {
-            return NumberUtils.convertStringToNumber((CharSequence) actual);
+            return NumberFormat.getInstance().parse(Objects.toString(actual));
         } catch (ParseException e) {
             return null;
         }
