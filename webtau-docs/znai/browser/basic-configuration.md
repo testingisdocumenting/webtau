@@ -24,3 +24,9 @@ Use `browserId` via command line, or a config file parameter to specify which br
 :include-cli-command: webtau --browserId=firefox
 
 Note: Default `browserId` is `chrome`
+
+# Access To Base Url
+
+To access base url or port use:
+
+:include-file: org/testingisdocumenting/webtau/browser/BrowserConfigTest.groovy {surroundedBy: ["base-url", "base-port"]}
