@@ -38,7 +38,6 @@ public class CurrentWebDriver implements
         JavascriptExecutor,
         WebStorage,
         Interactive,
-        HasInputDevices,
         WebDriverCreatorListener {
     public static final CurrentWebDriver INSTANCE = new CurrentWebDriver();
 
@@ -165,16 +164,6 @@ public class CurrentWebDriver implements
     @Override
     public void resetInputState() {
         ((Interactive)getDriver()).resetInputState();
-    }
-
-    @Override
-    public Keyboard getKeyboard() {
-        return ((HasInputDevices) getDriver()).getKeyboard();
-    }
-
-    @Override
-    public Mouse getMouse() {
-        return ((HasInputDevices) getDriver()).getMouse();
     }
 
     public void setDriver(WebDriver driver) {
