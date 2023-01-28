@@ -17,26 +17,6 @@
 
 package org.testingisdocumenting.webtau.cfg;
 
-import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
-import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
-import static org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation.DEFAULT_DOC_ARTIFACTS_DIR_NAME;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
-import static org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue.*;
-
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.function.Supplier;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
-
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
@@ -44,10 +24,19 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig;
 import org.testingisdocumenting.webtau.persona.Persona;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 import org.testingisdocumenting.webtau.version.WebTauVersion;
+
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.*;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.*;
+import static org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation.*;
 
 public class WebTauConfig implements PrettyPrintable {
     private static final String SOURCE_MANUAL = "manual";
@@ -195,12 +184,7 @@ public class WebTauConfig implements PrettyPrintable {
     }
 
     public void setBaseUrl(String source, String url) {
-        WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("setting"), id("url")),
-                stepInput("source", source,
-                        "url", url),
-                () -> tokenizedMessage(action("set"), id("url")),
-                () -> this.url.set(source, url));
+        this.url.setAndReport(source, url);
     }
 
     public String getBaseUrl() {

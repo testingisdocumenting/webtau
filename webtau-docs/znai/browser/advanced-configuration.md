@@ -21,7 +21,7 @@ Browser window size can be set using `browserWidth` and `browserHeight`
 
 # Documentation Artifacts
 
-By default all generated documentation artifacts (e.g. screenshots) are created in the current directory.
+By default, all generated documentation artifacts (e.g. screenshots) are created in the current directory.
 To override
 
 :include-file: scenarios/ui/docArtifacts.cfg.groovy

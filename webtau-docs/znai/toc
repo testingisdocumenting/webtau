@@ -33,6 +33,7 @@ browser
     asynchronous-page
     documentation-artifacts
     advanced-configuration
+    test-containers
     local-storage
     cookies
     navigation

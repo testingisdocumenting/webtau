@@ -100,6 +100,7 @@
         <module>webtau-standalone-runner-groovy</module>
         <module>webtau-db</module>
         <module>webtau-browser</module>
+        <module>webtau-browser-testcontainers</module>
         <module>webtau-http</module>
         <module>webtau-http-groovy</module>
         <module>webtau-graphql</module>
@@ -295,7 +296,7 @@
             <dependency>
                 <groupId>io.github.bonigarcia</groupId>
                 <artifactId>webdrivermanager</artifactId>
-                <version>5.3.1</version>
+                <version>5.3.2</version>
             </dependency>
 
             <dependency>

@@ -78,6 +78,22 @@ class WebTauFeaturesJUnit5Test {
     }
 
     @Test
+    void browserImplicitTestContainer() {
+        runWithConfigFile("webtau.browser.testcontainers.properties", () -> {
+            def baseUrl = "http://host.testcontainers.internal:" + testServer.uri.port
+            testRunner.runAndValidate(BrowserImplicitTestContainerJavaTest, baseUrl, baseUrl)
+        })
+    }
+
+    @Test
+    void browserLocalFirefoxDriver() {
+        runWithConfigFile("webtau.browser.firefox.properties", () -> {
+            def baseUrl = testServer.uri.toString()
+            testRunner.runAndValidate(BrowserLocalDriverJavaTest, baseUrl, baseUrl)
+        })
+    }
+
+    @Test
     void browserLocalStorage() {
         testRunner.runAndValidate(BrowserLocalStorageJavaTest, testServer.uri.toString())
     }
@@ -102,12 +118,9 @@ class WebTauFeaturesJUnit5Test {
 
     @Test
     void httpDataCoverage() {
-        System.setProperty("webtau.properties", "webtau.routes.properties")
-        try {
+        runWithConfigFile("webtau.routes.properties", () -> {
             testRunner.runAndValidate(NewYorkWeatherJavaTest, testServer.uri.toString())
-        } finally {
-            System.setProperty("webtau.properties", "webtau.properties")
-        }
+        })
     }
 
     @Test
@@ -163,5 +176,14 @@ class WebTauFeaturesJUnit5Test {
     @Test
     void fakeServerOverride() {
         testRunner.runAndValidate(FakeServerJavaTest, "")
+    }
+
+    private static void runWithConfigFile(String configFile, Runnable code) {
+        System.setProperty("webtau.properties", configFile)
+        try {
+            code.run()
+        } finally {
+            System.setProperty("webtau.properties", "webtau.properties")
+        }
     }
 }

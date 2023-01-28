@@ -1,7 +1,7 @@
 # Base URL
 
-Robust tests don't specify the full URL of an application under test.
-Instead you only pass a relative URL to functions like `open`.
+WebTau provides configuration option to set base url for your browser `open` commands. 
+This way you can run your tests in different environments without modifying code base.
 
 :include-groovy: scenarios/ui/basic.groovy
 

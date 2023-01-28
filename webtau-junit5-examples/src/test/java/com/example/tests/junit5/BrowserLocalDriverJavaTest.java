@@ -16,13 +16,7 @@
 
 package com.example.tests.junit5;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testcontainers.Testcontainers;
-import org.testcontainers.containers.BrowserWebDriverContainer;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElementValue;
 import org.testingisdocumenting.webtau.junit5.WebTau;
@@ -30,30 +24,10 @@ import org.testingisdocumenting.webtau.junit5.WebTau;
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 @WebTau
-public class BrowserTestContainerJavaTest {
+public class BrowserLocalDriverJavaTest {
     private final PageElement box = $("#search-box");
     private final PageElement results = $("#results .result");
     private final PageElementValue<Integer> numberOfResults = results.getCount();
-
-    private static BrowserWebDriverContainer<?> seleniumContainer;
-
-    @BeforeAll
-    public static void setupDriverUsingTestContainer() {
-        step("preparing selenium test container", () -> {
-            Testcontainers.exposeHostPorts(browser.getBaseUrlPort());
-            FirefoxOptions firefox = new FirefoxOptions();
-            seleniumContainer = new BrowserWebDriverContainer<>()
-                    .withCapabilities(firefox);
-
-            seleniumContainer.start();
-            browser.setDriver(new RemoteWebDriver(seleniumContainer.getSeleniumAddress(), firefox));
-        });
-    }
-
-    @AfterAll
-    public static void shutdownContainer() {
-        seleniumContainer.stop();
-    }
 
     @Test
     public void search() {
