@@ -18,12 +18,17 @@
 package org.testingisdocumenting.webtau.cfg;
 
 import org.testingisdocumenting.webtau.persona.Persona;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
+
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue.*;
 
 public class ConfigValue {
     static final String ENV_VAR_PREFIX = "WEBTAU_";
@@ -66,6 +71,15 @@ public class ConfigValue {
     public void set(String source, String personaId, Object value) {
         Deque<Value> values = getOrCreatePersonaValues(personaId);
         values.addFirst(new Value(source, value));
+    }
+
+    public void setAndReport(String source, Object value) {
+        WebTauStep.createAndExecuteStep(
+                tokenizedMessage(action("setting"), id(key)),
+                stepInput("source", source,
+                        key, value),
+                () -> tokenizedMessage(action("set"), id(key)),
+                () -> set(source, value));
     }
 
     public void reset() {

@@ -24,6 +24,7 @@ import org.junit.platform.launcher.TestIdentifier
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder
 import org.junit.platform.launcher.core.LauncherFactory
 import org.testingisdocumenting.webtau.TestListeners
+import org.testingisdocumenting.webtau.browser.Browser
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString
@@ -36,6 +37,7 @@ import org.testingisdocumenting.webtau.reporter.WebTauStep
 
 import static org.junit.platform.engine.discovery.DiscoverySelectors.*
 import static org.testingisdocumenting.webtau.WebTauCore.doc
+import static org.testingisdocumenting.webtau.browser.Browser.browser
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 
 class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, ConsoleOutput {
@@ -44,7 +46,7 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, Co
     private Map<String, Object> scenariosDetails
     private Map<String, Object> capturedStepsSummary
 
-    void runAndValidate(Class testClass, String baseUrl) {
+    void runAndValidate(Class testClass, String baseUrl, String browserBaseUrl = "") {
         LauncherDiscoveryRequest request = LauncherDiscoveryRequestBuilder.request()
                 .selectors(selectClass(testClass))
                 .build()
@@ -57,6 +59,10 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, Co
         cfg.reset()
         cfg.triggerConfigHandlers()
         cfg.setBaseUrl(baseUrl)
+
+        if (!browserBaseUrl.isEmpty()) {
+            browser.setBaseUrl(browserBaseUrl)
+        }
 
         consoleOutputLines.clear()
         ConsoleOutputs.add(ConsoleOutputs.defaultOutput)

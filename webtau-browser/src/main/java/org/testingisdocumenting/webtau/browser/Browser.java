@@ -61,10 +61,14 @@ public class Browser {
     }
 
     public void setDriver(WebDriver userDriver) {
-        MessageToken webDriver = classifier("web driver");
+        MessageToken webDriver = classifier("webdriver");
         createAndExecuteStep(tokenizedMessage(action("setting"), webDriver),
                 () -> tokenizedMessage(action("set"), webDriver),
                 () -> driver.setDriver(userDriver));
+    }
+
+    public void setBaseUrl(String url) {
+        BrowserConfig.setBrowserUrl(url);
     }
 
     public String getBaseUrl() {

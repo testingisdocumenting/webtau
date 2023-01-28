@@ -84,6 +84,12 @@
 
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
+            <artifactId>webtau-browser-testcontainers</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-cli</artifactId>
             <version>${project.version}</version>
         </dependency>

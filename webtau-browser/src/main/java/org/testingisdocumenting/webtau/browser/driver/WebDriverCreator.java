@@ -17,32 +17,25 @@
 
 package org.testingisdocumenting.webtau.browser.driver;
 
-import org.openqa.selenium.Capabilities;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxOptions;
-import org.openqa.selenium.remote.RemoteWebDriver;
-import org.testingisdocumenting.webtau.browser.BrowserConfig;
-import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.Dimension;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.testingisdocumenting.webtau.browser.BrowserConfig;
+import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class WebDriverCreator {
-    private static final String CHROME_DRIVER_PATH_KEY = "webdriver.chrome.driver";
-    private static final String FIREFOX_DRIVER_PATH_KEY = "webdriver.gecko.driver";
+    private static final WebDriverCreatorHandler defaultDriverCreatorHandler = new WebDriverDefaultCreatorHandler();
+    private static final List<WebDriverCreatorHandler> driverCreatorHandlers = ServiceLoaderUtils.load(WebDriverCreatorHandler.class);
 
     private static final List<WebDriver> drivers = Collections.synchronizedList(new ArrayList<>());
 
@@ -111,129 +104,17 @@ public class WebDriverCreator {
     }
 
     private static WebDriver createDriver() {
-        return BrowserConfig.isRemoteDriver() ?
-                createRemoteDriver() :
-                createLocalDriver();
-    }
+        Optional<WebDriver> webDriver = driverCreatorHandlers.stream()
+                .map(WebDriverCreatorHandler::createDriver)
+                .filter(Optional::isPresent)
+                .findFirst()
+                .orElseGet(defaultDriverCreatorHandler::createDriver);
 
-    private static WebDriver createRemoteDriver() {
-        if (BrowserConfig.isChrome()) {
-            return createRemoteChromeDriver();
+        if (!webDriver.isPresent()) {
+            throw new IllegalStateException("default driver creator must create a driver or throw an erro");
         }
 
-        if (BrowserConfig.isFirefox()) {
-            return createRemoteFirefoxDriver();
-        }
-
-        return throwUnsupportedBrowser();
-    }
-
-    private static WebDriver createLocalDriver() {
-        if (BrowserConfig.isChrome()) {
-            return createLocalChromeDriver();
-        }
-
-        if (BrowserConfig.isFirefox()) {
-            return createLocalFirefoxDriver();
-        }
-
-        return throwUnsupportedBrowser();
-    }
-
-    private static WebDriver throwUnsupportedBrowser() {
-        throw new IllegalArgumentException("unsupported browser: " + BrowserConfig.getBrowserId());
-    }
-
-    private static ChromeDriver createLocalChromeDriver() {
-        ChromeOptions options = createChromeOptions();
-
-        if (BrowserConfig.getChromeBinPath() != null) {
-            options.setBinary(BrowserConfig.getChromeBinPath().toFile());
-        }
-
-        if (BrowserConfig.getChromeDriverPath() != null) {
-            System.setProperty(CHROME_DRIVER_PATH_KEY, BrowserConfig.getChromeDriverPath().toString());
-        }
-
-        if (System.getProperty(CHROME_DRIVER_PATH_KEY) == null) {
-            setupDriverManagerConfig();
-
-            WebDriverManager driverManager = WebDriverManager.chromedriver();
-            if (!BrowserConfig.getBrowserVersion().isEmpty()) {
-                driverManager.browserVersion(BrowserConfig.getBrowserVersion());
-            }
-
-            driverManager.setup();
-        }
-
-        return new ChromeDriver(options);
-    }
-
-    private static RemoteWebDriver createRemoteChromeDriver() {
-        ChromeOptions options = createChromeOptions();
-        return createRemoteDriver(options);
-    }
-
-    private static ChromeOptions createChromeOptions() {
-        ChromeOptions options = new ChromeOptions();
-
-        if (BrowserConfig.isHeadless()) {
-            options.addArguments("--headless");
-            options.addArguments("--disable-gpu");
-        }
-
-        if (BrowserConfig.areExtensionsDisabled()) {
-            options.addArguments("--disable-extensions");
-            options.setExperimentalOption("useAutomationExtension", false);
-        }
-
-        return options;
-    }
-
-    private static FirefoxDriver createLocalFirefoxDriver() {
-        FirefoxOptions options = createFirefoxOptions();
-
-        if (BrowserConfig.getFirefoxBinPath() != null) {
-            options.setBinary(BrowserConfig.getFirefoxBinPath());
-        }
-
-        if (BrowserConfig.getFirefoxDriverPath() != null) {
-            System.setProperty(FIREFOX_DRIVER_PATH_KEY, BrowserConfig.getFirefoxDriverPath().toString());
-        }
-
-        if (System.getProperty(FIREFOX_DRIVER_PATH_KEY) == null) {
-            setupDriverManagerConfig();
-            WebDriverManager.firefoxdriver().setup();
-        }
-
-        return new FirefoxDriver(options);
-    }
-
-    private static FirefoxOptions createFirefoxOptions() {
-        FirefoxOptions options = new FirefoxOptions();
-
-        if (BrowserConfig.isHeadless()) {
-            options.setHeadless(true);
-        }
-
-        return options;
-    }
-
-    private static RemoteWebDriver createRemoteFirefoxDriver() {
-        FirefoxOptions options = createFirefoxOptions();
-        return createRemoteDriver(options);
-    }
-
-    private static RemoteWebDriver createRemoteDriver(Capabilities options) {
-        try {
-            return new RemoteWebDriver(new URL(BrowserConfig.getRemoteDriverUrl()), options);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    private static void setupDriverManagerConfig() {
-        System.setProperty("wdm.forceCache", "true");
+        return webDriver.get();
     }
 
     private static void register(WebDriver driver) {

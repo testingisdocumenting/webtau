@@ -24,8 +24,7 @@ import java.nio.file.Path;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
-import static org.testingisdocumenting.webtau.cfg.ConfigValue.declareBoolean;
+import static org.testingisdocumenting.webtau.cfg.ConfigValue.*;
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*;
 import static org.testingisdocumenting.webtau.utils.UrlUtils.*;
 
@@ -71,6 +70,10 @@ public class BrowserConfig implements WebTauConfigHandler {
 
     public static boolean isFirefox() {
         return FIREFOX.equals(browserId.getAsString());
+    }
+
+    public static void setBrowserUrl(String url) {
+        browserUrl.setAndReport("manual", url);
     }
 
     public static String getBaseUrl() {

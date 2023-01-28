@@ -452,7 +452,6 @@ public class FileSystem {
                     fs::removeTempFiles);
         }
 
-        // to trigger class loading and shutdown hook registration
         private void noOp() {
         }
     }

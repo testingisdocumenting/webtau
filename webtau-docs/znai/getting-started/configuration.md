@@ -19,8 +19,8 @@ Java:
 When you use JUnit like runners, e.g. [JUnit5](getting-started/installation#junit5), WebTau expects file named
 `webtau.properties` to be present in test classpath, e.g. test resources:
 
-:include-file: webtau-junit5-examples/src/test/resources/webtau.properties {
-    title: "src/test/resources/webtau.properties",
+:include-file: src/test/resources/webtau.properties {
+    autoTitle: true,
     includeRegexp: "localhost"
 }
 ```
