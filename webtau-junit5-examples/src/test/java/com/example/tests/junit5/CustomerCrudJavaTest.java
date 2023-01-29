@@ -27,10 +27,10 @@ public class CustomerCrudJavaTest {
                 "firstName", "FN",
                 "lastName", "NLN");
 
-        http.put("/customers/" + id, changedCustomerPayload, ((header, body) -> {
-            body.get("firstName").should(equal("FN"));
-            body.get("lastName").should(equal(changedLastName));
-        }));
+http.put("/customers/" + id, changedCustomerPayload, ((header, body) -> {
+    body.get("firstName").should(equal("FN"));
+    body.get("lastName").should(equal(changedLastName));
+}));
 
         http.get("/customers/" + id, ((header, body) -> {
             body.should(equal(changedCustomerPayload));
