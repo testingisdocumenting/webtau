@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
+ * Copyright 2023 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,18 +16,25 @@
 
 package org.testingisdocumenting.webtau.db;
 
+import com.zaxxer.hikari.HikariConfig;
+import com.zaxxer.hikari.HikariDataSource;
+
 import javax.sql.DataSource;
 
-public class ConfigBasedDbProvider implements DbDataSourceProvider {
-    @Override
-    public DataSource provide(String name) {
-        if (!name.equals("primary") || !DbConfig.isSet()) {
-            return null;
+class HikariDataSourceUtils {
+    private HikariDataSourceUtils() {
+    }
+
+    static DataSource create(String jdbcUrl, String userName, String password, String driverClassName) {
+        HikariConfig hikariConfig = new HikariConfig();
+        hikariConfig.setJdbcUrl(jdbcUrl);
+        hikariConfig.setUsername(userName);
+        hikariConfig.setPassword(password);
+
+        if (!driverClassName.isEmpty()) {
+            hikariConfig.setDriverClassName(driverClassName);
         }
 
-        return HikariDataSourceUtils.create(DbConfig.getDbPrimaryUrl(),
-                DbConfig.getDbPrimaryUserName(),
-                DbConfig.getDbPrimaryPassword(),
-                DbConfig.getDbPrimaryDriverClassName());
+        return new HikariDataSource(hikariConfig);
     }
 }

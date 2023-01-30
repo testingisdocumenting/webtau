@@ -40,7 +40,6 @@
             <artifactId>selenium</artifactId>
             <version>${testcontainers.version}</version>
         </dependency>
-
     </dependencies>
 
     <build>

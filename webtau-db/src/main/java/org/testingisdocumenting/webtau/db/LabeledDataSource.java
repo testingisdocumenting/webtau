@@ -19,19 +19,19 @@ package org.testingisdocumenting.webtau.db;
 import javax.sql.DataSource;
 
 public class LabeledDataSource {
-    private final DataSource dataSource;
     private final String label;
+    private final DataSource dataSource;
 
-    public LabeledDataSource(DataSource dataSource, String label) {
-        this.dataSource = dataSource;
+    public LabeledDataSource(String label, DataSource dataSource) {
         this.label = label;
-    }
-
-    public DataSource getDataSource() {
-        return dataSource;
+        this.dataSource = dataSource;
     }
 
     public String getLabel() {
         return label;
+    }
+
+    public DataSource getDataSource() {
+        return dataSource;
     }
 }
