@@ -71,7 +71,6 @@ public class DatabaseTable {
         return QueryRunnerUtils.createQuery(dataSourceProvider, SqlQueriesGenerator.fullTable(name));
     }
 
-
     private TokenizedMessage insertingMessage(int numberOfRows) {
         return insertMessageWithLabel("inserting", numberOfRows);
     }

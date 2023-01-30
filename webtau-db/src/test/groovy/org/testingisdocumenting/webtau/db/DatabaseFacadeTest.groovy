@@ -25,7 +25,7 @@ import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
 class DatabaseFacadeTest extends DatabaseBaseTest {
     @Test
     void "should insert table data into a table"() {
-        def database = db.from(h2DataSource, 'h2db')
+        def database = db.labeled("h2db").fromDataSource(h2DataSource)
 
         db.update("delete from PRICES")
         def PRICES = database.table("PRICES")
@@ -36,9 +36,9 @@ class DatabaseFacadeTest extends DatabaseBaseTest {
                    "id2" | "another set" | 2000 }
 
         PRICES.query().should == ["ID" | "DESCRIPTION" | "PRICE"] {
-                                       ___________________________________
-                                       "id1" | "nice set"    | 1000
-                                       "id2" | "another set" | 2000 }
+                                 ___________________________________
+                                 "id1" | "nice set"    | 1000
+                                 "id2" | "another set" | 2000 }
 
         db.query("select * from PRICES where id='id2'").should ==
                 ["ID" | "DESCRIPTION" | "PRICE"] {

@@ -18,13 +18,12 @@ package org.testingisdocumenting.webtau.db;
 
 import org.testingisdocumenting.webtau.data.table.TableData;
 
-import javax.sql.DataSource;
 import java.util.Map;
 
 public class DatabaseFacade {
     private static final LabeledDataSourceCachedProvider primaryDataSourceProvider =
             new LabeledDataSourceCachedProvider(
-                    () -> new LabeledDataSource(DbDataSourceProviders.provideByName("primary"), "primary-db"));
+                    () -> new LabeledDataSource("primary-db", DbDataSourceProviders.provideByName("primary")));
 
     public static final DatabaseFacade db = new DatabaseFacade();
 
@@ -32,8 +31,8 @@ public class DatabaseFacade {
         primaryDataSourceProvider.reset();
     }
 
-    public Database from(DataSource dataSource, String label) {
-        return from(new LabeledDataSourceCachedProvider(() -> new LabeledDataSource(dataSource, label)));
+    public DbLabeledFromChain labeled(String label) {
+        return new DbLabeledFromChain(label);
     }
 
     public Database from(LabeledDataSourceProvider labeledDataSourceProvider) {

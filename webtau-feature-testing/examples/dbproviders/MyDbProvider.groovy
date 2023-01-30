@@ -23,7 +23,7 @@ import org.h2.jdbcx.JdbcDataSource
 
 import javax.sql.DataSource
 
-class MyDbProvider implements DbDataSourceProvider{
+class MyDbProvider implements DbDataSourceProvider {
     @Override
     DataSource provide(String name) {
         if (name != 'primary') {
