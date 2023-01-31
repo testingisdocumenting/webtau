@@ -39,6 +39,26 @@ We then will test a simple query by last name.
   entry: "createCustomers"
 }
 
+# Re-using Data 
+
+In the test above we repeated test data with only difference in column names. In setup, we used camelCase, and in expectations underscores. 
+
+WebTau automatically converts data from one format to another depending on the context. 
+I.e. if you compare table query result with `FIRST_NAME` as a column against a `TableData` with `firstName` column, 
+WebTau will convert actual before comparison to match expected column names format.
+
+:include-java: com/example/demo/springboot/app/data/CustomerRepositoryTest.java {
+  title: "re-use a single row from input for validation",
+  entry: "findByIdReuseData",
+  commentsType: "inline"
+}
+
+:include-java: com/example/demo/springboot/app/data/CustomerRepositoryTest.java {
+  title: "re-use the whole table for validation",
+  entry: "createEntriesAndFindByNameReuseData",
+  commentsType: "inline"
+}
+
 # Cleanup Between Tests
 
 In between tests we will explicitly delete data from DB

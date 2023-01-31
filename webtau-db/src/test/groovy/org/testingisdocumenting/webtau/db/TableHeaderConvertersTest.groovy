@@ -1,6 +1,5 @@
 /*
  * Copyright 2023 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +14,16 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.expectation.equality.handlers;
+package org.testingisdocumenting.webtau.db
 
-import org.testingisdocumenting.webtau.data.table.Record;
+import org.junit.Test
 
-public class RecordAndMapCompareToHandler extends MapAsExpectedCompareToHandlerBase {
-    @Override
-    protected boolean handleEquality(Object actual) {
-        return actual instanceof Record;
-    }
-
-    @Override
-    public Object convertedActual(Object actual, Object expected) {
-        return ((Record) actual).toMap();
+class TableHeaderConvertersTest {
+    @Test
+    void "underscore to camel case"() {
+        TableHeaderConverters.underscoreToCamelCase("").should == ""
+        TableHeaderConverters.underscoreToCamelCase("FIRST").should == "first"
+        TableHeaderConverters.underscoreToCamelCase("FIRST_NAME").should == "firstName"
+        TableHeaderConverters.underscoreToCamelCase("FIRSTNAME").should == "firstname"
     }
 }

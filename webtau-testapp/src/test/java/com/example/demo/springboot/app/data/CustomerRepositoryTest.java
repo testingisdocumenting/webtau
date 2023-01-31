@@ -23,6 +23,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.transaction.TestTransaction;
 import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.db.Database;
 import org.testingisdocumenting.webtau.db.DatabaseTable;
 
@@ -30,6 +31,7 @@ import javax.sql.DataSource;
 
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.db.DatabaseDsl.db;
@@ -67,7 +69,7 @@ public class CustomerRepositoryTest {
         // insert directly to DB bypassing repository
         CUSTOMER.insert(newCustomers);
 
-        // use our repository to fetch a record
+        // use customer repository to fetch a record
         Customer customer = customerRepository.findById(2L).get();
 
         // use bean and map comparison shortcut
@@ -78,8 +80,26 @@ public class CustomerRepositoryTest {
     }
 
     @Test
+    public void findByIdReuseData() {
+        // using camelCase for properties
+        TableData newCustomers = table("*id", "firstName" , "lastName",
+                                       ________________________________,
+                                          1L, "FN1"       , "LN1",
+                                          2L, "FN2"       , "LN2");
+
+        // WebTau will automatically convert camelCase to underscores at insert time
+        CUSTOMER.insert(newCustomers);
+
+        // use customer repository to fetch a record
+        Customer customer = customerRepository.findById(2L).get();
+
+        // reuse row from newCustomers table as expected value
+        actual(customer).should(equal(newCustomers.find(new CompositeKey(Stream.of(2L)))));
+    }
+
+    @Test
     public void createEntriesAndFindByName() {
-        TableData newCustomers = table("id", "firstName", "lastName",
+        TableData newCustomers = table("*id", "firstName", "lastName",
                                        ________________________________,
                                          1L, "FN1"       , "LN",
                                          2L, "FN2"       , "LN",
@@ -99,12 +119,42 @@ public class CustomerRepositoryTest {
                                                2L, "FN2"       , "LN",
                                                3L, "FNN1"      , "LNN")));
 
+        // WebTau will automatically convert actual column names from underscores to camelCase based on expected column names
+        CUSTOMER.query().should(equal(newCustomers));
+
         // search by last name and validate received java beans
         List<Customer> lnCustomers = customerRepository.findByLastName("LN");
         actual(lnCustomers).should(equal(table("*id", "firstName", "lastName",
                                                 ________________________________,
                                                  1L, "FN1"       , "LN",
                                                  2L, "FN2"       , "LN")));
+    }
+
+    @Test
+    public void createEntriesAndFindByNameReuseData() {
+        TableData newCustomers = table("*id", "firstName", "lastName",
+                                    ________________________________,
+                                          1L, "FN1"       , "LN",
+                                          2L, "FN2"       , "LN",
+                                          3L, "FNN1"      , "LNN");
+
+        List<Customer> customers = createCustomers(newCustomers); // create customers java beans from table data
+        customerRepository.saveAll(customers);
+
+        // force data commit to DB
+        TestTransaction.flagForCommit();
+        TestTransaction.end();
+
+        // another way to compare.
+        // WebTau will automatically convert actual column names from underscores to camelCase based on expected column names format
+        CUSTOMER.query().should(equal(newCustomers));
+
+        // search by last name and validate received java beans
+        List<Customer> lnCustomers = customerRepository.findByLastName("LN");
+        actual(lnCustomers).should(equal(table("*id", "firstName", "lastName",
+                                              ________________________________,
+                                                  1L, "FN1"       , "LN",
+                                                  2L, "FN2"       , "LN")));
     }
 
     private static List<Customer> createCustomers(TableData tableData) {

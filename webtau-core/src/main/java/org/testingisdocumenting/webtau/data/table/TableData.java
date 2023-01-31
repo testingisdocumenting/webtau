@@ -44,7 +44,7 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
     private final TableDataHeader header;
 
     public static TableData fromListOfMaps(List<Map<String, ?>> rows) {
-        TableDataHeader header = createCombinedActualHeader(rows);
+        TableDataHeader header = createCombinedHeaderFromRecords(rows);
         TableData table = new TableData(header);
         for (Map<String, ?> row : rows) {
             table.addRow(mapToListUsingHeader(header, row));
@@ -270,7 +270,7 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
         tablePrinter.prettyPrint(prettyPrinter, valuePath);
     }
 
-    private static TableDataHeader createCombinedActualHeader(List<Map<String, ?>> rows) {
+    private static TableDataHeader createCombinedHeaderFromRecords(List<Map<String, ?>> rows) {
         Set<String> columnNames = new LinkedHashSet<>();
         for (Map<String, ?> row : rows) {
             columnNames.addAll(row.keySet());

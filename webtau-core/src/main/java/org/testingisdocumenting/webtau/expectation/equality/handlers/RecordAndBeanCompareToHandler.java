@@ -17,18 +17,28 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.table.Record;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.utils.JavaBeanUtils;
 
+import java.util.List;
 import java.util.Map;
 
-public class MapAndBeanCompareToHandler extends MapAsExpectedCompareToHandlerBase {
+public class RecordAndBeanCompareToHandler implements CompareToHandler {
     @Override
-    protected boolean handleEquality(Object actual) {
-        return !(actual instanceof Iterable || actual instanceof Map);
+    public boolean handleEquality(Object actual, Object expected) {
+        return !(actual instanceof Map) && !(actual instanceof List) && (expected instanceof Record);
     }
 
     @Override
     public Object convertedActual(Object actual, Object expected) {
         return JavaBeanUtils.convertBeanToMap(actual);
+    }
+
+    @Override
+    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
+        comparator.compareUsingEqualOnly(actualPath, actual, ((Record)expected).toMap());
     }
 }
