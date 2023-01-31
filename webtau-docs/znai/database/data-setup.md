@@ -2,7 +2,7 @@
 
 One way to set up a DB state is to use handcrafted [TableData](reference/table-data).
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseDslTest.groovy {
     entry: "should use data source provider for primary database",
     title: "data setup with hand crafted table data",
     bodyOnly: true,
@@ -13,7 +13,7 @@ One way to set up a DB state is to use handcrafted [TableData](reference/table-d
 
 Alternatively use list of maps as the parameter to perform multiple rows insertion
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseDslTest.groovy {
   entry: "should insert list of maps into table",
   title: "inserting multiple rows using list",
   bodyOnly: true,
@@ -24,7 +24,7 @@ Alternatively use list of maps as the parameter to perform multiple rows inserti
 
 Use map as the parameter to perform a single row insertion
  
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseDslTest.groovy {
     entry: "should insert single row into table",
     title: "inserting single row",
     bodyOnly: true,
@@ -39,7 +39,7 @@ Use map as the parameter to perform a single row insertion
 [cell.guid](reference/table-data#guid) among others.
 Using them can reduce the effort required to maintain data setup.
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseDslTest.groovy {
     entry: "use table data permute, above and guid to generate rows",
     title: "data setup with hand crafted table data",
     bodyOnly: true,
@@ -50,13 +50,13 @@ Using them can reduce the effort required to maintain data setup.
 
 Note: code above assumes `WebTauCore.*` static import or `WebTauGroovyDsl.*` static import
 
-:include-file: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy  {includeRegexp: "import.*Core"}
+:include-file: org/testingisdocumenting/webtau/db/DatabaseDslTest.groovy  {includeRegexp: "import.*Core"}
 
 :include-table: doc-artifacts/db-setup-permute-table.json { title: "PRICES" }
 
 # External File TableData
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseDslTest.groovy {
     entry: "use csv read data",
     title: "data setup with CSV data",
     bodyOnly: true,
@@ -70,7 +70,7 @@ Note: code above assumes `WebTauCore.*` static import or `WebTauGroovyDsl.*` sta
 
 # Cleaning Tables
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseDslTest.groovy {
     entry: "delete with params",
     title: "delete data",
     bodyOnly: true,
@@ -78,7 +78,7 @@ Note: code above assumes `WebTauCore.*` static import or `WebTauGroovyDsl.*` sta
     commentsType: "inline"
 }
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseDslTest.groovy {
     entry: "delete with single param shortcut",
     title: "delete data with single param shortcut",
     bodyOnly: true,
@@ -90,7 +90,7 @@ Note: code above assumes `WebTauCore.*` static import or `WebTauGroovyDsl.*` sta
 
 :include-table: doc-artifacts/db-before-update.json { title: "PRICES" }
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseDslTest.groovy {
     entry: "should run updates with params",
     title: "update data",
     bodyOnly: true,

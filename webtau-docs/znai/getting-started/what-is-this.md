@@ -161,7 +161,7 @@ Java:
 
 # DB Example
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseDslTest.groovy {
     entry: "use table data permute, above and guid to generate rows",
     title: "DB data setup example",
     bodyOnly: true,
