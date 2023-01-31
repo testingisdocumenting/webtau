@@ -18,14 +18,13 @@ package org.testingisdocumenting.webtau.db
 
 import org.junit.After
 import org.junit.Before
-import org.junit.BeforeClass
 import org.junit.Test
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.WebTauStep
 
 import static org.testingisdocumenting.webtau.Matchers.contain
-import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
+import static DatabaseDsl.db
 
 class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter {
     List<String> stepMessages = []

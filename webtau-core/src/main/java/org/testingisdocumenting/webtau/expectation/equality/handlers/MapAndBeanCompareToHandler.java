@@ -40,7 +40,7 @@ public class MapAndBeanCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public Object convertedActual(Object actual) {
+    public Object convertedActual(Object actual, Object expected) {
         return JavaBeanUtils.convertBeanToMap(actual);
     }
 

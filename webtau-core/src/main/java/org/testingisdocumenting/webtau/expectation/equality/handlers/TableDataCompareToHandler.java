@@ -33,19 +33,26 @@ public class TableDataCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
-        TableDataComparisonAdditionalResult result = TableDataComparison.compare(comparator, actualPath, (TableData) actual, (TableData) expected);
+        TableData actualTableData = (TableData) actual;
+        TableData expectedTableData = (TableData) expected;
+
+        TableDataComparisonAdditionalResult result = TableDataComparison.compare(comparator, actualPath, actualTableData, expectedTableData);
         TableDataComparisonReport comparisonReportGenerator = new TableDataComparisonReport(result);
 
-        if (result.hasMissingColumns()) {
-            comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingColumnsReport());
-        }
+        if (actualTableData.isEmpty() && !expectedTableData.isEmpty()) {
+            comparator.reportNotEqual(this, actualPath, "is empty");
+        } else {
+            if (result.hasMissingColumns()) {
+                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingColumnsReport());
+            }
 
-        if (result.hasMissingRows()) {
-            comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingRowsReport());
-        }
+            if (result.hasMissingRows()) {
+                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingRowsReport());
+            }
 
-        if (result.hasExtraRows()) {
-            comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.extraRowsReport());
+            if (result.hasExtraRows()) {
+                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.extraRowsReport());
+            }
         }
     }
 }
