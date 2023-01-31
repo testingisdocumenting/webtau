@@ -5,7 +5,7 @@ In the following sections, we will cover [Spring Boot](https://spring.io/project
 
 We need to configure WebTau `db.` module as well as Spring test one
 
-:include-file: com/example/demo/springboot/app/data/CustomerRepositoryTest.java {
+:include-file: com/example/demo/springboot/app/data/AccountRepositoryTest.java {
   title: "datasource injection and db module setup",
   surroundedBy: "repository-test-config",
   commentsType: "inline"
@@ -19,7 +19,7 @@ Here is how we define `tc` profile using [Test Containers JDBC support](https://
 
 Let's write data directly to database table, bypassing repository class, so we can isolate our test logic.
 
-:include-java: com/example/demo/springboot/app/data/CustomerRepositoryTest.java {
+:include-java: com/example/demo/springboot/app/data/AccountRepositoryTest.java {
   entry: "findById",
   commentsType: "inline"
 }
@@ -29,14 +29,14 @@ Let's write data directly to database table, bypassing repository class, so we c
 Now let's write data using repository and validate that DB table actually contains the data.
 We then will test a simple query by last name.
 
-:include-java: com/example/demo/springboot/app/data/CustomerRepositoryTest.java {
+:include-java: com/example/demo/springboot/app/data/AccountRepositoryTest.java {
   entry: "createEntriesAndFindByName",
   commentsType: "inline"
 }
 
-:include-java: com/example/demo/springboot/app/data/CustomerRepositoryTest.java {
-  title: "create customers from TableData",
-  entry: "createCustomers"
+:include-java: com/example/demo/springboot/app/data/AccountRepositoryTest.java {
+  title: "create accounts from TableData",
+  entry: "createAccounts"
 }
 
 # Re-using Data 
@@ -47,13 +47,13 @@ WebTau automatically converts data from one format to another depending on the c
 I.e. if you compare table query result with `FIRST_NAME` as a column against a `TableData` with `firstName` column, 
 WebTau will convert actual before comparison to match expected column names format.
 
-:include-java: com/example/demo/springboot/app/data/CustomerRepositoryTest.java {
+:include-java: com/example/demo/springboot/app/data/AccountRepositoryTest.java {
   title: "re-use a single row from input for validation",
   entry: "findByIdReuseData",
   commentsType: "inline"
 }
 
-:include-java: com/example/demo/springboot/app/data/CustomerRepositoryTest.java {
+:include-java: com/example/demo/springboot/app/data/AccountRepositoryTest.java {
   title: "re-use the whole table for validation",
   entry: "createEntriesAndFindByNameReuseData",
   commentsType: "inline"
@@ -63,14 +63,14 @@ WebTau will convert actual before comparison to match expected column names form
 
 In between tests we will explicitly delete data from DB
 
-:include-java: com/example/demo/springboot/app/data/CustomerRepositoryTest.java {
+:include-java: com/example/demo/springboot/app/data/AccountRepositoryTest.java {
   title: "cleanup before each test",
   entry: "cleanupBeforeTest"
 }
 
 # Import And Dependency
 
-:include-file: com/example/demo/springboot/app/data/CustomerRepositoryTest.java {
+:include-file: com/example/demo/springboot/app/data/AccountRepositoryTest.java {
   title: "import",
   includeRegexp: "DatabaseDsl"
 }

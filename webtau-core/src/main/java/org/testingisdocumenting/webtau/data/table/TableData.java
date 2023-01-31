@@ -134,6 +134,10 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
         return rowsByKey.get(key);
     }
 
+    public Record findByKey(Object... keyParts) {
+        return find(new CompositeKey(Arrays.stream(keyParts)));
+    }
+
     public void addRow(List<?> values) {
         addRow(values.stream());
     }
