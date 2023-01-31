@@ -32,9 +32,10 @@ public interface CompareToHandler {
      * exposed as outside method for more precise reporting of actual values in case of a failure.
      *
      * @param actual original actual
+     * @param expected expected value
      * @return optionally converted actual
      */
-    default Object convertedActual(Object actual) {
+    default Object convertedActual(Object actual, Object expected) {
         return actual;
     }
 

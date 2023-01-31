@@ -245,7 +245,7 @@ public class CompareToComparator {
         setAssertionMode(mode);
         CompareToHandler handler = findCompareToEqualHandler(actual, expected);
 
-        Object convertedActual = handler.convertedActual(actual);
+        Object convertedActual = handler.convertedActual(actual, expected);
         recordConvertedActual(actualPath, actual, convertedActual);
 
         CompareToComparator comparator = CompareToComparator.comparator(mode);
@@ -260,7 +260,7 @@ public class CompareToComparator {
         setAssertionMode(mode);
         CompareToHandler handler = findCompareToGreaterLessHandler(actual, expected);
 
-        Object convertedActual = handler.convertedActual(actual);
+        Object convertedActual = handler.convertedActual(actual, expected);
         recordConvertedActual(actualPath, actual, convertedActual);
 
         CompareToComparator comparator = CompareToComparator.comparator(mode);

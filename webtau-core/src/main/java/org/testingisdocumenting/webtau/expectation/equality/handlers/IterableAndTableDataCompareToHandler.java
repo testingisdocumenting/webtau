@@ -34,7 +34,7 @@ public class IterableAndTableDataCompareToHandler implements CompareToHandler {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Object convertedActual(Object actual) {
+    public Object convertedActual(Object actual, Object expected) {
         return createTableFromIterable((Iterable<Object>) actual);
     }
 

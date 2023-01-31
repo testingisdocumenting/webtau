@@ -51,7 +51,7 @@ public class DbConfig implements WebTauConfigHandler {
 
     @Override
     public void onAfterCreate(WebTauConfig cfg) {
-        DatabaseFacade.reset();
+        DatabaseDsl.reset();
     }
 
     static void reset() {

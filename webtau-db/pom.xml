@@ -83,6 +83,7 @@
             <scope>test</scope>
         </dependency>
 
+<!--        postgresql-tc-dep-->
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
@@ -96,6 +97,7 @@
             <version>42.3.8</version>
             <scope>test</scope>
         </dependency>
+    <!--        postgresql-tc-dep-->
     </dependencies>
 
     <build>

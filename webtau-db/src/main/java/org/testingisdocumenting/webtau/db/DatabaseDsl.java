@@ -20,12 +20,12 @@ import org.testingisdocumenting.webtau.data.table.TableData;
 
 import java.util.Map;
 
-public class DatabaseFacade {
+public class DatabaseDsl {
     private static final LabeledDataSourceCachedProvider primaryDataSourceProvider =
             new LabeledDataSourceCachedProvider(
                     () -> new LabeledDataSource("primary-db", DbDataSourceProviders.provideByName("primary")));
 
-    public static final DatabaseFacade db = new DatabaseFacade();
+    public static final DatabaseDsl db = new DatabaseDsl();
 
     static void reset() {
         primaryDataSourceProvider.reset();

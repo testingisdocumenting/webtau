@@ -51,4 +51,7 @@
 ../../webtau-cli-testing/src/test/groovy
 ../../webtau-cli-testing/target/doc-artifacts
 ../../webtau-graphql-groovy/src/test/groovy
+../../webtau-testapp
+../../webtau-testapp/src/main/java
+../../webtau-testapp/src/test/java
 ../target/classes

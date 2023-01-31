@@ -32,10 +32,11 @@ public class DatabaseCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
-        comparator.compareUsingEqualOnly(actualPath, extractActual(expected, actual), expected);
+        comparator.compareUsingEqualOnly(actualPath, actual, expected);
     }
 
-    private Object extractActual(Object expected, Object actual) {
+    @Override
+    public Object convertedActual(Object actual, Object expected) {
         if (actual instanceof DatabaseTable) {
             return ((DatabaseTable) actual).query().queryTableDataNoStep();
         }
