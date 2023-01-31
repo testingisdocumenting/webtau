@@ -20,6 +20,10 @@ import java.util.Arrays;
 import java.util.stream.Collectors;
 
 class TableHeaderConverters {
+    static String unmodified(String columnName) {
+        return columnName;
+    }
+
     static String toUpperCase(String columnName) {
         return columnName.toUpperCase();
     }

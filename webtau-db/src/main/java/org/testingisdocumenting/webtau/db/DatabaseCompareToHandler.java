@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.db;
 
+import org.apache.commons.lang3.StringUtils;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
@@ -63,6 +64,10 @@ public class DatabaseCompareToHandler implements CompareToHandler {
         }
 
         TableData tableData = (TableData) expected;
+        if (tableData.getHeader().getNamesStream().allMatch(StringUtils::isAllUpperCase)) {
+            return TableHeaderConverters::unmodified;
+        }
+
         return tableData.getHeader().getNamesStream().anyMatch(name -> name.contains("_")) ?
                 TableHeaderConverters::toUpperCase :
                 TableHeaderConverters::underscoreToCamelCase;
