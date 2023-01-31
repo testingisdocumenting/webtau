@@ -32,7 +32,7 @@ import java.util.function.Predicate;
 
 import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
-public interface DataNode extends DataNodeExpectations, BinaryDataProvider, Comparable<Object>, Iterable<DataNode>, PrettyPrintable {
+public interface DataNode<E> extends DataNodeExpectations, BinaryDataProvider, Comparable<Object>, Iterable<DataNode>, PrettyPrintable {
     DataNodeId id();
 
     DataNode get(String pathOrName);
@@ -43,7 +43,7 @@ public interface DataNode extends DataNodeExpectations, BinaryDataProvider, Comp
 
     TraceableValue getTraceableValue();
 
-    <E> E get();
+    E get();
 
     boolean isList();
 
@@ -67,7 +67,7 @@ public interface DataNode extends DataNodeExpectations, BinaryDataProvider, Comp
             throw new IllegalArgumentException("datanode is not binary");
         }
 
-        return get();
+        return (byte[]) get();
     }
 
     @Override

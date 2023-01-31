@@ -16,6 +16,7 @@
 
 package com.example.kotlin.http
 
+import org.testingisdocumenting.webtau.data.Data
 import org.testingisdocumenting.webtau.http.Http
 import org.testingisdocumenting.webtau.http.datanode.DataNode
 import org.testingisdocumenting.webtau.http.validation.HeaderDataNode
@@ -32,27 +33,31 @@ fun interface KotlinValidatorWithReturn {
     fun validateAndReturn(): Any
 }
 
-fun client(validator: KotlinValidator) {
-    println("validator NO return")
-    validator.validate()
+fun interface HttpKotlinResponseValidator<R, RR> {
+    fun validate(header: HeaderDataNode, body: DataNode<R>): RR
 }
 
-fun client(validatorAndReturn: KotlinValidatorWithReturn): Any {
+//fun client(validator: KotlinValidator) {
+//    println("validator NO return")
+//    validator.validate()
+//}
+
+fun <E> client(validatorAndReturn: KotlinValidatorWithReturn<E>): E {
     println("validator WITH return")
     return validatorAndReturn.validateAndReturn()
 }
 
 fun test() {
-    val fromValidator = client {
-        100
-    }
-
-    val fromValidatorForced = client(KotlinValidatorWithReturn {
-        100
-    })
-
-    client {
-    }
+//    val fromValidator = client {
+//        100
+//    }
+//
+//    val fromValidatorForced = client(KotlinValidatorWithReturn {
+//        100
+//    })
+//
+//    client {
+//    }
 }
 
 
@@ -64,16 +69,16 @@ fun test() {
 //    fun validateAndReturn(header: HeaderDataNode, body: DataNode): Any
 //}
 
-class HttpKotlin: Http() {
-    fun <R> post(url: String, payload: Map<String, Any>, validator: KotlinValidatorWithReturn): R {
+class HttpKotlin {
+    fun <R> post(url: String, payload: Map<String, Any>, validator: HttpKotlinResponseValidator<R>): R {
         println("kotlin post return")
         return post(url, payload, validator)
     }
 
-    fun post(url: String, payload: Map<String, Any>, validator: KotlinValidator) {
-        println("kotlin post")
-        post(url, payload, validator)
-    }
+//    fun post(url: String, payload: Map<String, Any>, validator: KotlinValidator) {
+//        println("kotlin post")
+//        post(url, payload, validator)
+//    }
 
 //    fun <R> post(url: String, payload: Map<String, Any>, validator: (header: HeaderDataNode, body: DataNode) -> Any): R {
 //        println("kotlin post return")
