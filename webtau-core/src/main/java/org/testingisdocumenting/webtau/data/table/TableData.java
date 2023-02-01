@@ -130,10 +130,25 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
         return rows.get(rowIdx);
     }
 
+    /**
+     * finds by key when defined, if no keys defined, rowIdx is considered to be a key
+     * @param key composite key to use
+     * @return record or null
+     */
     public Record find(CompositeKey key) {
+        return rowsByKey.get(key);
+    }
+
+    /**
+     * finds a record by key only. If no key columns are defined, exception will be thrown
+     * @param keyParts parts of composite key to use for lookup
+     */
+    public Record findByKey(Object... keyParts) {
         if (!header.hasKeyColumns()) {
             throw new RuntimeException("no key columns defined");
         }
+
+        CompositeKey key = new CompositeKey(Arrays.stream(keyParts));
 
         if (key.getValues().size() != header.numberOfKeyColumns()) {
             throw new IllegalArgumentException("header has <" + header.numberOfKeyColumns() +
@@ -141,11 +156,7 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
                     ">: [" + header.getKeyNamesStream().collect(joining(", ")) + "]");
         }
 
-        return rowsByKey.get(key);
-    }
-
-    public Record findByKey(Object... keyParts) {
-        return find(new CompositeKey(Arrays.stream(keyParts)));
+        return find(key);
     }
 
     public void addRow(List<?> values) {
