@@ -20,9 +20,9 @@ import org.junit.Test
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.data.Data.data
-import static DatabaseDsl.db
+import static org.testingisdocumenting.webtau.db.Database.db
 
-class DatabaseDslTest extends DatabaseBaseTest {
+class DatabaseTest extends DatabaseBaseTest {
     @Test
     void "should insert table data into a table"() {
         def database = db.labeled("h2db").fromDataSource(h2DataSource)

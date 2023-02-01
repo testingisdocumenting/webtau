@@ -18,7 +18,7 @@ package org.testingisdocumenting.webtau.db
 
 import org.junit.Test
 
-import static DatabaseDsl.*
+import static Database.*
 
 class DatabaseTestContainersTest {
     @Test

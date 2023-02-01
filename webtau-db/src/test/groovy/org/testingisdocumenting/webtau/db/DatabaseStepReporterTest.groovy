@@ -24,7 +24,7 @@ import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.WebTauStep
 
 import static org.testingisdocumenting.webtau.Matchers.contain
-import static DatabaseDsl.db
+import static Database.db
 
 class DatabaseStepReporterTest extends DatabaseBaseTest implements StepReporter {
     List<String> stepMessages = []
