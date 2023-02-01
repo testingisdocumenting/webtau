@@ -131,6 +131,16 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
     }
 
     public Record find(CompositeKey key) {
+        if (!header.hasKeyColumns()) {
+            throw new RuntimeException("no key columns defined");
+        }
+
+        if (key.getValues().size() != header.numberOfKeyColumns()) {
+            throw new IllegalArgumentException("header has <" + header.numberOfKeyColumns() +
+                    "> key column(s) but provided key has <" + key.getValues().size() +
+                    ">: [" + header.getKeyNamesStream().collect(joining(", ")) + "]");
+        }
+
         return rowsByKey.get(key);
     }
 

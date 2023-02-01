@@ -104,13 +104,13 @@ public class TableDataJavaTest {
 
     @Test
     public void accessByKeyColumn() {
-        TableData tableData = createTableWithKeyColumns();
+        TableData tableData = createTableWithKeyColumn();
         findByKeyAndValidate(tableData);
     }
 
     @Test
     public void shouldChangeKeyColumnsAndValidateUniqueness() {
-        TableData tableData = createTableWithKeyColumns();
+        TableData tableData = createTableWithKeyColumn();
 
         code(() ->
             changeKeyColumns(tableData)
@@ -268,7 +268,7 @@ public class TableDataJavaTest {
                      "Mike", cell.above               , increment);
     }
 
-    static TableData createTableWithKeyColumns() {
+    static TableData createTableWithKeyColumn() {
         return table("*id" , "Name" , "Type",
                      _______________________,
                      "id1" , "N"    , "T",
