@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.graphql
 import org.junit.Before
 import org.junit.Test
 
+import java.util.stream.Stream
+
 import static org.testingisdocumenting.webtau.graphql.TestUtils.declaredOperations
 import static org.testingisdocumenting.webtau.graphql.TestUtils.validationResult
 
@@ -81,5 +83,21 @@ class GraphQLCoverageTest {
                                                      'uncomplete' | GraphQLQueryType.MUTATION
                                                      'allTasks'   | GraphQLQueryType.QUERY }
         coverage.coveredSuccessBranches().should == []
+    }
+
+    @Test
+    void "should not fetch schema if no calls were made"() {
+        coverage = new GraphQLCoverage(new ThrowingSchema())
+        coverage.nonCoveredQueries().should == []
+        coverage.nonCoveredSuccessBranches().should == []
+        coverage.nonCoveredErrorBranches().should == []
+        coverage.declaredQueries().should == []
+    }
+
+    class ThrowingSchema extends GraphQLSchema {
+        @Override
+        Stream<GraphQLQuery> getSchemaDeclaredQueries() {
+            throw new RuntimeException("should not be called")
+        }
     }
 }
