@@ -56,9 +56,9 @@ class DatabaseBaseTest {
         db.update("delete from PRICES")
         def PRICES = db.table("PRICES")
         PRICES << ["id" | "description" | "price"] {
-            ___________________________________
-            "id1" | "nice set"    | 1000
-            "id2" | "another set" | 2000 }
+                  __________________________________
+                  "id1" | "nice set"    | 1000
+                  "id2" | "another set" | 2000 }
 
         return PRICES
     }

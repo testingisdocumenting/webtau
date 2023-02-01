@@ -28,6 +28,7 @@ org.testingisdocumenting.webtau.expectation.equality.handlers.ArrayAndArrayCompa
 org.testingisdocumenting.webtau.expectation.equality.handlers.ArrayAndIterableCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.SetCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.IterableCompareToHandler
+org.testingisdocumenting.webtau.expectation.equality.handlers.RecordAndBeanCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.RecordAndMapCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.MapAndBeanCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.MapsCompareToHandler

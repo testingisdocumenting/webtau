@@ -17,16 +17,19 @@
 package org.testingisdocumenting.webtau.db;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.lang3.StringUtils;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.db.gen.SqlQueriesGenerator;
 import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
@@ -88,8 +91,23 @@ public class DatabaseTable {
     private void insertTableStep(TableData tableData) {
         insertMultipleRowsStep(tableData::isEmpty,
                 tableData::numberOfRows,
-                () -> tableData.getHeader().getNamesStream(),
+                () -> extractHeaderStream(tableData.getHeader().getNamesStream()),
                 (idx) -> tableData.row(idx).valuesStream());
+    }
+
+    private Stream<String> extractHeaderStream(Stream<String> original) {
+        return original.map(this::convertToUnderscoresIfRequired);
+    }
+
+    private String convertToUnderscoresIfRequired(String name) {
+        if (name.contains("_")) {
+            return name;
+        }
+
+        String[] parts = StringUtils.splitByCharacterTypeCamelCase(name);
+        return Arrays.stream(parts)
+                .map(String::toUpperCase)
+                .collect(Collectors.joining("_"));
     }
 
     private void insertTableStep(List<Map<String, Object>> rows) {

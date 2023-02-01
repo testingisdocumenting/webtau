@@ -47,6 +47,23 @@ class DatabaseDslTest extends DatabaseBaseTest {
     }
 
     @Test
+    void "should auto convert camelCase to underscores when inserting"() {
+        db.update("delete from PRICES")
+
+        def PRICES = db.table("PRICES")
+        PRICES << [ "id" | "externalId"] {
+                  __________________________
+                   "id1" | "eid1"
+                   "id2" | "eid2" }
+
+
+        PRICES.query().should == ["ID" | "EXTERNAL_ID"] {
+                                  _______________________
+                                  "id1" | "eid1"
+                                  "id2" | "eid2" }
+    }
+
+    @Test
     void "should use data source provider for primary database"() {
         db.update("delete from PRICES")
 

@@ -1,0 +1,1 @@
+* Add: [Database](database/introduction) comparison and inserts automatically convert from camelCase to UNDER_SCORE
