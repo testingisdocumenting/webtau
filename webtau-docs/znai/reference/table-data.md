@@ -30,10 +30,10 @@ Use `*` in front of a column to specify it as a key column
 
 ```tabs
 Groovy:
-:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableWithKeyColumns", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableWithKeyColumn", bodyOnly: true}
 
 Java:
-:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableWithKeyColumns", bodyOnly: true, removeReturn: true, removeSemicolon: true}
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableWithKeyColumn", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
 To access a value by key column

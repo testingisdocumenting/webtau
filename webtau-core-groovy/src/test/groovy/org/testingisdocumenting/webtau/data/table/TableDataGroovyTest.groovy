@@ -22,7 +22,6 @@ import org.junit.Before
 import org.junit.Test
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
-import org.testingisdocumenting.webtau.data.render.PrettyPrinter
 
 import java.time.LocalDate
 
@@ -113,8 +112,24 @@ class TableDataGroovyTest implements ConsoleOutput {
 
     @Test
     void "access by key column"() {
-        TableData tableData = createTableWithKeyColumns()
+        TableData tableData = createTableWithKeyColumn()
         findByKeyAndValidate(tableData)
+    }
+
+    @Test
+    void "should error when find by key without keys defined"() {
+        def table = createTableWithUnderscore()
+        code {
+            table.findByKey("id")
+        } should throwException("no key columns defined")
+    }
+
+    @Test
+    void "should error when find by key has different number of key parts"() {
+        def table = createTableWithMultipleKeyColumns()
+        code {
+            table.findByKey("id")
+        } should throwException("header has <2> key column(s) but provided key has <1>: [id1, id2]")
     }
 
     @Test
@@ -135,7 +150,7 @@ class TableDataGroovyTest implements ConsoleOutput {
 
     @Test
     void "should change key columns and validate uniqueness"() {
-        def tableData = createTableWithKeyColumns()
+        def tableData = createTableWithKeyColumn()
         code {
             changeKeyColumns(tableData)
         } should throwException("duplicate entry found with key: [N, T]\n" +
@@ -222,12 +237,20 @@ class TableDataGroovyTest implements ConsoleOutput {
          "Mike" | cell.above                | increment }
     }
 
-    static TableData createTableWithKeyColumns() {
+    static TableData createTableWithKeyColumn() {
         ["*id" | "Name" | "Type"] {
         ___________________________
          "id1" | "N"    | "T"
          "id2" | "N2"   | "T2"
          "id3" | "N"    | "T" }
+    }
+
+    static TableData createTableWithMultipleKeyColumns() {
+        ["*id1" | "*id2" | "Type"] {
+        ___________________________
+          "id1" | "sid1" | "T"
+          "id2" | "sid2" | "T2"
+          "id3" | "sid3" | "T" }
     }
 
     @Override
