@@ -49,6 +49,7 @@ class TableDataCompareToHandlerTest {
                 '                                   ^\n' +
                 '    [value][1].colB:   actual: 200 <java.lang.Integer>\n' +
                 '                     expected: 220 <java.lang.Integer> (Xms)\n' +
+                "  \n" +
                 '  colA        │ colB   \n' +
                 '  **"hello"** │ "world"\n' +
                 '          100 │ **200**\n  ') {
@@ -84,6 +85,7 @@ class TableDataCompareToHandlerTest {
                 '             .____.____.\n' +
                 '             |100 |200 |\n' +
                 '             .____.____| (Xms)\n' +
+                "  \n" +
                 '  colA        │ colB   \n' +
                 '  **"hello"** │ "world"\n' +
                 '          100 │     200\n' +
