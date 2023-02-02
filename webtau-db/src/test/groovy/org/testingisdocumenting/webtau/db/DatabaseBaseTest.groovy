@@ -24,7 +24,7 @@ import org.junit.BeforeClass
 import javax.sql.DataSource
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
-import static DatabaseDsl.db
+import static Database.db
 
 class DatabaseBaseTest {
     private static boolean areTablesCreated

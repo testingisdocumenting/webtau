@@ -72,7 +72,7 @@ In between tests we will explicitly delete data from DB
 
 :include-file: com/example/demo/springboot/app/data/AccountRepositoryTest.java {
   title: "import",
-  includeRegexp: "DatabaseDsl"
+  includeRegexp: "Database.db"
 }
 
 To include only Database module as your dependency use

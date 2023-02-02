@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
-import static org.testingisdocumenting.webtau.db.DatabaseDsl.db;
+import static org.testingisdocumenting.webtau.db.Database.db;
 
 // repository-test-config
 @DataJpaTest

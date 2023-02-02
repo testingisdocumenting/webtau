@@ -29,10 +29,24 @@ import static org.testingisdocumenting.webtau.reporter.WebTauStep.createStep;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 
 public class Database {
+    private static final LabeledDataSourceCachedProvider primaryDataSourceProvider =
+            new LabeledDataSourceCachedProvider(
+                    () -> new LabeledDataSource("primary-db", DbDataSourceProviders.provideByName("primary")));
+
     private final LabeledDataSourceProvider dataSourceProvider;
+
+    public static final Database db = new Database(primaryDataSourceProvider);
 
     Database(LabeledDataSourceProvider dataSourceProvider) {
         this.dataSourceProvider = dataSourceProvider;
+    }
+
+    public DbLabeledFromChain labeled(String label) {
+        return new DbLabeledFromChain(label);
+    }
+
+    public Database from(LabeledDataSourceProvider labeledDataSourceProvider) {
+        return new Database(labeledDataSourceProvider);
     }
 
     public DatabaseTable table(String name) {
@@ -84,6 +98,10 @@ public class Database {
                 () -> QueryRunnerUtils.runUpdate(dataSourceProvider.provide().getDataSource(), query, namedParamsQuery));
 
         step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    static void reset() {
+        primaryDataSourceProvider.reset();
     }
 
     private TokenizedMessage updateMessage(String actionLabel,

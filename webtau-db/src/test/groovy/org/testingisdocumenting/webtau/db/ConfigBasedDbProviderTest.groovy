@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.db
 import org.junit.AfterClass
 import org.junit.Test
 
-import static DatabaseDsl.db
+import static Database.db
 
 class ConfigBasedDbProviderTest {
     @AfterClass

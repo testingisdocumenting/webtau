@@ -1,0 +1,1 @@
+* Merge: [Database](database/introduction) `DatabaseFacade` and `Database` to have consistent import of DB module only
