@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.data.table.TableData
 import java.time.LocalDate
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
 
 class MatchersGroovyTest {
     private final List<String> messages = Arrays.asList("message one", "message two", "message we wait for")
@@ -78,7 +79,7 @@ class MatchersGroovyTest {
 
     @Test
     void "bean and map example"() {
-        code {
+        runAndValidateOutput(~/expected: "My Second Account"/) {
             // bean-map-example
             def account = new Account("ac1", "My Account", "test account", new Address("TestingCity", "88888888"))
             account.should == [
@@ -86,23 +87,23 @@ class MatchersGroovyTest {
                     name: "My Second Account",
                     address: [zipCode: "7777777"]] // only specified properties will be compared
             // bean-map-example
-        } should throwException(~/expected: "My Second Account"/)
+        }
     }
 
     @Test
     void "beans and table example"() {
-        code {
+        runAndValidateOutput(~/expected: "zip8"/) {
             // beans-table-example
             List<Account> accounts = fetchAccounts()
             TableData expected = ["*id" | "name"       | "address"] {
-                                  ___________________________________________
+                                 _________________________________________
                                   "ac2" | "Works"      | [zipCode: "zip2"]
                                   "ac1" | "Home"       | [zipCode: "zip1"]
                                   "ac3" | "My Account" | [zipCode: "zip8"] }
 
             accounts.should == expected
             // beans-table-example
-        } should throwException(~/expected: "zip8"/)
+        }
     }
 
     private static List<Account> fetchAccounts() {
