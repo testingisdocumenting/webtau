@@ -371,13 +371,28 @@ public class WebTauStep {
             }
 
             StepReporters.onFailure(this);
-            throw e;
+
+            // to avoid full mismatch reports printing twice
+            if (e instanceof AssertionError) {
+                throw new AssertionError(reduceMismatchedMessage(e.getMessage()));
+            } else {
+                throw e;
+            }
         } finally {
             WebTauStep localCurrentStep = WebTauStep.currentStep.get();
             if (localCurrentStep != null) {
                 currentStep.set(localCurrentStep.parent);
             }
         }
+    }
+
+    private String reduceMismatchedMessage(String message) {
+        String seeMoreLabel = "see the failed assertion details above";
+        if (message.equals(seeMoreLabel)) {
+            return message;
+        }
+
+        return seeMoreLabel;
     }
 
     private <R> R executeMultipleRuns(StepReportOptions stepReportOptions) {

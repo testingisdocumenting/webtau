@@ -59,7 +59,8 @@ public class ExpectationHandlers {
         return handlersStream()
                 .map(h -> h.onValueMismatch(valueMatcher, actualPath, actualValue, message))
                 .filter(flow -> flow == Flow.Terminate)
-                .findFirst().orElse(Flow.PassToNext);
+                .findFirst()
+                .orElse(Flow.PassToNext);
     }
 
     public static void onCodeMatch(CodeMatcher codeMatcher) {
@@ -70,7 +71,8 @@ public class ExpectationHandlers {
         return handlersStream()
                 .map(h -> h.onCodeMismatch(codeMatcher, message))
                 .filter(flow -> flow == Flow.Terminate)
-                .findFirst().orElse(Flow.PassToNext);
+                .findFirst()
+                .orElse(Flow.PassToNext);
     }
 
 

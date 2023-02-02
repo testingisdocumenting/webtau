@@ -16,7 +16,6 @@
 
 package org.testingisdocumenting.webtau.testutils;
 
-import org.junit.Assert;
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString;
@@ -55,7 +54,7 @@ public class TestConsoleOutput implements ConsoleOutput {
     public void err(Object... styleOrValues) {
     }
 
-    public static TestConsoleOutput runAndValidateOutput(String expectedOutput, Runnable code) {
+    public static TestConsoleOutput runAndValidateOutput(Object expectedOutput, Runnable code) {
         TestConsoleOutput testOutput = new TestConsoleOutput();
 
         ConsoleOutputs.add(ConsoleOutputs.defaultOutput);
@@ -66,15 +65,16 @@ public class TestConsoleOutput implements ConsoleOutput {
                     code.run();
                 } catch (AssertionError ignored) {
                 }
+
+                String output = replaceTime(testOutput.getNoColorOutput());
+                actual(output, "output").should(equal(expectedOutput));
+
                 return null;
             });
         } finally {
             StepReporters.remove(StepReporters.defaultStepReporter);
             ConsoleOutputs.remove(ConsoleOutputs.defaultOutput);
         }
-
-        String output = replaceTime(testOutput.getNoColorOutput());
-        Assert.assertEquals(expectedOutput, output);
 
         return testOutput;
     }

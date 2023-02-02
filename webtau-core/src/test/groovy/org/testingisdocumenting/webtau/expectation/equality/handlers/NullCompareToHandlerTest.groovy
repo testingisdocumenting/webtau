@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,8 +19,10 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers
 
 import org.testingisdocumenting.webtau.expectation.ValueMatcher
 import org.junit.Test
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
 
 class NullCompareToHandlerTest {
     @Test
@@ -45,13 +48,13 @@ class NullCompareToHandlerTest {
         actual("hello").shouldNot(equal(null))
         actual(null).shouldNot(equal("hello"))
 
-        code {
+        runAndValidateOutput(~/expected: null/) {
             actual(10).should(equal(null))
-        } should throwException(AssertionError, ~/expected: null/)
+        }
 
         code {
             actual(null).should(equal(10))
-        } should throwException(AssertionError, ~/expected: 10/)
+        } should throwException(AssertionError)
     }
 
     @Test
@@ -63,10 +66,9 @@ class NullCompareToHandlerTest {
     @Test
     void "provides clear error message for greater-less check with actual equal to null"() {
         def expect = { ValueMatcher matcher, String expectedMessage ->
-            code {
+            runAndValidateOutput(~/actual: null\n.*${expectedMessage}/) {
                 actual(null).should(matcher)
-            } should throwException(~/actual: null\n.*${expectedMessage}/)
-
+            }
         }
 
         expect(greaterThan(10), "expected: greater than 10")
@@ -79,10 +81,9 @@ class NullCompareToHandlerTest {
     @Test
     void "provides clear error message for greater-less check with expected equal to null"() {
         def expect = { ValueMatcher matcher, String expectedMessage ->
-            code {
+            runAndValidateOutput(~/actual: 10.*\n.*${expectedMessage}/) {
                 actual(10).should(matcher)
-            } should throwException(~/actual: 10.*\n.*${expectedMessage}/)
-
+            }
         }
 
         expect(greaterThan(null), "expected: greater than null")

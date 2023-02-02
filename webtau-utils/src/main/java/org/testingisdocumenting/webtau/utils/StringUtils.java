@@ -46,6 +46,12 @@ public class StringUtils {
         return lines.stream().map(l -> removeIndentation(l, indentation)).collect(Collectors.joining("\n"));
     }
 
+    public static String firstNLines(String text, int n) {
+        return Arrays.stream(text.split("\n"))
+                .limit(n)
+                .collect(joining("\n"));
+    }
+
     public static String extractInsideCurlyBraces(String code) {
         int startIdx = code.indexOf('{');
         if (startIdx == -1) {
