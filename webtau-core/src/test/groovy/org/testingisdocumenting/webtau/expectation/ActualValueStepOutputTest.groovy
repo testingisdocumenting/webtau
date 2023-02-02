@@ -35,6 +35,7 @@ class ActualValueStepOutputTest {
                 "    [value][1]:   actual: \"hello\" <java.lang.String>\n" +
                 "                expected: \"world\" <java.lang.String>\n" +
                 "                           ^ (Xms)\n" +
+                "  \n" +
                 "  [\n" +
                 "    1,\n" +
                 "    **\"hello\"**,\n" +
@@ -51,6 +52,7 @@ class ActualValueStepOutputTest {
                 "    \n" +
                 "    [value].another:   actual: 22 <java.lang.Integer>\n" +
                 "                     expected: 23 <java.lang.Integer> (Xms)\n" +
+                "  \n" +
                 "  {\n" +
                 "    \"key\": \"value1\",\n" +
                 "    \"another\": **22**\n" +

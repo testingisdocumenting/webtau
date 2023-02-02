@@ -108,6 +108,7 @@ public class MatchersTest {
                 "    [value].address.zipCode:   actual: \"88888888\" <java.lang.String>\n" +
                 "                             expected: \"7777777\" <java.lang.String>\n" +
                 "                                        ^ (Xms)\n" +
+                "  \n" +
                 "  {\n" +
                 "    \"address\": {\n" +
                 "      \"city\": \"TestingCity\",\n" +
@@ -148,6 +149,7 @@ public class MatchersTest {
                 "    [value][1].name:   actual: \"Work\" <java.lang.String>\n" +
                 "                     expected: \"Works\" <java.lang.String>\n" +
                 "                                    ^ (Xms)\n" +
+                "  \n" +
                 "  address                 │ description    │ id    │ name        \n" +
                 "  {                       │ \"test account\" │ \"ac1\" │ \"Home\"      \n" +
                 "    \"city\": \"TC1\",        │                │       │             \n" +
