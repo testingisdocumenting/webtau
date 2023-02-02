@@ -42,7 +42,7 @@ public class GraphQLSchema {
         this.schemaDeclaredQueriesSupplier = Suppliers.memoize(GraphQLSchemaLoader::fetchSchemaDeclaredQueries);
     }
 
-    public GraphQLSchema(Set<GraphQLQuery> schemaDeclaredQueries) {
+    GraphQLSchema(Set<GraphQLQuery> schemaDeclaredQueries) {
         this.schemaDeclaredQueriesSupplier = () -> Optional.of(schemaDeclaredQueries);
     }
 

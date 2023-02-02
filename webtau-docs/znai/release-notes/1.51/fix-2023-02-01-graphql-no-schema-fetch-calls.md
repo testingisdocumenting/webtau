@@ -1,0 +1,1 @@
+* Fix: [GraphQL](GraphQL/introduction) won't make schema calls for report when no GraphQL calls were performed during test

@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.graphql;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -28,6 +29,7 @@ import org.testingisdocumenting.webtau.utils.JsonUtils;
 public class GraphQLCoverage {
     private final GraphQLSchema schema;
     private final GraphQLCoveredQueries coveredQueries = new GraphQLCoveredQueries();
+    private final AtomicBoolean hadQueries = new AtomicBoolean();
 
     public GraphQLCoverage(GraphQLSchema schema) {
         this.schema = schema;
@@ -37,6 +39,8 @@ public class GraphQLCoverage {
         if (!validationResult.getUrl().equals(GraphQL.GRAPHQL_URL) || !schema.isSchemaDefined()) {
             return;
         }
+
+        hadQueries.set(true);
 
         Set<GraphQLQuery> graphQLQueries = schema.findQueries(validationResult);
         graphQLQueries.forEach(query -> coveredQueries.
@@ -54,36 +58,68 @@ public class GraphQLCoverage {
     }
 
     Stream<GraphQLQuery> nonCoveredQueries() {
-          return schema.getSchemaDeclaredQueries().filter(o -> !coveredQueries.contains(o));
+        if (!hadQueries.get()) {
+            return Stream.empty();
+        }
+
+        return schema.getSchemaDeclaredQueries().filter(o -> !coveredQueries.contains(o));
     }
 
     Stream<GraphQLQuery> coveredQueries() {
+        if (!hadQueries.get()) {
+            return Stream.empty();
+        }
+
         return coveredQueries.coveredQueries();
     }
 
     Stream<GraphQLQuery> coveredSuccessBranches() {
+        if (!hadQueries.get()) {
+            return Stream.empty();
+        }
+
         return coveredQueries.coveredSuccessBranches();
     }
 
     Stream<GraphQLQuery> nonCoveredSuccessBranches() {
+        if (!hadQueries.get()) {
+            return Stream.empty();
+        }
+
         List<GraphQLQuery> coveredSuccessBranches = coveredQueries.coveredSuccessBranches().collect(Collectors.toList());
         return schema.getSchemaDeclaredQueries().filter(o -> coveredSuccessBranches.stream().noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
     }
 
     Stream<GraphQLQuery> coveredErrorBranches() {
+        if (!hadQueries.get()) {
+            return Stream.empty();
+        }
+
         return coveredQueries.coveredErrorBranches();
     }
 
     Stream<GraphQLQuery> nonCoveredErrorBranches() {
+        if (!hadQueries.get()) {
+            return Stream.empty();
+        }
+
         List<GraphQLQuery> coveredErrorBranches = coveredQueries.coveredErrorBranches().collect(Collectors.toList());
         return schema.getSchemaDeclaredQueries().filter(o -> coveredErrorBranches.stream().noneMatch(graphQLQuery -> graphQLQuery.equals(o)));
     }
 
     Stream<GraphQLQuery> declaredQueries() {
+        if (!hadQueries.get()) {
+            return Stream.empty();
+        }
+
         return schema.getSchemaDeclaredQueries();
     }
 
     Stream<Map.Entry<GraphQLQuery, Set<GraphQLCoveredQueries.Call>>> actualCalls() {
+        if (!hadQueries.get()) {
+            return Stream.empty();
+        }
+
         return coveredQueries.getActualCalls();
     }
 }
