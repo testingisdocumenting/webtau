@@ -24,6 +24,7 @@ import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.Explicit
 import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.ExplicitPassed
 import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.FuzzyPassed
 import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.None
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
 
 class DataNodeListContainHandlerTest {
     def listOfFirstNames = ['FN0', 'FN1', 'FN2', 'FN3']
@@ -89,9 +90,9 @@ class DataNodeListContainHandlerTest {
     void "should mark all items as failed when item is not present"() {
         def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), listOfFullNames)
 
-        code {
+        runAndValidateOutput(~/body expects to contain \{firstName=FN8, lastName=LN8}/) {
             dataNode.should contain([firstName: 'FN8', lastName: 'LN8'])
-        } should throwException(~/body expects to contain \{firstName=FN8, lastName=LN8}/)
+        }
 
         dataNode.elements().collect { it.get('firstName').getTraceableValue().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
         dataNode.elements().collect { it.get('lastName').getTraceableValue().checkLevel }.should == [ExplicitFailed, ExplicitFailed, ExplicitFailed, ExplicitFailed]
@@ -109,9 +110,9 @@ class DataNodeListContainHandlerTest {
     void "should mark containing items as failed when when they should not be present"() {
         def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), listOfFullNames)
 
-        code {
+        runAndValidateOutput(~/body expects to not contain \{firstName=FN2, lastName=LN2}/) {
             dataNode.shouldNot contain([firstName: 'FN2', lastName: 'LN2'])
-        } should throwException(~/body expects to not contain \{firstName=FN2, lastName=LN2}/)
+        }
 
         dataNode.get(0).get('firstName').getTraceableValue().checkLevel.should == None
         dataNode.get(0).get('lastName').getTraceableValue().checkLevel.should == None

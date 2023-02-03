@@ -21,15 +21,16 @@ import org.testingisdocumenting.webtau.data.traceable.TraceableValue
 import org.junit.Test
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
 
 class StructuredDataNodeTest {
     @Test
     void "value should be marked as explicitly failed when it mismatches"() {
         def node = new StructuredDataNode(new DataNodeId("value"), new TraceableValue(10))
 
-        code {
+        runAndValidateOutput(~/mismatches/) {
             node.should(equal(8))
-        } should throwException(~/mismatches/)
+        }
 
         node.getTraceableValue().checkLevel.should == CheckLevel.ExplicitFailed
     }
@@ -54,9 +55,9 @@ class StructuredDataNodeTest {
     void "value should be marked as explicitly failed when it matches"() {
         def node = new StructuredDataNode(new DataNodeId("value"), new TraceableValue(10))
 
-        code {
+        runAndValidateOutput(~/actual: 10/) {
             node.shouldNot(equal(10))
-        } should throwException(~/actual: 10/)
+        }
 
         node.getTraceableValue().checkLevel.should == CheckLevel.ExplicitFailed
     }
@@ -85,9 +86,9 @@ class StructuredDataNodeTest {
 
         node.score.should == null
 
-        code {
+        runAndValidateOutput(~/body\.score/) {
             node.score.shouldNot == null
-        } should throwException(AssertionError, ~/body\.score/)
+        }
     }
 
     @Test

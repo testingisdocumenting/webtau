@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
+import org.apache.commons.lang3.StringUtils;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.time.Time;
 
@@ -387,6 +388,11 @@ public class WebTauStep {
     }
 
     private String reduceMismatchedMessage(String message) {
+        int numberOfLines = StringUtils.countMatches(message, "\n") + 1;
+        if (numberOfLines == 1) {
+            return message;
+        }
+
         String seeMoreLabel = "see the failed assertion details above";
         if (message.equals(seeMoreLabel)) {
             return message;
