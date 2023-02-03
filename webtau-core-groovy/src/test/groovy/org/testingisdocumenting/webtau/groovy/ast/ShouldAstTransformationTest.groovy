@@ -59,6 +59,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
                 "    unexpected values:\n" +
                 "    \n" +
                 "    [value].b: 2 (Xms)\n" +
+                "  \n" +
                 "  {\n" +
                 "    \"a\": **1**,\n" +
                 "    \"b\": 2\n" +
