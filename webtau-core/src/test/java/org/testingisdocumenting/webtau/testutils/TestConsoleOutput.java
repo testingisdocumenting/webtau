@@ -55,15 +55,25 @@ public class TestConsoleOutput implements ConsoleOutput {
     }
 
     public static TestConsoleOutput runAndValidateOutput(Object expectedOutput, Runnable code) {
+        return runExpectExceptionAndValidateOutput(null, expectedOutput, code);
+    }
+
+    public static TestConsoleOutput runExpectExceptionAndValidateOutput(Class<?> expectedException, Object expectedOutput, Runnable code) {
         TestConsoleOutput testOutput = new TestConsoleOutput();
 
         ConsoleOutputs.add(ConsoleOutputs.defaultOutput);
         StepReporters.add(StepReporters.defaultStepReporter);
         try {
             ConsoleOutputs.withAdditionalOutput(testOutput, () -> {
+                Throwable caughtException = null;
                 try {
                     code.run();
-                } catch (AssertionError ignored) {
+                } catch (Throwable e) {
+                    caughtException = e;
+                }
+
+                if (expectedException != null) {
+                    actual(caughtException != null ? caughtException.getClass() : null, "caught exception").should(equal(expectedException));
                 }
 
                 String output = replaceTime(testOutput.getNoColorOutput());

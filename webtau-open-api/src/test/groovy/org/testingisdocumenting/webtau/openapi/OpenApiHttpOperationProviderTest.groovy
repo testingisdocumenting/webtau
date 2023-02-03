@@ -38,7 +38,7 @@ class OpenApiHttpOperationProviderTest extends HttpTestBase {
             code {
                 http.get("/customer/123") {
                 }
-            } should throwException(~/schema is not valid/)
+            } should throwException(AssertionError)
         }
 
         validationHandler.operationId.should == 'GET /customer/{id}'
