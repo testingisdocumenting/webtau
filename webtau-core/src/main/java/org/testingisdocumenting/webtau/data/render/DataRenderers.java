@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.data.render;
 
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
+import org.testingisdocumenting.webtau.utils.StringUtils;
 import org.testingisdocumenting.webtau.utils.TraceUtils;
 
 import java.util.ArrayList;
@@ -33,6 +34,22 @@ public class DataRenderers {
             filter(Objects::nonNull).
             findFirst().orElseThrow(() -> new IllegalStateException(
                 "No render found for: " + TraceUtils.renderValueAndType(data)));
+    }
+
+    /**
+     * render object but only first N lines
+     * @param data data to render
+     * @return first N lines of string representation
+     */
+    public static String renderLimitFromEnd(Object data, int n) {
+        String rendered = DataRenderers.render(data);
+        int numberOfLines = StringUtils.numberOfLines(rendered);
+
+        boolean exceeds = numberOfLines > n;
+
+        return exceeds ?
+                StringUtils.firstNLines(rendered, n) + "\n...." :
+                rendered;
     }
 
     private static List<DataRenderer> discover() {

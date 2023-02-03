@@ -59,6 +59,16 @@ line #_3\r""")
     }
 
     @Test
+    void "number of lines"() {
+       assert StringUtils.numberOfLines("") == 1
+        assert StringUtils.numberOfLines("hello") == 1
+        assert StringUtils.numberOfLines("hello\n") == 2
+        assert StringUtils.numberOfLines("hello\nworld") == 2
+        assert StringUtils.numberOfLines("hello\nworld\n") == 3
+        assert StringUtils.numberOfLines("hello\nworld\n\n") == 4
+    }
+
+    @Test
     void "removes content inside brackets and brackets"() {
         assert StringUtils.removeContentInsideBracketsInclusive("hello <world>") == "hello "
     }

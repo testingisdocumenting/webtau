@@ -52,6 +52,21 @@ public class StringUtils {
                 .collect(joining("\n"));
     }
 
+    public static int numberOfLines(String text) {
+        if (text.isEmpty()) {
+            return 1;
+        }
+
+        int numberOfEol = 0;
+        int idx = 0;
+        while ((idx = text.indexOf('\n', idx)) != -1) {
+            numberOfEol++;
+            idx++;
+        }
+
+        return numberOfEol + 1;
+    }
+
     public static String extractInsideCurlyBraces(String code) {
         int startIdx = code.indexOf('{');
         if (startIdx == -1) {
