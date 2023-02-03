@@ -79,6 +79,7 @@ class ValueMatcherCompareToHandlerTest {
         runAndValidateOutput("X failed expecting [value] to not contain <greater than 7>: \n" +
                 "    [value] expects to not contain <greater than 7>\n" +
                 "    [value][2]: equals 8 (Xms)\n" +
+                "  \n" +
                 "  [\n" +
                 "    1,\n" +
                 "    3,\n" +
@@ -95,6 +96,7 @@ class ValueMatcherCompareToHandlerTest {
         runAndValidateOutput("X failed expecting [value] to not contain org.testingisdocumenting.webtau.expectation.contain.ContainMatcher \"of\": \n" +
                 "    [value] expects to not contain <contain \"of\">\n" +
                 "    [value][2]: equals \"of matchers\" (Xms)\n" +
+                "  \n" +
                 "  [\n" +
                 "    \"hello\",\n" +
                 "    \"world\",\n" +
