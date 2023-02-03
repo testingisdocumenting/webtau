@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocat
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -31,6 +32,7 @@ import java.util.regex.Pattern;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.cli.Cli.cli;
 import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly;
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;
 
 public class CliJavaTest {
     private static Path existingDocRoot;
@@ -127,11 +129,10 @@ public class CliJavaTest {
     @Test
     public void linesWithNotContain() {
         supportedPlatformOnly(() -> {
-            code(() -> {
-                cli.run("scripts/hello", ((output, error) -> {
-                    output.shouldNot(contain("line"));
-                }));
-            }).should(throwException(Pattern.compile("output\\[1]: equals \"line in the middle\"")));
+            runExpectExceptionAndValidateOutput(AssertionError.class, contain("process output[1]: equals \"line in the middle\""),
+                    () -> cli.run("scripts/hello", ((output, error) -> {
+                        output.shouldNot(contain("line"));
+                    })));
         });
     }
 
