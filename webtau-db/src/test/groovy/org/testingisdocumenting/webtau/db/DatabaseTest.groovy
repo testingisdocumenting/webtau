@@ -19,8 +19,9 @@ package org.testingisdocumenting.webtau.db
 import org.junit.Test
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.testingisdocumenting.webtau.data.Data.data
-import static org.testingisdocumenting.webtau.db.Database.db
+import static org.testingisdocumenting.webtau.data.Data.*
+import static org.testingisdocumenting.webtau.db.Database.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class DatabaseTest extends DatabaseBaseTest {
     @Test
@@ -217,9 +218,9 @@ class DatabaseTest extends DatabaseBaseTest {
         setupPrices()
         def prices = db.query("select * from PRICES")
 
-        code {
+        runAndValidateOutput(~/(?s).*TableData.*Map.*/) {
             prices.should == [ID: "id1", "DESCRIPTION": "nice set", PRICE: 1000]
-        } should throwException(~/(?s).*TableData.*Map.*/)
+        }
     }
 
     @Test
