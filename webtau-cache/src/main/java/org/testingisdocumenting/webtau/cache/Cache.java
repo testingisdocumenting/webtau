@@ -124,7 +124,7 @@ public class Cache {
                 () -> {
                     E value = fileBasedCache.get(key);
                     if (value == null) {
-                        throw new AssertionError("can't find cached value by key: " + key);
+                        throw new RuntimeException("can't find cached value by key: " + key);
                     }
 
                     return converter.apply(value);
