@@ -1,0 +1,1 @@
+* Add: Failed Test [Summary](report/introduction#failed-test-summary) auto expands failed step and removed duplicated error message from parent step during rendering

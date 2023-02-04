@@ -16,6 +16,10 @@
 
 import React from 'react';
 
+export function wrapInDarkTheme(component: JSX.Element) {
+  return () => <div className="webtau-dark">{component}</div>;
+}
+
 export function wrapInLightTheme(component: JSX.Element) {
   return () => <div className="webtau-light">{component}</div>;
 }

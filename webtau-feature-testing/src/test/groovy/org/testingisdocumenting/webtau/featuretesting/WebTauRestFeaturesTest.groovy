@@ -50,6 +50,11 @@ class WebTauRestFeaturesTest {
     }
 
     @Test
+    void "simple get and fail"() {
+        runCli("simpleGetAndFail.groovy", "urlOnly.cfg.groovy", "--url=${testRunner.testServer.uri}")
+    }
+
+    @Test
     void "simple post"() {
         runCli("simplePost.groovy", "docArtifacts.cfg.groovy", "--url=${testRunner.testServer.uri}")
     }

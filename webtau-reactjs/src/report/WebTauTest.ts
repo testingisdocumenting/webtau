@@ -48,7 +48,9 @@ export interface WebTauStep {
   message: TokenizedMessageToken[];
   elapsedTime: number;
   startTime: number;
+  isSuccessful: boolean;
   personaId?: string;
+  classifier?: string;
   input?: WebTauStepInput;
   output?: WebTauStepOutput;
 }

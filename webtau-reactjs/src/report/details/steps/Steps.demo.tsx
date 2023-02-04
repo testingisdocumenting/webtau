@@ -19,12 +19,13 @@ import React from 'react';
 import { Step } from './Step';
 import { Registry } from 'react-component-viewer';
 import { WebTauStep } from '../../WebTauTest';
-import { wrapInLightTheme } from '../../demoUtils';
+import { wrapInDarkTheme, wrapInLightTheme } from '../../demoUtils';
 
 export function stepsDemo(registry: Registry) {
   add('no children', <Step step={noChildren()} isTopLevel={true} />);
   add('zero elapsed time', <Step step={zeroElapsedTime()} isTopLevel={true} />);
   add('with children', <Step step={withChildren()} isTopLevel={true} />);
+  add('with failed children', <Step step={withFailedChildren()} isTopLevel={true} />);
   add('rainbow', <Step step={rainbow()} isTopLevel={true} />);
   add('with key value input', <Step step={withKeyValueInput()} isTopLevel={true} />);
   add('with key value output', <Step step={withKeyValueOutput()} isTopLevel={true} />);
@@ -32,7 +33,7 @@ export function stepsDemo(registry: Registry) {
   add('with key value empty input output', <Step step={withKeyValueEmptyInputAndOutput()} isTopLevel={true} />);
 
   function add(label: string, element: JSX.Element) {
-    registry.add(label + ' [dark]', () => element);
+    registry.add(label + ' [dark]', wrapInDarkTheme(element));
     registry.add(label + ' [light]', wrapInLightTheme(element));
   }
 }
@@ -41,6 +42,7 @@ function noChildren() {
   return {
     elapsedTime: 200,
     startTime: 0,
+    isSuccessful: true,
     message: [
       {
         type: 'action',
@@ -58,6 +60,7 @@ function zeroElapsedTime() {
   return {
     elapsedTime: 0,
     startTime: 0,
+    isSuccessful: true,
     message: [
       {
         type: 'action',
@@ -75,6 +78,7 @@ function rainbow() {
   return {
     elapsedTime: 200,
     startTime: 0,
+    isSuccessful: true,
     message: [
       {
         type: 'action',
@@ -128,6 +132,7 @@ function withChildren(): WebTauStep {
       {
         startTime: 0,
         elapsedTime: 50,
+        isSuccessful: true,
         message: [
           {
             type: 'id',
@@ -143,6 +148,7 @@ function withChildren(): WebTauStep {
       {
         elapsedTime: 150,
         startTime: 0,
+        isSuccessful: true,
         message: [
           {
             type: 'id',
@@ -159,8 +165,127 @@ function withChildren(): WebTauStep {
   };
 }
 
+function withFailedChildren(): WebTauStep {
+  return {
+    isSuccessful: false,
+    message: [
+      {
+        type: 'error',
+        value: 'failed',
+      },
+      {
+        type: 'action',
+        value: 'executing HTTP GET',
+      },
+      {
+        type: 'url',
+        value: 'http://localhost:57137/weather',
+      },
+      {
+        type: 'delimiter',
+        value: ':',
+      },
+      {
+        type: 'error',
+        value: 'see the failed assertion details above',
+      },
+    ],
+    startTime: 1675530264809,
+    elapsedTime: 166,
+    children: [
+      {
+        message: [
+          {
+            type: 'error',
+            value: 'failed',
+          },
+          {
+            type: 'action',
+            value: 'expecting',
+          },
+          {
+            type: 'id',
+            value: 'body.temperature',
+          },
+          {
+            type: 'matcher',
+            value: 'to be less than 10',
+          },
+          {
+            type: 'delimiter',
+            value: ':',
+          },
+          {
+            type: 'error',
+            value:
+              '\nmismatches:\n\nbody.temperature:   actual: 88 <java.lang.Integer>\n                  expected: less than 10 <java.lang.Integer>',
+          },
+        ],
+        isSuccessful: false,
+        startTime: 1675530264927,
+        elapsedTime: 28,
+        classifier: 'matcher',
+      },
+    ],
+    input: {
+      type: 'HttpStepInput',
+      data: {},
+    },
+    output: {
+      type: 'HttpValidationResult',
+      data: {
+        id: 'httpCall-1',
+        method: 'GET',
+        url: 'http://localhost:57137/weather',
+        operationId: '',
+        startTime: 1675530264811,
+        elapsedTime: 73,
+        errorMessage: null,
+        mismatches: [
+          'mismatches:\n\nbody.temperature:   actual: 88 <java.lang.Integer>\n                  expected: less than 10 <java.lang.Integer>',
+        ],
+        requestHeader: [],
+        responseType: 'application/json',
+        responseStatusCode: 200,
+        responseHeader: [
+          {
+            key: null,
+            value: 'HTTP/1.1 200 OK',
+          },
+          {
+            key: 'Server',
+            value: 'Jetty(9.4.44.v20210927)',
+          },
+          {
+            key: 'Vary',
+            value: 'Accept-Encoding, User-Agent',
+          },
+          {
+            key: 'Content-Length',
+            value: '18',
+          },
+          {
+            key: 'Date',
+            value: 'Sat, 04 Feb 2023 17:04:24 GMT',
+          },
+          {
+            key: 'Content-Type',
+            value: 'application/json',
+          },
+        ],
+        responseBody: '{"temperature":88}',
+        responseBodyChecks: {
+          failedPaths: ['root.temperature'],
+          passedPaths: [],
+        },
+      },
+    },
+  };
+}
+
 function withKeyValueInputAndOutput() {
   return {
+    isSuccessful: true,
     message: [
       { type: 'action', value: 'set' },
       { type: 'id', value: 'url' },
@@ -174,6 +299,7 @@ function withKeyValueInputAndOutput() {
 
 function withKeyValueEmptyInputAndOutput() {
   return {
+    isSuccessful: true,
     message: [
       { type: 'action', value: 'set' },
       { type: 'id', value: 'url' },
@@ -187,6 +313,7 @@ function withKeyValueEmptyInputAndOutput() {
 
 function withKeyValueInput() {
   return {
+    isSuccessful: true,
     message: [
       { type: 'action', value: 'set' },
       { type: 'id', value: 'url' },
@@ -199,6 +326,7 @@ function withKeyValueInput() {
 
 function withKeyValueOutput() {
   return {
+    isSuccessful: true,
     message: [
       { type: 'action', value: 'set' },
       { type: 'id', value: 'url' },

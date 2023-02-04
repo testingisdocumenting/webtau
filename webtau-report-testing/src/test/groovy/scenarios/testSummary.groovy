@@ -25,3 +25,12 @@ scenario("failed test has failed step on summary") {
 
     report.step.should == ~/failed expecting by css #feedback to be visible/
 }
+
+scenario("failed step with children is auto expanded") {
+    report.openGroovyStandaloneReport("rest/simpleGetAndFail-failed-webtau-report.html")
+    report.selectTest("check weather")
+
+    report.step.should containAll("failed executing HTTP GET", "expected: less than 10")
+
+    browser.doc.capture('report-test-summary-failed-step')
+}
