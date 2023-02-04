@@ -37,18 +37,31 @@ public class DataRenderers {
     }
 
     /**
+     * render object leaving only first few lines
+     * @param data data to render
+     * @return first few lines of string representation
+     */
+    public static String renderFirstLinesOnly(Object data) {
+        return renderFirstLinesOnly(data, 5);
+    }
+
+    /**
      * render object but only first N lines
      * @param data data to render
      * @return first N lines of string representation
      */
-    public static String renderLimitFromEnd(Object data, int n) {
+    public static String renderFirstLinesOnly(Object data, int n) {
         String rendered = DataRenderers.render(data);
         int numberOfLines = StringUtils.numberOfLines(rendered);
+
+        if (rendered.endsWith("\n")) {
+            numberOfLines--;
+        }
 
         boolean exceeds = numberOfLines > n;
 
         return exceeds ?
-                StringUtils.firstNLines(rendered, n) + "\n...." :
+                StringUtils.firstNLines(rendered, n) + "\n..." :
                 rendered;
     }
 

@@ -35,7 +35,7 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String matchingMessage() {
-        return "to contain all " + DataRenderers.render(expectedList);
+        return "to contain all " + DataRenderers.renderFirstLinesOnly(expectedList);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String negativeMatchingMessage() {
-        return "to not contain all " + DataRenderers.render(expectedList);
+        return "to not contain all " + DataRenderers.renderFirstLinesOnly(expectedList);
     }
 
     @Override
