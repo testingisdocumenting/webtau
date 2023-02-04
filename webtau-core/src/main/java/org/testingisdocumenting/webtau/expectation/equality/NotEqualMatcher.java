@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +34,7 @@ public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String matchingMessage() {
-        return "to not equal " + DataRenderers.render(expected);
+        return "to not equal " + DataRenderers.renderFirstLinesOnly(expected);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String negativeMatchingMessage() {
-        return "to equal " + DataRenderers.render(expected);
+        return "to equal " + DataRenderers.renderFirstLinesOnly(expected);
     }
 
     @Override

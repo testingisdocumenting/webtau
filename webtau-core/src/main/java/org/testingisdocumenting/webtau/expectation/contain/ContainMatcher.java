@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,7 +35,7 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String matchingMessage() {
-        return "to contain " + DataRenderers.render(expected);
+        return "to contain " + DataRenderers.renderFirstLinesOnly(expected);
     }
 
     @Override
@@ -59,7 +60,7 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String negativeMatchingMessage() {
-        return "to not contain " + DataRenderers.render(expected);
+        return "to not contain " + DataRenderers.renderFirstLinesOnly(expected);
     }
 
     @Override

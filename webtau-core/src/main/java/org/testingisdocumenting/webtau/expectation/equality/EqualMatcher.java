@@ -49,7 +49,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.matchingMessage();
         }
 
-        return "to equal " + DataRenderers.render(expected);
+        return "to equal " + DataRenderers.renderFirstLinesOnly(expected);
     }
 
     @Override
@@ -97,7 +97,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.negativeMatchingMessage();
         }
 
-        return "to not equal " + DataRenderers.render(expected);
+        return "to not equal " + DataRenderers.renderFirstLinesOnly(expected);
     }
 
     @Override

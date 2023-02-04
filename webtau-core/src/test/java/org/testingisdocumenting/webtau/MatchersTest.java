@@ -136,11 +136,7 @@ public class MatchersTest {
                 "._____.____________.______________.\n" +
                 "|\"ac2\"|\"Works\"     |{zipCode=zip2}|\n" +
                 "._____.____________.______________|\n" +
-                "|\"ac1\"|\"Home\"      |{zipCode=zip1}|\n" +
-                "._____.____________.______________|\n" +
-                "|\"ac3\"|\"My Account\"|{zipCode=zip8}|\n" +
-                "._____.____________.______________|\n" +
-                ": \n" +
+                "...: \n" +
                 "    mismatches:\n" +
                 "    \n" +
                 "    [value][2].address.zipCode:   actual: \"zip3\" <java.lang.String>\n" +
