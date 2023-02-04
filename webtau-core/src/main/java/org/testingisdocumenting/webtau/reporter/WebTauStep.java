@@ -17,9 +17,9 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
-import org.apache.commons.lang3.StringUtils;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.time.Time;
+import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.*;
 import java.util.function.Function;
@@ -388,8 +388,7 @@ public class WebTauStep {
     }
 
     private String reduceMismatchedMessage(String message) {
-        int numberOfLines = StringUtils.countMatches(message, "\n") + 1;
-        if (numberOfLines == 1) {
+        if (StringUtils.numberOfLines(message) == 1) {
             return message;
         }
 

@@ -39,9 +39,7 @@ class TableDataCompareToHandlerTest {
                 '.______._______.\n' +
                 '|"help"|"world"|\n' +
                 '.______._______|\n' +
-                '|100   |220    |\n' +
-                '.______._______|\n' +
-                ': \n' +
+                '...: \n' +
                 '    mismatches:\n' +
                 '    \n' +
                 '    [value][0].colA:   actual: "hello" <java.lang.String>\n' +
