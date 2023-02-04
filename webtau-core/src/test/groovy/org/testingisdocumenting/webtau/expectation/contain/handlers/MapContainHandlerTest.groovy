@@ -44,12 +44,7 @@ class MapContainHandlerTest {
 
         code {
             actual(actualMap).should(contain(expectedMap))
-        } should throwException("\n[value] expects to contain {hello=1, world=3, test=5}\n" +
-                "[value].world: mismatches:\n" +
-                "               \n" +
-                "               [value].world:   actual: 2 <java.lang.Integer>\n" +
-                "                              expected: 3 <java.lang.Integer>\n" +
-                "[value].test: is missing")
+        } should throwException("see the failed assertion details above")
     }
 
     @Test
@@ -75,10 +70,6 @@ class MapContainHandlerTest {
 
         code {
             actual(actualMap).shouldNot(contain(expectedMap))
-        } should throwException("\n[value] expects to not contain {world=2}\n" +
-                "[value].world: mismatches:\n" +
-                "               \n" +
-                "               [value].world:   actual: 2 <java.lang.Integer>\n" +
-                "                              expected: not 2 <java.lang.Integer>")
+        } should throwException("see the failed assertion details above")
     }
 }

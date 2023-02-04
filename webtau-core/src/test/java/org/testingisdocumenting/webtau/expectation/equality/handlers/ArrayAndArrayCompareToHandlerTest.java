@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.testutils.TestConsoleOutput;
 import java.util.regex.Pattern;
 
 import static org.testingisdocumenting.webtau.Matchers.*;
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;
 
 public class ArrayAndArrayCompareToHandlerTest {
     @Test
@@ -48,7 +49,7 @@ public class ArrayAndArrayCompareToHandlerTest {
         int[] a = {1, 2, 3};
         int[] b = {1, 2, 3};
 
-        TestConsoleOutput.runAndValidateOutput(". [value] equals [1, 2, 3]\n" +
+        runAndValidateOutput(". [value] equals [1, 2, 3]\n" +
                 "    [value][0]:   actual: 1 <java.lang.Integer>\n" +
                 "                expected: 1 <java.lang.Integer>\n" +
                 "    [value][1]:   actual: 2 <java.lang.Integer>\n" +
@@ -62,7 +63,9 @@ public class ArrayAndArrayCompareToHandlerTest {
         int[] a = {1, 2, 3};
         int[] b = {1, 7, 3};
 
-        code(() -> actual(a).should(equal(b))).should(throwException(Pattern.compile("expected: 7")));
+        runAndValidateOutput(Pattern.compile("expected: 7"), () -> {
+            actual(a).should(equal(b));
+        });
     }
 
     @Test

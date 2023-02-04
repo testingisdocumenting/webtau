@@ -24,6 +24,7 @@ import org.junit.Test
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.junit.Assert.assertEquals
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
 
 class ValueMatcherCompareToHandlerTest {
     private static final ValuePath actualPath = createActualPath("value")
@@ -75,20 +76,34 @@ class ValueMatcherCompareToHandlerTest {
 
     @Test
     void "should work in combination with contain matcher"() {
-        code {
+        runAndValidateOutput("X failed expecting [value] to not contain <greater than 7>: \n" +
+                "    [value] expects to not contain <greater than 7>\n" +
+                "    [value][2]: equals 8 (Xms)\n" +
+                "  \n" +
+                "  [\n" +
+                "    1,\n" +
+                "    3,\n" +
+                "    8\n" +
+                "  ]") {
             actual([1, 3, 8]).shouldNot(contain(greaterThan(7)))
-        } should(throwException("\n[value] expects to not contain <greater than 7>\n" +
-            "[value][2]: equals 8"))
+        }
     }
 
     @Test
     void "should work in combination with nested contain matcher"() {
         actual(["hello", "world", "of matchers"]).should(contain(containing("of")))
 
-        code {
+        runAndValidateOutput("X failed expecting [value] to not contain org.testingisdocumenting.webtau.expectation.contain.ContainMatcher \"of\": \n" +
+                "    [value] expects to not contain <contain \"of\">\n" +
+                "    [value][2]: equals \"of matchers\" (Xms)\n" +
+                "  \n" +
+                "  [\n" +
+                "    \"hello\",\n" +
+                "    \"world\",\n" +
+                "    \"of matchers\"\n" +
+                "  ]") {
             actual(["hello", "world", "of matchers"]).shouldNot(contain(containing("of")))
-        } should(throwException('\n[value] expects to not contain <contain "of">\n' +
-            '[value][2]: equals "of matchers"'))
+        }
     }
 
     static class DummyValueMatcher implements ValueMatcher {

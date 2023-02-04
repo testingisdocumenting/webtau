@@ -108,14 +108,13 @@ class IterableContainHandlerTest {
     void "contain matcher throws when doesn't match"() {
         code {
             actual(['hello', 'world', 'of', 'testing']).should(contain('wod'))
-        } should throwException(~/\[value] expects to contain "wod"/)
+        } should throwException("see the failed assertion details above")
     }
 
     @Test
     void "contain matcher throws when contains but should not"() {
         code {
             actual(['hello', 'world', 'of', 'testing']).shouldNot(contain('of'))
-        } should throwException('\n[value] expects to not contain "of"\n' +
-            '[value][2]: equals "of"')
+        } should throwException("see the failed assertion details above")
     }
 }

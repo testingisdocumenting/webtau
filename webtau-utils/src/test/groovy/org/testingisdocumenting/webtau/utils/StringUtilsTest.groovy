@@ -48,6 +48,17 @@ line #_3\r""")
     }
 
     @Test
+    void "first n lines"() {
+        assert StringUtils.firstNLines("", 3) == ""
+        assert StringUtils.firstNLines("one", 0) == ""
+        assert StringUtils.firstNLines("one", 1) == "one"
+        assert StringUtils.firstNLines("one", 3) == "one"
+        assert StringUtils.firstNLines("one\ntwo", 3) == "one\ntwo"
+        assert StringUtils.firstNLines("one\ntwo\nthree", 3) == "one\ntwo\nthree"
+        assert StringUtils.firstNLines("one\ntwo\nthree\nfour", 3) == "one\ntwo\nthree"
+    }
+
+    @Test
     void "removes content inside brackets and brackets"() {
         assert StringUtils.removeContentInsideBracketsInclusive("hello <world>") == "hello "
     }

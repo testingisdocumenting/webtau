@@ -30,7 +30,7 @@ public interface ConsoleOutput {
      * output multiple lines, where line is defined by converting function
      * @param lines list of lines to print
      * @param styleOrValueExtractor function to convert a line to a style and values
-     * @param <E> type of a line
+     * @param <E> type of line
      */
     default <E> void outLines(List<E> lines, Function<E, Object[]> styleOrValueExtractor) {
         lines.forEach(l -> out(styleOrValueExtractor.apply(l)));
@@ -42,7 +42,7 @@ public interface ConsoleOutput {
      * @param lines list of lines to print
      * @param limit max number of lines to print
      * @param styleOrValueExtractor function to convert a line to a style and values
-     * @param <E> type of a line
+     * @param <E> type of line
      */
     default <E> void outLinesWithLimit(List<E> lines,
                                        int limit,

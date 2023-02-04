@@ -86,11 +86,11 @@ class NumbersCompareToHandlerTest {
 
         code {
             actual(10.0).should(equal(9))
-        } should throwException(AssertionError, ~/expected: 9/)
+        } should throwException(AssertionError)
 
         code {
             actual(10.0).shouldBe(greaterThanOrEqual(11))
-        } should throwException(AssertionError, ~/expected: greater than or equal to 11/)
+        } should throwException(AssertionError)
     }
 
     private static void assertHandlesTypes(handleMethodName) {
