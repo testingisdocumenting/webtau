@@ -101,6 +101,11 @@ public class TestConsoleOutput implements ConsoleOutput {
         doc.capture(artifactName, testConsoleOutput.getColorOutput());
     }
 
+    private static String replaceTime(String original) {
+        return original.replaceAll("\\d+ms", "Xms")
+                .replaceAll("localhost:\\d+", "localhost:port");
+    }
+
     private static class OutputAndCaughtException {
         private final String output;
         private final Throwable caughtException;

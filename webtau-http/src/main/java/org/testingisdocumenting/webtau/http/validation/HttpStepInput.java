@@ -72,7 +72,7 @@ public class HttpStepInput implements WebTauStepInput {
                 printer.printLine(Color.RED, e.getMessage());
             }
         } else {
-            printer.printObject(requestBody.asString());
+            printer.printLine(requestBody.asString());
         }
     }
 }
