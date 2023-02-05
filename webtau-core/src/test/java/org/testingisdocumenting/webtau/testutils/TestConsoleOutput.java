@@ -64,7 +64,7 @@ public class TestConsoleOutput implements ConsoleOutput {
         ConsoleOutputs.add(ConsoleOutputs.defaultOutput);
         StepReporters.add(StepReporters.defaultStepReporter);
         try {
-            ConsoleOutputs.withAdditionalOutput(testOutput, () -> {
+            OutputAndCaughtException outputAndCaughtException = ConsoleOutputs.withAdditionalOutput(testOutput, () -> {
                 Throwable caughtException = null;
                 try {
                     code.run();
@@ -72,15 +72,17 @@ public class TestConsoleOutput implements ConsoleOutput {
                     caughtException = e;
                 }
 
-                if (expectedException != null) {
-                    actual(caughtException != null ? caughtException.getClass() : null, "caught exception").should(equal(expectedException));
-                }
-
                 String output = replaceTime(testOutput.getNoColorOutput());
-                actual(output, "output").should(equal(expectedOutput));
-
-                return null;
+                return new OutputAndCaughtException(output, caughtException);
             });
+
+            if (expectedException != null) {
+                actual(outputAndCaughtException.caughtException != null ?
+                        outputAndCaughtException.caughtException.getClass() : null,
+                        "caught exception").should(equal(expectedException));
+            }
+
+            actual(outputAndCaughtException.output, "output").should(equal(expectedOutput));
         } finally {
             StepReporters.remove(StepReporters.defaultStepReporter);
             ConsoleOutputs.remove(ConsoleOutputs.defaultOutput);
@@ -96,5 +98,15 @@ public class TestConsoleOutput implements ConsoleOutput {
 
     private static String replaceTime(String original) {
         return original.replaceAll("\\d+ms", "Xms");
+    }
+
+    private static class OutputAndCaughtException {
+        private final String output;
+        private final Throwable caughtException;
+
+        public OutputAndCaughtException(String output, Throwable caughtException) {
+            this.output = output;
+            this.caughtException = caughtException;
+        }
     }
 }
