@@ -32,8 +32,7 @@ class NotEqualMatcherTest {
         def actual = expected + 1
 
         assert matcher.matches(actualPath, actual)
-        assert matcher.matchedMessage(actualPath, actual) == "doesn't equal $expected\n" +
-            simpleActualExpectedWithIntegers(actual, "not", expected)
+        assert matcher.matchedMessage(actualPath, actual) == "doesn't equal $expected"
     }
 
     @Test
@@ -51,8 +50,7 @@ class NotEqualMatcherTest {
     void "negative match"() {
         def actual = expected
         assert matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMatchedMessage(actualPath, actual) == "equals $expected\n" +
-            simpleActualExpectedWithIntegers(actual, expected)
+        assert matcher.negativeMatchedMessage(actualPath, actual) == "equals $expected"
     }
 
     @Test

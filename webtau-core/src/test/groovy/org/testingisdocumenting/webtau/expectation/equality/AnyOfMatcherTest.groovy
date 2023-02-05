@@ -32,9 +32,8 @@ class AnyOfMatcherTest {
 
         assert matcher.matches(actualPath, actual)
 
-        Assert.assertEquals("matches any of [3, 10, <greater than 8>, 10]\n" +
-                "value:   actual: 10 <java.lang.Integer>\n" +
-                "       expected: 10 <java.lang.Integer>", matcher.matchedMessage(actualPath, actual))
+        Assert.assertEquals("matches any of [3, 10, <greater than 8>, 10]",
+                matcher.matchedMessage(actualPath, actual))
     }
 
     @Test
@@ -63,14 +62,7 @@ class AnyOfMatcherTest {
 
         assert matcher.negativeMatches(actualPath, actual)
 
-        Assert.assertEquals("doesn't match any of [1, 3, <greater than 12>]\n" +
-                "value:   actual: 10 <java.lang.Integer>\n" +
-                "       expected: not 1 <java.lang.Integer>\n" +
-                "value:   actual: 10 <java.lang.Integer>\n" +
-                "       expected: not 3 <java.lang.Integer>\n" +
-                "value: less than or equal to 12\n" +
-                "       value:   actual: 10 <java.lang.Integer>\n" +
-                "              expected: less than or equal to 12 <java.lang.Integer>",
+        Assert.assertEquals("doesn't match any of [1, 3, <greater than 12>]",
                 matcher.negativeMatchedMessage(actualPath, actual))
     }
 

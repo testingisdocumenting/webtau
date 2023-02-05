@@ -21,7 +21,10 @@ package org.testingisdocumenting.webtau.expectation.equality
 import org.junit.Test
 import org.testingisdocumenting.webtau.expectation.ValueMatcher
 import org.testingisdocumenting.webtau.data.ValuePath
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
+import static org.testingisdocumenting.webtau.Matchers.actual
+import static org.testingisdocumenting.webtau.Matchers.equal
 import static org.testingisdocumenting.webtau.expectation.equality.ActualExpectedTestReportExpectations.simpleActualExpectedWithIntegers
 
 class EqualMatcherTest {
@@ -34,8 +37,7 @@ class EqualMatcherTest {
         def actual = expected
 
         assert matcher.matches(actualPath, actual)
-        assert matcher.matchedMessage(actualPath, actual) == "equals $expected\n" +
-            simpleActualExpectedWithIntegers(actual, expected)
+        assert matcher.matchedMessage(actualPath, actual) == "equals $expected"
     }
 
     @Test
@@ -51,8 +53,7 @@ class EqualMatcherTest {
     void "negative match"() {
         def actual = expected + 1
         assert matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMatchedMessage(actualPath, actual) == "doesn't equal $expected\n" +
-            simpleActualExpectedWithIntegers(actual, "not", expected)
+        assert matcher.negativeMatchedMessage(actualPath, actual) == "doesn't equal $expected"
     }
 
     @Test
@@ -71,6 +72,17 @@ class EqualMatcherTest {
     @Test
     void "negative matching message"() {
         assert matcher.negativeMatchingMessage() == "to not equal $expected"
+    }
+
+    @Test
+    void "rendering"() {
+        TestConsoleOutput.runAndValidateOutput(". [value] equals 100 (Xms)") {
+            actual(100).should(equal(100))
+        }
+
+        TestConsoleOutput.runAndValidateOutput(". [value] doesn't equal 101 (Xms)") {
+            actual(100).shouldNot(equal(101))
+        }
     }
 
     @Test

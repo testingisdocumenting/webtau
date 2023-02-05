@@ -32,8 +32,7 @@ class LessThanMatcherTest {
         def actual = expected - 1
 
         assert matcher.matches(actualPath, actual)
-        assert matcher.matchedMessage(actualPath, actual) == "less than $expected\n" +
-            simpleActualExpectedWithIntegers(actual, 'less than', expected)
+        assert matcher.matchedMessage(actualPath, actual) == "less than $expected"
 
     }
 
@@ -49,8 +48,7 @@ class LessThanMatcherTest {
     void "negative match"() {
         def actual = expected + 1
         assert matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMatchedMessage(actualPath, actual) == "greater than or equal to $expected\n" +
-            simpleActualExpectedWithIntegers(actual, 'greater than or equal to', expected)
+        assert matcher.negativeMatchedMessage(actualPath, actual) == "greater than or equal to $expected"
     }
 
     @Test
