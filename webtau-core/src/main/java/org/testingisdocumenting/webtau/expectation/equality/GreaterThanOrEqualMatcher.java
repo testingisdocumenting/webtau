@@ -40,8 +40,7 @@ public class GreaterThanOrEqualMatcher implements ValueMatcher, ExpectedValuesAw
 
     @Override
     public String matchedMessage(ValuePath actualPath, Object actual) {
-        return "greater than or equal " + DataRenderers.render(expected) + "\n" +
-                compareToComparator.generateGreaterThanOrEqualMatchReport();
+        return "greater than or equal " + DataRenderers.render(expected);
     }
 
     @Override
@@ -62,8 +61,7 @@ public class GreaterThanOrEqualMatcher implements ValueMatcher, ExpectedValuesAw
 
     @Override
     public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
-        return "less than " + DataRenderers.render(expected) + '\n' +
-                compareToComparator.generateLessThanMatchReport();
+        return "less than " + DataRenderers.render(expected);
     }
 
     @Override
