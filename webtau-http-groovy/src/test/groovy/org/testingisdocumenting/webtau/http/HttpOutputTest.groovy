@@ -16,65 +16,44 @@
 
 package org.testingisdocumenting.webtau.http
 
-import org.junit.Before
+
 import org.junit.Test
-import org.testingisdocumenting.webtau.console.ConsoleOutput
-import org.testingisdocumenting.webtau.console.ConsoleOutputs
-import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
 
-import static org.testingisdocumenting.webtau.Matchers.contain
-import static org.testingisdocumenting.webtau.http.Http.http
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.http.Http.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
-class HttpOutputTest extends HttpTestBase implements ConsoleOutput {
-    String output
-
-    @Before
-    void init() {
-        ConsoleOutputs.add(this)
-        output = ""
-    }
-
-    @Before
-    void cleanup() {
-        ConsoleOutputs.remove(this)
-    }
-
+class HttpOutputTest extends HttpTestBase {
     @Test
     void "should print json request body"() {
-        http.post("/echo", [hello: "world", id: "generated-id"])
-        output.should contain("""  request (application/json):
+        runAndValidateOutput(contain("""  request (application/json):
   {
     "hello": "world",
     "id": "generated-id"
-  }""")
+  }""")) {
+            http.post("/echo", [hello: "world", id: "generated-id"])
+        }
     }
 
     @Test
     void "should print empty request body"() {
-        http.post("/echo")
-        output.should contain("  [no request body]")
+        runAndValidateOutput(contain("  [no request body]")) {
+            http.post("/echo")
+        }
     }
 
     @Test
     void "should print binary request body"() {
-        http.post("/echo", http.application.octetStream([1, 2, 3] as byte[]))
-        output.should contain("  [binary request]")
+        runAndValidateOutput(contain("  [binary request]")) {
+            http.post("/echo", http.application.octetStream([1, 2, 3] as byte[]))
+        }
     }
 
     @Test
     void "should print text request body"() {
-        http.post("/echo", http.text.plain("hello world"))
-        output.should contain("  request (text/plain):\n" +
-                "  hello world")
-    }
-
-    @Override
-    void out(Object... styleOrValues) {
-        output += new IgnoreAnsiString(styleOrValues).toString() + '\n'
-    }
-
-    @Override
-    void err(Object... styleOrValues) {
-
+        runAndValidateOutput(contain("  request (text/plain):\n" +
+                "  hello world")) {
+            http.post("/echo", http.text.plain("hello world"))
+        }
     }
 }

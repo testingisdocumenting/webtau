@@ -17,9 +17,20 @@
 
 package org.testingisdocumenting.webtau.data.traceable;
 
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
+import org.testingisdocumenting.webtau.utils.TypeUtils;
+
 import java.util.function.Supplier;
 
-public class TraceableValue {
+import static org.testingisdocumenting.webtau.data.render.PrettyPrinter.*;
+
+public class TraceableValue implements PrettyPrintable {
+    private static final Object[] PASS_STYLE = new Object[]{FontStyle.BOLD, Color.GREEN};
+    private static final Object[] FAIL_STYLE = new Object[]{FontStyle.BOLD, Color.RED};
+
     private static final ThreadLocal<Boolean> isTracingDisabled = ThreadLocal.withInitial(() -> Boolean.FALSE);
     private static final ThreadLocal<Boolean> isAlwaysFuzzyPassedTracing = ThreadLocal.withInitial(() -> Boolean.FALSE);
 
@@ -87,6 +98,54 @@ public class TraceableValue {
             return code.get();
         } finally {
             isAlwaysFuzzyPassedTracing.set(false);
+        }
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter printer) {
+        String surroundWith = printSurroundWith();
+
+        printer.print(valuePrintStyle());
+        printer.print(surroundWith);
+        printer.print(convertToStringForPrint(getValue()));
+        printer.print(surroundWith);
+    }
+
+    private Object convertToStringForPrint(Object value) {
+        if (value == null) {
+            return "null";
+        }
+
+        return TypeUtils.isString(value) ?
+                "\"" + value + "\"" :
+                value.toString();
+    }
+
+    private String printSurroundWith() {
+        switch (getCheckLevel()) {
+            case FuzzyFailed:
+            case ExplicitFailed:
+                return "**";
+            case ExplicitPassed:
+                return "__";
+            case FuzzyPassed:
+                return "~~";
+            default:
+                return "";
+        }
+    }
+    private Object[] valuePrintStyle() {
+        switch (getCheckLevel()) {
+            case FuzzyFailed:
+            case ExplicitFailed:
+                return FAIL_STYLE;
+            case FuzzyPassed:
+            case ExplicitPassed:
+                return PASS_STYLE;
+            default:
+                return new Color[]{value == null ?
+                        UNKNOWN_COLOR :
+                        TypeUtils.isString(value) ? STRING_COLOR : NUMBER_COLOR};
         }
     }
 }
