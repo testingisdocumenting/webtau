@@ -34,7 +34,7 @@ interface Props {
 }
 
 export function Step({ step, isTopLevel }: Props) {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(step.isSuccessful);
 
   const children = step.children ? step.children.map((c, idx) => <Step key={idx} step={c} />) : null;
 
@@ -44,7 +44,7 @@ export function Step({ step, isTopLevel }: Props) {
       <div className="message-parts">
         {step.personaId ? <div className="persona-id">{step.personaId}</div> : <div />}
 
-        <StepMessage message={step.message} />
+        <StepMessage message={step.message} removeLastErrorToken={hasFailedChildren()} />
         {renderMoreToggle()}
         <StepTime millis={step.elapsedTime} />
       </div>
@@ -75,6 +75,10 @@ export function Step({ step, isTopLevel }: Props) {
         ...
       </div>
     );
+  }
+
+  function hasFailedChildren() {
+    return !!step.children && step.children.some((child) => !child.isSuccessful);
   }
 
   function showChildren() {

@@ -480,6 +480,7 @@ public class WebTauStep {
         result.put("message", completionMessage.toListOfMaps());
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
+        result.put("isSuccessful", isSuccessful);
 
         if (!classifier.isEmpty()) {
             result.put("classifier", classifier);
@@ -513,11 +514,16 @@ public class WebTauStep {
     private void complete(TokenizedMessage message) {
         isInProgress = false;
         isSuccessful = true;
+
         completionMessage = message;
     }
 
     private void fail(Throwable t) {
+        isInProgress = false;
+        isSuccessful = false;
+
         stackTrace = renderStackTrace(t);
+
         completionMessage = new TokenizedMessage();
         completionMessage.add("error", "failed").add(inProgressMessage).add("delimiter", ":")
                 .add("error", t.getMessage());

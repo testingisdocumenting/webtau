@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "check weather",
+    "shortContainerId" : "simpleGetAndFail.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 2
+    }
+  } ],
+  "exitCode" : 1
+}
