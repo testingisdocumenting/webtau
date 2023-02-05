@@ -18,7 +18,9 @@ package com.example.tests.junit5;
 
 import org.junit.jupiter.api.Test;
 import org.testingisdocumenting.webtau.junit5.WebTau;
+
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;
 
 @WebTau
 public class StepTraceJavaTest {
@@ -37,11 +39,17 @@ public class StepTraceJavaTest {
         int myPort = 8080;
         String baseUrl = "http://baseurl";
 
-        // wrap-step-key-value
-        step("important actions", map("myPort", myPort, "baseUrl", baseUrl), () -> {
-            actionThree(myPort, baseUrl);
+        runAndValidateOutput("> important actions\n" +
+                "    myPort: 8080\n" +
+                "    baseUrl: http://baseurl\n" +
+                "  [tracing] action three\n" +
+                ". completed important actions (Xms)", () -> {
+            // wrap-step-key-value
+            step("important actions", map("myPort", myPort, "baseUrl", baseUrl), () -> {
+                actionThree(myPort, baseUrl);
+            });
+            // wrap-step-key-value
         });
-        // wrap-step-key-value
     }
 
     @Test
