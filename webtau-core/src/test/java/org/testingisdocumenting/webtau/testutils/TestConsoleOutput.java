@@ -54,6 +54,11 @@ public class TestConsoleOutput implements ConsoleOutput {
     public void err(Object... styleOrValues) {
     }
 
+    public static String replaceTimeAndPort(String original) {
+        return original.replaceAll("\\d+ms", "Xms")
+                .replaceAll("localhost:\\d+", "localhost:port");
+    }
+
     public static TestConsoleOutput runAndValidateOutput(Object expectedOutput, Runnable code) {
         return runExpectExceptionAndValidateOutput(null, expectedOutput, code);
     }
@@ -72,7 +77,7 @@ public class TestConsoleOutput implements ConsoleOutput {
                     caughtException = e;
                 }
 
-                String output = replaceTime(testOutput.getNoColorOutput());
+                String output = replaceTimeAndPort(testOutput.getNoColorOutput());
                 return new OutputAndCaughtException(output, caughtException);
             });
 
