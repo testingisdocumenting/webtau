@@ -68,7 +68,7 @@ scenario('http call') {
 
     cli.doc.capture('http-repl-output')
     fs.textContent(cfg.docArtifactsPath.resolve('http-repl-output/out.txt')).should contain(
-            'header.statusCode:   actual: 200')
+            'header.statusCode equals 200')
 }
 
 scenario('set config value') {
