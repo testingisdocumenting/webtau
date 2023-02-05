@@ -73,6 +73,7 @@ public class ConsoleReportGenerator implements ReportGenerator {
 
         if (withStatus.size() > testsLimit) {
             ConsoleOutputs.out(Color.YELLOW, "...(" + (withStatus.size() - testsLimit) + " more " + statusLabel + " tests)");
+            ConsoleOutputs.out();
         }
     }
 
@@ -88,8 +89,9 @@ public class ConsoleReportGenerator implements ReportGenerator {
     }
 
     private static void printFailedStep(WebTauStep step) {
-        consoleStepReporter.onStepFailure(step);
+        consoleStepReporter.printStepFailureWithoutOutput(step);
         step.findFailedChildStep().ifPresent(ConsoleReportGenerator::printFailedStep);
+        consoleStepReporter.printStepOutput(step);
     }
 
     private void printWarnings(WebTauReport report) {
