@@ -159,8 +159,8 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
         expectReport(Integer.MAX_VALUE, '> top level action\n' +
                 '  > second level action\n' +
-                '    hello input\n' +
-                '    world\n' +
+                '      hello input\n' +
+                '      world\n' +
                 '    hello output\n' +
                 '    world\n' +
                 '  . second level action completed (0ms)\n' +
@@ -267,7 +267,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Test
     void "should render trace steps in a special manner"() {
         expectReport(100, "[tracing] trace label\n" +
-                "  key: value") {
+                "    key: value") {
             WebTauCore.trace("trace label", "key", "value")
         }
     }
@@ -275,7 +275,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Test
     void "should render warning steps in a special manner"() {
         expectReport(100, "[warning] warning label\n" +
-                "  key: value") {
+                "    key: value") {
             WebTauCore.warning("warning label", "key", "value")
         }
     }
@@ -306,7 +306,6 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
         topLevelStep.execute(StepReportOptions.REPORT_ALL)
     }
-
 
     private void expectReport(int verbosityLevel, String expectedReport, Closure code) {
         lines = new ArrayList<>()
