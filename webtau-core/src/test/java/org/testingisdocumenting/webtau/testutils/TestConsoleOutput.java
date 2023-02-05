@@ -97,7 +97,8 @@ public class TestConsoleOutput implements ConsoleOutput {
     }
 
     private static String replaceTime(String original) {
-        return original.replaceAll("\\d+ms", "Xms");
+        return original.replaceAll("\\d+ms", "Xms")
+                .replaceAll("localhost:\\d+", "localhost:port");
     }
 
     private static class OutputAndCaughtException {

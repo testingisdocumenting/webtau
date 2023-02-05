@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.http.datanode;
 
+import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.BinaryDataProvider;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
@@ -24,11 +25,10 @@ import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
-import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
 
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
@@ -109,6 +109,18 @@ public interface DataNode extends DataNodeExpectations, BinaryDataProvider, Comp
 
     @Override
     default void prettyPrint(PrettyPrinter printer) {
-        new DataNodeAnsiPrinter(printer.createIndentedConsoleOutput()).print(this);
+        if (isList()) {
+            printer.printObject(elements());
+        } else if (isSingleValue()) {
+            printer.printObject(getTraceableValue());
+        } else if (isNull()) {
+            printer.printObject(null);
+        } else if (isBinary()) {
+            printer.printLine(Color.YELLOW, "[binary content]");
+        } else {
+            Map<String, DataNode> childrenAsMap = children().stream()
+                    .collect(Collectors.toMap(node -> node.id().getName(), node -> node, (l, r) -> r, LinkedHashMap::new));
+            printer.printObject(childrenAsMap);
+        }
     }
 }
