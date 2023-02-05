@@ -22,7 +22,6 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
-import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.http.HttpResponse;
 import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
@@ -36,8 +35,6 @@ import org.testingisdocumenting.webtau.utils.StringUtils;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
-
-import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*;
 
 public class HttpValidationResult implements WebTauStepOutput {
     private static final AtomicInteger idCounter = new AtomicInteger();
@@ -315,6 +312,7 @@ public class HttpValidationResult implements WebTauStepOutput {
 
         return paths;
     }
+
     private static String replaceStartOfThePath(String path) {
         if (path.startsWith("body")) {
             return path.replace("body", "root");
@@ -344,7 +342,8 @@ public class HttpValidationResult implements WebTauStepOutput {
                 printer.printLine(response.getTextContent());
                 printer.printLine(Color.RED, bodyParseErrorMessage);
             } else {
-                new DataNodeAnsiPrinter(printer.createIndentedConsoleOutput()).print(responseBodyNode, getCfg().getConsolePayloadOutputLimit());
+                printer.printObject(responseBodyNode);
+                printer.flushCurrentLine();
             }
         }
     }
