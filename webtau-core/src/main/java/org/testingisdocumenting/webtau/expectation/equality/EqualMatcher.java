@@ -58,8 +58,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.matchedMessage(actualPath, actual);
         }
 
-        return "equals " + DataRenderers.render(expected) + "\n" +
-                comparator.generateEqualMatchReport();
+        return "equals " + DataRenderers.render(expected);
     }
 
     @Override
@@ -106,8 +105,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.negativeMatchedMessage(actualPath, actual);
         }
 
-        return "doesn't equal " + DataRenderers.render(expected) + "\n" +
-                comparator.generateNotEqualMatchReport();
+        return "doesn't equal " + DataRenderers.render(expected);
     }
 
     @Override

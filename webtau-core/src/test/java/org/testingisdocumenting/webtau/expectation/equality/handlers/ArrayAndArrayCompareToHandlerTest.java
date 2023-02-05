@@ -17,7 +17,6 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.junit.Test;
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput;
 
 import java.util.regex.Pattern;
 
@@ -49,13 +48,7 @@ public class ArrayAndArrayCompareToHandlerTest {
         int[] a = {1, 2, 3};
         int[] b = {1, 2, 3};
 
-        runAndValidateOutput(". [value] equals [1, 2, 3]\n" +
-                "    [value][0]:   actual: 1 <java.lang.Integer>\n" +
-                "                expected: 1 <java.lang.Integer>\n" +
-                "    [value][1]:   actual: 2 <java.lang.Integer>\n" +
-                "                expected: 2 <java.lang.Integer>\n" +
-                "    [value][2]:   actual: 3 <java.lang.Integer>\n" +
-                "                expected: 3 <java.lang.Integer> (Xms)", () -> actual(a).should(equal(b)));
+        runAndValidateOutput(". [value] equals [1, 2, 3] (Xms)", () -> actual(a).should(equal(b)));
     }
 
     @Test
@@ -63,9 +56,7 @@ public class ArrayAndArrayCompareToHandlerTest {
         int[] a = {1, 2, 3};
         int[] b = {1, 7, 3};
 
-        runAndValidateOutput(Pattern.compile("expected: 7"), () -> {
-            actual(a).should(equal(b));
-        });
+        runAndValidateOutput(Pattern.compile("expected: 7"), () -> actual(a).should(equal(b)));
     }
 
     @Test

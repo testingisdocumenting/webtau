@@ -1,0 +1,1 @@
+* Add: [Matchers](matchers/introduction) only print minimal details in case of match, extra details in case of failure
