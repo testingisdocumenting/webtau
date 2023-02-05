@@ -39,8 +39,7 @@ public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String matchedMessage(ValuePath actualPath, Object actual) {
-        return "doesn't equal " + DataRenderers.render(expected) + "\n" +
-                comparator.generateNotEqualMatchReport();
+        return "doesn't equal " + DataRenderers.render(expected);
     }
 
     @Override
@@ -62,8 +61,7 @@ public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
-        return "equals " + DataRenderers.render(expected) + "\n" +
-                comparator.generateEqualMatchReport();
+        return "equals " + DataRenderers.render(expected);
     }
 
     @Override
