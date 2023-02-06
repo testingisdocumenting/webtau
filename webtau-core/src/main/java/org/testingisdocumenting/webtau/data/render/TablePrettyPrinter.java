@@ -76,6 +76,12 @@ public class TablePrettyPrinter {
 
     private void renderBody(PrettyPrinter printer) {
         int numberOfRows = prettyPrintersTable.numberOfRows();
+
+        if (numberOfRows == 0) {
+            printer.printLine(Color.YELLOW, "[empty]");
+            return;
+        }
+
         for (int rowIdx = 0; rowIdx < numberOfRows; rowIdx++) {
             Record row = prettyPrintersTable.row(rowIdx);
             renderRow(printer, row, rowIdx, rowIdx == numberOfRows - 1);

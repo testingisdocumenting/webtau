@@ -29,10 +29,12 @@ interface Props {
 }
 
 export function StepMessage({ message, removeLastErrorToken }: Props) {
+  const modifiedMessageTokens = modifiedMessage();
+
   return (
     <div className="message">
-      {modifiedMessage().map((t, idx) => (
-        <StepToken key={idx} {...t} />
+      {modifiedMessageTokens.map((t, idx) => (
+        <StepToken key={idx} token={t} next={modifiedMessageTokens[idx + 1]} />
       ))}
     </div>
   );
