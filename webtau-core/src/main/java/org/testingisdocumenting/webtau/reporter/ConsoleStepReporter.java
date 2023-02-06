@@ -83,7 +83,7 @@ public class ConsoleStepReporter implements StepReporter {
             return;
         }
 
-        PrettyPrinter printer = createPrettyPrinter(step);
+        PrettyPrinter printer = createInputOutputPrettyPrinter(step);
         step.getOutput().prettyPrint(printer);
         printer.renderToConsole();
     }
@@ -181,12 +181,12 @@ public class ConsoleStepReporter implements StepReporter {
             return;
         }
 
-        PrettyPrinter printer = createPrettyPrinter(step);
+        PrettyPrinter printer = createInputOutputPrettyPrinter(step);
         step.getInput().prettyPrint(printer);
         printer.renderToConsole();
     }
 
-    private PrettyPrinter createPrettyPrinter(WebTauStep step) {
+    private PrettyPrinter createInputOutputPrettyPrinter(WebTauStep step) {
         return new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(),
                 numberOfSpacesForIndentLevel(step.getNumberOfParents() + 1));
     }

@@ -18,7 +18,9 @@ package com.example.tests.junit5;
 
 import org.junit.jupiter.api.Test;
 import org.testingisdocumenting.webtau.junit5.WebTau;
+
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;
 
 @WebTau
 public class StepTraceJavaTest {
