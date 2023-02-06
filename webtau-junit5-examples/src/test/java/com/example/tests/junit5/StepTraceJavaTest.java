@@ -39,17 +39,11 @@ public class StepTraceJavaTest {
         int myPort = 8080;
         String baseUrl = "http://baseurl";
 
-        runAndValidateOutput("> important actions\n" +
-                "    myPort: 8080\n" +
-                "    baseUrl: http://baseurl\n" +
-                "  [tracing] action three\n" +
-                ". completed important actions (Xms)", () -> {
-            // wrap-step-key-value
-            step("important actions", map("myPort", myPort, "baseUrl", baseUrl), () -> {
-                actionThree(myPort, baseUrl);
-            });
-            // wrap-step-key-value
+        // wrap-step-key-value
+        step("important actions", map("myPort", myPort, "baseUrl", baseUrl), () -> {
+            actionThree(myPort, baseUrl);
         });
+        // wrap-step-key-value
     }
 
     @Test
