@@ -1,0 +1,1 @@
+* Fix: remove extra spacing before delimiters when render [Web Report Steps](report/steps)
