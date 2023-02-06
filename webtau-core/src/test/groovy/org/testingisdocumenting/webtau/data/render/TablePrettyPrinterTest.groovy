@@ -27,6 +27,15 @@ import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class TablePrettyPrinterTest {
     @Test
+    void "render empty table"() {
+        def emptyTable = table("colA", "colB", "colC",
+                               ________________________)
+
+        prettyPrintTable(emptyTable, [], "colA │ colB │ colC\n" +
+                "[empty]")
+    }
+
+    @Test
     void "render table of simple values"() {
         def simpleTable = table("colA", "colB", "colC",
                                  ________________________,

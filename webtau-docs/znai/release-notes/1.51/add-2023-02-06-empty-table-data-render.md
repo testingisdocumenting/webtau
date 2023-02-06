@@ -1,0 +1,1 @@
+* Add: Empty [TableData](reference/table-data) pretty print explicitly states "empty" for empty tables
