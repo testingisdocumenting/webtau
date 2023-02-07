@@ -149,10 +149,9 @@ public class AccountRepositoryTest {
 
         // search by last name and validate received java beans
         List<Account> lnAccounts = accountRepository.findByLastName("LN");
-        actual(lnAccounts).should(equal(table("*id", "firstName", "lastName",
-                                              ______________________________,
-                                              "id1", "FN1"       , "LN",
-                                              "id2", "FN2"       , "LN")));
+
+        TableData expectedByLn = newAccounts.fromRowsByKeys("id1", "id2");
+        actual(lnAccounts).should(equal(expectedByLn));
     }
 
     private static List<Account> createAccounts(TableData tableData) {

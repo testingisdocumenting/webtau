@@ -1,0 +1,1 @@
+* Add: [TableData.fromRowsByKeys](reference/table-data#create-from-existing-rows)

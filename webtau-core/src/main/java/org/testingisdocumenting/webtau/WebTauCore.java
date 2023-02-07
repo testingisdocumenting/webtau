@@ -58,6 +58,11 @@ public class WebTauCore extends Matchers {
         return new TableData(Arrays.stream(columnNames));
     }
 
+    /**
+     * creates composite key from provided part(s)
+     * @param values key parts
+     * @return composite key
+     */
     public static CompositeKey key(Object... values) {
         return new CompositeKey(Arrays.stream(values));
     }

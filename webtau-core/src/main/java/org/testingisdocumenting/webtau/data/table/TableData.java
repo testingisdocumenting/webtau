@@ -103,6 +103,33 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
     }
 
     /**
+     * create a new instance of table data with subset of rows by provided keys
+     * @param keys keys of rows to include
+     * @return sub table
+     */
+    public TableData fromRowsByKeys(Object... keys) {
+        validateKeyColumnsPresence();
+
+        TableData result = new TableData(header);
+
+        for (Object key : keys) {
+            CompositeKey compositeKey = key instanceof CompositeKey ?
+                    (CompositeKey) key :
+                    new CompositeKey(Stream.of(key));
+
+            Record row = find(compositeKey);
+
+            if (row == null) {
+                throw new RuntimeException("can't find row by key: <" + key + ">");  
+            }
+
+            result.addRow(row);
+        }
+
+        return result;
+    }
+
+    /**
      * @param values row values combined in one vararg
      * @return populate table data instance
      */
@@ -144,9 +171,7 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
      * @param keyParts parts of composite key to use for lookup
      */
     public Record findByKey(Object... keyParts) {
-        if (!header.hasKeyColumns()) {
-            throw new RuntimeException("no key columns defined");
-        }
+        validateKeyColumnsPresence();
 
         CompositeKey key = new CompositeKey(Arrays.stream(keyParts));
 
@@ -293,6 +318,12 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
     public void prettyPrint(PrettyPrinter prettyPrinter, ValuePath valuePath) {
         TablePrettyPrinter tablePrinter = new TablePrettyPrinter(this);
         tablePrinter.prettyPrint(prettyPrinter, valuePath);
+    }
+
+    private void validateKeyColumnsPresence() {
+        if (!header.hasKeyColumns()) {
+            throw new RuntimeException("no key columns defined");
+        }
     }
 
     private static TableDataHeader createCombinedHeaderFromRecords(List<Map<String, ?>> rows) {
