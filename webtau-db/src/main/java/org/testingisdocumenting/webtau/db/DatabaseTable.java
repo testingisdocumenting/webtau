@@ -37,10 +37,12 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 
 public class DatabaseTable {
+    private final Database database;
     private final LabeledDataSourceProvider dataSourceProvider;
     private final String name;
 
-    public DatabaseTable(LabeledDataSourceProvider dataSourceProvider, String name) {
+    public DatabaseTable(Database database, LabeledDataSourceProvider dataSourceProvider, String name) {
+        this.database = database;
         this.dataSourceProvider = dataSourceProvider;
         this.name = name;
     }
@@ -64,6 +66,10 @@ public class DatabaseTable {
                 insertingMessage(1),
                 () -> insertedMessage(1),
                 () -> insertRowStep(row));
+    }
+
+    public void clear() {
+        database.update("delete from " + name);
     }
 
     public DbQuery queryCount() {

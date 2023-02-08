@@ -304,6 +304,14 @@ class DatabaseTest extends DatabaseBaseTest {
     }
 
     @Test
+    void "delete with table shortcut"() {
+        def PRICES = setupPrices()
+        PRICES.clear()
+
+        db.table("PRICES").queryCount().should == 0
+    }
+
+    @Test
     void "should run updates with params"() {
         def PRICES = setupPrices()
         doc.capture('db-before-update', PRICES.query().tableData())
