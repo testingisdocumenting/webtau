@@ -154,6 +154,36 @@ public class TableDataJavaTest {
     }
 
     @Test
+    public void shouldCreateANewTableBySelectingRowsById() {
+        TableData table = table("*id", "description",
+                                __________________________,
+                                "id1", "description one",
+                                "id2", "description two",
+                                "id3", "description three");
+
+        TableData newTable = table.fromRowsByKeys("id1", "id3");
+        actual(newTable).should(equal(table("*id", "description",
+                                            __________________________,
+                                            "id1", "description one",
+                                            "id3", "description three")));
+    }
+
+    @Test
+    public void shouldCreateANewTableBySelectingRowsByCompositeKeys() {
+        TableData table = table("*id1", "*id2", "description",
+                                ____________________________________,
+                                "id11", "id12", "description one",
+                                "id21", "id22", "description two",
+                                "id31", "id32", "description three");
+
+        TableData newTable = table.fromRowsByKeys(key("id11", "id12"), key("id31", "id32"));
+        actual(newTable).should(equal(table("*id1", "*id2", "description",
+                                            ____________________________________,
+                                            "id11", "id12", "description one",
+                                            "id31", "id32", "description three")));
+    }
+
+    @Test
     public void addRowSizeValidation() {
         TableData table = new TableData(Stream.of("ColumnA", "ColumnB"));
         code(() -> table.addRow(Stream.of(10))).should(
@@ -203,7 +233,7 @@ public class TableDataJavaTest {
     }
 
     private static void findByKeyAndValidate(TableData tableData) {
-        Record found = tableData.find(key("id2"));
+        Record found = tableData.findByKey("id2");
         String name = found.get("Name");
         actual(name).should(equal("N2"));
     }
