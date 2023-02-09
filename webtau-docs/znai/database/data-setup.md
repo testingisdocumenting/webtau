@@ -86,6 +86,14 @@ Note: code above assumes `WebTauCore.*` static import or `WebTauGroovyDsl.*` sta
     commentsType: "inline"
 }
 
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
+  entry: "delete with table shortcut",
+  title: "delete data through table shortcut",
+  bodyOnly: true,
+  includeRegexp: "clear",
+  commentsType: "inline"
+}
+
 # Updating Tables
 
 :include-table: doc-artifacts/db-before-update.json { title: "PRICES" }

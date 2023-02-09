@@ -53,7 +53,7 @@ public class AccountRepositoryTest {
 
     @BeforeEach
     public void cleanupBeforeTest() {
-        mainDb.update("delete from ACCOUNT");
+        ACCOUNT.clear();
     }
 
     @Test

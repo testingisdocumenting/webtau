@@ -50,7 +50,7 @@ public class Database {
     }
 
     public DatabaseTable table(String name) {
-        return new DatabaseTable(dataSourceProvider, name);
+        return new DatabaseTable(this, dataSourceProvider, name);
     }
 
     public DbQuery query(String query) {
