@@ -50,7 +50,7 @@ class TableDataCompareToHandlerTest {
                 "  \n" +
                 '  colA        │ colB   \n' +
                 '  **"hello"** │ "world"\n' +
-                '          100 │ **200**\n  ') {
+                '          100 │ **200**\n') {
             actual(actualTable).should(equal(expected))
         }
     }
@@ -86,8 +86,7 @@ class TableDataCompareToHandlerTest {
                 "  \n" +
                 '  colA        │ colB   \n' +
                 '  **"hello"** │ "world"\n' +
-                '          100 │     200\n' +
-                '  ') {
+                '          100 │     200\n') {
             actual(actualTable).should(equal(expected))
         }
     }

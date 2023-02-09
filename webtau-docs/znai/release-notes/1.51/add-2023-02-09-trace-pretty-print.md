@@ -1,0 +1,1 @@
+* Add: [tracing](report/steps#tracing-values) pretty prints complex values like maps and [TableData](reference/table-data)

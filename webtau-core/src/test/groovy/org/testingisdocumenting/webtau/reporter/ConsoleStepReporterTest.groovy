@@ -267,7 +267,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Test
     void "should render trace steps in a special manner"() {
         expectReport(100, "[tracing] trace label\n" +
-                "    key: value") {
+                "    key: \"value\"") {
             WebTauCore.trace("trace label", "key", "value")
         }
     }
@@ -275,7 +275,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Test
     void "should render warning steps in a special manner"() {
         expectReport(100, "[warning] warning label\n" +
-                "    key: value") {
+                "    key: \"value\"") {
             WebTauCore.warning("warning label", "key", "value")
         }
     }

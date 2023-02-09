@@ -16,22 +16,17 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
-import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 
 import java.util.Map;
 
 class WebTauStepKeyValue {
     static void prettyPrint(PrettyPrinter printer, Map<String, Object> data) {
-        data.forEach((key, value) -> printer.printLine(Color.PURPLE, key, Color.WHITE, ": ",
-                valueColor(value), value));
-    }
-
-    private static Color valueColor(Object value) {
-        if (value instanceof CharSequence) {
-            return Color.GREEN;
-        }
-
-        return Color.CYAN;
+        data.forEach((key, value) -> {
+            printer.print(PrettyPrinter.KEY_COLOR, key);
+            printer.print(PrettyPrinter.DELIMITER_COLOR, ": ");
+            printer.printObjectAutoIndentedByCurrentLine(value);
+            printer.flushCurrentLine();
+        });
     }
 }

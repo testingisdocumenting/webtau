@@ -85,8 +85,8 @@ class WebTauConfigTest implements ConsoleOutput {
         output = output.replaceAll("\\(\\d+ms\\)", "(Xms)")
 
         output.should == "> setting url\n" +
-                "    source: test-source\n" +
-                "    url: http://test\n" +
+                "    source: \"test-source\"\n" +
+                "    url: \"http://test\"\n" +
                 ". set url (Xms)"
     }
 

@@ -28,11 +28,6 @@ public class PrettyPrinterLine {
 
     private final List<Object> styleAndValues = new ArrayList<>();
 
-    public void prepend(Object... styleAndValues) {
-        this.styleAndValues.addAll(0, Arrays.asList(styleAndValues));
-        updateWidth(styleAndValues);
-    }
-
     public void append(Object... styleAndValues) {
         this.styleAndValues.addAll(Arrays.asList(styleAndValues));
         updateWidth(styleAndValues);
@@ -40,6 +35,10 @@ public class PrettyPrinterLine {
 
     public int getWidth() {
         return width;
+    }
+
+    public boolean isEmpty() {
+        return styleAndValues.isEmpty();
     }
 
     public List<Object> getStyleAndValues() {
