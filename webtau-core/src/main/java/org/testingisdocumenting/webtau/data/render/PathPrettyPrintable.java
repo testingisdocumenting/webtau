@@ -1,5 +1,5 @@
 /*
- * Copyright 2021 webtau maintainers
+ * Copyright 2023 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.reporter;
+package org.testingisdocumenting.webtau.data.render;
 
-import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
+import java.nio.file.Path;
 
-import java.util.Map;
+public class PathPrettyPrintable implements PrettyPrintable {
+    private final Path path;
 
-class WebTauStepKeyValue {
-    static void prettyPrint(PrettyPrinter printer, Map<String, Object> data) {
-        data.forEach((key, value) -> {
-            printer.print(PrettyPrinter.KEY_COLOR, key);
-            printer.print(PrettyPrinter.DELIMITER_COLOR, ": ");
-            printer.printObjectAutoIndentedByCurrentLine(value);
-            printer.flushCurrentLine();
-        });
+    public PathPrettyPrintable(Path path) {
+        this.path = path;
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter printer) {
+       printer.print(PrettyPrinter.STRING_COLOR, path.toString());
     }
 }

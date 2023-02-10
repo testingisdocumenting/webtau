@@ -160,8 +160,7 @@ public class MatchersTest {
                 "  {                       │ \"test account\" │ \"ac3\" │ \"My Account\"\n" +
                 "    \"city\": \"TC3\",        │                │       │             \n" +
                 "    \"zipCode\": **\"zip3\"** │                │       │             \n" +
-                "  }                       │                │       │             \n" +
-                "  ", () -> {
+                "  }                       │                │       │             \n", () -> {
             // beans-table-example
             List<Account> accounts = fetchAccounts();
             TableData expected = table("*id",       "name", "address",

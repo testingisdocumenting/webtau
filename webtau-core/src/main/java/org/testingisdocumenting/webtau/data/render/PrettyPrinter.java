@@ -149,11 +149,11 @@ public class PrettyPrinter {
     }
 
     public void print(PrettyPrinterLine line) {
-        currentLine.append(line.getStyleAndValues());
+        appendToCurrentLine(line.getStyleAndValues());
     }
 
     public void print(Object... styleOrValues) {
-        currentLine.append(styleOrValues);
+        appendToCurrentLine(styleOrValues);
     }
 
     public void printDelimiter(String d) {
@@ -161,14 +161,12 @@ public class PrettyPrinter {
     }
 
     public void printLine(Object... styleOrValues) {
-        currentLine.append(styleOrValues);
+        appendToCurrentLine(styleOrValues);
         flushCurrentLine();
     }
 
     public void flushCurrentLine() {
-        currentLine.prepend(indentation);
         lines.add(currentLine);
-
         currentLine = new PrettyPrinterLine();
     }
 
@@ -210,6 +208,21 @@ public class PrettyPrinter {
                 print(decorationToken.getColor(), decorationToken.getWrapWith());
             }
         }
+    }
+
+    public void printObjectAutoIndentedByCurrentLine(Object value) {
+        int previousIndentation = indentationSize;
+        setIndentationSize(currentLine.getWidth());
+        printObject(value);
+        setIndentationSize(previousIndentation);
+    }
+
+    private void appendToCurrentLine(Object... styleOrValue) {
+        if (currentLine.isEmpty()) {
+            currentLine.append(indentation);
+        }
+
+        currentLine.append(styleOrValue);
     }
 
     private void printPrimitive(Color color, Object o, boolean needToDecorate) {

@@ -16,74 +16,54 @@
 
 package org.testingisdocumenting.webtau.fs
 
-import org.junit.Before
+
 import org.junit.Test
-import org.testingisdocumenting.webtau.console.ConsoleOutput
-import org.testingisdocumenting.webtau.console.ConsoleOutputs
-import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
 import org.testingisdocumenting.webtau.utils.FileUtils
 
-import static org.testingisdocumenting.webtau.Matchers.contain
-import static org.testingisdocumenting.webtau.fs.FileSystem.fs
+import java.nio.file.Path
 
-class FileSystemTest implements ConsoleOutput {
-    String output
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.fs.FileSystem.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
-    @Before
-    void init() {
-        ConsoleOutputs.add(this)
-        output = ""
-    }
-
-    @Before
-    void cleanup() {
-        ConsoleOutputs.remove(this)
-    }
-
+class FileSystemTest {
     @Test
     void "creating temp dir has dir path in completion step"() {
-        fs.tempDir("custom-prefix")
-
-        output.should contain("> creating temp directory")
-        output.should contain("prefix: custom-prefix")
-        output.should == ~/\. created temp directory .*custom-prefix.+\s\(.+ms\)/
+        runAndValidateOutput(containAll("> creating temp directory", "prefix: \"custom-prefix\"",
+                ". created temp directory")) {
+            fs.tempDir("custom-prefix")
+        }
     }
 
     @Test
     void "creating temp dir with dir specified has dir as step input"() {
-        fs.tempDir("my-dir", "custom-prefix")
-        output.should == ~/dir: .*my-dir/
+        runAndValidateOutput(~/dir: .*my-dir/) {
+            fs.tempDir("my-dir", "custom-prefix")
+        }
     }
 
     @Test
     void "creating temp file with dir specified has dir, prefix and suffix as step input"() {
-        fs.tempFile("my-dir", "custom-prefix", "my-suffix")
-        output.should contain("prefix: custom-prefix")
-        output.should contain("suffix: my-suffix")
-        output.should == ~/dir: .*my-dir/
+        runAndValidateOutput(containAll("prefix: \"custom-prefix\"", "suffix: \"my-suffix\"")) {
+            fs.tempFile("my-dir", "custom-prefix", "my-suffix")
+        }
     }
 
     @Test
     void "replacing text with regexp report number of matches"() {
-        def tempDir = fs.tempDir("custom-prefix")
-        def tempFile = fs.writeText(tempDir.resolve("text.txt"), "hello 200 world 300")
+        Path tempFile
+        runAndValidateOutput(containAll("> replacing text content",
+                " replacement: \"\$1!\"",
+                "> reading text from",
+                "> writing text content of size 21",
+                ". replaced text content: 2 matches")) {
+            def tempDir = fs.tempDir("custom-prefix")
+            tempFile = fs.writeText(tempDir.resolve("text.txt"), "hello 200 world 300")
 
-        fs.replaceText(tempFile, ~/(\d+)/, '$1!')
+            fs.replaceText(tempFile, ~/(\d+)/, '$1!')
+            return tempFile
+        }
+
         FileUtils.fileTextContent(tempFile).should == "hello 200! world 300!"
-
-        output.should contain("> replacing text content")
-        output.should contain(" replacement: \$1!")
-        output.should contain("> reading text from")
-        output.should contain("> writing text content of size 21")
-        output.should contain(". replaced text content: 2 matches")
-    }
-
-    @Override
-    void out(Object... styleOrValues) {
-        output += new IgnoreAnsiString(styleOrValues).toString() + '\n'
-    }
-
-    @Override
-    void err(Object... styleOrValues) {
     }
 }
