@@ -17,20 +17,16 @@
 package org.testingisdocumenting.webtau.data.render;
 
 import java.nio.file.Path;
-import java.util.Map;
-import java.util.Optional;
 
-public class CommonTypesPrettyPrintableProvider implements PrettyPrintableProvider {
+public class PathPrettyPrintable implements PrettyPrintable {
+    private final Path path;
+
+    public PathPrettyPrintable(Path path) {
+        this.path = path;
+    }
+
     @Override
-    public Optional<PrettyPrintable> prettyPrintableFor(Object o) {
-        if (o instanceof Path) {
-            return Optional.of(new PathPrettyPrintable((Path) o));
-        } if (o instanceof Iterable) {
-            return Optional.of(new IterablePrettyPrintable((Iterable<?>) o));
-        } else if (o instanceof Map) {
-            return Optional.of(new MapPrettyPrintable((Map<?, ?>) o));
-        }
-
-        return Optional.empty();
+    public void prettyPrint(PrettyPrinter printer) {
+       printer.print(PrettyPrinter.STRING_COLOR, path.toString());
     }
 }
