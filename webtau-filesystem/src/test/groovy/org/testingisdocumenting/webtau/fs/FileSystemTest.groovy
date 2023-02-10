@@ -20,6 +20,8 @@ package org.testingisdocumenting.webtau.fs
 import org.junit.Test
 import org.testingisdocumenting.webtau.utils.FileUtils
 
+import java.nio.file.Path
+
 import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.fs.FileSystem.*
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
@@ -28,7 +30,7 @@ class FileSystemTest {
     @Test
     void "creating temp dir has dir path in completion step"() {
         runAndValidateOutput(containAll("> creating temp directory", "prefix: \"custom-prefix\"",
-                ".created temp directory")) {
+                ". created temp directory")) {
             fs.tempDir("custom-prefix")
         }
     }
@@ -49,16 +51,19 @@ class FileSystemTest {
 
     @Test
     void "replacing text with regexp report number of matches"() {
-        def tempDir = fs.tempDir("custom-prefix")
-        def tempFile = fs.writeText(tempDir.resolve("text.txt"), "hello 200 world 300")
+        Path tempFile
+        runAndValidateOutput(containAll("> replacing text content",
+                " replacement: \"\$1!\"",
+                "> reading text from",
+                "> writing text content of size 21",
+                ". replaced text content: 2 matches")) {
+            def tempDir = fs.tempDir("custom-prefix")
+            tempFile = fs.writeText(tempDir.resolve("text.txt"), "hello 200 world 300")
 
-        fs.replaceText(tempFile, ~/(\d+)/, '$1!')
+            fs.replaceText(tempFile, ~/(\d+)/, '$1!')
+            return tempFile
+        }
+
         FileUtils.fileTextContent(tempFile).should == "hello 200! world 300!"
-//
-//        output.should contain("> replacing text content")
-//        output.should contain(" replacement: \$1!")
-//        output.should contain("> reading text from")
-//        output.should contain("> writing text content of size 21")
-//        output.should contain(". replaced text content: 2 matches")
     }
 }
