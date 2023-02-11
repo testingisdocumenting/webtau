@@ -82,6 +82,10 @@ public class TableDataHeader {
         return namesByIndex.contains(columnName);
     }
 
+    public boolean isKeyColumn(String columnName) {
+        return keyNames.contains(columnName);
+    }
+
     private void add(String nameWithMeta) {
         boolean startsWithAsterisk = nameWithMeta.startsWith("*");
 
