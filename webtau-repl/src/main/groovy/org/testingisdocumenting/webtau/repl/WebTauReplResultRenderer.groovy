@@ -38,7 +38,7 @@ class WebTauReplResultRenderer {
         } else if (result instanceof PrettyPrintable) {
             def printer = createPrettyPrinter()
             result.prettyPrint(printer)
-            printer.renderToConsole()
+            printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput())
         } else if (result != null) {
             ConsoleOutputs.out(DataRenderers.render(result))
         }
