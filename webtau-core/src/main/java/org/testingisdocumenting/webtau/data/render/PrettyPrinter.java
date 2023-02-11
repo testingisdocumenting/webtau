@@ -29,7 +29,7 @@ import java.util.*;
  * prints values using pretty ANSI colors, maintains indentation
  * delegates to either {@link PrettyPrintable} or {@link PrettyPrintableProvider}
  */
-public class PrettyPrinter {
+public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
     public static final Color DELIMITER_COLOR = Color.YELLOW;
     public static final Color STRING_COLOR = Color.GREEN;
     public static final Color NUMBER_COLOR = Color.CYAN;
@@ -113,6 +113,11 @@ public class PrettyPrinter {
 
     public PrettyPrinterLine getLine(int lineIdx) {
         return lines.get(lineIdx);
+    }
+
+    @Override
+    public Iterator<PrettyPrinterLine> iterator() {
+        return lines.listIterator();
     }
 
     public void setIndentationSize(int indentationSize) {

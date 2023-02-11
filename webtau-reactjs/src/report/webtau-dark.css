@@ -94,16 +94,28 @@
 
     --webtau-table-row-problem-background-color: rgba(219, 17, 23, 0.2);
 
-    --webtau-property-key-color: #d4addd;
-    --webtau-property-value-string-color: #aecb96;
+    --webtau-styled-black-color: #333;
+    --webtau-styled-red-color: #f98d6d;
+    --webtau-styled-green-color: #aecb96;
+    --webtau-styled-yellow-color: #dcbe5a;
+    --webtau-styled-blue-color: #91bef7;
+    --webtau-styled-purple-color: #d4addd;
+    --webtau-styled-cyan-color: #509e9e;
+    --webtau-styled-white-color: #eee;
+    --webtau-styled-yellow-background-color: #dcbe5a;
+    --webtau-styled-red-background-color: var(--webtau-styled-red-color);
+    --webtau-styled-blue-background-color: var(--webtau-styled-blue-color);
+
+    --webtau-property-key-color: var(--webtau-styled-purple-color);
+    --webtau-property-value-string-color: var(--webtau-styled-green-color);
     --webtau-property-value-number-color: #b7b4f1;
 
     --webtau-step-id-color: var(--webtau-text-color);
-    --webtau-step-action-color: #91bef7;
+    --webtau-step-action-color: var(--webtau-styled-blue-color);
     --webtau-step-warning-color: #f56b25;
-    --webtau-step-matcher-color: #62a84b;
+    --webtau-step-matcher-color: var(--webtau-styled-green-color);
     --webtau-step-string-color: var(--webtau-property-value-string-color);
-    --webtau-step-error-color: #f98d6d;
+    --webtau-step-error-color: var(--webtau-styled-red-color);
     --webtau-step-preposition-color: #9a999b;
     --webtau-step-delimiter-color: var(--webtau-step-preposition-color);
     --webtau-step-selector-type-color: #c88fcb;

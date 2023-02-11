@@ -21,6 +21,8 @@ import { StepToken } from './StepToken';
 
 import { TokenizedMessageToken } from '../../WebTauTest';
 
+import { StyledText } from './StyledText';
+
 import './TokenizedMessage.css';
 
 interface Props {
@@ -33,9 +35,13 @@ export function TokenizedMessage({ message, removeLastErrorToken }: Props) {
 
   return (
     <div className="webtau-tokenized-message">
-      {modifiedMessageTokens.map((t, idx) => (
-        <StepToken key={idx} token={t} next={modifiedMessageTokens[idx + 1]} />
-      ))}
+      {modifiedMessageTokens.map((t, idx) => {
+        return t.type === 'styledText' ? (
+          <StyledText key={idx} lines={t.value} />
+        ) : (
+          <StepToken key={idx} token={t} next={modifiedMessageTokens[idx + 1]} />
+        );
+      })}
     </div>
   );
 

@@ -96,19 +96,50 @@
 
     --webtau-table-row-problem-background-color: #fff0f0;
 
-    --webtau-property-key-color: #784285;
-    --webtau-property-value-string-color: #5a6c4b;
-    --webtau-property-value-number-color: #5f5d7e;
+    --webtau-styled-black-color: #333;
+    --webtau-styled-red-color: #b13511;
+    --webtau-styled-green-color: #375e2a;
+    --webtau-styled-yellow-color: #dcbe5a;
+    --webtau-styled-blue-color: #1c559d;
+    --webtau-styled-purple-color: #784285;
+    --webtau-styled-cyan-color: #509e9e;
+    --webtau-styled-white-color: #eee;
+    --webtau-styled-yellow-background-color: #dcbe5a;
+    --webtau-styled-red-background-color: var(--webtau-styled-red-color);
+    --webtau-styled-blue-background-color: var(--webtau-styled-blue-color);
+
+    --webtau-property-key-color: var(--webtau-styled-purple-color);
+    --webtau-property-value-string-color: var(--webtau-styled-green-color);
+    --webtau-property-value-number-color: var(--webtau-styled-blue-color);
 
     --webtau-step-id-color: var(--webtau-text-color);
-    --webtau-step-action-color: #1c559d;
     --webtau-step-warning-color: #f56b25;
-    --webtau-step-matcher-color: #375e2a;
+    --webtau-step-matcher-color: #3c9c1c;
+    --webtau-step-action-color: var(--webtau-styled-blue-color);
     --webtau-step-string-color: var(--webtau-property-value-string-color);
-    --webtau-step-error-color: #b13511;
+    --webtau-step-error-color: var(--webtau-styled-red-color);
     --webtau-step-preposition-color: #625f64;
     --webtau-step-delimiter-color: var(--webtau-step-preposition-color);
     --webtau-step-selector-type-color: #865f89;
+
+    /*
+
+.webtau-styled-black {
+    color: var(black)
+}
+.webtau-styled-red {}
+.webtau-styled-green {}
+.webtau-styled-yellow {}
+.webtau-styled-blue {}
+.webtau-styled-purple {}
+.webtau-styled-cyan {}
+.webtau-styled-white {}
+.webtau-styled-background-yellow {}
+.webtau-styled-background-red {}
+.webtau-styled-background-blue {}
+.webtau-styled-bold {}
+.webtau-styled-normal {}
+     */
 
     --webtau-scrollbar-thumb: #ccc;
 }

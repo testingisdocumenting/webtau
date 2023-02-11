@@ -41,6 +41,7 @@ import { testsPerformanceDemo } from './summary/TestsPerformance.demo';
 import { httpCallsDemo } from './details/http/httpCallsDemo';
 import { httpDataCoverageTabDemo } from './summary/HttpDataCoverageTab.demo';
 import { allWarningsPanelDemo } from './summary/AllWarningsPanel.demo';
+import { tokenizedMessageDemo } from './details/steps/TokenizedMessage.demo';
 
 const registries = new Registries();
 
@@ -52,7 +53,11 @@ registries
   .registerAsRows('test error message', testErrorMessageDemo)
   .registerAsRows('code snippet', sourceCodeDemo);
 
-registries.add('core').registerAsGrid('steps', 0, stepsDemo).registerAsGrid('test metadata', 0, testMetadataDemo);
+registries
+  .add('core')
+  .registerAsGrid('steps', 0, stepsDemo)
+  .registerAsGrid('tokenized message', 0, tokenizedMessageDemo)
+  .registerAsGrid('test metadata', 0, testMetadataDemo);
 
 registries
   .add('http')
