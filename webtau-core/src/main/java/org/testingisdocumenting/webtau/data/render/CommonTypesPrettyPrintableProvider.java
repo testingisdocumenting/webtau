@@ -30,8 +30,7 @@ public class CommonTypesPrettyPrintableProvider implements PrettyPrintableProvid
 
         if (o.getClass().isArray()) {
             return Optional.of(new ArrayPrettyPrintable(o));
-        } if (o instanceof Path) {
-        if (o instanceof Pattern) {
+        } if (o instanceof Pattern) {
             return Optional.of(new PatternPrettyPrintable((Pattern) o));
         } else if (o instanceof Path) {
             return Optional.of(new PathPrettyPrintable((Path) o));
