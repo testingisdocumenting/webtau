@@ -1,0 +1,4 @@
+.message-demo-background {
+    background-color: var(--webtau-background-color);
+    padding: 8px;
+}

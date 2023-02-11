@@ -24,7 +24,13 @@ import java.util.regex.Pattern;
 public class CommonTypesPrettyPrintableProvider implements PrettyPrintableProvider {
     @Override
     public Optional<PrettyPrintable> prettyPrintableFor(Object o) {
-        if (o instanceof Pattern) {
+        if (o == null) {
+            return Optional.empty();
+        }
+
+        if (o.getClass().isArray()) {
+            return Optional.of(new ArrayPrettyPrintable(o));
+        } if (o instanceof Pattern) {
             return Optional.of(new PatternPrettyPrintable((Pattern) o));
         } else if (o instanceof Path) {
             return Optional.of(new PathPrettyPrintable((Path) o));

@@ -143,7 +143,7 @@ public class ActualValue implements ActualValueExpectations {
         ExpectationHandlers.onValueMatch(valueMatcher, actualPath, actual);
     }
 
-    private void handleMismatch(ValueMatcher valueMatcher, String message) {
+    private void handleMismatch(ValueMatcher valueMatcher, TokenizedMessage message) {
         final Flow flow = ExpectationHandlers.onValueMismatch(valueMatcher, actualPath, actual, message);
 
         if (flow != Flow.Terminate) {
@@ -151,10 +151,10 @@ public class ActualValue implements ActualValueExpectations {
         }
     }
 
-    private String mismatchMessage(ValueMatcher matcher, boolean isNegative) {
+    private TokenizedMessage mismatchMessage(ValueMatcher matcher, boolean isNegative) {
         return isNegative ?
-                matcher.negativeMismatchedMessage(actualPath, actual):
-                matcher.mismatchedMessage(actualPath, actual);
+                matcher.negativeMismatchedTokenizedMessage(actualPath, actual):
+                matcher.mismatchedTokenizedMessage(actualPath, actual);
     }
 
     private static ValuePath extractPath(Object actual) {
@@ -178,15 +178,16 @@ public class ActualValue implements ActualValueExpectations {
     }
 
     private void executeStep(ValueMatcher valueMatcher, boolean isNegative,
-                             TokenizedMessage messageStart, Supplier<Object> expectationValidation,
+                             TokenizedMessage messageStart,
+                             Supplier<Object> expectationValidation,
                              StepReportOptions stepReportOptions) {
         WebTauStep step = createStep(
                 messageStart.add(valueDescription)
-                        .add(matcher(isNegative ? valueMatcher.negativeMatchingMessage() : valueMatcher.matchingMessage())),
+                        .add(isNegative ? valueMatcher.negativeMatchingTokenizedMessage(): valueMatcher.matchingTokenizedMessage()),
                 () -> tokenizedMessage(valueDescription)
-                        .add(matcher(isNegative ?
-                                valueMatcher.negativeMatchedMessage(null, actual) :
-                                valueMatcher.matchedMessage(null, actual))),
+                        .add(isNegative ?
+                                valueMatcher.negativeMatchedTokenizedMessage(null, actual) :
+                                valueMatcher.matchedTokenizedMessage(null, actual)),
                 expectationValidation);
         step.setClassifier(WebTauStepClassifiers.MATCHER);
 

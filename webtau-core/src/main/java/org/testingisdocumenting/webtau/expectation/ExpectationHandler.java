@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 public interface ExpectationHandler {
     enum Flow {
@@ -24,7 +25,7 @@ public interface ExpectationHandler {
         PassToNext
     }
 
-    default Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
+    default Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
         return Flow.PassToNext;
     }
 

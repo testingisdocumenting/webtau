@@ -16,21 +16,27 @@
 
 package org.testingisdocumenting.webtau.data.render;
 
-import org.testingisdocumenting.webtau.console.ansi.Color;
-import org.testingisdocumenting.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleUtils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class PrettyPrinterLine {
     private int width = 0;
 
     private final List<Object> styleAndValues = new ArrayList<>();
 
+    public void appendStream(Stream<?> styleAndValues) {
+        List<?> asList = styleAndValues.collect(Collectors.toList());
+        this.styleAndValues.addAll(asList);
+        updateWidth(asList);
+    }
+
     public void append(Object... styleAndValues) {
-        this.styleAndValues.addAll(Arrays.asList(styleAndValues));
-        updateWidth(styleAndValues);
+        appendStream(Arrays.stream(styleAndValues));
     }
 
     public int getWidth() {
@@ -45,13 +51,7 @@ public class PrettyPrinterLine {
         return styleAndValues;
     }
 
-    private void updateWidth(Object... styleAndValues) {
-        for (Object styleOrValue : styleAndValues) {
-            if (styleOrValue instanceof Color || styleOrValue instanceof FontStyle) {
-                continue;
-            }
-
-            width += styleOrValue.toString().length();
-        }
+    private void updateWidth(List<?> styleAndValues) {
+        width += AnsiConsoleUtils.calcEffectiveWidth(styleAndValues);
     }
 }

@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.data.live.LiveValue
 import org.testingisdocumenting.webtau.expectation.timer.DummyExpectationTimer
 import org.junit.Before
 import org.junit.Test
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 
@@ -124,8 +125,8 @@ class ActualValueTest {
 
         def handler = new ExpectationHandler() {
             @Override
-            ExpectationHandler.Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath path, Object actualValue, String message) {
-                messages.add([path: path, value: actualValue, message: message])
+            ExpectationHandler.Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath path, Object actualValue, TokenizedMessage message) {
+                messages.add([path: path, value: actualValue, message: message.toString()])
                 return ExpectationHandler.Flow.Terminate
             }
         }

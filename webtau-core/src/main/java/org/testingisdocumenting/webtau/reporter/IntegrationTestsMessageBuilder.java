@@ -35,6 +35,8 @@ public class IntegrationTestsMessageBuilder {
         STRING_VALUE("stringValue", Color.GREEN),
         QUERY_VALUE("queryValue", Color.YELLOW),
         NUMBER_VALUE("numberValue", Color.BLUE),
+        PRETTY_PRINT_VALUE("pretty_print_value", FontStyle.NORMAL),
+        PRETTY_PRINT_VALUE_FIRST_LINES("pretty_print_value_first_lines", FontStyle.NORMAL),
         URL("url", Color.PURPLE),
         SELECTOR_TYPE("selectorType", Color.PURPLE),
         SELECTOR_VALUE("selectorValue", FontStyle.BOLD, Color.PURPLE),
@@ -42,16 +44,10 @@ public class IntegrationTestsMessageBuilder {
         DELIMITER("delimiter", Color.WHITE);
 
         private final String type;
-        private final boolean delimiterAfter;
         private final Object[] styles;
 
         TokenTypes(String type, Object... styles) {
-            this(type, true, styles);
-        }
-
-        TokenTypes(String type, boolean delimiterAfter, Object... styles) {
             this.type = type;
-            this.delimiterAfter = delimiterAfter;
             this.styles = styles;
         }
 
@@ -107,12 +103,24 @@ public class IntegrationTestsMessageBuilder {
         return TokenTypes.URL.token(url.toString());
     }
 
+    public static MessageToken value(Object value) {
+        return TokenTypes.PRETTY_PRINT_VALUE.token(value);
+    }
+
+    public static MessageToken valueFirstLinesOnly(Object value) {
+        return TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.token(value);
+    }
+
     public static MessageToken action(String action) {
         return TokenTypes.ACTION.token(action);
     }
 
     public static MessageToken matcher(String matcher) {
         return TokenTypes.MATCHER.token(matcher);
+    }
+
+    public static MessageToken error(String error) {
+        return TokenTypes.ERROR.token(error);
     }
 
     public static MessageToken warning(String text) {
@@ -149,7 +157,7 @@ public class IntegrationTestsMessageBuilder {
 
     private static TokenizedMessageToAnsiConverter createConverter() {
         TokenizedMessageToAnsiConverter c = new TokenizedMessageToAnsiConverter();
-        Arrays.stream(TokenTypes.values()).forEach(t -> c.associate(t.type, t.delimiterAfter, t.styles));
+        Arrays.stream(TokenTypes.values()).forEach(t -> c.associate(t.type, t.styles));
 
         return c;
     }

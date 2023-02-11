@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -25,28 +26,14 @@ class TokenizedMessageToAnsiConverterTest {
     @Test
     void "should convert to ansi string based on registered tokens"() {
         def converter = new TokenizedMessageToAnsiConverter()
-        converter.associate("keyword", false, FontStyle.BOLD, Color.CYAN)
-        converter.associate("id", false, Color.BLUE)
-        converter.associate("id2", false, FontStyle.BOLD, Color.BLUE)
+        converter.associate("keyword", FontStyle.BOLD, Color.CYAN)
+        converter.associate("id", Color.BLUE)
+        converter.associate("id2", FontStyle.BOLD, Color.BLUE)
 
         def message = new TokenizedMessage()
         message.add("keyword", "hello").add("id", "world").add("id2", "world")
 
-        def valuesAndStyles = converter.convert(message)
-        assert new AutoResetAnsiString(valuesAndStyles.stream()).toString() == "\u001B[1m\u001B[36mhello\u001B[34mworld\u001B[1m\u001B[34mworld\u001B[0m"
-    }
-
-    @Test
-    void "should separate tokens with space if specified"() {
-        def converter = new TokenizedMessageToAnsiConverter()
-        converter.associate("keyword", false, FontStyle.BOLD, Color.CYAN)
-        converter.associate("id", true, Color.BLUE)
-        converter.associate("id2", true, FontStyle.BOLD, Color.BLUE)
-
-        def message = new TokenizedMessage()
-        message.add("keyword", "hello").add("id", "world").add("id2", "world")
-
-        def valuesAndStyles = converter.convert(message)
-        assert new AutoResetAnsiString(valuesAndStyles.stream()).toString() == "\u001B[1m\u001B[36mhello\u001B[34mworld \u001B[1m\u001B[34mworld\u001B[0m"
+        def valuesAndStyles = converter.convert(message, 0)
+        assert new AutoResetAnsiString(valuesAndStyles.stream()).toString() == "\u001B[1m\u001B[36mhello \u001B[34mworld \u001B[1m\u001B[34mworld\u001B[0m"
     }
 }

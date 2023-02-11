@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import { TokenizedMessage } from '../../WebTauTest';
+
 export interface CliForegroundCall {
   personaId?: string;
   command: string;
@@ -22,7 +24,7 @@ export interface CliForegroundCall {
   errMatches: string[];
   errorMessage: string;
   exitCode?: number;
-  mismatches: string[];
+  mismatches: TokenizedMessage[];
   out: string;
   outMatches: string[];
   startTime: number;

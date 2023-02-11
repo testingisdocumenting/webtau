@@ -177,13 +177,13 @@ public interface PageElement extends
         if (!isPresent()) {
             printer.printLine(Stream.concat(
                     Stream.of(Color.RED, "element is not present: "),
-                    toAnsiConverter.convert(locationDescription()).stream()).toArray());
+                    toAnsiConverter.convert(locationDescription(), 0).stream()).toArray());
             return;
         }
 
         printer.printLine(Stream.concat(
                 Stream.of(Color.GREEN, "element is found: "),
-                toAnsiConverter.convert(locationDescription()).stream()).toArray());
+                toAnsiConverter.convert(locationDescription(), 0).stream()).toArray());
 
         printer.printLine(Color.YELLOW, "           getText(): ", Color.GREEN, getText());
         printer.printLine(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, getUnderlyingValue());

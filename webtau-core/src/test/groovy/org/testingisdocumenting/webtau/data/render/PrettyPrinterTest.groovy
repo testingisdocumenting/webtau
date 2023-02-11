@@ -25,7 +25,7 @@ import static org.testingisdocumenting.webtau.Matchers.equal
 class PrettyPrinterTest {
     @Test
     void "should calc max width and height of all printed lines"() {
-        def printer = new PrettyPrinter(new TestConsoleOutput(), 0)
+        def printer = new PrettyPrinter(0)
         printer.printLine("hello")
         printer.printLine("hello world")
         printer.printLine("world")

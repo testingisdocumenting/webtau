@@ -94,6 +94,6 @@ public class PageElementValue<E> implements ActualValueExpectations, ActualPathA
         }
 
         TokenizedMessageToAnsiConverter toAnsiConverter = IntegrationTestsMessageBuilder.getConverter();
-        return Stream.concat(toAnsiConverter.convert(parent.describe()).stream(), Stream.of(" "));
+        return Stream.concat(toAnsiConverter.convert(parent.describe(), 0).stream(), Stream.of(" "));
     }
 }

@@ -1,0 +1,54 @@
+.webtau-tokenized-message {
+}
+
+.webtau-styled-black {
+    color: var(--webtau-styled-black-color);
+}
+
+.webtau-styled-red {
+    color: var(--webtau-styled-red-color);
+}
+
+.webtau-styled-green {
+    color: var(--webtau-styled-green-color);
+}
+
+.webtau-styled-yellow {
+    color: var(--webtau-styled-yellow-color);
+}
+
+.webtau-styled-blue {
+    color: var(--webtau-styled-blue-color);
+}
+
+.webtau-styled-purple {
+    color: var(--webtau-styled-purple-color);
+}
+
+.webtau-styled-cyan {
+    color: var(--webtau-styled-cyan-color);
+}
+
+.webtau-styled-white {
+    color: var(--webtau-styled-white-color);
+}
+
+.webtau-styled-bold {
+    font-weight: bold;
+}
+
+.webtau-styled-normal {
+    font-weight: normal;
+}
+
+.webtau-styled-background-yellow {
+    background-color: var(--webtau-styled-yellow-background-color);
+}
+
+.webtau-styled-background-red {
+    background-color: var(--webtau-styled-red-background-color);
+}
+
+.webtau-styled-background-blue {
+    background-color: var(--webtau-styled-blue-background-color);
+}

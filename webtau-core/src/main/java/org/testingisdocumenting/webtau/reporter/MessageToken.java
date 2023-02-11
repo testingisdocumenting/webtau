@@ -17,8 +17,6 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
-import org.testingisdocumenting.webtau.utils.CollectionUtils;
-
 import java.util.Map;
 
 public class MessageToken {
@@ -39,7 +37,7 @@ public class MessageToken {
     }
 
     public Map<String, ?> toMap() {
-        return CollectionUtils.map("type", type, "value", value);
+        return MessageTokenToMapConverter.convert(this);
     }
 
     public boolean isEmpty() {

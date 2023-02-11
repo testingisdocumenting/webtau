@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
+ * Copyright 2023 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,11 @@
  * limitations under the License.
  */
 
-.cli-command-details-err-output-label {
-    margin-top: 16px;
-}
+.webtau-styled-text {
+    display: inline-block;
+    white-space: pre;
 
-.cli-call-details-error-message {
-    margin-bottom: 16px;
-}
+    font-family: var(--webtau-monospace-font);
 
-.cli-command-details .webtau-key-value-grid {
-    margin-bottom: 8px;
-}
-
-.webtau-cli-mismatch {
-    margin-bottom: var(--webtau-spacing);
+    vertical-align: text-top;
 }

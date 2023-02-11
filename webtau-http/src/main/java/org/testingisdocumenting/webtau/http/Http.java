@@ -19,8 +19,7 @@ package org.testingisdocumenting.webtau.http;
 
 import static org.testingisdocumenting.webtau.WebTauCore.equal;
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
+import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
@@ -53,6 +52,7 @@ import org.testingisdocumenting.webtau.http.text.TextRequestBody;
 import org.testingisdocumenting.webtau.http.validation.*;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 import org.testingisdocumenting.webtau.time.Time;
@@ -984,7 +984,7 @@ public class Http {
                 R validationBlockReturnedValue = validateAndRecord(validationResult, validator);
 
                 if (validationResult.hasMismatches()) {
-                    throw new AssertionError("\n" + validationResult.renderMismatches());
+                    throw new AssertionError("check validation errors above");
                 }
 
                 return validationBlockReturnedValue;
@@ -1044,7 +1044,7 @@ public class Http {
 
         ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
             @Override
-            public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
+            public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
                 validationResult.addMismatch(message);
                 return ExpectationHandler.Flow.PassToNext;
             }
@@ -1071,19 +1071,19 @@ public class Http {
         } catch (Throwable e) {
             ExpectationHandlers.withAdditionalHandler(new ExpectationHandler() {
                 @Override
-                public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
+                public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
                     validationResult.addMismatch(message);
 
                     // another assertion happened before status code check
                     // we discard it and throw status code instead
                     if (e instanceof AssertionError) {
-                        throw new AssertionError('\n' + message);
+                        throw new AssertionError(message.toString());
                     }
 
                     // originally an exception happened,
                     // so we combine its message with status code failure
-                    throw new AssertionError('\n' + message +
-                            "\n\nadditional exception message:\n" + e.getMessage(), e);
+                    throw new AssertionError("\n" + message.toString() +
+                            "\n\nadditional exception message: " + e.getMessage(), e);
 
                 }
             }, () -> {
@@ -1122,8 +1122,8 @@ public class Http {
             return DataNodeBuilder.fromValue(id, object);
         } catch (JsonParseException e) {
             validationResult.setBodyParseErrorMessage(e.getMessage());
-            validationResult.addMismatch("can't parse JSON response of " + validationResult.getFullUrl()
-                    + ": " + e.getMessage());
+            validationResult.addMismatch(TokenizedMessage.tokenizedMessage(error("can't parse JSON response of " + validationResult.getFullUrl()
+                    + ": " + e.getMessage())));
 
             return new StructuredDataNode(id,
                     new TraceableValue("invalid JSON:\n" + textContent));

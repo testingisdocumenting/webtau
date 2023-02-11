@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
+ * Copyright 2023 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,22 @@
  * limitations under the License.
  */
 
-.cli-command-details-err-output-label {
-    margin-top: 16px;
-}
+package org.testingisdocumenting.webtau.data.render;
 
-.cli-call-details-error-message {
-    margin-bottom: 16px;
-}
+import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
-.cli-command-details .webtau-key-value-grid {
-    margin-bottom: 8px;
-}
+import java.util.List;
 
-.webtau-cli-mismatch {
-    margin-bottom: var(--webtau-spacing);
+public class ArrayPrettyPrintable implements PrettyPrintable {
+    private final Object array;
+
+    public ArrayPrettyPrintable(Object array) {
+        this.array = array;
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter printer) {
+        List<?> arrayData = CollectionUtils.convertArrayToList(array);
+        printer.printObject(arrayData);
+    }
 }

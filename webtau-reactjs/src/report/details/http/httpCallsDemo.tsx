@@ -40,8 +40,14 @@ function incompleteJsonHttpCalls() {
       elapsedTime: 90,
       errorMessage: null,
       mismatches: [
-        "can't parse JSON response of http://localhost:54605/invalid-json-response: Unexpected end-of-input: " +
-          'was expecting closing quote for a string value at [Source: (String)"{"key": "value"; line: 1, column: 15]',
+        [
+          {
+            value:
+              "can't parse JSON response of http://localhost:54605/invalid-json-response: Unexpected end-of-input: " +
+              'was expecting closing quote for a string value at [Source: (String)"{"key": "value"; line: 1, column: 15]',
+            type: 'error',
+          },
+        ],
       ],
       warnings: [],
       requestHeader: [],

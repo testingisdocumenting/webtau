@@ -1132,7 +1132,8 @@ class HttpGroovyTest extends HttpTestBase {
             }
         } should throwException(AssertionError)
 
-        http.lastValidationResult.mismatches.should == [~/body\.a:/]
+        http.lastValidationResult.mismatches
+                .collect { it.toString() }.should == [~/body\.a:/]
     }
 
     @Test
@@ -1329,7 +1330,7 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     private static void assertStatusCodeMismatchRegistered() {
-        http.lastValidationResult.mismatches.should contain(~/statusCode/)
+        http.lastValidationResult.mismatches.collect { it.toString() }.should contain(~/statusCode/)
     }
 
     private static byte[] binaryFileContent(String path) {

@@ -35,7 +35,7 @@ public class TermUiWebTauStepRenderer implements ComponentRenderer<TermUiWebTauS
     public void drawComponent(TextGUIGraphics graphics, TermUiWebTauStep component) {
         TokenizedMessageToAnsiConverter toAnsiConverter = IntegrationTestsMessageBuilder.getConverter();
 
-        List<Object> ansiParts = toAnsiConverter.convert(component.getMessage());
+        List<Object> ansiParts = toAnsiConverter.convert(component.getMessage(), 0);
 
         TerminalSize size = graphics.getSize();
         String text = ansiParts.stream().map(Object::toString).collect(Collectors.joining());

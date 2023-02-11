@@ -26,6 +26,7 @@ import { CliForegroundCall } from './CliCalls';
 import { KeyValueGrid } from '../../widgets/KeyValueGrid';
 
 import './CliCallDetails.css';
+import { TokenizedMessage } from '../steps/TokenizedMessage';
 
 interface Props {
   cliCall: CliForegroundCall;
@@ -53,8 +54,8 @@ function Mismatches({ cliCall }: Props) {
   return (
     <>
       {cliCall.mismatches.map((m, idx) => (
-        <div key={idx} className="mismatch">
-          <TestErrorMessage message={m} />
+        <div key={idx} className="webtau-cli-mismatch">
+          <TokenizedMessage message={m} removeLastErrorToken={false} />
         </div>
       ))}
     </>

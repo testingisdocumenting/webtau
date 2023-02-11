@@ -27,7 +27,7 @@ import org.testingisdocumenting.webtau.expectation.equality.GreaterThanOrEqualMa
 import org.testingisdocumenting.webtau.expectation.equality.LessThanMatcher
 import org.testingisdocumenting.webtau.expectation.equality.LessThanOrEqualMatcher
 import org.testingisdocumenting.webtau.expectation.equality.NotEqualMatcher
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
@@ -50,20 +50,22 @@ class ShouldAstTransformationTest extends GroovyTestCase {
     }
 
     void testShouldTransformationOnMap() {
-        runAndValidateOutput("X failed expecting [value] to equal {a=3}: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value].a:   actual: 1 <java.lang.Integer>\n" +
-                "               expected: 3 <java.lang.Integer>\n" +
-                "    \n" +
-                "    unexpected values:\n" +
-                "    \n" +
-                "    [value].b: 2 (Xms)\n" +
-                "  \n" +
-                "  {\n" +
-                "    \"a\": **1**,\n" +
-                "    \"b\": 2\n" +
-                "  }") {
+        runAndValidateOutput('X failed expecting [value] to equal {\n' +
+                '                                      "a": 3\n' +
+                '                                    }: \n' +
+                '    mismatches:\n' +
+                '    \n' +
+                '    [value].a:   actual: 1 <java.lang.Integer>\n' +
+                '               expected: 3 <java.lang.Integer>\n' +
+                '    \n' +
+                '    unexpected values:\n' +
+                '    \n' +
+                '    [value].b: 2 (Xms)\n' +
+                '  \n' +
+                '  {\n' +
+                '    "a": **1**,\n' +
+                '    "b": 2\n' +
+                '  }') {
             assertScript('[a:1, b:2].should == [a: 3]')
         }
     }
@@ -84,7 +86,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
 
         def expectationHandler = new ExpectationHandler() {
             @Override
-            ExpectationHandler.Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
+            ExpectationHandler.Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
                 failedMatchers.add(valueMatcher.getClass())
                 return ExpectationHandler.Flow.Terminate
             }

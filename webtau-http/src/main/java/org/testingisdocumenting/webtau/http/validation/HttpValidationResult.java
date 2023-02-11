@@ -28,6 +28,7 @@ import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesCo
 import org.testingisdocumenting.webtau.http.datacoverage.TraceableValueConverter;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.persona.Persona;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 import org.testingisdocumenting.webtau.time.Time;
 import org.testingisdocumenting.webtau.utils.StringUtils;
@@ -35,6 +36,7 @@ import org.testingisdocumenting.webtau.utils.StringUtils;
 import java.util.*;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class HttpValidationResult implements WebTauStepOutput {
     private static final AtomicInteger idCounter = new AtomicInteger();
@@ -49,7 +51,7 @@ public class HttpValidationResult implements WebTauStepOutput {
 
     private final String personaId;
 
-    private final List<String> mismatches;
+    private final List<TokenizedMessage> mismatches;
 
     private HttpResponse response;
     private HeaderDataNode responseHeaderNode;
@@ -189,20 +191,16 @@ public class HttpValidationResult implements WebTauStepOutput {
         return response.getStatusCode();
     }
 
-    public void addMismatch(String message) {
+    public void addMismatch(TokenizedMessage message) {
         mismatches.add(message);
     }
 
-    public List<String> getMismatches() {
+    public List<TokenizedMessage> getMismatches() {
         return mismatches;
     }
 
     public boolean hasMismatches() {
         return !mismatches.isEmpty();
-    }
-
-    public String renderMismatches() {
-        return String.join("\n", mismatches);
     }
 
     public void setErrorMessage(String errorMessage) {
@@ -262,7 +260,7 @@ public class HttpValidationResult implements WebTauStepOutput {
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
         result.put("errorMessage", errorMessage);
-        result.put("mismatches", mismatches);
+        result.put("mismatches", mismatches.stream().map(TokenizedMessage::toListOfMaps).collect(Collectors.toList()));
 
         result.put("requestHeader", requestHeader.redactSecrets().toListOfMaps());
 
