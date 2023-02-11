@@ -22,7 +22,6 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.stream.Collectors.toList;
@@ -101,6 +100,20 @@ public class TokenizedMessage implements Iterable<MessageToken> {
 
     @Override
     public String toString() {
-        return tokens.stream().map(t -> String.valueOf(t.getValue().toString())).collect(Collectors.joining(" "));
+        StringBuilder result = new StringBuilder();
+
+        for (int idx = 0; idx < tokens.size(); idx++) {
+            MessageToken token = tokens.get(idx);
+            boolean isLast = idx == tokens.size() - 1;
+            boolean isNextDelimiter = !isLast && tokens.get(idx + 1).getType()
+                    .equals(IntegrationTestsMessageBuilder.TokenTypes.DELIMITER.getType());
+
+            result.append(token.getValue());
+            if (!isNextDelimiter && !isLast) {
+                result.append(" ");
+            }
+        }
+
+        return result.toString();
     }
 }
