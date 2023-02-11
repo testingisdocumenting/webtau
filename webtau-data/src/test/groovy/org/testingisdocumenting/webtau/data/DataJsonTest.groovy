@@ -164,7 +164,7 @@ class DataJsonTest implements StepReporter {
             object.should == [key: 'value', another: 2]
         } should throwException(JsonParseException)
 
-        failedSteps[0].completionMessage.toString().should contain("failed reading json from file or resource broken.json : Unexpected character")
+        failedSteps[0].completionMessage.toString().should contain("failed reading json from file or resource broken.json: Unexpected character")
     }
 
     @Test

@@ -151,7 +151,7 @@ class WebTauStepTest {
         repeatStep.execute(REPORT_ALL)
 
         def children = repeatStep.children().collect(toList())
-        assert children.completionMessage*.toString() == ['completed repeat #1', 'failed repeat #8 : unknown failure', 'completed repeat #20']
+        assert children.completionMessage*.toString() == ['completed repeat #1', 'failed repeat #8: unknown failure', 'completed repeat #20']
     }
 
     @Test
