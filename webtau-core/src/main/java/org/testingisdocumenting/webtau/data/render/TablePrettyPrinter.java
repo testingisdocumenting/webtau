@@ -21,12 +21,14 @@ import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.table.Record;
 import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TablePrettyPrinter {
+    private static final Color COLUMN_NAME_KEY_INDICATOR_COLOR = Color.YELLOW;
     private static final Color COLUMN_NAME_COLOR = Color.PURPLE;
     private static final String COLUMNS_DELIMITER = " │ ";
 
@@ -38,9 +40,12 @@ public class TablePrettyPrinter {
 
     public TablePrettyPrinter(TableData tableData) {
         this.tableData = tableData;
-        this.columnWidthByIdx = tableData.getHeader().getNamesStream()
-                .map(String::length)
+
+        TableDataHeader header = tableData.getHeader();
+        this.columnWidthByIdx = header.getNamesStream()
+                .map(name -> name.length() + (header.isKeyColumn(name) ? 1 : 0))
                 .collect(Collectors.toList());
+
         this.rowHeightByIdx = tableData.rowsStream()
                 .map(record -> 1)
                 .collect(Collectors.toList());
@@ -55,15 +60,22 @@ public class TablePrettyPrinter {
     }
 
     private void renderHeader(PrettyPrinter printer) {
-        Iterator<String> namesIt = tableData.getHeader().getNamesStream().iterator();
+        TableDataHeader tableHeader = tableData.getHeader();
+        Iterator<String> namesIt = tableHeader.getNamesStream().iterator();
         int columnIdx = 0;
         while (namesIt.hasNext()) {
             String name = namesIt.next();
+            boolean isKeyColumn = tableHeader.isKeyColumn(name);
+
             int columnWidth = columnWidthByIdx.get(columnIdx);
-            boolean isLastColumn = columnIdx == tableData.getHeader().size() - 1;
+            boolean isLastColumn = columnIdx == tableHeader.size() - 1;
 
+            if (isKeyColumn) {
+                printer.print(COLUMN_NAME_KEY_INDICATOR_COLOR, '*');
+            }
 
-            printer.print(COLUMN_NAME_COLOR, StringUtils.rightPad(name,columnWidth, ' '));
+            printer.print(COLUMN_NAME_COLOR, StringUtils.rightPad(name, columnWidth - (isKeyColumn ? 1 : 0), ' '));
+
             if (!isLastColumn) {
                 printer.print(PrettyPrinter.DELIMITER_COLOR, COLUMNS_DELIMITER);
             }

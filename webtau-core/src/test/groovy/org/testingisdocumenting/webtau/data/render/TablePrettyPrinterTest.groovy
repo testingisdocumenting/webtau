@@ -48,6 +48,18 @@ class TablePrettyPrinterTest {
     }
 
     @Test
+    void "render table keys"() {
+        def simpleTable = table("*colA", "colB", "*colC",
+                                ________________________,
+                                "hello", "world", 10,
+                                "another", "world", 200)
+
+        prettyPrintTable(simpleTable, [], '*colA     │ colB    │ *colC\n' +
+                '"hello"   │ "world" │    10\n' +
+                '"another" │ "world" │   200')
+    }
+
+    @Test
     void "render table of simple decorated values"() {
         def simpleTable = table("colA", "colB", "colC",
                                ________________________,
