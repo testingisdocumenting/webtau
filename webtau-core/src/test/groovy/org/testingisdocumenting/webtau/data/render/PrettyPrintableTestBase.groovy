@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.data.render
 
 import org.junit.Assert
 import org.junit.Before
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 class PrettyPrintableTestBase {
@@ -27,12 +28,12 @@ class PrettyPrintableTestBase {
     @Before
     void init() {
         consoleOutput.clear()
-        printer = new PrettyPrinter(consoleOutput, 0)
+        printer = new PrettyPrinter(0)
     }
 
     void expectOutput(String expected) {
         printer.flushCurrentLine()
-        printer.renderToConsole()
+        printer.renderToConsole(consoleOutput)
 
         println consoleOutput.colorOutput
         Assert.assertEquals(expected, consoleOutput.noColorOutput)

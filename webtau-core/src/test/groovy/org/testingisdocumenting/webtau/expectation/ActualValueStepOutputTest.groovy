@@ -29,34 +29,41 @@ import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenize
 class ActualValueStepOutputTest {
     @Test
     void "should print iterable with marked failed values in case of mismatch"() {
-        TestConsoleOutput.runAndValidateOutput("X failed expecting [value] to equal [1, world, 2]: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value][1]:   actual: \"hello\" <java.lang.String>\n" +
-                "                expected: \"world\" <java.lang.String>\n" +
-                "                           ^ (Xms)\n" +
-                "  \n" +
-                "  [\n" +
-                "    1,\n" +
-                "    **\"hello\"**,\n" +
-                "    2\n" +
-                "  ]") {
+        TestConsoleOutput.runAndValidateOutput('X failed expecting [value] to equal [\n' +
+                '                                      1,\n' +
+                '                                      "world",\n' +
+                '                                      2\n' +
+                '                                    ]: \n' +
+                '    mismatches:\n' +
+                '    \n' +
+                '    [value][1]:   actual: "hello" <java.lang.String>\n' +
+                '                expected: "world" <java.lang.String>\n' +
+                '                           ^ (Xms)\n' +
+                '  \n' +
+                '  [\n' +
+                '    1,\n' +
+                '    **"hello"**,\n' +
+                '    2\n' +
+                '  ]') {
             actual([1, "hello", 2]).should(equal([1, "world", 2]))
         }
     }
 
     @Test
     void "should print map with marked failed values in case of mismatch"() {
-        TestConsoleOutput.runAndValidateOutput("X failed expecting [value] to equal {key=value1, another=23}: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value].another:   actual: 22 <java.lang.Integer>\n" +
-                "                     expected: 23 <java.lang.Integer> (Xms)\n" +
-                "  \n" +
-                "  {\n" +
-                "    \"key\": \"value1\",\n" +
-                "    \"another\": **22**\n" +
-                "  }") {
+        TestConsoleOutput.runAndValidateOutput('X failed expecting [value] to equal {\n' +
+                '                                      "key": "value1",\n' +
+                '                                      "another": 23\n' +
+                '                                    }: \n' +
+                '    mismatches:\n' +
+                '    \n' +
+                '    [value].another:   actual: 22 <java.lang.Integer>\n' +
+                '                     expected: 23 <java.lang.Integer> (Xms)\n' +
+                '  \n' +
+                '  {\n' +
+                '    "key": "value1",\n' +
+                '    "another": **22**\n' +
+                '  }') {
             actual([key: "value1", another: 22]).should(equal([key: "value1", another: 23]))
         }
     }
@@ -70,13 +77,16 @@ class ActualValueStepOutputTest {
                         })
         step.matcherOutputDisabled = true
 
-        TestConsoleOutput.runAndValidateOutput("> parent step\n" +
-                "  X failed expecting [value] to equal {key=value1, another=23}: \n" +
-                "      mismatches:\n" +
-                "      \n" +
-                "      [value].another:   actual: 22 <java.lang.Integer>\n" +
-                "                       expected: 23 <java.lang.Integer> (Xms)\n" +
-                "X failed parent step (Xms)") {
+        TestConsoleOutput.runAndValidateOutput('> parent step\n' +
+                '  X failed expecting [value] to equal {\n' +
+                '                                        "key": "value1",\n' +
+                '                                        "another": 23\n' +
+                '                                      }: \n' +
+                '      mismatches:\n' +
+                '      \n' +
+                '      [value].another:   actual: 22 <java.lang.Integer>\n' +
+                '                       expected: 23 <java.lang.Integer> (Xms)\n' +
+                'X failed parent step (Xms)') {
             step.execute(StepReportOptions.REPORT_ALL)
         }
     }

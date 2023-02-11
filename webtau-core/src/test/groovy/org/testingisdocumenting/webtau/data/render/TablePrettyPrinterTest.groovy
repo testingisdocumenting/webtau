@@ -107,14 +107,14 @@ class TablePrettyPrinterTest {
 
     private static void prettyPrintTable(TableData tableData, List<String> paths, String expected) {
         TestConsoleOutput.runAndValidateOutput(expected) {
-            def prettyPrinter = new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 0)
+            def prettyPrinter = new PrettyPrinter(0)
             prettyPrinter.setPathsDecoration(new PrettyPrinterDecorationToken("**", Color.RED),
                 paths.collect { new ValuePath(it) } as Set)
 
             def tablePrinter = new TablePrettyPrinter(tableData)
             tablePrinter.prettyPrint(prettyPrinter, new ValuePath(""))
 
-            prettyPrinter.renderToConsole()
+            prettyPrinter.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput())
         }
     }
 }

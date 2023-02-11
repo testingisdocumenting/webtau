@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 webtau maintainers
+ * Copyright 2023 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,26 @@
  * limitations under the License.
  */
 
-.cli-command-details-err-output-label {
-    margin-top: 16px;
-}
+package org.testingisdocumenting.webtau.console.ansi;
 
-.cli-call-details-error-message {
-    margin-bottom: 16px;
-}
+import java.util.List;
 
-.cli-command-details .webtau-key-value-grid {
-    margin-bottom: 8px;
-}
+public class AnsiConsoleUtils {
+    private AnsiConsoleUtils() {
 
-.webtau-cli-mismatch {
-    margin-bottom: var(--webtau-spacing);
+    }
+
+    public static int calcEffectiveWidth(List<?> styleAndValues) {
+        int result = 0;
+
+        for (Object styleOrValue : styleAndValues) {
+            if (styleOrValue instanceof Color || styleOrValue instanceof FontStyle) {
+                continue;
+            }
+
+            result += styleOrValue.toString().length();
+        }
+
+        return result;
+    }
 }

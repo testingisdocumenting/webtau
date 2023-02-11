@@ -17,7 +17,6 @@
 
 package org.testingisdocumenting.webtau.cfg;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
@@ -349,7 +348,7 @@ public class WebTauConfig implements PrettyPrintable {
     }
 
     public void printEnumerated() {
-        printConfig(new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 0), enumeratedCfgValues.values());
+        printConfig(new PrettyPrinter(0), enumeratedCfgValues.values());
     }
 
     private void printConfig(PrettyPrinter printer, Collection<ConfigValue> configValues) {

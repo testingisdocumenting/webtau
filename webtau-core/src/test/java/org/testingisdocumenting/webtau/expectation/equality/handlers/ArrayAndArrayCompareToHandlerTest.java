@@ -48,7 +48,11 @@ public class ArrayAndArrayCompareToHandlerTest {
         int[] a = {1, 2, 3};
         int[] b = {1, 2, 3};
 
-        runAndValidateOutput(". [value] equals [1, 2, 3] (Xms)", () -> actual(a).should(equal(b)));
+        runAndValidateOutput(". [value] equals [\n" +
+                "                   1,\n" +
+                "                   2,\n" +
+                "                   3\n" +
+                "                 ] (Xms)", () -> actual(a).should(equal(b)));
     }
 
     @Test

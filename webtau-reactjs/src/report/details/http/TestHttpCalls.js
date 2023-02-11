@@ -29,6 +29,7 @@ import { SelectedIndexes } from '../SelectedIndexes';
 
 import './TestHttpCalls.css';
 import '../../widgets/Table.css';
+import { TokenizedMessage } from '../steps/TokenizedMessage';
 
 class TestHttpCalls extends Component {
   state = {};
@@ -144,8 +145,8 @@ function HttpCallDetails({ httpCall, reportNavigation }) {
 
 function Mismatches({ httpCall }) {
   return httpCall.mismatches.map((m, idx) => (
-    <div key={idx} className="mismatch">
-      <pre>{m}</pre>
+    <div key={idx} className="webtau-http-mismatch">
+      <TokenizedMessage message={m} removeLastErrorToken={false} />
     </div>
   ));
 }

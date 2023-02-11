@@ -78,7 +78,7 @@ class PageUrlTest {
                 "                    expected: \"wrong-value\" <java.lang.String>\n" +
                 "                               ^ (Xms)\n" +
                 "  \n" +
-                "  browser page url query: \"type=full&debug=true\"\n") {
+                "  browser page url query: \"type=full&debug=true\"") {
             browser.url.query.should == 'wrong-value'
         }
     }

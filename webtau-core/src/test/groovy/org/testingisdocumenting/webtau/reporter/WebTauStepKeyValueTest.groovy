@@ -43,15 +43,15 @@ class WebTauStepKeyValueTest {
                 '      }\n' +
                 'key2: columnA │ columnB\n' +
                 '          100 │ "hello"\n' +
-                '          200 │ "world"\n')
+                '          200 │ "world"')
     }
 
     static void prettyPrint(Map<String, ?> keyValue, String expected) {
         TestConsoleOutput.runAndValidateOutput(expected) {
-            def printer = new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 0)
+            def printer = new PrettyPrinter(0)
             WebTauStepKeyValue.prettyPrint(printer, keyValue)
 
-            printer.renderToConsole()
+            printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput())
         }
     }
 }

@@ -19,7 +19,7 @@ import React, { useState } from 'react';
 
 import { Card } from '../../widgets/Card';
 
-import { StepMessage } from './StepMessage';
+import { TokenizedMessage } from './TokenizedMessage';
 import { StepTime } from './StepTime';
 
 import { WebTauStep, WebTauStepInput, WebTauStepOutput } from '../../WebTauTest';
@@ -44,7 +44,7 @@ export function Step({ step, isTopLevel }: Props) {
       <div className="message-parts">
         {step.personaId ? <div className="persona-id">{step.personaId}</div> : <div />}
 
-        <StepMessage message={step.message} removeLastErrorToken={hasFailedChildren()} />
+        <TokenizedMessage message={step.message} removeLastErrorToken={hasFailedChildren()} />
         {renderMoreToggle()}
         <StepTime millis={step.elapsedTime} />
       </div>

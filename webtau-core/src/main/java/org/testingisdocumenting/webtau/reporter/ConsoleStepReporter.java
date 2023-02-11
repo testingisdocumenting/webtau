@@ -18,13 +18,16 @@
 package org.testingisdocumenting.webtau.reporter;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleUtils;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 import org.testingisdocumenting.webtau.utils.TimeUtils;
 
+import java.util.List;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class ConsoleStepReporter implements StepReporter {
@@ -73,8 +76,11 @@ public class ConsoleStepReporter implements StepReporter {
 
     public void printStepFailureWithoutOutput(WebTauStep step) {
         TokenizedMessage completionMessageToUse = messageTokensForFailedStep(step);
-        ConsoleOutputs.out(Stream.concat(Stream.concat(Stream.concat(stepFailureBeginningStream(step), personaStream(step)),
-                        toAnsiConverter.convert(completionMessageToUse).stream()),
+        List<Object> prefix = Stream.concat(stepFailureBeginningStream(step), personaStream(step))
+                .collect(Collectors.toList());
+
+        ConsoleOutputs.out(Stream.concat(Stream.concat(prefix.stream(),
+                        toAnsiConverter.convert(completionMessageToUse, AnsiConsoleUtils.calcEffectiveWidth(prefix)).stream()),
                 timeTakenTokenStream(step)).toArray());
     }
 
@@ -85,16 +91,17 @@ public class ConsoleStepReporter implements StepReporter {
 
         PrettyPrinter printer = createInputOutputPrettyPrinter(step);
         step.getOutput().prettyPrint(printer);
-        printer.renderToConsole();
+        printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput());
     }
 
     private void printStepStart(WebTauStep step) {
+        List<Object> prefix = Stream.concat(stepStartBeginningStream(step), personaStream(step))
+                .collect(Collectors.toList());
+
         ConsoleOutputs.out(
                 Stream.concat(
-                        Stream.concat(
-                                stepStartBeginningStream(step),
-                                personaStream(step)),
-                        toAnsiConverter.convert(step.getInProgressMessage()).stream()
+                        prefix.stream(),
+                        toAnsiConverter.convert(step.getInProgressMessage(), AnsiConsoleUtils.calcEffectiveWidth(prefix)).stream()
                 ).toArray());
 
         printStepInput(step);
@@ -114,8 +121,13 @@ public class ConsoleStepReporter implements StepReporter {
 
         printStepOutput(step);
 
-        ConsoleOutputs.out(Stream.concat(Stream.concat(Stream.concat(stepSuccessBeginningStream(step), personaStream(step)),
-                toAnsiConverter.convert(completionMessageToUse).stream()),
+        List<Object> messagePrefix = Stream.concat(stepSuccessBeginningStream(step), personaStream(step))
+                .collect(Collectors.toList());
+
+        ConsoleOutputs.out(Stream.concat(
+                Stream.concat(
+                        messagePrefix.stream(),
+                        toAnsiConverter.convert(completionMessageToUse, AnsiConsoleUtils.calcEffectiveWidth(messagePrefix)).stream()),
                 timeTakenTokenStream(step)).toArray());
     }
 
@@ -183,12 +195,11 @@ public class ConsoleStepReporter implements StepReporter {
 
         PrettyPrinter printer = createInputOutputPrettyPrinter(step);
         step.getInput().prettyPrint(printer);
-        printer.renderToConsole();
+        printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput());
     }
 
     private PrettyPrinter createInputOutputPrettyPrinter(WebTauStep step) {
-        return new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(),
-                numberOfSpacesForIndentLevel(step.getNumberOfParents() + 1));
+        return new PrettyPrinter(numberOfSpacesForIndentLevel(step.getNumberOfParents() + 1));
     }
 
     private boolean skipRenderInputOutput() {

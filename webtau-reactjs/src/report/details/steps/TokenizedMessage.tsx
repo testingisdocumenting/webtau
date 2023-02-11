@@ -21,18 +21,18 @@ import { StepToken } from './StepToken';
 
 import { TokenizedMessageToken } from '../../WebTauTest';
 
-import './StepMessage.css';
+import './TokenizedMessage.css';
 
 interface Props {
   message: TokenizedMessageToken[];
   removeLastErrorToken: boolean;
 }
 
-export function StepMessage({ message, removeLastErrorToken }: Props) {
+export function TokenizedMessage({ message, removeLastErrorToken }: Props) {
   const modifiedMessageTokens = modifiedMessage();
 
   return (
-    <div className="message">
+    <div className="webtau-tokenized-message">
       {modifiedMessageTokens.map((t, idx) => (
         <StepToken key={idx} token={t} next={modifiedMessageTokens[idx + 1]} />
       ))}

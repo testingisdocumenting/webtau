@@ -17,7 +17,6 @@
 package org.testingisdocumenting.webtau.data.render;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
-import org.testingisdocumenting.webtau.console.IndentedConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
@@ -46,14 +45,12 @@ public class PrettyPrinter {
     private final List<PrettyPrinterLine> lines;
     private PrettyPrinterLine currentLine;
 
-    private final ConsoleOutput consoleOutput;
     private int indentationSize;
     private String indentation;
 
     private ValueConverter valueConverter;
 
-    public PrettyPrinter(ConsoleOutput consoleOutput, int indentationSize) {
-        this.consoleOutput = consoleOutput;
+    public PrettyPrinter(int indentationSize) {
         this.lines = new ArrayList<>();
         this.currentLine = new PrettyPrinterLine();
         this.pathsToDecorate = new HashSet<>();
@@ -89,19 +86,6 @@ public class PrettyPrinter {
         setPathsDecoration(decorationToken, new HashSet<>(paths));
     }
 
-    // TODO remove once DataNode is rewritten using printer
-    public ConsoleOutput createIndentedConsoleOutput() {
-        return new IndentedConsoleOutput(consoleOutput, indentationSize);
-    }
-
-    public void newLine() {
-        consoleOutput.out();
-    }
-
-    public ConsoleOutput getConsoleOutput() {
-        return consoleOutput;
-    }
-
     public Set<ValuePath> getPathsToDecorate() {
         return pathsToDecorate;
     }
@@ -110,7 +94,7 @@ public class PrettyPrinter {
         return decorationToken;
     }
 
-    public void renderToConsole() {
+    public void renderToConsole(ConsoleOutput consoleOutput) {
         for (PrettyPrinterLine line : lines) {
             consoleOutput.out(line.getStyleAndValues().toArray());
         }
@@ -166,6 +150,10 @@ public class PrettyPrinter {
     }
 
     public void flushCurrentLine() {
+        if (currentLine.isEmpty()) {
+            return;
+        }
+
         lines.add(currentLine);
         currentLine = new PrettyPrinterLine();
     }
@@ -210,11 +198,15 @@ public class PrettyPrinter {
         }
     }
 
-    public void printObjectAutoIndentedByCurrentLine(Object value) {
+    public void printObjectIndented(Object value, int currentLineWidth) {
         int previousIndentation = indentationSize;
-        setIndentationSize(currentLine.getWidth());
+        setIndentationSize(currentLineWidth);
         printObject(value);
         setIndentationSize(previousIndentation);
+    }
+
+    public void printObjectAutoIndentedByCurrentLine(Object value) {
+        printObjectIndented(value, currentLine.getWidth());
     }
 
     private void appendToCurrentLine(Object... styleOrValue) {

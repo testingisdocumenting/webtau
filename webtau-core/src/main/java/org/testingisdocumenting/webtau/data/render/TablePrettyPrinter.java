@@ -154,7 +154,7 @@ public class TablePrettyPrinter {
 
     private TableData createPrettyPrintersTable(PrettyPrinter prettyPrinter, ValuePath root, TableData tableData) {
         return tableData.map(((rowIdx, colIdx, columnName, v) -> {
-            PrettyPrinter cellPrettyPrinter = new PrettyPrinter(prettyPrinter.getConsoleOutput(), 0);
+            PrettyPrinter cellPrettyPrinter = new PrettyPrinter(0);
             cellPrettyPrinter.setPathsDecoration(prettyPrinter.getDecorationToken(), prettyPrinter.getPathsToDecorate());
             cellPrettyPrinter.setValueConverter(prettyPrinter.getValueConverter());
 

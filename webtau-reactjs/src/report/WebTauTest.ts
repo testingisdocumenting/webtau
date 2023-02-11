@@ -43,9 +43,11 @@ export interface WebTauWarning {
   input: object;
 }
 
+export type TokenizedMessage = TokenizedMessageToken[];
+
 export interface WebTauStep {
   children?: WebTauStep[];
-  message: TokenizedMessageToken[];
+  message: TokenizedMessage;
   elapsedTime: number;
   startTime: number;
   isSuccessful: boolean;
@@ -93,7 +95,7 @@ export interface HttpCall {
   responseBody: any;
   responseStatusCode: number;
   errorMessage?: string;
-  mismatches: string[];
+  mismatches: TokenizedMessage[];
   warnings?: string[];
   responseBodyChecks: {
     failedPaths: string[];

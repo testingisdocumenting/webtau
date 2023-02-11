@@ -71,7 +71,13 @@ function createTestWithCliCalls(personaId?: string): WebTauTest {
         errMatches: ['line 5'],
         errorMessage: '',
         mismatches: [
-          'process output expect to contain "versian:"\nprocess output: mismatches:\n                \n                process output[0]:    actual string: welcome to my script\n                                   expected pattern: \\Qversian:\\E\n                process output[1]:    actual string: version: 12.43.2\n                                   expected pattern: \\Qversian:\\E',
+          [
+            {
+              type: 'error',
+              value:
+                'process output expect to contain "versian:"\nprocess output: mismatches:\n                \n                process output[0]:    actual string: welcome to my script\n                                   expected pattern: \\Qversian:\\E\n                process output[1]:    actual string: version: 12.43.2\n                                   expected pattern: \\Qversian:\\E',
+            },
+          ],
         ],
         config: {},
       },
