@@ -94,7 +94,6 @@
     <modules>
         <module>webtau-utils</module>
         <module>webtau-utils-testing-data</module>
-        <module>webtau-console</module>
         <module>webtau-core</module>
         <module>webtau-core-groovy</module>
         <module>webtau-standalone-runner-groovy</module>
@@ -130,8 +129,6 @@
         <module>webtau-junit4-examples</module>
         <module>webtau-junit-like-examples-common</module>
         <module>webtau-testapp</module>
-        <module>webtau-config</module>
-        <module>webtau-config-groovy</module>
         <module>webtau-feature-testing</module>
         <module>webtau-report-testing</module>
         <module>webtau-maven-plugin</module>

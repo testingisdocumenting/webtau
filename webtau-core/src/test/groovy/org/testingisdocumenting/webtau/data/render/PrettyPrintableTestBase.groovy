@@ -18,7 +18,6 @@ package org.testingisdocumenting.webtau.data.render
 
 import org.junit.Assert
 import org.junit.Before
-import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 class PrettyPrintableTestBase {
