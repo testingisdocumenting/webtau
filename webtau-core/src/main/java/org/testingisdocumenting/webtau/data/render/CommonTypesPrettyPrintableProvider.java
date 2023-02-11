@@ -19,11 +19,14 @@ package org.testingisdocumenting.webtau.data.render;
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class CommonTypesPrettyPrintableProvider implements PrettyPrintableProvider {
     @Override
     public Optional<PrettyPrintable> prettyPrintableFor(Object o) {
-        if (o instanceof Path) {
+        if (o instanceof Pattern) {
+            return Optional.of(new PatternPrettyPrintable((Pattern) o));
+        } else if (o instanceof Path) {
             return Optional.of(new PathPrettyPrintable((Path) o));
         } if (o instanceof Iterable) {
             return Optional.of(new IterablePrettyPrintable((Iterable<?>) o));

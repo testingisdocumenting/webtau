@@ -1,0 +1,1 @@
+* Add: Pretty Print for Regexp Pattern instance with displaying flags
