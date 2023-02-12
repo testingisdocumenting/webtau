@@ -37,12 +37,6 @@
         </dependency>
 
         <dependency>
-            <groupId>org.testingisdocumenting.webtau</groupId>
-            <artifactId>webtau-config</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>com.googlecode.lanterna</groupId>
             <artifactId>lanterna</artifactId>
             <version>3.1.1</version>
