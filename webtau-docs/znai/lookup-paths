@@ -11,6 +11,7 @@
 ../../webtau/src/test/groovy
 ../../webtau-groovy-app/
 ../../webtau-groovy-app/src/main/groovy
+../../webtau-groovy-app/src/test/groovy
 ../../webtau-groovy-app/src/main/resources
 ../../webtau-groovy-app/target/test-classes
 ../../webtau-feature-testing

@@ -18,7 +18,6 @@ package org.testingisdocumenting.webtau.repl.tabledata
 
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.data.table.render.TableRenderStyle
-import org.testingisdocumenting.webtau.data.table.render.TableRenderer
 
 class ReplTableRenderStyle implements TableRenderStyle {
     private static final String ANSI_COMMA = Color.YELLOW.toString() + ", " + Color.RESET.toString()

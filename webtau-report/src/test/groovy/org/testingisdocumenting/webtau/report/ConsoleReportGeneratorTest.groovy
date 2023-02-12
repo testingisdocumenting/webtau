@@ -24,7 +24,6 @@ import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString
 import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
 import org.testingisdocumenting.webtau.reporter.StepReportOptions
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 import org.testingisdocumenting.webtau.reporter.WebTauReport
 import org.testingisdocumenting.webtau.reporter.WebTauReportLog
 import org.testingisdocumenting.webtau.reporter.WebTauReportName

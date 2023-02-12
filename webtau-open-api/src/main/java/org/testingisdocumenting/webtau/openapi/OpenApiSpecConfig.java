@@ -20,14 +20,10 @@ package org.testingisdocumenting.webtau.openapi;
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
-import org.testingisdocumenting.webtau.utils.UrlUtils;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.declare;
-import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
 
 public class OpenApiSpecConfig implements WebTauConfigHandler {
     static final ConfigValue specUrl = declare("openApiSpecUrl",

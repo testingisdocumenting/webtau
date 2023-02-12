@@ -22,7 +22,6 @@ import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocat
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;

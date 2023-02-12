@@ -3,7 +3,6 @@ package scenarios.graphql
 
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.Color
-import org.testingisdocumenting.webtau.report.ReportDataProviders
 import org.testingisdocumenting.webtau.reporter.WebTauReport
 import org.testingisdocumenting.webtau.utils.JsonUtils
 
