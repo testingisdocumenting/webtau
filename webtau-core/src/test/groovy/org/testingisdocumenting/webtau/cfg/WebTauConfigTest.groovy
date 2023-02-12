@@ -23,23 +23,12 @@ import org.junit.Test
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
 
-class WebTauConfigTest implements ConsoleOutput {
-    List<String> consoleOut = []
-
-    @Before
-    void initiateStepReporter() {
-        consoleOut.clear()
-        ConsoleOutputs.add(this)
-    }
-
-    @After
-    void unregisterStepReporter() {
-        ConsoleOutputs.remove(this)
-    }
-
+class WebTauConfigTest {
     @Test
     void "inits config values from env vars and overrides them from system properties"() {
         System.setProperty('url', 'test-base-url')
@@ -83,24 +72,12 @@ class WebTauConfigTest implements ConsoleOutput {
 
     @Test
     void "setting url should have step report url and source"() {
-        WebTauConfig cfg = new WebTauConfig()
-        cfg.setBaseUrl("test-source", "http://test")
-
-        def output = consoleOut.join("\n")
-        output = output.replaceAll("\\(\\d+ms\\)", "(Xms)")
-        actual(output).should(equal("> setting url\n" +
-        "    source: \"test-source\"\n" +
-                "    url: \"http://test\"\n" +
-                ". set url (Xms)"))
-    }
-
-    @Override
-    void out(Object... styleOrValues) {
-        consoleOut.add(new IgnoreAnsiString(styleOrValues).toString())
-    }
-
-    @Override
-    void err(Object... styleOrValues) {
-
+        runAndValidateOutput('> setting url\n' +
+                '    source: "test-source"\n' +
+                '    url: "http://test"\n' +
+                '. set url (Xms)') {
+            WebTauConfig cfg = new WebTauConfig()
+            cfg.setBaseUrl("test-source", "http://test")
+        }
     }
 }
