@@ -103,6 +103,11 @@ public class TestConsoleOutput implements ConsoleOutput {
         doc.capture(artifactName, testConsoleOutput.getColorOutput());
     }
 
+    public static void runExpectExceptionCaptureAndValidateOutput(Class<?> expectedException, String artifactName, String expectedOutput, Runnable code) {
+        TestConsoleOutput testConsoleOutput = runExpectExceptionAndValidateOutput(expectedException, expectedOutput, code);
+        doc.capture(artifactName, testConsoleOutput.getColorOutput());
+    }
+
     private static class OutputAndCaughtException {
         private final String output;
         private final Throwable caughtException;
