@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,13 +17,14 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.stream.Stream;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode.LESS_THAN_OR_EQUAL;
 
 public class LessThanOrEqualMatcher implements ValueMatcher, ExpectedValuesAware {
@@ -34,18 +36,18 @@ public class LessThanOrEqualMatcher implements ValueMatcher, ExpectedValuesAware
     }
 
     @Override
-    public String matchingMessage() {
-        return "to be less than or equal to " + DataRenderers.render(expected);
+    public TokenizedMessage matchingTokenizedMessage() {
+        return tokenizedMessage().matcher("to be less than or equal to").valueFirstLinesOnly(expected);
     }
 
     @Override
-    public String matchedMessage(ValuePath actualPath, Object actual) {
-        return "less than or equal " + DataRenderers.render(expected);
+    public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("less than or equal").value(expected);
     }
 
     @Override
-    public String mismatchedMessage(ValuePath actualPath, Object actual) {
-        return compareToComparator.generateLessThanOrEqualMismatchReport();
+    public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().error(compareToComparator.generateLessThanOrEqualMismatchReport());
     }
 
     @Override
@@ -55,18 +57,18 @@ public class LessThanOrEqualMatcher implements ValueMatcher, ExpectedValuesAware
     }
 
     @Override
-    public String negativeMatchingMessage() {
-        return "to be greater than " + DataRenderers.render(expected);
+    public TokenizedMessage negativeMatchingTokenizedMessage() {
+        return tokenizedMessage().matcher("to be greater than").valueFirstLinesOnly(expected);
     }
 
     @Override
-    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
-        return "greater than " + DataRenderers.render(expected);
+    public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("greater than").valueFirstLinesOnly(expected);
     }
 
     @Override
-    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-        return compareToComparator.generateGreaterThanMismatchReport();
+    public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().error(compareToComparator.generateGreaterThanMismatchReport());
     }
 
     @Override
