@@ -1,0 +1,1 @@
+* Add: Display actual value with markers on Web Report in case of a failure

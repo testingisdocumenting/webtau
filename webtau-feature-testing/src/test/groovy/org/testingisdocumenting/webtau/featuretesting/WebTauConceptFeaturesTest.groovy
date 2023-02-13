@@ -152,6 +152,11 @@ class WebTauConceptFeaturesTest {
     }
 
     @Test
+    void "failed matcher"() {
+        runCli('failedMatcher.groovy', 'webtau.cfg.groovy')
+    }
+
+    @Test
     void "do not sleep as sync mechanism"() {
         runCli('sleepAntiPattern.groovy', 'webtau.cfg.groovy')
     }

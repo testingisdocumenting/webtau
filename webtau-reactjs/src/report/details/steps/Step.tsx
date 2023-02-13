@@ -26,6 +26,8 @@ import { WebTauStep, WebTauStepInput, WebTauStepOutput } from '../../WebTauTest'
 
 import { StepInputOutputKeyValue } from './StepInputOutputKeyValue';
 
+import { StyledText } from './StyledText';
+
 import './Step.css';
 
 interface Props {
@@ -49,19 +51,26 @@ export function Step({ step, isTopLevel }: Props) {
         <StepTime millis={step.elapsedTime} />
       </div>
 
-      {(step.input || step.output) && renderStepInputOutput(step.input, step.output)}
+      {(step.input || step.output) && renderStepInputOutputKeyValue(step.input, step.output)}
+      {step.output && renderStepOutput(step.output)}
 
       {children && !collapsed && <div className="steps-children">{children}</div>}
     </ParentContainer>
   );
 
-  function renderStepInputOutput(input?: WebTauStepInput, output?: WebTauStepOutput) {
+  function renderStepInputOutputKeyValue(input?: WebTauStepInput, output?: WebTauStepOutput) {
     const isInputKeyValue = input?.type === 'WebTauStepInputKeyValue';
     const isOutputKeyValue = output?.type === 'WebTauStepOutputKeyValue';
     if (isInputKeyValue || isOutputKeyValue) {
       const inputData = isInputKeyValue ? input?.data : {};
       const outputData = isOutputKeyValue ? output?.data : {};
       return <StepInputOutputKeyValue inputData={inputData} outputData={outputData} />;
+    }
+  }
+
+  function renderStepOutput(output: WebTauStepOutput) {
+    if (output.type === 'ValueMatcherStepOutput') {
+      return <StyledText lines={output.data.styledText} />;
     }
   }
 
