@@ -29,6 +29,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.map
 import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage
 import static org.testingisdocumenting.webtau.expectation.equality.ActualExpectedTestReportExpectations.simpleActualExpectedWithIntegers
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class EqualMatcherTest {
     private final int expected = 8
@@ -96,7 +97,7 @@ class EqualMatcherTest {
 
     @Test
     void "rendering negative"() {
-        runAndValidateOutput('X failed expecting [value] to equal 10: \n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal 10: \n' +
                 '    mismatches:\n' +
                 '    \n' +
                 '    [value]:   actual: 100 <java.lang.Integer>\n' +

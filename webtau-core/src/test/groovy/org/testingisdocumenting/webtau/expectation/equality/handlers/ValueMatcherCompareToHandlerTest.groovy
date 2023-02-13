@@ -24,7 +24,7 @@ import org.junit.Test
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.junit.Assert.assertEquals
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class ValueMatcherCompareToHandlerTest {
     private static final ValuePath actualPath = createActualPath("value")
@@ -76,7 +76,7 @@ class ValueMatcherCompareToHandlerTest {
 
     @Test
     void "should work in combination with contain matcher"() {
-        runAndValidateOutput("X failed expecting [value] to not contain <greater than 7>: \n" +
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to not contain <greater than 7>: \n" +
                 "    [value] expects to not contain <greater than 7>\n" +
                 "    [value][2]: equals 8 (Xms)\n" +
                 "  \n" +
@@ -93,7 +93,7 @@ class ValueMatcherCompareToHandlerTest {
     void "should work in combination with nested contain matcher"() {
         actual(["hello", "world", "of matchers"]).should(contain(containing("of")))
 
-        runAndValidateOutput("X failed expecting [value] to not contain org.testingisdocumenting.webtau.expectation.contain.ContainMatcher \"of\": \n" +
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to not contain org.testingisdocumenting.webtau.expectation.contain.ContainMatcher \"of\": \n" +
                 "    [value] expects to not contain <contain \"of\">\n" +
                 "    [value][2]: equals \"of matchers\" (Xms)\n" +
                 "  \n" +

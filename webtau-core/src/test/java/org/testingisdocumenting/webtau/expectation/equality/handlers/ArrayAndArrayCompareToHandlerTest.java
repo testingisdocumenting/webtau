@@ -60,7 +60,7 @@ public class ArrayAndArrayCompareToHandlerTest {
         int[] a = {1, 2, 3};
         int[] b = {1, 7, 3};
 
-        runAndValidateOutput(Pattern.compile("expected: 7"), () -> actual(a).should(equal(b)));
+        runExpectExceptionAndValidateOutput(AssertionError.class, Pattern.compile("expected: 7"), () -> actual(a).should(equal(b)));
     }
 
     @Test

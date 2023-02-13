@@ -17,9 +17,10 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
 import org.junit.Test
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
+import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class TableDataCompareToHandlerTest {
     @Test
@@ -40,7 +41,7 @@ class TableDataCompareToHandlerTest {
                                   30,  40,
                                  130, 150)
 
-        TestConsoleOutput.runAndValidateOutput('X failed expecting [value] to equal colA    │ colB   \n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal colA    │ colB   \n' +
                 '                                    "hellp" │ "world"\n' +
                 '                                        100 │     200\n' +
                 '                                         10 │      20\n' +
@@ -76,7 +77,7 @@ class TableDataCompareToHandlerTest {
                                   "hellp", "world",
                                       100, 200)
 
-        TestConsoleOutput.runAndValidateOutput('X failed expecting [value] to equal colA    │ colB   \n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal colA    │ colB   \n' +
                 '                                    "hellp" │ "world"\n' +
                 '                                        100 │     200: \n' +
                 '    mismatches:\n' +
@@ -103,7 +104,7 @@ class TableDataCompareToHandlerTest {
                               ______________________,
                                "help", "world", "value")
 
-        TestConsoleOutput.runAndValidateOutput('X failed expecting [value] to equal colA   │ colB    │ colC   \n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal colA   │ colB    │ colC   \n' +
                 '                                    "help" │ "world" │ "value": \n' +
                 '    mismatches:\n' +
                 '    \n' +

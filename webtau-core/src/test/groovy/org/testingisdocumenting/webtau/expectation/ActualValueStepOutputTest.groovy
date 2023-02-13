@@ -28,7 +28,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage
 class ActualValueStepOutputTest {
     @Test
     void "should print iterable with marked failed values in case of mismatch"() {
-        TestConsoleOutput.runAndValidateOutput('X failed expecting [value] to equal [\n' +
+        TestConsoleOutput.runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal [\n' +
                 '                                      1,\n' +
                 '                                      "world",\n' +
                 '                                      2\n' +
@@ -50,7 +50,7 @@ class ActualValueStepOutputTest {
 
     @Test
     void "should print map with marked failed values in case of mismatch"() {
-        TestConsoleOutput.runAndValidateOutput('X failed expecting [value] to equal {\n' +
+        TestConsoleOutput.runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal {\n' +
                 '                                      "key": "value1",\n' +
                 '                                      "another": 23\n' +
                 '                                    }: \n' +
@@ -76,7 +76,7 @@ class ActualValueStepOutputTest {
                         })
         step.matcherOutputDisabled = true
 
-        TestConsoleOutput.runAndValidateOutput('> parent step\n' +
+        TestConsoleOutput.runExpectExceptionAndValidateOutput(AssertionError, '> parent step\n' +
                 '  X failed expecting [value] to equal {\n' +
                 '                                        "key": "value1",\n' +
                 '                                        "another": 23\n' +

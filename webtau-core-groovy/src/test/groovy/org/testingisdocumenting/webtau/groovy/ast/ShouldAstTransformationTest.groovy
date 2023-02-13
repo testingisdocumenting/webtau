@@ -30,11 +30,11 @@ import org.testingisdocumenting.webtau.expectation.equality.NotEqualMatcher
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class ShouldAstTransformationTest extends GroovyTestCase {
     void testShouldNotTransformation() {
-        runAndValidateOutput("X failed expecting [value] to not equal 2: \n" +
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to not equal 2: \n" +
                 "    mismatches:\n" +
                 "    \n" +
                 "    [value]:   actual: 2 <java.lang.Integer>\n" +
@@ -50,7 +50,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
     }
 
     void testShouldTransformationOnMap() {
-        runAndValidateOutput('X failed expecting [value] to equal {\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal {\n' +
                 '                                      "a": 3\n' +
                 '                                    }: \n' +
                 '    mismatches:\n' +

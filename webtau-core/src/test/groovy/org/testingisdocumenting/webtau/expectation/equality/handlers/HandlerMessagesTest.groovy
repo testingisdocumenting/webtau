@@ -79,7 +79,7 @@ class HandlerMessagesTest {
     }
 
     private static void validateMessage(Pattern expected, Closure code) {
-        TestConsoleOutput.runAndValidateOutput(expected, code)
+        TestConsoleOutput.runExpectExceptionAndValidateOutput(AssertionError, expected, code)
     }
 
     // Test classes

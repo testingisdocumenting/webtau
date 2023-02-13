@@ -441,7 +441,7 @@ public class HttpJavaTest extends HttpTestBase {
 
     @Test
     public void validateConsoleOutput() {
-        runAndValidateOutput("> executing HTTP POST http://localhost:port/end-point\n" +
+        runExpectExceptionAndValidateOutput(AssertionError.class, "> executing HTTP POST http://localhost:port/end-point\n" +
                 "  request (application/json):\n" +
                 "  {\n" +
                 "    \"key1\": \"value1\",\n" +
