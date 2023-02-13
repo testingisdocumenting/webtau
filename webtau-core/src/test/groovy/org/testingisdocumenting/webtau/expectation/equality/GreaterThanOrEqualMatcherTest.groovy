@@ -17,11 +17,11 @@
 
 package org.testingisdocumenting.webtau.expectation.equality
 
-
 import org.junit.Test
 import org.testingisdocumenting.webtau.data.ValuePath
 
-import static org.testingisdocumenting.webtau.expectation.equality.ActualExpectedTestReportExpectations.simpleActualExpectedWithIntegers
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class GreaterThanOrEqualMatcherTest {
     private final int expected = 8
@@ -40,37 +40,52 @@ class GreaterThanOrEqualMatcherTest {
 
     @Test
     void "positive mismatch"() {
-        def actual = expected - 1
-        assert !matcher.matches(actualPath, actual)
-        assert matcher.mismatchedMessage(actualPath, actual) == 'mismatches:\n\n' +
-            simpleActualExpectedWithIntegers(actual, 'greater than or equal to', expected)
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be greater than or equal to 11: \n" +
+                "    mismatches:\n" +
+                "    \n" +
+                "    [value]:   actual: 10 <java.lang.Integer>\n" +
+                "             expected: greater than or equal to 11 <java.lang.Integer> (Xms)") {
+            actual(10).shouldBe(greaterThanOrEqual(11))
+        }
     }
 
     @Test
     void "negative match"() {
-        def actual = expected - 1
-        assert matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMatchedMessage(actualPath, actual) == "less than $expected"
+        runAndValidateOutput(". [value] less than 12 (Xms)") {
+            actual(10).shouldNotBe(greaterThanOrEqual(12))
+        }
     }
 
     @Test
     void "negative mismatch equal"() {
-        assertNegativeMismatch(expected)
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be less than 8: \n" +
+                "    mismatches:\n" +
+                "    \n" +
+                "    [value]:   actual: 8 <java.lang.Integer>\n" +
+                "             expected: less than 8 <java.lang.Integer> (Xms)") {
+            actual(expected).shouldNotBe(greaterThanOrEqual(expected))
+        }
     }
 
     @Test
     void "negative mismatch greater"() {
-        assertNegativeMismatch(expected + 1)
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be less than 8: \n" +
+                "    mismatches:\n" +
+                "    \n" +
+                "    [value]:   actual: 9 <java.lang.Integer>\n" +
+                "             expected: less than 8 <java.lang.Integer> (Xms)") {
+            actual(expected + 1).shouldNotBe(greaterThanOrEqual(expected))
+        }
     }
 
     @Test
     void "matching message"() {
-        assert matcher.matchingMessage() == "to be greater than or equal to $expected"
+        assert matcher.matchingTokenizedMessage().toString() == "to be greater than or equal to $expected"
     }
 
     @Test
     void "negative matching message"() {
-        assert matcher.negativeMatchingMessage() == "to be less than $expected"
+        assert matcher.negativeMatchingTokenizedMessage().toString() == "to be less than $expected"
     }
 
     @Test
@@ -80,14 +95,9 @@ class GreaterThanOrEqualMatcherTest {
         assert comparator.generateEqualMismatchReport().contains('expected: <greater than or equal 8>')
     }
 
-    private void assertPositiveMatch(int actual) {
-        assert matcher.matches(actualPath, actual)
-        assert matcher.matchedMessage(actualPath, actual) == "greater than or equal $expected"
-    }
-
-    private void assertNegativeMismatch(int actual) {
-        assert !matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMismatchedMessage(actualPath, actual) == 'mismatches:\n\n' +
-                simpleActualExpectedWithIntegers(actual, 'less than', expected)
+    private void assertPositiveMatch(int actualValue) {
+        runAndValidateOutput(". [value] greater than or equal 8 (Xms)") {
+           actual(actualValue).shouldBe(greaterThanOrEqual(expected))
+        }
     }
 }

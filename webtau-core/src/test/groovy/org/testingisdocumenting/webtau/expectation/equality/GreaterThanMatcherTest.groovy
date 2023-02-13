@@ -17,10 +17,11 @@
 
 package org.testingisdocumenting.webtau.expectation.equality
 
-import org.testingisdocumenting.webtau.data.ValuePath
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.ValuePath
 
-import static org.testingisdocumenting.webtau.expectation.equality.ActualExpectedTestReportExpectations.*
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class GreaterThanMatcherTest {
     private final int expected = 8
@@ -29,44 +30,48 @@ class GreaterThanMatcherTest {
 
     @Test
     void "positive match"() {
-        def actual = expected + 1
-
-        assert matcher.matches(actualPath, actual)
-        assert matcher.matchedMessage(actualPath, actual) == "greater than $expected"
-
+        runAndValidateOutput(". [value] greater than 88 (Xms)") {
+            actual(100).shouldBe(greaterThan(88))
+        }
     }
 
     @Test
     void "positive mismatch"() {
-        def actual = expected
-        assert !matcher.matches(actualPath, actual)
-        assert matcher.mismatchedMessage(actualPath, actual) == 'mismatches:\n\n' +
-            simpleActualExpectedWithIntegers(actual, 'greater than', expected)
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be greater than 100: \n" +
+                "    mismatches:\n" +
+                "    \n" +
+                "    [value]:   actual: 100 <java.lang.Integer>\n" +
+                "             expected: greater than 100 <java.lang.Integer> (Xms)") {
+            actual(100).shouldBe(greaterThan(100))
+        }
     }
 
     @Test
     void "negative match"() {
-        def actual = expected - 1
-        assert matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMatchedMessage(actualPath, actual) == "less than or equal to $expected"
+        runAndValidateOutput(". [value] less than or equal to 100 (Xms)") {
+            actual(100).shouldNotBe(greaterThan(100))
+        }
     }
 
     @Test
     void "negative mismatch"() {
-        def actual = expected + 1
-        assert !matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMismatchedMessage(actualPath, actual) == 'mismatches:\n\n' +
-            simpleActualExpectedWithIntegers(actual, 'less than or equal to', expected)
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be less than or equal to 10: \n" +
+                "    mismatches:\n" +
+                "    \n" +
+                "    [value]:   actual: 100 <java.lang.Integer>\n" +
+                "             expected: less than or equal to 10 <java.lang.Integer> (Xms)") {
+            actual(100).shouldNotBe(greaterThan(10))
+        }
     }
 
     @Test
     void "matching message"() {
-        assert matcher.matchingMessage() == "to be greater than $expected"
+        assert matcher.matchingTokenizedMessage().toString() == "to be greater than $expected"
     }
 
     @Test
     void "negative matching message"() {
-        assert matcher.negativeMatchingMessage() == "to be less than or equal to $expected"
+        assert matcher.negativeMatchingTokenizedMessage().toString() == "to be less than or equal to $expected"
     }
 
     @Test
