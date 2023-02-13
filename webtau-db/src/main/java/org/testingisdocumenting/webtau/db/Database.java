@@ -108,7 +108,7 @@ public class Database {
                                            Map<String, Object> params,
                                            Integer numberOfRows) {
         return appendParamsAndAffectedIfRequired(
-                tokenizedMessage().action(actionLabel).string(query).on().id(dataSourceProvider.provide().getLabel()),
+                tokenizedMessage().action(actionLabel).query(query).on().id(dataSourceProvider.provide().getLabel()),
                 params,
                 numberOfRows);
     }
