@@ -24,7 +24,7 @@ import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.Explicit
 import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.ExplicitPassed
 import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.FuzzyPassed
 import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.None
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class DataNodeListContainHandlerTest {
     def listOfFirstNames = ['FN0', 'FN1', 'FN2', 'FN3']
@@ -90,7 +90,7 @@ class DataNodeListContainHandlerTest {
     void "should mark all items as failed when item is not present"() {
         def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), listOfFullNames)
 
-        runAndValidateOutput(~/body expects to contain \{firstName=FN8, lastName=LN8}/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/body expects to contain \{firstName=FN8, lastName=LN8}/) {
             dataNode.should contain([firstName: 'FN8', lastName: 'LN8'])
         }
 
@@ -110,7 +110,7 @@ class DataNodeListContainHandlerTest {
     void "should mark containing items as failed when when they should not be present"() {
         def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), listOfFullNames)
 
-        runAndValidateOutput(~/body expects to not contain \{firstName=FN2, lastName=LN2}/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/body expects to not contain \{firstName=FN2, lastName=LN2}/) {
             dataNode.shouldNot contain([firstName: 'FN2', lastName: 'LN2'])
         }
 

@@ -42,7 +42,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 import static org.testingisdocumenting.webtau.data.Data.data
 import static org.testingisdocumenting.webtau.http.Http.http
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class HttpGroovyTest extends HttpTestBase {
     private static final byte[] sampleFile = [1, 2, 3]
@@ -59,7 +59,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "handles nulls"() {
-        runAndValidateOutput(~/expected: not null/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/expected: not null/) {
             http.post("/echo", [a: null]) {
                 a.shouldNot == null
             }
@@ -1070,7 +1070,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "implicit status code should happen even if there is another assertion mismatch"() {
-        runAndValidateOutput(contain(actual404)) {
+        runExpectExceptionAndValidateOutput(AssertionError, contain(actual404)) {
             http.get("/no-resource") {
                 id.should == 0
                 message.shouldBe == 10
@@ -1082,7 +1082,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "implicit status code should happen even if there is runtime exception"() {
-        runAndValidateOutput(contain(actual404)) {
+        runExpectExceptionAndValidateOutput(AssertionError, contain(actual404)) {
             http.get("/no-resource") {
                 throw new RuntimeException("error")
             }
@@ -1093,7 +1093,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "implicit status code should not happen if explicit status code failed"() {
-        runAndValidateOutput(contain("expected: 401")) {
+        runExpectExceptionAndValidateOutput(AssertionError, contain("expected: 401")) {
             http.get("/no-resource") {
                 statusCode.should == 401
             }
@@ -1200,7 +1200,7 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "reports implicit status code mismatch instead of additional validator errors"() {
         withFailingHandler {
-            runAndValidateOutput(contain(actual404)) {
+            runExpectExceptionAndValidateOutput(AssertionError, contain(actual404)) {
                 http.get("/notfound") {}
             }
         }
@@ -1209,7 +1209,7 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "reports explicit status code mismatch instead of additional validator errors"() {
         withFailingHandler {
-            runAndValidateOutput(contain(actual404)) {
+            runExpectExceptionAndValidateOutput(AssertionError, contain(actual404)) {
                 http.get("/notfound") {
                     statusCode.should == 200
                 }
@@ -1220,7 +1220,7 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "reports status code mismatch instead of additional validator errors or failing body assertions"() {
         withFailingHandler {
-            runAndValidateOutput(contain(actual404)) {
+            runExpectExceptionAndValidateOutput(AssertionError, contain(actual404)) {
                 http.get("/notfound") {
                     id.should == "foo"
                 }
@@ -1231,7 +1231,7 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "reports body assertions instead of additional validation errors"() {
         withFailingHandler() {
-            runAndValidateOutput(contain("body.id:   actual: null")) {
+            runExpectExceptionAndValidateOutput(AssertionError, contain("body.id:   actual: null")) {
                 http.get("/notfound") {
                     statusCode.should == 404
                     id.should == "foo"

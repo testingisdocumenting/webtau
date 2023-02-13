@@ -34,7 +34,7 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
     public static final Color STRING_COLOR = Color.GREEN;
     public static final Color NUMBER_COLOR = Color.CYAN;
     public static final Color KEY_COLOR = Color.PURPLE;
-    public static final Color UNKNOWN_COLOR = Color.BLUE;
+    public static final Color UNKNOWN_COLOR = Color.CYAN;
 
     private static final int INDENTATION_STEP = 2;
     private static final List<PrettyPrintableProvider> prettyPrintProviders = ServiceLoaderUtils.load(PrettyPrintableProvider.class);

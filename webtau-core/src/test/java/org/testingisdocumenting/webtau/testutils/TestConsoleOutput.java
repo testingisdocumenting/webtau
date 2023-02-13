@@ -85,6 +85,8 @@ public class TestConsoleOutput implements ConsoleOutput {
                 actual(outputAndCaughtException.caughtException != null ?
                         outputAndCaughtException.caughtException.getClass() : null,
                         "caught exception").should(equal(expectedException));
+            } else if (outputAndCaughtException.caughtException != null) {
+                throw new AssertionError("expected no exception, but caught: " + outputAndCaughtException.caughtException);
             }
 
             actual(outputAndCaughtException.output, "output").should(equal(expectedOutput));
@@ -101,9 +103,9 @@ public class TestConsoleOutput implements ConsoleOutput {
         doc.capture(artifactName, testConsoleOutput.getColorOutput());
     }
 
-    private static String replaceTime(String original) {
-        return original.replaceAll("\\d+ms", "Xms")
-                .replaceAll("localhost:\\d+", "localhost:port");
+    public static void runExpectExceptionCaptureAndValidateOutput(Class<?> expectedException, String artifactName, String expectedOutput, Runnable code) {
+        TestConsoleOutput testConsoleOutput = runExpectExceptionAndValidateOutput(expectedException, expectedOutput, code);
+        doc.capture(artifactName, testConsoleOutput.getColorOutput());
     }
 
     private static class OutputAndCaughtException {

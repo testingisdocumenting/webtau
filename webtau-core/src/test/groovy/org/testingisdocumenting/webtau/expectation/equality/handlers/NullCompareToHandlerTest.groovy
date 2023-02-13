@@ -19,10 +19,9 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers
 
 import org.testingisdocumenting.webtau.expectation.ValueMatcher
 import org.junit.Test
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class NullCompareToHandlerTest {
     @Test
@@ -48,7 +47,7 @@ class NullCompareToHandlerTest {
         actual("hello").shouldNot(equal(null))
         actual(null).shouldNot(equal("hello"))
 
-        runAndValidateOutput(~/expected: null/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/expected: null/) {
             actual(10).should(equal(null))
         }
 
@@ -66,7 +65,7 @@ class NullCompareToHandlerTest {
     @Test
     void "provides clear error message for greater-less check with actual equal to null"() {
         def expect = { ValueMatcher matcher, String expectedMessage ->
-            runAndValidateOutput(~/actual: null\n.*${expectedMessage}/) {
+            runExpectExceptionAndValidateOutput(AssertionError, ~/actual: null\n.*${expectedMessage}/) {
                 actual(null).should(matcher)
             }
         }
@@ -81,7 +80,7 @@ class NullCompareToHandlerTest {
     @Test
     void "provides clear error message for greater-less check with expected equal to null"() {
         def expect = { ValueMatcher matcher, String expectedMessage ->
-            runAndValidateOutput(~/actual: 10.*\n.*${expectedMessage}/) {
+            runExpectExceptionAndValidateOutput(AssertionError, ~/actual: 10.*\n.*${expectedMessage}/) {
                 actual(10).should(matcher)
             }
         }

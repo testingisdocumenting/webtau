@@ -22,7 +22,7 @@ import org.testingisdocumenting.webtau.data.table.TableData
 import java.time.LocalDate
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class MatchersGroovyTest {
     private final List<String> messages = Arrays.asList("message one", "message two", "message we wait for")
@@ -79,7 +79,7 @@ class MatchersGroovyTest {
 
     @Test
     void "bean and map example"() {
-        runAndValidateOutput(~/expected: "My Second Account"/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/expected: "My Second Account"/) {
             // bean-map-example
             def account = new Account("ac1", "My Account", "test account", new Address("TestingCity", "88888888"))
             account.should == [
@@ -92,7 +92,7 @@ class MatchersGroovyTest {
 
     @Test
     void "beans and table example"() {
-        runAndValidateOutput(~/expected: "zip8"/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/expected: "zip8"/) {
             // beans-table-example
             List<Account> accounts = fetchAccounts()
             TableData expected = ["*id" | "name"       | "address"] {

@@ -16,11 +16,11 @@
 
 package org.testingisdocumenting.webtau.browser.page
 
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Test
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 
-import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class PageUrlTest {
     private static def browser = [
@@ -70,7 +70,7 @@ class PageUrlTest {
 
     @Test
     void "should provide context of the failure in case of failed should statement"() {
-        runAndValidateOutput("> expecting page url query of browser to equal \"wrong-value\"\n" +
+        runExpectExceptionAndValidateOutput(AssertionError, "> expecting page url query of browser to equal \"wrong-value\"\n" +
                 "X failed expecting page url query of browser to equal \"wrong-value\": \n" +
                 "    mismatches:\n" +
                 "    \n" +

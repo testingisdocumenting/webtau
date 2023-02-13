@@ -218,7 +218,7 @@ class DatabaseTest extends DatabaseBaseTest {
         setupPrices()
         def prices = db.query("select * from PRICES")
 
-        runAndValidateOutput(~/(?s).*TableData.*Map.*/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/(?s).*TableData.*Map.*/) {
             prices.should == [ID: "id1", "DESCRIPTION": "nice set", PRICE: 1000]
         }
     }

@@ -100,7 +100,7 @@ public class MatchersTest {
 
     @Test
     public void beanAndMapExample() {
-        runCaptureAndValidateOutput("bean-map-compare-output", "X failed expecting [value] to equal {\n" +
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "bean-map-compare-output", "X failed expecting [value] to equal {\n" +
                 "                                      \"id\": \"ac1\",\n" +
                 "                                      \"name\": \"My Second Account\",\n" +
                 "                                      \"address\": {\n" +
@@ -137,7 +137,7 @@ public class MatchersTest {
 
     @Test
     public void listOfBeansAndTable() {
-        TestConsoleOutput.runCaptureAndValidateOutput("beans-table-compare-output", "X failed expecting [value] to equal *id   │ name         │ address            \n" +
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "beans-table-compare-output", "X failed expecting [value] to equal *id   │ name         │ address            \n" +
                 "                                    \"ac2\" │ \"Works\"      │ {                  \n" +
                 "                                          │              │   \"zipCode\": \"zip2\"\n" +
                 "                                          │              │ }                  \n" +
