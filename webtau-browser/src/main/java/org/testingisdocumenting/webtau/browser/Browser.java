@@ -29,11 +29,10 @@ import org.testingisdocumenting.webtau.browser.page.PageElementValue;
 import org.testingisdocumenting.webtau.browser.page.PageUrl;
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath;
 import org.testingisdocumenting.webtau.cache.Cache;
-import org.testingisdocumenting.webtau.reporter.MessageToken;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.browser.BrowserConfig.*;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
 
 public class Browser {
@@ -61,9 +60,9 @@ public class Browser {
     }
 
     public void setDriver(WebDriver userDriver) {
-        MessageToken webDriver = classifier("webdriver");
-        createAndExecuteStep(tokenizedMessage(action("setting"), webDriver),
-                () -> tokenizedMessage(action("set"), webDriver),
+        TokenizedMessage webDriverClassifier = tokenizedMessage().classifier("webdriver");
+        createAndExecuteStep(tokenizedMessage().action("setting").add(webDriverClassifier),
+                () -> tokenizedMessage().action("set").add(webDriverClassifier),
                 () -> driver.setDriver(userDriver));
     }
 
@@ -85,8 +84,8 @@ public class Browser {
         String currentUrl = driver.getCurrentUrl();
         boolean sameUrl = fullUrl.equals(currentUrl);
 
-        createAndExecuteStep(tokenizedMessage(action("opening"), urlValue(fullUrl)),
-                () -> tokenizedMessage(action(sameUrl ? "staying at" : "opened"), urlValue(fullUrl)),
+        createAndExecuteStep(tokenizedMessage().action("opening").url(fullUrl),
+                () -> tokenizedMessage().action(sameUrl ? "staying at" : "opened").url(fullUrl),
                 () -> {
                     if (!sameUrl) {
                         BrowserPageNavigation.open(driver, url, fullUrl);
@@ -97,42 +96,42 @@ public class Browser {
     public void reopen(String url) {
         String fullUrl = createFullUrl(url);
 
-        createAndExecuteStep(tokenizedMessage(action("re-opening"), urlValue(fullUrl)),
-                () -> tokenizedMessage(action("opened"), urlValue(fullUrl)),
+        createAndExecuteStep(tokenizedMessage().action("re-opening").url(fullUrl),
+                () -> tokenizedMessage().action("opened").url(fullUrl),
                 () -> BrowserPageNavigation.open(driver, url, fullUrl));
     }
 
     public void refresh() {
-        createAndExecuteStep(tokenizedMessage(action("refreshing current page")),
-                () -> tokenizedMessage(action("refreshed current page")),
+        createAndExecuteStep(tokenizedMessage().action("refreshing current page"),
+                () -> tokenizedMessage().action("refreshed current page"),
                 () -> BrowserPageNavigation.refresh(driver));
     }
 
     public void close() {
-        createAndExecuteStep(tokenizedMessage(action("closing browser")),
-                () -> tokenizedMessage(action("browser is closed")),
+        createAndExecuteStep(tokenizedMessage().action("closing browser"),
+                () -> tokenizedMessage().action("browser is closed"),
                 driver::quit);
     }
 
     public void back() {
         createAndExecuteStep(
-                tokenizedMessage(action("browser going"), classifier("back")),
-                () -> tokenizedMessage(action("browser went"), classifier("back")),
+                tokenizedMessage().action("browser going").classifier("back"),
+                () -> tokenizedMessage().action("browser went").classifier("back"),
                 () -> driver.navigate().back());
     }
 
     public void forward() {
         createAndExecuteStep(
-                tokenizedMessage(action("browser going"), classifier("forward")),
-                () -> tokenizedMessage(action("browser went"), classifier("forward")),
+                tokenizedMessage().action("browser going").classifier("forward"),
+                () -> tokenizedMessage().action("browser went").classifier("forward"),
                 () -> driver.navigate().forward());
     }
 
     public void restart() {
         String currentUrl = driver.getCurrentUrl();
 
-        createAndExecuteStep(tokenizedMessage(action("restarting browser")),
-                () -> tokenizedMessage(action("browser is restarted")),
+        createAndExecuteStep(tokenizedMessage().action("restarting browser"),
+                () -> tokenizedMessage().action("browser is restarted"),
                 () -> {
                     close();
                     browser.open(currentUrl);
@@ -144,8 +143,8 @@ public class Browser {
     }
 
     public void saveCurrentUrl(String key) {
-        createAndExecuteStep(tokenizedMessage(action("saving current url as"), stringValue(key)),
-                () -> tokenizedMessage(action("saved current url as"), stringValue(key)),
+        createAndExecuteStep(tokenizedMessage().action("saving current url as").string(key),
+                () -> tokenizedMessage().action("saved current url as").string(key),
                 () -> Cache.cache.put(makeCacheKey(key), driver.getCurrentUrl()));
     }
 
@@ -154,8 +153,8 @@ public class Browser {
     }
 
     public void openSavedUrl(String key) {
-        createAndExecuteStep(tokenizedMessage(action("opening url saved as"), stringValue(key)),
-                () -> tokenizedMessage(action("opened url saved as"), stringValue(key)),
+        createAndExecuteStep(tokenizedMessage().action("opening url saved as").string(key),
+                () -> tokenizedMessage().action("opened url saved as").string(key),
                 () -> {
                     Object url = Cache.cache.get(makeCacheKey(key));
                     if (url == null) {

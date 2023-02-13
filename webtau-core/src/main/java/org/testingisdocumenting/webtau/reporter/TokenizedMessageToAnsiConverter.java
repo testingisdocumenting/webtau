@@ -17,8 +17,11 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinterLine;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage.TokenTypes;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.Arrays;
@@ -28,11 +31,14 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public class TokenizedMessageToAnsiConverter {
+    public static final TokenizedMessageToAnsiConverter DEFAULT = new TokenizedMessageToAnsiConverter();
+
     private final Map<String, TokenRenderDetails> tokenRenderDetails;
     private int prefixWidth;
 
     public TokenizedMessageToAnsiConverter() {
         tokenRenderDetails = new HashMap<>();
+        associateDefaultTokens();
     }
 
     public void associate(String tokenType, Object... ansiSequence) {
@@ -68,12 +74,12 @@ public class TokenizedMessageToAnsiConverter {
     }
 
     private boolean isDelimiter(MessageToken token) {
-        return token.getType().equals(IntegrationTestsMessageBuilder.TokenTypes.DELIMITER.getType());
+        return token.getType().equals(TokenTypes.DELIMITER.getType());
     }
 
     private Stream<?> convertToAnsiSequence(PrettyPrinterLine currentLine, TokenRenderDetails renderDetails, MessageToken messageToken) {
-        boolean usePrettyPrintFirstLinesOnly = messageToken.getType().equals(IntegrationTestsMessageBuilder.TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType());
-        boolean usePrettyPrint = messageToken.getType().equals(IntegrationTestsMessageBuilder.TokenTypes.PRETTY_PRINT_VALUE.getType());
+        boolean usePrettyPrintFirstLinesOnly = messageToken.getType().equals(TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType());
+        boolean usePrettyPrint = messageToken.getType().equals(TokenTypes.PRETTY_PRINT_VALUE.getType());
         if (usePrettyPrint || usePrettyPrintFirstLinesOnly) {
             return ansiSequenceFromPrettyPrinter(currentLine, messageToken.getValue(), usePrettyPrintFirstLinesOnly);
         }
@@ -118,6 +124,26 @@ public class TokenizedMessageToAnsiConverter {
         }
 
         return result;
+    }
+
+    private void associateDefaultTokens() {
+        associate(TokenTypes.ACTION.getType(), Color.BLUE);
+        associate(TokenTypes.ERROR.getType(), Color.RED);
+        associate(TokenTypes.WARNING.getType(), Color.YELLOW);
+        associate(TokenTypes.ID.getType(), Color.RESET, FontStyle.BOLD);
+        associate(TokenTypes.CLASSIFIER.getType(), Color.CYAN);
+        associate(TokenTypes.MATCHER.getType(), Color.RESET, Color.BLUE);
+        associate(TokenTypes.STRING_VALUE.getType(), Color.GREEN);
+        associate(TokenTypes.QUERY_VALUE.getType(), Color.YELLOW);
+        associate(TokenTypes.NUMBER_VALUE.getType(), Color.CYAN);
+        associate(TokenTypes.PRETTY_PRINT_VALUE.getType(), Color.RESET);
+        associate(TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType(), Color.RESET);
+        associate(TokenTypes.URL_VALUE.getType(), Color.PURPLE);
+        associate(TokenTypes.SELECTOR_TYPE.getType(), Color.PURPLE);
+        associate(TokenTypes.SELECTOR_VALUE.getType(), FontStyle.BOLD, Color.PURPLE);
+        associate(TokenTypes.PREPOSITION.getType(), Color.YELLOW);
+        associate(TokenTypes.DELIMITER.getType(), Color.RESET);
+        associate(TokenTypes.NONE.getType(), Color.RESET);
     }
 
     private static class TokenRenderDetails {

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +18,7 @@
 package org.testingisdocumenting.webtau.console.ansi;
 
 public enum FontStyle {
-    NORMAL("\u001B[0m"),
+    RESET("\u001B[0m"),
     BOLD("\u001B[1m");
 
     private final String code;

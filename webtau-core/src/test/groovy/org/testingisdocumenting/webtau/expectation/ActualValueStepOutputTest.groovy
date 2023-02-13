@@ -23,8 +23,7 @@ import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.Matchers.actual
 import static org.testingisdocumenting.webtau.Matchers.equal
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage
 
 class ActualValueStepOutputTest {
     @Test
@@ -70,8 +69,8 @@ class ActualValueStepOutputTest {
 
     @Test
     void "should not print actual if a parent step handles it"() {
-        def step = WebTauStep.createStep(tokenizedMessage(action("parent step")),
-                () -> tokenizedMessage(action("parent step done")),
+        def step = WebTauStep.createStep(tokenizedMessage().action("parent step"),
+                () -> tokenizedMessage().action("parent step done"),
                         () -> {
                             actual([key: "value1", another: 22]).should(equal([key: "value1", another: 23]))
                         })

@@ -28,9 +28,7 @@ import org.testingisdocumenting.webtau.utils.RegexpUtils
 import java.util.function.Supplier
 import java.util.regex.Pattern
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.none
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
 
 class WebTauGroovyDsl extends WebTauDsl {
     private static final Pattern PLACEHOLDER_PATTERN = ~/<(\w+)>/
@@ -153,8 +151,8 @@ class WebTauGroovyDsl extends WebTauDsl {
         return { args ->
             String withReplacedValues = replacePlaceholders(description, args)
 
-            createAndExecuteStep(tokenizedMessage(none(withReplacedValues)),
-                    { -> tokenizedMessage(none("done " + withReplacedValues)) },
+            createAndExecuteStep(tokenizedMessage().none(withReplacedValues),
+                    { -> tokenizedMessage().none("done " + withReplacedValues) },
                     { -> code.curry(args).call() })
         }
     }

@@ -25,9 +25,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.selectorType;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.selectorValue;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 public class ByCssFinderPage implements PageElementsFinder {
     private final String css;
@@ -43,7 +41,7 @@ public class ByCssFinderPage implements PageElementsFinder {
 
     @Override
     public TokenizedMessage description(boolean isFirst) {
-        TokenizedMessage byCssMessage = tokenizedMessage(selectorType("by css"), selectorValue(css));
-        return isFirst ? byCssMessage : tokenizedMessage(selectorType("nested find by css"), selectorValue(css));
+        TokenizedMessage byCssMessage = tokenizedMessage().selectorType("by css").selectorValue(css);
+        return isFirst ? byCssMessage : tokenizedMessage().selectorType("nested find by css").selectorValue(css);
     }
 }

@@ -19,8 +19,7 @@ package org.testingisdocumenting.webtau.http;
 
 import static org.testingisdocumenting.webtau.WebTauCore.equal;
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
@@ -101,8 +100,8 @@ public class Http {
     public boolean ping(String url, HttpQueryParams queryParams, HttpHeader header) {
         String fullUrl = WebTauHttpConfigurations.fullUrl(queryParams.attachToUrl(url));
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("pinging"), urlValue(fullUrl)),
-                () -> tokenizedMessage(action("pinged"), urlValue(fullUrl)),
+                tokenizedMessage().action("pinging").url(fullUrl),
+                () -> tokenizedMessage().action("pinged").url(fullUrl),
                 () -> HttpValidationHandlers.withDisabledHandlers(() -> {
                     HttpOperationIdProviders.withDisabledProviders(() -> {
                         http.get(url, header);
@@ -1005,8 +1004,8 @@ public class Http {
         };
 
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("executing HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
-                () -> tokenizedMessage(action("executed HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
+                tokenizedMessage().action("executing HTTP").classifier(validationResult.getRequestMethod()).url(validationResult.getFullUrl()),
+                () -> tokenizedMessage().action("executed HTTP").classifier(validationResult.getRequestMethod()).url(validationResult.getFullUrl()),
                 httpCallSupplier);
         step.setMatcherOutputDisabled(true);
 
@@ -1026,8 +1025,8 @@ public class Http {
                                           HttpHeader fullRequestHeader) {
         Supplier<Object> httpCallSupplier = () -> httpCall.execute(fullUrl, fullRequestHeader);
 
-        return WebTauStep.createStep(tokenizedMessage(action("executing HTTP redirect to " + requestMethod), urlValue(fullUrl)),
-                () -> tokenizedMessage(action("executed HTTP redirect to " + requestMethod), urlValue(fullUrl)),
+        return WebTauStep.createStep(tokenizedMessage().action("executing HTTP redirect").to().classifier(requestMethod).url(fullUrl),
+                () -> tokenizedMessage().action("executed HTTP redirect").to().classifier(requestMethod).url(fullUrl),
                 httpCallSupplier);
     }
 
@@ -1122,8 +1121,7 @@ public class Http {
             return DataNodeBuilder.fromValue(id, object);
         } catch (JsonParseException e) {
             validationResult.setBodyParseErrorMessage(e.getMessage());
-            validationResult.addMismatch(TokenizedMessage.tokenizedMessage(error("can't parse JSON response of " + validationResult.getFullUrl()
-                    + ": " + e.getMessage())));
+            validationResult.addMismatch(tokenizedMessage().error("can't parse JSON response").of().url(validationResult.getFullUrl()).colon().error(e.getMessage()));
 
             return new StructuredDataNode(id,
                     new TraceableValue("invalid JSON:\n" + textContent));

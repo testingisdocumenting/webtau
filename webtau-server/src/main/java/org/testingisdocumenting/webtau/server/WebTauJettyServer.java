@@ -27,8 +27,7 @@ import org.testingisdocumenting.webtau.utils.UrlUtils;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStepOutputKeyValue.*;
 import static org.testingisdocumenting.webtau.server.registry.WebTauServersRegistry.*;
@@ -85,9 +84,9 @@ abstract public class WebTauJettyServer implements WebTauServer {
         input.put("passed port", passedPort == 0 ? "random" : passedPort);
 
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("starting"), classifier(getType()), id(serverId)),
+                tokenizedMessage().action("starting").classifier(getType()).id(serverId),
                 stepInput(input),
-                () -> tokenizedMessage(action("started"), classifier(getType()), id(serverId)),
+                () -> tokenizedMessage().action("started").classifier(getType()).id(serverId),
                 (stepResult) -> isRunning() ? stepOutput("running port", getPort()) : WebTauStepOutput.EMPTY,
                 this::startStep);
     }
@@ -95,8 +94,8 @@ abstract public class WebTauJettyServer implements WebTauServer {
     @Override
     public void stop() {
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("stopping"), classifier("server"), id(serverId)),
-                () -> tokenizedMessage(action("stopped"), classifier("server"), id(serverId)),
+                tokenizedMessage().action("stopping").classifier("server").id(serverId),
+                () -> tokenizedMessage().action("stopped").classifier("server").id(serverId),
                 this::stopStep);
     }
 

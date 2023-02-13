@@ -89,7 +89,7 @@ public class AnsiAsStylesValuesListConsoleOutput implements ConsoleOutput {
         switch (style) {
             case BOLD:
                 return "bold";
-            case NORMAL:
+            case RESET:
                 return "normal";
             default:
                 throw new IllegalArgumentException("unsupported style: " + style);

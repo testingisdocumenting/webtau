@@ -25,8 +25,8 @@ import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.Operation;
 import io.swagger.v3.parser.core.models.ParseOptions;
 import io.swagger.v3.parser.core.models.SwaggerParseResult;
-import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
@@ -38,9 +38,8 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Stream;
 
 import static java.lang.String.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.http.Http.*;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class OpenApiSpec {
     private final OpenAPI api;
@@ -153,13 +152,13 @@ public class OpenApiSpec {
     }
 
     private String readSpecContent() {
-        MessageToken openApiToken = classifier("open API spec");
-        MessageToken typeToken = classifier(specLocation.isFileSystem() ? "file system" : "http url");
+        TokenizedMessage openApiTokenClassifier = tokenizedMessage().classifier("open API spec");
+        TokenizedMessage typeTokenClassifier = tokenizedMessage().classifier(specLocation.isFileSystem() ? "file system" : "http url");
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("reading"), openApiToken,
-                        FROM, typeToken, urlValue(specLocation.getOriginalValue())),
-                        () -> tokenizedMessage(action("read"), openApiToken,
-                                FROM, typeToken, urlValue(specLocation.getAsString())),
+                tokenizedMessage().action("reading").add(openApiTokenClassifier)
+                        .from().add(typeTokenClassifier).url(specLocation.getOriginalValue()),
+                        () -> tokenizedMessage().action("read").add(openApiTokenClassifier)
+                                .from().add(typeTokenClassifier).url(specLocation.getAsString()),
                         () -> specLocation.isFileSystem() ?
                                 readSpecContentFromFs() :
                                 readSpecContentFromUrl()

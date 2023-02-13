@@ -34,8 +34,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class HttpDataNodePathCoverageCollector implements HttpValidationHandler, ReportGenerator, WebTauConfigHandler, ReportDataProvider {
     private static final String REPORT_DATA_ID = "httpDataCoverage";
@@ -114,9 +113,9 @@ public class HttpDataNodePathCoverageCollector implements HttpValidationHandler,
         WebTauReportCustomData coverageData = report.findCustomData(REPORT_DATA_ID);
         JsonUtils.serializePrettyPrint(coverageData.getData());
 
-        MessageToken dataCoverage = classifier("HTTP Data Coverage");
-        WebTauStep step = WebTauStep.createStep(tokenizedMessage(action("generating"), dataCoverage, COLON, urlValue(path.toString())),
-                () -> tokenizedMessage(action("generated"), dataCoverage, COLON, urlValue(path.toString())),
+        TokenizedMessage dataCoverageClassifier = tokenizedMessage().classifier("HTTP Data Coverage");
+        WebTauStep step = WebTauStep.createStep(tokenizedMessage().action("generating").add(dataCoverageClassifier).colon().url(path.toString()),
+                () -> tokenizedMessage().action("generated").add(dataCoverageClassifier).colon().url(path.toString()),
                 () -> FileUtils.writeTextContent(path, JsonUtils.serializePrettyPrint(coverageData.getData())));
 
         step.execute(StepReportOptions.SKIP_START);

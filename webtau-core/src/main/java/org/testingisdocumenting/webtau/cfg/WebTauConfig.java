@@ -367,7 +367,7 @@ public class WebTauConfig implements PrettyPrintable {
             printer.printLine(Color.BLUE, String.format("%" + maxKeyLength + "s", v.getKey()), ": ",
                     Color.YELLOW, valueAsText,
                     StringUtils.createIndentation(valuePadding),
-                    FontStyle.NORMAL, " // from ", v.getSource());
+                    FontStyle.RESET, " // from ", v.getSource());
                 }
         );
     }

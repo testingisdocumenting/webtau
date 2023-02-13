@@ -23,21 +23,13 @@ import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString
 import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
-import org.testingisdocumenting.webtau.reporter.StepReportOptions
-import org.testingisdocumenting.webtau.reporter.WebTauReport
-import org.testingisdocumenting.webtau.reporter.WebTauReportLog
-import org.testingisdocumenting.webtau.reporter.WebTauReportName
-import org.testingisdocumenting.webtau.reporter.WebTauStep
-import org.testingisdocumenting.webtau.reporter.WebTauStepOutputKeyValue
-import org.testingisdocumenting.webtau.reporter.WebTauTest
-import org.testingisdocumenting.webtau.reporter.WebTauTestList
+import org.testingisdocumenting.webtau.reporter.*
 import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import java.nio.file.Paths
 
-import static org.testingisdocumenting.webtau.Matchers.contain
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class ConsoleReportGeneratorTest implements ConsoleOutput {
     def lines = []
@@ -153,8 +145,8 @@ class ConsoleReportGeneratorTest implements ConsoleOutput {
         test.shortContainerId = "dummy"
 
         def step = WebTauStep.createStep(
-                tokenizedMessage(action("do x")),
-                () -> tokenizedMessage(action("done x")),
+                tokenizedMessage().action("do x"),
+                () -> tokenizedMessage().action("done x"),
                 () -> {
                     throw exception
                 })
@@ -178,12 +170,12 @@ class ConsoleReportGeneratorTest implements ConsoleOutput {
 
         def exception = new RuntimeException("nested failed step")
         def stepOuter = WebTauStep.createStep(
-                tokenizedMessage(action("do x")),
-                () -> tokenizedMessage(action("done x")),
+                tokenizedMessage().action("do x"),
+                () -> tokenizedMessage().action("done x"),
                 () -> {
                     def nestedStep = WebTauStep.createStep(
-                            tokenizedMessage(action("nested do x")),
-                                    () -> tokenizedMessage(action("nested done x")),
+                            tokenizedMessage().action("nested do x"),
+                                    () -> tokenizedMessage().action("nested done x"),
                                             () -> {
                                                 throw exception
                                             })

@@ -28,9 +28,9 @@ import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
 import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
 import org.testingisdocumenting.webtau.repl.Repl
 import org.testingisdocumenting.webtau.reporter.ConsoleStepReporter
-import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
+import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter
 import org.testingisdocumenting.webtau.reporter.WebTauStep
 import org.testingisdocumenting.webtau.runner.standalone.StandaloneTestRunner
 
@@ -41,7 +41,7 @@ import static org.testingisdocumenting.webtau.repl.ReplCommands.*
 
 class ReplCommandsTest implements StepReporter, ConsoleOutput {
     AnsiConsoleOutput consoleOutput = new AnsiConsoleOutput()
-    ConsoleStepReporter consoleStepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(),
+    ConsoleStepReporter consoleStepReporter = new ConsoleStepReporter(TokenizedMessageToAnsiConverter.DEFAULT,
             () -> Integer.MAX_VALUE)
     StringBuilder out
     StringBuilder err

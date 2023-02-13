@@ -24,9 +24,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.selectorType;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.selectorValue;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 public class ByTextPageElementsFilter implements PageElementsFilter {
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
@@ -44,6 +42,6 @@ public class ByTextPageElementsFilter implements PageElementsFilter {
 
     @Override
     public TokenizedMessage description() {
-        return tokenizedMessage(selectorType("element(s) with text"), selectorValue("\"" + text + "\""));
+        return tokenizedMessage().selectorType("element(s) with text").selectorValue("\"" + text + "\"");
     }
 }

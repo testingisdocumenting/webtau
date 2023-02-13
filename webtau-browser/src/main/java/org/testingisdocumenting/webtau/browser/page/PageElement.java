@@ -172,7 +172,7 @@ public interface PageElement extends
 
     @Override
     default void prettyPrint(PrettyPrinter printer) {
-        TokenizedMessageToAnsiConverter toAnsiConverter = IntegrationTestsMessageBuilder.getConverter();
+        TokenizedMessageToAnsiConverter toAnsiConverter = TokenizedMessageToAnsiConverter.DEFAULT;
 
         if (!isPresent()) {
             printer.printLine(Stream.concat(

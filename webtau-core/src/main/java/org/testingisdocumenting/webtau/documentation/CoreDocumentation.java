@@ -25,8 +25,7 @@ import org.testingisdocumenting.webtau.utils.TypeUtils;
 import java.nio.file.Path;
 import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 /**
  * capture test artifacts for usage in documentation
@@ -102,10 +101,9 @@ public class CoreDocumentation {
 
     private static void captureStep(String type, String artifactName, Supplier<Object> code) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("capturing"), classifier(type),
-                        action("documentation artifact"), id(artifactName)),
-                (path) -> tokenizedMessage(action("captured"), classifier(type),
-                        action("documentation artifact"), id(artifactName), COLON, urlValue(((Path)path).toAbsolutePath())),
+                tokenizedMessage().action("capturing").classifier(type).action("documentation artifact").id(artifactName),
+                (path) -> tokenizedMessage().action("captured").classifier(type).action("documentation artifact")
+                        .id(artifactName).colon().url(((Path)path).toAbsolutePath()),
                 code);
 
         step.execute(StepReportOptions.REPORT_ALL);

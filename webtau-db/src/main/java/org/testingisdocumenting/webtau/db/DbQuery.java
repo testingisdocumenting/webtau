@@ -33,8 +33,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
 
 /**
@@ -77,7 +76,7 @@ public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptio
 
     @Override
     public TokenizedMessage describe() {
-        return appendParamsIfRequired(tokenizedMessage(queryValue(query)));
+        return appendParamsIfRequired(tokenizedMessage().query(query));
     }
 
     @Override
@@ -121,7 +120,7 @@ public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptio
 
     private TokenizedMessage queryMessage(String actionLabel) {
         return appendParamsIfRequired(
-                tokenizedMessage(action(actionLabel), stringValue(query), ON, id(dataSourceLabelSupplier.get())));
+                tokenizedMessage().action(actionLabel).string(query).on().id(dataSourceLabelSupplier.get()));
     }
 
     private TokenizedMessage appendParamsIfRequired(TokenizedMessage message) {
@@ -129,7 +128,7 @@ public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptio
             return message;
         }
 
-        return message.add(WITH, stringValue(params));
+        return message.with().string(params);
     }
 
     private TableData convertToTable(List<Map<String, Object>> result,

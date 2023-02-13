@@ -22,8 +22,7 @@ import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class RadioButtonGetSelValueHandler implements PageElementGetSetValueHandler {
     @Override
@@ -43,9 +42,8 @@ public class RadioButtonGetSelValueHandler implements PageElementGetSetValueHand
             throw new IllegalArgumentException("noLog option is not supported for checkboxes");
         }
 
-        stepExecutor.execute(tokenizedMessage(action("setting radio button value to"),
-                stringValue(value)).add(pathDescription),
-                () -> tokenizedMessage(action("set radio button value to"), stringValue(value)).add(pathDescription),
+        stepExecutor.execute(tokenizedMessage().action("setting radio button value to").string(value).add(pathDescription),
+                () -> tokenizedMessage().action("set radio button value to").string(value).add(pathDescription),
                 () -> {
                     List<String> values = htmlNodeAndWebElements.nodesStream()
                             .map(HtmlNode::getValue)

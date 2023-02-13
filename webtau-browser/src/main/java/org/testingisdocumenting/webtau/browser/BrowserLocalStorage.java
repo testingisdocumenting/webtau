@@ -23,8 +23,7 @@ import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.Set;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class BrowserLocalStorage {
     private final WebDriver driver;
@@ -43,22 +42,22 @@ public class BrowserLocalStorage {
 
     public void setItem(String key, String value) {
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("setting browser localStorage item"), id(key), TO, stringValue(value)),
-                () -> tokenizedMessage(action("set browser localStorage item"), id(key), TO, stringValue(value)),
+                tokenizedMessage().action("setting browser localStorage item").id(key).to().string(value),
+                () -> tokenizedMessage().action("set browser localStorage item").id(key).to().string(value),
                 () -> getLocalStorage().setItem(key, value));
     }
 
     public void removeItem(String key) {
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("removing browser localStorage item"), id(key)),
-                () -> tokenizedMessage(action("removed browser localStorage item"), id(key)),
+                tokenizedMessage().action("removing browser localStorage item").id(key),
+                () -> tokenizedMessage().action("removed browser localStorage item").id(key),
                 () -> getLocalStorage().removeItem(key));
     }
 
     public void clear() {
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("clearing browser localStorage")),
-                () -> tokenizedMessage(action("cleared browser localStorage")),
+                tokenizedMessage().action("clearing browser localStorage"),
+                () -> tokenizedMessage().action("cleared browser localStorage"),
                 () -> getLocalStorage().clear());
     }
 

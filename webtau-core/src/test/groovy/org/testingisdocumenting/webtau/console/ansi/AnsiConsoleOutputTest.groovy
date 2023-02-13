@@ -24,7 +24,7 @@ import org.junit.Test
 import static Color.BLUE
 import static Color.YELLOW
 import static FontStyle.BOLD
-import static FontStyle.NORMAL
+import static FontStyle.RESET
 
 class AnsiConsoleOutputTest {
     def console = new AnsiConsoleOutput()
@@ -69,7 +69,7 @@ class AnsiConsoleOutputTest {
 
     @Test
     void "should support bold and colorful and the same time"() {
-        validateBoth(["normal", BOLD, BLUE, "blue", NORMAL, YELLOW, "yellow"]) {
+        validateBoth(["normal", BOLD, BLUE, "blue", RESET, YELLOW, "yellow"]) {
             assert it.contains("\u001B[1m\u001B[34mblue\u001B[0m\u001B[33myellow")
 
         }

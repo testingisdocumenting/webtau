@@ -19,7 +19,6 @@ package org.testingisdocumenting.webtau.http.operationid;
 import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
@@ -27,7 +26,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 /**
  * @see HttpOperationIdProvider
@@ -59,10 +58,8 @@ public class HttpOperationIdProviders {
         }
 
         WebTauStep step = WebTauStep.createStep(
-                TokenizedMessage.tokenizedMessage(
-                action("mapping"), classifier("operation id")),
-                (id) -> TokenizedMessage.tokenizedMessage(
-                        action("mapped"), classifier("operation id"), AS, stringValue("\"" + id + "\"")),
+                tokenizedMessage().action("mapping").classifier("operation id"),
+                (id) -> tokenizedMessage().action("mapped").classifier("operation id").as().string("\"" + id + "\""),
                 () -> extractOperationId(requestMethod, passedUrl, fullUrl, requestHeader, requestBody));
 
         return step.execute(StepReportOptions.REPORT_ALL);
