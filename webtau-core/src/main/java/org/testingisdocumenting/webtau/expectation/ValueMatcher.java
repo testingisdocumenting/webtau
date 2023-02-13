@@ -24,8 +24,7 @@ import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import java.util.Collections;
 import java.util.Set;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public interface ValueMatcher {
     /**
@@ -58,7 +57,7 @@ public interface ValueMatcher {
             throw new IllegalStateException("either matchingMessage(deprecated) or matchingTokenizedMessage must be implemented");
         }
 
-        return tokenizedMessage(matcher(matchingMessage()));
+        return tokenizedMessage().matcher(matchingMessage());
     }
 
     /**
@@ -82,7 +81,7 @@ public interface ValueMatcher {
             throw new IllegalStateException("either matchedMessage(deprecated) or matchedTokenizedMessage must be implemented");
         }
 
-        return tokenizedMessage(matcher(matchedMessage(actualPath,actual)));
+        return tokenizedMessage().matcher(matchedMessage(actualPath,actual));
     }
 
     /**
@@ -113,7 +112,7 @@ public interface ValueMatcher {
             throw new IllegalStateException("either mismatchedMessage(deprecated) or mismatchedTokenizedMessage must be implemented");
         }
 
-        return tokenizedMessage(error(mismatchedMessage(actualPath,actual)));
+        return tokenizedMessage().error(mismatchedMessage(actualPath,actual));
     }
 
     /**
@@ -152,7 +151,7 @@ public interface ValueMatcher {
             throw new IllegalStateException("either negativeMatchingMessage(deprecated) or negativeMatchingTokenizedMessage must be implemented");
         }
 
-        return tokenizedMessage(matcher(negativeMatchingMessage()));
+        return tokenizedMessage().matcher(negativeMatchingMessage());
     }
 
     /*
@@ -175,7 +174,7 @@ public interface ValueMatcher {
             throw new IllegalStateException("either negativeMatchedMessage(deprecated) or negativeMatchedTokenizedMessage must be implemented");
         }
 
-        return tokenizedMessage(matcher(message));
+        return tokenizedMessage().matcher(message);
     }
 
     /*
@@ -198,7 +197,7 @@ public interface ValueMatcher {
             throw new IllegalStateException("either negativeMismatchedMessage(deprecated) or negativeMismatchedTokenizedMessage must be implemented");
         }
 
-        return tokenizedMessage(error(message));
+        return tokenizedMessage().error(message);
     }
 
     /**

@@ -22,7 +22,7 @@ import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
 import java.util.Map;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.TokenTypes.*;
+import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.TokenTypes.*;
 
 /**
  * we convert tokens to a map so Web report can render them in its own way.

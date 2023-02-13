@@ -17,34 +17,51 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.nio.file.Path;
+import java.util.*;
 import java.util.stream.Stream;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 public class TokenizedMessage implements Iterable<MessageToken> {
+    public enum TokenTypes {
+        ACTION("action"),
+        ERROR("error"),
+        WARNING("warning"),
+        ID("id"),
+        CLASSIFIER("classifier"),
+        MATCHER("matcher"),
+        STRING_VALUE("stringValue"),
+        QUERY_VALUE("queryValue"),
+        NUMBER_VALUE("numberValue"),
+        PRETTY_PRINT_VALUE("pretty_print_value"),
+        PRETTY_PRINT_VALUE_FIRST_LINES("pretty_print_value_first_lines"),
+        URL_VALUE("url"),
+        SELECTOR_TYPE("selectorType"),
+        SELECTOR_VALUE("selectorValue"),
+        PREPOSITION("preposition"),
+        DELIMITER("delimiter"),
+        NONE("none");
+
+        private final String type;
+
+        TokenTypes(String type) {
+            this.type = type;
+        }
+
+        public String getType() {
+            return type;
+        }
+
+        public MessageToken token(Object value) {
+            return new MessageToken(type, value);
+        }
+    }
+
     private final List<MessageToken> tokens;
 
     public TokenizedMessage() {
         tokens = new ArrayList<>();
-    }
-
-    public static TokenizedMessage tokenizedMessage(MessageToken... tokens) {
-        TokenizedMessage message = new TokenizedMessage();
-        message.add(tokens);
-
-        return message;
-    }
-
-    public static TokenizedMessage tokenizedMessage(TokenizedMessage tokenizedMessage) {
-        TokenizedMessage message = new TokenizedMessage();
-        message.add(tokenizedMessage);
-
-        return message;
     }
 
     public TokenizedMessage add(String type, Object value) {
@@ -64,6 +81,122 @@ public class TokenizedMessage implements Iterable<MessageToken> {
     public TokenizedMessage add(TokenizedMessage tokenizedMessage) {
         tokenizedMessage.tokensStream().forEach(this::add);
         return this;
+    }
+
+    public TokenizedMessage action(String label) {
+        return add(TokenTypes.ACTION.token(label));
+    }
+
+    public TokenizedMessage error(String message) {
+        return add(TokenTypes.ERROR.token(message));
+    }
+
+    public TokenizedMessage warning(String message) {
+        return add(TokenTypes.WARNING.token(message));
+    }
+
+    public TokenizedMessage id(String id) {
+        return add(TokenTypes.ID.token(id));
+    }
+
+    public TokenizedMessage classifier(String label) {
+        return add(TokenTypes.CLASSIFIER.token(label));
+    }
+
+    public TokenizedMessage matcher(String label) {
+        return add(TokenTypes.MATCHER.token(label));
+    }
+
+    public TokenizedMessage string(Object value) {
+        return add(TokenTypes.STRING_VALUE.token(value.toString()));
+    }
+
+    public TokenizedMessage query(String query) {
+        return add(TokenTypes.QUERY_VALUE.token(query));
+    }
+
+    public TokenizedMessage number(Number number) {
+        return add(TokenTypes.NUMBER_VALUE.token(number));
+    }
+
+    public TokenizedMessage value(Object value) {
+        return add(TokenTypes.PRETTY_PRINT_VALUE.token(value));
+    }
+
+    public TokenizedMessage valueFirstLinesOnly(Object value) {
+        return add(TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.token(value));
+    }
+
+    public TokenizedMessage url(String url) {
+        return add(TokenTypes.URL_VALUE.token(url));
+    }
+
+    public TokenizedMessage url(Path url) {
+        return add(TokenTypes.URL_VALUE.token(url.toString()));
+    }
+
+    public TokenizedMessage selectorType(String type) {
+        return add(TokenTypes.SELECTOR_TYPE.token(type));
+    }
+
+    public TokenizedMessage selectorValue(String value) {
+        return add(TokenTypes.SELECTOR_VALUE.token(value));
+    }
+
+    public TokenizedMessage preposition(String preposition) {
+        return add(TokenTypes.PREPOSITION.token(preposition));
+    }
+
+    public TokenizedMessage delimiter(String delimiter) {
+        return add(TokenTypes.DELIMITER.token(delimiter));
+    }
+
+    public TokenizedMessage to() {
+        return add(TokenTypes.PREPOSITION.token("to"));
+    }
+
+    public TokenizedMessage of() {
+        return add(TokenTypes.PREPOSITION.token("of"));
+    }
+
+    public TokenizedMessage forP() {
+        return add(TokenTypes.PREPOSITION.token("for"));
+    }
+
+    public TokenizedMessage from() {
+        return add(TokenTypes.PREPOSITION.token("from"));
+    }
+
+    public TokenizedMessage over() {
+        return add(TokenTypes.PREPOSITION.token("over"));
+    }
+
+    public TokenizedMessage as() {
+        return add(TokenTypes.PREPOSITION.token("as"));
+    }
+
+    public TokenizedMessage into() {
+        return add(TokenTypes.PREPOSITION.token("into"));
+    }
+
+    public TokenizedMessage on() {
+        return add(TokenTypes.PREPOSITION.token("on"));
+    }
+
+    public TokenizedMessage with() {
+        return add(TokenTypes.PREPOSITION.token("with"));
+    }
+
+    public TokenizedMessage comma() {
+        return add(TokenTypes.DELIMITER.token(","));
+    }
+
+    public TokenizedMessage colon() {
+        return add(TokenTypes.DELIMITER.token(":"));
+    }
+
+    public TokenizedMessage none(String label) {
+        return add(TokenTypes.NONE.token(label));
     }
 
     public TokenizedMessage subMessage(int from, int toExclusive) {
@@ -106,7 +239,7 @@ public class TokenizedMessage implements Iterable<MessageToken> {
             MessageToken token = tokens.get(idx);
             boolean isLast = idx == tokens.size() - 1;
             boolean isNextDelimiter = !isLast && tokens.get(idx + 1).getType()
-                    .equals(IntegrationTestsMessageBuilder.TokenTypes.DELIMITER.getType());
+                    .equals(TokenTypes.DELIMITER.getType());
 
             result.append(token.getValue());
             if (!isNextDelimiter && !isLast) {

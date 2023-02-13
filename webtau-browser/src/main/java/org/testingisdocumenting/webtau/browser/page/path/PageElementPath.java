@@ -27,7 +27,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.COMMA;
 import static java.util.stream.Collectors.toList;
 
 public class PageElementPath {
@@ -88,7 +87,7 @@ public class PageElementPath {
         for (PageElementPathEntry entry : entries) {
             message.add(entry.description(i == 0));
             if (i != lastIdx) {
-                message.add(COMMA);
+                message.comma();
             }
 
             i++;

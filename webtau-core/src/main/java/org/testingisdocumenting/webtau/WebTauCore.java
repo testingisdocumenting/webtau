@@ -38,8 +38,6 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.data.table.TableDataUnderscore.*;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 import static org.testingisdocumenting.webtau.utils.FunctionUtils.*;
 
 /**
@@ -129,8 +127,8 @@ public class WebTauCore extends Matchers {
      */
     public static void sleep(long millis) {
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("sleeping"), FOR, numberValue(millis), classifier("milliseconds")),
-                () -> tokenizedMessage(action("slept"), FOR, numberValue(millis), classifier("milliseconds")),
+                tokenizedMessage().action("sleeping").forP().number(millis).classifier("milliseconds"),
+                () -> tokenizedMessage().action("slept").forP().number(millis).classifier("milliseconds"),
                 () -> {
                     try {
                         Thread.sleep(millis);
@@ -189,8 +187,8 @@ public class WebTauCore extends Matchers {
 
     public static <R> R step(String label, Map<String, Object> stepInput, Supplier<Object> action) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action(label)),
-                () -> tokenizedMessage(none("completed"), action(label)),
+                tokenizedMessage().action(label),
+                () -> tokenizedMessage().none("completed").action(label),
                 action);
 
         if (!stepInput.isEmpty()) {
@@ -212,6 +210,20 @@ public class WebTauCore extends Matchers {
     public static void repeatStep(String label, int numberOfAttempts, Function<WebTauStepContext, Object> action) {
         WebTauStep step = WebTauStep.createRepeatStep(label, numberOfAttempts, action);
         step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    public static TokenizedMessage tokenizedMessage(MessageToken... tokens) {
+        TokenizedMessage message = new TokenizedMessage();
+        message.add(tokens);
+
+        return message;
+    }
+
+    public static TokenizedMessage tokenizedMessage(TokenizedMessage tokenizedMessage) {
+        TokenizedMessage message = new TokenizedMessage();
+        message.add(tokenizedMessage);
+
+        return message;
     }
 
     /**
@@ -240,8 +252,8 @@ public class WebTauCore extends Matchers {
      */
     public static void trace(String label, Map<String, Object> info) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action(label)),
-                () -> tokenizedMessage(action(label)),
+                tokenizedMessage().action(label),
+                () -> tokenizedMessage().action(label),
                 () -> {});
         step.setClassifier(WebTauStepClassifiers.TRACE);
 
@@ -277,10 +289,10 @@ public class WebTauCore extends Matchers {
      * @param info key-values as a map
      */
     public static void warning(String label, Map<String, Object> info) {
-        MessageToken messageToken = IntegrationTestsMessageBuilder.warning(label);
+        TokenizedMessage tokenizedMessage = tokenizedMessage().warning(label);
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(messageToken),
-                () -> tokenizedMessage(messageToken),
+                tokenizedMessage,
+                () -> tokenizedMessage,
                 () -> {});
         step.setClassifier(WebTauStepClassifiers.WARNING);
 

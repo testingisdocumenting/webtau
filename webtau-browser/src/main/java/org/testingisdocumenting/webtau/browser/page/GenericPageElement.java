@@ -42,12 +42,11 @@ import java.util.stream.IntStream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.browser.page.stale.StaleElementHandler.*;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 public class GenericPageElement implements PageElement {
-    private final static MessageToken HIDDEN_MESSAGE_STRING_VALUE = stringValue("*****");
+    private final static TokenizedMessage HIDDEN_MESSAGE_STRING_VALUE = tokenizedMessage().string("*****");
 
     private final WebDriver driver;
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
@@ -148,8 +147,8 @@ public class GenericPageElement implements PageElement {
     }
 
     public void click() {
-        execute(tokenizedMessage(action("clicking")).add(pathDescription),
-                () -> tokenizedMessage(action("clicked")).add(pathDescription),
+        execute(tokenizedMessage().action("clicking").add(pathDescription),
+                () -> tokenizedMessage().action("clicked").add(pathDescription),
                 () -> findElement().click());
     }
 
@@ -175,22 +174,22 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public void rightClick() {
-        execute(tokenizedMessage(action("right clicking")).add(pathDescription),
-                () -> tokenizedMessage(action("right clicked")).add(pathDescription),
+        execute(tokenizedMessage().action("right clicking").add(pathDescription),
+                () -> tokenizedMessage().action("right clicked").add(pathDescription),
                 () -> performActions("right click", Actions::contextClick));
     }
 
     @Override
     public void doubleClick() {
-        execute(tokenizedMessage(action("double clicking")).add(pathDescription),
-                () -> tokenizedMessage(action("double clicked")).add(pathDescription),
+        execute(tokenizedMessage().action("double clicking").add(pathDescription),
+                () -> tokenizedMessage().action("double clicked").add(pathDescription),
                 () -> performActions("double click", Actions::doubleClick));
     }
 
     @Override
     public void hover() {
-        execute(tokenizedMessage(action("moving mouse over")).add(pathDescription),
-                () -> tokenizedMessage(action("moved mouse over")).add(pathDescription),
+        execute(tokenizedMessage().action("moving mouse over").add(pathDescription),
+                () -> tokenizedMessage().action("moved mouse over").add(pathDescription),
                 () -> performActions("hover", Actions::moveToElement));
     }
 
@@ -226,52 +225,52 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public void setValue(Object value) {
-        execute(tokenizedMessage(action("setting value"), stringValue(value), TO).add(pathDescription),
-                () -> tokenizedMessage(action("set value"), stringValue(value), TO).add(pathDescription),
+        execute(tokenizedMessage().action("setting value").string(value).to().add(pathDescription),
+                () -> tokenizedMessage().action("set value").string(value).to().add(pathDescription),
                 () -> setValueBasedOnType(value, false));
     }
 
     @Override
     public void setValueNoLog(Object value) {
-        execute(tokenizedMessage(action("setting value"), HIDDEN_MESSAGE_STRING_VALUE, TO).add(pathDescription),
-                () -> tokenizedMessage(action("set value"), HIDDEN_MESSAGE_STRING_VALUE, TO).add(pathDescription),
+        execute(tokenizedMessage().action("setting value").add(HIDDEN_MESSAGE_STRING_VALUE).to().add(pathDescription),
+                () -> tokenizedMessage().action("set value").add(HIDDEN_MESSAGE_STRING_VALUE).to().add(pathDescription),
                 () -> setValueBasedOnType(value, true));
     }
 
     @Override
     public void sendKeys(CharSequence keys) {
         String renderedKeys = BrowserKeysRenderer.renderKeys(keys);
-        execute(tokenizedMessage(action("sending keys"), stringValue(renderedKeys), TO).add(pathDescription),
-                () -> tokenizedMessage(action("sent keys"), stringValue(renderedKeys), TO).add(pathDescription),
+        execute(tokenizedMessage().action("sending keys").string(renderedKeys).to().add(pathDescription),
+                () -> tokenizedMessage().action("sent keys").string(renderedKeys).to().add(pathDescription),
                 () -> findElement().sendKeys(keys));
     }
 
     @Override
     public void sendKeysNoLog(CharSequence keys) {
-        execute(tokenizedMessage(action("sending keys"), HIDDEN_MESSAGE_STRING_VALUE, TO).add(pathDescription),
-                () -> tokenizedMessage(action("sent keys"), HIDDEN_MESSAGE_STRING_VALUE, TO).add(pathDescription),
+        execute(tokenizedMessage().action("sending keys").add(HIDDEN_MESSAGE_STRING_VALUE).to().add(pathDescription),
+                () -> tokenizedMessage().action("sent keys").add(HIDDEN_MESSAGE_STRING_VALUE).to().add(pathDescription),
                 () -> findElement().sendKeys(keys));
     }
 
     @Override
     public void clear() {
-        execute(tokenizedMessage(action("clearing")).add(pathDescription),
-                () -> tokenizedMessage(action("cleared")).add(pathDescription),
+        execute(tokenizedMessage().action("clearing").add(pathDescription),
+                () -> tokenizedMessage().action("cleared").add(pathDescription),
                 () -> findElement().clear());
     }
 
     @Override
     public void dragAndDropOver(PageElement target) {
-        execute(tokenizedMessage(action("dragging")).add(pathDescription).add(OVER).add(target.locationDescription()),
-                () -> tokenizedMessage(action("dropped")).add(pathDescription).add(OVER).add(target.locationDescription()),
+        execute(tokenizedMessage().action("dragging").add(pathDescription).over().add(target.locationDescription()),
+                () -> tokenizedMessage().action("dropped").add(pathDescription).over().add(target.locationDescription()),
                 () -> dragAndDropOverStep(target));
     }
 
     @Override
     public void dragAndDropBy(int offsetX, int offsetY) {
-        execute(tokenizedMessage(action("dragging")).add(pathDescription),
+        execute(tokenizedMessage().action("dragging").add(pathDescription),
                 map("offsetX", offsetX, "offsetY", offsetY),
-                () -> tokenizedMessage(action("dropped")).add(pathDescription),
+                () -> tokenizedMessage().action("dropped").add(pathDescription),
                 () -> dragAndDropByStep(offsetX, offsetY));
     }
 
@@ -349,55 +348,55 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public void scrollIntoView() {
-        execute(tokenizedMessage(action("scrolling into view")).add(pathDescription),
-                () -> tokenizedMessage(action("scrolled into view")).add(pathDescription),
+        execute(tokenizedMessage().action("scrolling into view").add(pathDescription),
+                () -> tokenizedMessage().action("scrolled into view").add(pathDescription),
                 () -> checkNotNullAndExecuteScriptOnElement("scroll into view",
                         "arguments[0].scrollIntoView(true);"));
     }
 
     @Override
     public void scrollToTop() {
-        execute(tokenizedMessage(action("scrolling to top"), OF).add(pathDescription),
-                () -> tokenizedMessage(action("scrolled to top"), OF).add(pathDescription),
+        execute(tokenizedMessage().action("scrolling to top").of().add(pathDescription),
+                () -> tokenizedMessage().action("scrolled to top").of().add(pathDescription),
                 () -> checkNotNullAndExecuteScriptOnElement("scroll to top",
                         "arguments[0].scrollTo(arguments[0].scrollLeft, 0);"));
     }
 
     @Override
     public void scrollToBottom() {
-        execute(tokenizedMessage(action("scrolling to bottom"), OF).add(pathDescription),
-                () -> tokenizedMessage(action("scrolled to bottom"), OF).add(pathDescription),
+        execute(tokenizedMessage().action("scrolling to bottom").of().add(pathDescription),
+                () -> tokenizedMessage().action("scrolled to bottom").of().add(pathDescription),
                 () -> checkNotNullAndExecuteScriptOnElement("scroll to bottom",
                         "arguments[0].scrollTo(arguments[0].scrollLeft, arguments[0].scrollHeight);"));
     }
 
     @Override
     public void scrollToLeft() {
-        execute(tokenizedMessage(action("scrolling to left"), OF).add(pathDescription),
-                () -> tokenizedMessage(action("scrolled to left"), OF).add(pathDescription),
+        execute(tokenizedMessage().action("scrolling to left").of().add(pathDescription),
+                () -> tokenizedMessage().action("scrolled to left").of().add(pathDescription),
                 () -> checkNotNullAndExecuteScriptOnElement("scroll to left",
                         "arguments[0].scrollTo(0, arguments[0].scrollTop);"));
     }
 
     @Override
     public void scrollToRight() {
-        execute(tokenizedMessage(action("scrolling to right"), OF).add(pathDescription),
-                () -> tokenizedMessage(action("scrolled to right"), OF).add(pathDescription),
+        execute(tokenizedMessage().action("scrolling to right").of().add(pathDescription),
+                () -> tokenizedMessage().action("scrolled to right").of().add(pathDescription),
                 () -> checkNotNullAndExecuteScriptOnElement("scroll to right",
                         "arguments[0].scrollTo(arguments[0].scrollWidth, arguments[0].scrollTop);"));
     }
 
     @Override
     public void scrollTo(int x, int y) {
-        execute(tokenizedMessage(action("scrolling to"), numberValue(x), COMMA, numberValue(y), OF).add(pathDescription),
-                () -> tokenizedMessage(action("scrolled to"), numberValue(x), COMMA, numberValue(y), OF).add(pathDescription),
+        execute(tokenizedMessage().action("scrolling to").number(x).comma().number(y).of().add(pathDescription),
+                () -> tokenizedMessage().action("scrolled to").number(x).colon().number(y).of().add(pathDescription),
                 () -> checkNotNullAndExecuteScriptOnElement("scroll to position",
                         "arguments[0].scrollTo(arguments[1], arguments[2]);", x, y));
     }
 
     private void clickWithKey(String label, CharSequence key) {
-        execute(tokenizedMessage(action(label + " clicking")).add(pathDescription),
-                () -> tokenizedMessage(action(label + " clicked")).add(pathDescription),
+        execute(tokenizedMessage().action(label + " clicking").add(pathDescription),
+                () -> tokenizedMessage().action(label + " clicked").add(pathDescription),
                 () -> new Actions(driver)
                         .keyDown(key)
                         .click(findElement())

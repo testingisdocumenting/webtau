@@ -24,9 +24,8 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinter
 import java.util.function.Supplier
 
 import static java.util.stream.Collectors.*
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage
 import static org.testingisdocumenting.webtau.reporter.StepReportOptions.*
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*
 
 class WebTauStepTest {
     static WebTauStep rootStep
@@ -164,8 +163,8 @@ class WebTauStepTest {
     }
 
     private static WebTauStep createStep(String title, Supplier stepCode = { return null }) {
-        return WebTauStep.createStep(tokenizedMessage(action(title)), {
-            tokenizedMessage(action('done ' + title))
+        return WebTauStep.createStep(tokenizedMessage().action(title), {
+            tokenizedMessage().action('done ' + title)
         } as Supplier, stepCode)
     }
 

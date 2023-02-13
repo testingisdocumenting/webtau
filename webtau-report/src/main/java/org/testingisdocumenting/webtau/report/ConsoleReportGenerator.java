@@ -37,7 +37,7 @@ public class ConsoleReportGenerator implements ReportGenerator {
     private final static int NUMBER_OF_WARNINGS_TO_DISPLAY = 3;
     private final static int NUMBER_OF_WARNINGS_TO_DISPLAY_EXTRA_THRESHOLD = 2;
 
-    private final static ConsoleStepReporter consoleStepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(),
+    private final static ConsoleStepReporter consoleStepReporter = new ConsoleStepReporter(TokenizedMessageToAnsiConverter.DEFAULT,
             () -> Integer.MAX_VALUE);
 
     @Override

@@ -26,8 +26,7 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue.*;
 
 public class ConfigValue {
@@ -75,10 +74,9 @@ public class ConfigValue {
 
     public void setAndReport(String source, Object value) {
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("setting"), id(key)),
-                stepInput("source", source,
-                        key, value),
-                () -> tokenizedMessage(action("set"), id(key)),
+                tokenizedMessage().action("setting").id(key),
+                stepInput("source", source, key, value),
+                () -> tokenizedMessage().action("set").id(key),
                 () -> set(source, value));
     }
 

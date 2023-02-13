@@ -20,7 +20,6 @@ import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.lang3.StringUtils;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.db.gen.SqlQueriesGenerator;
-import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.sql.SQLException;
@@ -32,8 +31,7 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 
 public class DatabaseTable {
@@ -89,9 +87,8 @@ public class DatabaseTable {
     }
 
     private TokenizedMessage insertMessageWithLabel(String actionLabel, int numberOfRows) {
-        return tokenizedMessage(action(actionLabel), numberValue(numberOfRows),
-                numberOfRows > 1 ? action("rows") : action("row"),
-                INTO, createMessageId());
+        return tokenizedMessage().action(actionLabel).number(numberOfRows).action(
+                numberOfRows > 1 ? "rows" : "row").into().add(createMessageId());
     }
 
     private void insertTableStep(TableData tableData) {
@@ -155,8 +152,8 @@ public class DatabaseTable {
         }
     }
 
-    private MessageToken createMessageId() {
-        return id(dataSourceProvider.provide().getLabel() + "." + name);
+    private TokenizedMessage createMessageId() {
+        return tokenizedMessage().id(dataSourceProvider.provide().getLabel() + "." + name);
     }
 
     public void leftShift(TableData tableData) {

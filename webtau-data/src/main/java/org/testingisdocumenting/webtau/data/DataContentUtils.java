@@ -28,8 +28,7 @@ import java.nio.file.Paths;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 class DataContentUtils {
     private DataContentUtils() {
@@ -38,13 +37,11 @@ class DataContentUtils {
     @SuppressWarnings("unchecked")
     static <R> R readAndConvertTextContentFromDataPathAsStep(String dataType, DataPath dataPath, Function<String, R> convertor) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("reading"), classifier(dataType), FROM, classifier("file or resource"),
-                        urlValue(dataPath.getGivenPathAsString())),
+                tokenizedMessage().action("reading").classifier(dataType).from().classifier("file or resource").url(dataPath.getGivenPathAsString()),
                 (result) -> {
                     ExternalContentResult contentResult = (ExternalContentResult) result;
-                    return tokenizedMessage(action("read"), numberValue(contentResult.numberOfLines),
-                            classifier(lineOrLinesLabel(contentResult.numberOfLines) + " of " + dataType), FROM, classifier(contentResult.source),
-                            urlValue(contentResult.path));
+                    return tokenizedMessage().action("read").number(contentResult.numberOfLines)
+                            .classifier(lineOrLinesLabel(contentResult.numberOfLines) + " of " + dataType).from().classifier(contentResult.source).url(contentResult.path);
                 },
                 () -> {
                     ExternalContentResult contentResult = dataTextContentImpl(dataPath);
@@ -61,11 +58,11 @@ class DataContentUtils {
     @SuppressWarnings("unchecked")
     static <R> R convertTextContent(String dataType, String content, Function<String, R> convertor) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("parsing"), classifier(dataType), FROM, classifier("string")),
+                tokenizedMessage().action("parsing").classifier(dataType).from().classifier("string"),
                 (result) -> {
                     ContentResult contentResult = (ContentResult) result;
-                    return tokenizedMessage(action("parsed"), numberValue(contentResult.numberOfLines),
-                            classifier(lineOrLinesLabel(contentResult.numberOfLines) + " of " + dataType));
+                    return tokenizedMessage().action("parsed").number(contentResult.numberOfLines)
+                            .classifier(lineOrLinesLabel(contentResult.numberOfLines) + " of " + dataType);
                 },
                 () -> {
                     ContentResult contentResult = new ContentResult(content);
@@ -81,13 +78,13 @@ class DataContentUtils {
 
     static Path writeTextContentAsStep(String dataType, Path path, Supplier<String> convertor) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("writing"), classifier(dataType), TO, classifier("file"), urlValue(path)),
+                tokenizedMessage().action("writing").classifier(dataType).to().classifier("file").url(path),
                 (result) -> {
                     ExternalContentResult contentResult = (ExternalContentResult) result;
 
-                    return tokenizedMessage(action("wrote"), numberValue(contentResult.numberOfLines),
-                            classifier(lineOrLinesLabel(contentResult.numberOfLines)), TO, classifier(dataType),
-                            urlValue(contentResult.path));
+                    return tokenizedMessage().action("wrote").number(contentResult.numberOfLines)
+                            .classifier(lineOrLinesLabel(contentResult.numberOfLines)).to()
+                            .classifier(dataType).url(contentResult.path);
                 },
                 () -> {
                     Path fullPath = WebTauConfig.getCfg().fullPath(path);

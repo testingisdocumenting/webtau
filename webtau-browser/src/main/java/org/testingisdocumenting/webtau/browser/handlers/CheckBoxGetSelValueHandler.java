@@ -20,8 +20,7 @@ import org.openqa.selenium.WebElement;
 import org.testingisdocumenting.webtau.browser.page.*;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class CheckBoxGetSelValueHandler implements PageElementGetSetValueHandler {
     @Override
@@ -45,13 +44,13 @@ public class CheckBoxGetSelValueHandler implements PageElementGetSetValueHandler
             throw new IllegalArgumentException("noLog option is not supported for checkboxes");
         }
 
-        stepExecutor.execute(tokenizedMessage(action("setting checkbox value to"), stringValue(value)).add(pathDescription),
+        stepExecutor.execute(tokenizedMessage().action("setting checkbox value to").string(value).add(pathDescription),
                 (willClickObj) -> {
                     Boolean willClick = (Boolean) willClickObj;
 
                     return willClick ?
-                            tokenizedMessage(action("set checkbox value to"), stringValue(value)).add(pathDescription):
-                            tokenizedMessage(action("checkbox was already set to"), stringValue(value)).add(pathDescription);
+                            tokenizedMessage().action("set checkbox value to").string(value).add(pathDescription):
+                            tokenizedMessage().action("checkbox was already set to").string(value).add(pathDescription);
                 },
                 () -> {
                     boolean needToBeSelected = (boolean) value;

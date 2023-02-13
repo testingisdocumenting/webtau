@@ -16,15 +16,11 @@
 
 package org.testingisdocumenting.webtau.db;
 
-import org.testingisdocumenting.webtau.reporter.MessageToken;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
-import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
+import org.testingisdocumenting.webtau.reporter.*;
 
 import javax.sql.DataSource;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class DbLabeledFromChain {
     private final String label;
@@ -35,10 +31,10 @@ public class DbLabeledFromChain {
 
     public Database fromJdbc(String url, String user, String password, String driverClassName) {
         return from(() -> {
-            MessageToken dataSourceToken = classifier("DataSource");
-            MessageToken jdbcToken = classifier("JDBC driver");
-            WebTauStep step = WebTauStep.createStep(tokenizedMessage(action("getting"), dataSourceToken, AS, id(label), FROM, jdbcToken),
-                    () -> tokenizedMessage(action("got"), dataSourceToken, AS, id(label), FROM, jdbcToken),
+            TokenizedMessage dataSourceClassifier = tokenizedMessage().classifier("DataSource");
+            TokenizedMessage jdbcClassifier = tokenizedMessage().classifier("JDBC driver");
+            WebTauStep step = WebTauStep.createStep(tokenizedMessage().action("getting").add(dataSourceClassifier).as().id(label).from().add(jdbcClassifier),
+                    () -> tokenizedMessage().action("got").add(dataSourceClassifier).as().id(label).from().add(jdbcClassifier),
                     () -> new LabeledDataSource(label,
                             HikariDataSourceUtils.create(url, user, password, driverClassName)));
 

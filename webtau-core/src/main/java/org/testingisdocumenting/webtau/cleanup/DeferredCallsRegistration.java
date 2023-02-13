@@ -27,9 +27,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.id;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 /**
  * centralized place to register actions at the end of all test runs
@@ -77,8 +75,8 @@ public class DeferredCallsRegistration implements TestListener {
         }
 
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("register test deferred block"), id(label)),
-                () -> tokenizedMessage(action("registered test deferred block"), id(label)),
+                tokenizedMessage().action("register test deferred block").id(label),
+                () -> tokenizedMessage().action("registered test deferred block").id(label),
                 () -> localRegistered.get().add(new DeferredLocalCodeEntry(label, code)));
         step.execute(StepReportOptions.SKIP_START);
     }
@@ -103,8 +101,8 @@ public class DeferredCallsRegistration implements TestListener {
         try {
             for (DeferredLocalCodeEntry codeEntry : codeList) {
                 WebTauStep.createAndExecuteStep(
-                        tokenizedMessage(action("executing deferred block"), id(codeEntry.label)),
-                        () -> tokenizedMessage(action("executed deferred block"), id(codeEntry.label)),
+                        tokenizedMessage().action("executing deferred block").id(codeEntry.label),
+                        () -> tokenizedMessage().action("executed deferred block").id(codeEntry.label),
                         () -> codeEntry.code.run());
             }
         }
@@ -118,8 +116,8 @@ public class DeferredCallsRegistration implements TestListener {
 
     private static void callAfterAllTestsRegisteredCode(DeferredGlobalCodeEntry entry) {
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action(entry.action), id(entry.id)),
-                () -> tokenizedMessage(action(entry.actionCompleted), id(entry.id)),
+                tokenizedMessage().action(entry.action).id(entry.id),
+                () -> tokenizedMessage().action(entry.actionCompleted).id(entry.id),
                 entry.code);
     }
 

@@ -22,8 +22,7 @@ import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class DataPdf {
     /**
@@ -82,8 +81,8 @@ public class DataPdf {
 
     private Pdf readPdfAsStep(BinaryDataProvider binaryDataProvider) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("parsing"), classifier("pdf"), FROM, urlValue(binaryDataProvider.binaryDataSource())),
-                (result) -> tokenizedMessage(action("parsed"), classifier("pdf"), FROM, urlValue(binaryDataProvider.binaryDataSource())),
+                tokenizedMessage().action("parsing").classifier("pdf").from().url(binaryDataProvider.binaryDataSource()),
+                (result) -> tokenizedMessage().action("parsed").classifier("pdf").from().url(binaryDataProvider.binaryDataSource()),
                 () -> Pdf.pdf(binaryDataProvider)
         );
 
@@ -95,9 +94,9 @@ public class DataPdf {
                               Supplier<String> pathSourceSupplier,
                               Supplier<String> fullPathSupplier) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("parsing"), classifier("pdf"), FROM, classifier("file or resource"), urlValue(givenPath)),
-                (result) -> tokenizedMessage(action("parsed"), classifier("pdf"), FROM, classifier(pathSourceSupplier.get()),
-                        urlValue(fullPathSupplier.get())),
+                tokenizedMessage().action("parsing").classifier("pdf").from().classifier("file or resource").url(givenPath),
+                (result) -> tokenizedMessage().action("parsed").classifier("pdf").from().classifier(pathSourceSupplier.get())
+                        .url(fullPathSupplier.get()),
                 () -> Pdf.pdf(binaryDataProvider)
         );
 

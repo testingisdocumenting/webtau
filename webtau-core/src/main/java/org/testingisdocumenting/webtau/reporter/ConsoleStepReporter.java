@@ -251,13 +251,11 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private boolean isLastTokenMatcher(TokenizedMessage completionMessage) {
-        return completionMessage.getLastToken().getType().equals(
-                IntegrationTestsMessageBuilder.TokenTypes.MATCHER.getType());
+        return completionMessage.getLastToken().getType().equals(TokenizedMessage.TokenTypes.MATCHER.getType());
     }
 
     private boolean isLastTokenError(TokenizedMessage completionMessage) {
-        return completionMessage.getLastToken().getType().equals(
-                IntegrationTestsMessageBuilder.TokenTypes.ERROR.getType());
+        return completionMessage.getLastToken().getType().equals(TokenizedMessage.TokenTypes.ERROR.getType());
     }
 
     private String createIndentation(int indentLevel) {

@@ -18,16 +18,13 @@ package org.testingisdocumenting.webtau.reporter
 
 import org.junit.Test
 
-import static org.testingisdocumenting.webtau.Matchers.actual
-import static org.testingisdocumenting.webtau.Matchers.equal
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.COLON
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class TokenizedMessageTest {
     @Test
     void "render to string"() {
-        def message = TokenizedMessage.tokenizedMessage(action("hello"), COLON, stringValue("world"))
+        def message = tokenizedMessage().action("hello").colon().string("world")
         actual(message.toString()).should(equal("hello: world"))
     }
 }

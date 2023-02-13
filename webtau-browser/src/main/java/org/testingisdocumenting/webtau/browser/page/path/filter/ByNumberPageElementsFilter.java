@@ -17,16 +17,14 @@
 
 package org.testingisdocumenting.webtau.browser.page.path.filter;
 
+import org.openqa.selenium.WebElement;
 import org.testingisdocumenting.webtau.browser.page.path.PageElementsFilter;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.WebElement;
 
 import java.util.Collections;
 import java.util.List;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.selectorType;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.selectorValue;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ByNumberPageElementsFilter implements PageElementsFilter {
     private final int number;
@@ -44,6 +42,6 @@ public class ByNumberPageElementsFilter implements PageElementsFilter {
 
     @Override
     public TokenizedMessage description() {
-        return tokenizedMessage(selectorType("element number"), selectorValue(String.valueOf(number)));
+        return tokenizedMessage().selectorType("element number").selectorValue(String.valueOf(number));
     }
 }

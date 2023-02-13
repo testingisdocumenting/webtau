@@ -24,9 +24,8 @@ import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import java.util.Collections;
 import java.util.Map;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createStep;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 public class Database {
     private static final LabeledDataSourceCachedProvider primaryDataSourceProvider =
@@ -109,8 +108,7 @@ public class Database {
                                            Map<String, Object> params,
                                            Integer numberOfRows) {
         return appendParamsAndAffectedIfRequired(
-                tokenizedMessage(action(actionLabel), stringValue(query), ON,
-                        id(dataSourceProvider.provide().getLabel())),
+                tokenizedMessage().action(actionLabel).string(query).on().id(dataSourceProvider.provide().getLabel()),
                 params,
                 numberOfRows);
     }
@@ -119,11 +117,11 @@ public class Database {
                                                                Map<String, Object> params,
                                                                Integer numberOfRows) {
         if (!params.isEmpty()) {
-            message.add(WITH, stringValue(params));
+            message.with().string(params);
         }
 
         if (numberOfRows != null) {
-            message.add(action("affected"), numberValue(numberOfRows), classifier("rows"));
+            message.action("affected").number(numberOfRows).classifier("rows");
         }
 
         return message;

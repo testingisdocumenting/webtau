@@ -28,7 +28,7 @@ class CoreDocumentationConsoleGroovyTest {
     @Test
     void "console capture only output from the current thread"() {
         doc.console.capture("my-output-example") {
-            println Color.GREEN.toString() + "hello world test" + FontStyle.NORMAL
+            println Color.GREEN.toString() + "hello world test" + FontStyle.RESET
 
             def t1 = Thread.start {
                 sleep 10

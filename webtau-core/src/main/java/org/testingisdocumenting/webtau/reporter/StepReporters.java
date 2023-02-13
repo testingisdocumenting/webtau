@@ -28,7 +28,7 @@ import java.util.stream.Stream;
 
 public class StepReporters {
     public static final StepReporter defaultStepReporter =
-            new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> Integer.MAX_VALUE);
+            new ConsoleStepReporter(TokenizedMessageToAnsiConverter.DEFAULT, () -> Integer.MAX_VALUE);
 
     private static final List<StepReporter> reporters = Collections.synchronizedList(
             ServiceLoaderUtils.load(StepReporter.class));

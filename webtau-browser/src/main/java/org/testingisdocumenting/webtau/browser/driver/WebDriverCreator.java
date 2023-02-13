@@ -30,8 +30,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class WebDriverCreator {
     private static final WebDriverCreatorHandler defaultDriverCreatorHandler = new WebDriverDefaultCreatorHandler();
@@ -47,8 +46,8 @@ public class WebDriverCreator {
         WebDriverCreatorListeners.beforeDriverCreation();
 
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("initializing"), classifier("webdriver"), FOR, id(BrowserConfig.getBrowserId())),
-                () -> tokenizedMessage(action("initialized"), classifier("webdriver"), FOR, id(BrowserConfig.getBrowserId())),
+                tokenizedMessage().action("initializing").classifier("webdriver").forP().id(BrowserConfig.getBrowserId()),
+                () -> tokenizedMessage().action("initialized").classifier("webdriver").forP().id(BrowserConfig.getBrowserId()),
                 () -> {
                     WebDriver driver = createDriverWithAutoRetry();
                     initState(driver);

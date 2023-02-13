@@ -28,9 +28,7 @@ import org.testingisdocumenting.webtau.reporter.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
 
 public class ActualValue implements ActualValueExpectations {
@@ -61,14 +59,14 @@ public class ActualValue implements ActualValueExpectations {
     @Override
     public void should(ValueMatcher valueMatcher) {
         executeStep(valueMatcher, false,
-                tokenizedMessage(action("expecting")),
+                tokenizedMessage().action("expecting"),
                 () -> shouldStep(valueMatcher), shouldReportOptions);
     }
 
     @Override
     public void shouldNot(ValueMatcher valueMatcher) {
         executeStep(valueMatcher, true,
-                tokenizedMessage(action("expecting")),
+                tokenizedMessage().action("expecting"),
                 () -> shouldNotStep(valueMatcher), shouldReportOptions);
     }
 
@@ -76,7 +74,7 @@ public class ActualValue implements ActualValueExpectations {
     public void waitTo(ValueMatcher valueMatcher,
                      ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
         executeStep(valueMatcher, false,
-                tokenizedMessage(action("waiting"), FOR),
+                tokenizedMessage().action("waiting").forP(),
                 () -> waitToStep(valueMatcher, expectationTimer, tickMillis, timeOutMillis),
                 StepReportOptions.REPORT_ALL);
     }
@@ -85,7 +83,7 @@ public class ActualValue implements ActualValueExpectations {
     public void waitToNot(ValueMatcher valueMatcher,
                           ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
         executeStep(valueMatcher, true,
-                tokenizedMessage(action("waiting"), FOR),
+                tokenizedMessage().action("waiting").forP(),
                 () -> waitToNotStep(valueMatcher, expectationTimer, tickMillis, timeOutMillis),
                 StepReportOptions.REPORT_ALL);
     }
@@ -166,7 +164,7 @@ public class ActualValue implements ActualValueExpectations {
     private static TokenizedMessage extractDescription(Object actual, ValuePath path) {
         return (actual instanceof ActualPathAndDescriptionAware) ?
                 (((ActualPathAndDescriptionAware) actual).describe()):
-                TokenizedMessage.tokenizedMessage(IntegrationTestsMessageBuilder.id(path.getPath()));
+                tokenizedMessage().id(path.getPath());
     }
 
     private Object extractActualValue(Object actual) {

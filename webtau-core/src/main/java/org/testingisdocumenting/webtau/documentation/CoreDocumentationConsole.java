@@ -25,8 +25,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.file.Path;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.utils.StringUtils.*;
 
 public class CoreDocumentationConsole {
@@ -53,11 +52,11 @@ public class CoreDocumentationConsole {
      */
     public <R> R capture(String textFileNameWithoutExtension, ConsoleOutputGeneratingCodeWithReturn<R> codeToProduceOutput) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("capturing"), classifier("console output"),
-                        action("documentation artifact"), id(textFileNameWithoutExtension)),
-                (pathAndResult) -> tokenizedMessage(action("captured"), classifier("console output"),
-                        action("documentation artifact"), id(textFileNameWithoutExtension), COLON,
-                        urlValue(((PathAndStepResult<?>)pathAndResult).artifactPath.toAbsolutePath())),
+                tokenizedMessage().action("capturing").classifier("console output")
+                        .action("documentation artifact").id(textFileNameWithoutExtension),
+                (pathAndResult) -> tokenizedMessage().action("captured").classifier("console output")
+                        .action("documentation artifact").id(textFileNameWithoutExtension).colon()
+                        .url(((PathAndStepResult<?>)pathAndResult).artifactPath.toAbsolutePath()),
                 () -> captureStep(textFileNameWithoutExtension, codeToProduceOutput));
 
         PathAndStepResult<R> pathAndResult = step.execute(StepReportOptions.REPORT_ALL);

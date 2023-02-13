@@ -42,6 +42,6 @@ public class AutoResetAnsiString {
     }
 
     private void reset() {
-        stringBuilder.append(FontStyle.NORMAL); // TODO use reset
+        stringBuilder.append(FontStyle.RESET);
     }
 }

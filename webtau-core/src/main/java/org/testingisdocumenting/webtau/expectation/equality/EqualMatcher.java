@@ -17,8 +17,8 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
-import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -26,8 +26,7 @@ import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import java.util.Set;
 import java.util.stream.Stream;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     private CompareToComparator comparator;
@@ -52,7 +51,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.matchingTokenizedMessage();
         }
 
-        return tokenizedMessage(matcher("to equal"), valueFirstLinesOnly(expected));
+        return tokenizedMessage().matcher("to equal").valueFirstLinesOnly(expected);
     }
 
     @Override
@@ -61,7 +60,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.matchedTokenizedMessage(actualPath, actual);
         }
 
-        return tokenizedMessage(matcher("equals"), value(expected));
+        return tokenizedMessage().matcher("equals").value(expected);
     }
 
 
@@ -76,7 +75,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.mismatchedTokenizedMessage(actualPath, actual);
         }
 
-        return tokenizedMessage(error(comparator.generateEqualMismatchReport()));
+        return tokenizedMessage().error(comparator.generateEqualMismatchReport());
     }
 
     @Override
@@ -100,7 +99,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.negativeMatchingTokenizedMessage();
         }
 
-        return tokenizedMessage(matcher("to not equal"), valueFirstLinesOnly(expected));
+        return tokenizedMessage().matcher("to not equal").valueFirstLinesOnly(expected);
     }
 
     @Override
@@ -109,7 +108,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.negativeMatchedTokenizedMessage(actualPath, actual);
         }
 
-        return tokenizedMessage(matcher("doesn't equal"), value(expected));
+        return tokenizedMessage().matcher("doesn't equal").value(expected);
     }
 
     @Override
@@ -118,7 +117,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.negativeMismatchedTokenizedMessage(actualPath, actual);
         }
 
-        return tokenizedMessage(error(comparator.generateNotEqualMismatchReport()));
+        return tokenizedMessage().error(comparator.generateNotEqualMismatchReport());
     }
 
     @Override

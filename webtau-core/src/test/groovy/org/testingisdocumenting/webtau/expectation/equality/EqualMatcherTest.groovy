@@ -26,9 +26,8 @@ import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 import static org.testingisdocumenting.webtau.Matchers.actual
 import static org.testingisdocumenting.webtau.Matchers.equal
 import static org.testingisdocumenting.webtau.WebTauCore.map
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage
 import static org.testingisdocumenting.webtau.expectation.equality.ActualExpectedTestReportExpectations.simpleActualExpectedWithIntegers
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.matcher
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
 
 class EqualMatcherTest {
@@ -126,17 +125,17 @@ class EqualMatcherTest {
     private static class DummyMatcher implements ValueMatcher {
         @Override
         TokenizedMessage matchingTokenizedMessage() {
-            return tokenizedMessage(matcher("matchingMessage"))
+            return tokenizedMessage().matcher("matchingMessage")
         }
 
         @Override
         TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
-            return tokenizedMessage(matcher("matchedMessage:" + actualPath + ":" + actual))
+            return tokenizedMessage().matcher("matchedMessage:" + actualPath + ":" + actual)
         }
 
         @Override
         TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-            return tokenizedMessage(matcher("mismatchedMessage:" + actualPath + ":" + actual))
+            return tokenizedMessage().matcher("mismatchedMessage:" + actualPath + ":" + actual)
         }
 
         @Override
@@ -146,17 +145,17 @@ class EqualMatcherTest {
 
         @Override
         TokenizedMessage negativeMatchingTokenizedMessage() {
-            return tokenizedMessage(matcher("negativeMatchingMessage"))
+            return tokenizedMessage().matcher("negativeMatchingMessage")
         }
 
         @Override
         TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-            return tokenizedMessage(matcher("negativeMatchedMessage:" + actualPath + ":" + actual))
+            return tokenizedMessage().matcher("negativeMatchedMessage:" + actualPath + ":" + actual)
         }
 
         @Override
         TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-            return tokenizedMessage(matcher("negativeMismatchedMessage:" + actualPath + ":" + actual))
+            return tokenizedMessage().matcher("negativeMismatchedMessage:" + actualPath + ":" + actual)
         }
 
         @Override

@@ -78,11 +78,11 @@ public class TermUi {
     private String statusToText(TestStatus testStatus) {
         switch (testStatus) {
             case Failed:
-                return Color.RED + "Failed" + FontStyle.NORMAL;
+                return Color.RED + "Failed" + FontStyle.RESET;
             case Errored:
-                return Color.RED + "Errored" + FontStyle.NORMAL;
+                return Color.RED + "Errored" + FontStyle.RESET;
             case Passed:
-                return Color.GREEN + "Passed" + FontStyle.NORMAL;
+                return Color.GREEN + "Passed" + FontStyle.RESET;
         }
 
         return testStatus.toString();

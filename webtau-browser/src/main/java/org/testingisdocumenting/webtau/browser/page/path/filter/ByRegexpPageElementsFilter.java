@@ -25,9 +25,7 @@ import org.openqa.selenium.WebElement;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.selectorType;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.selectorValue;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 public class ByRegexpPageElementsFilter implements PageElementsFilter {
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
@@ -45,6 +43,6 @@ public class ByRegexpPageElementsFilter implements PageElementsFilter {
 
     @Override
     public TokenizedMessage description() {
-        return tokenizedMessage(selectorType("element(s) with regexp"), selectorValue(regexp.pattern()));
+        return tokenizedMessage().selectorType("element(s) with regexp").selectorValue(regexp.pattern());
     }
 }

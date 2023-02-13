@@ -18,13 +18,14 @@
 package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
-import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public interface ActualPathAndDescriptionAware {
     ValuePath actualPath();
 
     default TokenizedMessage describe() {
-        return TokenizedMessage.tokenizedMessage(IntegrationTestsMessageBuilder.id(actualPath().getPath()));
+        return tokenizedMessage().id(actualPath().getPath());
     }
 }

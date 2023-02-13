@@ -26,8 +26,7 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils.renderStackTrace;
 import static java.util.stream.Collectors.toList;
 import static org.testingisdocumenting.webtau.utils.FunctionUtils.*;
@@ -119,8 +118,8 @@ public class WebTauStep {
 
     public static WebTauStep createRepeatStep(String label, int numberOfAttempts, Function<WebTauStepContext, Object> action) {
         WebTauStep step = WebTauStep.createStep(0,
-                tokenizedMessage(action("repeat " + label), numberValue(numberOfAttempts), classifier("times")),
-                (ignored) -> tokenizedMessage(action("repeated " + label), numberValue(numberOfAttempts), classifier("times")),
+                tokenizedMessage().action("repeat " + label).number(numberOfAttempts).classifier("times"),
+                (ignored) -> tokenizedMessage().action("repeated " + label).number(numberOfAttempts).classifier("times"),
                 action);
         step.setTotalNumberOfAttempts(numberOfAttempts);
 
@@ -172,7 +171,7 @@ public class WebTauStep {
 
     public static void createAndExecuteStep(Supplier<TokenizedMessage> completionMessageSupplier,
                                             Runnable action) {
-        createAndExecuteStep(TokenizedMessage.tokenizedMessage(), completionMessageSupplier,
+        createAndExecuteStep(tokenizedMessage(), completionMessageSupplier,
                 action, StepReportOptions.SKIP_START);
     }
 
@@ -416,9 +415,9 @@ public class WebTauStep {
                 boolean reportStep = shouldReportStepAttemptDuringRepeat(attemptIdx);
 
                 int finalAttemptIdx = attemptIdx;
-                MessageToken repeatAction = action("repeat #" + (finalAttemptIdx + 1));
+                TokenizedMessage repeatAction = tokenizedMessage().action("repeat #" + (finalAttemptIdx + 1));
                 WebTauStep repeatedStep = WebTauStep.createStep(tokenizedMessage(repeatAction),
-                        () -> tokenizedMessage(classifier("completed"), repeatAction),
+                        () -> tokenizedMessage().classifier("completed").add(repeatAction),
                         () -> action.apply(new WebTauStepContext(finalAttemptIdx, totalNumberOfAttempts)));
 
                 if (!reportStep) {
