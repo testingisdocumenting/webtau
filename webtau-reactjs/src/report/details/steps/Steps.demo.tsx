@@ -29,8 +29,9 @@ export function stepsDemo(registry: Registry) {
   add('rainbow', <Step step={rainbow()} isTopLevel={true} />);
   add('with key value input', <Step step={withKeyValueInput()} isTopLevel={true} />);
   add('with key value output', <Step step={withKeyValueOutput()} isTopLevel={true} />);
-  add('with key value input output', <Step step={withKeyValueInputAndOutput()} isTopLevel={true} />);
+  add('with key value input output map', <Step step={withKeyValueInputAndOutputMap()} isTopLevel={true} />);
   add('with key value empty input output', <Step step={withKeyValueEmptyInputAndOutput()} isTopLevel={true} />);
+  add('with actual value output', <Step step={withActualValueStepOutput()} isTopLevel={true} />);
 
   function add(label: string, element: JSX.Element) {
     registry.add(label + ' [dark]', wrapInDarkTheme(element));
@@ -283,7 +284,7 @@ function withFailedChildren(): WebTauStep {
   };
 }
 
-function withKeyValueInputAndOutput() {
+function withKeyValueInputAndOutputMap() {
   return {
     isSuccessful: true,
     message: [
@@ -294,6 +295,176 @@ function withKeyValueInputAndOutput() {
     elapsedTime: 0,
     input: { type: 'WebTauStepInputKeyValue', data: { source: 'manual', url: 'http://localhost:64934', cost: 150 } },
     output: { type: 'WebTauStepOutputKeyValue', data: { port: 3473 } },
+  };
+}
+
+function withActualValueStepOutput() {
+  return {
+    message: [
+      {
+        type: 'error',
+        value: 'failed',
+      },
+      {
+        type: 'action',
+        value: 'expecting',
+      },
+      {
+        type: 'id',
+        value: '[value]',
+      },
+      {
+        type: 'matcher',
+        value: 'to equal',
+      },
+      {
+        type: 'styledText',
+        value: [
+          [
+            {
+              styles: [],
+              text: '',
+            },
+            {
+              styles: ['yellow'],
+              text: '[',
+            },
+          ],
+          [
+            {
+              styles: [],
+              text: '  ',
+            },
+            {
+              styles: ['cyan'],
+              text: '1',
+            },
+            {
+              styles: ['yellow'],
+              text: ',',
+            },
+          ],
+          [
+            {
+              styles: [],
+              text: '  ',
+            },
+            {
+              styles: ['cyan'],
+              text: '4',
+            },
+            {
+              styles: ['yellow'],
+              text: ',',
+            },
+          ],
+          [
+            {
+              styles: [],
+              text: '  ',
+            },
+            {
+              styles: ['cyan'],
+              text: '3',
+            },
+          ],
+          [
+            {
+              styles: [],
+              text: '',
+            },
+            {
+              styles: ['yellow'],
+              text: ']',
+            },
+          ],
+        ],
+      },
+      {
+        type: 'delimiter',
+        value: ':',
+      },
+      {
+        type: 'error',
+        value:
+          '\nmismatches:\n\n[value][1]:   actual: 2 <java.lang.Integer>\n            expected: 4 <java.lang.Integer>',
+      },
+    ],
+    startTime: 1676323554991,
+    elapsedTime: 42,
+    isSuccessful: false,
+    classifier: 'matcher',
+    output: {
+      type: 'ValueMatcherStepOutput',
+      data: {
+        styledText: [
+          [
+            {
+              styles: [],
+              text: '',
+            },
+          ],
+          [
+            {
+              styles: [],
+              text: '',
+            },
+            {
+              styles: ['yellow'],
+              text: '[',
+            },
+          ],
+          [
+            {
+              styles: [],
+              text: '  ',
+            },
+            {
+              styles: ['cyan'],
+              text: '1',
+            },
+            {
+              styles: ['yellow'],
+              text: ',',
+            },
+          ],
+          [
+            {
+              styles: [],
+              text: '  ',
+            },
+            {
+              styles: ['red'],
+              text: '**2**',
+            },
+            {
+              styles: ['yellow'],
+              text: ',',
+            },
+          ],
+          [
+            {
+              styles: [],
+              text: '  ',
+            },
+            {
+              styles: ['cyan'],
+              text: '3',
+            },
+          ],
+          [
+            {
+              styles: [],
+              text: '',
+            },
+            {
+              styles: ['yellow'],
+              text: ']',
+            },
+          ],
+        ],
+      },
+    },
   };
 }
 

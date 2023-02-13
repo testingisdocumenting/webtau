@@ -1,0 +1,10 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "failed matcher actual extra info",
+    "shortContainerId" : "failedMatcher.groovy",
+    "stepsSummary" : {
+      "numberOfFailed" : 1
+    }
+  } ],
+  "exitCode" : 1
+}
