@@ -22,13 +22,14 @@ import org.junit.Test
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class StructuredDataNodeTest {
     @Test
     void "value should be marked as explicitly failed when it mismatches"() {
         def node = new StructuredDataNode(new DataNodeId("value"), new TraceableValue(10))
 
-        runAndValidateOutput(~/mismatches/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/mismatches/) {
             node.should(equal(8))
         }
 
@@ -55,7 +56,7 @@ class StructuredDataNodeTest {
     void "value should be marked as explicitly failed when it matches"() {
         def node = new StructuredDataNode(new DataNodeId("value"), new TraceableValue(10))
 
-        runAndValidateOutput(~/actual: 10/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/actual: 10/) {
             node.shouldNot(equal(10))
         }
 
@@ -86,7 +87,7 @@ class StructuredDataNodeTest {
 
         node.score.should == null
 
-        runAndValidateOutput(~/body\.score/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/body\.score/) {
             node.score.shouldNot == null
         }
     }

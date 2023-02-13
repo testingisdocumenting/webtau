@@ -17,19 +17,14 @@
 
 package org.testingisdocumenting.webtau.expectation.equality
 
-
 import org.junit.Test
-import org.testingisdocumenting.webtau.expectation.ValueMatcher
 import org.testingisdocumenting.webtau.data.ValuePath
+import org.testingisdocumenting.webtau.expectation.ValueMatcher
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 
-import static org.testingisdocumenting.webtau.Matchers.actual
-import static org.testingisdocumenting.webtau.Matchers.equal
-import static org.testingisdocumenting.webtau.WebTauCore.map
-import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage
-import static org.testingisdocumenting.webtau.expectation.equality.ActualExpectedTestReportExpectations.simpleActualExpectedWithIntegers
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class EqualMatcherTest {
     private final int expected = 8
@@ -38,34 +33,49 @@ class EqualMatcherTest {
 
     @Test
     void "positive match"() {
-        def actual = expected
-
-        assert matcher.matches(actualPath, actual)
-        assert matcher.matchedTokenizedMessage(actualPath, actual).toString() == "equals $expected"
+        runAndValidateOutput(". [value] equals 100 (Xms)") {
+            actual(100).should(equal(100))
+        }
     }
 
     @Test
     void "positive mismatch"() {
-        def actual = expected + 1
-        assert !matcher.matches(actualPath, actual)
-
-        assert matcher.mismatchedTokenizedMessage(actualPath, actual).toString() == "mismatches:\n\n" +
-            simpleActualExpectedWithIntegers(actual, expected)
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to equal 10: \n" +
+                "    mismatches:\n" +
+                "    \n" +
+                "    [value]:   actual: 100 <java.lang.Integer>\n" +
+                "             expected: 10 <java.lang.Integer> (Xms)") {
+            actual(100).should(equal(10))
+        }
     }
 
     @Test
     void "negative match"() {
-        def actual = expected + 1
-        assert matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMatchedTokenizedMessage(actualPath, actual).toString() == "doesn't equal $expected"
+        runAndValidateOutput(". [value] doesn't equal 10 (Xms)") {
+            actual(100).shouldNot(equal(10))
+        }
     }
 
     @Test
     void "negative mismatch"() {
-        def actual = expected
-        assert !matcher.negativeMatches(actualPath, actual)
-        assert matcher.negativeMismatchedTokenizedMessage(actualPath, actual).toString() == "mismatches:\n\n" +
-            simpleActualExpectedWithIntegers(actual, "not", expected)
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to not equal 10: \n" +
+                "    mismatches:\n" +
+                "    \n" +
+                "    [value]:   actual: 10 <java.lang.Integer>\n" +
+                "             expected: not 10 <java.lang.Integer> (Xms)") {
+            actual(10).shouldNot(equal(10))
+        }
+    }
+
+    @Test
+    void "negative mismatch with null"() {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to not equal null: \n" +
+                "    mismatches:\n" +
+                "    \n" +
+                "    [value]:   actual: null\n" +
+                "             expected: not null (Xms)") {
+            actual(null).shouldNot(equal(null))
+        }
     }
 
     @Test
@@ -76,34 +86,6 @@ class EqualMatcherTest {
     @Test
     void "negative matching message"() {
         assert matcher.negativeMatchingTokenizedMessage().toString() == "to not equal $expected"
-    }
-
-    @Test
-    void "rendering positive"() {
-        runAndValidateOutput(". [value] equals 100 (Xms)") {
-            actual(100).should(equal(100))
-        }
-
-        runAndValidateOutput('. [value] equals {\n' +
-                '                   "key": "value"\n' +
-                '                 } (Xms)') {
-            actual(map("key", "value")).should(equal(map("key", "value")))
-        }
-
-        runAndValidateOutput(". [value] doesn't equal 101 (Xms)") {
-            actual(100).shouldNot(equal(101))
-        }
-    }
-
-    @Test
-    void "rendering negative"() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal 10: \n' +
-                '    mismatches:\n' +
-                '    \n' +
-                '    [value]:   actual: 100 <java.lang.Integer>\n' +
-                '             expected: 10 <java.lang.Integer> (Xms)') {
-            actual(100).should(equal(10))
-        }
     }
 
     @Test

@@ -40,10 +40,6 @@ public class MessageToken {
         return MessageTokenToMapConverter.convert(this);
     }
 
-    public boolean isEmpty() {
-        return value == null || value.toString().isEmpty();
-    }
-
     @Override
     public String toString() {
         return "MessageToken{" +

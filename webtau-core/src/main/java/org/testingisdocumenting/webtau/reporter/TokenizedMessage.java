@@ -69,7 +69,7 @@ public class TokenizedMessage implements Iterable<MessageToken> {
     }
 
     public TokenizedMessage add(MessageToken... tokens) {
-        this.tokens.addAll(Arrays.stream(tokens).filter(t -> !t.isEmpty()).collect(toList()));
+        this.tokens.addAll(Arrays.stream(tokens).collect(toList()));
         return this;
     }
 

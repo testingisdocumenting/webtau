@@ -27,4 +27,10 @@ class TokenizedMessageTest {
         def message = tokenizedMessage().action("hello").colon().string("world")
         actual(message.toString()).should(equal("hello: world"))
     }
+
+    @Test
+    void "value with null"() {
+        def message = tokenizedMessage().matcher("equals to").value(null)
+        actual(message.toString()).should(equal("equals to null"))
+    }
 }
