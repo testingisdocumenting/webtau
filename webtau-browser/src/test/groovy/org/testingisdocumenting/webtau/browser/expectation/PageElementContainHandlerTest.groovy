@@ -28,6 +28,7 @@ import org.junit.Test
 
 import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class PageElementContainHandlerTest {
     FakeWebDriver driver
@@ -62,7 +63,7 @@ class PageElementContainHandlerTest {
         pageElement.should contain("cde")
         pageElement.shouldNot contain("fff")
 
-        runAndValidateOutput(~/expects to contain "bbb"/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/expects to contain "bbb"/) {
             pageElement.should contain("bbb")
         }
     }
@@ -81,7 +82,7 @@ class PageElementContainHandlerTest {
         pageElement.should contain("test")
         pageElement.shouldNot contain("test2")
 
-        runAndValidateOutput(~/expects to contain "missing"/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/expects to contain "missing"/) {
             pageElement.should contain("missing")
         }
     }
