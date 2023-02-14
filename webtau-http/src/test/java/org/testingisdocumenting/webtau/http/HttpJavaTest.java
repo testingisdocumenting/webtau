@@ -443,43 +443,23 @@ public class HttpJavaTest extends HttpTestBase {
     public void validateConsoleOutput() {
         runExpectExceptionAndValidateOutput(AssertionError.class, "> executing HTTP POST http://localhost:port/end-point\n" +
                 "  request (application/json):\n" +
-                "  {\n" +
-                "    \"key1\": \"value1\",\n" +
-                "    \"key2\": \"value2\"\n" +
-                "  }\n" +
+                "  {\"key1\": \"value1\", \"key2\": \"value2\"}\n" +
+                "  \n" +
                 "  . body.amount greater than 10 (Xms)\n" +
                 "  X failed expecting body.price to be less than 100: \n" +
                 "      mismatches:\n" +
                 "      \n" +
                 "      body.price:   actual: 100 <java.lang.Integer>\n" +
                 "                  expected: less than 100 <java.lang.Integer> (Xms)\n" +
+                "  \n" +
                 "  response (application/json):\n" +
                 "  {\n" +
                 "    \"id\": 10,\n" +
                 "    \"price\": **100**,\n" +
                 "    \"amount\": ~~30~~,\n" +
-                "    \"list\": [\n" +
-                "      1,\n" +
-                "      2,\n" +
-                "      3\n" +
-                "    ],\n" +
-                "    \"object\": {\n" +
-                "      \"k1\": \"v1\",\n" +
-                "      \"k2\": \"v2\",\n" +
-                "      \"k3\": \"v3\"\n" +
-                "    },\n" +
-                "    \"complexList\": [\n" +
-                "      {\n" +
-                "        \"id\": \"id1\",\n" +
-                "        \"k1\": \"v1\",\n" +
-                "        \"k2\": 30\n" +
-                "      },\n" +
-                "      {\n" +
-                "        \"id\": \"id2\",\n" +
-                "        \"k1\": \"v11\",\n" +
-                "        \"k2\": 40\n" +
-                "      }\n" +
-                "    ]\n" +
+                "    \"list\": [1, 2, 3],\n" +
+                "    \"object\": {\"k1\": \"v1\", \"k2\": \"v2\", \"k3\": \"v3\"},\n" +
+                "    \"complexList\": [{\"id\": \"id1\", \"k1\": \"v1\", \"k2\": 30}, {\"id\": \"id2\", \"k1\": \"v11\", \"k2\": 40}]\n" +
                 "  }\n" +
                 "X failed executing HTTP POST http://localhost:port/end-point (Xms)", () ->
                 http.post("/end-point", http.application.json("{\"key1\": \"value1\", \"key2\": \"value2\"}"), (header, body) -> {

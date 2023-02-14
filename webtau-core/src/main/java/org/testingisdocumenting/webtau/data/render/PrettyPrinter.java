@@ -30,6 +30,8 @@ import java.util.*;
  * delegates to either {@link PrettyPrintable} or {@link PrettyPrintableProvider}
  */
 public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
+    private static final int DEFAULT_RECOMMENDED_MAX_WIDTH_FOR_SINGLE_LINE_OBJECTS = 100;
+
     public static final Color DELIMITER_COLOR = Color.YELLOW;
     public static final Color STRING_COLOR = Color.GREEN;
     public static final Color NUMBER_COLOR = Color.CYAN;
@@ -49,11 +51,14 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
     private String indentation;
 
     private ValueConverter valueConverter;
+    private int recommendedMaxWidthForSingleLineObjects;
 
     public PrettyPrinter(int indentationSize) {
         this.lines = new ArrayList<>();
         this.currentLine = new PrettyPrinterLine();
         this.pathsToDecorate = new HashSet<>();
+
+        this.setRecommendedMaxWidthForSingleLineObjects(DEFAULT_RECOMMENDED_MAX_WIDTH_FOR_SINGLE_LINE_OBJECTS);
 
         setIndentationSize(indentationSize);
     }
@@ -64,6 +69,14 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
 
     public ValueConverter getValueConverter() {
         return valueConverter;
+    }
+
+    public void setRecommendedMaxWidthForSingleLineObjects(int width) {
+        this.recommendedMaxWidthForSingleLineObjects = width;
+    }
+
+    public int getRecommendedMaxWidthForSingleLineObjects() {
+        return recommendedMaxWidthForSingleLineObjects;
     }
 
     public static boolean isPrettyPrintable(Object value) {
@@ -94,7 +107,15 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
         return decorationToken;
     }
 
+    public void clear() {
+        lines.clear();
+        currentLine.clear();
+        pathsToDecorate.clear();
+        indentationSize = 0;
+    }
+
     public void renderToConsole(ConsoleOutput consoleOutput) {
+        flushCurrentLine();
         for (PrettyPrinterLine line : lines) {
             consoleOutput.out(line.getStyleAndValues().toArray());
         }

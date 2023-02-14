@@ -30,18 +30,27 @@ class MapPrettyPrintableTest extends PrettyPrintableTestBase {
     }
 
     @Test
-    void "map of simple values"() {
+    void "map of simple values single line"() {
         def prettyPrintable = new MapPrettyPrintable([key1: "value1", key2: 20])
         prettyPrintable.prettyPrint(printer)
 
-        expectOutput("{\n" +
-                "  \"key1\": \"value1\",\n" +
-                "  \"key2\": 20\n" +
-                "}")
+        expectOutput('{"key1": "value1", "key2": 20}')
     }
 
     @Test
-    void "map of nested maps with with decorations"() {
+    void "map of nested maps with with decorations single line"() {
+        printer.setPathsDecoration(new PrettyPrinterDecorationToken("*", Color.RED),
+                [new ValuePath("key2.key21")])
+
+        def prettyPrintable = new MapPrettyPrintable([key1: "value1", key2: [key21: "hello", key22: 22]])
+        prettyPrintable.prettyPrint(printer)
+
+        expectOutput('{"key1": "value1", "key2": {"key21": *"hello"*, "key22": 22}}')
+    }
+
+    @Test
+    void "map of nested maps with with decorations multi line"() {
+        printer.setRecommendedMaxWidthForSingleLineObjects(10)
         printer.setPathsDecoration(new PrettyPrinterDecorationToken("*", Color.RED),
                 [new ValuePath("key2.key21")])
 

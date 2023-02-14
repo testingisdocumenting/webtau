@@ -76,15 +76,11 @@ class ValueMatcherCompareToHandlerTest {
 
     @Test
     void "should work in combination with contain matcher"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to not contain <greater than 7>: \n" +
-                "    [value] expects to not contain <greater than 7>\n" +
-                "    [value][2]: equals 8 (Xms)\n" +
-                "  \n" +
-                "  [\n" +
-                "    1,\n" +
-                "    3,\n" +
-                "    8\n" +
-                "  ]") {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain <greater than 7>: \n' +
+                '    [value] expects to not contain <greater than 7>\n' +
+                '    [value][2]: equals 8 (Xms)\n' +
+                '  \n' +
+                '  [1, 3, 8]') {
             actual([1, 3, 8]).shouldNot(contain(greaterThan(7)))
         }
     }
@@ -93,15 +89,11 @@ class ValueMatcherCompareToHandlerTest {
     void "should work in combination with nested contain matcher"() {
         actual(["hello", "world", "of matchers"]).should(contain(containing("of")))
 
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to not contain org.testingisdocumenting.webtau.expectation.contain.ContainMatcher \"of\": \n" +
-                "    [value] expects to not contain <contain \"of\">\n" +
-                "    [value][2]: equals \"of matchers\" (Xms)\n" +
-                "  \n" +
-                "  [\n" +
-                "    \"hello\",\n" +
-                "    \"world\",\n" +
-                "    \"of matchers\"\n" +
-                "  ]") {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain org.testingisdocumenting.webtau.expectation.contain.ContainMatcher "of": \n' +
+                '    [value] expects to not contain <contain "of">\n' +
+                '    [value][2]: equals "of matchers" (Xms)\n' +
+                '  \n' +
+                '  ["hello", "world", "of matchers"]') {
             actual(["hello", "world", "of matchers"]).shouldNot(contain(containing("of")))
         }
     }

@@ -27,10 +27,7 @@ class HttpOutputTest extends HttpTestBase {
     @Test
     void "should print json request body"() {
         runAndValidateOutput(contain("""  request (application/json):
-  {
-    "hello": "world",
-    "id": "generated-id"
-  }""")) {
+  {"hello": "world", "id": "generated-id"}""")) {
             http.post("/echo", [hello: "world", id: "generated-id"])
         }
     }

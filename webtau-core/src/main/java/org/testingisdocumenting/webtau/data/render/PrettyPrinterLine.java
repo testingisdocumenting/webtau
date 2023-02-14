@@ -32,6 +32,7 @@ public class PrettyPrinterLine {
     public void appendStream(Stream<?> styleAndValues) {
         List<?> asList = styleAndValues.collect(Collectors.toList());
         this.styleAndValues.addAll(asList);
+
         updateWidth(asList);
     }
 
@@ -41,6 +42,10 @@ public class PrettyPrinterLine {
 
     public int getWidth() {
         return width;
+    }
+
+    public void clear() {
+        styleAndValues.clear();
     }
 
     public boolean isEmpty() {

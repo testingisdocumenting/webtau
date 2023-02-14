@@ -16,9 +16,10 @@
 
 package org.testingisdocumenting.webtau.data.render
 
-import org.junit.Assert
 import org.junit.Before
 import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
+
+import static org.testingisdocumenting.webtau.Matchers.*
 
 class PrettyPrintableTestBase {
     def consoleOutput = new TestConsoleOutput()
@@ -35,6 +36,6 @@ class PrettyPrintableTestBase {
         printer.renderToConsole(consoleOutput)
 
         println consoleOutput.colorOutput
-        Assert.assertEquals(expected, consoleOutput.noColorOutput)
+        actual(consoleOutput.noColorOutput, "prettyPrinted").should(equal(expected))
     }
 }

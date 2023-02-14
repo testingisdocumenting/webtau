@@ -51,6 +51,8 @@ public class HttpStepInput implements WebTauStepInput {
             printer.printLine(Color.YELLOW, "request", Color.CYAN, " (", validationResult.getRequestBody().type(), "):");
             renderRequestBody(printer, validationResult.getRequestBody());
         }
+
+        printer.printLine();
     }
 
     @Override
