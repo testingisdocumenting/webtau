@@ -17,13 +17,11 @@
 package org.testingisdocumenting.webtau.reporter
 
 import org.junit.Test
-import org.testingisdocumenting.webtau.console.ConsoleOutputs
-import org.testingisdocumenting.webtau.data.render.PrettyPrinter
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
+import org.testingisdocumenting.webtau.data.render.PrettyPrintableTestBase
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 
-class WebTauStepKeyValueTest {
+class WebTauStepKeyValueTest extends PrettyPrintableTestBase {
     @Test
     void "print simple key values"() {
         prettyPrint([key1: 100, key2: "value"], 'key1: 100\n' +
@@ -37,21 +35,14 @@ class WebTauStepKeyValueTest {
                             100    , "hello",
                             200    , "world")
 
-        prettyPrint([key1: [nested: "value", another: 100], key2: table], 'key1: {\n' +
-                '        "nested": "value",\n' +
-                '        "another": 100\n' +
-                '      }\n' +
+        prettyPrint([key1: [nested: "value", another: 100], key2: table], 'key1: {"nested": "value", "another": 100}\n' +
                 'key2: columnA │ columnB\n' +
                 '          100 │ "hello"\n' +
                 '          200 │ "world"')
     }
 
-    static void prettyPrint(Map<String, ?> keyValue, String expected) {
-        TestConsoleOutput.runAndValidateOutput(expected) {
-            def printer = new PrettyPrinter(0)
-            WebTauStepKeyValue.prettyPrint(printer, keyValue)
-
-            printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput())
-        }
+    void prettyPrint(Map<String, ?> keyValue, String expected) {
+        WebTauStepKeyValue.prettyPrint(printer, keyValue)
+        expectOutput(expected)
     }
 }

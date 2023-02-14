@@ -50,9 +50,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
     }
 
     void testShouldTransformationOnMap() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal {\n' +
-                '                                      "a": 3\n' +
-                '                                    }: \n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal {"a": 3}: \n' +
                 '    mismatches:\n' +
                 '    \n' +
                 '    [value].a:   actual: 1 <java.lang.Integer>\n' +
@@ -62,10 +60,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
                 '    \n' +
                 '    [value].b: 2 (Xms)\n' +
                 '  \n' +
-                '  {\n' +
-                '    "a": **1**,\n' +
-                '    "b": 2\n' +
-                '  }') {
+                '  {"a": **1**, "b": 2}') {
             assertScript('[a:1, b:2].should == [a: 3]')
         }
     }

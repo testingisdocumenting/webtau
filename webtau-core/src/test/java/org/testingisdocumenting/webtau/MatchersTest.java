@@ -19,7 +19,6 @@ package org.testingisdocumenting.webtau;
 import org.junit.*;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.reporter.StepReporters;
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput;
 
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -100,12 +99,7 @@ public class MatchersTest {
 
     @Test
     public void beanAndMapExample() {
-        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "bean-map-compare-output", "X failed expecting [value] to equal {\n" +
-                "                                      \"id\": \"ac1\",\n" +
-                "                                      \"name\": \"My Second Account\",\n" +
-                "                                      \"address\": {\n" +
-                "                                        \"zipCode\": \"7777777\"\n" +
-                "                                    ...: \n" +
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "bean-map-compare-output", "X failed expecting [value] to equal {\"id\": \"ac1\", \"name\": \"My Second Account\", \"address\": {\"zipCode\": \"7777777\"}}: \n" +
                 "    mismatches:\n" +
                 "    \n" +
                 "    [value].name:   actual: \"My Account\" <java.lang.String>\n" +
@@ -116,10 +110,7 @@ public class MatchersTest {
                 "                                        ^ (Xms)\n" +
                 "  \n" +
                 "  {\n" +
-                "    \"address\": {\n" +
-                "      \"city\": \"TestingCity\",\n" +
-                "      \"zipCode\": **\"88888888\"**\n" +
-                "    },\n" +
+                "    \"address\": {\"city\": \"TestingCity\", \"zipCode\": **\"88888888\"**},\n" +
                 "    \"description\": \"test account\",\n" +
                 "    \"id\": \"ac1\",\n" +
                 "    \"name\": **\"My Account\"**\n" +
@@ -138,11 +129,9 @@ public class MatchersTest {
     @Test
     public void listOfBeansAndTable() {
         runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "beans-table-compare-output", "X failed expecting [value] to equal *id   │ name         │ address            \n" +
-                "                                    \"ac2\" │ \"Works\"      │ {                  \n" +
-                "                                          │              │   \"zipCode\": \"zip2\"\n" +
-                "                                          │              │ }                  \n" +
-                "                                          │              │                    \n" +
-                "                                    ...: \n" +
+                "                                    \"ac2\" │ \"Works\"      │ {\"zipCode\": \"zip2\"}\n" +
+                "                                    \"ac1\" │ \"Home\"       │ {\"zipCode\": \"zip1\"}\n" +
+                "                                    \"ac3\" │ \"My Account\" │ {\"zipCode\": \"zip8\"}: \n" +
                 "    mismatches:\n" +
                 "    \n" +
                 "    [value][2].address.zipCode:   actual: \"zip3\" <java.lang.String>\n" +
@@ -152,21 +141,10 @@ public class MatchersTest {
                 "                     expected: \"Works\" <java.lang.String>\n" +
                 "                                    ^ (Xms)\n" +
                 "  \n" +
-                "  address                 │ description    │ id    │ name        \n" +
-                "  {                       │ \"test account\" │ \"ac1\" │ \"Home\"      \n" +
-                "    \"city\": \"TC1\",        │                │       │             \n" +
-                "    \"zipCode\": \"zip1\"     │                │       │             \n" +
-                "  }                       │                │       │             \n" +
-                "                          │                │       │             \n" +
-                "  {                       │ \"test account\" │ \"ac2\" │ **\"Work\"**  \n" +
-                "    \"city\": \"TC2\",        │                │       │             \n" +
-                "    \"zipCode\": \"zip2\"     │                │       │             \n" +
-                "  }                       │                │       │             \n" +
-                "                          │                │       │             \n" +
-                "  {                       │ \"test account\" │ \"ac3\" │ \"My Account\"\n" +
-                "    \"city\": \"TC3\",        │                │       │             \n" +
-                "    \"zipCode\": **\"zip3\"** │                │       │             \n" +
-                "  }                       │                │       │             ", () -> {
+                "  address                                │ description    │ id    │ name        \n" +
+                "  {\"city\": \"TC1\", \"zipCode\": \"zip1\"}     │ \"test account\" │ \"ac1\" │ \"Home\"      \n" +
+                "  {\"city\": \"TC2\", \"zipCode\": \"zip2\"}     │ \"test account\" │ \"ac2\" │ **\"Work\"**  \n" +
+                "  {\"city\": \"TC3\", \"zipCode\": **\"zip3\"**} │ \"test account\" │ \"ac3\" │ \"My Account\"", () -> {
             // beans-table-example
             List<Account> accounts = fetchAccounts();
             TableData expected = table("*id",       "name", "address",

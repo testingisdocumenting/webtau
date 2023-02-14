@@ -329,6 +329,7 @@ public class HttpValidationResult implements WebTauStepOutput {
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
+        printer.printLine();
         if (!hasResponseContent()) {
             printer.printLine(Color.YELLOW, "[no content]");
         } else if (response.isBinary()) {

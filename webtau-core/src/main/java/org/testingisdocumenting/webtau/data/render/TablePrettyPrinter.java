@@ -164,11 +164,12 @@ public class TablePrettyPrinter {
         }
     }
 
-    private TableData createPrettyPrintersTable(PrettyPrinter prettyPrinter, ValuePath root, TableData tableData) {
+    private TableData createPrettyPrintersTable(PrettyPrinter parentPrinter, ValuePath root, TableData tableData) {
         return tableData.map(((rowIdx, colIdx, columnName, v) -> {
             PrettyPrinter cellPrettyPrinter = new PrettyPrinter(0);
-            cellPrettyPrinter.setPathsDecoration(prettyPrinter.getDecorationToken(), prettyPrinter.getPathsToDecorate());
-            cellPrettyPrinter.setValueConverter(prettyPrinter.getValueConverter());
+            cellPrettyPrinter.setPathsDecoration(parentPrinter.getDecorationToken(), parentPrinter.getPathsToDecorate());
+            cellPrettyPrinter.setValueConverter(parentPrinter.getValueConverter());
+            cellPrettyPrinter.setRecommendedMaxWidthForSingleLineObjects(parentPrinter.getRecommendedMaxWidthForSingleLineObjects());
 
             cellPrettyPrinter.printObject(root.index(rowIdx).property(columnName), v);
 

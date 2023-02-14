@@ -34,11 +34,7 @@ class DataNodeTest extends PrettyPrintableTestBase {
         def dataNode = DataNodeBuilder.fromList(new DataNodeId("single"), [100, "hello", 200])
         dataNode.prettyPrint(printer)
 
-        expectOutput('[\n' +
-                '  100,\n' +
-                '  "hello",\n' +
-                '  200\n' +
-                ']')
+        expectOutput('[100, "hello", 200]')
     }
 
     @Test
@@ -46,10 +42,7 @@ class DataNodeTest extends PrettyPrintableTestBase {
         def dataNode = DataNodeBuilder.fromMap(new DataNodeId("single"), [key1: 100, key2: "hello"])
         dataNode.prettyPrint(printer)
 
-        expectOutput('{\n' +
-                '  "key1": 100,\n' +
-                '  "key2": "hello"\n' +
-                '}')
+        expectOutput('{"key1": 100, "key2": "hello"}')
     }
 
     @Test
@@ -60,16 +53,7 @@ class DataNodeTest extends PrettyPrintableTestBase {
 
         dataNode.prettyPrint(printer)
 
-        expectOutput('[\n' +
-                '  {\n' +
-                '    "key1": 100,\n' +
-                '    "key2": "hello"\n' +
-                '  },\n' +
-                '  {\n' +
-                '    "key1": 100,\n' +
-                '    "key2": "hello"\n' +
-                '  }\n' +
-                ']')
+        expectOutput('[{"key1": 100, "key2": "hello"}, {"key1": 100, "key2": "hello"}]')
     }
 
     @Test
@@ -84,15 +68,6 @@ class DataNodeTest extends PrettyPrintableTestBase {
 
         dataNode.prettyPrint(printer)
 
-        expectOutput('[\n' +
-                '  {\n' +
-                '    "key1": ~~100~~,\n' +
-                '    "key2": **"hello"**\n' +
-                '  },\n' +
-                '  {\n' +
-                '    "key1": __100__,\n' +
-                '    "key2": null\n' +
-                '  }\n' +
-                ']')
+        expectOutput('[{"key1": ~~100~~, "key2": **"hello"**}, {"key1": __100__, "key2": null}]')
     }
 }
