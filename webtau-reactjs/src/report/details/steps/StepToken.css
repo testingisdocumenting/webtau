@@ -44,7 +44,8 @@
     white-space: pre;
 }
 
-.step-token.delimiter {
+.step-token.delimiter,
+.step-token.delimiterNoAutoSpacing {
     color: var(--webtau-step-delimiter-color);
 }
 

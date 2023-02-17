@@ -18,33 +18,35 @@
 package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
-import org.testingisdocumenting.webtau.utils.StringUtils;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ActualPathMessage {
     private final ValuePath actualPath;
-    private final String message;
-    private final String fullMessage;
+    private final TokenizedMessage message;
+    private final TokenizedMessage fullMessage;
 
-    public ActualPathMessage(ValuePath actualPath, String message) {
+    public ActualPathMessage(ValuePath actualPath, TokenizedMessage message) {
         this.actualPath = actualPath;
         this.message = message;
-        this.fullMessage = StringUtils.concatWithIndentation(actualPath.getPath() + ": ", message);
+        this.fullMessage = tokenizedMessage().id(actualPath.getPath()).colon().addWithIndentation(message);
     }
 
     public ValuePath getActualPath() {
         return actualPath;
     }
 
-    public String getMessage() {
+    public TokenizedMessage getMessage() {
         return message;
     }
 
-    public String getFullMessage() {
+    public TokenizedMessage getFullMessage() {
         return fullMessage;
     }
 
     @Override
     public String toString() {
-        return getFullMessage();
+        return getFullMessage().toString();
     }
 }

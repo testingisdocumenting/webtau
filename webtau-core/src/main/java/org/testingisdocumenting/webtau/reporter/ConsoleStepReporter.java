@@ -215,20 +215,20 @@ public class ConsoleStepReporter implements StepReporter {
         TokenizedMessage completionMessage = step.getCompletionMessage();
         int numberOfParents = step.getNumberOfParents();
 
-        boolean isLastTokenError = isLastTokenError(completionMessage);
-        if (!isLastTokenError) {
+        boolean noTokenizedError = step.getAssertionTokenizedMessage().isEmpty();
+        if (noTokenizedError) {
             return completionMessage;
         }
 
         if (step.hasFailedChildrenSteps() && !skipRenderInputOutput()) {
             // we don't render children errors one more time in case this step has failed children steps
-            // last two tokens of a message are delimiter and error tokens
-            // so we remove them
-            return completionMessage.subMessage(0, completionMessage.getNumberOfTokens() - 2);
+            return completionMessage;
         }
 
-        return completionMessage.subMessage(0, completionMessage.getNumberOfTokens() - 1)
-                .add(reAlignText(numberOfParents + 2, completionMessage.getLastToken()));
+        TokenizedMessage indentedAssertionMessage =
+                step.getAssertionTokenizedMessage().createReindentCopy(createIndentation(numberOfParents + 2));
+
+        return completionMessage.colon().newLine().add(indentedAssertionMessage);
     }
 
     private Stream<Object> personaStream(WebTauStep step) {
@@ -252,10 +252,6 @@ public class ConsoleStepReporter implements StepReporter {
 
     private boolean isLastTokenMatcher(TokenizedMessage completionMessage) {
         return completionMessage.getLastToken().getType().equals(TokenizedMessage.TokenTypes.MATCHER.getType());
-    }
-
-    private boolean isLastTokenError(TokenizedMessage completionMessage) {
-        return completionMessage.getLastToken().getType().equals(TokenizedMessage.TokenTypes.ERROR.getType());
     }
 
     private String createIndentation(int indentLevel) {

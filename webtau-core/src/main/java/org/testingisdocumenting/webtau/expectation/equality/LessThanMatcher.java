@@ -36,7 +36,7 @@ public class LessThanMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public TokenizedMessage matchingTokenizedMessage() {
+    public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
         return tokenizedMessage().matcher("to be less than").valueFirstLinesOnly(expected);
     }
 
@@ -47,7 +47,7 @@ public class LessThanMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().error(compareToComparator.generateLessThanMismatchReport());
+        return compareToComparator.generateLessThanMismatchReport();
     }
 
     @Override
@@ -57,7 +57,7 @@ public class LessThanMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public TokenizedMessage negativeMatchingTokenizedMessage() {
+    public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
         return tokenizedMessage().matcher("to be greater than or equal to").valueFirstLinesOnly(expected);
     }
 
@@ -68,7 +68,7 @@ public class LessThanMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().error(compareToComparator.generateGreaterThanOrEqualMismatchReport());
+        return compareToComparator.generateGreaterThanOrEqualMismatchReport();
     }
 
     @Override

@@ -28,13 +28,13 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
-public class ValueMatcherStepOutput implements WebTauStepOutput {
+public class ValueMatcherActualStepOutput implements WebTauStepOutput {
     private final ValuePath root;
     private final Object actual;
     private final Set<ValuePath> valuePathsToHighlight;
     private final ValueConverter valueConverter;
 
-    public ValueMatcherStepOutput(ValuePath root, Object actual, ValueConverter valueConverter, Set<ValuePath> valuePathsToHighlight) {
+    public ValueMatcherActualStepOutput(ValuePath root, Object actual, ValueConverter valueConverter, Set<ValuePath> valuePathsToHighlight) {
         this.root = root;
         this.actual = actual;
         this.valueConverter = valueConverter;

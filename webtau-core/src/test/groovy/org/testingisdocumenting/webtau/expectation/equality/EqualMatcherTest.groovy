@@ -107,7 +107,7 @@ class EqualMatcherTest {
 
     private static class DummyMatcher implements ValueMatcher {
         @Override
-        TokenizedMessage matchingTokenizedMessage() {
+        TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
             return tokenizedMessage().matcher("matchingMessage")
         }
 
@@ -127,7 +127,7 @@ class EqualMatcherTest {
         }
 
         @Override
-        TokenizedMessage negativeMatchingTokenizedMessage() {
+        TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
             return tokenizedMessage().matcher("negativeMatchingMessage")
         }
 

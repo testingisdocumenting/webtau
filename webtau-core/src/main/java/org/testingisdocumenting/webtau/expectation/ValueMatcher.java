@@ -40,7 +40,7 @@ public interface ValueMatcher {
     // should
 
     /**
-     * @deprecated override {@link #matchingTokenizedMessage()} instead
+     * @deprecated override {@link #matchingTokenizedMessage(ValuePath, Object)} instead
      * @return about to start matching message
      */
     @Deprecated
@@ -51,7 +51,7 @@ public interface ValueMatcher {
     /**
      * @return about to start matching message
      */
-    default TokenizedMessage matchingTokenizedMessage() {
+    default TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
         String message = matchingMessage();
         if (message.isEmpty()) {
             throw new IllegalStateException("either matchingMessage(deprecated) or matchingTokenizedMessage must be implemented");
@@ -61,7 +61,7 @@ public interface ValueMatcher {
     }
 
     /**
-     * @deprecated use {@link #matchingTokenizedMessage()} instead
+     * @deprecated use {@link #matchedTokenizedMessage(ValuePath, Object)} instead
      */
     @Deprecated
     default String matchedMessage(ValuePath actualPath, Object actual) {
@@ -145,7 +145,7 @@ public interface ValueMatcher {
     /**
      * @return about to start negative matching (shouldNot case) message
      */
-    default TokenizedMessage negativeMatchingTokenizedMessage() {
+    default TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
         String message = negativeMatchingMessage();
         if (message.isEmpty()) {
             throw new IllegalStateException("either negativeMatchingMessage(deprecated) or negativeMatchingTokenizedMessage must be implemented");

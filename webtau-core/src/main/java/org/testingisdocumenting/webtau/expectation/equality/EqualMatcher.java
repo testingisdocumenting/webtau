@@ -32,6 +32,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     private CompareToComparator comparator;
     private final Object expected;
     private final ValueMatcher expectedMatcher;
+    private CompareToHandler handler;
 
     public EqualMatcher(Object expected) {
         this.expected = expected;
@@ -46,12 +47,15 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public TokenizedMessage matchingTokenizedMessage() {
+    public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
-            return expectedMatcher.matchingTokenizedMessage();
+            return expectedMatcher.matchingTokenizedMessage(actualPath, actual);
         }
 
-        return tokenizedMessage().matcher("to equal").valueFirstLinesOnly(expected);
+        comparator = CompareToComparator.comparator();
+        handler = CompareToComparator.findCompareToEqualHandler(actual, expected);
+
+        return tokenizedMessage().matcher("to equal").valueFirstLinesOnly(handler.convertedExpected(actual, expected));
     }
 
     @Override
@@ -75,7 +79,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.mismatchedTokenizedMessage(actualPath, actual);
         }
 
-        return tokenizedMessage().error(comparator.generateEqualMismatchReport());
+        return comparator.generateEqualMismatchReport();
     }
 
     @Override
@@ -89,17 +93,19 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.matches(actualPath, actual);
         }
 
-        comparator = CompareToComparator.comparator();
-        return comparator.compareIsEqual(actualPath, actual, expected);
+        return comparator.compareIsEqual(handler, actualPath, actual, expected);
     }
 
     @Override
-    public TokenizedMessage negativeMatchingTokenizedMessage() {
+    public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
-            return expectedMatcher.negativeMatchingTokenizedMessage();
+            return expectedMatcher.negativeMatchingTokenizedMessage(actualPath, actual);
         }
 
-        return tokenizedMessage().matcher("to not equal").valueFirstLinesOnly(expected);
+        comparator = CompareToComparator.comparator();
+        handler = CompareToComparator.findCompareToEqualHandler(actual, expected);
+
+        return tokenizedMessage().matcher("to not equal").valueFirstLinesOnly(handler.convertedExpected(actual, expected));
     }
 
     @Override
@@ -117,7 +123,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.negativeMismatchedTokenizedMessage(actualPath, actual);
         }
 
-        return tokenizedMessage().error(comparator.generateNotEqualMismatchReport());
+        return comparator.generateNotEqualMismatchReport();
     }
 
     @Override
@@ -126,7 +132,6 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.negativeMatches(actualPath, actual);
         }
 
-        comparator = CompareToComparator.comparator();
         return comparator.compareIsNotEqual(actualPath, actual, expected);
     }
 

@@ -40,6 +40,15 @@ public class MessageToken {
         return MessageTokenToMapConverter.convert(this);
     }
 
+    public boolean isPrettyPrintValue() {
+        return type.equals(TokenizedMessage.TokenTypes.PRETTY_PRINT_VALUE.getType()) ||
+                type.equals(TokenizedMessage.TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType());
+    }
+
+    public boolean isDelimiter() {
+        return type.equals(TokenizedMessage.TokenTypes.DELIMITER.getType()) || type.equals(TokenizedMessage.TokenTypes.DELIMITER_NO_AUTO_SPACING.getType());
+    }
+
     @Override
     public String toString() {
         return "MessageToken{" +

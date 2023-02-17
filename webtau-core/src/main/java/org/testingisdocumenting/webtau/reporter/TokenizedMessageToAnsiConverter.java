@@ -58,9 +58,9 @@ public class TokenizedMessageToAnsiConverter {
                 throw new RuntimeException("no render details found for token: " + messageToken);
             }
 
-            boolean isNextDelimiter = ((idx + 1) < len) && isDelimiter(tokenizedMessage.getTokenAtIdx(idx + 1));
+            boolean isNextDelimiter = ((idx + 1) < len) && tokenizedMessage.getTokenAtIdx(idx + 1).isDelimiter();
             boolean isLast = (idx == len - 1);
-            boolean addSpace = !isLast && !isNextDelimiter;
+            boolean addSpace = !isLast && !isNextDelimiter && !isDelimiterNoAutoSpacing(tokenizedMessage.getTokenAtIdx(idx));
 
             Stream<?> ansiSequence = convertToAnsiSequence(line, renderDetails, messageToken);
             if (addSpace) {
@@ -73,8 +73,8 @@ public class TokenizedMessageToAnsiConverter {
         return line.getStyleAndValues();
     }
 
-    private boolean isDelimiter(MessageToken token) {
-        return token.getType().equals(TokenTypes.DELIMITER.getType());
+    private boolean isDelimiterNoAutoSpacing(MessageToken token) {
+        return token.getType().equals(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType());
     }
 
     private Stream<?> convertToAnsiSequence(PrettyPrinterLine currentLine, TokenRenderDetails renderDetails, MessageToken messageToken) {
@@ -135,14 +135,16 @@ public class TokenizedMessageToAnsiConverter {
         associate(TokenTypes.MATCHER.getType(), Color.RESET, Color.BLUE);
         associate(TokenTypes.STRING_VALUE.getType(), Color.GREEN);
         associate(TokenTypes.QUERY_VALUE.getType(), Color.YELLOW);
-        associate(TokenTypes.NUMBER_VALUE.getType(), Color.CYAN);
+        associate(TokenTypes.NUMBER_VALUE.getType(), Color.BLUE);
         associate(TokenTypes.PRETTY_PRINT_VALUE.getType(), Color.RESET);
         associate(TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType(), Color.RESET);
         associate(TokenTypes.URL_VALUE.getType(), Color.PURPLE);
+        associate(TokenTypes.OBJECT_TYPE.getType(), Color.YELLOW);
         associate(TokenTypes.SELECTOR_TYPE.getType(), Color.PURPLE);
         associate(TokenTypes.SELECTOR_VALUE.getType(), FontStyle.BOLD, Color.PURPLE);
         associate(TokenTypes.PREPOSITION.getType(), Color.YELLOW);
         associate(TokenTypes.DELIMITER.getType(), Color.RESET);
+        associate(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType(), Color.RESET);
         associate(TokenTypes.NONE.getType(), Color.RESET);
     }
 

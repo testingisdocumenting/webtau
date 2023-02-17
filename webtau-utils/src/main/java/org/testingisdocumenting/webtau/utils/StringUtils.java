@@ -37,6 +37,10 @@ public class StringUtils {
                 orElse(0);
     }
 
+    public static String[] splitLinesPreserveNewLineSeparator(String text) {
+        return text.split("((?=\\n)|(?<=\\n))");
+    }
+
     public static String stripIndentation(String text) {
         List<String> lines = trimEmptyLines(Arrays.asList(text.replace("\r", "").split("\n")));
         Integer indentation = lines.stream().
@@ -44,6 +48,10 @@ public class StringUtils {
                 map(StringUtils::lineIndentation).min(Integer::compareTo).orElse(0);
 
         return lines.stream().map(l -> removeIndentation(l, indentation)).collect(Collectors.joining("\n"));
+    }
+
+    public static boolean hasNewLineSeparator(String text) {
+        return text.indexOf('\n') != -1;
     }
 
     public static String firstNLines(String text, int n) {

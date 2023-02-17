@@ -22,14 +22,14 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.NullContainHandler;
 import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.TraceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-
-import static java.util.stream.Collectors.joining;
+import java.util.stream.Collectors;
 
 public class ContainAnalyzer {
     private static final List<ContainHandler> handlers = discoverHandlers();
@@ -50,17 +50,17 @@ public class ContainAnalyzer {
                 (handler) -> handler.analyzeNotContain(this, actualPath, actual, expected));
     }
 
-    public void reportMismatch(ContainHandler reporter, ValuePath actualPath, String mismatch) {
+    public void reportMismatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch) {
         mismatches.add(new ActualPathMessage(actualPath, mismatch));
     }
 
-    public String generateMismatchReport() {
-        List<String> reports = new ArrayList<>();
+    public TokenizedMessage generateMismatchReport() {
+        List<TokenizedMessage> reports = new ArrayList<>();
         if (!mismatches.isEmpty()) {
-            reports.add(mismatches.stream().map(ActualPathMessage::getFullMessage).collect(joining("\n")));
+            reports.add(TokenizedMessage.join("\n", mismatches.stream().map(ActualPathMessage::getFullMessage).collect(Collectors.toList())));
         }
 
-        return String.join("\n\n", reports);
+        return TokenizedMessage.join("\n\n", reports);
     }
 
     public boolean hasMismatches() {

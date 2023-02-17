@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.renderActualExpected;
 
@@ -36,7 +37,7 @@ public class AnyCompareToHandler implements CompareToHandler {
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         boolean isEqual = actual.equals(expected);
-        String message = renderActualExpected(comparator.getAssertionMode(), actual, expected);
+        TokenizedMessage message = renderActualExpected(comparator.getAssertionMode(), actual, expected);
         comparator.reportEqualOrNotEqual(this, isEqual, actualPath, message);
     }
 
@@ -46,7 +47,7 @@ public class AnyCompareToHandler implements CompareToHandler {
         Comparable<Object> actualComparable = (Comparable<Object>) actual;
         int compareTo = actualComparable.compareTo(expected);
 
-        String message = renderActualExpected(comparator.getAssertionMode(), actual, expected);
+        TokenizedMessage message = renderActualExpected(comparator.getAssertionMode(), actual, expected);
         comparator.reportCompareToValue(this, compareTo, actualPath, message);
     }
 }

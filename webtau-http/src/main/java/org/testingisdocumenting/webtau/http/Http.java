@@ -1007,7 +1007,7 @@ public class Http {
                 tokenizedMessage().action("executing HTTP").classifier(validationResult.getRequestMethod()).url(validationResult.getFullUrl()),
                 () -> tokenizedMessage().action("executed HTTP").classifier(validationResult.getRequestMethod()).url(validationResult.getFullUrl()),
                 httpCallSupplier);
-        step.setMatcherOutputDisabled(true);
+        step.setMatcherOutputActualValueDisabled(true);
 
         return step;
     }

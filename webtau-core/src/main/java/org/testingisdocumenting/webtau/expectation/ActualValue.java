@@ -19,9 +19,8 @@ package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
-import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler.Flow;
-import org.testingisdocumenting.webtau.expectation.stepoutput.ValueMatcherStepOutput;
+import org.testingisdocumenting.webtau.expectation.stepoutput.ValueMatcherActualStepOutput;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 import org.testingisdocumenting.webtau.reporter.*;
 
@@ -145,7 +144,7 @@ public class ActualValue implements ActualValueExpectations {
         final Flow flow = ExpectationHandlers.onValueMismatch(valueMatcher, actualPath, actual, message);
 
         if (flow != Flow.Terminate) {
-            throw new AssertionError("\n" + message);
+            throw new AssertionTokenizedError(message);
         }
     }
 
@@ -181,7 +180,7 @@ public class ActualValue implements ActualValueExpectations {
                              StepReportOptions stepReportOptions) {
         WebTauStep step = createStep(
                 messageStart.add(valueDescription)
-                        .add(isNegative ? valueMatcher.negativeMatchingTokenizedMessage(): valueMatcher.matchingTokenizedMessage()),
+                        .add(isNegative ? valueMatcher.negativeMatchingTokenizedMessage(actualPath, actual): valueMatcher.matchingTokenizedMessage(actualPath, actual)),
                 () -> tokenizedMessage(valueDescription)
                         .add(isNegative ?
                                 valueMatcher.negativeMatchedTokenizedMessage(null, actual) :
@@ -193,11 +192,19 @@ public class ActualValue implements ActualValueExpectations {
             ValueConverter valueConverter = valueMatcher.valueConverter();
             Object convertedActual = valueConverter.convertValue(actualPath, actual);
 
-            if (Boolean.TRUE.equals(matched) || !PrettyPrinter.isPrettyPrintable(convertedActual) || step.hasParentWithDisabledMatcherOutput()) {
+            // if we already displayed the actual value as part of mismatch message, we don't need to display it again even if it is pretty printable
+            TokenizedMessage assertionTokenizedMessage = step.getAssertionTokenizedMessage();
+            if (assertionTokenizedMessage.tokensStream()
+                    .filter(MessageToken::isPrettyPrintValue)
+                    .anyMatch(token -> token.getValue() == actual)) {
                 return WebTauStepOutput.EMPTY;
             }
 
-            return new ValueMatcherStepOutput(actualPath,
+            if (Boolean.TRUE.equals(matched)) {
+                return WebTauStepOutput.EMPTY;
+            }
+
+            return new ValueMatcherActualStepOutput(actualPath,
                     convertedActual,
                     valueConverter,
                     isNegative ?

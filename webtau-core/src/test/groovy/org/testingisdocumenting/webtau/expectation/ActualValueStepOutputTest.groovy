@@ -60,7 +60,7 @@ class ActualValueStepOutputTest {
                         () -> {
                             actual([key: "value1", another: 22]).should(equal([key: "value1", another: 23]))
                         })
-        step.matcherOutputDisabled = true
+        step.matcherOutputActualValueDisabled = true
 
         TestConsoleOutput.runExpectExceptionAndValidateOutput(AssertionError, '> parent step\n' +
                 '  X failed expecting [value] to equal {"key": "value1", "another": 23}: \n' +

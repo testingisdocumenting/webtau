@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
+import org.testingisdocumenting.webtau.utils.StringUtils;
+
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Stream;
@@ -34,13 +36,15 @@ public class TokenizedMessage implements Iterable<MessageToken> {
         STRING_VALUE("stringValue"),
         QUERY_VALUE("queryValue"),
         NUMBER_VALUE("numberValue"),
-        PRETTY_PRINT_VALUE("pretty_print_value"),
-        PRETTY_PRINT_VALUE_FIRST_LINES("pretty_print_value_first_lines"),
+        PRETTY_PRINT_VALUE("prettyPrintValue"),
+        PRETTY_PRINT_VALUE_FIRST_LINES("prettyPrintValueFirstLines"),
         URL_VALUE("url"),
+        OBJECT_TYPE("objectType"),
         SELECTOR_TYPE("selectorType"),
         SELECTOR_VALUE("selectorValue"),
         PREPOSITION("preposition"),
         DELIMITER("delimiter"),
+        DELIMITER_NO_AUTO_SPACING("delimiterNoAutoSpacing"),
         NONE("none");
 
         private final String type;
@@ -64,12 +68,33 @@ public class TokenizedMessage implements Iterable<MessageToken> {
         tokens = new ArrayList<>();
     }
 
+    public static TokenizedMessage join(String delimiter, List<TokenizedMessage> messages) {
+        TokenizedMessage result = new TokenizedMessage();
+        int idx = 0;
+        for (TokenizedMessage message : messages) {
+            boolean isLast = idx == messages.size() - 1;
+            result.add(message);
+            if (!isLast) {
+                result.delimiter(delimiter);
+            }
+
+            idx++;
+        }
+
+        return result;
+    }
+
     public TokenizedMessage add(String type, Object value) {
         return add(new MessageToken(type, value));
     }
 
     public TokenizedMessage add(MessageToken... tokens) {
-        this.tokens.addAll(Arrays.stream(tokens).collect(toList()));
+        this.tokens.addAll(Arrays.stream(tokens).flatMap(this::splitTokenNewLines).collect(toList()));
+        return this;
+    }
+
+    public TokenizedMessage addInFront(MessageToken... tokens) {
+        this.tokens.addAll(0, Arrays.stream(tokens).flatMap(this::splitTokenNewLines).collect(toList()));
         return this;
     }
 
@@ -81,6 +106,47 @@ public class TokenizedMessage implements Iterable<MessageToken> {
     public TokenizedMessage add(TokenizedMessage tokenizedMessage) {
         tokenizedMessage.tokensStream().forEach(this::add);
         return this;
+    }
+
+    public TokenizedMessage createReindentCopy(String indentation) {
+        TokenizedMessage result = new TokenizedMessage();
+        result.addWithIndentation(this, indentation);
+        result.addInFront(TokenTypes.DELIMITER_NO_AUTO_SPACING.token(indentation));
+
+        return result;
+    }
+
+    public TokenizedMessage addWithIndentation(TokenizedMessage tokenizedMessage) {
+        int currentWidth = toString().length(); // only works if currently holds a single line
+        if (!tokenizedMessage.isEmpty() && !tokenizedMessage.getFirstToken().getType().equals(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType())) {
+            currentWidth += 1;
+        }
+
+        String indentation = StringUtils.createIndentation(currentWidth);
+        return addWithIndentation(tokenizedMessage, indentation);
+    }
+
+    public TokenizedMessage addWithIndentation(TokenizedMessage tokenizedMessage, String indentation) {
+        int idx = 0;
+        for (MessageToken tokenToAdd : tokenizedMessage.tokens) {
+            boolean isLastToken = idx == tokenizedMessage.tokens.size();
+
+            add(tokenToAdd);
+
+            if (tokenToAdd.getValue().equals("\n")) {
+                if (!isLastToken) {
+                    add(new MessageToken(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType(), indentation));
+                }
+            }
+
+            idx++;
+        }
+
+        return this;
+    }
+
+    public boolean isEmpty() {
+        return tokens.isEmpty();
     }
 
     public TokenizedMessage action(String label) {
@@ -135,6 +201,10 @@ public class TokenizedMessage implements Iterable<MessageToken> {
         return add(TokenTypes.URL_VALUE.token(url.toString()));
     }
 
+    public TokenizedMessage objectType(String type) {
+        return add(TokenTypes.OBJECT_TYPE.token(type));
+    }
+
     public TokenizedMessage selectorType(String type) {
         return add(TokenTypes.SELECTOR_TYPE.token(type));
     }
@@ -149,6 +219,10 @@ public class TokenizedMessage implements Iterable<MessageToken> {
 
     public TokenizedMessage delimiter(String delimiter) {
         return add(TokenTypes.DELIMITER.token(delimiter));
+    }
+
+    public TokenizedMessage delimiterNoAutoSpacing(String delimiter) {
+        return add(TokenTypes.DELIMITER_NO_AUTO_SPACING.token(delimiter));
     }
 
     public TokenizedMessage to() {
@@ -195,6 +269,14 @@ public class TokenizedMessage implements Iterable<MessageToken> {
         return add(TokenTypes.DELIMITER.token(":"));
     }
 
+    public TokenizedMessage newLine() {
+        return add(TokenTypes.DELIMITER_NO_AUTO_SPACING.token("\n"));
+    }
+
+    public TokenizedMessage doubleNewLine() {
+        return add(TokenTypes.DELIMITER_NO_AUTO_SPACING.token("\n\n"));
+    }
+
     public TokenizedMessage none(String label) {
         return add(TokenTypes.NONE.token(label));
     }
@@ -212,6 +294,10 @@ public class TokenizedMessage implements Iterable<MessageToken> {
 
     public MessageToken getTokenAtIdx(int idx) {
         return tokens.get(idx);
+    }
+
+    public MessageToken getFirstToken() {
+        return tokens.get(0);
     }
 
     public MessageToken getLastToken() {
@@ -238,15 +324,41 @@ public class TokenizedMessage implements Iterable<MessageToken> {
         for (int idx = 0; idx < tokens.size(); idx++) {
             MessageToken token = tokens.get(idx);
             boolean isLast = idx == tokens.size() - 1;
-            boolean isNextDelimiter = !isLast && tokens.get(idx + 1).getType()
-                    .equals(TokenTypes.DELIMITER.getType());
+            boolean isCurrentNoAutoSpaceDelimiter = tokens.get(idx).getType().equals(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType());
+
+            boolean isNextDelimiter = !isLast &&
+                    (tokens.get(idx + 1).getType().equals(TokenTypes.DELIMITER.getType()) ||
+                            tokens.get(idx + 1).getType().equals(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType()));
 
             result.append(token.getValue());
-            if (!isNextDelimiter && !isLast) {
+            if (!isCurrentNoAutoSpaceDelimiter && !isNextDelimiter && !isLast) {
                 result.append(" ");
             }
         }
 
         return result.toString();
+    }
+
+    private Stream<MessageToken> splitTokenNewLines(MessageToken token) {
+        if (token.isPrettyPrintValue()) {
+            return Stream.of(token);
+        }
+
+        String text = token.getValue().toString();
+        if (!StringUtils.hasNewLineSeparator(text)) {
+            return Stream.of(token);
+        }
+
+        String[] parts = StringUtils.splitLinesPreserveNewLineSeparator(text);
+        List<MessageToken> result = new ArrayList<>();
+        for (String part : parts) {
+            if (part.equals("\n")) {
+                result.add(new MessageToken(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType(), part));
+            } else {
+                result.add(new MessageToken(token.getType(), part));
+            }
+        }
+
+        return result.stream();
     }
 }
