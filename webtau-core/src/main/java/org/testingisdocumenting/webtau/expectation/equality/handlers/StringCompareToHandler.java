@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.ArrayList;
@@ -81,13 +82,13 @@ public class StringCompareToHandler implements CompareToHandler {
 
         private void compareContent() {
             if (!actual.getText().equals(expected.getText())) {
-                report(actualExpectedMessage());
+                report(singleLineActualExpectedMessage());
                 report(firstLineMismatchMessage());
             }
         }
 
         private TokenizedMessage matchFullMessage() {
-            return actualExpectedMessage();
+            return singleLineActualExpectedMessage();
         }
 
         private TokenizedMessage mismatchFullMessage() {
@@ -103,32 +104,35 @@ public class StringCompareToHandler implements CompareToHandler {
         }
 
         private void compareEndOfLineChars() {
+            TokenizedMessage message = tokenizedMessage().error("different line endings").colon().newLine();
+            MessageToken slashR = TokenizedMessage.TokenTypes.DELIMITER_NO_AUTO_SPACING.token(" \\r");
+
             if (actual.hasSlashR() && !expected.hasSlashR()) {
-                report(tokenizedMessage().error("different line endings, expected doesn't contain \\r, but actual does"));
+                report(message.add(ACTUAL_PREFIX).error("contains").add(slashR).newLine().add(EXPECTED_PREFIX).error("doesn't contain").add(slashR));
             } else if (!actual.hasSlashR() && expected.hasSlashR()) {
-                report(tokenizedMessage().error("different line endings, expected contains \\r, but actual doesn't"));
+                report(message.add(ACTUAL_PREFIX).error("doesn't contains").add(slashR).newLine().add(EXPECTED_PREFIX).error("contains").add(slashR));
             }
         }
 
-        private TokenizedMessage actualExpectedMessage() {
-            if (actual.getNumberOfLines() == 1 && expected.getNumberOfLines() == 1) {
-                int indexOfFirstMismatch = indexOfFirstMismatch(actual.getText(), expected.getText());
-
-                int assertionModePaddingSize = assertionModePaddingSize();
-
-                TokenizedMessage withoutCaret = tokenizedMessage().add(ACTUAL_PREFIX).add(valueAndTypeWithPadding(assertionModePaddingSize, actual.getText()))
-                        .add(additionalTypeInfo(actual.getOriginal(), actual.getText())).newLine()
-                        .add(expectedPrefixAndAssertionMode(compareToComparator.getAssertionMode()).add(valueAndType(expected.getText())))
-                        .add(additionalTypeInfo(expected.getOriginal(), expected.getText()));
-
-                String caret = renderCaretIfRequired(indexOfFirstMismatch, assertionModePaddingSize);
-
-                return caret.isEmpty() ?
-                        withoutCaret :
-                        withoutCaret.newLine().delimiterNoAutoSpacing(caret);
+        private TokenizedMessage singleLineActualExpectedMessage() {
+            if (!actual.isSingleLine() || !expected.isSingleLine()) {
+                return tokenizedMessage();
             }
 
-            return tokenizedMessage();
+            int indexOfFirstMismatch = indexOfFirstMismatch(actual.getText(), expected.getText());
+
+            int assertionModePaddingSize = assertionModePaddingSize();
+
+            TokenizedMessage withoutCaret = tokenizedMessage().add(ACTUAL_PREFIX).add(valueAndTypeWithPadding(assertionModePaddingSize, actual.getText()))
+                    .add(additionalTypeInfo(actual.getOriginal(), actual.getText())).newLine()
+                    .add(expectedPrefixAndAssertionMode(compareToComparator.getAssertionMode()).add(valueAndType(expected.getText())))
+                    .add(additionalTypeInfo(expected.getOriginal(), expected.getText()));
+
+            String caret = renderCaretIfRequired(indexOfFirstMismatch, assertionModePaddingSize);
+
+            return caret.isEmpty() ?
+                    withoutCaret :
+                    withoutCaret.newLine().delimiterNoAutoSpacing(caret);
         }
 
         // we need to pad actual string to match number of spaces from expected assertionMode rendered
@@ -142,10 +146,11 @@ public class StringCompareToHandler implements CompareToHandler {
         }
 
         private TokenizedMessage firstLineMismatchMessage() {
-            int minLines = Math.min(expected.getNumberOfLines(), actual.getNumberOfLines());
-            if (minLines == 1) {
+            if (expected.isSingleLine() && actual.isSingleLine()) {
                 return tokenizedMessage();
             }
+
+            int minLines = Math.min(expected.getNumberOfLines(), actual.getNumberOfLines());
 
             for (int idx = 0; idx < minLines; idx++) {
                 String actualLine = actual.getLine(idx);

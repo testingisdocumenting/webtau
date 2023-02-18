@@ -17,13 +17,14 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
+import org.junit.Test
 import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
-import org.junit.Test
 
+import static org.junit.Assert.*
+import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode
-import static org.junit.Assert.assertEquals
+import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.*
 
 class IterableCompareToHandlerTest {
     private static final ValuePath actualPath = createActualPath("value")
@@ -42,63 +43,61 @@ class IterableCompareToHandlerTest {
 
     @Test
     void "should report matched elements"() {
-        CompareToComparator comparator = CompareToComparator.comparator(AssertionMode.EQUAL)
+        CompareToComparator comparator = comparator(AssertionMode.EQUAL)
         comparator.compareUsingEqualOnly(actualPath, [1, 2, 5], [1, 2, 5])
 
         assertEquals(
-                "value[0]:   actual: 1 <java.lang.Integer>\n" +
-                "          expected: 1 <java.lang.Integer>\n" +
-                "value[1]:   actual: 2 <java.lang.Integer>\n" +
-                "          expected: 2 <java.lang.Integer>\n" +
-                "value[2]:   actual: 5 <java.lang.Integer>\n" +
-                "          expected: 5 <java.lang.Integer>", comparator.generateEqualMatchReport())
+                "value[0]:  actual: 1 <java.lang.Integer>\n" +
+                "         expected: 1 <java.lang.Integer>\n" +
+                "value[1]:  actual: 2 <java.lang.Integer>\n" +
+                "         expected: 2 <java.lang.Integer>\n" +
+                "value[2]:  actual: 5 <java.lang.Integer>\n" +
+                "         expected: 5 <java.lang.Integer>", comparator.generateEqualMatchReport().toString())
     }
 
     @Test
     void "should report mismatched elements"() {
-        CompareToComparator comparator = CompareToComparator.comparator(AssertionMode.EQUAL)
+        CompareToComparator comparator = comparator(AssertionMode.EQUAL)
         comparator.compareUsingEqualOnly(actualPath, [1, 2, 5], [3, 2, 4])
 
-        assertEquals("mismatches:\n" +
-            "\n" +
-            "value[0]:   actual: 1 <java.lang.Integer>\n" +
-            "          expected: 3 <java.lang.Integer>\n" +
-            "value[2]:   actual: 5 <java.lang.Integer>\n" +
-            "          expected: 4 <java.lang.Integer>", comparator.generateEqualMismatchReport())
+        assertEquals(
+            "value[0]:  actual: 1 <java.lang.Integer>\n" +
+            "         expected: 3 <java.lang.Integer>\n" +
+            "value[2]:  actual: 5 <java.lang.Integer>\n" +
+            "         expected: 4 <java.lang.Integer>", comparator.generateEqualMismatchReport().toString())
     }
 
     @Test
     void "should report missing elements"() {
-        CompareToComparator comparator = CompareToComparator.comparator(AssertionMode.EQUAL)
+        CompareToComparator comparator = comparator(AssertionMode.EQUAL)
         comparator.compareUsingEqualOnly(actualPath, [1, 2], [1, 2, 3])
 
         assertEquals("missing, but expected values:\n" +
             "\n" +
-            "value[2]: 3", comparator.generateEqualMismatchReport())
+            "value[2]: 3", comparator.generateEqualMismatchReport().toString())
     }
 
     @Test
     void "should report extra elements"() {
-        CompareToComparator comparator = CompareToComparator.comparator(AssertionMode.EQUAL)
+        CompareToComparator comparator = comparator(AssertionMode.EQUAL)
         comparator.compareUsingEqualOnly(actualPath, [1, 2, 3], [1, 2])
 
         assertEquals("unexpected values:\n" +
             "\n" +
-            "value[2]: 3", comparator.generateEqualMismatchReport())
+            "value[2]: 3", comparator.generateEqualMismatchReport().toString())
     }
 
     @Test
     void "should report matched elements in not equal mode"() {
         actual([1, 2]).shouldNot(equal([1, 2, 3]))
 
-        CompareToComparator comparator = CompareToComparator.comparator(AssertionMode.NOT_EQUAL)
+        CompareToComparator comparator = comparator(AssertionMode.NOT_EQUAL)
         comparator.compareUsingEqualOnly(actualPath, [1, 2], [1, 2, 3])
 
-        assertEquals("mismatches:\n" +
-                "\n" +
-                "value[0]:   actual: 1 <java.lang.Integer>\n" +
-                "          expected: not 1 <java.lang.Integer>\n" +
-                "value[1]:   actual: 2 <java.lang.Integer>\n" +
-                "          expected: not 2 <java.lang.Integer>", comparator.generateNotEqualMismatchReport())
+        assertEquals(
+                "value[0]:  actual: 1 <java.lang.Integer>\n" +
+                "         expected: not 1 <java.lang.Integer>\n" +
+                "value[1]:  actual: 2 <java.lang.Integer>\n" +
+                "         expected: not 2 <java.lang.Integer>", comparator.generateNotEqualMismatchReport().toString())
     }
 }

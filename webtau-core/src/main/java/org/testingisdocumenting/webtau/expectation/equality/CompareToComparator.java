@@ -28,6 +28,7 @@ import org.testingisdocumenting.webtau.utils.TraceUtils;
 
 import java.util.*;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
@@ -66,6 +67,7 @@ public class CompareToComparator {
     // when actual value was converted for comparison, e.g. bean to Map, it will go into this map
     private final Map<ValuePath, Object> convertedActualByPath = new HashMap<>();
 
+    private ValuePath topLevelActualPath;
     private AssertionMode assertionMode;
 
     public static CompareToComparator comparator() {
@@ -143,28 +145,28 @@ public class CompareToComparator {
     }
 
     public TokenizedMessage generateGreaterThanMismatchReport() {
-        return generateReportPart(MISMATCHES_LABEL, Arrays.asList(lessMessages, equalMessages));
+        return generateReportPartWithoutLabel(Stream.of(lessMessages, equalMessages));
     }
 
     public TokenizedMessage generateGreaterThanOrEqualMismatchReport() {
-        return generateReportPart(MISMATCHES_LABEL, Collections.singletonList(lessMessages));
+        return generateReportPartWithoutLabel(Stream.of(lessMessages));
     }
 
     public TokenizedMessage generateLessThanOrEqualMismatchReport() {
-        return generateReportPart(MISMATCHES_LABEL, Collections.singletonList(greaterMessages));
+        return generateReportPartWithoutLabel(Stream.of(greaterMessages));
     }
 
     public TokenizedMessage generateLessThanMismatchReport() {
-        return generateReportPart(MISMATCHES_LABEL, Arrays.asList(greaterMessages, equalMessages));
+        return generateReportPartWithoutLabel(Stream.of(greaterMessages, equalMessages));
     }
 
     public TokenizedMessage generateNotEqualMismatchReport() {
-        return generateReportPartWithoutLabel(Collections.singletonList(equalMessages));
+        return generateReportPartWithoutLabel(Stream.of(equalMessages));
     }
 
     public TokenizedMessage generateEqualMismatchReport() {
         if (missingMessages.isEmpty() && extraMessages.isEmpty()) {
-            return generateReportPartWithoutLabel(Collections.singletonList(notEqualMessages));
+            return generateReportPartWithoutLabel(Stream.of(notEqualMessages));
         }
 
         return combineReportParts(
@@ -178,12 +180,16 @@ public class CompareToComparator {
     }
 
     public Set<ValuePath> generateEqualMismatchPaths() {
-        return extractActualPaths(notEqualMessages);
+        Set<ValuePath> result = new HashSet<>();
+        result.addAll(extractActualPaths(notEqualMessages));
+        result.addAll(extractActualPaths(extraMessages));
+
+        return result;
     }
 
     public TokenizedMessage generateNotEqualMatchReport() {
         if (missingMessages.isEmpty() && extraMessages.isEmpty()) {
-            return generateReportPartWithoutLabel(Collections.singletonList(notEqualMessages));
+            return generateReportPartWithoutLabel(Stream.of(notEqualMessages));
         }
 
         return combineReportParts(
@@ -193,23 +199,23 @@ public class CompareToComparator {
     }
 
     public TokenizedMessage generateGreaterThanMatchReport() {
-        return generateReportPartWithoutLabel(Collections.singletonList(greaterMessages));
+        return generateReportPartWithoutLabel(Stream.of(greaterMessages));
     }
 
     public TokenizedMessage generateGreaterThanOrEqualMatchReport() {
-        return generateReportPartWithoutLabel(Arrays.asList(greaterMessages, equalMessages));
+        return generateReportPartWithoutLabel(Stream.of(greaterMessages, equalMessages));
     }
 
     public TokenizedMessage generateLessThanMatchReport() {
-        return generateReportPartWithoutLabel(Collections.singletonList(lessMessages));
+        return generateReportPartWithoutLabel(Stream.of(lessMessages));
     }
 
     public TokenizedMessage generateLessThanOrEqualToMatchReport() {
-        return generateReportPartWithoutLabel(Arrays.asList(equalMessages, lessMessages));
+        return generateReportPartWithoutLabel(Stream.of(equalMessages, lessMessages));
     }
 
     public TokenizedMessage generateEqualMatchReport() {
-        return generateReportPartWithoutLabel(Collections.singletonList(equalMessages));
+        return generateReportPartWithoutLabel(Stream.of(equalMessages));
     }
 
     public Set<ValuePath> generateEqualMatchPaths() {
@@ -298,6 +304,7 @@ public class CompareToComparator {
 
     private CompareToResult compareUsingEqualOnly(CompareToHandler handler, AssertionMode mode, ValuePath actualPath, Object actual, Object expected) {
         setAssertionMode(mode);
+        updateTopLevelActualPath(actualPath);
 
         Object convertedActual = handler.convertedActual(actual, expected);
         recordConvertedActual(actualPath, actual, convertedActual);
@@ -314,6 +321,8 @@ public class CompareToComparator {
 
     private CompareToResult compareUsingCompareTo(AssertionMode mode, ValuePath actualPath, Object actual, Object expected) {
         setAssertionMode(mode);
+        updateTopLevelActualPath(actualPath);
+
         CompareToHandler handler = findCompareToGreaterLessHandler(actual, expected);
 
         Object convertedActual = handler.convertedActual(actual, expected);
@@ -339,6 +348,12 @@ public class CompareToComparator {
 
     private void setAssertionMode(AssertionMode mode) {
         assertionMode = mode;
+    }
+
+    private void updateTopLevelActualPath(ValuePath actualPath) {
+        if (topLevelActualPath == null) {
+            topLevelActualPath = actualPath;
+        }
     }
 
     private void validateAssertionModeIsPresent() {
@@ -374,19 +389,28 @@ public class CompareToComparator {
             return tokenizedMessage();
         }
 
-        return tokenizedMessage().add(label).colon().doubleNewLine().add(generateReportPartWithoutLabel(messagesGroups));
+        return tokenizedMessage().add(label).colon().doubleNewLine().add(generateReportPartWithoutLabel(messagesGroups.stream()));
     }
 
-    private TokenizedMessage generateReportPartWithoutLabel(List<List<ActualPathMessage>> messagesGroups) {
-        if (messagesGroups.stream().allMatch(List::isEmpty)) {
+    private TokenizedMessage generateReportPartWithoutLabel(Stream<List<ActualPathMessage>> messagesGroupsStream) {
+        List<List<ActualPathMessage>> messagesGroups = messagesGroupsStream.filter(group -> !group.isEmpty()).collect(Collectors.toList());
+        if (messagesGroups.isEmpty()) {
             return tokenizedMessage();
         }
 
         TokenizedMessage result = tokenizedMessage();
         int groupIdx = 0;
         for (List<ActualPathMessage> group : messagesGroups) {
+            int messageIdx = 0;
             for (ActualPathMessage message : group) {
-                result.add(group.size() > 1 ? message.getFullMessage() : message.getMessage());
+                boolean useFullMessage = !message.getActualPath().equals(topLevelActualPath);
+                result.add(useFullMessage ? message.getFullMessage() : message.getMessage());
+
+                boolean isLast = messageIdx == group.size() - 1;
+                if (!isLast) {
+                    result.newLine();
+                }
+                messageIdx++;
             }
 
             boolean isLastGroup = groupIdx == messagesGroups.size() - 1;

@@ -32,11 +32,12 @@ class HandlerMessages {
                 .add(expectedPrefixAndAssertionMode(assertionMode)).add(valueAndType(expected));
     }
 
-    static TokenizedMessage renderActualExpected(CompareToComparator.AssertionMode assertionMode,
-                                       Object convertedActual, Object convertedExpected,
-                                       Object actual, Object expected) {
+    static TokenizedMessage renderActualExpectedWithConversionInfo(CompareToComparator.AssertionMode assertionMode,
+                                                                   Object convertedActual, Object convertedExpected,
+                                                                   Object actual, Object expected) {
         return tokenizedMessage().add(ACTUAL_PREFIX).add(valueAndType(convertedActual)).add(beforeConversion(actual)).newLine()
-                .add(expected(assertionMode, expected)).add(valueAndType(convertedExpected)).add(beforeConversion(expected));
+                .add(expectedPrefixAndValueWithAssertionMode(EXPECTED_PREFIX, assertionMode, expected))
+                .add(type(convertedExpected)).add(beforeConversion(expected));
     }
 
     static TokenizedMessage beforeConversion(Object value) {
@@ -59,12 +60,11 @@ class HandlerMessages {
         return assertionModeMessage.isEmpty() ? result : result.classifier(assertionModeMessage);
     }
 
-    static TokenizedMessage expected(CompareToComparator.AssertionMode assertionMode, Object expected) {
-        return expected(EXPECTED_PREFIX, assertionMode, expected);
-    }
-
-    static TokenizedMessage expected(TokenizedMessage prefix, CompareToComparator.AssertionMode assertionMode, Object expected) {
-        return tokenizedMessage().add(prefix).classifier(assertionMode.getMessage()).value(expected).newLine();
+    static TokenizedMessage expectedPrefixAndValueWithAssertionMode(TokenizedMessage prefix, CompareToComparator.AssertionMode assertionMode, Object expected) {
+        String assertionMessage = assertionMode.getMessage();
+        return assertionMessage.isEmpty() ?
+                tokenizedMessage().add(prefix).value(expected):
+                tokenizedMessage().add(prefix).classifier(assertionMessage).value(expected);
     }
 
     static TokenizedMessage valueAndTypeWithPadding(int padLeft, Object v) {

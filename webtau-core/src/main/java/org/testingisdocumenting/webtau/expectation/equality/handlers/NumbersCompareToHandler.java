@@ -80,7 +80,7 @@ public class NumbersCompareToHandler implements CompareToHandler {
         }
 
         TokenizedMessage renderActualExpected() {
-            return HandlerMessages.renderActualExpected(assertionMode, convertedActual, convertedExpected, actual, expected);
+            return HandlerMessages.renderActualExpectedWithConversionInfo(assertionMode, convertedActual, convertedExpected, actual, expected);
         }
 
         private static Class largest(Object actual, Object expected) {

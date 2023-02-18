@@ -28,6 +28,10 @@
     color: var(--webtau-step-action-color);
 }
 
+.step-token.classifier {
+    color: var(--webtau-step-classifer-color);
+}
+
 .step-token.warning {
     color: var(--webtau-step-warning-color);
 }
@@ -55,6 +59,10 @@
 
 .step-token.preposition {
     color: var(--webtau-step-preposition-color);
+}
+
+.step-token.objectType {
+    color: var(--webtau-step-object-type-color);
 }
 
 .step-token.selectorType {

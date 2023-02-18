@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2023 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,27 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.expectation.equality
+package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import org.junit.Assert
-import org.junit.Test
+public class SmallBean {
+    public long getPrice() {
+        return 100;
+    }
 
-import static org.testingisdocumenting.webtau.WebTauCore.createActualPath
+    public void setPrice(long price) {
+    }
 
-class ActualPathMessageTest {
-    @Test
-    void "should align multiline mismatch"() {
-        def m = new ActualPathMessage(createActualPath("my.var[0]"), "two lines\nmismatch message")
+    public String getName() {
+        return "n1";
+    }
 
-        Assert.assertEquals("my.var[0]: two lines\n" +
-                            "           mismatch message", m.getFullMessage())
+    public void setName(String name) {
+    }
+
+    public String getDescription() {
+        return "d1";
+    }
+
+    public void setDescription(String description) {
     }
 }

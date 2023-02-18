@@ -113,12 +113,14 @@
     --webtau-step-id-color: var(--webtau-text-color);
     --webtau-step-action-color: var(--webtau-styled-blue-color);
     --webtau-step-warning-color: #f56b25;
+    --webtau-step-classifer-color: var(--webtau-styled-cyan-color);
     --webtau-step-matcher-color: var(--webtau-styled-green-color);
     --webtau-step-string-color: var(--webtau-property-value-string-color);
     --webtau-step-error-color: var(--webtau-styled-red-color);
     --webtau-step-preposition-color: #9a999b;
     --webtau-step-delimiter-color: var(--webtau-step-preposition-color);
     --webtau-step-selector-type-color: #c88fcb;
+    --webtau-step-object-type-color: var(--webtau-step-preposition-color);
 
     --webtau-scrollbar-thumb: #555;
 }

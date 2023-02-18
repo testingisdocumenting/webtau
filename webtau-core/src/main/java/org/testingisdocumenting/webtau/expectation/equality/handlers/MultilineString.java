@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 
@@ -57,6 +58,10 @@ public class MultilineString implements PrettyPrintable {
         return lines.length;
     }
 
+    public boolean isSingleLine() {
+        return lines.length == 1;
+    }
+
     public boolean hasSlashR() {
         return hasSlashR;
     }
@@ -67,15 +72,20 @@ public class MultilineString implements PrettyPrintable {
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
+        prettyPrint(printer, ValuePath.UNDEFINED);
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter printer, ValuePath path) {
         if (lines.length > 1) {
             printMultiLines(printer);
         } else {
-            printSingleLine(printer);
+            printSingleLine(printer, path);
         }
     }
 
-    private void printSingleLine(PrettyPrinter printer) {
-        printer.printObject(text);
+    private void printSingleLine(PrettyPrinter printer, ValuePath path) {
+        printer.printStringPrimitive(path, text);
     }
 
     private void printMultiLines(PrettyPrinter printer) {

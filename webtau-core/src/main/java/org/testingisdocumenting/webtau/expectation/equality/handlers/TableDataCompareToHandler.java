@@ -25,6 +25,8 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+
 public class TableDataCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
@@ -40,7 +42,7 @@ public class TableDataCompareToHandler implements CompareToHandler {
         TableDataComparisonReport comparisonReportGenerator = new TableDataComparisonReport(result);
 
         if (actualTableData.isEmpty() && !expectedTableData.isEmpty()) {
-            comparator.reportNotEqual(this, actualPath, "is empty");
+            comparator.reportNotEqual(this, actualPath, tokenizedMessage().error("table is empty"));
         } else {
             if (result.hasMissingColumns()) {
                 comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingColumnsReport());

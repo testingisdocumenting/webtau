@@ -31,7 +31,7 @@ public class AnsiConsoleUtils {
                 continue;
             }
 
-            result += styleOrValue.toString().length();
+            result += styleOrValue == null ? 0 : styleOrValue.toString().length();
         }
 
         return result;

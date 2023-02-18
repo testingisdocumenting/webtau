@@ -53,10 +53,4 @@ class StringContainHandlerTest {
         assert analyzer.contains(createActualPath('text'), "hello $var world", 'world')
         assert analyzer.contains(createActualPath('text'), 'hello world ' + var, "world $var")
     }
-
-    @Test
-    void "mismatches report should have both values"() {
-        assert ! analyzer.contains(createActualPath("text"), "hello world", "disc")
-        Assert.assertEquals("text: hello world", analyzer.generateMismatchReport())
-    }
 }

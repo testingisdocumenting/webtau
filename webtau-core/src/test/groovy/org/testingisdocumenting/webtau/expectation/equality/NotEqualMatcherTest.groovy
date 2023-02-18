@@ -18,12 +18,14 @@
 package org.testingisdocumenting.webtau.expectation.equality
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.ValuePath
 
 import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class NotEqualMatcherTest {
     private final int expected = 8
+    private final ValuePath actualPath = new ValuePath("value")
     private final NotEqualMatcher matcher = new NotEqualMatcher(expected)
 
     @Test
@@ -35,11 +37,9 @@ class NotEqualMatcherTest {
 
     @Test
     void "positive mismatch"() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not equal 100: \n' +
-                '    mismatches:\n' +
-                '    \n' +
-                '    [value]:   actual: 100 <java.lang.Integer>\n' +
-                '             expected: not 100 <java.lang.Integer> (Xms)') {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not equal 100:\n' +
+                '      actual: 100 <java.lang.Integer>\n' +
+                '    expected: not 100 <java.lang.Integer> (Xms)') {
             actual(100).should(notEqual(100))
         }
     }
@@ -53,22 +53,20 @@ class NotEqualMatcherTest {
 
     @Test
     void "negative mismatch"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to equal 101: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value]:   actual: 100 <java.lang.Integer>\n" +
-                "             expected: 101 <java.lang.Integer> (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to equal 101:\n" +
+                "      actual: 100 <java.lang.Integer>\n" +
+                "    expected: 101 <java.lang.Integer> (Xms)") {
             actual(100).shouldNot(notEqual(101))
         }
     }
 
     @Test
     void "matching message"() {
-        assert matcher.matchingTokenizedMessage().toString() == "to not equal $expected"
+        assert matcher.matchingTokenizedMessage(actualPath, 100).toString() == "to not equal $expected"
     }
 
     @Test
     void "negative matching message"() {
-        assert matcher.negativeMatchingTokenizedMessage().toString() == "to equal $expected"
+        assert matcher.negativeMatchingTokenizedMessage(actualPath, 100).toString() == "to equal $expected"
     }
 }

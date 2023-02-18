@@ -22,10 +22,7 @@ import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class SetCompareToHandler implements CompareToHandler {
     @Override
@@ -49,18 +46,32 @@ public class SetCompareToHandler implements CompareToHandler {
         List<?> actualLeft;
         List<?> expectedLeft;
 
+        Map<Object, Integer> actualIndexes;
+
         Comparator(CompareToComparator compareToComparator, ValuePath actualPath, Set<?> actual, Set<?> expected) {
             this.comparator = compareToComparator;
             this.localComparator = CompareToComparator.comparator(compareToComparator.getAssertionMode());
             this.actualPath = actualPath;
             this.actualLeft = new ArrayList<>(actual);
             this.expectedLeft = new ArrayList<>(expected);
+            this.actualIndexes = buildActualIndexes();
+        }
+
+        private Map<Object, Integer> buildActualIndexes() {
+            Map<Object, Integer> result = new HashMap<>();
+            int idx = 0;
+            for (Object actual : actualLeft) {
+                result.put(actual, idx);
+                idx++;
+            }
+
+            return result;
         }
 
         void compare() {
             expectedLeft.removeIf(this::checkAndRemoveFromActualIfMatch);
 
-            actualLeft.forEach(e -> comparator.reportExtra(SetCompareToHandler.this, actualPath, e));
+            actualLeft.forEach(e -> comparator.reportExtra(SetCompareToHandler.this, actualPath.index(actualIndexes.get(e)), e));
             expectedLeft.forEach(e -> comparator.reportMissing(SetCompareToHandler.this, actualPath, e));
         }
 

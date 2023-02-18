@@ -34,7 +34,7 @@ public class TokenizedMessageToAnsiConverter {
     public static final TokenizedMessageToAnsiConverter DEFAULT = new TokenizedMessageToAnsiConverter();
 
     private final Map<String, TokenRenderDetails> tokenRenderDetails;
-    private int prefixWidth;
+    private int firstLinePrefixWidth;
 
     public TokenizedMessageToAnsiConverter() {
         tokenRenderDetails = new HashMap<>();
@@ -45,8 +45,8 @@ public class TokenizedMessageToAnsiConverter {
         tokenRenderDetails.put(tokenType, new TokenRenderDetails(Arrays.asList(ansiSequence)));
     }
 
-    public List<Object> convert(TokenizedMessage tokenizedMessage, int prefixWidth) {
-        this.prefixWidth = prefixWidth;
+    public List<Object> convert(TokenizedMessage tokenizedMessage, int firstLinePrefixWidth) {
+        this.firstLinePrefixWidth = firstLinePrefixWidth;
         PrettyPrinterLine line = new PrettyPrinterLine();
 
         int len = tokenizedMessage.getNumberOfTokens();
@@ -95,7 +95,9 @@ public class TokenizedMessageToAnsiConverter {
 
         Stream<Object> result = Stream.empty();
 
-        String indentation = StringUtils.createIndentation(prefixWidth + currentLine.getWidth());
+        String indentation = StringUtils.createIndentation(currentLine.hasNewLine() ?
+                currentLine.findWidthOfTheLastEffectiveLine():
+                currentLine.findWidthOfTheLastEffectiveLine() + firstLinePrefixWidth);
 
         int numberOfLinesToPrint = printFirstLinesOnly ?
                 Math.min(printer.getNumberOfLines(), 5):

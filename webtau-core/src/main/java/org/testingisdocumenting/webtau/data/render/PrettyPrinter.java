@@ -34,7 +34,7 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
 
     public static final Color DELIMITER_COLOR = Color.YELLOW;
     public static final Color STRING_COLOR = Color.GREEN;
-    public static final Color NUMBER_COLOR = Color.CYAN;
+    public static final Color NUMBER_COLOR = Color.BLUE;
     public static final Color KEY_COLOR = Color.PURPLE;
     public static final Color UNKNOWN_COLOR = Color.CYAN;
 
@@ -184,6 +184,11 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
         currentLine = new PrettyPrinterLine();
     }
 
+    public void printStringPrimitive(ValuePath path, String text) {
+        boolean needToDecorate = pathsToDecorate.contains(path);
+        printStringPrimitive(text, needToDecorate);
+    }
+
     public void printObject(Object o) {
         printObject(ValuePath.UNDEFINED, o);
     }
@@ -241,6 +246,10 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
         }
 
         currentLine.append(styleOrValue);
+    }
+
+    private void printStringPrimitive(String text, boolean needToDecorate) {
+        printPrimitive(STRING_COLOR, quoteString(text), needToDecorate);
     }
 
     private void printPrimitive(Color color, Object o, boolean needToDecorate) {

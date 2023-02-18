@@ -446,11 +446,9 @@ public class HttpJavaTest extends HttpTestBase {
                 "  {\"key1\": \"value1\", \"key2\": \"value2\"}\n" +
                 "  \n" +
                 "  . body.amount greater than 10 (Xms)\n" +
-                "  X failed expecting body.price to be less than 100: \n" +
-                "      mismatches:\n" +
-                "      \n" +
-                "      body.price:   actual: 100 <java.lang.Integer>\n" +
-                "                  expected: less than 100 <java.lang.Integer> (Xms)\n" +
+                "  X failed expecting body.price to be less than 100:\n" +
+                "        actual: 100 <java.lang.Integer>\n" +
+                "      expected: less than 100 <java.lang.Integer> (Xms)\n" +
                 "  \n" +
                 "  response (application/json):\n" +
                 "  {\n" +

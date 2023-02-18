@@ -46,10 +46,16 @@ export function Step({ step, isTopLevel }: Props) {
       <div className="message-parts">
         {step.personaId ? <div className="persona-id">{step.personaId}</div> : <div />}
 
-        <TokenizedMessage message={step.message} removeLastErrorToken={hasFailedChildren()} />
+        <TokenizedMessage message={step.message} />
         {renderMoreToggle()}
         <StepTime millis={step.elapsedTime} />
       </div>
+
+      {step.exceptionTokenizedMessage && !hasFailedChildren() && (
+        <pre className="message-parts">
+          <TokenizedMessage message={step.exceptionTokenizedMessage} />
+        </pre>
+      )}
 
       {(step.input || step.output) && renderStepInputOutputKeyValue(step.input, step.output)}
       {step.output && renderStepOutput(step.output)}
@@ -87,7 +93,7 @@ export function Step({ step, isTopLevel }: Props) {
   }
 
   function hasFailedChildren() {
-    return !!step.children && step.children.some((child) => !child.isSuccessful);
+    return !!step.children && step.children.some((child) => child.exceptionTokenizedMessage);
   }
 
   function showChildren() {

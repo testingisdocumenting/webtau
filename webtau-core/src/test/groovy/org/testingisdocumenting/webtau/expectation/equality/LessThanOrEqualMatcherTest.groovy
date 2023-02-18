@@ -40,11 +40,9 @@ class LessThanOrEqualMatcherTest {
 
     @Test
     void "positive mismatch"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be less than or equal to 11: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value]:   actual: 20 <java.lang.Integer>\n" +
-                "             expected: less than or equal to 11 <java.lang.Integer> (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be less than or equal to 11:\n" +
+                "      actual: 20 <java.lang.Integer>\n" +
+                "    expected: less than or equal to 11 <java.lang.Integer> (Xms)") {
             actual(20).shouldBe(lessThanOrEqual(11))
         }
     }
@@ -58,41 +56,37 @@ class LessThanOrEqualMatcherTest {
 
     @Test
     void "negative mismatch equal"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be greater than 8: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value]:   actual: 8 <java.lang.Integer>\n" +
-                "             expected: greater than 8 <java.lang.Integer> (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be greater than 8:\n" +
+                "      actual: 8 <java.lang.Integer>\n" +
+                "    expected: greater than 8 <java.lang.Integer> (Xms)") {
             actual(expected).shouldNotBe(lessThanOrEqual(expected))
         }
     }
 
     @Test
     void "negative mismatch greater"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be greater than 8: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value]:   actual: 7 <java.lang.Integer>\n" +
-                "             expected: greater than 8 <java.lang.Integer> (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be greater than 8:\n" +
+                "      actual: 7 <java.lang.Integer>\n" +
+                "    expected: greater than 8 <java.lang.Integer> (Xms)") {
             actual(expected - 1).shouldNotBe(lessThanOrEqual(expected))
         }
     }
 
     @Test
     void "matching message"() {
-        assert matcher.matchingTokenizedMessage().toString() == "to be less than or equal to $expected"
+        assert matcher.matchingTokenizedMessage(actualPath, 100).toString() == "to be less than or equal to $expected"
     }
 
     @Test
     void "negative matching message"() {
-        assert matcher.negativeMatchingTokenizedMessage().toString() == "to be greater than $expected"
+        assert matcher.negativeMatchingTokenizedMessage(actualPath, 100).toString() == "to be greater than $expected"
     }
 
     @Test
     void "equal comparison with matcher renders matching logic in case of comparison with null"() {
         CompareToComparator comparator = CompareToComparator.comparator()
         comparator.compareIsEqual(actualPath, null, matcher)
-        assert comparator.generateEqualMismatchReport().contains('expected: <less than or equal 8>')
+        assert comparator.generateEqualMismatchReport().toString().contains('expected: <less than or equal 8>')
     }
 
     private void assertPositiveMatch(int actualValue) {

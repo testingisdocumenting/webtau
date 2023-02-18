@@ -145,9 +145,9 @@ function HttpCallDetails({ httpCall, reportNavigation }) {
 
 function Mismatches({ httpCall }) {
   return httpCall.mismatches.map((m, idx) => (
-    <div key={idx} className="webtau-http-mismatch">
+    <pre key={idx} className="webtau-http-mismatch">
       <TokenizedMessage message={m} removeLastErrorToken={false} />
-    </div>
+    </pre>
   ));
 }
 

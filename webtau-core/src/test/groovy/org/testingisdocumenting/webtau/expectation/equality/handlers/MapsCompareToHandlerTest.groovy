@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,66 +17,63 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
-import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Before
 import org.junit.Test
+import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 
-import static org.testingisdocumenting.webtau.WebTauCore.createActualPath
-import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode
-import static org.junit.Assert.assertEquals
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class MapsCompareToHandlerTest {
     private CompareToComparator comparator
 
     @Before
     void init() {
-        comparator = CompareToComparator.comparator(AssertionMode.EQUAL)
+        comparator = comparator(AssertionMode.EQUAL)
     }
 
     @Test
     void "should only handle maps on both sides"() {
         def handler = new MapsCompareToHandler()
-        assert ! handler.handleEquality(10, "test")
-        assert ! handler.handleEquality([k: 1], [])
-        assert ! handler.handleEquality([], [k: 1])
+        assert !handler.handleEquality(10, "test")
+        assert !handler.handleEquality([k: 1], [])
+        assert !handler.handleEquality([], [k: 1])
 
         assert handler.handleEquality([k1: 1], [k2: 2])
     }
 
     @Test
     void "should report missing keys on both sides in case of mismatch"() {
-        comparator.compareUsingEqualOnly(createActualPath('map'),
-                [k6: 'v1', k2: [k21: 'v21', k23: 'v23'], k3: 'v3'],
-                [k1: 'v1', k2: [k22: 'v21', k24: 'v24'], k3: 'v3-'])
-
-        def report = comparator.generateEqualMismatchReport()
-        assertEquals('mismatches:\n' +
-                '\n' +
-                'map.k3:   actual: "v3" <java.lang.String>\n' +
-                '        expected: "v3-" <java.lang.String>\n' +
-                '                     ^\n' +
-                '\n' +
-                'missing, but expected values:\n' +
-                '\n' +
-                'map.k1: "v1"\n' +
-                'map.k2.k22: "v21"\n' +
-                'map.k2.k24: "v24"\n' +
-                '\n' +
-                'unexpected values:\n' +
-                '\n' +
-                'map.k2.k21: "v21"\n' +
-                'map.k2.k23: "v23"\n' +
-                'map.k6: "v1"', report)
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting map to equal {"k1": "v1", "k2": {"k22": "v21", "k24": "v24"}, "k3": "v3-"}:\n' +
+                '    mismatches:\n' +
+                '    \n' +
+                '    map.k3:  actual: "v3" <java.lang.String>\n' +
+                '           expected: "v3-" <java.lang.String>\n' +
+                '                        ^\n' +
+                '    \n' +
+                '    missing, but expected values:\n' +
+                '    \n' +
+                '    map.k1: "v1"\n' +
+                '    map.k2.k22: "v21"\n' +
+                '    map.k2.k24: "v24"\n' +
+                '    \n' +
+                '    unexpected values:\n' +
+                '    \n' +
+                '    map.k2.k21: "v21"\n' +
+                '    map.k2.k23: "v23"\n' +
+                '    map.k6: "v1" (Xms)\n' +
+                '  \n' +
+                '  {"k6": **"v1"**, "k2": {"k21": **"v21"**, "k23": **"v23"**}, "k3": **"v3"**}') {
+            actual([k6: 'v1', k2: [k21: 'v21', k23: 'v23'], k3: 'v3'], 'map').should(
+                    equal([k1: 'v1', k2: [k22: 'v21', k24: 'v24'], k3: 'v3-']))
+        }
     }
 
     @Test
-    void "should report mismatch reason when it shouldn't mismatch and passes"() {
-        comparator.compareUsingEqualOnly(createActualPath('map'),
-            [k1: 'v1', k2: 'v2'],
-            [k1: 'v1'])
-
-        assertEquals('unexpected values:\n' +
-            '\n' +
-            'map.k2: "v2"', comparator.generateEqualMismatchReport())
+    void "should render actual when expects to be not equal and passes"() {
+        runAndValidateOutput('. map doesn\'t equal {"k1": "v1"} (Xms)') {
+            actual([[k1: 'v1']], 'map').shouldNot(equal([k1: 'v1']))
+        }
     }
 }

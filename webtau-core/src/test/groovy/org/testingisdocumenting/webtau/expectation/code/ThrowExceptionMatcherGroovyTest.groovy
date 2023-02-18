@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,14 +17,13 @@
 
 package org.testingisdocumenting.webtau.expectation.code
 
-import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 import org.junit.rules.ExpectedException
 
 import java.lang.reflect.UndeclaredThrowableException
 
-import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.Matchers.*
 
 class ThrowExceptionMatcherGroovyTest {
     @Rule
@@ -31,10 +31,9 @@ class ThrowExceptionMatcherGroovyTest {
 
     @Test
     void "should validate exception message"() {
-        thrown.expectMessage('\nmismatches:\n' +
-                '\n' +
-                'expected exception message:   actual: "error message" <java.lang.String>\n' +
-                '                            expected: "error message1" <java.lang.String>')
+        thrown.expectMessage('  actual: error message <java.lang.String>\n' +
+                'expected: error message1 <java.lang.String>\n' +
+                '                        ^')
 
         code {
             throw new RuntimeException('error message')
@@ -43,10 +42,8 @@ class ThrowExceptionMatcherGroovyTest {
 
     @Test
     void "should validate exception message using regexp"() {
-        thrown.expectMessage('\nmismatches:\n' +
-                '\n' +
-                'expected exception message:    actual string: error message\n' +
-                '                            expected pattern: error \\d+')
+        thrown.expectMessage('   actual string: error message\n' +
+                'expected pattern: error \\d+')
 
         code {
             throw new RuntimeException('error message')
@@ -55,10 +52,8 @@ class ThrowExceptionMatcherGroovyTest {
 
     @Test
     void "should validate exception class"() {
-        thrown.expectMessage('\nmismatches:\n' +
-                '\n' +
-                'expected exception class:   actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
-                '                          expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
+        thrown.expectMessage('  actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
+                'expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
 
         code {
             throw new IllegalArgumentException('error message')
@@ -67,12 +62,10 @@ class ThrowExceptionMatcherGroovyTest {
 
     @Test
     void "should validate exception class and expected message pattern"() {
-        thrown.expectMessage('\nmismatches:\n' +
-                '\n' +
-                'expected exception message:    actual string: error message\n' +
-                '                            expected pattern: error \\d\n' +
-                'expected exception class:   actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
-                '                          expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
+        thrown.expectMessage('   actual string: error message\n' +
+                'expected pattern: error \\d\n' +
+                'expected exception class:  actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
+                '                         expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
 
         code {
             throw new IllegalArgumentException('error message')
@@ -81,13 +74,11 @@ class ThrowExceptionMatcherGroovyTest {
 
     @Test
     void "should validate exception class and expected message"() {
-        thrown.expectMessage('\nmismatches:\n' +
-                '\n' +
-                'expected exception message:   actual: "error message" <java.lang.String>\n' +
-                '                            expected: "error message1" <java.lang.String>\n' +
-                '                                                    ^\n' +
-                'expected exception class:   actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
-                '                          expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
+        thrown.expectMessage('  actual: error message <java.lang.String>\n' +
+                'expected: error message1 <java.lang.String>\n' +
+                '                        ^\n' +
+                'expected exception class:  actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
+                '                         expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
 
         code {
             throw new IllegalArgumentException('error message')

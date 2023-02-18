@@ -133,7 +133,7 @@ public class TokenizedMessage implements Iterable<MessageToken> {
 
             add(tokenToAdd);
 
-            if (tokenToAdd.getValue().equals("\n")) {
+            if (!tokenToAdd.isPrettyPrintValue() && tokenToAdd.getValue().equals("\n")) {
                 if (!isLastToken) {
                     add(new MessageToken(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType(), indentation));
                 }
@@ -288,6 +288,10 @@ public class TokenizedMessage implements Iterable<MessageToken> {
         return messageTokens;
     }
 
+    public boolean hasNewLineToken() {
+        return tokens.stream().anyMatch(token -> "\n".equals(token.getValue()));
+    }
+
     public int getNumberOfTokens() {
         return tokens.size();
     }
@@ -341,6 +345,10 @@ public class TokenizedMessage implements Iterable<MessageToken> {
 
     private Stream<MessageToken> splitTokenNewLines(MessageToken token) {
         if (token.isPrettyPrintValue()) {
+            return Stream.of(token);
+        }
+
+        if (token.getValue() == null) {
             return Stream.of(token);
         }
 

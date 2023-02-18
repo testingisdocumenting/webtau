@@ -49,6 +49,10 @@ public class MessageToken {
         return type.equals(TokenizedMessage.TokenTypes.DELIMITER.getType()) || type.equals(TokenizedMessage.TokenTypes.DELIMITER_NO_AUTO_SPACING.getType());
     }
 
+    public boolean isError() {
+        return type.equals(TokenizedMessage.TokenTypes.ERROR.getType());
+    }
+
     @Override
     public String toString() {
         return "MessageToken{" +

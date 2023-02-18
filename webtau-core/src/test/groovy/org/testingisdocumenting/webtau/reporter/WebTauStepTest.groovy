@@ -19,13 +19,16 @@ package org.testingisdocumenting.webtau.reporter
 
 import org.junit.BeforeClass
 import org.junit.Test
+import org.testingisdocumenting.webtau.WebTauCore
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import java.util.function.Supplier
 
 import static java.util.stream.Collectors.*
 import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage
 import static org.testingisdocumenting.webtau.reporter.StepReportOptions.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
 
 class WebTauStepTest {
     static WebTauStep rootStep
@@ -147,10 +150,13 @@ class WebTauStepTest {
                 }
             }.execute(REPORT_ALL)
         }
-        repeatStep.execute(REPORT_ALL)
+
+        runAndValidateOutput(WebTauCore.contain("failed repeat #8: unknown failure")) {
+            repeatStep.execute(REPORT_ALL)
+        }
 
         def children = repeatStep.children().collect(toList())
-        assert children.completionMessage*.toString() == ['completed repeat #1', 'failed repeat #8: unknown failure', 'completed repeat #20']
+        assert children.completionMessage*.toString() == ['completed repeat #1', 'failed repeat #8', 'completed repeat #20']
     }
 
     @Test

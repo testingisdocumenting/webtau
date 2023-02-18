@@ -40,7 +40,7 @@ public class WebTauStep {
     private final Function<WebTauStepContext, Object> action;
     private TokenizedMessage completionMessage;
 
-    private TokenizedMessage assertionTokenizedMessage;
+    private TokenizedMessage exceptionTokenizedMessage;
 
     private boolean isInProgress;
     private boolean isSuccessful;
@@ -195,7 +195,7 @@ public class WebTauStep {
         this.isInProgress = true;
         this.totalNumberOfAttempts = 1;
         this.classifier = "";
-        this.assertionTokenizedMessage = tokenizedMessage();
+        this.exceptionTokenizedMessage = tokenizedMessage();
     }
 
     public Stream<WebTauStep> children() {
@@ -230,8 +230,8 @@ public class WebTauStep {
         return classifier;
     }
 
-    public TokenizedMessage getAssertionTokenizedMessage() {
-        return assertionTokenizedMessage;
+    public TokenizedMessage getExceptionTokenizedMessage() {
+        return exceptionTokenizedMessage;
     }
 
     public boolean isMatcherOutputActualValueDisabled() {
@@ -489,6 +489,10 @@ public class WebTauStep {
         result.put("elapsedTime", elapsedTime);
         result.put("isSuccessful", isSuccessful);
 
+        if (!exceptionTokenizedMessage.isEmpty()) {
+            result.put("exceptionTokenizedMessage", exceptionTokenizedMessage.toListOfMaps());
+        }
+
         if (!classifier.isEmpty()) {
             result.put("classifier", classifier);
         }
@@ -535,9 +539,9 @@ public class WebTauStep {
         completionMessage.add("error", "failed").add(inProgressMessage);
 
         if (t instanceof AssertionTokenizedError) {
-            assertionTokenizedMessage = ((AssertionTokenizedError) t).getTokenizedMessage();
+            exceptionTokenizedMessage = ((AssertionTokenizedError) t).getTokenizedMessage();
         } else {
-            completionMessage.colon().add("error", t.getMessage());
+            exceptionTokenizedMessage = tokenizedMessage().error(t.getMessage());
         }
     }
 }

@@ -26,7 +26,7 @@ import org.testingisdocumenting.webtau.utils.TypeUtils;
 import java.util.regex.Pattern;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
-import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.expected;
+import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.expectedPrefixAndValueWithAssertionMode;
 
 public class RegexpEqualCompareToHandler implements CompareToHandler {
     @Override
@@ -44,7 +44,7 @@ public class RegexpEqualCompareToHandler implements CompareToHandler {
     }
 
     private TokenizedMessage renderActualExpected(CompareToComparator.AssertionMode assertionMode, Object actual, Object expected) {
-        return tokenizedMessage().delimiter("   ").classifier("actual string").colon().string(actual.toString()).newLine()
-                .add(expected(tokenizedMessage().classifier("expected pattern"), assertionMode, expected));
+        return tokenizedMessage().delimiter("  ").classifier("actual string").colon().string(actual.toString()).newLine()
+                .add(expectedPrefixAndValueWithAssertionMode(tokenizedMessage().classifier("expected pattern").colon(), assertionMode, expected));
     }
 }

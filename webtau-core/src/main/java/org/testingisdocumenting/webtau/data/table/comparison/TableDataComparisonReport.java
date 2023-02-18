@@ -17,7 +17,9 @@
 
 package org.testingisdocumenting.webtau.data.table.comparison;
 
-import org.testingisdocumenting.webtau.data.table.render.TableRenderer;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class TableDataComparisonReport {
     private final TableDataComparisonAdditionalResult result;
@@ -26,15 +28,15 @@ public class TableDataComparisonReport {
         this.result = result;
     }
 
-    public String extraRowsReport() {
-        return "extra rows:\n" + TableRenderer.render(result.getExtraRows());
+    public TokenizedMessage extraRowsReport() {
+        return tokenizedMessage().error("extra rows").colon().value(result.getExtraRows());
     }
 
-    public String missingRowsReport() {
-        return "missing rows:\n" + TableRenderer.render(result.getMissingRows());
+    public TokenizedMessage missingRowsReport() {
+        return tokenizedMessage().error("missing rows").colon().value(result.getMissingRows());
     }
 
-    public String missingColumnsReport() {
-        return "missing columns: " + String.join(", ", result.getMissingColumns());
+    public TokenizedMessage missingColumnsReport() {
+        return tokenizedMessage().error("missing columns").colon().value(result.getMissingColumns());
     }
 }

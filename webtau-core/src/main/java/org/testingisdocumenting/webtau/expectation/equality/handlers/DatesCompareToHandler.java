@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.TypeUtils;
 
 import java.time.*;
@@ -32,8 +33,8 @@ import java.util.List;
 import java.util.function.BiFunction;
 import java.util.stream.Collectors;
 
-import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.expected;
-import static org.testingisdocumenting.webtau.utils.TraceUtils.renderValueAndType;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.*;
 
 public class DatesCompareToHandler implements CompareToHandler {
     private static final ZoneId UTC = ZoneId.of("UTC");
@@ -134,7 +135,7 @@ public class DatesCompareToHandler implements CompareToHandler {
                     actualInstant, expected));
         }
 
-        private void report(int compareTo, String message) {
+        private void report(int compareTo, TokenizedMessage message) {
             if (isEqualOnly) {
                 compareToComparator.reportEqualOrNotEqual(DatesCompareToHandler.this,
                         compareTo == 0, actualPath, message);
@@ -162,18 +163,24 @@ public class DatesCompareToHandler implements CompareToHandler {
                     parsers.stream().map(FormatParser::toString).collect(Collectors.joining("\n")));
         }
 
-        private String renderActualExpected(Object actual, Object expected) {
-            return "  actual: " + renderValueAndType(actual) + "\n" +
-                    expected(compareToComparator.getAssertionMode(), renderValueAndType(expected));
+        private TokenizedMessage renderActualExpected(Object actual, Object expected) {
+            return tokenizedMessage().add(HandlerMessages.ACTUAL_PREFIX).add(HandlerMessages.valueAndType(actual)).newLine()
+                    .add(expectedPrefixAndAssertionMode(compareToComparator.getAssertionMode())).value(expected)
+                    .add(type(expected));
         }
 
-        private String renderActualExpectedWithNormalized(Temporal actual,
-                                                          Temporal expected,
-                                                          Temporal normalizedActual,
-                                                          Temporal normalizedExpected) {
-            return "  actual: " + renderValueAndType(actual) + "(UTC normalized: " + normalizedActual + ")\n" +
-                    expected(compareToComparator.getAssertionMode(),
-                            renderValueAndType(expected) + "(UTC normalized: " + normalizedExpected + ")");
+        private TokenizedMessage renderActualExpectedWithNormalized(Temporal actual,
+                                                                    Temporal expected,
+                                                                    Temporal normalizedActual,
+                                                                    Temporal normalizedExpected) {
+            return tokenizedMessage().add(ACTUAL_PREFIX).add(valueAndType(actual)).add(utcNormalizedMessage(normalizedActual)).newLine()
+                    .add(expectedPrefixAndAssertionMode(compareToComparator.getAssertionMode())).value(expected)
+                    .add(type(expected)).add(utcNormalizedMessage(normalizedExpected));
+        }
+
+        private TokenizedMessage utcNormalizedMessage(Temporal value) {
+            return tokenizedMessage().delimiterNoAutoSpacing(" (").classifier("UTC").none("normalized")
+                    .colon().value(value).delimiterNoAutoSpacing(")");
         }
     }
 

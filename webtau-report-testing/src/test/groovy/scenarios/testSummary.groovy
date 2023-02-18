@@ -30,7 +30,7 @@ scenario("failed step with children is auto expanded") {
     report.openGroovyStandaloneReport("rest/simpleGetAndFail-failed-webtau-report.html")
     report.selectTest("check weather")
 
-    report.step.should containAll("failed executing HTTP GET", "expected: less than 10")
+    report.step.should containAll("failed executing HTTP GET", "expected: less than")
 
     browser.doc.capture('report-test-summary-failed-step')
 }
@@ -38,5 +38,5 @@ scenario("failed step with children is auto expanded") {
 scenario("failed summary displays actual value with markers") {
     report.openGroovyStandaloneReport("concept/failedMatcher-failed-webtau-report.html")
     report.selectTest("failed matcher actual extra info")
-    report.styledText.get(2).should == "[1, **2**, 3]"
+    report.styledText.get(4).should == "[1, **2**, 3]"
 }

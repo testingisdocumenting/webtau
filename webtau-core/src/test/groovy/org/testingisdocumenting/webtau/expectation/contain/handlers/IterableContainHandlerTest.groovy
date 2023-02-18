@@ -20,8 +20,10 @@ import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class IterableContainHandlerTest {
     private ContainAnalyzer analyzer
@@ -51,70 +53,33 @@ class IterableContainHandlerTest {
     }
 
     @Test
-    void "mismatches when collection contain a value but should not"() {
-        assert !analyzer.notContains(createActualPath('list'), ['hello', 'world', 'of', 'testing'], 'of')
-        Assert.assertEquals('list[2]: equals "of"', analyzer.generateMismatchReport())
-    }
-
-    @Test
-    void "mismatch report contains information about each match attempt"() {
-        assert !analyzer.contains(createActualPath('list'), ['hello', 'world', 'of', 'testing'], 'off')
-
-        Assert.assertEquals('list: mismatches:\n' +
-                '      \n' +
-                '      list[0]:   actual: "hello" <java.lang.String>\n' +
-                '               expected: "off" <java.lang.String>\n' +
-                '                          ^\n' +
-                '      list[1]:   actual: "world" <java.lang.String>\n' +
-                '               expected: "off" <java.lang.String>\n' +
-                '                          ^\n' +
-                '      list[2]:   actual: "of" <java.lang.String>\n' +
-                '               expected: "off" <java.lang.String>\n' +
-                '                            ^\n' +
-                '      list[3]:   actual: "testing" <java.lang.String>\n' +
-                '               expected: "off" <java.lang.String>\n' +
-                '                          ^', analyzer.generateMismatchReport())
-
-    }
-
-    @Test
     void "works with complex types"() {
-        assert !analyzer.contains(createActualPath('list'), [
-            [firstName: 'FN1', lastName: 'LN1'],
-            [firstName: 'FN2', lastName: 'LN2'],
-            [firstName: 'FN3', lastName: 'LN3'],
-        ], [firstName: 'FN31', lastName: 'LN3'])
-
-        Assert.assertEquals('list: mismatches:\n' +
-                '      \n' +
-                '      list[0].firstName:   actual: "FN1" <java.lang.String>\n' +
-                '                         expected: "FN31" <java.lang.String>\n' +
-                '                                      ^\n' +
-                '      list[0].lastName:   actual: "LN1" <java.lang.String>\n' +
-                '                        expected: "LN3" <java.lang.String>\n' +
-                '                                     ^\n' +
-                '      list[1].firstName:   actual: "FN2" <java.lang.String>\n' +
-                '                         expected: "FN31" <java.lang.String>\n' +
-                '                                      ^\n' +
-                '      list[1].lastName:   actual: "LN2" <java.lang.String>\n' +
-                '                        expected: "LN3" <java.lang.String>\n' +
-                '                                     ^\n' +
-                '      list[2].firstName:   actual: "FN3" <java.lang.String>\n' +
-                '                         expected: "FN31" <java.lang.String>\n' +
-                '                                       ^', analyzer.generateMismatchReport())
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {firstName=FN31, lastName=LN3}: no match found (Xms)\n' +
+                '  \n' +
+                '  [\n' +
+                '    {"firstName": "FN1", "lastName": "LN1"},\n' +
+                '    {"firstName": "FN2", "lastName": "LN2"},\n' +
+                '    {"firstName": "FN3", "lastName": "LN3"}\n' +
+                '  ]') {
+            actual([
+                    [firstName: 'FN1', lastName: 'LN1'],
+                    [firstName: 'FN2', lastName: 'LN2'],
+                    [firstName: 'FN3', lastName: 'LN3'],
+            ]).should(contain([firstName: 'FN31', lastName: 'LN3']))
+        }
     }
 
     @Test
     void "contain matcher throws when doesn't match"() {
         code {
             actual(['hello', 'world', 'of', 'testing']).should(contain('wod'))
-        } should throwException("see the failed assertion details above")
+        } should throwException("no match found")
     }
 
     @Test
     void "contain matcher throws when contains but should not"() {
         code {
             actual(['hello', 'world', 'of', 'testing']).shouldNot(contain('of'))
-        } should throwException("see the failed assertion details above")
+        } should throwException("match is found")
     }
 }

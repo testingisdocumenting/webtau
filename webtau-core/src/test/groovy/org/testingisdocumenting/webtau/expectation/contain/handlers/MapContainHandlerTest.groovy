@@ -44,7 +44,7 @@ class MapContainHandlerTest {
 
         code {
             actual(actualMap).should(contain(expectedMap))
-        } should throwException("see the failed assertion details above")
+        } should throwException("no match found")
     }
 
     @Test
@@ -70,6 +70,6 @@ class MapContainHandlerTest {
 
         code {
             actual(actualMap).shouldNot(contain(expectedMap))
-        } should throwException("see the failed assertion details above")
+        } should throwException("match is found")
     }
 }

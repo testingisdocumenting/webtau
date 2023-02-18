@@ -26,10 +26,6 @@ public class TraceUtils {
         return DataRenderers.render(v) + " " + renderType(v);
     }
 
-    public static String renderValueAndTypeWithPadding(int padLeft, Object v) {
-        return StringUtils.createIndentation(padLeft) + renderValueAndType(v);
-    }
-
     public static String renderType(Object v) {
         return "<" + (v == null ? "null" : v.getClass().getCanonicalName()) + ">";
     }

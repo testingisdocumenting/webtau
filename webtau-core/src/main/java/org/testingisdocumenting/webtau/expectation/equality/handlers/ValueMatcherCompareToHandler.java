@@ -41,22 +41,28 @@ public class ValueMatcherCompareToHandler implements CompareToHandler {
     }
 
     private void handleMatcher(CompareToComparator comparator, ValuePath actualPath, Object actual, ValueMatcher expectedMatcher) {
+        // trigger initializations if any is performed during matching message phase
+        expectedMatcher.matchingTokenizedMessage(actualPath, actual);
+
         boolean matches = expectedMatcher.matches(actualPath, actual);
         if (matches) {
-            comparator.reportEqual(this, actualPath, expectedMatcher.matchedTokenizedMessage(actualPath, actual).toString());
+            comparator.reportEqual(this, actualPath, expectedMatcher.matchedTokenizedMessage(actualPath, actual));
         } else {
-            comparator.reportNotEqual(this, actualPath, expectedMatcher.matchingTokenizedMessage(actualPath, actual).toString() + ":\n" +
-                    expectedMatcher.mismatchedTokenizedMessage(actualPath, actual).toString());
+            comparator.reportNotEqual(this, actualPath, expectedMatcher.matchingTokenizedMessage(actualPath, actual).colon().newLine()
+                    .add(expectedMatcher.mismatchedTokenizedMessage(actualPath, actual)));
         }
     }
 
     private void handleNegativeMatcher(CompareToComparator comparator, ValuePath actualPath, Object actual, ValueMatcher expectedMatcher) {
+        // trigger initializations if any is performed during matching message phase
+        expectedMatcher.negativeMatchingTokenizedMessage(actualPath, actual);
+
         boolean matches = expectedMatcher.negativeMatches(actualPath, actual);
         if (matches) {
-            comparator.reportNotEqual(this, actualPath, expectedMatcher.negativeMatchedTokenizedMessage(actualPath, actual).toString());
+            comparator.reportNotEqual(this, actualPath, expectedMatcher.negativeMatchedTokenizedMessage(actualPath, actual));
         } else {
-            comparator.reportEqual(this, actualPath, expectedMatcher.negativeMatchingTokenizedMessage(actualPath, actual).toString() + ":\n" +
-                    expectedMatcher.negativeMismatchedTokenizedMessage(actualPath, actual));
+            comparator.reportEqual(this, actualPath, expectedMatcher.negativeMatchingTokenizedMessage(actualPath, actual).colon().newLine()
+                    .add(expectedMatcher.negativeMismatchedTokenizedMessage(actualPath, actual)));
         }
     }
 }

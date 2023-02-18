@@ -17,8 +17,8 @@
 
 package org.testingisdocumenting.webtau.expectation.contain;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.NullContainHandler;
 import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
@@ -29,7 +29,8 @@ import org.testingisdocumenting.webtau.utils.TraceUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
-import java.util.stream.Collectors;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ContainAnalyzer {
     private static final List<ContainHandler> handlers = discoverHandlers();
@@ -55,12 +56,9 @@ public class ContainAnalyzer {
     }
 
     public TokenizedMessage generateMismatchReport() {
-        List<TokenizedMessage> reports = new ArrayList<>();
-        if (!mismatches.isEmpty()) {
-            reports.add(TokenizedMessage.join("\n", mismatches.stream().map(ActualPathMessage::getFullMessage).collect(Collectors.toList())));
-        }
-
-        return TokenizedMessage.join("\n\n", reports);
+        return !mismatches.isEmpty() ?
+                tokenizedMessage().error("no match found") :
+                tokenizedMessage();
     }
 
     public boolean hasMismatches() {

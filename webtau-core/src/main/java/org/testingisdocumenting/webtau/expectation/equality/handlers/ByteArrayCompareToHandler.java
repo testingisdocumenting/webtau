@@ -80,9 +80,9 @@ public class ByteArrayCompareToHandler implements CompareToHandler {
         int len = Math.min(array.length - startIdx, 16);
         byte[] subArray = Arrays.copyOfRange(array, startIdx, startIdx + len);
 
-        String possibleEllipsisPrefix = startIdx > 0 ? "..." : "";
+        String possibleEllipsisPrefix = startIdx > 0 ? " ..." : "";
         String possibleEllipsisSuffix = (startIdx + len) < array.length ? "..." : "";
-        return tokenizedMessage().delimiter(possibleEllipsisPrefix).none(renderAsHex(subArray)).delimiter(possibleEllipsisSuffix);
+        return tokenizedMessage().delimiterNoAutoSpacing(possibleEllipsisPrefix).none(renderAsHex(subArray)).delimiterNoAutoSpacing(possibleEllipsisSuffix);
     }
 
     private String renderAsHex(byte[] content) {

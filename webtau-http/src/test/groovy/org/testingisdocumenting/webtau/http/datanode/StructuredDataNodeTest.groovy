@@ -29,7 +29,7 @@ class StructuredDataNodeTest {
     void "value should be marked as explicitly failed when it mismatches"() {
         def node = new StructuredDataNode(new DataNodeId("value"), new TraceableValue(10))
 
-        runExpectExceptionAndValidateOutput(AssertionError, ~/mismatches/) {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/expected: 8/) {
             node.should(equal(8))
         }
 

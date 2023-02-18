@@ -99,15 +99,13 @@ public class MatchersTest {
 
     @Test
     public void beanAndMapExample() {
-        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "bean-map-compare-output", "X failed expecting [value] to equal {\"id\": \"ac1\", \"name\": \"My Second Account\", \"address\": {\"zipCode\": \"7777777\"}}: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value].name:   actual: \"My Account\" <java.lang.String>\n" +
-                "                  expected: \"My Second Account\" <java.lang.String>\n" +
-                "                                ^\n" +
-                "    [value].address.zipCode:   actual: \"88888888\" <java.lang.String>\n" +
-                "                             expected: \"7777777\" <java.lang.String>\n" +
-                "                                        ^ (Xms)\n" +
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "bean-map-compare-output", "X failed expecting [value] to equal {\"id\": \"ac1\", \"name\": \"My Second Account\", \"address\": {\"zipCode\": \"7777777\"}}:\n" +
+                "    [value].name:  actual: \"My Account\" <java.lang.String>\n" +
+                "                 expected: \"My Second Account\" <java.lang.String>\n" +
+                "                               ^\n" +
+                "    [value].address.zipCode:  actual: \"88888888\" <java.lang.String>\n" +
+                "                            expected: \"7777777\" <java.lang.String>\n" +
+                "                                       ^ (Xms)\n" +
                 "  \n" +
                 "  {\n" +
                 "    \"address\": {\"city\": \"TestingCity\", \"zipCode\": **\"88888888\"**},\n" +
@@ -131,15 +129,13 @@ public class MatchersTest {
         runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "beans-table-compare-output", "X failed expecting [value] to equal *id   │ name         │ address            \n" +
                 "                                    \"ac2\" │ \"Works\"      │ {\"zipCode\": \"zip2\"}\n" +
                 "                                    \"ac1\" │ \"Home\"       │ {\"zipCode\": \"zip1\"}\n" +
-                "                                    \"ac3\" │ \"My Account\" │ {\"zipCode\": \"zip8\"}: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value][2].address.zipCode:   actual: \"zip3\" <java.lang.String>\n" +
-                "                                expected: \"zip8\" <java.lang.String>\n" +
-                "                                              ^\n" +
-                "    [value][1].name:   actual: \"Work\" <java.lang.String>\n" +
-                "                     expected: \"Works\" <java.lang.String>\n" +
-                "                                    ^ (Xms)\n" +
+                "                                    \"ac3\" │ \"My Account\" │ {\"zipCode\": \"zip8\"}:\n" +
+                "    [value][2].address.zipCode:  actual: \"zip3\" <java.lang.String>\n" +
+                "                               expected: \"zip8\" <java.lang.String>\n" +
+                "                                             ^\n" +
+                "    [value][1].name:  actual: \"Work\" <java.lang.String>\n" +
+                "                    expected: \"Works\" <java.lang.String>\n" +
+                "                                   ^ (Xms)\n" +
                 "  \n" +
                 "  address                                │ description    │ id    │ name        \n" +
                 "  {\"city\": \"TC1\", \"zipCode\": \"zip1\"}     │ \"test account\" │ \"ac1\" │ \"Home\"      \n" +
