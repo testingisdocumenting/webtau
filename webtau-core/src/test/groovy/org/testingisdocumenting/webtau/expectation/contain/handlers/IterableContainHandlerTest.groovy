@@ -54,7 +54,7 @@ class IterableContainHandlerTest {
 
     @Test
     void "works with complex types"() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {firstName=FN31, lastName=LN3}: no match found (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"firstName": "FN31", "lastName": "LN3"}: no match found (Xms)\n' +
                 '  \n' +
                 '  [\n' +
                 '    {"firstName": "FN1", "lastName": "LN1"},\n' +
