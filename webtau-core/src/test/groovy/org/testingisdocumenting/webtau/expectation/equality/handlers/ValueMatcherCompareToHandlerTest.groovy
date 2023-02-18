@@ -84,7 +84,7 @@ class ValueMatcherCompareToHandlerTest {
     void "should work in combination with nested contain matcher"() {
         actual(["hello", "world", "of matchers"]).should(contain(containing("of")))
 
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain org.testingisdocumenting.webtau.expectation.contain.ContainMatcher "of": match is found (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain <contain "of">: match is found (Xms)\n' +
                 '  \n' +
                 '  ["hello", "world", "of matchers"]') {
             actual(["hello", "world", "of matchers"]).shouldNot(contain(containing("of")))
