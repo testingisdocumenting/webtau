@@ -1,0 +1,1 @@
+* Add: use colored messages for [failed assertion details](matchers/introduction#failure-output)
