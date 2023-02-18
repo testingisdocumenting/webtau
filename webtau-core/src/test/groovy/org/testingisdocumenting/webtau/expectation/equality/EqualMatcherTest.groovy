@@ -40,11 +40,9 @@ class EqualMatcherTest {
 
     @Test
     void "positive mismatch"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to equal 10: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value]:   actual: 100 <java.lang.Integer>\n" +
-                "             expected: 10 <java.lang.Integer> (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to equal 10:\n" +
+                "      actual: 100 <java.lang.Integer>\n" +
+                "    expected: 10 <java.lang.Integer> (Xms)") {
             actual(100).should(equal(10))
         }
     }
@@ -58,34 +56,30 @@ class EqualMatcherTest {
 
     @Test
     void "negative mismatch"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to not equal 10: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value]:   actual: 10 <java.lang.Integer>\n" +
-                "             expected: not 10 <java.lang.Integer> (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to not equal 10:\n" +
+                "      actual: 10 <java.lang.Integer>\n" +
+                "    expected: not 10 <java.lang.Integer> (Xms)") {
             actual(10).shouldNot(equal(10))
         }
     }
 
     @Test
     void "negative mismatch with null"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to not equal null: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value]:   actual: null\n" +
-                "             expected: not null (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to not equal null:\n" +
+                "      actual: null\n" +
+                "    expected: not null (Xms)") {
             actual(null).shouldNot(equal(null))
         }
     }
 
     @Test
     void "matching message"() {
-        assert matcher.matchingTokenizedMessage().toString() == "to equal $expected"
+        assert matcher.matchingTokenizedMessage(actualPath, 100).toString() == "to equal $expected"
     }
 
     @Test
     void "negative matching message"() {
-        assert matcher.negativeMatchingTokenizedMessage().toString() == "to not equal $expected"
+        assert matcher.negativeMatchingTokenizedMessage(actualPath, 100).toString() == "to not equal $expected"
     }
 
     @Test
@@ -93,11 +87,11 @@ class EqualMatcherTest {
         int actual = 8
         EqualMatcher matcher = new EqualMatcher(new DummyMatcher())
 
-        assert matcher.matchingTokenizedMessage().toString() == "matchingMessage"
+        assert matcher.matchingTokenizedMessage(actualPath, 100).toString() == "matchingMessage"
         assert matcher.matchedTokenizedMessage(actualPath, actual).toString() == "matchedMessage:value:8"
         assert matcher.mismatchedTokenizedMessage(actualPath, actual).toString() == "mismatchedMessage:value:8"
 
-        assert matcher.negativeMatchingTokenizedMessage().toString() == "negativeMatchingMessage"
+        assert matcher.negativeMatchingTokenizedMessage(actualPath, 100).toString() == "negativeMatchingMessage"
         assert matcher.negativeMatchedTokenizedMessage(actualPath, actual).toString() == "negativeMatchedMessage:value:8"
         assert matcher.negativeMismatchedTokenizedMessage(actualPath, actual).toString() == "negativeMismatchedMessage:value:8"
 
@@ -107,7 +101,7 @@ class EqualMatcherTest {
 
     private static class DummyMatcher implements ValueMatcher {
         @Override
-        TokenizedMessage matchingTokenizedMessage() {
+        TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
             return tokenizedMessage().matcher("matchingMessage")
         }
 
@@ -127,7 +121,7 @@ class EqualMatcherTest {
         }
 
         @Override
-        TokenizedMessage negativeMatchingTokenizedMessage() {
+        TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
             return tokenizedMessage().matcher("negativeMatchingMessage")
         }
 

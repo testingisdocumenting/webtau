@@ -115,31 +115,14 @@
     --webtau-step-id-color: var(--webtau-text-color);
     --webtau-step-warning-color: #f56b25;
     --webtau-step-matcher-color: #3c9c1c;
+    --webtau-step-classifer-color: var(--webtau-styled-cyan-color);
     --webtau-step-action-color: var(--webtau-styled-blue-color);
     --webtau-step-string-color: var(--webtau-property-value-string-color);
     --webtau-step-error-color: var(--webtau-styled-red-color);
     --webtau-step-preposition-color: #625f64;
     --webtau-step-delimiter-color: var(--webtau-step-preposition-color);
     --webtau-step-selector-type-color: #865f89;
-
-    /*
-
-.webtau-styled-black {
-    color: var(black)
-}
-.webtau-styled-red {}
-.webtau-styled-green {}
-.webtau-styled-yellow {}
-.webtau-styled-blue {}
-.webtau-styled-purple {}
-.webtau-styled-cyan {}
-.webtau-styled-white {}
-.webtau-styled-background-yellow {}
-.webtau-styled-background-red {}
-.webtau-styled-background-blue {}
-.webtau-styled-bold {}
-.webtau-styled-normal {}
-     */
+    --webtau-step-object-type-color: var(--webtau-step-preposition-color);
 
     --webtau-scrollbar-thumb: #ccc;
 }

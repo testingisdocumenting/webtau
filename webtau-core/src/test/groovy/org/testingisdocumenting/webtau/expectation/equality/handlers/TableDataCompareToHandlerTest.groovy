@@ -46,14 +46,12 @@ class TableDataCompareToHandlerTest {
                 '                                        100 │     200\n' +
                 '                                         10 │      20\n' +
                 '                                         30 │      40\n' +
-                '                                    ...: \n' +
-                '    mismatches:\n' +
-                '    \n' +
-                '    [value][0].colA:   actual: "hello" <java.lang.String>\n' +
-                '                     expected: "hellp" <java.lang.String>\n' +
-                '                                    ^\n' +
-                '    [value][4].colB:   actual: 140 <java.lang.Integer>\n' +
-                '                     expected: 150 <java.lang.Integer> (Xms)\n' +
+                '                                    ...:\n' +
+                '    [value][0].colA:  actual: "hello" <java.lang.String>\n' +
+                '                    expected: "hellp" <java.lang.String>\n' +
+                '                                   ^\n' +
+                '    [value][4].colB:  actual: 140 <java.lang.Integer>\n' +
+                '                    expected: 150 <java.lang.Integer> (Xms)\n' +
                 '  \n' +
                 '  colA        │ colB   \n' +
                 '  **"hello"** │ "world"\n' +
@@ -79,12 +77,10 @@ class TableDataCompareToHandlerTest {
 
         runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal colA    │ colB   \n' +
                 '                                    "hellp" │ "world"\n' +
-                '                                        100 │     200: \n' +
-                '    mismatches:\n' +
-                '    \n' +
-                '    [value][0].colA:   actual: "hello" <java.lang.String>\n' +
-                '                     expected: "hellp" <java.lang.String>\n' +
-                '                                    ^ (Xms)\n' +
+                '                                        100 │     200:\n' +
+                '    [value][0].colA:  actual: "hello" <java.lang.String>\n' +
+                '                    expected: "hellp" <java.lang.String>\n' +
+                '                                   ^ (Xms)\n' +
                 '  \n' +
                 '  colA        │ colB   \n' +
                 '  **"hello"** │ "world"\n' +
@@ -97,30 +93,26 @@ class TableDataCompareToHandlerTest {
     void "compare extra rows and missing columns tables"() {
         def actualTable = table( "colA", "colB",
                                 _______________,
-                                "hello", "world",
+                                  22, 33,
                                  100, 200)
 
         def expected = table( "colA", "colB", "colC",
-                              ______________________,
+                              ________________________,
                                "help", "world", "value")
 
         runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal colA   │ colB    │ colC   \n' +
-                '                                    "help" │ "world" │ "value": \n' +
-                '    mismatches:\n' +
-                '    \n' +
-                '    [value][0].colA:   actual: "hello" <java.lang.String>\n' +
-                '                     expected: "help" <java.lang.String>\n' +
-                '                                   ^\n' +
-                '    [value]: missing columns: colC\n' +
-                '    [value]: extra rows:\n' +
-                '             :colA|colB:\n' +
-                '             .____.____.\n' +
-                '             |100 |200 |\n' +
-                '             .____.____| (Xms)\n' +
+                '                                    "help" │ "world" │ "value":\n' +
+                '    [value][0].colB:  actual: 33 <java.lang.Integer>\n' +
+                '                    expected: "world" <java.lang.String>\n' +
+                '    [value][0].colA:  actual: 22 <java.lang.Integer>\n' +
+                '                    expected: "help" <java.lang.String>\n' +
+                '    missing columns: ["colC"]\n' +
+                '    extra rows: colA │ colB\n' +
+                '                 100 │  200 (Xms)\n' +
                 '  \n' +
-                '  colA        │ colB   \n' +
-                '  **"hello"** │ "world"\n' +
-                '          100 │     200') {
+                '  colA   │ colB  \n' +
+                '  **22** │ **33**\n' +
+                '     100 │    200') {
             actual(actualTable).should(equal(expected))
         }
     }

@@ -63,7 +63,7 @@ class PageElementContainHandlerTest {
         pageElement.should contain("cde")
         pageElement.shouldNot contain("fff")
 
-        runExpectExceptionAndValidateOutput(AssertionError, ~/expects to contain "bbb"/) {
+        runExpectExceptionAndValidateOutput(AssertionError, contain("no match found")) {
             pageElement.should contain("bbb")
         }
     }
@@ -81,9 +81,5 @@ class PageElementContainHandlerTest {
 
         pageElement.should contain("test")
         pageElement.shouldNot contain("test2")
-
-        runExpectExceptionAndValidateOutput(AssertionError, ~/expects to contain "missing"/) {
-            pageElement.should contain("missing")
-        }
     }
 }

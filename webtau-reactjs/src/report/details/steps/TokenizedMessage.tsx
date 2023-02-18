@@ -27,34 +27,18 @@ import './TokenizedMessage.css';
 
 interface Props {
   message: TokenizedMessageToken[];
-  removeLastErrorToken: boolean;
 }
 
-export function TokenizedMessage({ message, removeLastErrorToken }: Props) {
-  const modifiedMessageTokens = modifiedMessage();
-
+export function TokenizedMessage({ message }: Props) {
   return (
     <div className="webtau-tokenized-message">
-      {modifiedMessageTokens.map((t, idx) => {
+      {message.map((t, idx) => {
         return t.type === 'styledText' ? (
           <StyledText key={idx} lines={t.value} />
         ) : (
-          <StepToken key={idx} token={t} next={modifiedMessageTokens[idx + 1]} />
+          <StepToken key={idx} token={t} next={message[idx + 1]} />
         );
       })}
     </div>
   );
-
-  function modifiedMessage() {
-    if (message.length === 0) {
-      return message;
-    }
-
-    if (!removeLastErrorToken) {
-      return message;
-    }
-
-    const lastToken = message[message.length - 1];
-    return removeLastErrorToken && lastToken.type === 'error' ? message.slice(0, message.length - 1) : message;
-  }
 }

@@ -30,6 +30,8 @@ import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+
 public class ConsoleStepReporter implements StepReporter {
     private final TokenizedMessageToAnsiConverter toAnsiConverter;
     private final Supplier<Integer> verboseLevelSupplier;
@@ -51,7 +53,7 @@ public class ConsoleStepReporter implements StepReporter {
 
     @Override
     public void onStepFailure(WebTauStep step) {
-        executeIfWithinVerboseLevel(step, () -> printStepFailure(step));
+        executeIfWithinVerboseLevel(step, () -> printStepFailure(step, false));
     }
 
     @Override
@@ -69,13 +71,13 @@ public class ConsoleStepReporter implements StepReporter {
         executeIfWithinVerboseLevel(step, () -> printStepRepeatFailure(step, current, total));
     }
 
-    public void printStepFailureFailedStepMessageFirst(WebTauStep step) {
-        printStepFailureWithoutOutput(step);
+    public void printStepFailureFailedStepMessageFirst(WebTauStep step, boolean forceFailureDisplay) {
+        printStepFailureWithoutOutput(step, forceFailureDisplay);
         printStepOutput(step);
     }
 
-    public void printStepFailureWithoutOutput(WebTauStep step) {
-        TokenizedMessage completionMessageToUse = messageTokensForFailedStep(step);
+    public void printStepFailureWithoutOutput(WebTauStep step, boolean forceFailureDisplay) {
+        TokenizedMessage completionMessageToUse = messageTokensForFailedStep(step, forceFailureDisplay);
         List<Object> prefix = Stream.concat(stepFailureBeginningStream(step), personaStream(step))
                 .collect(Collectors.toList());
 
@@ -131,12 +133,12 @@ public class ConsoleStepReporter implements StepReporter {
                 timeTakenTokenStream(step)).toArray());
     }
 
-    private void printStepFailure(WebTauStep step) {
+    private void printStepFailure(WebTauStep step, boolean forceFailureDisplay) {
         if (step.getClassifier().equals(WebTauStepClassifiers.MATCHER)) {
-            printStepFailureFailedStepMessageFirst(step);
+            printStepFailureFailedStepMessageFirst(step, forceFailureDisplay);
         } else {
             printStepOutput(step);
-            printStepFailureWithoutOutput(step);
+            printStepFailureWithoutOutput(step, forceFailureDisplay);
         }
     }
 
@@ -153,7 +155,7 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private void printStepRepeatFailure(WebTauStep step, int currentIdx, int total) {
-        printStepFailure(step);
+        printStepFailure(step, true);
     }
 
     private Stream<Object> stepStartBeginningStream(WebTauStep step) {
@@ -211,24 +213,32 @@ public class ConsoleStepReporter implements StepReporter {
         return verboseLevelSupplier.get() <= currentStep.getNumberOfParents() + 1;
     }
 
-    private TokenizedMessage messageTokensForFailedStep(WebTauStep step) {
+    private TokenizedMessage messageTokensForFailedStep(WebTauStep step, boolean forceFailureDisplay) {
         TokenizedMessage completionMessage = step.getCompletionMessage();
         int numberOfParents = step.getNumberOfParents();
 
-        boolean isLastTokenError = isLastTokenError(completionMessage);
-        if (!isLastTokenError) {
+        TokenizedMessage exceptionTokenizedMessage = step.getExceptionTokenizedMessage();
+
+        boolean noTokenizedExceptionMessage = exceptionTokenizedMessage.isEmpty();
+        if (noTokenizedExceptionMessage) {
             return completionMessage;
         }
 
-        if (step.hasFailedChildrenSteps() && !skipRenderInputOutput()) {
+        if (!forceFailureDisplay && step.hasFailedChildrenSteps() && !skipRenderInputOutput()) {
             // we don't render children errors one more time in case this step has failed children steps
-            // last two tokens of a message are delimiter and error tokens
-            // so we remove them
-            return completionMessage.subMessage(0, completionMessage.getNumberOfTokens() - 2);
+            return completionMessage;
         }
 
-        return completionMessage.subMessage(0, completionMessage.getNumberOfTokens() - 1)
-                .add(reAlignText(numberOfParents + 2, completionMessage.getLastToken()));
+        TokenizedMessage completionMessageWithError = tokenizedMessage().add(completionMessage);
+
+        if (!exceptionTokenizedMessage.hasNewLineToken()) {
+            return completionMessageWithError.colon().add(exceptionTokenizedMessage);
+        }
+
+        TokenizedMessage indentedAssertionMessage =
+                exceptionTokenizedMessage.createReindentCopy(createIndentation(numberOfParents + 2));
+
+        return completionMessageWithError.colon().newLine().add(indentedAssertionMessage);
     }
 
     private Stream<Object> personaStream(WebTauStep step) {
@@ -252,10 +262,6 @@ public class ConsoleStepReporter implements StepReporter {
 
     private boolean isLastTokenMatcher(TokenizedMessage completionMessage) {
         return completionMessage.getLastToken().getType().equals(TokenizedMessage.TokenTypes.MATCHER.getType());
-    }
-
-    private boolean isLastTokenError(TokenizedMessage completionMessage) {
-        return completionMessage.getLastToken().getType().equals(TokenizedMessage.TokenTypes.ERROR.getType());
     }
 
     private String createIndentation(int indentLevel) {

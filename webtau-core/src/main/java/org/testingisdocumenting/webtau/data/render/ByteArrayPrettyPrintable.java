@@ -14,26 +14,19 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.console.ansi;
+package org.testingisdocumenting.webtau.data.render;
 
-import java.util.List;
+import org.testingisdocumenting.webtau.console.ansi.Color;
 
-public class AnsiConsoleUtils {
-    private AnsiConsoleUtils() {
+public class ByteArrayPrettyPrintable implements PrettyPrintable {
+    private final byte[] array;
 
+    public ByteArrayPrettyPrintable(byte[] array) {
+        this.array = array;
     }
 
-    public static int calcEffectiveWidth(List<?> styleAndValues) {
-        int result = 0;
-
-        for (Object styleOrValue : styleAndValues) {
-            if (styleOrValue instanceof Color || styleOrValue instanceof FontStyle) {
-                continue;
-            }
-
-            result += styleOrValue == null ? 0 : styleOrValue.toString().length();
-        }
-
-        return result;
+    @Override
+    public void prettyPrint(PrettyPrinter printer) {
+        printer.print(Color.RESET, "binary content of size ", PrettyPrinter.NUMBER_COLOR, array.length);
     }
 }

@@ -48,6 +48,7 @@ export type TokenizedMessage = TokenizedMessageToken[];
 export interface WebTauStep {
   children?: WebTauStep[];
   message: TokenizedMessage;
+  exceptionTokenizedMessage?: TokenizedMessage;
   elapsedTime: number;
   startTime: number;
   isSuccessful: boolean;

@@ -49,7 +49,7 @@ public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String mismatchedMessage(ValuePath actualPath, Object actual) {
-        return comparator.generateEqualMismatchReport();
+        return comparator.generateEqualMismatchReport().toString();
     }
 
     @Override
@@ -76,7 +76,7 @@ public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-        return comparator.generateNotEqualMismatchReport();
+        return comparator.generateNotEqualMismatchReport().toString();
     }
 
     @Override

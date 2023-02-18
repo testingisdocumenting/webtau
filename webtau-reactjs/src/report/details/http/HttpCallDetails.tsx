@@ -82,9 +82,9 @@ function Mismatches({ httpCall }: HttpCallProps) {
   }
 
   const mismatches = httpCall.mismatches.map((m, idx) => (
-    <div key={idx} className="mismatch">
-      <TokenizedMessage message={m} removeLastErrorToken={false} />
-    </div>
+    <pre key={idx} className="mismatch">
+      <TokenizedMessage message={m} />
+    </pre>
   ));
 
   return <Card className="http-call-details-mismatches">{mismatches}</Card>;

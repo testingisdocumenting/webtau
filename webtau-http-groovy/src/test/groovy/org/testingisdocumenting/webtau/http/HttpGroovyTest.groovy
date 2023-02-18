@@ -1061,7 +1061,7 @@ class HttpGroovyTest extends HttpTestBase {
             def id = http.get("/no-resource") { id }
         } should throwException(AssertionError)
 
-        assertStatusCodeMismatchRegistered()
+        assertStatusCodeMismatchRegistered("200")
 
         http.get("/no-resource") {
             statusCode.should == 404
@@ -1077,7 +1077,7 @@ class HttpGroovyTest extends HttpTestBase {
             }
         }
 
-        assertStatusCodeMismatchRegistered()
+        assertStatusCodeMismatchRegistered("200")
     }
 
     @Test
@@ -1088,7 +1088,7 @@ class HttpGroovyTest extends HttpTestBase {
             }
         }
 
-        assertStatusCodeMismatchRegistered()
+        assertStatusCodeMismatchRegistered("200")
     }
 
     @Test
@@ -1099,7 +1099,7 @@ class HttpGroovyTest extends HttpTestBase {
             }
         }
 
-        assertStatusCodeMismatchRegistered()
+        assertStatusCodeMismatchRegistered("401")
     }
 
     @Test
@@ -1195,7 +1195,7 @@ class HttpGroovyTest extends HttpTestBase {
         HttpValidationHandlers.withAdditionalHandler(handler, closure)
     }
 
-    static String actual404 = "header.statusCode:   actual: 404 <java.lang.Integer>"
+    static String actual404 = "actual: 404 <java.lang.Integer>"
 
     @Test
     void "reports implicit status code mismatch instead of additional validator errors"() {
@@ -1231,7 +1231,7 @@ class HttpGroovyTest extends HttpTestBase {
     @Test
     void "reports body assertions instead of additional validation errors"() {
         withFailingHandler() {
-            runExpectExceptionAndValidateOutput(AssertionError, contain("body.id:   actual: null")) {
+            runExpectExceptionAndValidateOutput(AssertionError, contain("actual: null")) {
                 http.get("/notfound") {
                     statusCode.should == 404
                     id.should == "foo"
@@ -1329,8 +1329,8 @@ class HttpGroovyTest extends HttpTestBase {
         }
     }
 
-    private static void assertStatusCodeMismatchRegistered() {
-        http.lastValidationResult.mismatches.collect { it.toString() }.should contain(~/statusCode/)
+    private static void assertStatusCodeMismatchRegistered(String expected) {
+        http.lastValidationResult.mismatches.collect { it.toString() }.should contain(~/expected: ${expected}/)
     }
 
     private static byte[] binaryFileContent(String path) {

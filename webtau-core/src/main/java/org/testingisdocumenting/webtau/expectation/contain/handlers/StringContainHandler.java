@@ -23,6 +23,8 @@ import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 
 import java.util.function.BiFunction;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+
 public class StringContainHandler implements ContainHandler {
     @Override
     public boolean handle(Object actual, Object expected) {
@@ -47,7 +49,7 @@ public class StringContainHandler implements ContainHandler {
         CharSequence expectedText = (CharSequence) expected;
 
         if (!predicate.apply(actualText, expectedText)) {
-            containAnalyzer.reportMismatch(this, actualPath, actualText.toString());
+            containAnalyzer.reportMismatch(this, actualPath, tokenizedMessage().string(actualText));
         }
     }
 }

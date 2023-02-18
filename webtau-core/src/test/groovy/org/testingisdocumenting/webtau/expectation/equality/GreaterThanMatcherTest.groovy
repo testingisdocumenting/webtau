@@ -37,11 +37,9 @@ class GreaterThanMatcherTest {
 
     @Test
     void "positive mismatch"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be greater than 100: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value]:   actual: 100 <java.lang.Integer>\n" +
-                "             expected: greater than 100 <java.lang.Integer> (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be greater than 100:\n" +
+                "      actual: 100 <java.lang.Integer>\n" +
+                "    expected: greater than 100 <java.lang.Integer> (Xms)") {
             actual(100).shouldBe(greaterThan(100))
         }
     }
@@ -55,29 +53,27 @@ class GreaterThanMatcherTest {
 
     @Test
     void "negative mismatch"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be less than or equal to 10: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value]:   actual: 100 <java.lang.Integer>\n" +
-                "             expected: less than or equal to 10 <java.lang.Integer> (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be less than or equal to 10:\n" +
+                "      actual: 100 <java.lang.Integer>\n" +
+                "    expected: less than or equal to 10 <java.lang.Integer> (Xms)") {
             actual(100).shouldNotBe(greaterThan(10))
         }
     }
 
     @Test
     void "matching message"() {
-        assert matcher.matchingTokenizedMessage().toString() == "to be greater than $expected"
+        assert matcher.matchingTokenizedMessage(actualPath, 100).toString() == "to be greater than $expected"
     }
 
     @Test
     void "negative matching message"() {
-        assert matcher.negativeMatchingTokenizedMessage().toString() == "to be less than or equal to $expected"
+        assert matcher.negativeMatchingTokenizedMessage(actualPath, 100).toString() == "to be less than or equal to $expected"
     }
 
     @Test
     void "equal comparison with matcher renders matching logic in case of comparison with null"() {
         CompareToComparator comparator = CompareToComparator.comparator()
         comparator.compareIsEqual(actualPath, null, matcher)
-        assert comparator.generateEqualMismatchReport().contains('expected: <greater than 8>')
+        assert comparator.generateEqualMismatchReport().toString().contains('expected: <greater than 8>')
     }
 }

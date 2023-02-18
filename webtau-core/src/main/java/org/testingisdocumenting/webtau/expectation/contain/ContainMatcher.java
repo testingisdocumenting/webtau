@@ -45,8 +45,7 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String mismatchedMessage(ValuePath actualPath, Object actual) {
-        return actualPath + " expects to contain " + DataRenderers.render(expected) + "\n" +
-                containAnalyzer.generateMismatchReport();
+        return "no match found";
     }
 
     @Override
@@ -70,8 +69,7 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-        return actualPath + " expects to not contain " + DataRenderers.render(expected) + "\n" +
-                containAnalyzer.generateMismatchReport();
+        return "match is found";
     }
 
     @Override

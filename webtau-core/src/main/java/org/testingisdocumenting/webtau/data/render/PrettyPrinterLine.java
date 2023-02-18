@@ -44,6 +44,19 @@ public class PrettyPrinterLine {
         return width;
     }
 
+    public boolean hasNewLine() {
+        return styleAndValues.contains("\n");
+    }
+
+    public int findWidthOfTheLastEffectiveLine() {
+        int lastIndexOfNewLine = styleAndValues.lastIndexOf("\n");
+        if (lastIndexOfNewLine == -1) {
+            return width;
+        }
+
+        return AnsiConsoleUtils.calcEffectiveWidth(styleAndValues.subList(lastIndexOfNewLine + 1, styleAndValues.size()));
+    }
+
     public void clear() {
         styleAndValues.clear();
     }

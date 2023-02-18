@@ -1,5 +1,5 @@
 /*
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2023 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.expectation.equality
+package org.testingisdocumenting.webtau.expectation;
 
-import org.junit.Assert
-import org.junit.Test
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
-import static org.testingisdocumenting.webtau.WebTauCore.createActualPath
+public class AssertionTokenizedError extends AssertionError {
+    private final TokenizedMessage tokenizedMessage;
 
-class ActualPathMessageTest {
-    @Test
-    void "should align multiline mismatch"() {
-        def m = new ActualPathMessage(createActualPath("my.var[0]"), "two lines\nmismatch message")
+    public AssertionTokenizedError(TokenizedMessage tokenizedMessage) {
+        super(tokenizedMessage.toString());
+        this.tokenizedMessage = tokenizedMessage;
+    }
 
-        Assert.assertEquals("my.var[0]: two lines\n" +
-                            "           mismatch message", m.getFullMessage())
+    public TokenizedMessage getTokenizedMessage() {
+        return tokenizedMessage;
     }
 }

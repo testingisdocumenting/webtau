@@ -90,7 +90,7 @@ class DataNodeListContainHandlerTest {
     void "should mark all items as failed when item is not present"() {
         def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), listOfFullNames)
 
-        runExpectExceptionAndValidateOutput(AssertionError, ~/body expects to contain \{firstName=FN8, lastName=LN8}/) {
+        runExpectExceptionAndValidateOutput(AssertionError, contain("no match found")) {
             dataNode.should contain([firstName: 'FN8', lastName: 'LN8'])
         }
 
@@ -110,7 +110,7 @@ class DataNodeListContainHandlerTest {
     void "should mark containing items as failed when when they should not be present"() {
         def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), listOfFullNames)
 
-        runExpectExceptionAndValidateOutput(AssertionError, ~/body expects to not contain \{firstName=FN2, lastName=LN2}/) {
+        runExpectExceptionAndValidateOutput(AssertionError, contain("match is found")) {
             dataNode.shouldNot contain([firstName: 'FN2', lastName: 'LN2'])
         }
 

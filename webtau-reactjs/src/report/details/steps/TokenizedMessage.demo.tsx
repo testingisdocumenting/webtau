@@ -21,7 +21,7 @@ import { wrapInDarkTheme, wrapInLightTheme } from '../../demoUtils';
 import './TokenizedMessage.demo.css';
 
 export function tokenizedMessageDemo(registry: Registry) {
-  add('styled text', <TokenizedMessage message={messageWithStyledText()} removeLastErrorToken={false} />);
+  add('styled text', <TokenizedMessage message={messageWithStyledText()} />);
 
   function add(label: string, element: JSX.Element) {
     registry.add(label + ' [dark]', wrapInDarkTheme(<div className="message-demo-background">{element}</div>));

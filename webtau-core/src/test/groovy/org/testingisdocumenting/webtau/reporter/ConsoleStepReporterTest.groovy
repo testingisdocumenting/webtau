@@ -53,49 +53,37 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     }
 
     @Test
-    void "should indent multiline assertion message at the end of a step message"() {
-        def topLevelStep = WebTauStep.createStep(tokenizedMessage().action("top level action"),
-                { -> tokenizedMessage().action("top level action completed") }) {
-
-            def validationStep = WebTauStep.createStep(tokenizedMessage().action("validation"),
-                    { -> tokenizedMessage().action("validated").matcher(multilineMatcherMessage('matches')) }) {
-            }
-
-            validationStep.execute(StepReportOptions.SKIP_START)
-        }
+    void "should indent multiline assert message at the end of a step message"() {
+        def topLevelStep = createStepWithNestedException(new AssertionError('line1\nline2' as Object))
 
         expectReport(Integer.MAX_VALUE, '> top level action\n' +
-                '  . validated equals 100\n' +
-                '      matches:\n' +
-                '      \n' +
-                '      body.price:   actual: 100 <java.lang.Integer>\n' +
-                '                  expected: 100 <java.lang.Integer> (0ms)\n' +
-                '. top level action completed (0ms)') {
+                '  X failed validation:\n' +
+                '      line1\n' +
+                '      line2 (0ms)\n' +
+                'X failed top level action (0ms)') {
             topLevelStep.execute(StepReportOptions.REPORT_ALL)
         }
     }
 
     @Test
-    void "should indent multiline error message at the end of a step message"() {
-        def topLevelStep = WebTauStep.createStep(tokenizedMessage().action("top level action"),
-                { -> tokenizedMessage().action("top level action completed") }) {
-
-            def validationStep = WebTauStep.createStep(tokenizedMessage().action("validation"),
-                    { -> tokenizedMessage().action("validation")
-                            .matcher(multilineMatcherMessage('matches')) }) {
-
-                throw new AssertionError(multilineMatcherMessage('mismatches'))
-            }
-
-            validationStep.execute(StepReportOptions.SKIP_START)
-        }
+    void "should indent multiline runtime exception at the end of a step message"() {
+        def topLevelStep = createStepWithNestedException(new RuntimeException('line1\nline2'))
 
         expectReport(Integer.MAX_VALUE, '> top level action\n' +
-                '  X failed validation: equals 100\n' +
-                '      mismatches:\n' +
-                '      \n' +
-                '      body.price:   actual: 100 <java.lang.Integer>\n' +
-                '                  expected: 100 <java.lang.Integer> (0ms)\n' +
+                '  X failed validation:\n' +
+                '      line1\n' +
+                '      line2 (0ms)\n' +
+                'X failed top level action (0ms)') {
+            topLevelStep.execute(StepReportOptions.REPORT_ALL)
+        }
+    }
+
+    @Test
+    void "should maintain single line exception message"() {
+        def topLevelStep = createStepWithNestedException(new RuntimeException('single line error'))
+
+        expectReport(Integer.MAX_VALUE, '> top level action\n' +
+                '  X failed validation: single line error (0ms)\n' +
                 'X failed top level action (0ms)') {
             topLevelStep.execute(StepReportOptions.REPORT_ALL)
         }
@@ -214,7 +202,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
                 '    . completed repeat (0ms)\n' +
                 '  . completed repeat #1 (0ms)\n' +
                 '  > 2/5\n' +
-                '  X failed repeat #2 (0ms)\n' +
+                '  X failed repeat #2: no file found (0ms)\n' +
                 '  > 3/5\n' +
                 '  . 3/5 (0ms)\n' +
                 '  > 4/5\n' +
@@ -336,6 +324,22 @@ class ConsoleStepReporterTest implements ConsoleOutput {
     @Override
     void err(Object... styleOrValues) {
         lines.add(new IgnoreAnsiString(styleOrValues).toString())
+    }
+
+    private static WebTauStep createStepWithNestedException(exception) {
+        def topLevelStep = WebTauStep.createStep(tokenizedMessage().action("top level action"),
+                { -> tokenizedMessage().action("top level action completed") }) {
+
+            def validationStep = WebTauStep.createStep(tokenizedMessage().action("validation"),
+                    { -> tokenizedMessage().action("validation")  }) {
+
+                throw exception
+            }
+
+            validationStep.execute(StepReportOptions.SKIP_START)
+        }
+
+        return topLevelStep
     }
 
     private static class TestStepInput implements WebTauStepInput {

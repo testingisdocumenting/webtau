@@ -55,7 +55,7 @@ function Mismatches({ cliCall }: Props) {
     <>
       {cliCall.mismatches.map((m, idx) => (
         <div key={idx} className="webtau-cli-mismatch">
-          <TokenizedMessage message={m} removeLastErrorToken={false} />
+          <TokenizedMessage message={m} />
         </div>
       ))}
     </>

@@ -18,7 +18,6 @@
 package org.testingisdocumenting.webtau.cli.expectation;
 
 import org.testingisdocumenting.webtau.cli.CliOutput;
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
@@ -27,6 +26,8 @@ import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableCont
 
 import java.util.List;
 import java.util.regex.Pattern;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class CliOutputContainHandler implements ContainHandler {
     @Override
@@ -59,8 +60,8 @@ public class CliOutputContainHandler implements ContainHandler {
 
         indexedValues.forEach(indexedValue ->
                 containAnalyzer.reportMismatch(this, actualPath.index(indexedValue.getIdx()),
-                        "equals " + DataRenderers.render(indexedValue.getValue()))
-        );
+                        tokenizedMessage().matcher("equals").value(indexedValue.getValue())
+                ));
     }
 
     /*

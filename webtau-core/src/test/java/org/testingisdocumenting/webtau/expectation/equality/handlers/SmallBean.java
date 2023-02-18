@@ -14,26 +14,27 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.console.ansi;
+package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import java.util.List;
-
-public class AnsiConsoleUtils {
-    private AnsiConsoleUtils() {
-
+public class SmallBean {
+    public long getPrice() {
+        return 100;
     }
 
-    public static int calcEffectiveWidth(List<?> styleAndValues) {
-        int result = 0;
+    public void setPrice(long price) {
+    }
 
-        for (Object styleOrValue : styleAndValues) {
-            if (styleOrValue instanceof Color || styleOrValue instanceof FontStyle) {
-                continue;
-            }
+    public String getName() {
+        return "n1";
+    }
 
-            result += styleOrValue == null ? 0 : styleOrValue.toString().length();
-        }
+    public void setName(String name) {
+    }
 
-        return result;
+    public String getDescription() {
+        return "d1";
+    }
+
+    public void setDescription(String description) {
     }
 }

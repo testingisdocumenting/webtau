@@ -97,12 +97,11 @@ class TableDataComparisonTest {
 
         TableDataComparison.compare(comparator, valuePath, actual, expected)
 
-        comparator.generateEqualMismatchReport().should == "mismatches:\n" +
-                "\n" +
-                "table[0].b:   actual: 20 <java.lang.Integer>\n" +
-                "            expected: 22 <java.lang.Integer>\n" +
-                "table[1].c:   actual: 60 <java.lang.Integer>\n" +
-                "            expected: 61 <java.lang.Integer>"
+        comparator.generateEqualMismatchReport().toString().should ==
+                "table[0].b:  actual: 20 <java.lang.Integer>\n" +
+                "           expected: 22 <java.lang.Integer>\n" +
+                "table[1].c:  actual: 60 <java.lang.Integer>\n" +
+                "           expected: 61 <java.lang.Integer>"
     }
 
     @Test
@@ -231,7 +230,7 @@ class TableDataComparisonTest {
     }
 
     private void assertNoMismatches(TableDataComparisonAdditionalResult result) {
-        comparator.generateEqualMismatchReport().should == ""
+        comparator.generateEqualMismatchReport().toString().should == ""
         result.missingColumns.should == []
         result.extraRows.should == []
         result.missingRows.should == []

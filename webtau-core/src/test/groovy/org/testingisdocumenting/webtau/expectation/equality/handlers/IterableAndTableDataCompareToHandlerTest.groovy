@@ -22,8 +22,10 @@ import groovy.transform.Sortable
 import org.testingisdocumenting.webtau.data.table.TableData
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class IterableAndTableDataCompareToHandlerTest {
     @Test
@@ -68,8 +70,8 @@ class IterableAndTableDataCompareToHandlerTest {
         def comparator = CompareToComparator.comparator()
         assert !comparator.compareIsEqual(createActualPath("beans"), beans, expected)
 
-        def report = comparator.generateEqualMismatchReport()
-        assert report.contains("lot:   actual: 1.0")
+        def report = comparator.generateEqualMismatchReport().toString()
+        assert report.contains("lot:  actual: 1.0")
     }
 
     @Test
@@ -82,12 +84,16 @@ class IterableAndTableDataCompareToHandlerTest {
                                ___________________,
                                  1,   2,  2)
 
-        def comparator = CompareToComparator.comparator()
-        assert !comparator.compareIsEqual(createActualPath("maps"), listOfMaps, table)
-
-        def report = comparator.generateEqualMismatchReport()
-        assert report.contains("missing columns: A, B")
-        assert report.contains("C:   actual: 3")
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal A │ B │ C\n' +
+                '                                    1 │ 2 │ 2:\n' +
+                '    [value][0].C:  actual: 3 <java.lang.Integer>\n' +
+                '                 expected: 2 <java.lang.Integer>\n' +
+                '    missing columns: ["A", "B"] (Xms)\n' +
+                '  \n' +
+                '  a │ b │ C    \n' +
+                '  1 │ 2 │ **3**') {
+            actual(listOfMaps).should(equal(table))
+        }
     }
 
     @Canonical

@@ -182,10 +182,8 @@ function withFailedChildren(): WebTauStep {
         type: 'url',
         value: 'http://localhost:57137/weather',
       },
-      {
-        type: 'delimiter',
-        value: ':',
-      },
+    ],
+    exceptionTokenizedMessage: [
       {
         type: 'error',
         value: 'see the failed assertion details above',
@@ -212,14 +210,81 @@ function withFailedChildren(): WebTauStep {
             type: 'matcher',
             value: 'to be less than 10',
           },
+        ],
+        exceptionTokenizedMessage: [
+          {
+            type: 'delimiterNoAutoSpacing',
+            value: '  ',
+          },
+          {
+            type: 'classifier',
+            value: 'actual',
+          },
           {
             type: 'delimiter',
             value: ':',
           },
           {
-            type: 'error',
-            value:
-              '\nmismatches:\n\nbody.temperature:   actual: 88 <java.lang.Integer>\n                  expected: less than 10 <java.lang.Integer>',
+            type: 'styledText',
+            value: [
+              [
+                {
+                  styles: [],
+                  text: '',
+                },
+                {
+                  styles: ['blue'],
+                  text: '88',
+                },
+              ],
+            ],
+          },
+          {
+            type: 'delimiterNoAutoSpacing',
+            value: ' ',
+          },
+          {
+            type: 'objectType',
+            value: '<java.lang.Integer>',
+          },
+          {
+            type: 'delimiterNoAutoSpacing',
+            value: '\n',
+          },
+          {
+            type: 'classifier',
+            value: 'expected',
+          },
+          {
+            type: 'delimiter',
+            value: ':',
+          },
+          {
+            type: 'classifier',
+            value: 'less than',
+          },
+          {
+            type: 'styledText',
+            value: [
+              [
+                {
+                  styles: [],
+                  text: '',
+                },
+                {
+                  styles: ['blue'],
+                  text: '10',
+                },
+              ],
+            ],
+          },
+          {
+            type: 'delimiterNoAutoSpacing',
+            value: ' ',
+          },
+          {
+            type: 'objectType',
+            value: '<java.lang.Integer>',
           },
         ],
         isSuccessful: false,

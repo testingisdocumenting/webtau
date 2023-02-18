@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +17,13 @@
 
 package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 
 import java.util.List;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class IterableContainHandler implements ContainHandler {
     @Override
@@ -47,7 +49,7 @@ public class IterableContainHandler implements ContainHandler {
 
         indexedValues.forEach(indexedValue ->
                 containAnalyzer.reportMismatch(this, actualPath.index(indexedValue.getIdx()),
-                        "equals " + DataRenderers.render(indexedValue.getValue()))
+                        tokenizedMessage().matcher("equals").value(indexedValue.getValue()))
         );
     }
 }

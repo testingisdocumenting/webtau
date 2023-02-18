@@ -20,14 +20,15 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers
 import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode.*
 import static org.junit.Assert.assertEquals
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class SetCompareToHandlerTest {
-    private static final ValuePath actualPath = createActualPath("value")
-
     @Test
     void "handles sets"() {
         def handler = new SetCompareToHandler()
@@ -42,43 +43,37 @@ class SetCompareToHandlerTest {
 
     @Test
     void "should report missing and extra elements in equal mode"() {
-        CompareToComparator comparator = CompareToComparator.comparator(EQUAL)
-        comparator.compareUsingEqualOnly(actualPath,
-                ["hello", "world"] as Set,
-                [~/worl./, ~/.ello1/] as Set)
-
-        assertEquals('missing, but expected values:\n' +
-                '\n' +
-                'value: pattern /.ello1/\n' +
-                '\n' +
-                'unexpected values:\n' +
-                '\n' +
-                'value: "hello"', comparator.generateEqualMismatchReport())
-
-        println comparator.generateEqualMatchReport()
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal [~/worl./, ~/.ello1/]:\n' +
+                '    missing, but expected values:\n' +
+                '    \n' +
+                '    ~/.ello1/\n' +
+                '    \n' +
+                '    unexpected values:\n' +
+                '    \n' +
+                '    [value][0]: "hello" (Xms)\n' +
+                '  \n' +
+                '  [**"hello"**, "world"]') {
+            actual(["hello", "world"] as Set).should(equal([~/worl./, ~/.ello1/] as Set))
+        }
     }
 
     @Test
     void "should report matched elements in not equal mode"() {
-        CompareToComparator comparator = CompareToComparator.comparator(NOT_EQUAL)
-        comparator.compareUsingEqualOnly(actualPath,
-                ["hello", "world"] as Set,
-                [~/worl./, ~/.ello1/] as Set)
-
-        assertEquals('mismatches:\n' +
-                '\n' +
-                'value[1]:   actual: "world" <java.lang.String>\n' +
-                '          expected: not pattern /worl./ <java.util.regex.Pattern>',
-                comparator.generateNotEqualMismatchReport())
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not equal [~/worl./, ~/.ello/]:\n' +
+                '    [value][1]:  actual: "world" <java.lang.String>\n' +
+                '               expected: not ~/worl./ <java.util.regex.Pattern>\n' +
+                '    [value][0]:  actual: "hello" <java.lang.String>\n' +
+                '               expected: not ~/.ello/ <java.util.regex.Pattern> (Xms)\n' +
+                '  \n' +
+                '  [**"hello"**, **"world"**]') {
+            actual(["hello", "world"] as Set).shouldNot(equal([~/worl./, ~/.ello/] as Set))
+        }
     }
 
     @Test
     void "should not report missing elements in not equal mode"() {
-        CompareToComparator comparator = CompareToComparator.comparator(NOT_EQUAL)
-        comparator.compareUsingEqualOnly(actualPath,
-                ["hello"] as Set,
-                [~/.ello1/] as Set)
-
-        assertEquals('', comparator.generateNotEqualMismatchReport())
+        runAndValidateOutput('. [value] doesn\'t equal [~/.ello1/] (Xms)') {
+            actual(["hello"] as Set).shouldNot(equal([~/.ello1/] as Set))
+        }
     }
 }

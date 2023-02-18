@@ -71,12 +71,10 @@ class PageUrlTest {
     @Test
     void "should provide context of the failure in case of failed should statement"() {
         runExpectExceptionAndValidateOutput(AssertionError, "> expecting page url query of browser to equal \"wrong-value\"\n" +
-                "X failed expecting page url query of browser to equal \"wrong-value\": \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    page url query:   actual: \"type=full&debug=true\" <java.lang.String>\n" +
-                "                    expected: \"wrong-value\" <java.lang.String>\n" +
-                "                               ^ (Xms)\n" +
+                "X failed expecting page url query of browser to equal \"wrong-value\":\n" +
+                "    page url query:  actual: \"type=full&debug=true\" <java.lang.String>\n" +
+                "                   expected: \"wrong-value\" <java.lang.String>\n" +
+                "                              ^ (Xms)\n" +
                 "  \n" +
                 "  browser page url query: \"type=full&debug=true\"") {
             browser.url.query.should == 'wrong-value'

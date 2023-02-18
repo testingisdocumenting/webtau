@@ -128,7 +128,7 @@ public class CliJavaTest {
     @Test
     public void linesWithNotContain() {
         supportedPlatformOnly(() -> {
-            runExpectExceptionAndValidateOutput(AssertionError.class, contain("process output[1]: equals \"line in the middle\""),
+            runExpectExceptionAndValidateOutput(AssertionError.class, contain("match is found"),
                     () -> cli.run("scripts/hello", ((output, error) -> {
                         output.shouldNot(contain("line"));
                     })));

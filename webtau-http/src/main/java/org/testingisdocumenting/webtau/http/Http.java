@@ -26,9 +26,11 @@ import static java.util.stream.Collectors.toList;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.expectation.AssertionTokenizedError;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
 import org.testingisdocumenting.webtau.http.binary.BinaryRequestBody;
 import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
@@ -1007,7 +1009,7 @@ public class Http {
                 tokenizedMessage().action("executing HTTP").classifier(validationResult.getRequestMethod()).url(validationResult.getFullUrl()),
                 () -> tokenizedMessage().action("executed HTTP").classifier(validationResult.getRequestMethod()).url(validationResult.getFullUrl()),
                 httpCallSupplier);
-        step.setMatcherOutputDisabled(true);
+        step.setMatcherOutputActualValueDisabled(true);
 
         return step;
     }
@@ -1044,7 +1046,7 @@ public class Http {
         ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
             @Override
             public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
-                validationResult.addMismatch(message);
+                validationResult.addMismatch(new ActualPathMessage(actualPath, message).getFullMessage());
                 return ExpectationHandler.Flow.PassToNext;
             }
         };
@@ -1076,13 +1078,13 @@ public class Http {
                     // another assertion happened before status code check
                     // we discard it and throw status code instead
                     if (e instanceof AssertionError) {
-                        throw new AssertionError(message.toString());
+                        throw new AssertionTokenizedError(message);
                     }
 
                     // originally an exception happened,
                     // so we combine its message with status code failure
-                    throw new AssertionError("\n" + message.toString() +
-                            "\n\nadditional exception message: " + e.getMessage(), e);
+                    throw new AssertionTokenizedError(tokenizedMessage().add(message).doubleNewLine()
+                            .error("additional exception message: " + e.getMessage()));
 
                 }
             }, () -> {
