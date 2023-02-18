@@ -40,6 +40,8 @@ public class CommonTypesPrettyPrintableProvider implements PrettyPrintableProvid
             return Optional.of(new IterablePrettyPrintable((Iterable<?>) o));
         } else if (o instanceof Map) {
             return Optional.of(new MapPrettyPrintable((Map<?, ?>) o));
+        } else if (o instanceof Class) {
+            return Optional.of(new ClassPrettyPrintable((Class<?>) o));
         }
 
         return Optional.empty();
