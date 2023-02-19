@@ -110,7 +110,7 @@ class DataNodeListContainHandlerTest {
     void "should mark containing items as failed when when they should not be present"() {
         def dataNode = DataNodeBuilder.fromList(new DataNodeId('body'), listOfFullNames)
 
-        runExpectExceptionAndValidateOutput(AssertionError, contain("match is found")) {
+        runExpectExceptionAndValidateOutput(AssertionError, contain('body[2]: equals {"firstName": **"FN2"**, "lastName": **"LN2"**}')) {
             dataNode.shouldNot contain([firstName: 'FN2', lastName: 'LN2'])
         }
 

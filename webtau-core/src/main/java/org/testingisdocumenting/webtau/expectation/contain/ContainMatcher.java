@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
@@ -34,6 +35,16 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     public ContainMatcher(Object expected) {
         this.expected = expected;
+    }
+
+    @Override
+    public Set<ValuePath> matchedPaths() {
+        return containAnalyzer.generateMatchPaths();
+    }
+
+    @Override
+    public Set<ValuePath> mismatchedPaths() {
+        return containAnalyzer.generateMismatchPaths();
     }
 
     @Override
@@ -57,12 +68,12 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
         isNegative = false;
 
         containAnalyzer.contains(actualPath, actual, expected);
-        return containAnalyzer.hasMismatches();
+        return containAnalyzer.noMismatches();
     }
 
     @Override
     public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().matcher("to not contain").valueFirstLinesOnly(expected);
+        return tokenizedMessage().matcher("to").classifier("not").matcher("contain").valueFirstLinesOnly(expected);
     }
 
     @Override
@@ -72,7 +83,7 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().error("match is found");
+        return containAnalyzer.generateMatchReport();
     }
 
     @Override
@@ -81,7 +92,7 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
         isNegative = true;
 
         containAnalyzer.notContains(actualPath, actual, expected);
-        return containAnalyzer.hasMismatches();
+        return containAnalyzer.noMatches();
     }
 
     @Override

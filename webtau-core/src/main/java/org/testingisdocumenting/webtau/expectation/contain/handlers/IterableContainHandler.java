@@ -23,8 +23,6 @@ import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 
 import java.util.List;
 
-import static org.testingisdocumenting.webtau.WebTauCore.*;
-
 public class IterableContainHandler implements ContainHandler {
     @Override
     public boolean handle(Object actual, Object expected) {
@@ -34,7 +32,7 @@ public class IterableContainHandler implements ContainHandler {
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected);
-        List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
+        List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         if (indexedValues.isEmpty()) {
             containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
@@ -45,11 +43,10 @@ public class IterableContainHandler implements ContainHandler {
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected);
-        List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
+        List<IndexedValue> containingIndexedValues = analyzer.findContainingIndexedValues();
 
-        indexedValues.forEach(indexedValue ->
-                containAnalyzer.reportMismatch(this, actualPath.index(indexedValue.getIdx()),
-                        tokenizedMessage().matcher("equals").value(indexedValue.getValue()))
-        );
+        System.out.println(containingIndexedValues);
+
+        analyzer.getComparator().getEqualMessages().forEach(message -> containAnalyzer.reportMatch(this, message.getActualPath(),message.getMessage()));
     }
 }

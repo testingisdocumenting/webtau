@@ -53,7 +53,18 @@ class IterableContainHandlerTest {
     }
 
     @Test
-    void "works with complex types"() {
+    void "highlights and prints element that matched when expecting to not contain"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain 2:\n' +
+                '    [value][1]:  actual: 2 <java.lang.Integer>\n' +
+                '               expected: 2 <java.lang.Integer> (Xms)\n' +
+                '  \n' +
+                '  [1, **2**, 3]') {
+            actual([1, 2, 3]).shouldNot(contain(2))
+        }
+    }
+
+    @Test
+    void "displays complex type when no match found"() {
         runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"firstName": "FN31", "lastName": "LN3"}: no match found (Xms)\n' +
                 '  \n' +
                 '  [\n' +
@@ -70,16 +81,28 @@ class IterableContainHandlerTest {
     }
 
     @Test
+    void "highlights and prints complex element that matched when expecting to not contain"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain {"firstName": "FN31", "lastName": "LN3"}:\n' +
+                '    [value][2].lastName:  actual: "LN3" <java.lang.String>\n' +
+                '                        expected: "LN3" <java.lang.String> (Xms)\n' +
+                '  \n' +
+                '  [\n' +
+                '    {"firstName": "FN1", "lastName": "LN1"},\n' +
+                '    {"firstName": "FN2", "lastName": "LN2"},\n' +
+                '    {"firstName": "FN3", "lastName": **"LN3"**}\n' +
+                '  ]') {
+            actual([
+                    [firstName: 'FN1', lastName: 'LN1'],
+                    [firstName: 'FN2', lastName: 'LN2'],
+                    [firstName: 'FN3', lastName: 'LN3'],
+            ]).shouldNot(contain([firstName: 'FN31', lastName: 'LN3']))
+        }
+    }
+
+    @Test
     void "contain matcher throws when doesn't match"() {
         code {
             actual(['hello', 'world', 'of', 'testing']).should(contain('wod'))
         } should throwException("no match found")
-    }
-
-    @Test
-    void "contain matcher throws when contains but should not"() {
-        code {
-            actual(['hello', 'world', 'of', 'testing']).shouldNot(contain('of'))
-        } should throwException("match is found")
     }
 }

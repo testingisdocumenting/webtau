@@ -49,7 +49,7 @@ class ByteArrayCompareToHandlerTest {
                 '      actual: ...08090A0B0C0D0E0F101112131D\n' +
                 '    expected: ...09090A0B0C0D0E0F101112131D (Xms)\n' +
                 '  \n' +
-                '  **binary content of size 20**') {
+                '  binary content of size 20') {
             actual(a).should(equal(b))
         }
     }
@@ -67,7 +67,7 @@ class ByteArrayCompareToHandlerTest {
                 '      actual: ...111213141516\n' +
                 '    expected: ...12121314151617 (Xms)\n' +
                 '  \n' +
-                '  **binary content of size 22**') {
+                '  binary content of size 22') {
             actual(a).should(equal(b))
         }
     }

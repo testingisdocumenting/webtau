@@ -40,7 +40,7 @@ public class CliOutputContainHandler implements ContainHandler {
         CliOutput cliOutput = ((CliOutput) actual);
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, cliOutput.copyLines(),
                 adjustedExpected(expected));
-        List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
+        List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         if (indexedValues.isEmpty()) {
             containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
@@ -56,10 +56,10 @@ public class CliOutputContainHandler implements ContainHandler {
 
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, cliOutput.copyLines(),
                 adjustedExpected(expected));
-        List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
+        List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         indexedValues.forEach(indexedValue ->
-                containAnalyzer.reportMismatch(this, actualPath.index(indexedValue.getIdx()),
+                containAnalyzer.reportMatch(this, actualPath.index(indexedValue.getIdx()),
                         tokenizedMessage().matcher("equals").value(indexedValue.getValue())
                 ));
     }
