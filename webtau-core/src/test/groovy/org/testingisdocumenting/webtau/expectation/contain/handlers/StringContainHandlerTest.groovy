@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,12 +17,15 @@
 
 package org.testingisdocumenting.webtau.expectation.contain.handlers
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class StringContainHandlerTest {
     private ContainAnalyzer analyzer
@@ -52,5 +56,29 @@ class StringContainHandlerTest {
         def var = 100
         assert analyzer.contains(createActualPath('text'), "hello $var world", 'world')
         assert analyzer.contains(createActualPath('text'), 'hello world ' + var, "world $var")
+    }
+
+    @Test
+    void "contains passes"() {
+        actual("hello").should(contain("lo"))
+    }
+
+    @Test
+    void "contains fails"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain "hi": no match found (Xms)') {
+            actual("hello").should(contain("hi"))
+        }
+    }
+
+    @Test
+    void "not contains passes"() {
+        actual("hello").shouldNot(contain("hi"))
+    }
+
+    @Test
+    void "not contains fails"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain "lo": contains at idx 3 (Xms)') {
+            actual("hello").shouldNot(contain("lo"))
+        }
     }
 }

@@ -21,8 +21,6 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 
-import java.util.function.BiFunction;
-
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class StringContainHandler implements ContainHandler {
@@ -33,23 +31,23 @@ public class StringContainHandler implements ContainHandler {
 
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
-        analyze(containAnalyzer, actualPath, actual, expected,
-                (actualCharSeq, expectedCharSeq) -> actualCharSeq.toString().contains(expectedCharSeq));
+        analyze(containAnalyzer, actualPath, actual, expected, false);
     }
 
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
-        analyze(containAnalyzer, actualPath, actual, expected,
-                (actualString, expectedString) -> !actualString.toString().contains(expectedString));
+        analyze(containAnalyzer, actualPath, actual, expected, true);
     }
 
-    private void analyze(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected,
-                         BiFunction<CharSequence, CharSequence, Boolean> predicate) {
+    private void analyze(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected, boolean isNegative) {
         CharSequence actualText = (CharSequence) actual;
         CharSequence expectedText = (CharSequence) expected;
 
-        if (!predicate.apply(actualText, expectedText)) {
-            containAnalyzer.reportMismatch(this, actualPath, tokenizedMessage().string(actualText));
+        int matchIdx = actualText.toString().indexOf(expectedText.toString());
+        if (matchIdx != -1) {
+            containAnalyzer.reportMatch(this, actualPath, tokenizedMessage().matcher("contains at idx").number(matchIdx));
+        } else {
+            containAnalyzer.reportMismatch(this, actualPath, tokenizedMessage());
         }
     }
 }

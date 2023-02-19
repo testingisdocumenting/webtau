@@ -91,7 +91,7 @@ public class MapContainHandler implements ContainHandler {
                     actualValue, expectedEntry.getValue());
 
             if (!actualValueNotEqual) {
-                containAnalyzer.reportMismatch(this, propertyPath, comparator.generateNotEqualMismatchReport());
+                containAnalyzer.reportMatch(this, propertyPath, comparator.generateNotEqualMismatchReport());
             }
         }
     }

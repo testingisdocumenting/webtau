@@ -37,7 +37,7 @@ public class IterableContainAnalyzer {
         this.comparator = CompareToComparator.comparator();
     }
 
-    public List<IndexedValue> containingIndexedValues() {
+    public List<IndexedValue> findContainingIndexedValues() {
         List<IndexedValue> matchedIndexes = new ArrayList<>();
 
         Iterable<?> actualIterable = (Iterable<?>) actual;

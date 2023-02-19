@@ -20,9 +20,12 @@ import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.Collection;
 import java.util.stream.Stream;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
     private ContainAnalyzer containAnalyzer;
@@ -34,19 +37,18 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String matchingMessage() {
-        return "to contain all " + DataRenderers.renderFirstLinesOnly(expectedList);
+    public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("to contain all").valueFirstLinesOnly(expectedList);
     }
 
     @Override
-    public String matchedMessage(ValuePath actualPath, Object actual) {
-        return "contains all " + DataRenderers.render(expectedList);
+    public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("contains all").value(expectedList);
     }
 
     @Override
-    public String mismatchedMessage(ValuePath actualPath, Object actual) {
-        return actualPath + " expects to contain all " + DataRenderers.render(expectedList) + "\n" +
-                containAnalyzer.generateMismatchReport();
+    public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return containAnalyzer.generateMismatchReport();
     }
 
     @Override
@@ -58,34 +60,34 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
             containAnalyzer.contains(actualPath, actual, oneOfExpected);
         }
 
-        return containAnalyzer.hasMismatches();
+        return containAnalyzer.noMismatches();
     }
 
     @Override
-    public String negativeMatchingMessage() {
-        return "to not contain all " + DataRenderers.renderFirstLinesOnly(expectedList);
+    public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("to not contain all").valueFirstLinesOnly(expectedList);
     }
 
     @Override
-    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
-        return "does not contain all " + DataRenderers.render(expectedList);
+    public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("does not contain all").value(expectedList);
     }
 
     @Override
-    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-        return actualPath + " expects to not contain all " + DataRenderers.render(expectedList) + "\n" +
-                containAnalyzer.generateMismatchReport();
+    public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return containAnalyzer.generateMismatchReport();
     }
 
     @Override
     public boolean negativeMatches(ValuePath actualPath, Object actual) {
-        containAnalyzer = ContainAnalyzer.containAnalyzer();
         isNegative = true;
 
         boolean allContains = true;
         for (Object oneOfExpected : expectedList) {
-            // we need !not as `contains` is not producing any report info at this moment
-            allContains = allContains && !containAnalyzer.notContains(actualPath, actual, oneOfExpected);
+            containAnalyzer = ContainAnalyzer.containAnalyzer();
+
+            containAnalyzer.notContains(actualPath, actual, oneOfExpected);
+            allContains = allContains && !containAnalyzer.noMatches();
         }
 
         return !allContains;

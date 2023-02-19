@@ -25,6 +25,7 @@ import org.testingisdocumenting.webtau.expectation.stepoutput.ValueMatcherStepOu
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 import org.testingisdocumenting.webtau.reporter.*;
 
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
@@ -205,12 +206,15 @@ public class ActualValue implements ActualValueExpectations {
                 return WebTauStepOutput.EMPTY;
             }
 
+            Set<ValuePath> pathsToDecorate = isNegative ?
+                    valueMatcher.matchedPaths() :
+                    valueMatcher.mismatchedPaths();
+            pathsToDecorate.remove(actualPath);
+
             return new ValueMatcherStepOutput(actualPath,
                     convertedActual,
                     valueConverter,
-                    isNegative ?
-                            valueMatcher.matchedPaths() :
-                            valueMatcher.mismatchedPaths());
+                    pathsToDecorate);
         });
 
         step.execute(stepReportOptions);

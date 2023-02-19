@@ -42,7 +42,7 @@ public class DataNodeListContainHandler implements ContainHandler {
     public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         List<DataNode> dataNodes = getDataNodes(actual);
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, dataNodes, expected);
-        List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::containingIndexedValues);
+        List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::findContainingIndexedValues);
 
         // earlier, traceable value is disabled and indexes of matches are found
         // it is done to avoid marking every mismatching entry as failed
@@ -63,7 +63,7 @@ public class DataNodeListContainHandler implements ContainHandler {
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         List<DataNode> dataNodes = getDataNodes(actual);
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, dataNodes, expected);
-        List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::containingIndexedValues);
+        List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::findContainingIndexedValues);
 
         if (indexedValues.isEmpty()) {
             dataNodes.forEach(n -> n.getTraceableValue().updateCheckLevel(CheckLevel.FuzzyPassed));
@@ -73,7 +73,7 @@ public class DataNodeListContainHandler implements ContainHandler {
             indexedValues.forEach(indexedValue -> {
                 ValuePath indexedPath = actualPath.index(indexedValue.getIdx());
 
-                containAnalyzer.reportMismatch(this, indexedPath,
+                containAnalyzer.reportMatch(this, indexedPath,
                         tokenizedMessage().error("equals").valueFirstLinesOnly(indexedValue.getValue()));
                 comparator.compareUsingEqualOnly(indexedPath, dataNodes.get(indexedValue.getIdx()), expected);
             });

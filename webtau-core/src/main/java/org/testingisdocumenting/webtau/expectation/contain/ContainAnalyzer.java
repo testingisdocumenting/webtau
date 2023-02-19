@@ -28,25 +28,34 @@ import org.testingisdocumenting.webtau.utils.TraceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ContainAnalyzer {
     private static final List<ContainHandler> handlers = discoverHandlers();
 
+    private final List<ActualPathMessage> matches;
     private final List<ActualPathMessage> mismatches;
+
+    private ValuePath topLevelActualPath;
 
     public static ContainAnalyzer containAnalyzer() {
         return new ContainAnalyzer();
     }
 
     public boolean contains(ValuePath actualPath, Object actual, Object expected) {
+        updateTopLevelActualPath(actualPath);
+
         return contains(actual, expected,
                 (handler) -> handler.analyzeContain(this, actualPath, actual, expected));
     }
 
     public boolean notContains(ValuePath actualPath, Object actual, Object expected) {
+        updateTopLevelActualPath(actualPath);
+
         return contains(actual, expected,
                 (handler) -> handler.analyzeNotContain(this, actualPath, actual, expected));
     }
@@ -55,17 +64,41 @@ public class ContainAnalyzer {
         mismatches.add(new ActualPathMessage(actualPath, mismatch));
     }
 
+    public void reportMatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch) {
+        matches.add(new ActualPathMessage(actualPath, mismatch));
+    }
+
+    public Set<ValuePath> generateMatchPaths() {
+        return extractActualPaths(matches);
+    }
+
+    public Set<ValuePath> generateMismatchPaths() {
+        return extractActualPaths(mismatches);
+    }
+
+    public TokenizedMessage generateMatchReport() {
+        return TokenizedMessage.join("\n", matches.stream().map(message ->
+                message.getActualPath().equals(topLevelActualPath) ?
+                        message.getMessage() :
+                        message.getFullMessage()).collect(Collectors.toList()));
+    }
+
     public TokenizedMessage generateMismatchReport() {
         return !mismatches.isEmpty() ?
                 tokenizedMessage().error("no match found") :
                 tokenizedMessage();
     }
 
-    public boolean hasMismatches() {
+    public boolean noMismatches() {
         return mismatches.isEmpty();
     }
 
+    public boolean noMatches() {
+        return matches.isEmpty();
+    }
+
     private ContainAnalyzer() {
+        this.matches = new ArrayList<>();
         this.mismatches = new ArrayList<>();
     }
 
@@ -79,6 +112,19 @@ public class ContainAnalyzer {
         int after = mismatches.size();
 
         return after == before;
+    }
+
+    private Set<ValuePath> extractActualPaths(List<ActualPathMessage> notEqualMessages) {
+        return notEqualMessages
+                .stream()
+                .map(ActualPathMessage::getActualPath)
+                .collect(Collectors.toSet());
+    }
+
+    private void updateTopLevelActualPath(ValuePath actualPath) {
+        if (topLevelActualPath == null) {
+            topLevelActualPath = actualPath;
+        }
     }
 
     private static List<ContainHandler> discoverHandlers() {

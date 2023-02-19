@@ -222,6 +222,10 @@ public class CompareToComparator {
         return extractActualPaths(equalMessages);
     }
 
+    public List<ActualPathMessage> getEqualMessages() {
+        return equalMessages;
+    }
+
     @Deprecated
     public void reportEqual(CompareToHandler reporter, ValuePath actualPath, String message) {
         reportEqual(reporter, actualPath, tokenizedMessage().none(message));
@@ -473,8 +477,8 @@ public class CompareToComparator {
                     "\nexpected: " + DataRenderers.render(expected) + " " + TraceUtils.renderType(expected));
     }
 
-    private Set<ValuePath> extractActualPaths(List<ActualPathMessage> notEqualMessages) {
-        return notEqualMessages
+    private Set<ValuePath> extractActualPaths(List<ActualPathMessage> messages) {
+        return messages
                 .stream()
                 .map(ActualPathMessage::getActualPath)
                 .collect(Collectors.toSet());

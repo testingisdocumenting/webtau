@@ -17,8 +17,10 @@
 package org.testingisdocumenting.webtau.expectation.contain.handlers
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class MapContainHandlerTest {
     @Test
@@ -42,9 +44,11 @@ class MapContainHandlerTest {
         def actualMap = [hello: 1, world: 2]
         def expectedMap = [hello: 1, world: 3, test: 5]
 
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"hello": 1, "world": 3, "test": 5}: no match found (Xms)\n' +
+                '  \n' +
+                '  {"hello": 1, "world": **2**}') {
             actual(actualMap).should(contain(expectedMap))
-        } should throwException("no match found")
+        }
     }
 
     @Test
@@ -68,8 +72,12 @@ class MapContainHandlerTest {
         def actualMap = [hello: 1, world: 2]
         def expectedMap = [world: 2]
 
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain {"world": 2}:\n' +
+                '    [value].world:  actual: 2 <java.lang.Integer>\n' +
+                '                  expected: not 2 <java.lang.Integer> (Xms)\n' +
+                '  \n' +
+                '  {"hello": 1, "world": **2**}') {
             actual(actualMap).shouldNot(contain(expectedMap))
-        } should throwException("match is found")
+        }
     }
 }

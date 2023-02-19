@@ -75,7 +75,7 @@ public class TokenizedMessage implements Iterable<MessageToken> {
             boolean isLast = idx == messages.size() - 1;
             result.add(message);
             if (!isLast) {
-                result.delimiter(delimiter);
+                result.delimiterNoAutoSpacing(delimiter);
             }
 
             idx++;
