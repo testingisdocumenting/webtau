@@ -19,13 +19,16 @@ package org.testingisdocumenting.webtau.expectation.contain
 import org.junit.Test
 
 import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class ContainAllMatcherTest {
     @Test
     void "fails when not all values are present"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain all ["b", "A"]: no matches found for: ["A"] (Xms)\n' +
+                '  \n' +
+                '  ["a", "b", "d"]') {
             actual(['a', 'b', 'd']).should(containAll('b', 'A'))
-        } should throwException(AssertionError)
+        }
     }
 
     @Test
@@ -35,9 +38,11 @@ class ContainAllMatcherTest {
 
     @Test
     void "negative matcher fails only when all the values are present "() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain all ["b", "a"] (Xms)\n' +
+                '  \n' +
+                '  [**"a"**, **"b"**, "d"]') {
             actual(['a', 'b', 'd']).shouldNot(containAll('b', 'a'))
-        } should throwException(AssertionError)
+        }
     }
 
     @Test
