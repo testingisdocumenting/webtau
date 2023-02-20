@@ -49,14 +49,14 @@ public class ContainAnalyzer {
     public boolean contains(ValuePath actualPath, Object actual, Object expected) {
         updateTopLevelActualPath(actualPath);
 
-        return contains(actual, expected,
+        return contains(actual, expected, false,
                 (handler) -> handler.analyzeContain(this, actualPath, actual, expected));
     }
 
     public boolean notContains(ValuePath actualPath, Object actual, Object expected) {
         updateTopLevelActualPath(actualPath);
 
-        return contains(actual, expected,
+        return contains(actual, expected, true,
                 (handler) -> handler.analyzeNotContain(this, actualPath, actual, expected));
     }
 
@@ -102,14 +102,14 @@ public class ContainAnalyzer {
         this.mismatches = new ArrayList<>();
     }
 
-    private boolean contains(Object actual, Object expected, Consumer<ContainHandler> handle) {
+    private boolean contains(Object actual, Object expected, boolean isNegative, Consumer<ContainHandler> handle) {
         ContainHandler handler = handlers.stream().
                 filter(h -> h.handle(actual, expected)).findFirst().
                 orElseThrow(() -> noHandlerFound(actual, expected));
 
-        int before = mismatches.size();
+        int before = isNegative ? matches.size() :mismatches.size();
         handle.accept(handler);
-        int after = mismatches.size();
+        int after = isNegative ? matches.size() : mismatches.size();
 
         return after == before;
     }

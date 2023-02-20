@@ -22,7 +22,10 @@ import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
@@ -31,9 +34,20 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
     private ContainAnalyzer containAnalyzer;
     private final Collection<Object> expectedList;
     private Boolean isNegative;
+    private List<Object> expectedThatFailContains;
 
     public ContainAllMatcher(Collection<Object> expected) {
         this.expectedList = expected;
+    }
+
+    @Override
+    public Set<ValuePath> matchedPaths() {
+        return containAnalyzer.generateMatchPaths();
+    }
+
+    @Override
+    public Set<ValuePath> mismatchedPaths() {
+        return containAnalyzer.generateMismatchPaths();
     }
 
     @Override
@@ -48,7 +62,7 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return containAnalyzer.generateMismatchReport();
+        return tokenizedMessage().error("no matches found for").colon().value(expectedThatFailContains);
     }
 
     @Override
@@ -56,8 +70,13 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
         containAnalyzer = ContainAnalyzer.containAnalyzer();
         isNegative = false;
 
+        expectedThatFailContains = new ArrayList<>();
+
         for (Object oneOfExpected : expectedList) {
-            containAnalyzer.contains(actualPath, actual, oneOfExpected);
+            boolean expectedContains = containAnalyzer.contains(actualPath, actual, oneOfExpected);
+            if (!expectedContains) {
+                expectedThatFailContains.add(oneOfExpected);
+            }
         }
 
         return containAnalyzer.noMismatches();
@@ -80,14 +99,12 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public boolean negativeMatches(ValuePath actualPath, Object actual) {
+        containAnalyzer = ContainAnalyzer.containAnalyzer();
         isNegative = true;
 
         boolean allContains = true;
         for (Object oneOfExpected : expectedList) {
-            containAnalyzer = ContainAnalyzer.containAnalyzer();
-
-            containAnalyzer.notContains(actualPath, actual, oneOfExpected);
-            allContains = allContains && !containAnalyzer.noMatches();
+            allContains = allContains && !containAnalyzer.notContains(actualPath, actual, oneOfExpected);
         }
 
         return !allContains;

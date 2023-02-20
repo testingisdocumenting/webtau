@@ -43,9 +43,7 @@ public class IterableContainHandler implements ContainHandler {
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected);
-        List<IndexedValue> containingIndexedValues = analyzer.findContainingIndexedValues();
-
-        System.out.println(containingIndexedValues);
+        analyzer.findContainingIndexedValues();
 
         analyzer.getComparator().getEqualMessages().forEach(message -> containAnalyzer.reportMatch(this, message.getActualPath(),message.getMessage()));
     }
