@@ -38,6 +38,24 @@ class MapPrettyPrintableTest extends PrettyPrintableTestBase {
     }
 
     @Test
+    void "map with multiline string"() {
+        def prettyPrintable = new MapPrettyPrintable([key1: "line1\nline two", key2: "three\nmore lines\nwith some words"])
+        prettyPrintable.prettyPrint(printer)
+
+        expectOutput('{\n' +
+                '  "key1": ________\n' +
+                '  line1\n' +
+                '  line two\n' +
+                '  ________,\n' +
+                '  "key2": _______________\n' +
+                '  three\n' +
+                '  more lines\n' +
+                '  with some words\n' +
+                '  _______________\n' +
+                '}')
+    }
+
+    @Test
     void "map of nested maps with with decorations single line"() {
         printer.setPathsDecoration(new PrettyPrinterDecorationToken("*", Color.RED),
                 [new ValuePath("key2.key21")])

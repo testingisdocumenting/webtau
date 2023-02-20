@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler.Flow;
 import org.testingisdocumenting.webtau.expectation.stepoutput.ValueMatcherStepOutput;
@@ -198,7 +199,7 @@ public class ActualValue implements ActualValueExpectations {
             TokenizedMessage assertionTokenizedMessage = step.getExceptionTokenizedMessage();
             if (assertionTokenizedMessage.tokensStream()
                     .filter(MessageToken::isPrettyPrintValue)
-                    .anyMatch(token -> token.getValue() == actual)) {
+                    .anyMatch(token -> token.getValue() == actual || token.getValue() == convertedActual)) {
                 return WebTauStepOutput.EMPTY;
             }
 
@@ -209,7 +210,10 @@ public class ActualValue implements ActualValueExpectations {
             Set<ValuePath> pathsToDecorate = isNegative ?
                     valueMatcher.matchedPaths() :
                     valueMatcher.mismatchedPaths();
-            pathsToDecorate.remove(actualPath);
+
+            if (!keepRootActualPathDecorated(convertedActual)) {
+                pathsToDecorate.remove(actualPath);
+            }
 
             return new ValueMatcherStepOutput(actualPath,
                     convertedActual,
@@ -218,5 +222,10 @@ public class ActualValue implements ActualValueExpectations {
         });
 
         step.execute(stepReportOptions);
+    }
+
+    private static boolean keepRootActualPathDecorated(Object actual) {
+        return PrettyPrinter.findPrettyPrintable(actual)
+                .map(PrettyPrintable::handlesDecoration).orElse(false);
     }
 }

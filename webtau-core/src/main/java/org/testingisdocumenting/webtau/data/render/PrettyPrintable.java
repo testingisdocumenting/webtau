@@ -24,7 +24,16 @@ import org.testingisdocumenting.webtau.data.ValuePath;
  */
 public interface PrettyPrintable {
     void prettyPrint(PrettyPrinter printer);
+
+    default boolean handlesDecoration() {
+        return false;
+    }
+
     default void prettyPrint(PrettyPrinter printer, ValuePath rootPath) {
         prettyPrint(printer);
+    }
+
+    default void prettyPrint(PrettyPrinter printer, ValuePath rootPath, PrettyPrinterDecorationToken decorationToken) {
+        prettyPrint(printer, rootPath);
     }
 }

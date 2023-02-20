@@ -80,13 +80,19 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
     }
 
     public static boolean isPrettyPrintable(Object value) {
+        return findPrettyPrintable(value).isPresent();
+    }
+
+    public static Optional<PrettyPrintable> findPrettyPrintable(Object value) {
         if (value instanceof PrettyPrintable) {
-            return true;
+            return Optional.of((PrettyPrintable) value);
         }
 
         return prettyPrintProviders.stream()
                 .map(provider -> provider.prettyPrintableFor(value))
-                .anyMatch(Optional::isPresent);
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst();
     }
 
     public void setPathsDecoration(PrettyPrinterDecorationToken decorationToken, Set<ValuePath> paths) {
@@ -184,11 +190,6 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
         currentLine = new PrettyPrinterLine();
     }
 
-    public void printStringPrimitive(ValuePath path, String text) {
-        boolean needToDecorate = pathsToDecorate.contains(path);
-        printStringPrimitive(text, needToDecorate);
-    }
-
     public void printObject(Object o) {
         printObject(ValuePath.UNDEFINED, o);
     }
@@ -198,32 +199,26 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
                 valueConverter.convertValue(valuePath, o) :
                 o;
 
-        if (effectiveObject instanceof PrettyPrintable) {
-            ((PrettyPrintable) effectiveObject).prettyPrint(this, valuePath);
-            return;
-        }
-
         boolean needToDecorate = pathsToDecorate.contains(valuePath);
 
         if (effectiveObject instanceof Number) {
             printPrimitive(NUMBER_COLOR, effectiveObject, needToDecorate);
-        } else if (effectiveObject instanceof String) {
-            printPrimitive(STRING_COLOR, quoteString(effectiveObject), needToDecorate);
         } else {
-            PrettyPrintable prettyPrintable = prettyPrintProviders.stream()
-                    .map(provider -> provider.prettyPrintableFor(effectiveObject))
-                    .filter(Optional::isPresent)
-                    .findFirst()
-                    .orElseGet(() -> Optional.of(new FallbackPrettyPrintable(effectiveObject)))
-                    .get();
+            PrettyPrintable prettyPrintable = findPrettyPrintable(effectiveObject)
+                    .orElseGet(() -> new FallbackPrettyPrintable(effectiveObject));
 
-            if (needToDecorate) {
+            boolean handlesDecoration = prettyPrintable.handlesDecoration();
+            if (!handlesDecoration && needToDecorate) {
                 print(decorationToken.getColor(), decorationToken.getWrapWith());
             }
 
-            prettyPrintable.prettyPrint(this, valuePath);
+            if (handlesDecoration && needToDecorate) {
+                prettyPrintable.prettyPrint(this, valuePath, decorationToken);
+            } else {
+                prettyPrintable.prettyPrint(this, valuePath);
+            }
 
-            if (needToDecorate) {
+            if (!handlesDecoration && needToDecorate) {
                 print(decorationToken.getColor(), decorationToken.getWrapWith());
             }
         }
@@ -248,19 +243,11 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
         currentLine.append(styleOrValue);
     }
 
-    private void printStringPrimitive(String text, boolean needToDecorate) {
-        printPrimitive(STRING_COLOR, quoteString(text), needToDecorate);
-    }
-
     private void printPrimitive(Color color, Object o, boolean needToDecorate) {
         if (needToDecorate) {
             print(decorationToken.getColor(), decorationToken.getWrapWith(), o, decorationToken.getWrapWith());
         } else {
             print(color, o);
         }
-    }
-
-    private String quoteString(Object text) {
-        return "\"" + text + "\"";
     }
 }

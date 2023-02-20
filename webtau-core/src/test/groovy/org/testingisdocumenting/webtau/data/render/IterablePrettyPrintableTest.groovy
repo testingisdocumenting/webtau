@@ -112,4 +112,21 @@ class IterablePrettyPrintableTest extends PrettyPrintableTestBase {
                 '  {"k3": *"v3"*}\n' +
                 ']')
     }
+
+    @Test
+    void "list of multiline strings"() {
+        def prettyPrintable = new IterablePrettyPrintable(["hello\nworld", "second\nelement"])
+        prettyPrintable.prettyPrint(printer)
+
+        expectOutput('[\n' +
+                '  _____\n' +
+                '  hello\n' +
+                '  world\n' +
+                '  _____,\n' +
+                '  _______\n' +
+                '  second\n' +
+                '  element\n' +
+                '  _______\n' +
+                ']')
+    }
 }
