@@ -29,6 +29,10 @@ public interface PrettyPrintable {
         return false;
     }
 
+    default boolean printAsBlock() {
+        return false;
+    }
+
     default void prettyPrint(PrettyPrinter printer, ValuePath rootPath) {
         prettyPrint(printer);
     }

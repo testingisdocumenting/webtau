@@ -38,11 +38,16 @@ public class StringPrettyPrintable implements PrettyPrintable {
 
     @Override
     public boolean handlesDecoration() {
-        return true;
+        return text.handlesDecoration();
     }
 
     @Override
     public void prettyPrint(PrettyPrinter printer, ValuePath rootPath, PrettyPrinterDecorationToken decorationToken) {
         text.prettyPrint(printer, rootPath, decorationToken);
+    }
+
+    @Override
+    public boolean printAsBlock() {
+        return text.printAsBlock();
     }
 }

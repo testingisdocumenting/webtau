@@ -39,19 +39,20 @@ class MapPrettyPrintableTest extends PrettyPrintableTestBase {
 
     @Test
     void "map with multiline string"() {
-        def prettyPrintable = new MapPrettyPrintable([key1: "line1\nline two", key2: "three\nmore lines\nwith some words"])
+        def prettyPrintable = new MapPrettyPrintable([key1: "line1\nline two", price: 100, key2: "three\nmore lines\nwith some words"])
         prettyPrintable.prettyPrint(printer)
 
         expectOutput('{\n' +
                 '  "key1": ________\n' +
-                '  line1\n' +
-                '  line two\n' +
-                '  ________,\n' +
+                '          line1\n' +
+                '          line two\n' +
+                '          ________,\n' +
+                '  "price": 100,\n' +
                 '  "key2": _______________\n' +
-                '  three\n' +
-                '  more lines\n' +
-                '  with some words\n' +
-                '  _______________\n' +
+                '          three\n' +
+                '          more lines\n' +
+                '          with some words\n' +
+                '          _______________\n' +
                 '}')
     }
 

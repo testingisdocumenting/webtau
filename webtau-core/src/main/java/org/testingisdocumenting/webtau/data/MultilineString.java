@@ -86,6 +86,11 @@ public class MultilineString implements PrettyPrintable {
     }
 
     @Override
+    public boolean printAsBlock() {
+        return getNumberOfLines() > 1;
+    }
+
+    @Override
     public void prettyPrint(PrettyPrinter printer, ValuePath path, PrettyPrinterDecorationToken decorationToken) {
         if (getNumberOfLines() > 1) {
             printMultiLines(printer, decorationToken);

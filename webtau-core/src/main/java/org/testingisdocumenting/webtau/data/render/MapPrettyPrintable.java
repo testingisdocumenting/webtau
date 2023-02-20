@@ -20,6 +20,7 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.testingisdocumenting.webtau.data.render.PrettyPrinter.*;
 
@@ -104,7 +105,14 @@ public class MapPrettyPrintable implements PrettyPrintable {
             Object key = entry.getKey();
             Object value = entry.getValue();
 
-            printKeyValue(printer, path, key, value);
+            printKey(printer, key);
+            printer.printDelimiter(": ");
+            Optional<PrettyPrintable> prettyPrintable = findPrettyPrintable(value);
+            if (prettyPrintable.isPresent() && prettyPrintable.map(PrettyPrintable::printAsBlock).orElse(false)) {
+                printer.printObjectAutoIndentedByCurrentLine(path.property(key.toString()), value);
+            } else {
+                printer.printObject(path.property(key.toString()), value);
+            }
 
             boolean isLast = idx == map.size() - 1;
             if (!isLast) {

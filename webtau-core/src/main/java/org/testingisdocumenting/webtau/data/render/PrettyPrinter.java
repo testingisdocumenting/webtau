@@ -224,15 +224,23 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
         }
     }
 
-    public void printObjectIndented(Object value, int currentLineWidth) {
+    public void printObjectIndented(Object value, int width) {
+        printObjectIndented(ValuePath.UNDEFINED, value, width);
+    }
+
+    public void printObjectIndented(ValuePath path, Object value, int width) {
         int previousIndentation = indentationSize;
-        setIndentationSize(currentLineWidth);
-        printObject(value);
+        setIndentationSize(width);
+        printObject(path, value);
         setIndentationSize(previousIndentation);
     }
 
     public void printObjectAutoIndentedByCurrentLine(Object value) {
-        printObjectIndented(value, currentLine.getWidth());
+        printObjectAutoIndentedByCurrentLine(ValuePath.UNDEFINED, value);
+    }
+
+    public void printObjectAutoIndentedByCurrentLine(ValuePath path, Object value) {
+        printObjectIndented(path, value, currentLine.getWidth());
     }
 
     private void appendToCurrentLine(Object... styleOrValue) {
