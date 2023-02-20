@@ -51,7 +51,9 @@ class NumberAndStringCompareToHandlerTest {
     void "failed string and number equal comparison"() {
         runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal 100.64:\n' +
                 '      actual: 100.54 <java.math.BigDecimal> (before conversion: 100.54 <java.lang.Double>)\n' +
-                '    expected: 100.64 <java.math.BigDecimal> (before conversion: 100.64 <java.math.BigDecimal>) (Xms)') {
+                '    expected: 100.64 <java.math.BigDecimal> (before conversion: 100.64 <java.math.BigDecimal>) (Xms)\n' +
+                '  \n' +
+                '  **"100.54"**') {
             actual("100.54").should(equal(100.64))
         }
     }

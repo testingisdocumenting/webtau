@@ -65,7 +65,9 @@ class StringContainHandlerTest {
 
     @Test
     void "contains fails"() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain "hi": no match found (Xms)') {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain "hi": no match found (Xms)\n' +
+                '  \n' +
+                '  **"hello"**') {
             actual("hello").should(contain("hi"))
         }
     }
@@ -77,7 +79,9 @@ class StringContainHandlerTest {
 
     @Test
     void "not contains fails"() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain "lo": contains at idx 3 (Xms)') {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain "lo": contains at idx 3 (Xms)\n' +
+                '  \n' +
+                '  **"hello"**') {
             actual("hello").shouldNot(contain("lo"))
         }
     }

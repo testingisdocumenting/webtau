@@ -16,6 +16,8 @@
 
 package org.testingisdocumenting.webtau.data.render;
 
+import org.testingisdocumenting.webtau.data.MultilineString;
+
 import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
@@ -42,6 +44,8 @@ public class CommonTypesPrettyPrintableProvider implements PrettyPrintableProvid
             return Optional.of(new MapPrettyPrintable((Map<?, ?>) o));
         } else if (o instanceof Class) {
             return Optional.of(new ClassPrettyPrintable((Class<?>) o));
+        } else if (o instanceof CharSequence) {
+            return Optional.of(new StringPrettyPrintable(new MultilineString(o.toString())));
         }
 
         return Optional.empty();

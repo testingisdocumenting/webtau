@@ -17,13 +17,10 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
-import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
-import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.junit.Assert.assertEquals
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class StringCompareToHandlerTest {
     @Test
@@ -94,10 +91,10 @@ class StringCompareToHandlerTest {
                 '    expected: "hi again"\n' +
                 '                ^ (Xms)\n' +
                 '  \n' +
-                '   _________________\n' +
-                '   hello world world\n' +
-                '  *hello again*\n' +
-                '   _________________') {
+                '    _________________\n' +
+                '    hello world world\n' +
+                '  **hello again**\n' +
+                '    _________________') {
             actual("hello world world\nhello again", "text").should(equal('hello world world\nhi again'))
         }
     }
@@ -113,10 +110,10 @@ class StringCompareToHandlerTest {
                 '    expected: "single lone"\n' +
                 '                       ^ (Xms)\n' +
                 '  \n' +
-                '   ___________\n' +
-                '  *single line*\n' +
-                '   \n' +
-                '   ___________') {
+                '    ___________\n' +
+                '  **single line**\n' +
+                '    \n' +
+                '    ___________') {
             actual('single line\n', 'text').should(equal('single lone\n'))
         }
     }
@@ -134,12 +131,12 @@ class StringCompareToHandlerTest {
                 '    expected: "single lone"\n' +
                 '                       ^ (Xms)\n' +
                 '  \n' +
-                '   ___________\n' +
-                '  *single line*\n' +
-                '   \n' +
-                '   \n' +
-                '   \n' +
-                '   ___________') {
+                '    ___________\n' +
+                '  **single line**\n' +
+                '    \n' +
+                '    \n' +
+                '    \n' +
+                '    ___________') {
             actual('single line\n\n\n', 'text').should(equal('single lone\n\n\n'))
         }
     }
@@ -156,11 +153,11 @@ class StringCompareToHandlerTest {
                 '    expected: "hello world world"\n' +
                 '               ^ (Xms)\n' +
                 '  \n' +
-                '   _________________\n' +
-                '  **\n' +
-                '   hello world world\n' +
-                '   hello again\n' +
-                '   _________________') {
+                '    _________________\n' +
+                '  ****\n' +
+                '    hello world world\n' +
+                '    hello again\n' +
+                '    _________________') {
             actual('\nhello world world\nhello again', 'text').should(equal('hello world world\nhi again'))
         }
     }
@@ -174,10 +171,10 @@ class StringCompareToHandlerTest {
                 '    expected: "word"\n' +
                 '               ^ (Xms)\n' +
                 '  \n' +
-                '   _________________\n' +
-                '  *hello world world*\n' +
-                '   hello again\n' +
-                '   _________________') {
+                '    _________________\n' +
+                '  **hello world world**\n' +
+                '    hello again\n' +
+                '    _________________') {
             actual('hello world world\nhello again', 'text').should(equal('word'))
         }
     }
@@ -192,10 +189,10 @@ class StringCompareToHandlerTest {
                 '      actual: contains \\r\n' +
                 '    expected: doesn\'t contain \\r (Xms)\n' +
                 '  \n' +
-                '  _________________\n' +
-                '  hello world world\n' +
-                '  hello again\n' +
-                '  _________________') {
+                '  **_________________**\n' +
+                '    hello world world\n' +
+                '    hello again\n' +
+                '  **_________________**') {
             actual('hello world world\n\rhello again', 'text').should(equal('hello world world\nhello again'))
         }
     }

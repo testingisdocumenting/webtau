@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.data.render;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 
 public class PrettyPrinterDecorationToken {
+    public static final PrettyPrinterDecorationToken EMPTY = new PrettyPrinterDecorationToken("", Color.RESET);
+
     private final String wrapWith;
     private final Color color;
 
@@ -33,5 +35,9 @@ public class PrettyPrinterDecorationToken {
 
     public Color getColor() {
         return color;
+    }
+
+    public boolean isEmpty() {
+        return wrapWith.isEmpty();
     }
 }

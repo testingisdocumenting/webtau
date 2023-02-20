@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
+import org.testingisdocumenting.webtau.data.MultilineString;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;

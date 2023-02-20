@@ -50,18 +50,22 @@ class DatesCompareToHandlerTest {
 
     @Test
     void "actual local date string doesn't equal expected local date instance"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to equal 2018-06-09:\n" +
-                "      actual: 2018-06-10 <java.time.LocalDate>\n" +
-                "    expected: 2018-06-09 <java.time.LocalDate> (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal 2018-06-09:\n' +
+                '      actual: 2018-06-10 <java.time.LocalDate>\n' +
+                '    expected: 2018-06-09 <java.time.LocalDate> (Xms)\n' +
+                '  \n' +
+                '  **"2018-06-10"**') {
             actual("2018-06-10").should(equal(LocalDate.of(2018, 6, 9)))
         }
     }
 
     @Test
     void "actual zoned date time string equals expected local date instance, when should be greater"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be greater than 2018-01-01:\n" +
-                "      actual: 2018-01-01T00:00Z <java.time.ZonedDateTime>\n" +
-                "    expected: greater than 2018-01-01 <java.time.LocalDate> (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to be greater than 2018-01-01:\n' +
+                '      actual: 2018-01-01T00:00Z <java.time.ZonedDateTime>\n' +
+                '    expected: greater than 2018-01-01 <java.time.LocalDate> (Xms)\n' +
+                '  \n' +
+                '  "2018-01-01T00:00:00Z"') {
             actual("2018-01-01T00:00:00Z").shouldBe(greaterThan(LocalDate.of(2018, 1, 1)))
         }
     }
@@ -80,9 +84,11 @@ class DatesCompareToHandlerTest {
 
     @Test
     void "actual zoned date time string less than expected zoned date time instance, when should be greater"() {
-        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to be greater than 2018-01-02T10:00Z[UTC]:\n" +
-                "      actual: 2018-01-02T10:00+01:00 <java.time.ZonedDateTime> (UTC normalized: 2018-01-02T09:00Z[UTC])\n" +
-                "    expected: greater than 2018-01-02T10:00Z[UTC] <java.time.ZonedDateTime> (UTC normalized: 2018-01-02T10:00Z[UTC]) (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to be greater than 2018-01-02T10:00Z[UTC]:\n' +
+                '      actual: 2018-01-02T10:00+01:00 <java.time.ZonedDateTime> (UTC normalized: 2018-01-02T09:00Z[UTC])\n' +
+                '    expected: greater than 2018-01-02T10:00Z[UTC] <java.time.ZonedDateTime> (UTC normalized: 2018-01-02T10:00Z[UTC]) (Xms)\n' +
+                '  \n' +
+                '  "2018-01-02T10:00:00+01:00:00"') {
             actual("2018-01-02T10:00:00+01:00:00").shouldBe(greaterThan(
                     ZonedDateTime.of(2018, 1, 2, 10, 0, 0, 0, ZoneId.of("UTC"))))
         }
@@ -110,7 +116,9 @@ class DatesCompareToHandlerTest {
     void "actual zoned date time string equals expected instance when should not"() {
         runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to equal 2018-01-02T09:00:00Z:\n" +
                 "      actual: 2018-01-02T10:00+02:00 <java.time.ZonedDateTime> (UTC normalized: 2018-01-02T08:00:00Z)\n" +
-                "    expected: 2018-01-02T09:00:00Z <java.time.Instant> (UTC normalized: 2018-01-02T09:00:00Z) (Xms)") {
+                "    expected: 2018-01-02T09:00:00Z <java.time.Instant> (UTC normalized: 2018-01-02T09:00:00Z) (Xms)\n" +
+                "  \n" +
+                "  **\"2018-01-02T10:00:00+02:00:00\"**") {
             def expectedInstance = ZonedDateTime.of(2018, 1, 2, 9, 0, 0, 0, ZoneId.of("UTC")).toInstant()
             actual("2018-01-02T10:00:00+02:00:00").should(equal(expectedInstance))
         }
