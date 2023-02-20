@@ -46,7 +46,7 @@ public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().matcher("doesn't equal").value(expected);
+        return tokenizedMessage().matcher("doesn't equal").valueFirstLinesOnly(expected);
     }
 
     @Override
@@ -69,7 +69,7 @@ public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().matcher("equals").value(expected);
+        return tokenizedMessage().matcher("equals").valueFirstLinesOnly(expected);
     }
 
     @Override

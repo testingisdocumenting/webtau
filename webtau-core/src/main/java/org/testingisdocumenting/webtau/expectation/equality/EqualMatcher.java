@@ -64,7 +64,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.matchedTokenizedMessage(actualPath, actual);
         }
 
-        return tokenizedMessage().matcher("equals").value(expected);
+        return tokenizedMessage().matcher("equals").valueFirstLinesOnly(expected);
     }
 
 
@@ -114,7 +114,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.negativeMatchedTokenizedMessage(actualPath, actual);
         }
 
-        return tokenizedMessage().matcher("doesn't equal").value(expected);
+        return tokenizedMessage().matcher("doesn't equal").valueFirstLinesOnly(expected);
     }
 
     @Override

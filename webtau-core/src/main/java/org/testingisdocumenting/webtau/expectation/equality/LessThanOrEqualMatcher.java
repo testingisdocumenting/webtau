@@ -42,7 +42,7 @@ public class LessThanOrEqualMatcher implements ValueMatcher, ExpectedValuesAware
 
     @Override
     public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().matcher("less than or equal").value(expected);
+        return tokenizedMessage().matcher("less than or equal").valueFirstLinesOnly(expected);
     }
 
     @Override

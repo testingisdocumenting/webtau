@@ -32,6 +32,7 @@ import java.util.stream.Stream;
 
 public class TokenizedMessageToAnsiConverter {
     public static final TokenizedMessageToAnsiConverter DEFAULT = new TokenizedMessageToAnsiConverter();
+    private static final int PRETTY_PRINT_NUMBER_OF_LINES_LIMIT = 5;
 
     private final Map<String, TokenRenderDetails> tokenRenderDetails;
     private int firstLinePrefixWidth;
@@ -100,7 +101,7 @@ public class TokenizedMessageToAnsiConverter {
                 currentLine.findWidthOfTheLastEffectiveLine() + firstLinePrefixWidth);
 
         int numberOfLinesToPrint = printFirstLinesOnly ?
-                Math.min(printer.getNumberOfLines(), 5):
+                Math.min(printer.getNumberOfLines(), PRETTY_PRINT_NUMBER_OF_LINES_LIMIT):
                 printer.getNumberOfLines();
 
         for (int idx = 0; idx < numberOfLinesToPrint; idx++) {

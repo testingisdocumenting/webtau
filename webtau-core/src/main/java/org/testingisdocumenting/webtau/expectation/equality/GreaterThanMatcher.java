@@ -42,7 +42,7 @@ public class GreaterThanMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().matcher("greater than").value(expected);
+        return tokenizedMessage().matcher("greater than").valueFirstLinesOnly(expected);
     }
 
     @Override
@@ -63,7 +63,7 @@ public class GreaterThanMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().matcher("less than or equal to").value(expected);
+        return tokenizedMessage().matcher("less than or equal to").valueFirstLinesOnly(expected);
     }
 
     @Override
