@@ -1,1 +1,1 @@
-* Add: `trace` complex objects like list of java beans with nested beans
+* Add: `trace` [complex objects](report/tracing#object-properties) like list of java beans with nested beans

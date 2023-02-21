@@ -25,6 +25,7 @@ import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runCaptureAndValidateOutput
 
 class ObjectPropertiesTest {
     @Test
@@ -66,15 +67,21 @@ class ObjectPropertiesTest {
 
     @Test
     void "nested simple bean"() {
+        // data-prep
         def account = new Account("acc1", "my account", 100)
-        runAndValidateOutput('[tracing] my account\n' +
+        // data-prep
+
+        runCaptureAndValidateOutput('nested-simple-bean-trace-output', '[tracing] my account\n' +
                 '  {"id": "acc1", "money": {"dollars": 100}, "name": "my account"}') {
+            // data-trace
             trace("my account", properties(account))
+            // data-trace
         }
     }
 
     @Test
     void "table of complex beans"() {
+        // data-prep
         def game1 = new GameConfig("super game", Paths.get("/games/superA"))
         game1.registerAchievement("chapter1", "Chapter One", "complete chapter one")
         game1.registerAchievement("boss1", "Giant Rat", "defeat giant rat")
@@ -82,8 +89,9 @@ class ObjectPropertiesTest {
         def game2 = new GameConfig("duper game", Paths.get("/games/duperA"))
         game2.registerAchievement("chapter2", "Chapter Two", "complete chapter two")
         game2.registerAchievement("boss2", "Giant Mouse", "defeat giant mouse")
+        // data-prep
 
-        runAndValidateOutput('[tracing] games\n' +
+        runCaptureAndValidateOutput('table-properties-trace-output', '[tracing] games\n' +
                 '  achievements                                                                        │ gameName     │ location     \n' +
                 '  [                                                                                   │ "super game" │ /games/superA\n' +
                 '    {"description": "complete chapter one", "id": "chapter1", "name": "Chapter One"}, │              │              \n' +
@@ -94,7 +102,9 @@ class ObjectPropertiesTest {
                 '    {"description": "complete chapter two", "id": "chapter2", "name": "Chapter Two"}, │              │              \n' +
                 '    {"description": "defeat giant mouse", "id": "boss2", "name": "Giant Mouse"}       │              │              \n' +
                 '  ]                                                                                   │              │              ') {
+            // data-trace
             trace("games", propertiesTable([game1, game2]))
+            // data-trace
         }
     }
 

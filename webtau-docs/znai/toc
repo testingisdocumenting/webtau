@@ -62,8 +62,11 @@ database
 report
     introduction
     steps
+    tracing
+    warnings
     configuration
     custom-reports
+    import-and-dependencies
 REPL
     experiments
     test-runs
