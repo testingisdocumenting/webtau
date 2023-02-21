@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.nio.file.Path;
@@ -323,24 +325,11 @@ public class TokenizedMessage implements Iterable<MessageToken> {
 
     @Override
     public String toString() {
-        StringBuilder result = new StringBuilder();
-
-        for (int idx = 0; idx < tokens.size(); idx++) {
-            MessageToken token = tokens.get(idx);
-            boolean isLast = idx == tokens.size() - 1;
-            boolean isCurrentNoAutoSpaceDelimiter = tokens.get(idx).getType().equals(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType());
-
-            boolean isNextDelimiter = !isLast &&
-                    (tokens.get(idx + 1).getType().equals(TokenTypes.DELIMITER.getType()) ||
-                            tokens.get(idx + 1).getType().equals(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType()));
-
-            result.append(token.getValue());
-            if (!isCurrentNoAutoSpaceDelimiter && !isNextDelimiter && !isLast) {
-                result.append(" ");
-            }
-        }
-
-        return result.toString();
+        List<Object> stylesAndValues = TokenizedMessageToAnsiConverter.DEFAULT.convert(this, 0);
+        return stylesAndValues.stream()
+                .filter(v -> !(v instanceof Color) && !(v instanceof FontStyle))
+                .map(Object::toString)
+                .collect(joining(""));
     }
 
     private Stream<MessageToken> splitTokenNewLines(MessageToken token) {

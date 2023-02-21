@@ -33,4 +33,13 @@ class TokenizedMessageTest {
         def message = tokenizedMessage().matcher("equals to").value(null)
         actual(message.toString()).should(equal("equals to null"))
     }
+
+    @Test
+    void "value with string"() {
+        def message = tokenizedMessage().matcher("equals to").value("hello\nworld")
+        actual(message.toString()).should(equal('equals to _____\n' +
+                '          hello\n' +
+                '          world\n' +
+                '          _____'))
+    }
 }
