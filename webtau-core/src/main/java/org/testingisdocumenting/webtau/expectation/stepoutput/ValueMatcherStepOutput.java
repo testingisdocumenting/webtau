@@ -16,7 +16,6 @@
 
 package org.testingisdocumenting.webtau.expectation.stepoutput;
 
-import org.testingisdocumenting.webtau.console.ansi.AnsiAsStylesValuesListConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
@@ -56,9 +55,6 @@ public class ValueMatcherStepOutput implements WebTauStepOutput {
         PrettyPrinter printer = new PrettyPrinter(0);
         prettyPrint(printer);
 
-        AnsiAsStylesValuesListConsoleOutput ansiStylesConsoleOutput = new AnsiAsStylesValuesListConsoleOutput();
-        printer.renderToConsole(ansiStylesConsoleOutput);
-
-        return Collections.singletonMap("styledText", ansiStylesConsoleOutput.toListOfListsOfMaps());
+        return Collections.singletonMap("styledText", printer.generateStyledTextListOfListsOfMaps());
     }
 }

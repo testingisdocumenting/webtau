@@ -58,6 +58,7 @@ export function Step({ step, isTopLevel }: Props) {
       )}
 
       {(step.input || step.output) && renderStepInputOutputKeyValue(step.input, step.output)}
+      {step.input && renderStepInput(step.input)}
       {step.output && renderStepOutput(step.output)}
 
       {children && !collapsed && <div className="steps-children">{children}</div>}
@@ -74,8 +75,18 @@ export function Step({ step, isTopLevel }: Props) {
     }
   }
 
+  function renderStepInput(input: WebTauStepInput) {
+    if (input.type === 'WebTauStepInputPrettyPrint') {
+      return (
+        <div className="webtau-step-input-pretty-print">
+          <StyledText lines={input.data.styledText} />
+        </div>
+      );
+    }
+  }
+
   function renderStepOutput(output: WebTauStepOutput) {
-    if (output.type === 'ValueMatcherStepOutput') {
+    if (output.type === 'ValueMatcherStepOutput' || output.type === 'WebTauStepInputPrettyPrint') {
       return <StyledText lines={output.data.styledText} />;
     }
   }

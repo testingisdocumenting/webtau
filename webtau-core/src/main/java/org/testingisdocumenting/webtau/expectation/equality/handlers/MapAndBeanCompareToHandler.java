@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
+import org.testingisdocumenting.webtau.data.converters.ObjectProperties;
 import org.testingisdocumenting.webtau.utils.JavaBeanUtils;
 
 import java.util.Map;
@@ -29,6 +30,10 @@ public class MapAndBeanCompareToHandler extends MapAsExpectedCompareToHandlerBas
 
     @Override
     public Object convertedActual(Object actual, Object expected) {
+        if (actual instanceof ObjectProperties) {
+            return ((ObjectProperties) actual).getTopLevelProperties();
+        }
+
         return JavaBeanUtils.convertBeanToMap(actual);
     }
 }

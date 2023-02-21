@@ -1,0 +1,1 @@
+* Add: `trace` complex objects like list of java beans with nested beans

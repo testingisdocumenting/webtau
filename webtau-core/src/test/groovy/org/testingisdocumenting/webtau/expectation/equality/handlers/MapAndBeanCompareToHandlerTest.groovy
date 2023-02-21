@@ -20,9 +20,10 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Before
 import org.junit.Test
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.WebTauCore.properties
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class MapAndBeanCompareToHandlerTest {
     private CompareToComparator comparator
@@ -43,7 +44,7 @@ class MapAndBeanCompareToHandlerTest {
 
     @Test
     void "should only check explicitly specified properties"() {
-        TestConsoleOutput.runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting bean to equal {"price": 120, "name": "n2"}:\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting bean to equal {"price": 120, "name": "n2"}:\n' +
                 '    bean.price:  actual: 100 <java.math.BigDecimal> (before conversion: 100 <java.lang.Long>)\n' +
                 '               expected: 120 <java.math.BigDecimal> (before conversion: 120 <java.lang.Integer>)\n' +
                 '    bean.name:  actual: "n1" <java.lang.String>\n' +
@@ -52,6 +53,13 @@ class MapAndBeanCompareToHandlerTest {
                 '  \n' +
                 '  {"description": "d1", "name": **"n1"**, "price": **100**}') {
             actual(new SmallBean(), 'bean').should(equal([price: 120, name: 'n2']))
+        }
+    }
+
+    @Test
+    void "should handle object properties by taking top level props"() {
+        runExpectExceptionAndValidateOutput(AssertionError, contain('expected: "n2"')) {
+            actual(properties(new SmallBean()), 'properties').should(equal([price: 120, name: 'n2']))
         }
     }
 }

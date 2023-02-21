@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.data.render;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
+import org.testingisdocumenting.webtau.console.ansi.AnsiAsStylesValuesListConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
@@ -93,6 +94,13 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .findFirst();
+    }
+
+    public List<List<Map<String, Object>>> generateStyledTextListOfListsOfMaps() {
+        AnsiAsStylesValuesListConsoleOutput ansiStylesConsoleOutput = new AnsiAsStylesValuesListConsoleOutput();
+        renderToConsole(ansiStylesConsoleOutput);
+
+        return ansiStylesConsoleOutput.toListOfListsOfMaps();
     }
 
     public void setPathsDecoration(PrettyPrinterDecorationToken decorationToken, Set<ValuePath> paths) {

@@ -27,6 +27,7 @@ export function stepsDemo(registry: Registry) {
   add('with children', <Step step={withChildren()} isTopLevel={true} />);
   add('with failed children', <Step step={withFailedChildren()} isTopLevel={true} />);
   add('rainbow', <Step step={rainbow()} isTopLevel={true} />);
+  add('with styled text input', <Step step={withStyledTextInput()} isTopLevel={true} />);
   add('with key value input', <Step step={withKeyValueInput()} isTopLevel={true} />);
   add('with key value output', <Step step={withKeyValueOutput()} isTopLevel={true} />);
   add('with key value input output map', <Step step={withKeyValueInputAndOutputMap()} isTopLevel={true} />);
@@ -570,5 +571,179 @@ function withKeyValueOutput() {
     startTime: 1621811973852,
     elapsedTime: 0,
     output: { type: 'WebTauStepOutputKeyValue', data: { port: 3473 } },
+  };
+}
+
+function withStyledTextInput() {
+  return {
+    message: [
+      {
+        type: 'action',
+        value: 'accounts',
+      },
+    ],
+    startTime: 1676999954880,
+    elapsedTime: 0,
+    isSuccessful: true,
+    classifier: 'trace',
+    input: {
+      type: 'WebTauStepInputPrettyPrint',
+      data: {
+        styledText: [
+          [
+            {
+              styles: [],
+              text: '',
+            },
+            {
+              styles: ['purple'],
+              text: 'id  ',
+            },
+            {
+              styles: ['yellow'],
+              text: ' │ ',
+            },
+            {
+              styles: ['purple'],
+              text: 'money           ',
+            },
+            {
+              styles: ['yellow'],
+              text: ' │ ',
+            },
+            {
+              styles: ['purple'],
+              text: 'name           ',
+            },
+          ],
+          [
+            {
+              styles: [],
+              text: '',
+            },
+            {
+              styles: ['green'],
+              text: '"a1"',
+            },
+            {
+              styles: ['yellow'],
+              text: ' │ ',
+            },
+            {
+              styles: ['yellow'],
+              text: '{',
+            },
+            {
+              styles: ['purple'],
+              text: '"dollars"',
+            },
+            {
+              styles: ['yellow'],
+              text: ': ',
+            },
+            {
+              styles: ['blue'],
+              text: '100',
+            },
+            {
+              styles: ['yellow'],
+              text: '}',
+            },
+            {
+              styles: ['yellow'],
+              text: ' │ ',
+            },
+            {
+              styles: ['green'],
+              text: '"Account One"  ',
+            },
+          ],
+          [
+            {
+              styles: [],
+              text: '',
+            },
+            {
+              styles: ['green'],
+              text: '"a2"',
+            },
+            {
+              styles: ['yellow'],
+              text: ' │ ',
+            },
+            {
+              styles: ['yellow'],
+              text: '{',
+            },
+            {
+              styles: ['purple'],
+              text: '"dollars"',
+            },
+            {
+              styles: ['yellow'],
+              text: ': ',
+            },
+            {
+              styles: ['blue'],
+              text: '130',
+            },
+            {
+              styles: ['yellow'],
+              text: '}',
+            },
+            {
+              styles: ['yellow'],
+              text: ' │ ',
+            },
+            {
+              styles: ['green'],
+              text: '"Account Two"  ',
+            },
+          ],
+          [
+            {
+              styles: [],
+              text: '',
+            },
+            {
+              styles: ['green'],
+              text: '"a3"',
+            },
+            {
+              styles: ['yellow'],
+              text: ' │ ',
+            },
+            {
+              styles: ['yellow'],
+              text: '{',
+            },
+            {
+              styles: ['purple'],
+              text: '"dollars"',
+            },
+            {
+              styles: ['yellow'],
+              text: ': ',
+            },
+            {
+              styles: ['blue'],
+              text: '70',
+            },
+            {
+              styles: ['yellow'],
+              text: '} ',
+            },
+            {
+              styles: ['yellow'],
+              text: ' │ ',
+            },
+            {
+              styles: ['green'],
+              text: '"Account Three"',
+            },
+          ],
+        ],
+      },
+    },
   };
 }
