@@ -14,36 +14,28 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.expectation.equality.handlers;
+package org.testingisdocumenting.webtau.data;
 
-public class SmallBean {
-    private int multiplier = 1;
+public class Account {
+    private final String id;
+    private final String name;
+    private final Money money;
 
-    public SmallBean() {
+    public Account(String id, String name, long dollarsMoney) {
+        this.id = id;
+        this.name = name;
+        this.money = new Money(dollarsMoney);
     }
 
-    public SmallBean(int multiplier) {
-        this.multiplier = multiplier;
-    }
-
-    public long getPrice() {
-        return 100L * multiplier;
-    }
-
-    public void setPrice(long price) {
+    public String getId() {
+        return id;
     }
 
     public String getName() {
-        return "n" + multiplier;
+        return name;
     }
 
-    public void setName(String name) {
-    }
-
-    public String getDescription() {
-        return "d" + multiplier;
-    }
-
-    public void setDescription(String description) {
+    public Money getMoney() {
+        return money;
     }
 }

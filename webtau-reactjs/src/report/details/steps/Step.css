@@ -46,3 +46,8 @@
     justify-self: end;
     align-self: start;
 }
+
+.webtau-step-input-pretty-print {
+    margin-top: var(--webtau-spacing);
+    margin-left: var(--webtau-spacing);
+}

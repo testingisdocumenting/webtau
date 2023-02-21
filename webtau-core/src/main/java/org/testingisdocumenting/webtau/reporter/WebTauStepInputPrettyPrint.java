@@ -21,12 +21,10 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import java.util.Collections;
 import java.util.Map;
 
-import static org.testingisdocumenting.webtau.WebTauCore.*;
-
-public class WebTauPrettyStepInputPrettyPrint implements WebTauStepInput {
+public class WebTauStepInputPrettyPrint implements WebTauStepInput {
     private final Object value;
 
-    public WebTauPrettyStepInputPrettyPrint(Object value) {
+    public WebTauStepInputPrettyPrint(Object value) {
         this.value = value;
     }
 
@@ -38,6 +36,9 @@ public class WebTauPrettyStepInputPrettyPrint implements WebTauStepInput {
 
     @Override
     public Map<String, ?> toMap() {
-        return Collections.singletonMap("tokenizedMessage", tokenizedMessage().value(value).toListOfMaps());
+        PrettyPrinter printer = new PrettyPrinter(0);
+        prettyPrint(printer);
+
+        return Collections.singletonMap("styledText", printer.generateStyledTextListOfListsOfMaps());
     }
 }

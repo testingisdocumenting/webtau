@@ -2,10 +2,13 @@
   "wrapAsStep()" : {
     "numberOfSuccessful" : 1
   },
-  "tracing()" : {
-    "numberOfSuccessful" : 2
+  "tracingJavaBeans()" : {
+    "numberOfSuccessful" : 1
   },
   "wrapAsStepWithKeyValue()" : {
+    "numberOfSuccessful" : 2
+  },
+  "tracingKeyValues()" : {
     "numberOfSuccessful" : 2
   }
 }

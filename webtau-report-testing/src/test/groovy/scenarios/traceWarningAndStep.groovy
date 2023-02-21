@@ -87,3 +87,12 @@ scenario('warnings displayed on summary screen java') {
     report.warningMessage.should == "warning message"
 }
 
+scenario('trace of properties table') {
+    report.openJunit5Report('com.example.tests.junit5.StepTraceJavaTest.html')
+    report.selectTest('tracingJavaBeans')
+    report.selectSteps()
+
+    report.styledText.should contain('{"dollars": 100}')
+}
+
+

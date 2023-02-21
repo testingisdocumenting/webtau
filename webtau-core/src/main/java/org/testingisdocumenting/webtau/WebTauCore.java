@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau;
 
 import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.data.MultiValue;
+import org.testingisdocumenting.webtau.data.converters.ObjectProperties;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.TableDataUnderscore;
 import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenFunctions;
@@ -29,13 +30,11 @@ import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.*;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.data.table.TableDataUnderscore.*;
 import static org.testingisdocumenting.webtau.utils.FunctionUtils.*;
@@ -235,6 +234,15 @@ public class WebTauCore extends Matchers {
     }
 
     /**
+     * outputs provided message and object for tracing
+     * @param label label to print
+     * @param value value to print
+     */
+    public static void trace(String label, Object value) {
+        trace(label, new WebTauStepInputPrettyPrint(value));
+    }
+
+    /**
      * outputs provided key-values to console and web report
      * @param label label to print
      * @param firstKey first key
@@ -251,17 +259,42 @@ public class WebTauCore extends Matchers {
      * @param info key-values as a map
      */
     public static void trace(String label, Map<String, Object> info) {
-        WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage().action(label),
-                () -> tokenizedMessage().action(label),
-                () -> {});
-        step.setClassifier(WebTauStepClassifiers.TRACE);
+        trace(label, WebTauStepInputKeyValue.stepInput(info));
+    }
 
-        if (!info.isEmpty()) {
-            step.setInput(WebTauStepInputKeyValue.stepInput(info));
-        }
+    /**
+     * extract properties from an object. use with trace to debug values.
+     * don't need to explicitly extract properties if you want to compare with a map or table: WebTau matchers will automatically perform the conversion.
+     * @param object object to extract properties form
+     * @return object properties
+     */
+    public static ObjectProperties properties(Object object) {
+        return new ObjectProperties(object);
+    }
 
-        step.execute(StepReportOptions.REPORT_ALL);
+    /**
+     * extract properties from list of objects. use with trace to debug values.
+     * don't need to explicitly extract properties if you want to compare with a map or table: WebTau matchers will automatically perform the conversion.
+     * @param objects list of objects
+     * @return object properties
+     */
+    public static List<ObjectProperties> properties(Collection<?> objects) {
+        return objects.stream()
+                .map(WebTauCore::properties)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * extract properties from list of objects. use with trace to debug values.
+     * don't need to explicitly extract properties if you want to compare with a map or table: WebTau matchers will automatically perform the conversion.
+     * @param objects list of objects
+     * @return object properties
+     */
+    public static TableData propertiesTable(Collection<?> objects) {
+        List<ObjectProperties> properties = properties(objects);
+        return TableData.fromListOfMaps(properties.stream()
+                .map(ObjectProperties::getUnwrappedProperties)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -325,6 +358,20 @@ public class WebTauCore extends Matchers {
     @Deprecated
     public static <K> Map<K, Object> aMapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
         return map(original, firstKey, firstValue, restKv);
+    }
+
+    private static void trace(String label, WebTauStepInput stepInput) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage().action(label),
+                () -> tokenizedMessage().action(label),
+                () -> {});
+        step.setClassifier(WebTauStepClassifiers.TRACE);
+
+        if (stepInput != WebTauStepInput.EMPTY) {
+            step.setInput(stepInput);
+        }
+
+        step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public static final TableDataUnderscore __ = UNDERSCORE;

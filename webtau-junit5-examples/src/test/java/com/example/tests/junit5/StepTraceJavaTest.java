@@ -17,10 +17,13 @@
 package com.example.tests.junit5;
 
 import org.junit.jupiter.api.Test;
+import org.testingisdocumenting.webtau.data.Account;
 import org.testingisdocumenting.webtau.junit5.WebTau;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;
 
 @WebTau
 public class StepTraceJavaTest {
@@ -47,13 +50,19 @@ public class StepTraceJavaTest {
     }
 
     @Test
-    public void tracing() {
+    public void tracingKeyValues() {
         // trace-map
         trace("trace label", map("k1", "v1", "k2", "v2"));
         // trace-map
         // trace-vararg
         trace("another trace label", "k3", "v3", "k4", "v4");
         // trace-vararg
+    }
+
+    @Test
+    public void tracingJavaBeans() {
+        List<Account> accounts = fetchAccounts();
+        trace("my accounts", propertiesTable(accounts));
     }
 
     public static void actionOne() {
@@ -64,5 +73,12 @@ public class StepTraceJavaTest {
 
     public static void actionThree(int port, String url) {
         trace("action three");
+    }
+
+    private static List<Account> fetchAccounts() {
+        return Arrays.asList(
+                new Account("a1", "Account One", 100),
+                new Account("a2", "Account Two", 130),
+                new Account("a3", "Account Three", 70));
     }
 }
