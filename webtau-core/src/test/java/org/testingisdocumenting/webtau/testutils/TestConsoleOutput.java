@@ -100,7 +100,15 @@ public class TestConsoleOutput implements ConsoleOutput {
 
     public static void runCaptureAndValidateOutput(String artifactName, String expectedOutput, Runnable code) {
         TestConsoleOutput testConsoleOutput = runAndValidateOutput(expectedOutput, code);
-        doc.capture(artifactName, testConsoleOutput.getColorOutput());
+
+        ConsoleOutputs.add(ConsoleOutputs.defaultOutput);
+        StepReporters.add(StepReporters.defaultStepReporter);
+        try {
+            doc.capture(artifactName, testConsoleOutput.getColorOutput());
+        } finally {
+            StepReporters.remove(StepReporters.defaultStepReporter);
+            ConsoleOutputs.remove(ConsoleOutputs.defaultOutput);
+        }
     }
 
     public static void runExpectExceptionCaptureAndValidateOutput(Class<?> expectedException, String artifactName, String expectedOutput, Runnable code) {

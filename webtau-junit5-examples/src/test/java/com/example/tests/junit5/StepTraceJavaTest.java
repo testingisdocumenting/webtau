@@ -23,7 +23,7 @@ import org.testingisdocumenting.webtau.junit5.WebTau;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.testingisdocumenting.webtau.WebTauDsl.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 @WebTau
 public class StepTraceJavaTest {
