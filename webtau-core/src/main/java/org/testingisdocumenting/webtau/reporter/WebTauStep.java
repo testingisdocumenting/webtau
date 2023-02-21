@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.expectation.AssertionTokenizedError;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.time.Time;
@@ -395,6 +396,13 @@ public class WebTauStep {
     }
 
     private String reduceMismatchedMessage(String message) {
+        // we throw the full message if the details are not rendered to the console
+        if (!StepReporters.isConsoleStepReporterActive() ||
+                !ConsoleOutputs.isTerminalConsoleOutputActive() ||
+                !StepReporters.defaultStepReporter.isWithingVerboseLevel(this)) {
+            return message;
+        }
+
         if (StringUtils.numberOfLines(message) == 1) {
             return message;
         }
