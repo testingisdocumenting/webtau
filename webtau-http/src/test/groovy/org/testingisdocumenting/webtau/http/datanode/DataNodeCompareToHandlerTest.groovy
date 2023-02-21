@@ -98,7 +98,7 @@ class DataNodeCompareToHandlerTest {
 
         assert comparator.compareIsNotEqual(node.actualPath(), node, null)
         comparator.generateNotEqualMatchReport().toString().should ==
-            '  actual: [{k1: v1, k2: v2}] <java.util.Collections.UnmodifiableCollection>\n' +
-            'expected: not null'
+                '  actual: [{"k1": "v1", "k2": "v2"}] <java.util.Collections.UnmodifiableCollection>\n' +
+                'expected: not null'
     }
 }

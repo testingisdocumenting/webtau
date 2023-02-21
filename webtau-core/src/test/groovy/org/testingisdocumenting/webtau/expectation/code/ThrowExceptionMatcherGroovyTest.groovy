@@ -31,8 +31,8 @@ class ThrowExceptionMatcherGroovyTest {
 
     @Test
     void "should validate exception message"() {
-        thrown.expectMessage('  actual: error message <java.lang.String>\n' +
-                'expected: error message1 <java.lang.String>\n' +
+        thrown.expectMessage('  actual: "error message" <java.lang.String>\n' +
+                'expected: "error message1" <java.lang.String>\n' +
                 '                        ^')
 
         code {
@@ -43,8 +43,7 @@ class ThrowExceptionMatcherGroovyTest {
     @Test
     void "should validate exception message using regexp"() {
         thrown.expectMessage('   actual string: error message\n' +
-                'expected pattern: error \\d+')
-
+                'expected pattern: ~/error \\d+/')
         code {
             throw new RuntimeException('error message')
         } should throwException(~/error \d+/)
@@ -52,8 +51,8 @@ class ThrowExceptionMatcherGroovyTest {
 
     @Test
     void "should validate exception class"() {
-        thrown.expectMessage('  actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
-                'expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
+        thrown.expectMessage('  actual: java.lang.IllegalArgumentException <java.lang.Class>\n' +
+                'expected: java.lang.UnsupportedOperationException <java.lang.Class>')
 
         code {
             throw new IllegalArgumentException('error message')
@@ -63,9 +62,9 @@ class ThrowExceptionMatcherGroovyTest {
     @Test
     void "should validate exception class and expected message pattern"() {
         thrown.expectMessage('   actual string: error message\n' +
-                'expected pattern: error \\d\n' +
-                'expected exception class:  actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
-                '                         expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
+                'expected pattern: ~/error \\d/\n' +
+                'expected exception class:  actual: java.lang.IllegalArgumentException <java.lang.Class>\n' +
+                '                         expected: java.lang.UnsupportedOperationException <java.lang.Class>')
 
         code {
             throw new IllegalArgumentException('error message')
@@ -74,11 +73,11 @@ class ThrowExceptionMatcherGroovyTest {
 
     @Test
     void "should validate exception class and expected message"() {
-        thrown.expectMessage('  actual: error message <java.lang.String>\n' +
-                'expected: error message1 <java.lang.String>\n' +
+        thrown.expectMessage('  actual: "error message" <java.lang.String>\n' +
+                'expected: "error message1" <java.lang.String>\n' +
                 '                        ^\n' +
-                'expected exception class:  actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
-                '                         expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
+                'expected exception class:  actual: java.lang.IllegalArgumentException <java.lang.Class>\n' +
+                '                         expected: java.lang.UnsupportedOperationException <java.lang.Class>')
 
         code {
             throw new IllegalArgumentException('error message')
