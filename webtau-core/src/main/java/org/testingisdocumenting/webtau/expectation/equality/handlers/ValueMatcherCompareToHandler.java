@@ -48,8 +48,7 @@ public class ValueMatcherCompareToHandler implements CompareToHandler {
         if (matches) {
             comparator.reportEqual(this, actualPath, expectedMatcher.matchedTokenizedMessage(actualPath, actual));
         } else {
-            comparator.reportNotEqual(this, actualPath, expectedMatcher.matchingTokenizedMessage(actualPath, actual).colon().newLine()
-                    .add(expectedMatcher.mismatchedTokenizedMessage(actualPath, actual)));
+            comparator.reportNotEqual(this, actualPath, expectedMatcher.mismatchedTokenizedMessage(actualPath, actual));
         }
     }
 
@@ -61,8 +60,7 @@ public class ValueMatcherCompareToHandler implements CompareToHandler {
         if (matches) {
             comparator.reportNotEqual(this, actualPath, expectedMatcher.negativeMatchedTokenizedMessage(actualPath, actual));
         } else {
-            comparator.reportEqual(this, actualPath, expectedMatcher.negativeMatchingTokenizedMessage(actualPath, actual).colon().newLine()
-                    .add(expectedMatcher.negativeMismatchedTokenizedMessage(actualPath, actual)));
+            comparator.reportEqual(this, actualPath, expectedMatcher.negativeMismatchedTokenizedMessage(actualPath, actual));
         }
     }
 }

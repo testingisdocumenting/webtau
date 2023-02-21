@@ -16,13 +16,15 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.Collection;
 import java.util.stream.Stream;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
     private final Collection<Object> expectedList;
@@ -38,18 +40,18 @@ public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String matchingMessage() {
-        return "to match any of " + DataRenderers.render(expectedList);
+    public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("to match any of").valueFirstLinesOnly(expectedList);
     }
 
     @Override
-    public String matchedMessage(ValuePath actualPath, Object actual) {
-        return "matches any of " + DataRenderers.render(expectedList);
+    public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("matches any of").valueFirstLinesOnly(expectedList);
     }
 
     @Override
-    public String mismatchedMessage(ValuePath actualPath, Object actual) {
-        return comparator.generateEqualMismatchReport().toString();
+    public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return comparator.generateEqualMismatchReport();
     }
 
     @Override
@@ -65,18 +67,18 @@ public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String negativeMatchingMessage() {
-        return "to not match any of " + DataRenderers.render(expectedList);
+    public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("to not match any of").valueFirstLinesOnly(expectedList);
     }
 
     @Override
-    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
-        return "doesn't match any of " + DataRenderers.render(expectedList);
+    public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("doesn't match any of").valueFirstLinesOnly(expectedList);
     }
 
     @Override
-    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-        return comparator.generateNotEqualMismatchReport().toString();
+    public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return comparator.generateNotEqualMismatchReport();
     }
 
     @Override
