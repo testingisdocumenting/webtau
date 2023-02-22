@@ -154,6 +154,10 @@ public class WebTauConfig implements PrettyPrintable {
         return verbosityLevel.getAsInt();
     }
 
+    public void setVerbosityLevel(int level) {
+        verbosityLevel.setAndReport("manual", level);
+    }
+
     public boolean getFullStackTrace() {
         return fullStackTrace.getAsBoolean();
     }

@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.console;
 
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput;
+import org.testingisdocumenting.webtau.console.ansi.NoAnsiConsoleOutput;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.ArrayList;
@@ -85,6 +86,10 @@ public class ConsoleOutputs {
         } finally {
             removeLocal(consoleOutput);
         }
+    }
+
+    public static boolean isTerminalConsoleOutputActive() {
+        return getOutputsStream().anyMatch(r -> r instanceof AnsiConsoleOutput || r instanceof NoAnsiConsoleOutput);
     }
 
     private static void addLocal(ConsoleOutput output) {

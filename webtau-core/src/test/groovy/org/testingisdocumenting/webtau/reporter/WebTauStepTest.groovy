@@ -20,12 +20,17 @@ package org.testingisdocumenting.webtau.reporter
 import org.junit.BeforeClass
 import org.junit.Test
 import org.testingisdocumenting.webtau.WebTauCore
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter
+import org.testingisdocumenting.webtau.expectation.AssertionTokenizedError
 import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import java.util.function.Supplier
 
 import static java.util.stream.Collectors.*
+import static org.testingisdocumenting.webtau.Matchers.code
+import static org.testingisdocumenting.webtau.Matchers.throwException
 import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage
 import static org.testingisdocumenting.webtau.reporter.StepReportOptions.*
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
@@ -166,6 +171,57 @@ class WebTauStepTest {
 
         assert steps[0].completionMessage.toString() == "done step action"
         assert steps[1].completionMessage.toString() == "done c1 action"
+    }
+
+    @Test
+    void "should throw reduced message when console reporters present"() {
+        try {
+            StepReporters.add(StepReporters.defaultStepReporter)
+
+            def step1 = createStep("c1 action") {
+                throw new AssertionTokenizedError(tokenizedMessage().error("error").newLine().action("details"))
+            }
+
+            code {
+                step1.execute(SKIP_START)
+            } should(throwException("see the failed assertion details above"))
+        } finally {
+            StepReporters.remove(StepReporters.defaultStepReporter)
+        }
+    }
+
+    @Test
+    void "should throw full exception details if verbosity level is zero"() {
+        WebTauConfig.getCfg().setVerbosityLevel(0)
+
+        try {
+            def step1 = createStep("c1 action") {
+                throw new AssertionTokenizedError(tokenizedMessage().error("error").newLine().action("details"))
+            }
+
+            code {
+                step1.execute(SKIP_START)
+            } should(throwException("error\ndetails"))
+        } finally {
+            WebTauConfig.getCfg().setVerbosityLevel(Integer.MAX_VALUE)
+        }
+    }
+
+    @Test
+    void "should throw full exception details if console step reporter is not present"() {
+        def output = new TestConsoleOutput()
+        try {
+            ConsoleOutputs.add(output)
+            def step1 = createStep("c1 action") {
+                throw new AssertionTokenizedError(tokenizedMessage().error("error").newLine().action("details"))
+            }
+
+            code {
+                step1.execute(SKIP_START)
+            } should(throwException("error\ndetails"))
+        } finally {
+            ConsoleOutputs.remove(output)
+        }
     }
 
     private static WebTauStep createStep(String title, Supplier stepCode = { return null }) {
