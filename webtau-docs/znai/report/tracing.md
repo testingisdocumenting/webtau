@@ -51,6 +51,7 @@ Use `trace` and `propertiesTable` combo to trace object properties:
 
 :include-cli-output: doc-artifacts/table-properties-trace-output.txt {
   title: "console output",
+  wide: true
 }
 
 
