@@ -64,7 +64,9 @@ public class ObjectProperties implements PrettyPrintable {
     }
 
     private Object unwrappedProperties(Object v) {
-        if (v instanceof Collection) {
+        if (v == null) {
+            return null;
+        } if (v instanceof Collection) {
             return unwrapCollectionProperties((Collection<?>)v);
         } else if (v instanceof Map) {
             return unwrapMapProperties((Map<?, ?>) v);
