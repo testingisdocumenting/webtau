@@ -108,4 +108,18 @@ class ObjectPropertiesTest {
         }
     }
 
+    @Test
+    void "table of objects with nulls"() {
+        def game1 = new GameConfig(null, Paths.get("/games/superA"))
+        def game2 = new GameConfig("duper game", null)
+
+        game1.registerAchievement("id1", "name", null)
+
+        runAndValidateOutput('[tracing] games\n' +
+                '  achievements                                         │ gameName     │ location     \n' +
+                '  [{"description": null, "id": "id1", "name": "name"}] │ null         │ /games/superA\n' +
+                '  []                                                   │ "duper game" │ null         ') {
+            trace("games", propertiesTable([game1, game2]))
+        }
+    }
 }
