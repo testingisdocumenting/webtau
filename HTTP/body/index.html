@@ -104,8 +104,13 @@
 </article>
 
 <article>
+<header><h1>Form URL Encoded Data</h1></header>
+<p>Use http.formDataUrlEncoded to send application/x-www-form-urlencoded Groovy http.post(&quot;/submit&quot;, http.formDataUrlEncoded([firstName: &quot;F Name&quot;, lastName: &quot;L Name&quot;])) { // ... } Java http.post(&quot;/submit&quot;, http.formDataUrlEncoded(&quot;firstName&quot;, &quot;F Name&quot;, &quot;lastName&quot;, &quot;L Name&quot;), (header, body) -&gt; { // ... });</p>
+</article>
+
+<article>
 <header><h1>Form File Data</h1></header>
-<p>Consider example where backend expects a file as multipart/form-data . Field file defines content. Backend responds with file name and file description it received.To send multipart/form-data , use http.formData to build a request body. Groovy def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: imagePath)) { fileName.should == &quot;image.png&quot; } Java Path imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;); http.post(&quot;/file-upload&quot;, http.formData(aMapOf(&quot;file&quot;, imagePath)), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;image.png&quot;)); }); Use http.formFile to override file name. Groovy def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: http.formFile(&quot;myFileName.png&quot;, imagePath))) { fileName.should == &quot;myFileName.png&quot; } Java Path imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;); http.post(&quot;/file-upload&quot;, http.formData(aMapOf( &quot;file&quot;, http.formFile(&quot;myFileName.png&quot;, imagePath))), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;myFileName.png&quot;)); }); Multiple form fields can be specified: Groovy def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: imagePath, fileDescription: &quot;new report&quot;)) { fileName.should == &quot;image.png&quot; description.should == &quot;new report&quot; } Java Path imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;); http.post(&quot;/file-upload&quot;, http.formData(aMapOf( &quot;file&quot;, imagePath, &quot;fileDescription&quot;, &quot;new report&quot;)), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;image.png&quot;)); body.get(&quot;description&quot;).should(equal(&quot;new report&quot;)); }); To pass a file content directly, use Groovy byte[] fileContent = [1, 2, 3, 4] as byte[] http.post(&quot;/file-upload&quot;, http.formData(file: fileContent)) { fileName.should == &quot;backend-generated-name-as-no-name-provided&quot; } Java byte[] fileContent = new byte[] {1, 2, 3, 4}; http.post(&quot;/file-upload&quot;, http.formData(aMapOf(&quot;file&quot;, fileContent)), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;backend-generated-name-as-no-name-provided&quot;)); }); Note: no file name is passed and this particular backend generated file name on your behalf.Use http.formFile to provide a file name Groovy byte[] fileContent = [1, 2, 3, 4] as byte[] http.post(&quot;/file-upload&quot;, http.formData( file: http.formFile(&quot;myFileName.dat&quot;, fileContent))) { fileName.should == &quot;myFileName.dat&quot; } Java byte[] fileContent = new byte[] {1, 2, 3, 4}; http.post(&quot;/file-upload&quot;, http.formData(aMapOf( &quot;file&quot;, http.formFile(&quot;myFileName.dat&quot;, fileContent))), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;myFileName.dat&quot;)); });</p>
+<p>Consider example where backend expects a file as multipart/form-data . Field file defines content. Backend responds with file name and file description it received.Use http.formData to build a request body to send multipart/form-data , Groovy def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: imagePath)) { fileName.should == &quot;image.png&quot; } Java Path imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;); http.post(&quot;/file-upload&quot;, http.formData(map(&quot;file&quot;, imagePath)), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;image.png&quot;)); }); Use http.formFile to override file name. Groovy def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: http.formFile(&quot;myFileName.png&quot;, imagePath))) { fileName.should == &quot;myFileName.png&quot; } Java Path imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;); http.post(&quot;/file-upload&quot;, http.formData(map( &quot;file&quot;, http.formFile(&quot;myFileName.png&quot;, imagePath))), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;myFileName.png&quot;)); }); Multiple form fields can be specified: Groovy def imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;) http.post(&quot;/file-upload&quot;, http.formData(file: imagePath, fileDescription: &quot;new report&quot;)) { fileName.should == &quot;image.png&quot; description.should == &quot;new report&quot; } Java Path imagePath = testResourcePath(&quot;src/test/resources/image.png&quot;); http.post(&quot;/file-upload&quot;, http.formData(map( &quot;file&quot;, imagePath, &quot;fileDescription&quot;, &quot;new report&quot;)), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;image.png&quot;)); body.get(&quot;description&quot;).should(equal(&quot;new report&quot;)); }); To pass a file content directly, use Groovy byte[] fileContent = [1, 2, 3, 4] as byte[] http.post(&quot;/file-upload&quot;, http.formData(file: fileContent)) { fileName.should == &quot;backend-generated-name-as-no-name-provided&quot; } Java byte[] fileContent = new byte[] {1, 2, 3, 4}; http.post(&quot;/file-upload&quot;, http.formData(map(&quot;file&quot;, fileContent)), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;backend-generated-name-as-no-name-provided&quot;)); }); Note: no file name is passed and this particular backend generated file name on your behalf.Use http.formFile to provide a file name Groovy byte[] fileContent = [1, 2, 3, 4] as byte[] http.post(&quot;/file-upload&quot;, http.formData( file: http.formFile(&quot;myFileName.dat&quot;, fileContent))) { fileName.should == &quot;myFileName.dat&quot; } Java byte[] fileContent = new byte[] {1, 2, 3, 4}; http.post(&quot;/file-upload&quot;, http.formData(map( &quot;file&quot;, http.formFile(&quot;myFileName.dat&quot;, fileContent))), (header, body) -&gt; { body.get(&quot;fileName&quot;).should(equal(&quot;myFileName.dat&quot;)); });</p>
 </article>
 
 <article>
@@ -446,6 +451,52 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
+      "id" : "form-url-encoded-data",
+      "title" : "Form URL Encoded Data",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.formDataUrlEncoded",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to send ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "application/x-www-form-urlencoded",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "http.post(\"/submit\", http.formDataUrlEncoded([firstName: \"F Name\", lastName: \"L Name\"])) {\n    // ...\n}",
+            "title" : "send text form data",
+            "entry" : "send form url encoded data",
+            "bodyOnly" : true,
+            "excludeRegexp" : "doc-exclude",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "http.post(\"/submit\", http.formDataUrlEncoded(\"firstName\", \"F Name\", \"lastName\", \"L Name\"), (header, body) -> {\n    // ...\n});",
+            "title" : "send text form data",
+            "entry" : "sendFormUrlEncodedData",
+            "bodyOnly" : true,
+            "excludeRegexp" : "doc-exclude",
+            "anchorId" : "form-url-encoded-data-send-text-form-data",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
       "id" : "form-file-data",
       "title" : "Form File Data",
       "type" : "Section",
@@ -480,19 +531,19 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "To send ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "multipart/form-data",
-          "type" : "InlinedCode"
-        }, {
-          "text" : ", use ",
+          "text" : "Use ",
           "type" : "SimpleText"
         }, {
           "code" : "http.formData",
           "type" : "InlinedCode"
         }, {
-          "text" : " to build a request body.",
+          "text" : " to build a request body to send ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "multipart/form-data",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ",",
           "type" : "SimpleText"
         } ]
       }, {
@@ -510,7 +561,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "Path imagePath = testResourcePath(\"src/test/resources/image.png\");\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\"file\", imagePath)), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"image.png\"));\n});",
+            "snippet" : "Path imagePath = testResourcePath(\"src/test/resources/image.png\");\n\nhttp.post(\"/file-upload\", http.formData(map(\"file\", imagePath)), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"image.png\"));\n});",
             "title" : "file upload",
             "entry" : "fileUploadExampleSimple",
             "bodyOnly" : true,
@@ -546,7 +597,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "Path imagePath = testResourcePath(\"src/test/resources/image.png\");\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\n        \"file\", http.formFile(\"myFileName.png\", imagePath))), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"myFileName.png\"));\n});",
+            "snippet" : "Path imagePath = testResourcePath(\"src/test/resources/image.png\");\n\nhttp.post(\"/file-upload\", http.formData(map(\n        \"file\", http.formFile(\"myFileName.png\", imagePath))), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"myFileName.png\"));\n});",
             "title" : "file upload",
             "entry" : "fileUploadExampleWithFileNameOverride",
             "bodyOnly" : true,
@@ -576,7 +627,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "Path imagePath = testResourcePath(\"src/test/resources/image.png\");\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\n        \"file\", imagePath,\n        \"fileDescription\", \"new report\")), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"image.png\"));\n    body.get(\"description\").should(equal(\"new report\"));\n});",
+            "snippet" : "Path imagePath = testResourcePath(\"src/test/resources/image.png\");\n\nhttp.post(\"/file-upload\", http.formData(map(\n        \"file\", imagePath,\n        \"fileDescription\", \"new report\")), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"image.png\"));\n    body.get(\"description\").should(equal(\"new report\"));\n});",
             "title" : "file upload",
             "entry" : "fileUploadExampleMultipleFields",
             "bodyOnly" : true,
@@ -606,7 +657,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "byte[] fileContent = new byte[] {1, 2, 3, 4};\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\"file\", fileContent)), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"backend-generated-name-as-no-name-provided\"));\n});",
+            "snippet" : "byte[] fileContent = new byte[] {1, 2, 3, 4};\n\nhttp.post(\"/file-upload\", http.formData(map(\"file\", fileContent)), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"backend-generated-name-as-no-name-provided\"));\n});",
             "title" : "file upload in-memory content",
             "entry" : "fileUploadExampleWithInMemoryContent",
             "bodyOnly" : true,
@@ -648,7 +699,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "byte[] fileContent = new byte[] {1, 2, 3, 4};\n\nhttp.post(\"/file-upload\", http.formData(aMapOf(\n        \"file\", http.formFile(\"myFileName.dat\", fileContent))), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"myFileName.dat\"));\n});",
+            "snippet" : "byte[] fileContent = new byte[] {1, 2, 3, 4};\n\nhttp.post(\"/file-upload\", http.formData(map(\n        \"file\", http.formFile(\"myFileName.dat\", fileContent))), (header, body) -> {\n    body.get(\"fileName\").should(equal(\"myFileName.dat\"));\n});",
             "title" : "file upload in-memory content",
             "entry" : "fileUploadExampleWithInMemoryContentAndFileName",
             "bodyOnly" : true,
@@ -856,7 +907,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1671557712797,
+    "lastModifiedTime" : 1677178162240,
     "tocItem" : {
       "chapterTitle" : "HTTP",
       "pageTitle" : "Body",
@@ -876,6 +927,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Content-Type Shortcuts",
         "id" : "content-type-shortcuts"
+      }, {
+        "title" : "Form URL Encoded Data",
+        "id" : "form-url-encoded-data"
       }, {
         "title" : "Form File Data",
         "id" : "form-file-data"

@@ -90,12 +90,17 @@
 
 <article>
 <header><h1>Key Columns</h1></header>
-<p>Use * in front of a column to specify it as a key column Groovy [&quot;*id&quot; | &quot;Name&quot; | &quot;Type&quot;] { ___________________________ &quot;id1&quot; | &quot;N&quot; | &quot;T&quot; &quot;id2&quot; | &quot;N2&quot; | &quot;T2&quot; &quot;id3&quot; | &quot;N&quot; | &quot;T&quot; } Java table(&quot;*id&quot; , &quot;Name&quot; , &quot;Type&quot;, _______________________, &quot;id1&quot; , &quot;N&quot; , &quot;T&quot;, &quot;id2&quot; , &quot;N2&quot; , &quot;T2&quot;, &quot;id3&quot; , &quot;N&quot; , &quot;T&quot;) To access a value by key column Groovy def found = tableData.find(key(&quot;id2&quot;)) found.Name.should == &quot;N2&quot; Java Record found = tableData.find(key(&quot;id2&quot;)); actual(found.get(&quot;Name&quot;)).should(equal(&quot;N2&quot;)); To change key columns of an existing table Groovy tableData.withNewKeyColumns(&quot;Name&quot;, &quot;Type&quot;) Java tableData.withNewKeyColumns(&quot;Name&quot;, &quot;Type&quot;) Note: withNewKeyColumns creates new table and validates new key column uniqueness</p>
+<p>Use * in front of a column to specify it as a key column Groovy [&quot;*id&quot; | &quot;Name&quot; | &quot;Type&quot;] { ___________________________ &quot;id1&quot; | &quot;N&quot; | &quot;T&quot; &quot;id2&quot; | &quot;N2&quot; | &quot;T2&quot; &quot;id3&quot; | &quot;N&quot; | &quot;T&quot; } Java table(&quot;*id&quot; , &quot;Name&quot; , &quot;Type&quot;, _______________________, &quot;id1&quot; , &quot;N&quot; , &quot;T&quot;, &quot;id2&quot; , &quot;N2&quot; , &quot;T2&quot;, &quot;id3&quot; , &quot;N&quot; , &quot;T&quot;) To access a value by key column Groovy def found = tableData.findByKey(&quot;id2&quot;) found.Name.should == &quot;N2&quot; Java Record found = tableData.findByKey(&quot;id2&quot;); String name = found.get(&quot;Name&quot;); actual(name).should(equal(&quot;N2&quot;)); To change key columns of an existing table Groovy tableData.withNewKeyColumns(&quot;Name&quot;, &quot;Type&quot;) Java tableData.withNewKeyColumns(&quot;Name&quot;, &quot;Type&quot;) Note: withNewKeyColumns creates new table and validates new key column uniqueness</p>
 </article>
 
 <article>
 <header><h1>Create From List</h1></header>
-<p>Use to create TableData from a list of maps. Groovy def list = [ [k1: &quot;v1&quot;, k2: &quot;v2&quot;], [k1: &quot;v3&quot;, k3: &quot;v4&quot;]] TableData tableData = TableData.fromListOfMaps(list) TableData expected = [&quot;k1&quot; | &quot;k2&quot; | &quot;k3&quot;] { ____________________ &quot;v1&quot; | &quot;v2&quot; | null &quot;v3&quot; | null | &quot;v4&quot; } tableData.should == expected Java List&lt;Map&lt;String, ?&gt;&gt; list = new ArrayList&lt;&gt;(); list.add(CollectionUtils.aMapOf(&quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, &quot;v2&quot;)); list.add(CollectionUtils.aMapOf(&quot;k1&quot;, &quot;v3&quot;, &quot;k3&quot;, &quot;v4&quot;)); TableData tableData = TableData.fromListOfMaps(list); TableData expected = table(&quot;k1&quot;, &quot;k2&quot;, &quot;k3&quot;, _________________, &quot;v1&quot;, &quot;v2&quot;, null, &quot;v3&quot;, null, &quot;v4&quot;); actual(tableData).should(equal(expected)); Note: WebTau merges keys from all list elements to create the table header</p>
+<p>Use to create TableData from a list of maps. Groovy def list = [ [k1: &quot;v1&quot;, k2: &quot;v2&quot;], [k1: &quot;v3&quot;, k3: &quot;v4&quot;]] TableData tableData = TableData.fromListOfMaps(list) TableData expected = [&quot;k1&quot; | &quot;k2&quot; | &quot;k3&quot;] { ____________________ &quot;v1&quot; | &quot;v2&quot; | null &quot;v3&quot; | null | &quot;v4&quot; } tableData.should == expected Java List&lt;Map&lt;String, ?&gt;&gt; list = new ArrayList&lt;&gt;(); list.add(CollectionUtils.map(&quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, &quot;v2&quot;)); list.add(CollectionUtils.map(&quot;k1&quot;, &quot;v3&quot;, &quot;k3&quot;, &quot;v4&quot;)); TableData tableData = TableData.fromListOfMaps(list); TableData expected = table(&quot;k1&quot;, &quot;k2&quot;, &quot;k3&quot;, _________________, &quot;v1&quot;, &quot;v2&quot;, null, &quot;v3&quot;, null, &quot;v4&quot;); actual(tableData).should(equal(expected)); Note: WebTau merges keys from all list elements to create the table header</p>
+</article>
+
+<article>
+<header><h1>Create From Existing Rows</h1></header>
+<p>Use to create TableData from existing rows. Groovy def table = [&quot;*id&quot; | &quot;description&quot;] { __________________________ &quot;id1&quot; | &quot;description one&quot; &quot;id2&quot; | &quot;description two&quot; &quot;id3&quot; | &quot;description three&quot; } def newTable = table.fromRowsByKeys(&quot;id1&quot;, &quot;id3&quot;) newTable.should == [&quot;*id&quot; | &quot;description&quot;] { __________________________ &quot;id1&quot; | &quot;description one&quot; &quot;id3&quot; | &quot;description three&quot; } def table = [&quot;*id1&quot; | &quot;*id2&quot; | &quot;description&quot;] { _____________________________________ &quot;id11&quot; | &quot;id21&quot; | &quot;description one&quot; &quot;id21&quot; | &quot;id22&quot; | &quot;description two&quot; &quot;id31&quot; | &quot;id32&quot; | &quot;description three&quot; } def newTable = table.fromRowsByKeys(key(&quot;id11&quot;, &quot;id21&quot;), key(&quot;id31&quot;, &quot;id32&quot;)) newTable.should == [&quot;*id1&quot; | &quot;*id2&quot; | &quot;description&quot;] { _____________________________________ &quot;id11&quot; | &quot;id21&quot; | &quot;description one&quot; &quot;id31&quot; | &quot;id32&quot; | &quot;description three&quot; } Java TableData table = table(&quot;*id&quot;, &quot;description&quot;, __________________________, &quot;id1&quot;, &quot;description one&quot;, &quot;id2&quot;, &quot;description two&quot;, &quot;id3&quot;, &quot;description three&quot;); TableData newTable = table.fromRowsByKeys(&quot;id1&quot;, &quot;id3&quot;); actual(newTable).should(equal(table(&quot;*id&quot;, &quot;description&quot;, __________________________, &quot;id1&quot;, &quot;description one&quot;, &quot;id3&quot;, &quot;description three&quot;))); TableData table = table(&quot;*id1&quot;, &quot;*id2&quot;, &quot;description&quot;, ____________________________________, &quot;id11&quot;, &quot;id12&quot;, &quot;description one&quot;, &quot;id21&quot;, &quot;id22&quot;, &quot;description two&quot;, &quot;id31&quot;, &quot;id32&quot;, &quot;description three&quot;); TableData newTable = table.fromRowsByKeys(key(&quot;id11&quot;, &quot;id12&quot;), key(&quot;id31&quot;, &quot;id32&quot;)); actual(newTable).should(equal(table(&quot;*id1&quot;, &quot;*id2&quot;, &quot;description&quot;, ____________________________________, &quot;id11&quot;, &quot;id12&quot;, &quot;description one&quot;, &quot;id31&quot;, &quot;id32&quot;, &quot;description three&quot;)));</p>
 </article>
 
 <article>
@@ -115,7 +120,7 @@
 
 <article>
 <header><h1>GUID</h1></header>
-<p>Use cell.guid to automatically generate unique ids. Groovy [&quot;ID&quot; | &quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________________________________________________ cell.guid | permute(true, false) | &quot;v1b&quot; | permute('a', 'b') cell.guid | &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C 21cba011-7cb7-40f4-b3b6-407e82b042c5 true v1b a 3ed59dee-ab8e-491a-8ad8-8a9fbc4423b7 false v1b a 07027815-6a73-481e-bee3-a8fdd9a93dc2 true v1b b dd2e9ac1-beee-44fb-9ceb-283b6ca4ed88 false v1b b ad3350cd-667d-4b70-935c-0b475154159d v2a 10 v2c 4ad78ed6-5fc7-438c-a8c2-fe4c4d4edc2b v2a 20 v2c</p>
+<p>Use cell.guid to automatically generate unique ids. Groovy [&quot;ID&quot; | &quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________________________________________________ cell.guid | permute(true, false) | &quot;v1b&quot; | permute('a', 'b') cell.guid | &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C 81c99e28-d47d-45c4-93ed-c7cd06320bcc true v1b a 75eb744d-458c-4db0-8b7e-6f1ea82a4725 false v1b a 3e19da38-a9ec-4a66-a18c-1b156686f50f true v1b b 3dfff7bb-b815-408e-ab73-e7c85e60c4c4 false v1b b 8cfe42b8-7bca-4a44-b361-2c720776af3d v2a 10 v2c c4d0bd0c-7534-46df-994d-d354a1ff9a05 v2a 20 v2c</p>
 </article>
 
 <article>
@@ -297,7 +302,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "lang" : "groovy",
             "snippet" : "[\"*id\" | \"Name\" | \"Type\"] {\n___________________________\n \"id1\" | \"N\"    | \"T\"\n \"id2\" | \"N2\"   | \"T2\"\n \"id3\" | \"N\"    | \"T\" }",
-            "entry" : "createTableWithKeyColumns",
+            "entry" : "createTableWithKeyColumn",
             "bodyOnly" : true,
             "type" : "Snippet"
           } ]
@@ -306,7 +311,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "lang" : "java",
             "snippet" : "table(\"*id\" , \"Name\" , \"Type\",\n      _______________________,\n      \"id1\" , \"N\"    , \"T\",\n      \"id2\" , \"N2\"   , \"T2\",\n      \"id3\" , \"N\"    , \"T\")",
-            "entry" : "createTableWithKeyColumns",
+            "entry" : "createTableWithKeyColumn",
             "bodyOnly" : true,
             "removeReturn" : true,
             "removeSemicolon" : true,
@@ -325,7 +330,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "def found = tableData.find(key(\"id2\"))\nfound.Name.should == \"N2\"",
+            "snippet" : "def found = tableData.findByKey(\"id2\")\nfound.Name.should == \"N2\"",
             "entry" : "findByKeyAndValidate",
             "bodyOnly" : true,
             "type" : "Snippet"
@@ -334,7 +339,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "Record found = tableData.find(key(\"id2\"));\nactual(found.get(\"Name\")).should(equal(\"N2\"));",
+            "snippet" : "Record found = tableData.findByKey(\"id2\");\nString name = found.get(\"Name\");\nactual(name).should(equal(\"N2\"));",
             "entry" : "findByKeyAndValidate",
             "bodyOnly" : true,
             "type" : "Snippet"
@@ -420,7 +425,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "List<Map<String, ?>> list = new ArrayList<>();\nlist.add(CollectionUtils.aMapOf(\"k1\", \"v1\", \"k2\", \"v2\"));\nlist.add(CollectionUtils.aMapOf(\"k1\", \"v3\", \"k3\", \"v4\"));\n\nTableData tableData = TableData.fromListOfMaps(list);\n\nTableData expected = table(\"k1\", \"k2\", \"k3\",\n                           _________________,\n                           \"v1\", \"v2\", null,\n                           \"v3\", null, \"v4\");\n\nactual(tableData).should(equal(expected));",
+            "snippet" : "List<Map<String, ?>> list = new ArrayList<>();\nlist.add(CollectionUtils.map(\"k1\", \"v1\", \"k2\", \"v2\"));\nlist.add(CollectionUtils.map(\"k1\", \"v3\", \"k3\", \"v4\"));\n\nTableData tableData = TableData.fromListOfMaps(list);\n\nTableData expected = table(\"k1\", \"k2\", \"k3\",\n                           _________________,\n                           \"v1\", \"v2\", null,\n                           \"v3\", null, \"v4\");\n\nactual(tableData).should(equal(expected));",
             "title" : "from list of maps",
             "entry" : "tableCreationFromListOfMaps",
             "bodyOnly" : true,
@@ -435,6 +440,68 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Note: WebTau merges keys from all list elements to create the table header",
           "type" : "SimpleText"
         } ]
+      } ]
+    }, {
+      "id" : "create-from-existing-rows",
+      "title" : "Create From Existing Rows",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "fromRowsByKeys",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to create ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " from existing rows.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def table = [\"*id\" | \"description\"] {\n            __________________________\n             \"id1\" | \"description one\"\n             \"id2\" | \"description two\"\n             \"id3\" | \"description three\" }\n\ndef newTable = table.fromRowsByKeys(\"id1\", \"id3\")\nnewTable.should ==  [\"*id\" | \"description\"] {\n                    __________________________\n                     \"id1\" | \"description one\"\n                     \"id3\" | \"description three\" }",
+            "title" : "from existing rows by keys",
+            "entry" : "should create a new table by selecting rows by id",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          }, {
+            "lang" : "groovy",
+            "snippet" : "def table = [\"*id1\" | \"*id2\" | \"description\"] {\n            _____________________________________\n             \"id11\" | \"id21\" | \"description one\"\n             \"id21\" | \"id22\" | \"description two\"\n             \"id31\" | \"id32\" | \"description three\" }\n\ndef newTable = table.fromRowsByKeys(key(\"id11\", \"id21\"), key(\"id31\", \"id32\"))\nnewTable.should ==  [\"*id1\" | \"*id2\" | \"description\"] {\n                     _____________________________________\n                     \"id11\" | \"id21\" | \"description one\"\n                     \"id31\" | \"id32\" | \"description three\" }",
+            "title" : "from existing rows by composite keys",
+            "entry" : "should create a new table by selecting rows by composite keys",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "TableData table = table(\"*id\", \"description\",\n                        __________________________,\n                        \"id1\", \"description one\",\n                        \"id2\", \"description two\",\n                        \"id3\", \"description three\");\n\nTableData newTable = table.fromRowsByKeys(\"id1\", \"id3\");\nactual(newTable).should(equal(table(\"*id\", \"description\",\n                                    __________________________,\n                                    \"id1\", \"description one\",\n                                    \"id3\", \"description three\")));",
+            "title" : "from existing rows by keys",
+            "entry" : "shouldCreateANewTableBySelectingRowsById",
+            "bodyOnly" : true,
+            "anchorId" : "create-from-existing-rows-from-existing-rows-by-keys",
+            "type" : "Snippet"
+          }, {
+            "lang" : "java",
+            "snippet" : "TableData table = table(\"*id1\", \"*id2\", \"description\",\n                        ____________________________________,\n                        \"id11\", \"id12\", \"description one\",\n                        \"id21\", \"id22\", \"description two\",\n                        \"id31\", \"id32\", \"description three\");\n\nTableData newTable = table.fromRowsByKeys(key(\"id11\", \"id12\"), key(\"id31\", \"id32\"));\nactual(newTable).should(equal(table(\"*id1\", \"*id2\", \"description\",\n                                    ____________________________________,\n                                    \"id11\", \"id12\", \"description one\",\n                                    \"id31\", \"id32\", \"description three\")));",
+            "title" : "from existing rows by composite keys",
+            "entry" : "shouldCreateANewTableBySelectingRowsByCompositeKeys",
+            "bodyOnly" : true,
+            "anchorId" : "create-from-existing-rows-from-existing-rows-by-composite-keys",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
       } ]
     }, {
       "id" : "serialization",
@@ -747,7 +814,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "21cba011-7cb7-40f4-b3b6-407e82b042c5",
+              "text" : "81c99e28-d47d-45c4-93ed-c7cd06320bcc",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -771,7 +838,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "3ed59dee-ab8e-491a-8ad8-8a9fbc4423b7",
+              "text" : "75eb744d-458c-4db0-8b7e-6f1ea82a4725",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -795,7 +862,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "07027815-6a73-481e-bee3-a8fdd9a93dc2",
+              "text" : "3e19da38-a9ec-4a66-a18c-1b156686f50f",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -819,7 +886,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "dd2e9ac1-beee-44fb-9ceb-283b6ca4ed88",
+              "text" : "3dfff7bb-b815-408e-ab73-e7c85e60c4c4",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -843,7 +910,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "ad3350cd-667d-4b70-935c-0b475154159d",
+              "text" : "8cfe42b8-7bca-4a44-b361-2c720776af3d",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -867,7 +934,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "4ad78ed6-5fc7-438c-a8c2-fe4c4d4edc2b",
+              "text" : "c4d0bd0c-7534-46df-994d-d354a1ff9a05",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -1297,7 +1364,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1671557712801,
+    "lastModifiedTime" : 1677178162244,
     "tocItem" : {
       "chapterTitle" : "Reference",
       "pageTitle" : "Table Data",
@@ -1314,6 +1381,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Create From List",
         "id" : "create-from-list"
+      }, {
+        "title" : "Create From Existing Rows",
+        "id" : "create-from-existing-rows"
       }, {
         "title" : "Serialization",
         "id" : "serialization"

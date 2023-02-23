@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: 2023 Releases</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>1.51</h1></header>
+<p>Fix: JUnit5 correctly registers failed matcher step Fix: HTML report long test names replaced with ellipsis Fix: Console output of failed steps and their output order at the end of tests run Fix: GraphQL/introduction GraphQL won't make schema calls for report when no GraphQL calls were performed during test Fix: matchers/introduction#waitto waitTo label fix preposition messaging Fix: remove extra spacing before delimiters when render report/steps Web Report Steps Doc: move report/tracing trace and report/warnings warning to their own documentation pages and document import prerequisites Doc: data/json#write-table-data data.json.write TableData add missing report output Doc: move junit5/getting-started JUnit5 to its own section Doc: JUnit5 junit5/dynamic-tests Dynamic Tests Java examples Add: Java config is handled when only webtau-core dependency is present. No need for junit specific dependency. Add: trace report/tracing#object-properties complex objects like list of java beans with nested beans Add: pretty print string in a special way when newline symbol is present Add: highlight elements inside lists that match criteria when shouldn't (when using shouldNot contain ) Add: initial pretty printer of class instances Add: use colored messages for matchers/introduction#failure-output failed assertion details Add: Display actual value with markers on Web Report in case of a failure Add: Pretty Print for Regexp Pattern instance with displaying flags Add: report/tracing tracing pretty prints complex values like maps and reference/table-data TableData Add: database/data-setup#cleaning-tables databaseTable.clear shortcut to delete from tables Add: reference/table-data#create-from-existing-rows TableData.fromRowsByKeys Add: Empty reference/table-data TableData pretty print explicitly states &quot;empty&quot; for empty tables Add: report/steps Steps input info additional indentation when printed to console Add: matchers/introduction Matchers only print minimal details in case of match, extra details in case of failure Add: matchers/introduction Matchers only print first 5 lines of expected for in progress message to reduce data duplication Add: Failed Test report/introduction#failed-test-summary Summary auto expands failed step and removed duplicated error message from parent step during rendering Add: matchers/introduction Matchers won't print failed matching details twice. Now it only prints during step rendering, and actual assertion message asks to check info above Add: reference/table-data TableData findByKey validation for keys presence and composite key size match Merge: database/introduction Database DatabaseFacade and Database to have consistent import of DB module only Add: database/introduction Database comparison and inserts automatically convert from camelCase to UNDER_SCORE Doc: database/introduction Database Spring Boot database/spring-boot-example Example Add: database/introduction Database pretty print query results in case of failure Add: database/introduction Database instance creation from explicit jdbc url Add: browser/introduction browser implicit browser/test-containers Test Containers support Add: browser/basic-configuration#access-to-base-url browser.getBaseUrlPort Add: matchers/java-bean#collection-of-java-beans-and-table-data Beans And Table comparison pretty prints beans as table Add: matchers/java-bean#java-bean-and-maps Bean And Map comparison pretty prints actual bean data in case of mismatch Add: reference/table-data TableData new comparison report with colors and better failure highlight Fix: properly render Arrays as actual instead of reference hash Add: list companion to map Add: data/json#parse-map data.json.mapFromString, data/json#parse-list data.json.listFromString, data/json#parse-tabledata data.json.tableFromString, data/json#parse-object data.json.objectFromString Add: renamed aMapOf to map and deprecated former Add: matchers/introduction waitTo on LiveValue support for greaterThan, lessThan kind of comparisons Add: pretty print output of actual value with failure markers in case of a matchers/introduction#failure-output Failed Matcher Add: matchers/introduction waitTo support for supplier Add: limit number of failed/errored tests printed at the end of run Add: configuration/options#consoleOutputCaptureDir consoleOutputCaptureDir for groovy-standalone-runner/introduction Groovy Standalone Runner Add: HTTP/body#form-url-encoded-data http.formDataUrlEncoded Add: data/base64 data.base64 to encode and decode strings Add: report/introduction Report shows first failed step in test summary instead of an exception message Add: Report shows warning icon next to tests with warnings Add: report/steps Steps, Trace, Warnings Java examples</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "1-51",
+      "title" : "1.51",
+      "type" : "Section",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: JUnit5 correctly registers failed matcher step",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: HTML report long test names replaced with ellipsis",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: Console output of failed steps and their output order at the end of tests run",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/GraphQL/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "GraphQL",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " won't make schema calls for report when no GraphQL calls were performed during test",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction#waitto",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "waitTo label",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " fix preposition messaging",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: remove extra spacing before delimiters when render ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/steps",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Web Report Steps",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: move ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/tracing",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "trace",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/warnings",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "warning",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " to their own documentation pages and document import prerequisites",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/json#write-table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data.json.write",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "TableData",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " add missing report output",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: move ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/junit5/getting-started",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "JUnit5",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " to its own section",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: JUnit5 ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/junit5/dynamic-tests",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Dynamic Tests",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " Java examples",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Java config is handled when only webtau-core dependency is present. No need for junit specific dependency.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "trace",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/tracing#object-properties",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "complex objects",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " like list of java beans with nested beans",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: pretty print string in a special way when newline symbol is present",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: highlight elements inside lists that match criteria when shouldn't (when using ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "shouldNot contain",
+              "type" : "InlinedCode"
+            }, {
+              "text" : ")",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: initial pretty printer of ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "class",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " instances",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: use colored messages for ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction#failure-output",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "failed assertion details",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Display actual value with markers on Web Report in case of a failure",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Pretty Print for Regexp Pattern instance with displaying flags",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/tracing",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "tracing",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " pretty prints complex values like maps and ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/database/data-setup#cleaning-tables",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "databaseTable.clear",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " shortcut to delete from tables",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data#create-from-existing-rows",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData.fromRowsByKeys",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Empty ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " pretty print explicitly states \"empty\" for empty tables",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/steps",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Steps",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " input info additional indentation when printed to console",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Matchers",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " only print minimal details in case of match, extra details in case of failure",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Matchers",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " only print first 5 lines of ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "expected",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " for ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "in progress",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " message to reduce data duplication",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Failed Test ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/introduction#failed-test-summary",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Summary",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " auto expands failed step and removed duplicated error message from parent step during rendering",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Matchers",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " won't print failed matching details twice. Now it only prints during step rendering, and actual assertion message asks to check info above",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "findByKey",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " validation for keys presence and composite key size match",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Merge: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/database/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Database",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "DatabaseFacade",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "Database",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to have consistent import of DB module only",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/database/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Database",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " comparison and inserts automatically convert from camelCase to UNDER_SCORE",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/database/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Database",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " Spring Boot ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/database/spring-boot-example",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Example",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/database/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Database",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " pretty print query results in case of failure",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/database/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Database",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " instance creation from explicit jdbc url",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "browser",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " implicit ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/test-containers",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Test Containers",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " support",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/basic-configuration#access-to-base-url",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "browser.getBaseUrlPort",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/java-bean#collection-of-java-beans-and-table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Beans And Table",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " comparison pretty prints beans as table",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/java-bean#java-bean-and-maps",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Bean And Map",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " comparison pretty prints actual bean data in case of mismatch",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " new comparison report with colors and better failure highlight",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: properly render Arrays as actual instead of reference hash",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "list",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " companion to ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "map",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/json#parse-map",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data.json.mapFromString",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ", ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/json#parse-list",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data.json.listFromString",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ",",
+              "type" : "SimpleText"
+            }, {
+              "type" : "SoftLineBreak"
+            }, {
+              "url" : "/webtau/data/json#parse-tabledata",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data.json.tableFromString",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ", ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/json#parse-object",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data.json.objectFromString",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: renamed ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "aMapOf",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "map",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " and deprecated former",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "waitTo",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " on ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "LiveValue",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " support for greaterThan, lessThan kind of comparisons",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: pretty print output of actual value with failure markers in case of a ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction#failure-output",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Failed Matcher",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "waitTo",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " support for supplier",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: limit number of failed/errored tests printed at the end of run",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/configuration/options#consoleOutputCaptureDir",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "consoleOutputCaptureDir",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/groovy-standalone-runner/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Groovy Standalone Runner",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/body#form-url-encoded-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "http.formDataUrlEncoded",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/data/base64",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "data.base64",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " to encode and decode strings",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Report",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " shows first failed step in test summary instead of an exception message",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Report shows warning icon next to tests with warnings",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/steps",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Steps, Trace, Warnings",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " Java examples",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1677178162248,
+    "tocItem" : {
+      "chapterTitle" : "Release Notes",
+      "pageTitle" : "2023 Releases",
+      "pageMeta" : {
+        "title" : [ "2023 Releases" ]
+      },
+      "dirName" : "release-notes",
+      "fileName" : "2023",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "1.51",
+        "id" : "1-51"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

@@ -95,12 +95,12 @@
 
 <article>
 <header><h1>Properties On Lists</h1></header>
-<p>If you have a list of objects like complexList below, you can access all its children property value with complexList.k2 . Groovy http.get(&quot;/end-point&quot;) { complexList.k2.should == [30, 40] } Java http.get(&quot;/end-point&quot;, ((header, body) -&gt; { body.get(&quot;complexList&quot;).get(&quot;k2&quot;).should(equal(Arrays.asList(30, 40))); }));</p>
+<p>If you have a list of objects like complexList below, you can access all its children property value with complexList.k2 . Groovy http.get(&quot;/end-point&quot;) { complexList.k2.should == [30, 40] } Java http.get(&quot;/end-point&quot;, ((header, body) -&gt; { body.get(&quot;complexList&quot;).get(&quot;k2&quot;).should(equal(list(30, 40))); }));</p>
 </article>
 
 <article>
 <header><h1>Path based properties access</h1></header>
-<p>Primarily for Java users, WebTau supports the ability to query properties of a DataNode via a path instead of chaining get(String name) calls. For example, to obtain a simple property: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;object.k1&quot;).should(equal(&quot;v1&quot;)); }); It is also possible to query arrays, including the ability to query for the Nth element from the end: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList[0].k1&quot;).should(equal(&quot;v1&quot;)); body.get(&quot;complexList[-1].k1&quot;).should(equal(&quot;v11&quot;)); }); Similarly to the Groovy example in HTTP/data-node#properties-on-lists Properties On Lists, it is possible to access all children property values: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList.k1&quot;).should(equal(Arrays.asList(&quot;v1&quot;, &quot;v11&quot;))); });</p>
+<p>Primarily for Java users, WebTau supports the ability to query properties of a DataNode via a path instead of chaining get(String name) calls. For example, to obtain a simple property: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;object.k1&quot;).should(equal(&quot;v1&quot;)); }); It is also possible to query arrays, including the ability to query for the Nth element from the end: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList[0].k1&quot;).should(equal(&quot;v1&quot;)); body.get(&quot;complexList[-1].k1&quot;).should(equal(&quot;v11&quot;)); }); Similarly to the Groovy example in HTTP/data-node#properties-on-lists Properties On Lists, it is possible to access all children property values: http.get(&quot;/end-point&quot;, (header, body) -&gt; { body.get(&quot;complexList.k1&quot;).should(equal(list(&quot;v1&quot;, &quot;v11&quot;))); });</p>
 </article>
 
 <article>
@@ -248,6 +248,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         },
         "paths" : [ "root.price" ],
+        "anchorId" : "special-values-get-end-point-response",
         "type" : "Json"
       } ]
     }, {
@@ -382,7 +383,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "http.get(\"/end-point\", ((header, body) -> {\n    body.get(\"complexList\").get(\"k2\").should(equal(Arrays.asList(30, 40)));\n}));",
+            "snippet" : "http.get(\"/end-point\", ((header, body) -> {\n    body.get(\"complexList\").get(\"k2\").should(equal(list(30, 40)));\n}));",
             "entry" : "childrenKeyShortcut",
             "bodyOnly" : true,
             "type" : "Snippet"
@@ -413,6 +414,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         },
         "paths" : [ "root.complexList[0].k2", "root.complexList[1].k2" ],
+        "anchorId" : "properties-on-lists-response",
         "type" : "Json"
       } ]
     }, {
@@ -481,7 +483,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "java",
-        "snippet" : "http.get(\"/end-point\", (header, body) -> {\n    body.get(\"complexList.k1\").should(equal(Arrays.asList(\"v1\", \"v11\")));\n});",
+        "snippet" : "http.get(\"/end-point\", (header, body) -> {\n    body.get(\"complexList.k1\").should(equal(list(\"v1\", \"v11\")));\n});",
         "entry" : "canQueryListByNodePath",
         "bodyOnly" : true,
         "type" : "Snippet"
@@ -549,6 +551,7 @@ ReactDOM.render(React.createElement(Documentation, {
           }
         },
         "paths" : [ ],
+        "anchorId" : "if-else-logic-response",
         "type" : "Json"
       }, {
         "tabsContent" : [ {
@@ -617,6 +620,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         },
         "paths" : [ ],
+        "anchorId" : "iteration-response",
         "type" : "Json"
       }, {
         "tabsContent" : [ {
@@ -704,6 +708,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         },
         "paths" : [ "root.complexList[0].k1", "root.complexList[0].k2" ],
+        "anchorId" : "find-response",
         "type" : "Json"
       }, {
         "tabsContent" : [ {
@@ -883,7 +888,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1671557712797,
+    "lastModifiedTime" : 1677178162240,
     "tocItem" : {
       "chapterTitle" : "HTTP",
       "pageTitle" : "Data Node",

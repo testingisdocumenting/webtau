@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Spring Boot Example</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Database Setup</h1></header>
+<p>WebTau db. module can operate on JVM DataSource without providing JDBC URLs. In the following sections, we will cover https://spring.io/projects/spring-boot Spring Boot Repository Test.We need to configure WebTau db. module as well as Spring test one @DataJpaTest @ActiveProfiles(&quot;tc&quot;) // test profile with Test Containers public class AccountRepositoryTest { private final AccountRepository accountRepository; private final Database mainDb; private final DatabaseTable ACCOUNT; @Autowired public AccountRepositoryTest(DataSource dataSource, AccountRepository accountRepository) { this.accountRepository = accountRepository; mainDb = db.labeled(&quot;main-db&quot;).fromDataSource(dataSource); // define WebTau database instance to insert/read ACCOUNT = mainDb.table(&quot;ACCOUNT&quot;); // define ACCOUNT table instance to insert/read } Here is how we define tc profile using https://www.testcontainers.org/modules/databases/jdbc/ Test Containers JDBC support: # test containers special JDBC url spring.datasource.url=jdbc:tc:postgresql:9.6.8:///my-db spring.datasource.driverClassName=org.testcontainers.jdbc.ContainerDatabaseDriver spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL95Dialect spring.jpa.hibernate.ddl-auto=create-drop # disable default in memory DB provided by @DataJpaTest spring.test.database.replace=none</p>
+</article>
+
+<article>
+<header><h1>Write Directly To DB</h1></header>
+<p>Let's write data directly to database table, bypassing repository class, so we can isolate our test logic. @Test public void findById() { // define data to be inserted into DB TableData newAccounts = table( &quot;ID&quot;, &quot;FIRST_NAME&quot;, &quot;LAST_NAME&quot;, ________________________________, &quot;id1&quot;, &quot;FN1&quot; , &quot;LN1&quot;, &quot;id2&quot;, &quot;FN2&quot; , &quot;LN2&quot;); // insert directly to DB bypassing repository ACCOUNT.insert(newAccounts); // use accounts repository to fetch a record Account account = accountRepository.findById(&quot;id2&quot;).get(); // use bean and map comparison shortcut actual(account).should(equal(map( &quot;id&quot;, &quot;id2&quot;, &quot;firstName&quot;, &quot;FN2&quot;, &quot;lastName&quot;, &quot;LN2&quot;))); }</p>
+</article>
+
+<article>
+<header><h1>Read Directly From DB</h1></header>
+<p>Now let's write data using repository and validate that DB table actually contains the data. We then will test a simple query by last name. @Test public void createEntriesAndFindByName() { TableData newAccounts = table( &quot;*id&quot;, &quot;firstName&quot; , &quot;lastName&quot;, ________________________________, &quot;id1&quot;, &quot;FN1&quot; , &quot;LN&quot;, &quot;id2&quot;, &quot;FN2&quot; , &quot;LN&quot;, &quot;id3&quot;, &quot;FNN1&quot; , &quot;LNN&quot;); List&lt;Account&gt; accounts = createAccounts(newAccounts); // create accounts java beans from table data accountRepository.saveAll(accounts); // force data commit to DB TestTransaction.flagForCommit(); TestTransaction.end(); // query all data from DB, using * to note that we depend on ID for compare and not order ACCOUNT.query().should(equal(table(&quot;*ID&quot;, &quot;FIRST_NAME&quot;, &quot;LAST_NAME&quot;, ________________________________, &quot;id1&quot;, &quot;FN1&quot; , &quot;LN&quot;, &quot;id2&quot;, &quot;FN2&quot; , &quot;LN&quot;, &quot;id3&quot;, &quot;FNN1&quot; , &quot;LNN&quot;))); // WebTau will automatically convert actual column names from underscores to camelCase based on expected column names ACCOUNT.query().should(equal(newAccounts)); // search by last name and validate received java beans List&lt;Account&gt; lnAccounts = accountRepository.findByLastName(&quot;LN&quot;); actual(lnAccounts).should(equal(table(&quot;*id&quot;, &quot;firstName&quot;, &quot;lastName&quot;, ______________________________, &quot;id1&quot;, &quot;FN1&quot; , &quot;LN&quot;, &quot;id2&quot;, &quot;FN2&quot; , &quot;LN&quot;))); } private static List&lt;Account&gt; createAccounts(TableData tableData) { return tableData.rowsStream().map(row -&gt; { Account account = new Account(); account.setId(row.get(&quot;id&quot;)); account.setFirstName(row.get(&quot;firstName&quot;)); account.setLastName(row.get(&quot;lastName&quot;)); return account; }).collect(Collectors.toList()); }</p>
+</article>
+
+<article>
+<header><h1>Re-using Data</h1></header>
+<p>In the test above we repeated test data with only difference in column names. In setup, we used camelCase, and in expectations underscores.WebTau automatically converts data from one format to another depending on the context. I.e. if you compare table query result with FIRST_NAME as a column against a TableData with firstName column, WebTau will convert actual before comparison to match expected column names format. @Test public void findByIdReuseData() { // using camelCase for properties TableData newAccounts = table( &quot;*id&quot;, &quot;firstName&quot; , &quot;lastName&quot;, ________________________________, &quot;id1&quot;, &quot;FN1&quot; , &quot;LN1&quot;, &quot;id2&quot;, &quot;FN2&quot; , &quot;LN2&quot;); // WebTau will automatically convert camelCase to underscores at insert time ACCOUNT.insert(newAccounts); // use accounts repository to fetch a record Account account = accountRepository.findById(&quot;id2&quot;).get(); // reuse row from newAccounts table as expected value actual(account).should(equal(newAccounts.findByKey(&quot;id2&quot;))); } @Test public void createEntriesAndFindByNameReuseData() { TableData newAccounts = table(&quot;*id&quot;, &quot;firstName&quot;, &quot;lastName&quot;, ______________________________, &quot;id1&quot;, &quot;FN1&quot; , &quot;LN&quot;, &quot;id2&quot;, &quot;FN2&quot; , &quot;LN&quot;, &quot;id3&quot;, &quot;FNN1&quot; , &quot;LNN&quot;); List&lt;Account&gt; accounts = createAccounts(newAccounts); // create accounts java beans from table data accountRepository.saveAll(accounts); // force data commit to DB TestTransaction.flagForCommit(); TestTransaction.end(); // another way to compare. // WebTau will automatically convert actual column names from underscores to camelCase based on expected column names format ACCOUNT.query().should(equal(newAccounts)); // search by last name and validate received java beans List&lt;Account&gt; lnAccounts = accountRepository.findByLastName(&quot;LN&quot;); TableData expectedByLn = newAccounts.fromRowsByKeys(&quot;id1&quot;, &quot;id2&quot;); actual(lnAccounts).should(equal(expectedByLn)); }</p>
+</article>
+
+<article>
+<header><h1>Cleanup Between Tests</h1></header>
+<p>In between tests we will explicitly delete data from DB @BeforeEach public void cleanupBeforeTest() { ACCOUNT.clear(); }</p>
+</article>
+
+<article>
+<header><h1>Import And Dependency</h1></header>
+<p>import static org.testingisdocumenting.webtau.db.Database.db; To include only Database module as your dependency use &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-data&lt;/artifactId&gt; &lt;version&gt;1.51&lt;/version&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "WebTau ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "db.",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " module can operate on JVM DataSource without providing JDBC URLs.",
+        "type" : "SimpleText"
+      }, {
+        "type" : "SoftLineBreak"
+      }, {
+        "text" : "In the following sections, we will cover ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "https://spring.io/projects/spring-boot",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Spring Boot",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " Repository Test.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "database-setup",
+      "title" : "Database Setup",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "We need to configure WebTau ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "db.",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " module as well as Spring test one",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "@DataJpaTest\n@ActiveProfiles(\"tc\") // test profile with Test Containers\npublic class AccountRepositoryTest {\n    private final AccountRepository accountRepository;\n    private final Database mainDb;\n    private final DatabaseTable ACCOUNT;\n\n    @Autowired\n    public AccountRepositoryTest(DataSource dataSource, AccountRepository accountRepository) {\n        this.accountRepository = accountRepository;\n\n        mainDb = db.labeled(\"main-db\").fromDataSource(dataSource); // define WebTau database instance to insert/read\n        ACCOUNT = mainDb.table(\"ACCOUNT\"); // define ACCOUNT table instance to insert/read\n    }",
+        "title" : "datasource injection and db module setup",
+        "surroundedBy" : "repository-test-config",
+        "commentsType" : "inline",
+        "anchorId" : "database-setup-datasource-injection-and-db-module-setup",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Here is how we define ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "tc",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " profile using ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://www.testcontainers.org/modules/databases/jdbc/",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Test Containers JDBC support",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ":",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "bash",
+        "snippet" : "# test containers special JDBC url\nspring.datasource.url=jdbc:tc:postgresql:9.6.8:///my-db\nspring.datasource.driverClassName=org.testcontainers.jdbc.ContainerDatabaseDriver\nspring.jpa.database-platform=org.hibernate.dialect.PostgreSQL95Dialect\nspring.jpa.hibernate.ddl-auto=create-drop\n# disable default in memory DB provided by @DataJpaTest\nspring.test.database.replace=none",
+        "autoTitle" : true,
+        "commentsType" : "inline",
+        "title" : "src/test/resources/application-tc.properties",
+        "anchorId" : "database-setup-src-test-resources-application-tc-properties",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "write-directly-to-db",
+      "title" : "Write Directly To DB",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Let's write data directly to database table, bypassing repository class, so we can isolate our test logic.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "@Test\npublic void findById() {\n    // define data to be inserted into DB\n    TableData newAccounts = table( \"ID\", \"FIRST_NAME\", \"LAST_NAME\",\n                                  ________________________________,\n                                  \"id1\", \"FN1\"       , \"LN1\",\n                                  \"id2\", \"FN2\"       , \"LN2\");\n\n    // insert directly to DB bypassing repository\n    ACCOUNT.insert(newAccounts);\n\n    // use accounts repository to fetch a record\n    Account account = accountRepository.findById(\"id2\").get();\n\n    // use bean and map comparison shortcut\n    actual(account).should(equal(map(\n            \"id\", \"id2\",\n            \"firstName\", \"FN2\",\n            \"lastName\", \"LN2\")));\n}",
+        "entry" : "findById",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "read-directly-from-db",
+      "title" : "Read Directly From DB",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Now let's write data using repository and validate that DB table actually contains the data.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "We then will test a simple query by last name.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "@Test\npublic void createEntriesAndFindByName() {\n    TableData newAccounts = table( \"*id\", \"firstName\" , \"lastName\",\n                                  ________________________________,\n                                   \"id1\", \"FN1\"       , \"LN\",\n                                   \"id2\", \"FN2\"       , \"LN\",\n                                   \"id3\", \"FNN1\"      , \"LNN\");\n\n    List<Account> accounts = createAccounts(newAccounts); // create accounts java beans from table data\n    accountRepository.saveAll(accounts);\n\n    // force data commit to DB\n    TestTransaction.flagForCommit();\n    TestTransaction.end();\n\n    // query all data from DB, using * to note that we depend on ID for compare and not order\n    ACCOUNT.query().should(equal(table(\"*ID\", \"FIRST_NAME\", \"LAST_NAME\",\n                                      ________________________________,\n                                       \"id1\", \"FN1\"       , \"LN\",\n                                       \"id2\", \"FN2\"       , \"LN\",\n                                       \"id3\", \"FNN1\"      , \"LNN\")));\n\n    // WebTau will automatically convert actual column names from underscores to camelCase based on expected column names\n    ACCOUNT.query().should(equal(newAccounts));\n\n    // search by last name and validate received java beans\n    List<Account> lnAccounts = accountRepository.findByLastName(\"LN\");\n    actual(lnAccounts).should(equal(table(\"*id\", \"firstName\", \"lastName\",\n                                          ______________________________,\n                                          \"id1\", \"FN1\"       , \"LN\",\n                                          \"id2\", \"FN2\"       , \"LN\")));\n}",
+        "entry" : "createEntriesAndFindByName",
+        "commentsType" : "inline",
+        "type" : "Snippet"
+      }, {
+        "lang" : "java",
+        "snippet" : "private static List<Account> createAccounts(TableData tableData) {\n    return tableData.rowsStream().map(row -> {\n        Account account = new Account();\n        account.setId(row.get(\"id\"));\n        account.setFirstName(row.get(\"firstName\"));\n        account.setLastName(row.get(\"lastName\"));\n\n        return account;\n    }).collect(Collectors.toList());\n}",
+        "title" : "create accounts from TableData",
+        "entry" : "createAccounts",
+        "anchorId" : "read-directly-from-db-create-accounts-from-tabledata",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "re-using-data",
+      "title" : "Re-using Data",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In the test above we repeated test data with only difference in column names. In setup, we used camelCase, and in expectations underscores.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau automatically converts data from one format to another depending on the context.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "I.e. if you compare table query result with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "FIRST_NAME",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " as a column against a ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "firstName",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " column,",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "WebTau will convert actual before comparison to match expected column names format.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "@Test\npublic void findByIdReuseData() {\n    // using camelCase for properties\n    TableData newAccounts = table( \"*id\", \"firstName\" , \"lastName\",\n                                  ________________________________,\n                                   \"id1\", \"FN1\"       , \"LN1\",\n                                   \"id2\", \"FN2\"       , \"LN2\");\n\n    // WebTau will automatically convert camelCase to underscores at insert time\n    ACCOUNT.insert(newAccounts);\n\n    // use accounts repository to fetch a record\n    Account account = accountRepository.findById(\"id2\").get();\n\n    // reuse row from newAccounts table as expected value\n    actual(account).should(equal(newAccounts.findByKey(\"id2\")));\n}",
+        "title" : "re-use a single row from input for validation",
+        "entry" : "findByIdReuseData",
+        "commentsType" : "inline",
+        "anchorId" : "re-using-data-re-use-a-single-row-from-input-for-validation",
+        "type" : "Snippet"
+      }, {
+        "lang" : "java",
+        "snippet" : "@Test\npublic void createEntriesAndFindByNameReuseData() {\n    TableData newAccounts = table(\"*id\", \"firstName\", \"lastName\",\n                                  ______________________________,\n                                  \"id1\", \"FN1\"      , \"LN\",\n                                  \"id2\", \"FN2\"      , \"LN\",\n                                  \"id3\", \"FNN1\"     , \"LNN\");\n\n    List<Account> accounts = createAccounts(newAccounts); // create accounts java beans from table data\n    accountRepository.saveAll(accounts);\n\n    // force data commit to DB\n    TestTransaction.flagForCommit();\n    TestTransaction.end();\n\n    // another way to compare.\n    // WebTau will automatically convert actual column names from underscores to camelCase based on expected column names format\n    ACCOUNT.query().should(equal(newAccounts));\n\n    // search by last name and validate received java beans\n    List<Account> lnAccounts = accountRepository.findByLastName(\"LN\");\n\n    TableData expectedByLn = newAccounts.fromRowsByKeys(\"id1\", \"id2\");\n    actual(lnAccounts).should(equal(expectedByLn));\n}",
+        "title" : "re-use the whole table for validation",
+        "entry" : "createEntriesAndFindByNameReuseData",
+        "commentsType" : "inline",
+        "anchorId" : "re-using-data-re-use-the-whole-table-for-validation",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "cleanup-between-tests",
+      "title" : "Cleanup Between Tests",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In between tests we will explicitly delete data from DB",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "@BeforeEach\npublic void cleanupBeforeTest() {\n    ACCOUNT.clear();\n}",
+        "title" : "cleanup before each test",
+        "entry" : "cleanupBeforeTest",
+        "anchorId" : "cleanup-between-tests-cleanup-before-each-test",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "import-and-dependency",
+      "title" : "Import And Dependency",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "java",
+        "snippet" : "import static org.testingisdocumenting.webtau.db.Database.db;",
+        "title" : "import",
+        "includeRegexp" : "Database.db",
+        "anchorId" : "import-and-dependency-import",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To include only Database module as your dependency use",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-data</artifactId>\n    <version>1.51</version>\n</dependency>",
+        "title" : "maven dependency",
+        "anchorId" : "import-and-dependency-maven-dependency",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1677178162240,
+    "tocItem" : {
+      "chapterTitle" : "Database",
+      "pageTitle" : "Spring Boot Example",
+      "pageMeta" : { },
+      "dirName" : "database",
+      "fileName" : "spring-boot-example",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Database Setup",
+        "id" : "database-setup"
+      }, {
+        "title" : "Write Directly To DB",
+        "id" : "write-directly-to-db"
+      }, {
+        "title" : "Read Directly From DB",
+        "id" : "read-directly-from-db"
+      }, {
+        "title" : "Re-using Data",
+        "id" : "re-using-data"
+      }, {
+        "title" : "Cleanup Between Tests",
+        "id" : "cleanup-between-tests"
+      }, {
+        "title" : "Import And Dependency",
+        "id" : "import-and-dependency"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

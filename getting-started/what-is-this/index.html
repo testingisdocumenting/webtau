@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>WebTau</h1></header>
-<p>WebTau (Web Test automation) - concise and expressive way to write end-to-end and unit tests.Test your application across multiple layers:REST API (Including HTTP/data-coverage Data Coverage) GraphQL API Browser CLI Database Business Logic (JVM only) Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer to validate GraphQL API.Use persona/introduction Persona concept to test API Authorization and collaboration Web Apps like chats and editors. Groovy scenario(&quot;my bank balance&quot;) { Alice { http.get(&quot;/statement&quot;) { balance.shouldBe &gt; 100 } } Bob { http.get(&quot;/statement&quot;) { balance.shouldBe &lt; 50 } } } Java @WebTau public class PersonaHttpJavaTest { @Test public void checkBalance() { Alice.execute(() -&gt; http.get(&quot;/statement&quot;, (header, body) -&gt; { body.get(&quot;balance&quot;).shouldBe(greaterThan(100)); })); Bob.execute(() -&gt; http.get(&quot;/statement&quot;, (header, body) -&gt; { body.get(&quot;balance&quot;).shouldBe(lessThan(50)); })); } } Use powerful REPL/experiments REPL mode to significantly speed up end-to-end tests development. webtau:000&gt; $(&quot;p&quot;) element is found: by css p getText(): hello web page Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.Leverage out of the box report/introduction rich reportingTests can be written in any JVM language. Language specific syntactic sugar is available for Groovy . #rest-api-example REST API example #graphql-api-example GraphQL API example #browser-example Browser example #db-example DB example #cli-example CLI example</p>
+<p>WebTau (Web Test automation) - concise and expressive way to write end-to-end and unit tests.Test your application across multiple layers:REST API (Including HTTP/data-coverage Data Coverage) GraphQL API Browser CLI Database Business Logic (JVM only) Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Browser test, or database layer to validate GraphQL API.Use persona/introduction Persona concept to test API Authorization and collaboration Web Apps like chats and editors. Groovy scenario(&quot;my bank balance&quot;) { Alice { http.get(&quot;/statement&quot;) { balance.shouldBe &gt; 100 } } Bob { http.get(&quot;/statement&quot;) { balance.shouldBe &lt; 50 } } } Java @WebTau public class PersonaHttpJavaTest { @Test public void checkBalance() { Alice.execute(() -&gt; http.get(&quot;/statement&quot;, (header, body) -&gt; { body.get(&quot;balance&quot;).shouldBe(greaterThan(100)); })); Bob.execute(() -&gt; http.get(&quot;/statement&quot;, (header, body) -&gt; { body.get(&quot;balance&quot;).shouldBe(lessThan(50)); })); } } Use powerful REPL/experiments REPL mode to significantly speed up end-to-end tests development. webtau:000&gt; $(&quot;p&quot;) element is found: by css p getText(): hello web page getUnderlyingValue(): hello web page Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.Leverage out of the box report/introduction rich reportingTests can be written in any JVM language. Language specific syntactic sugar is available for Groovy . #rest-api-example REST API example #graphql-api-example GraphQL API example #browser-example Browser example #db-example DB example #cli-example CLI example</p>
 </article>
 
 <article>
@@ -181,7 +181,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "scale" : 0.5,
         "align" : "left",
         "imageSrc" : "/webtau/webtau-logo.png",
-        "timestamp" : 1671557712805,
+        "timestamp" : 1677178162252,
         "shapes" : [ ],
         "width" : 256.0,
         "height" : 256.0,
@@ -306,6 +306,7 @@ ReactDOM.render(React.createElement(Documentation, {
               "balance" : 150
             },
             "paths" : [ ],
+            "anchorId" : "webtau-alice-server-response",
             "type" : "Json"
           }, {
             "title" : "Bob server response",
@@ -313,6 +314,7 @@ ReactDOM.render(React.createElement(Documentation, {
               "balance" : 30
             },
             "paths" : [ ],
+            "anchorId" : "webtau-bob-server-response",
             "type" : "Json"
           } ]
         }, {
@@ -330,6 +332,7 @@ ReactDOM.render(React.createElement(Documentation, {
               "balance" : 150
             },
             "paths" : [ ],
+            "anchorId" : "webtau-alice-server-response-2",
             "type" : "Json"
           }, {
             "title" : "Bob server response",
@@ -337,6 +340,7 @@ ReactDOM.render(React.createElement(Documentation, {
               "balance" : 30
             },
             "paths" : [ ],
+            "anchorId" : "webtau-bob-server-response-2",
             "type" : "Json"
           } ]
         } ],
@@ -360,7 +364,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "trying css selectors",
-        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m $(\"p\")", "\u001B[32melement is found: \u001B[35mby css \u001B[1m\u001B[35mp\u001B[0m", "\u001B[33m           getText(): \u001B[32mhello web page\u001B[0m" ],
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m $(\"p\")", "\u001B[32melement is found: \u001B[35mby css \u001B[1m\u001B[35mp\u001B[0m", "\u001B[33m           getText(): \u001B[32mhello web page\u001B[0m", "\u001B[33mgetUnderlyingValue(): \u001B[32mhello web page\u001B[0m" ],
+        "anchorId" : "webtau-trying-css-selectors",
         "type" : "CliOutput"
       }, {
         "type" : "Paragraph",
@@ -385,7 +390,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-separated-http-calls.png",
-        "timestamp" : 1671558351421,
+        "timestamp" : 1677178900589,
         "shapes" : [ ],
         "width" : 1310.0,
         "height" : 802.0,
@@ -518,6 +523,7 @@ ReactDOM.render(React.createElement(Documentation, {
                   "temperature" : 88
                 },
                 "paths" : [ ],
+                "anchorId" : "rest-api-example-server-response",
                 "type" : "Json"
               } ]
             } ],
@@ -542,6 +548,7 @@ ReactDOM.render(React.createElement(Documentation, {
                   "temperature" : 88
                 },
                 "paths" : [ ],
+                "anchorId" : "rest-api-example-server-response-2",
                 "type" : "Json"
               } ]
             } ],
@@ -590,6 +597,7 @@ ReactDOM.render(React.createElement(Documentation, {
                   }
                 },
                 "paths" : [ ],
+                "anchorId" : "graphql-api-example-server-response",
                 "type" : "Json"
               } ]
             } ],
@@ -618,6 +626,7 @@ ReactDOM.render(React.createElement(Documentation, {
                   }
                 },
                 "paths" : [ ],
+                "anchorId" : "graphql-api-example-server-response-2",
                 "type" : "Json"
               } ]
             } ],
@@ -704,7 +713,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1671557712801,
+    "lastModifiedTime" : 1677178162244,
     "tocItem" : {
       "chapterTitle" : "Getting Started",
       "pageTitle" : "What Is This",

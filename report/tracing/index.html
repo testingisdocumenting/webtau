@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Tracing</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Key Value</h1></header>
+<p>Check report/import-and-dependencies Import And Dependencies for prerequisites. Use trace core method to render key-value pairs to a console and to generated web report. Groovy trace(&quot;trace label&quot;, [k1: &quot;v1&quot;, k2: &quot;v2&quot;]) trace(&quot;another trace label&quot;, &quot;k3&quot;, &quot;v3&quot;, &quot;k4&quot;, &quot;v4&quot;) Java trace(&quot;trace label&quot;, map(&quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, &quot;v2&quot;)); trace(&quot;another trace label&quot;, &quot;k3&quot;, &quot;v3&quot;, &quot;k4&quot;, &quot;v4&quot;); [tracing] trace label k1: &quot;v1&quot; k2: &quot;v2&quot; [tracing] another trace label k3: &quot;v3&quot; k4: &quot;v4&quot;</p>
+</article>
+
+<article>
+<header><h1>Object Properties</h1></header>
+<p>Use trace and properties combo to trace object properties: def account = new Account(&quot;acc1&quot;, &quot;my account&quot;, 100) trace(&quot;my account&quot;, properties(account)) [tracing] my account {&quot;id&quot;: &quot;acc1&quot;, &quot;money&quot;: {&quot;dollars&quot;: 100}, &quot;name&quot;: &quot;my account&quot;}</p>
+</article>
+
+<article>
+<header><h1>Multiple Objects As Table</h1></header>
+<p>Use trace and propertiesTable combo to trace object properties: def game1 = new GameConfig(&quot;super game&quot;, Paths.get(&quot;/games/superA&quot;)) game1.registerAchievement(&quot;chapter1&quot;, &quot;Chapter One&quot;, &quot;complete chapter one&quot;) game1.registerAchievement(&quot;boss1&quot;, &quot;Giant Rat&quot;, &quot;defeat giant rat&quot;) def game2 = new GameConfig(&quot;duper game&quot;, Paths.get(&quot;/games/duperA&quot;)) game2.registerAchievement(&quot;chapter2&quot;, &quot;Chapter Two&quot;, &quot;complete chapter two&quot;) game2.registerAchievement(&quot;boss2&quot;, &quot;Giant Mouse&quot;, &quot;defeat giant mouse&quot;) trace(&quot;games&quot;, propertiesTable([game1, game2])) [tracing] games achievements │ gameName │ location [ │ &quot;super game&quot; │ /games/superA {&quot;description&quot;: &quot;complete chapter one&quot;, &quot;id&quot;: &quot;chapter1&quot;, &quot;name&quot;: &quot;Chapter One&quot;}, │ │ {&quot;description&quot;: &quot;defeat giant rat&quot;, &quot;id&quot;: &quot;boss1&quot;, &quot;name&quot;: &quot;Giant Rat&quot;} │ │ ] │ │ │ │ [ │ &quot;duper game&quot; │ /games/duperA {&quot;description&quot;: &quot;complete chapter two&quot;, &quot;id&quot;: &quot;chapter2&quot;, &quot;name&quot;: &quot;Chapter Two&quot;}, │ │ {&quot;description&quot;: &quot;defeat giant mouse&quot;, &quot;id&quot;: &quot;boss2&quot;, &quot;name&quot;: &quot;Giant Mouse&quot;} │ │ ] │ │</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Check ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/webtau/report/import-and-dependencies",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Import And Dependencies",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " for prerequisites.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "key-value",
+      "title" : "Key Value",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "trace",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " core method to render key-value pairs to a console and to generated web report.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "trace(\"trace label\", [k1: \"v1\", k2: \"v2\"])\ntrace(\"another trace label\", \"k3\", \"v3\", \"k4\", \"v4\")",
+            "title" : "trace key values",
+            "surroundedBy" : [ "trace-map", "trace-vararg" ],
+            "anchorId" : "key-value-trace-key-values",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "trace(\"trace label\", map(\"k1\", \"v1\", \"k2\", \"v2\"));\ntrace(\"another trace label\", \"k3\", \"v3\", \"k4\", \"v4\");",
+            "title" : "trace key values",
+            "surroundedBy" : [ "trace-map", "trace-vararg" ],
+            "anchorId" : "key-value-trace-key-values-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "title" : "console output",
+        "startLine" : "trace label",
+        "endLine" : "v4",
+        "lines" : [ "\u001B[1m[tracing]\u001B[0m \u001B[34mtrace label\u001B[0m", "    \u001B[35mk1\u001B[33m: \u001B[32m\"v1\"\u001B[0m", "    \u001B[35mk2\u001B[33m: \u001B[32m\"v2\"\u001B[0m", "\u001B[1m[tracing]\u001B[0m \u001B[34manother trace label\u001B[0m", "    \u001B[35mk3\u001B[33m: \u001B[32m\"v3\"\u001B[0m", "    \u001B[35mk4\u001B[33m: \u001B[32m\"v4\"\u001B[0m" ],
+        "anchorId" : "key-value-console-output",
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "id" : "object-properties",
+      "title" : "Object Properties",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "trace",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "properties",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " combo to trace object properties:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def account = new Account(\"acc1\", \"my account\", 100)\ntrace(\"my account\", properties(account))",
+        "title" : "trace object properties",
+        "entry" : "nested simple bean",
+        "surroundedBy" : [ "data-prep", "data-trace" ],
+        "type" : "Snippet"
+      }, {
+        "title" : "console output",
+        "lines" : [ "\u001B[1m[tracing]\u001B[0m \u001B[34mmy account\u001B[0m", "  \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[32m\"acc1\"\u001B[33m, \u001B[35m\"money\"\u001B[33m: \u001B[33m{\u001B[35m\"dollars\"\u001B[33m: \u001B[34m100\u001B[33m}\u001B[33m, \u001B[35m\"name\"\u001B[33m: \u001B[32m\"my account\"\u001B[33m}\u001B[0m" ],
+        "anchorId" : "object-properties-console-output",
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "id" : "multiple-objects-as-table",
+      "title" : "Multiple Objects As Table",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "trace",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "propertiesTable",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " combo to trace object properties:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def game1 = new GameConfig(\"super game\", Paths.get(\"/games/superA\"))\ngame1.registerAchievement(\"chapter1\", \"Chapter One\", \"complete chapter one\")\ngame1.registerAchievement(\"boss1\", \"Giant Rat\", \"defeat giant rat\")\n\ndef game2 = new GameConfig(\"duper game\", Paths.get(\"/games/duperA\"))\ngame2.registerAchievement(\"chapter2\", \"Chapter Two\", \"complete chapter two\")\ngame2.registerAchievement(\"boss2\", \"Giant Mouse\", \"defeat giant mouse\")\n\ntrace(\"games\", propertiesTable([game1, game2]))",
+        "title" : "table of objects properties",
+        "entry" : "table of complex beans",
+        "surroundedBy" : [ "data-prep", "data-trace" ],
+        "surroundedBySeparator" : "",
+        "type" : "Snippet"
+      }, {
+        "title" : "console output",
+        "wide" : true,
+        "lines" : [ "\u001B[1m[tracing]\u001B[0m \u001B[34mgames\u001B[0m", "  \u001B[35machievements                                                                       \u001B[33m │ \u001B[35mgameName    \u001B[33m │ \u001B[35mlocation     \u001B[0m", "  \u001B[33m[                                                                                  \u001B[33m │ \u001B[32m\"super game\"\u001B[33m │ \u001B[32m/games/superA\u001B[0m", "    \u001B[33m{\u001B[35m\"description\"\u001B[33m: \u001B[32m\"complete chapter one\"\u001B[33m, \u001B[35m\"id\"\u001B[33m: \u001B[32m\"chapter1\"\u001B[33m, \u001B[35m\"name\"\u001B[33m: \u001B[32m\"Chapter One\"\u001B[33m}\u001B[33m,\u001B[33m │             \u001B[33m │              \u001B[0m", "    \u001B[33m{\u001B[35m\"description\"\u001B[33m: \u001B[32m\"defeat giant rat\"\u001B[33m, \u001B[35m\"id\"\u001B[33m: \u001B[32m\"boss1\"\u001B[33m, \u001B[35m\"name\"\u001B[33m: \u001B[32m\"Giant Rat\"\u001B[33m}          \u001B[33m │             \u001B[33m │              \u001B[0m", "  \u001B[33m]                                                                                  \u001B[33m │             \u001B[33m │              \u001B[0m", "                                                                                     \u001B[33m │             \u001B[33m │              \u001B[0m", "  \u001B[33m[                                                                                  \u001B[33m │ \u001B[32m\"duper game\"\u001B[33m │ \u001B[32m/games/duperA\u001B[0m", "    \u001B[33m{\u001B[35m\"description\"\u001B[33m: \u001B[32m\"complete chapter two\"\u001B[33m, \u001B[35m\"id\"\u001B[33m: \u001B[32m\"chapter2\"\u001B[33m, \u001B[35m\"name\"\u001B[33m: \u001B[32m\"Chapter Two\"\u001B[33m}\u001B[33m,\u001B[33m │             \u001B[33m │              \u001B[0m", "    \u001B[33m{\u001B[35m\"description\"\u001B[33m: \u001B[32m\"defeat giant mouse\"\u001B[33m, \u001B[35m\"id\"\u001B[33m: \u001B[32m\"boss2\"\u001B[33m, \u001B[35m\"name\"\u001B[33m: \u001B[32m\"Giant Mouse\"\u001B[33m}      \u001B[33m │             \u001B[33m │              \u001B[0m", "  \u001B[33m]                                                                                  \u001B[33m │             \u001B[33m │              \u001B[0m" ],
+        "anchorId" : "multiple-objects-as-table-console-output",
+        "type" : "CliOutput"
+      } ]
+    } ],
+    "lastModifiedTime" : 1677178162248,
+    "tocItem" : {
+      "chapterTitle" : "Report",
+      "pageTitle" : "Tracing",
+      "pageMeta" : { },
+      "dirName" : "report",
+      "fileName" : "tracing",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Key Value",
+        "id" : "key-value"
+      }, {
+        "title" : "Object Properties",
+        "id" : "object-properties"
+      }, {
+        "title" : "Multiple Objects As Table",
+        "id" : "multiple-objects-as-table"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

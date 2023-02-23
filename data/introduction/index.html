@@ -84,7 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>WebTau data module streamline access to test data.Data access generates report/steps Report Steps to help with tests investigation. data/json json - access JSON test data data/csv csv - access CSV test data data/pdf pdf - access PDF data to validate TableData table = data.csv.table(&quot;data/table.csv&quot;) &gt; reading csv from file or resource data/table.csv . read 2 lines of csv from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv (0ms)</p>
+<p>WebTau data module streamlines access to test data.Data access generates report/steps Report Steps to help with tests investigation. data/json json - access JSON test data data/csv csv - access CSV test data data/pdf pdf - access PDF data to validate data/base64 base64 - encode and decode base64 TableData table = data.csv.table(&quot;data/table.csv&quot;) &gt; reading csv from file or resource data/table.csv . read 3 lines of csv from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv (0ms)</p>
 </article>
 </section>
 </div>
@@ -123,7 +123,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "code" : "data",
         "type" : "InlinedCode"
       }, {
-        "text" : " module streamline access to test data.",
+        "text" : " module streamlines access to test data.",
         "type" : "SimpleText"
       } ]
     }, {
@@ -198,6 +198,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "type" : "SimpleText"
           } ]
         } ]
+      }, {
+        "type" : "ListItem",
+        "content" : [ {
+          "type" : "Paragraph",
+          "content" : [ {
+            "url" : "/webtau/data/base64",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "text" : "base64",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "text" : " - encode and decode base64",
+            "type" : "SimpleText"
+          } ]
+        } ]
       } ]
     }, {
       "lang" : "groovy",
@@ -208,10 +225,11 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "Snippet"
     }, {
       "title" : "console output",
-      "lines" : [ "\u001B[33m> \u001B[34mreading \u001B[36mcsv \u001B[33mfrom \u001B[36mfile or resource \u001B[35mdata/table.csv\u001B[0m", "\u001B[32m. \u001B[34mread \u001B[34m2 \u001B[36mlines of csv \u001B[33mfrom \u001B[36mfile \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+      "lines" : [ "\u001B[33m> \u001B[34mreading \u001B[36mcsv \u001B[33mfrom \u001B[36mfile or resource \u001B[35mdata/table.csv\u001B[0m", "\u001B[32m. \u001B[34mread \u001B[34m3 \u001B[36mlines of csv \u001B[33mfrom \u001B[36mfile \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+      "anchorId" : "console-output",
       "type" : "CliOutput"
     } ],
-    "lastModifiedTime" : 1671557712801,
+    "lastModifiedTime" : 1677178162240,
     "tocItem" : {
       "chapterTitle" : "Data",
       "pageTitle" : "Introduction",

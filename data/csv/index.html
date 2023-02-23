@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Table Data</h1></header>
-<p>Use data.csv.table to read data as TableData from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. A B C 1 2 3 a b c Groovy TableData table = data.csv.table(&quot;data/table.csv&quot;) Check data/import-and-dependencies Import And Dependencies for prerequisites. Java TableData table = data.csv.table(&quot;data/table.csv&quot;); Check data/import-and-dependencies Import And Dependencies for prerequisites. read methods produce additional report to help with tests investigation &gt; reading csv from file or resource data/table.csv . read 2 lines of csv from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv (0ms)</p>
+<p>Use data.csv.table to read data as TableData from CSV file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. A B C 1 2 3 a b c Groovy TableData table = data.csv.table(&quot;data/table.csv&quot;) Check data/import-and-dependencies Import And Dependencies for prerequisites. Java TableData table = data.csv.table(&quot;data/table.csv&quot;); Check data/import-and-dependencies Import And Dependencies for prerequisites. read methods produce additional report to help with tests investigation &gt; reading csv from file or resource data/table.csv . read 3 lines of csv from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv (0ms)</p>
 </article>
 
 <article>
@@ -100,17 +100,17 @@
 
 <article>
 <header><h1>Specify Header</h1></header>
-<p>1, 2, 3 a, b, c Use data.csv.listOfMapsAutoConverted(header, path) to read data as java.util.List of java.util.Map from CSV file. Header will be taken from first parameter and first row of CSV file will not be treated as header. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.csv.listOfMapsAutoConverted([&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;], &quot;data/table-no-header.csv&quot;) list.get(0).C2.should == 2 list.get(0).C2.class.canonicalName.should == &quot;java.lang.Long&quot; Java List&lt;Map&lt;String, ?&gt;&gt; list = data.csv.listOfMapsAutoConverted(Arrays.asList(&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;), &quot;data/table-no-header.csv&quot;); actual(list.get(0).get(&quot;C2&quot;)).should(equal(2)); actual(list.get(0).get(&quot;C2&quot;).getClass().getCanonicalName()).should(equal(&quot;java.lang.Long&quot;));</p>
+<p>1, 2, 3 a, b, c Use data.csv.listOfMapsAutoConverted(header, path) to read data as java.util.List of java.util.Map from CSV file. Header will be taken from first parameter and first row of CSV file will not be treated as header. Numeric values become values of Numeric type instead of String type. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.csv.listOfMapsAutoConverted([&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;], &quot;data/table-no-header.csv&quot;) list.get(0).C2.should == 2 list.get(0).C2.class.canonicalName.should == &quot;java.lang.Long&quot; Java List&lt;Map&lt;String, ?&gt;&gt; list = data.csv.listOfMapsAutoConverted(list(&quot;C1&quot;, &quot;C2&quot;, &quot;C3&quot;), &quot;data/table-no-header.csv&quot;); actual(list.get(0).get(&quot;C2&quot;)).should(equal(2)); actual(list.get(0).get(&quot;C2&quot;).getClass().getCanonicalName()).should(equal(&quot;java.lang.Long&quot;));</p>
 </article>
 
 <article>
 <header><h1>Write List</h1></header>
-<p>Use data.csv.write to write data to CSV file. Groovy def list = [ [&quot;colA&quot;: 1, &quot;colB&quot;: &quot;R1&quot;], [&quot;colA&quot;: 2, &quot;colB&quot;: &quot;R2&quot;]] def path = data.csv.write(&quot;generated/from-list-maps.csv&quot;, list) Java List&lt;Map&lt;String, ?&gt;&gt; list = Arrays.asList( aMapOf(&quot;colA&quot;, 1, &quot;colB&quot;, &quot;R1&quot;), aMapOf(&quot;colA&quot;, 2, &quot;colB&quot;, &quot;R2&quot;)); Path path = data.csv.write(&quot;generated/from-list-maps.csv&quot;, list); write methods produce additional information that helps with tests investigation &gt; writing csv to file generated/from-list-maps.csv . wrote 3 lines to csv /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-list-maps.csv (2ms) colA,colB 1,R1 2,R2</p>
+<p>Use data.csv.write to write data to CSV file. Groovy def list = [ [&quot;colA&quot;: 1, &quot;colB&quot;: &quot;R1&quot;], [&quot;colA&quot;: 2, &quot;colB&quot;: &quot;R2&quot;]] def path = data.csv.write(&quot;generated/from-list-maps.csv&quot;, list) Java List&lt;Map&lt;String, ?&gt;&gt; list = list( map(&quot;colA&quot;, 1, &quot;colB&quot;, &quot;R1&quot;), map(&quot;colA&quot;, 2, &quot;colB&quot;, &quot;R2&quot;)); Path path = data.csv.write(&quot;generated/from-list-maps.csv&quot;, list); write methods produce additional information that helps with tests investigation &gt; writing csv to file generated/from-list-maps.csv . wrote 4 lines to csv /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-list-maps.csv (1ms) colA,colB 1,R1 2,R2</p>
 </article>
 
 <article>
 <header><h1>Write Table Data</h1></header>
-<p>Groovy TableData table = [&quot;id&quot; | &quot;value&quot;] { ________________ &quot;id1&quot; | &quot;value1&quot; &quot;id2&quot; | &quot;value2&quot; } def path = data.csv.write(&quot;generated/from-table-data.csv&quot;, table) Java TableData csvTable = table(&quot;id&quot; , &quot;value&quot;, ________________, &quot;id1&quot; , &quot;value1&quot;, &quot;id2&quot; , &quot;value2&quot;); Path path = data.csv.write(&quot;generated/from-table-data.csv&quot;, csvTable); write methods produce additional information that helps with tests investigation &gt; writing csv to file generated/from-table-data.csv . wrote 3 lines to csv /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.csv (1ms) id,value id1,value1 id2,value2</p>
+<p>Groovy TableData table = [&quot;id&quot; | &quot;value&quot;] { ________________ &quot;id1&quot; | &quot;value1&quot; &quot;id2&quot; | &quot;value2&quot; } def path = data.csv.write(&quot;generated/from-table-data.csv&quot;, table) Java TableData csvTable = table(&quot;id&quot; , &quot;value&quot;, ________________, &quot;id1&quot; , &quot;value1&quot;, &quot;id2&quot; , &quot;value2&quot;); Path path = data.csv.write(&quot;generated/from-table-data.csv&quot;, csvTable); write methods produce additional information that helps with tests investigation &gt; writing csv to file generated/from-table-data.csv . wrote 4 lines to csv /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.csv (1ms) id,value id1,value1 id2,value2</p>
 </article>
 </section>
 </div>
@@ -286,7 +286,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[33m> \u001B[34mreading \u001B[36mcsv \u001B[33mfrom \u001B[36mfile or resource \u001B[35mdata/table.csv\u001B[0m", "\u001B[32m. \u001B[34mread \u001B[34m2 \u001B[36mlines of csv \u001B[33mfrom \u001B[36mfile \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mreading \u001B[36mcsv \u001B[33mfrom \u001B[36mfile or resource \u001B[35mdata/table.csv\u001B[0m", "\u001B[32m. \u001B[34mread \u001B[34m3 \u001B[36mlines of csv \u001B[33mfrom \u001B[36mfile \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/table.csv\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "table-data-console-output",
         "type" : "CliOutput"
       } ]
     }, {
@@ -621,7 +622,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "List<Map<String, ?>> list = data.csv.listOfMapsAutoConverted(Arrays.asList(\"C1\", \"C2\", \"C3\"), \"data/table-no-header.csv\");\nactual(list.get(0).get(\"C2\")).should(equal(2));\nactual(list.get(0).get(\"C2\").getClass().getCanonicalName()).should(equal(\"java.lang.Long\"));",
+            "snippet" : "List<Map<String, ?>> list = data.csv.listOfMapsAutoConverted(list(\"C1\", \"C2\", \"C3\"), \"data/table-no-header.csv\");\nactual(list.get(0).get(\"C2\")).should(equal(2));\nactual(list.get(0).get(\"C2\").getClass().getCanonicalName()).should(equal(\"java.lang.Long\"));",
             "title" : "read list of maps from csv with auto conversion",
             "surroundedBy" : [ "// read-list-of-maps-header" ],
             "anchorId" : "specify-header-read-list-of-maps-from-csv-with-auto-conversion-2",
@@ -668,7 +669,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "List<Map<String, ?>> list = Arrays.asList(\n        aMapOf(\"colA\", 1, \"colB\", \"R1\"),\n        aMapOf(\"colA\", 2, \"colB\", \"R2\"));",
+            "snippet" : "List<Map<String, ?>> list = list(\n        map(\"colA\", 1, \"colB\", \"R1\"),\n        map(\"colA\", 2, \"colB\", \"R2\"));",
             "title" : "data",
             "surroundedBy" : [ "// list-data" ],
             "anchorId" : "write-list-data-2",
@@ -694,7 +695,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[33m> \u001B[34mwriting \u001B[36mcsv \u001B[33mto \u001B[36mfile \u001B[35mgenerated/from-list-maps.csv\u001B[0m", "\u001B[32m. \u001B[34mwrote \u001B[34m3 \u001B[36mlines \u001B[33mto \u001B[36mcsv \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-list-maps.csv\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mwriting \u001B[36mcsv \u001B[33mto \u001B[36mfile \u001B[35mgenerated/from-list-maps.csv\u001B[0m", "\u001B[32m. \u001B[34mwrote \u001B[34m4 \u001B[36mlines \u001B[33mto \u001B[36mcsv \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-list-maps.csv\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "write-list-console-output",
         "type" : "CliOutput"
       }, {
         "lang" : "csv",
@@ -756,7 +758,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[33m> \u001B[34mwriting \u001B[36mcsv \u001B[33mto \u001B[36mfile \u001B[35mgenerated/from-table-data.csv\u001B[0m", "\u001B[32m. \u001B[34mwrote \u001B[34m3 \u001B[36mlines \u001B[33mto \u001B[36mcsv \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.csv\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mwriting \u001B[36mcsv \u001B[33mto \u001B[36mfile \u001B[35mgenerated/from-table-data.csv\u001B[0m", "\u001B[32m. \u001B[34mwrote \u001B[34m4 \u001B[36mlines \u001B[33mto \u001B[36mcsv \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.csv\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "write-table-data-console-output",
         "type" : "CliOutput"
       }, {
         "lang" : "csv",
@@ -767,7 +770,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1671557712801,
+    "lastModifiedTime" : 1677178162240,
     "tocItem" : {
       "chapterTitle" : "Data",
       "pageTitle" : "Csv",

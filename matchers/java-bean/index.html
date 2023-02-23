@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Java Bean</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Java Bean And Maps</h1></header>
+<p>WebTau provides matchers/universal-compare universal comparison handlers to streamline Java Bean assertions.Use map and bean comparison to validate individual java bean properties. Groovy def account = new Account(&quot;ac1&quot;, &quot;My Account&quot;, &quot;test account&quot;, new Address(&quot;TestingCity&quot;, &quot;88888888&quot;)) account.should == [ id: &quot;ac1&quot;, name: &quot;My Second Account&quot;, address: [zipCode: &quot;7777777&quot;]] // only specified properties will be compared Java Address address = new Address(&quot;TestingCity&quot;, &quot;88888888&quot;); Account account = new Account(&quot;ac1&quot;, &quot;My Account&quot;, &quot;test account&quot;, address); actual(account).should(equal(map( // utility function from WebTauCore static import &quot;id&quot;, &quot;ac1&quot;, &quot;name&quot;, &quot;My Second Account&quot;, &quot;address&quot;, map(&quot;zipCode&quot;, &quot;7777777&quot;)))); // only specified properties will be compared public class Account { private final String id; private final String name; private final String description; private final Address address; public Account(String id, String name, String description, Address address) { this.id = id; this.name = name; this.description = description; this.address = address; } public String getId() { return id; } public String getName() { return name; } public String getDescription() { return description; } public Address getAddress() { return address; } } public class Address { private final String city; private final String zipCode; public Address(String city, String zipCode) { this.city = city; this.zipCode = zipCode; } public String getCity() { return city; } public String getZipCode() { return zipCode; } } X failed expecting [value] to equal {&quot;id&quot;: &quot;ac1&quot;, &quot;name&quot;: &quot;My Second Account&quot;, &quot;address&quot;: {&quot;zipCode&quot;: &quot;7777777&quot;}}: [value].name: actual: &quot;My Account&quot; &lt;java.lang.String&gt; expected: &quot;My Second Account&quot; &lt;java.lang.String&gt; ^ [value].address.zipCode: actual: &quot;88888888&quot; &lt;java.lang.String&gt; expected: &quot;7777777&quot; &lt;java.lang.String&gt; ^ (1ms) { &quot;address&quot;: {&quot;city&quot;: &quot;TestingCity&quot;, &quot;zipCode&quot;: **&quot;88888888&quot;**}, &quot;description&quot;: &quot;test account&quot;, &quot;id&quot;: &quot;ac1&quot;, &quot;name&quot;: **&quot;My Account&quot;** }</p>
+</article>
+
+<article>
+<header><h1>Collection of Java Beans And Table Data</h1></header>
+<p>Use TableData to assert a collection of beans Groovy List&lt;Account&gt; accounts = fetchAccounts() TableData expected = [&quot;*id&quot; | &quot;name&quot; | &quot;address&quot;] { _________________________________________ &quot;ac2&quot; | &quot;Works&quot; | [zipCode: &quot;zip2&quot;] &quot;ac1&quot; | &quot;Home&quot; | [zipCode: &quot;zip1&quot;] &quot;ac3&quot; | &quot;My Account&quot; | [zipCode: &quot;zip8&quot;] } accounts.should == expected Java List&lt;Account&gt; accounts = fetchAccounts(); TableData expected = table(&quot;*id&quot;, &quot;name&quot;, &quot;address&quot;, ________________________________________, &quot;ac2&quot;, &quot;Works&quot;, map(&quot;zipCode&quot;, &quot;zip2&quot;), &quot;ac1&quot;, &quot;Home&quot;, map(&quot;zipCode&quot;, &quot;zip1&quot;), &quot;ac3&quot;, &quot;My Account&quot;, map(&quot;zipCode&quot;, &quot;zip8&quot;)); actual(accounts).should(equal(expected)); X failed expecting [value] to equal *id │ name │ address &quot;ac2&quot; │ &quot;Works&quot; │ {&quot;zipCode&quot;: &quot;zip2&quot;} &quot;ac1&quot; │ &quot;Home&quot; │ {&quot;zipCode&quot;: &quot;zip1&quot;} &quot;ac3&quot; │ &quot;My Account&quot; │ {&quot;zipCode&quot;: &quot;zip8&quot;}: [value][2].address.zipCode: actual: &quot;zip3&quot; &lt;java.lang.String&gt; expected: &quot;zip8&quot; &lt;java.lang.String&gt; ^ [value][1].name: actual: &quot;Work&quot; &lt;java.lang.String&gt; expected: &quot;Works&quot; &lt;java.lang.String&gt; ^ (17ms) address │ description │ id │ name {&quot;city&quot;: &quot;TC1&quot;, &quot;zipCode&quot;: &quot;zip1&quot;} │ &quot;test account&quot; │ &quot;ac1&quot; │ &quot;Home&quot; {&quot;city&quot;: &quot;TC2&quot;, &quot;zipCode&quot;: &quot;zip2&quot;} │ &quot;test account&quot; │ &quot;ac2&quot; │ **&quot;Work&quot;** {&quot;city&quot;: &quot;TC3&quot;, &quot;zipCode&quot;: **&quot;zip3&quot;**} │ &quot;test account&quot; │ &quot;ac3&quot; │ &quot;My Account&quot; Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*; import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "WebTau provides ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/webtau/matchers/universal-compare",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "universal comparison",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " handlers to streamline Java Bean assertions.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "java-bean-and-maps",
+      "title" : "Java Bean And Maps",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use map and bean comparison to validate individual java bean properties.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def account = new Account(\"ac1\", \"My Account\", \"test account\", new Address(\"TestingCity\", \"88888888\"))\naccount.should == [\n        id: \"ac1\",\n        name: \"My Second Account\",\n        address: [zipCode: \"7777777\"]] // only specified properties will be compared",
+            "surroundedBy" : "bean-map-example",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "Address address = new Address(\"TestingCity\", \"88888888\");\nAccount account = new Account(\"ac1\", \"My Account\", \"test account\", address);\nactual(account).should(equal(map( // utility function from WebTauCore static import\n        \"id\", \"ac1\",\n        \"name\", \"My Second Account\",\n        \"address\", map(\"zipCode\", \"7777777\")))); // only specified properties will be compared",
+            "surroundedBy" : "bean-map-example",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "columns" : [ {
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "public class Account {\n    private final String id;\n    private final String name;\n    private final String description;\n    private final Address address;\n\n    public Account(String id, String name, String description,\n                   Address address) {\n        this.id = id;\n        this.name = name;\n        this.description = description;\n        this.address = address;\n    }\n\n    public String getId() {\n        return id;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public String getDescription() {\n        return description;\n    }\n\n    public Address getAddress() {\n        return address;\n    }\n}",
+            "surroundedBy" : "account",
+            "title" : "Account Java Bean",
+            "anchorId" : "java-bean-and-maps-account-java-bean",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "public class Address {\n    private final String city;\n    private final String zipCode;\n\n    public Address(String city, String zipCode) {\n        this.city = city;\n        this.zipCode = zipCode;\n    }\n\n    public String getCity() {\n        return city;\n    }\n\n    public String getZipCode() {\n        return zipCode;\n    }\n}",
+            "surroundedBy" : "address",
+            "title" : "Address Java Bean",
+            "anchorId" : "java-bean-and-maps-address-java-bean",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "config" : { },
+        "type" : "Columns"
+      }, {
+        "title" : "bean mismatches highlighted",
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[34mto equal \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[32m\"ac1\"\u001B[33m, \u001B[35m\"name\"\u001B[33m: \u001B[32m\"My Second Account\"\u001B[33m, \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"zipCode\"\u001B[33m: \u001B[32m\"7777777\"\u001B[33m}\u001B[33m}\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value].name\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"My Account\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m             \u001B[36mexpected\u001B[0m: \u001B[32m\"My Second Account\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m             \u001B[0m              ^\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value].address.zipCode\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"88888888\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                        \u001B[36mexpected\u001B[0m: \u001B[32m\"7777777\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                        \u001B[0m           ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"city\"\u001B[33m: \u001B[32m\"TestingCity\"\u001B[33m, \u001B[35m\"zipCode\"\u001B[33m: \u001B[31m**\"88888888\"**\u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[35m\"description\"\u001B[33m: \u001B[32m\"test account\"\u001B[33m,\u001B[0m", "    \u001B[35m\"id\"\u001B[33m: \u001B[32m\"ac1\"\u001B[33m,\u001B[0m", "    \u001B[35m\"name\"\u001B[33m: \u001B[31m**\"My Account\"**\u001B[0m", "  \u001B[33m}\u001B[0m" ],
+        "anchorId" : "java-bean-and-maps-bean-mismatches-highlighted",
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "id" : "collection-of-java-beans-and-table-data",
+      "title" : "Collection of Java Beans And Table Data",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to assert a collection of beans",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "List<Account> accounts = fetchAccounts()\nTableData expected = [\"*id\" | \"name\"       | \"address\"] {\n                     _________________________________________\n                      \"ac2\" | \"Works\"      | [zipCode: \"zip2\"]\n                      \"ac1\" | \"Home\"       | [zipCode: \"zip1\"]\n                      \"ac3\" | \"My Account\" | [zipCode: \"zip8\"] }\n\naccounts.should == expected",
+            "surroundedBy" : "beans-table-example",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "List<Account> accounts = fetchAccounts();\nTableData expected = table(\"*id\",       \"name\", \"address\",\n                           ________________________________________,\n                           \"ac2\",      \"Works\", map(\"zipCode\", \"zip2\"),\n                           \"ac1\",       \"Home\", map(\"zipCode\", \"zip1\"),\n                           \"ac3\", \"My Account\", map(\"zipCode\", \"zip8\"));\n\nactual(accounts).should(equal(expected));",
+            "surroundedBy" : "beans-table-example",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "title" : "beans mismatches highlighted",
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[34mto equal \u001B[33m*\u001B[35mid  \u001B[33m │ \u001B[35mname        \u001B[33m │ \u001B[35maddress            ", "                                    \u001B[32m\"ac2\"\u001B[33m │ \u001B[32m\"Works\"     \u001B[33m │ \u001B[33m{\u001B[35m\"zipCode\"\u001B[33m: \u001B[32m\"zip2\"\u001B[33m}", "                                    \u001B[32m\"ac1\"\u001B[33m │ \u001B[32m\"Home\"      \u001B[33m │ \u001B[33m{\u001B[35m\"zipCode\"\u001B[33m: \u001B[32m\"zip1\"\u001B[33m}", "                                    \u001B[32m\"ac3\"\u001B[33m │ \u001B[32m\"My Account\"\u001B[33m │ \u001B[33m{\u001B[35m\"zipCode\"\u001B[33m: \u001B[32m\"zip8\"\u001B[33m}\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value][2].address.zipCode\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"zip3\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                           \u001B[36mexpected\u001B[0m: \u001B[32m\"zip8\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                           \u001B[0m              ^\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value][1].name\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"Work\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                \u001B[36mexpected\u001B[0m: \u001B[32m\"Works\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                \u001B[0m               ^\u001B[33m (\u001B[32m17ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[35maddress                               \u001B[33m │ \u001B[35mdescription   \u001B[33m │ \u001B[35mid   \u001B[33m │ \u001B[35mname        \u001B[0m", "  \u001B[33m{\u001B[35m\"city\"\u001B[33m: \u001B[32m\"TC1\"\u001B[33m, \u001B[35m\"zipCode\"\u001B[33m: \u001B[32m\"zip1\"\u001B[33m}    \u001B[33m │ \u001B[32m\"test account\"\u001B[33m │ \u001B[32m\"ac1\"\u001B[33m │ \u001B[32m\"Home\"      \u001B[0m", "  \u001B[33m{\u001B[35m\"city\"\u001B[33m: \u001B[32m\"TC2\"\u001B[33m, \u001B[35m\"zipCode\"\u001B[33m: \u001B[32m\"zip2\"\u001B[33m}    \u001B[33m │ \u001B[32m\"test account\"\u001B[33m │ \u001B[32m\"ac2\"\u001B[33m │ \u001B[31m**\"Work\"**  \u001B[0m", "  \u001B[33m{\u001B[35m\"city\"\u001B[33m: \u001B[32m\"TC3\"\u001B[33m, \u001B[35m\"zipCode\"\u001B[33m: \u001B[31m**\"zip3\"**\u001B[33m}\u001B[33m │ \u001B[32m\"test account\"\u001B[33m │ \u001B[32m\"ac3\"\u001B[33m │ \u001B[32m\"My Account\"\u001B[0m" ],
+        "anchorId" : "collection-of-java-beans-and-table-data-beans-mismatches-highlighted",
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "id" : "static-import",
+      "title" : "Static Import",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Examples assume ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "WebTauCore",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " static import.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "The class contains useful utility methods and matchers.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;\nimport static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;",
+        "surroundedBy" : "import-dsl",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1677178162244,
+    "tocItem" : {
+      "chapterTitle" : "Matchers",
+      "pageTitle" : "Java Bean",
+      "pageMeta" : { },
+      "dirName" : "matchers",
+      "fileName" : "java-bean",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Java Bean And Maps",
+        "id" : "java-bean-and-maps"
+      }, {
+        "title" : "Collection of Java Beans And Table Data",
+        "id" : "collection-of-java-beans-and-table-data"
+      }, {
+        "title" : "Static Import",
+        "id" : "static-import"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

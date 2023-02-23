@@ -95,17 +95,17 @@
 
 <article>
 <header><h1>Experiment With API</h1></header>
-<p>Use the REPL to try out various apis like http. , browser. , db. , cli. , etc. webtau:000&gt; http.get(&quot;https://jsonplaceholder.typicode.com/todos/1&quot;) &gt; executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer&gt; expected: 200 &lt;java.lang.Integer&gt; (25ms) response (application/json; charset=utf-8): { &quot;userId&quot;: 1, &quot;id&quot;: 1, &quot;title&quot;: &quot;delectus aut autem&quot;, &quot;completed&quot;: false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (599ms)</p>
+<p>Use the REPL to try out various apis like http. , browser. , db. , cli. , etc. webtau:000&gt; http.get(&quot;https://jsonplaceholder.typicode.com/todos/1&quot;) &gt; executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 (4ms) response (application/json; charset=utf-8): {&quot;userId&quot;: 1, &quot;id&quot;: 1, &quot;title&quot;: &quot;delectus aut autem&quot;, &quot;completed&quot;: false} . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (609ms)</p>
 </article>
 
 <article>
 <header><h1>Setting Config Value</h1></header>
-<p>Use cfg.url = &quot;http://url&quot; to set base url for experiments. webtau:000&gt; cfg.url = &quot;https://jsonplaceholder.typicode.com&quot; &gt; setting url source: manual url: https://jsonplaceholder.typicode.com . set url (0ms) ===&gt; https://jsonplaceholder.typicode.com webtau:000&gt; http.get(&quot;/todos/1&quot;) &gt; executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 header.statusCode: actual: 200 &lt;java.lang.Integer&gt; expected: 200 &lt;java.lang.Integer&gt; (0ms) response (application/json; charset=utf-8): { &quot;userId&quot;: 1, &quot;id&quot;: 1, &quot;title&quot;: &quot;delectus aut autem&quot;, &quot;completed&quot;: false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (42ms)</p>
+<p>Use cfg.url = &quot;http://url&quot; to set base url for experiments. webtau:000&gt; cfg.url = &quot;https://jsonplaceholder.typicode.com&quot; &gt; setting url source: &quot;manual&quot; url: &quot;https://jsonplaceholder.typicode.com&quot; . set url (0ms) ===&gt; https://jsonplaceholder.typicode.com webtau:000&gt; http.get(&quot;/todos/1&quot;) &gt; executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 (1ms) response (application/json; charset=utf-8): {&quot;userId&quot;: 1, &quot;id&quot;: 1, &quot;title&quot;: &quot;delectus aut autem&quot;, &quot;completed&quot;: false} . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (17ms)</p>
 </article>
 
 <article>
 <header><h1>Preserving Browser Context</h1></header>
-<p>During browser testing the REPL preserves the context of an opened browser, so you can experiment with css selectors and element actions without re-opening the browser and setting the right web app state. webtau:000&gt; browser.open(&quot;file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html&quot;) &gt; initializing webdriver for chrome . initialized webdriver for chrome (1s 59ms) &gt; opening file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html . opened file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html (73ms) Using element selectors provides additional information in REPL mode to help with exploration webtau:000&gt; $(&quot;p&quot;) element is found: by css p getText(): hello web page</p>
+<p>During browser testing the REPL preserves the context of an opened browser, so you can experiment with css selectors and element actions without re-opening the browser and setting the right web app state. webtau:000&gt; browser.open(&quot;file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html&quot;) &gt; initializing webdriver for chrome . initialized webdriver for chrome (1s 107ms) &gt; opening file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html . opened file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html (67ms) Using element selectors provides additional information in REPL mode to help with exploration webtau:000&gt; $(&quot;p&quot;) element is found: by css p getText(): hello web page getUnderlyingValue(): hello web page</p>
 </article>
 </section>
 </div>
@@ -179,6 +179,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "REPL session",
         "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m 2 + 2", "\u001B[1m===>\u001B[m 4", "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m a = 5", "\u001B[1m===>\u001B[m 5", "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m a + 3", "\u001B[1m===>\u001B[m 8" ],
+        "anchorId" : "start-repl-repl-session",
         "type" : "CliOutput"
       } ]
     }, {
@@ -217,7 +218,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "exploring http.get",
-        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m http.get(\"https://jsonplaceholder.typicode.com/todos/1\")", "\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[32mequals 200", "      header.statusCode:   actual: 200 <java.lang.Integer>", "                         expected: 200 <java.lang.Integer>\u001B[33m (\u001B[32m25ms\u001B[33m)\u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json; charset=utf-8):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"userId\": \u001B[36m1\u001B[33m,\u001B[0m", "    \u001B[35m\"id\": \u001B[36m1\u001B[33m,\u001B[0m", "    \u001B[35m\"title\": \u001B[32m\"delectus aut autem\"\u001B[33m,\u001B[0m", "    \u001B[35m\"completed\": \u001B[36mfalse\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP GET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[33m (\u001B[32m599ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m http.get(\"https://jsonplaceholder.typicode.com/todos/1\")", "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m4ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json; charset=utf-8):\u001B[0m", "  \u001B[33m{\u001B[35m\"userId\"\u001B[33m: \u001B[34m1\u001B[33m, \u001B[35m\"id\"\u001B[33m: \u001B[34m1\u001B[33m, \u001B[35m\"title\"\u001B[33m: \u001B[32m\"delectus aut autem\"\u001B[33m, \u001B[35m\"completed\"\u001B[33m: \u001B[34mfalse\u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[33m (\u001B[32m609ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "experiment-with-api-exploring-http-get",
         "type" : "CliOutput"
       } ]
     }, {
@@ -238,7 +240,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "setting cfg value",
-        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m cfg.url = \"https://jsonplaceholder.typicode.com\"", "\u001B[33m> \u001B[34msetting \u001B[0m\u001B[1murl\u001B[0m", "  \u001B[35msource\u001B[37m: \u001B[32mmanual\u001B[0m", "  \u001B[35murl\u001B[37m: \u001B[32mhttps://jsonplaceholder.typicode.com\u001B[0m", "\u001B[32m. \u001B[34mset \u001B[0m\u001B[1murl\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "\u001B[1m===>\u001B[m https://jsonplaceholder.typicode.com", "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m http.get(\"/todos/1\")", "\u001B[33m> \u001B[34mexecuting HTTP GET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[32mequals 200", "      header.statusCode:   actual: 200 <java.lang.Integer>", "                         expected: 200 <java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json; charset=utf-8):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"userId\": \u001B[36m1\u001B[33m,\u001B[0m", "    \u001B[35m\"id\": \u001B[36m1\u001B[33m,\u001B[0m", "    \u001B[35m\"title\": \u001B[32m\"delectus aut autem\"\u001B[33m,\u001B[0m", "    \u001B[35m\"completed\": \u001B[36mfalse\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP GET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[33m (\u001B[32m42ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m cfg.url = \"https://jsonplaceholder.typicode.com\"", "\u001B[33m> \u001B[34msetting \u001B[0m\u001B[1murl\u001B[0m", "    \u001B[35msource\u001B[33m: \u001B[32m\"manual\"\u001B[0m", "    \u001B[35murl\u001B[33m: \u001B[32m\"https://jsonplaceholder.typicode.com\"\u001B[0m", "\u001B[32m. \u001B[34mset \u001B[0m\u001B[1murl\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "\u001B[1m===>\u001B[m https://jsonplaceholder.typicode.com", "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m http.get(\"/todos/1\")", "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json; charset=utf-8):\u001B[0m", "  \u001B[33m{\u001B[35m\"userId\"\u001B[33m: \u001B[34m1\u001B[33m, \u001B[35m\"id\"\u001B[33m: \u001B[34m1\u001B[33m, \u001B[35m\"title\"\u001B[33m: \u001B[32m\"delectus aut autem\"\u001B[33m, \u001B[35m\"completed\"\u001B[33m: \u001B[34mfalse\u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[33m (\u001B[32m17ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "setting-config-value-setting-cfg-value",
         "type" : "CliOutput"
       } ]
     }, {
@@ -258,7 +261,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "opened browser stays",
-        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m browser.open(\"file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html\")", "\u001B[33m> \u001B[34minitializing \u001B[36mwebdriver \u001B[33mfor \u001B[0m\u001B[1mchrome\u001B[0m", "\u001B[32m. \u001B[34minitialized \u001B[36mwebdriver \u001B[33mfor \u001B[0m\u001B[1mchrome\u001B[33m (\u001B[32m1s 59ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mopening \u001B[35mfile:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html\u001B[0m", "\u001B[32m. \u001B[34mopened \u001B[35mfile:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html\u001B[33m (\u001B[32m73ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m browser.open(\"file:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html\")", "\u001B[33m> \u001B[34minitializing \u001B[36mwebdriver \u001B[33mfor \u001B[0m\u001B[1mchrome\u001B[0m", "\u001B[32m. \u001B[34minitialized \u001B[36mwebdriver \u001B[33mfor \u001B[0m\u001B[1mchrome\u001B[33m (\u001B[32m1s 107ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mopening \u001B[35mfile:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html\u001B[0m", "\u001B[32m. \u001B[34mopened \u001B[35mfile:///home/runner/work/webtau/webtau/webtau-cli-testing/src/test/groovy/data/basic.html\u001B[33m (\u001B[32m67ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "preserving-browser-context-opened-browser-stays",
         "type" : "CliOutput"
       }, {
         "type" : "Paragraph",
@@ -268,11 +272,12 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "trying css selectors",
-        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m $(\"p\")", "\u001B[32melement is found: \u001B[35mby css \u001B[1m\u001B[35mp\u001B[0m", "\u001B[33m           getText(): \u001B[32mhello web page\u001B[0m" ],
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m $(\"p\")", "\u001B[32melement is found: \u001B[35mby css \u001B[1m\u001B[35mp\u001B[0m", "\u001B[33m           getText(): \u001B[32mhello web page\u001B[0m", "\u001B[33mgetUnderlyingValue(): \u001B[32mhello web page\u001B[0m" ],
+        "anchorId" : "preserving-browser-context-trying-css-selectors",
         "type" : "CliOutput"
       } ]
     } ],
-    "lastModifiedTime" : 1671557712797,
+    "lastModifiedTime" : 1677178162240,
     "tocItem" : {
       "chapterTitle" : "REPL",
       "pageTitle" : "Experiments",

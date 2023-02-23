@@ -2,14 +2,23 @@ docReferences = {
   "http.post" : {
     "pageUrl" : "HTTP/HTTP-calls#post"
   },
+  "waitTo" : {
+    "pageUrl" : "matchers/introduction#waitto"
+  },
   "http.put" : {
     "pageUrl" : "HTTP/HTTP-calls#put"
+  },
+  "shouldBe" : {
+    "pageUrl" : "matchers/introduction#should"
   },
   "http.query" : {
     "pageUrl" : "HTTP/query-parameters"
   },
   "http.delete" : {
     "pageUrl" : "HTTP/HTTP-calls#delete"
+  },
+  "waitToBe" : {
+    "pageUrl" : "matchers/introduction#waitto"
   },
   "data.json" : {
     "pageUrl" : "data/json"
@@ -34,6 +43,9 @@ docReferences = {
   },
   "java.util.Map" : {
     "pageUrl" : "https://docs.oracle.com/javase/8/docs/api/java/util/Map.html"
+  },
+  "should" : {
+    "pageUrl" : "matchers/introduction#should"
   },
   "http.header" : {
     "pageUrl" : "HTTP/header"

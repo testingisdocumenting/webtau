@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Base URL</h1></header>
-<p>Robust tests don't specify the full URL of an application under test. Instead you only pass a relative URL to functions like open . package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('simple open') { browser.open(&quot;/search&quot;) $('#welcome').should == 'welcome to super search' } Define base URL either inside a webtau.cfg.groovy file url = &quot;http://localhost:8180&quot; or pass as a command line argument --url=http://...</p>
+<p>WebTau provides configuration option to set base url for your browser open commands. This way you can run your tests in different environments without modifying code base. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('simple open') { browser.open(&quot;/search&quot;) $('#welcome').should == 'welcome to super search' } Define base URL either inside a webtau.cfg.groovy file url = &quot;http://localhost:8180&quot; or pass as a command line argument --url=http://...</p>
 </article>
 
 <article>
@@ -96,6 +96,11 @@
 <article>
 <header><h1>Browser Id</h1></header>
 <p>Use browserId via command line, or a config file parameter to specify which browser to use. webtau --browserId=firefox Note: Default browserId is chrome</p>
+</article>
+
+<article>
+<header><h1>Access To Base Url</h1></header>
+<p>To access base url or port use: browser.getBaseUrl() browser.getBaseUrlPort()</p>
 </article>
 </section>
 </div>
@@ -132,18 +137,18 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Robust tests don't specify the full URL of an application under test.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "Instead you only pass a relative URL to functions like ",
+          "text" : "WebTau provides configuration option to set base url for your browser ",
           "type" : "SimpleText"
         }, {
           "code" : "open",
           "type" : "InlinedCode"
         }, {
-          "text" : ".",
+          "text" : " commands.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "This way you can run your tests in different environments without modifying code base.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -259,8 +264,24 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "InlinedCode"
         } ]
       } ]
+    }, {
+      "id" : "access-to-base-url",
+      "title" : "Access To Base Url",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To access base url or port use:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.getBaseUrl()\nbrowser.getBaseUrlPort()",
+        "surroundedBy" : [ "base-url", "base-port" ],
+        "type" : "Snippet"
+      } ]
     } ],
-    "lastModifiedTime" : 1671557712797,
+    "lastModifiedTime" : 1677178162240,
     "tocItem" : {
       "chapterTitle" : "Browser",
       "pageTitle" : "Basic Configuration",
@@ -277,6 +298,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Browser Id",
         "id" : "browser-id"
+      }, {
+        "title" : "Access To Base Url",
+        "id" : "access-to-base-url"
       } ]
     }
   }

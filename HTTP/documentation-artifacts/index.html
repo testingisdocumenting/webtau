@@ -110,7 +110,7 @@
 
 <article>
 <header><h1>Test Artifacts</h1></header>
-<p>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /path?a=1&amp;b=text http://localhost:36877/path?a=1&amp;b=text</p>
+<p>A number of artifacts will be created depending on the exact call being captured. Request and response payloads Request bodies are captured in either request.json , request.pdf or request.data depending on the type.Similarly, response bodies are captured in either response.json , response.pdf or response.data . Request and response headers Just like payloads, request and response headers are captured in request.header.txt and response.header.txt respectively. These files contain a header per line with the name and values colon separated. The values are redacted for any potentially sensitive headers. Response body assertions Any assertions you perform on the response body in your scenarios are captured in a paths.json file. This contains an array with the list of paths within the body whose values were asserted. Request URLs The actual request URL is captured in two forms into two different files: request.fullurl.txt - contains the full URL request.url.txt - contains only the part specified in the http call in the scenario /path?a=1&amp;b=text http://localhost:40203/path?a=1&amp;b=text</p>
 </article>
 </section>
 </div>
@@ -417,6 +417,7 @@ ReactDOM.render(React.createElement(Documentation, {
               "lastName" : "LN"
             },
             "paths" : [ ],
+            "anchorId" : "create-employee-responses-201-request-payload",
             "type" : "Json"
           } ]
         }, {
@@ -427,6 +428,7 @@ ReactDOM.render(React.createElement(Documentation, {
               "id" : "id-generated-2"
             },
             "paths" : [ "root.id" ],
+            "anchorId" : "create-employee-responses-201-response-payload",
             "type" : "Json"
           } ]
         } ],
@@ -514,6 +516,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "lastName" : "LN"
         },
         "paths" : [ ],
+        "anchorId" : "test-artifacts-request-and-response-payloads-employee-post-request-json",
         "type" : "Json"
       }, {
         "type" : "Paragraph",
@@ -546,6 +549,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "lastName" : "LN"
         },
         "paths" : [ ],
+        "anchorId" : "test-artifacts-request-and-response-payloads-employee-get-response-json",
         "type" : "Json"
       }, {
         "id" : "test-artifacts-request-and-response-headers",
@@ -581,6 +585,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "redacted request.header.txt",
         "data" : "testheader: testValue\nauthorization: ................",
         "paths" : [ ],
+        "anchorId" : "test-artifacts-request-and-response-headers-redacted-request-header-txt",
         "type" : "Json"
       }, {
         "id" : "test-artifacts-response-body-assertions",
@@ -608,6 +613,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "employee-get/paths.json",
         "data" : [ "root.firstName", "root.lastName" ],
         "paths" : [ ],
+        "anchorId" : "test-artifacts-response-body-assertions-employee-get-paths-json",
         "type" : "Json"
       }, {
         "id" : "test-artifacts-request-urls",
@@ -657,13 +663,13 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "txt",
-        "snippet" : "http://localhost:36877/path?a=1&b=text",
+        "snippet" : "http://localhost:40203/path?a=1&b=text",
         "title" : "request.fullurl.txt",
         "anchorId" : "test-artifacts-request-urls-request-fullurl-txt",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1671557712797,
+    "lastModifiedTime" : 1677178162240,
     "tocItem" : {
       "chapterTitle" : "HTTP",
       "pageTitle" : "Documentation Artifacts",

@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Passing Query Parameters</h1></header>
-<p>WebTau offers a number of ways of specifying query parameters: Groovy http.get(&quot;/path?a=1&amp;b=text&quot;) { // assertions go here } Java http.get(&quot;/path?a=1&amp;b=text&quot;, ((header, body) -&gt; { // assertions go here })); Use Map as a second parameter to pass query parameters. Suitable for languages that support in-line creation of Map . Groovy http.get(&quot;/path&quot;, [a: 1, b: &quot;text&quot;]) { // assertions go here } Java http.get(&quot;/path&quot;, aMapOf(&quot;a&quot;, 1, &quot;b&quot;, &quot;text&quot;), ((header, body) -&gt; { // assertions go here })); Only http.get has a Map variant, for http.put , http.post , etc you need to pass http.query . Groovy http.post(&quot;/chat&quot;, http.query([a: 1, b: &quot;text&quot;]), http.header([&quot;x-param&quot;: &quot;value&quot;]), [message: &quot;hello&quot;]) { // assertions go here } Java http.post(&quot;/chat&quot;, http.query(&quot;a&quot;, 1, &quot;b&quot;, &quot;text&quot;), http.header(&quot;x-param&quot;, &quot;value&quot;), http.json(&quot;message&quot;, &quot;hello&quot;), (header, body) -&gt; { // assertions go here });</p>
+<p>WebTau offers a number of ways of specifying query parameters: Groovy http.get(&quot;/path?a=1&amp;b=text&quot;) { // assertions go here } Java http.get(&quot;/path?a=1&amp;b=text&quot;, ((header, body) -&gt; { // assertions go here })); Use Map as a second parameter to pass query parameters. Suitable for languages that support in-line creation of Map . Groovy http.get(&quot;/path&quot;, [a: 1, b: &quot;text&quot;]) { // assertions go here } Java http.get(&quot;/path&quot;, map(&quot;a&quot;, 1, &quot;b&quot;, &quot;text&quot;), ((header, body) -&gt; { // assertions go here })); Only http.get has a Map variant, for http.put , http.post , etc you need to pass http.query . Groovy http.post(&quot;/chat&quot;, http.query([a: 1, b: &quot;text&quot;]), http.header([&quot;x-param&quot;: &quot;value&quot;]), [message: &quot;hello&quot;]) { // assertions go here } Java http.post(&quot;/chat&quot;, http.query(&quot;a&quot;, 1, &quot;b&quot;, &quot;text&quot;), http.header(&quot;x-param&quot;, &quot;value&quot;), http.json(&quot;message&quot;, &quot;hello&quot;), (header, body) -&gt; { // assertions go here });</p>
 </article>
 
 <article>
@@ -187,7 +187,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "http.get(\"/path\", aMapOf(\"a\", 1, \"b\", \"text\"), ((header, body) -> {\n    // assertions go here\n}));",
+            "snippet" : "http.get(\"/path\", map(\"a\", 1, \"b\", \"text\"), ((header, body) -> {\n    // assertions go here\n}));",
             "title" : "pass query parameters as Map",
             "entry" : "queryParamsUsingQueryAsMapExample",
             "bodyOnly" : true,
@@ -299,7 +299,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1671557712797,
+    "lastModifiedTime" : 1677178162240,
     "tocItem" : {
       "chapterTitle" : "HTTP",
       "pageTitle" : "Query Parameters",

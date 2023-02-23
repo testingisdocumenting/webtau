@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Override Response</h1></header>
-<p>Use to modify response of a proxied server Groovy def router = server.router() .get(&quot;/hello/:name&quot;) {request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } myServer.addOverride(router) Java WebTauRouter router = server.router() .get(&quot;/hello/:name&quot;, (request) -&gt; server.response(aMapOf(&quot;message&quot;, &quot;hello &quot; + request.param(&quot;name&quot;)))); myServer.addOverride(router);</p>
+<p>Use to modify response of a proxied server Groovy def router = server.router() .get(&quot;/hello/:name&quot;) {request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } myServer.addOverride(router) Java WebTauRouter router = server.router() .get(&quot;/hello/:name&quot;, (request) -&gt; server.response(map(&quot;message&quot;, &quot;hello &quot; + request.param(&quot;name&quot;)))); myServer.addOverride(router);</p>
 </article>
 
 <article>
@@ -332,7 +332,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "WebTauRouter router = server.router()\n        .get(\"/hello/:name\", (request) -> server.response(aMapOf(\"message\", \"hello \" + request.param(\"name\"))));\nmyServer.addOverride(router);",
+            "snippet" : "WebTauRouter router = server.router()\n        .get(\"/hello/:name\", (request) -> server.response(map(\"message\", \"hello \" + request.param(\"name\"))));\nmyServer.addOverride(router);",
             "title" : "content override",
             "surroundedBy" : "override-example",
             "anchorId" : "override-response-content-override-2",
@@ -446,7 +446,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1671557712805,
+    "lastModifiedTime" : 1677178162252,
     "tocItem" : {
       "chapterTitle" : "Servers",
       "pageTitle" : "Static Server",

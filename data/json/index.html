@@ -85,32 +85,57 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Read List</h1></header>
-<p>Use data.json.list to read data as java.util.List from JSON file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.json.list(&quot;data/flat-list.json&quot;) list[0].name.should == &quot;hello&quot; list[1].payload.should == [info: ~/id2 payload/] Check data/import-and-dependencies Import And Dependencies for prerequisites. Java List&lt;Map&lt;String, ?&gt;&gt; list = data.json.list(&quot;data/flat-list.json&quot;); actual(list.get(0).get(&quot;name&quot;)).should(equal(&quot;hello&quot;)); actual(list.get(1).get(&quot;payload&quot;)).should( equal(aMapOf(&quot;info&quot;, Pattern.compile(&quot;id2 payload&quot;)))); Check data/import-and-dependencies Import And Dependencies for prerequisites. read methods produce additional report to help with tests investigation &gt; reading json from file or resource data/flat-list.json . read 15 lines of json from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/flat-list.json (10ms)</p>
+<p>Use data.json.list to read data as java.util.List from JSON file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.json.list(&quot;data/flat-list.json&quot;) list[0].name.should == &quot;hello&quot; list[1].payload.should == [info: ~/id2 payload/] Check data/import-and-dependencies Import And Dependencies for prerequisites. Java List&lt;Map&lt;String, ?&gt;&gt; list = data.json.list(&quot;data/flat-list.json&quot;); actual(list.get(0).get(&quot;name&quot;)).should(equal(&quot;hello&quot;)); actual(list.get(1).get(&quot;payload&quot;)).should( equal(map(&quot;info&quot;, Pattern.compile(&quot;id2 payload&quot;)))); Check data/import-and-dependencies Import And Dependencies for prerequisites. read methods produce additional report to help with tests investigation &gt; reading json from file or resource data/flat-list.json . read 16 lines of json from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/flat-list.json (1ms)</p>
 </article>
 
 <article>
 <header><h1>Read Map</h1></header>
-<p>Use data.json.map to read data as java.util.Map from JSON file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. Groovy def map = data.json.map(&quot;data/root-map.json&quot;) map.payload.should == [info: &quot;additional id1 payload&quot;] Java Map&lt;String, ?&gt; map = data.json.map(&quot;data/root-map.json&quot;); actual(map.get(&quot;payload&quot;)).should(equal(aMapOf(&quot;info&quot;, &quot;additional id1 payload&quot;)));</p>
+<p>Use data.json.map to read data as java.util.Map from JSON file. Passed path is either relative based on working dir or absolute path. Or it can be a resource class path. Groovy def map = data.json.map(&quot;data/root-map.json&quot;) map.payload.should == [info: &quot;additional id1 payload&quot;] Java Map&lt;String, ?&gt; map = data.json.map(&quot;data/root-map.json&quot;); actual(map.get(&quot;payload&quot;)).should(equal(map(&quot;info&quot;, &quot;additional id1 payload&quot;)));</p>
 </article>
 
 <article>
 <header><h1>Read TableData</h1></header>
-<p>Use data.json.table to read data as TableData from JSON file. JSON must be a list. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def table = data.json.table(&quot;data/flat-list.json&quot;) table.should == [ &quot;id&quot; | &quot;name&quot; | &quot;payload&quot;] { _________________________________________ &quot;id1&quot; | &quot;hello&quot; | [info: ~/id1 payload/] &quot;id2&quot; | &quot;world&quot; | [info: ~/id2 payload/] } Java TableData jsonTable = data.json.table(&quot;data/flat-list.json&quot;); TableData expected = table(&quot;id&quot; , &quot;name&quot; , &quot;payload&quot;, ________________________________________________________________, &quot;id1&quot;, &quot;hello&quot; , aMapOf(&quot;info&quot;, Pattern.compile(&quot;id1 payload&quot;)), &quot;id2&quot;, &quot;world&quot; , aMapOf(&quot;info&quot;, Pattern.compile(&quot;id2 payload&quot;))); actual(jsonTable).should(equal(expected));</p>
+<p>Use data.json.table to read data as TableData from JSON file. JSON must be a list. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def table = data.json.table(&quot;data/flat-list.json&quot;) table.should == [ &quot;id&quot; | &quot;name&quot; | &quot;payload&quot;] { _________________________________________ &quot;id1&quot; | &quot;hello&quot; | [info: ~/id1 payload/] &quot;id2&quot; | &quot;world&quot; | [info: ~/id2 payload/] } Java TableData jsonTable = data.json.table(&quot;data/flat-list.json&quot;); TableData expected = table(&quot;id&quot; , &quot;name&quot; , &quot;payload&quot;, ________________________________________________________________, &quot;id1&quot;, &quot;hello&quot; , map(&quot;info&quot;, Pattern.compile(&quot;id1 payload&quot;)), &quot;id2&quot;, &quot;world&quot; , map(&quot;info&quot;, Pattern.compile(&quot;id2 payload&quot;))); actual(jsonTable).should(equal(expected));</p>
+</article>
+
+<article>
+<header><h1>Read Object</h1></header>
+<p>Use data.json.object to read data as either java.util.List or java.util.Map or a single value from JSON file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def object = data.json.object(&quot;data/single.json&quot;) object.should == &quot;hello world&quot; Java Object object = data.json.object(&quot;data/single.json&quot;); actual(object).should(equal(&quot;hello world&quot;));</p>
+</article>
+
+<article>
+<header><h1>Parse Map</h1></header>
+<p>Use data.json.mapFromString to parse given JSON string as java.util.Map Groovy def map = data.json.mapFromString(&quot;&quot;&quot;{&quot;key&quot;: &quot;value&quot;}&quot;&quot;&quot;) map.should == [key: &quot;value&quot;] Java Map&lt;String, ?&gt; map = data.json.mapFromString(&quot;{\&quot;key\&quot;: \&quot;value\&quot;})&quot;); actual(map).should(equal(map(&quot;key&quot;, &quot;value&quot;)));</p>
+</article>
+
+<article>
+<header><h1>Parse List</h1></header>
+<p>Use data.json.listFromString to parse given JSON string as java.util.List Groovy def list = data.json.listFromString(&quot;&quot;&quot;[{&quot;key1&quot;: &quot;value1&quot;}, {&quot;key2&quot;: &quot;value2&quot;}]&quot;&quot;&quot;) list.should == [ [key1: &quot;value1&quot;], [key2: &quot;value2&quot;]] Java List&lt;Map&lt;String, ?&gt;&gt; list = data.json.listFromString(&quot;[{\&quot;key1\&quot;: \&quot;value1\&quot;}, {\&quot;key2\&quot;: \&quot;value2\&quot;}]&quot;); actual(list).should(equal(list( map(&quot;key1&quot;, &quot;value1&quot;), map(&quot;key2&quot;, &quot;value2&quot;))));</p>
+</article>
+
+<article>
+<header><h1>Parse TableData</h1></header>
+<p>Use data.json.tableFromString to parse given JSON string as TableData Groovy def table = data.json.tableFromString(&quot;&quot;&quot; [ { &quot;id&quot;: &quot;id1&quot;, &quot;name&quot;: &quot;hello&quot;, &quot;payload&quot;: { &quot;info&quot;: &quot;additional id1 payload&quot; } }, { &quot;id&quot;: &quot;id2&quot;, &quot;name&quot;: &quot;world&quot;, &quot;payload&quot;: { &quot;info&quot;: &quot;additional id2 payload&quot; } } ] &quot;&quot;&quot;) table.should == [ &quot;id&quot; | &quot;name&quot; | &quot;payload&quot;] { _________________________________________ &quot;id1&quot; | &quot;hello&quot; | [info: ~/id1 payload/] &quot;id2&quot; | &quot;world&quot; | [info: ~/id2 payload/] } Java TableData jsonTable = data.json.tableFromString(&quot;[\n&quot; + &quot; {\n&quot; + &quot; \&quot;id\&quot;: \&quot;id1\&quot;,\n&quot; + &quot; \&quot;name\&quot;: \&quot;hello\&quot;,\n&quot; + &quot; \&quot;payload\&quot;: {\n&quot; + &quot; \&quot;info\&quot;: \&quot;additional id1 payload\&quot;\n&quot; + &quot; }\n&quot; + &quot; },\n&quot; + &quot; {\n&quot; + &quot; \&quot;id\&quot;: \&quot;id2\&quot;,\n&quot; + &quot; \&quot;name\&quot;: \&quot;world\&quot;,\n&quot; + &quot; \&quot;payload\&quot;: {\n&quot; + &quot; \&quot;info\&quot;: \&quot;additional id2 payload\&quot;\n&quot; + &quot; }\n&quot; + &quot; }\n&quot; + &quot;]&quot;); TableData expected = table(&quot;id&quot; , &quot;name&quot; , &quot;payload&quot;, __________________________________________________________________, &quot;id1&quot;, &quot;hello&quot; , map(&quot;info&quot;, Pattern.compile(&quot;id1 payload&quot;)), &quot;id2&quot;, &quot;world&quot; , map(&quot;info&quot;, Pattern.compile(&quot;id2 payload&quot;))); actual(jsonTable).should(equal(expected));</p>
+</article>
+
+<article>
+<header><h1>Parse Object</h1></header>
+<p>Use data.json.objectFromString to parse given JSON string as either java.util.List or java.util.Map or a single value from JSON file. Groovy def object = data.json.objectFromString(&quot;\&quot;hello world\&quot;&quot;) object.should == &quot;hello world&quot; Java Object list = data.json.objectFromString(&quot;\&quot;hello world\&quot;&quot;); actual(list).should(equal(&quot;hello world&quot;));</p>
 </article>
 
 <article>
 <header><h1>Write List</h1></header>
-<p>Use data.json.write to write data to JSON file. Groovy def list = [ [&quot;colA&quot;: 1, &quot;colB&quot;: &quot;R1&quot;], [&quot;colA&quot;: 2, &quot;colB&quot;: &quot;R2&quot;]] def path = data.json.write(&quot;generated/from-list-maps.json&quot;, list) Java List&lt;Map&lt;String, ?&gt;&gt; list = Arrays.asList( aMapOf(&quot;colA&quot;, 1, &quot;colB&quot;, &quot;R1&quot;), aMapOf(&quot;colA&quot;, 2, &quot;colB&quot;, &quot;R2&quot;)); Path path = data.json.write(&quot;generated/from-list-maps.json&quot;, list); write methods produce additional information that helps with tests investigation &gt; writing json to file generated/from-list-maps.json . wrote 6 lines to json /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-list-maps.json (0ms) [ { &quot;colA&quot; : 1, &quot;colB&quot; : &quot;R1&quot; }, { &quot;colA&quot; : 2, &quot;colB&quot; : &quot;R2&quot; } ]</p>
+<p>Use data.json.write to write data to JSON file. Groovy def list = [ [&quot;colA&quot;: 1, &quot;colB&quot;: &quot;R1&quot;], [&quot;colA&quot;: 2, &quot;colB&quot;: &quot;R2&quot;]] def path = data.json.write(&quot;generated/from-list-maps.json&quot;, list) Java List&lt;Map&lt;String, ?&gt;&gt; list = list( map(&quot;colA&quot;, 1, &quot;colB&quot;, &quot;R1&quot;), map(&quot;colA&quot;, 2, &quot;colB&quot;, &quot;R2&quot;)); Path path = data.json.write(&quot;generated/from-list-maps.json&quot;, list); write methods produce additional information that helps with tests investigation &gt; writing json to file generated/from-list-maps.json . wrote 7 lines to json /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-list-maps.json (1ms) [ { &quot;colA&quot; : 1, &quot;colB&quot; : &quot;R1&quot; }, { &quot;colA&quot; : 2, &quot;colB&quot; : &quot;R2&quot; } ]</p>
 </article>
 
 <article>
 <header><h1>Write Map</h1></header>
-<p>Groovy def map = [&quot;colA&quot;: 1, &quot;colB&quot;: &quot;R1&quot;] def path = data.json.write(&quot;generated/from-map.json&quot;, map) Java Map&lt;String, ?&gt; map = aMapOf(&quot;colA&quot;, 1, &quot;colB&quot;, &quot;R1&quot;); Path path = data.json.write(&quot;generated/from-list-maps.json&quot;, map); { &quot;colA&quot; : 1, &quot;colB&quot; : &quot;R1&quot; }</p>
+<p>Groovy def map = [&quot;colA&quot;: 1, &quot;colB&quot;: &quot;R1&quot;] def path = data.json.write(&quot;generated/from-map.json&quot;, map) Java Map&lt;String, ?&gt; map = map(&quot;colA&quot;, 1, &quot;colB&quot;, &quot;R1&quot;); Path path = data.json.write(&quot;generated/from-list-maps.json&quot;, map); { &quot;colA&quot; : 1, &quot;colB&quot; : &quot;R1&quot; }</p>
 </article>
 
 <article>
 <header><h1>Write Table Data</h1></header>
-<p>Groovy TableData table = [&quot;id&quot; | &quot;value&quot;] { ________________ &quot;id1&quot; | &quot;value1&quot; &quot;id2&quot; | &quot;value2&quot; } def path = data.json.write(&quot;generated/from-table-data.json&quot;, table) Java TableData csvTable = table(&quot;id&quot; , &quot;value&quot;, ________________, &quot;id1&quot; , &quot;value1&quot;, &quot;id2&quot; , &quot;value2&quot;); Path path = data.json.write(&quot;generated/from-table-data.json&quot;, csvTable); write methods produce additional information that helps with tests investigation [ { &quot;id&quot; : &quot;id1&quot;, &quot;value&quot; : &quot;value1&quot; }, { &quot;id&quot; : &quot;id2&quot;, &quot;value&quot; : &quot;value2&quot; } ]</p>
+<p>Groovy TableData table = [&quot;id&quot; | &quot;value&quot;] { ________________ &quot;id1&quot; | &quot;value1&quot; &quot;id2&quot; | &quot;value2&quot; } def path = data.json.write(&quot;generated/from-table-data.json&quot;, table) Java TableData csvTable = table(&quot;id&quot; , &quot;value&quot;, ________________, &quot;id1&quot; , &quot;value1&quot;, &quot;id2&quot; , &quot;value2&quot;); Path path = data.json.write(&quot;generated/from-table-data.json&quot;, csvTable); write methods produce additional information that helps with tests investigation &gt; writing json to file generated/from-table-data.json . wrote 7 lines to json /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.json (1ms) [ { &quot;id&quot; : &quot;id1&quot;, &quot;value&quot; : &quot;value1&quot; }, { &quot;id&quot; : &quot;id2&quot;, &quot;value&quot; : &quot;value2&quot; } ]</p>
 </article>
 </section>
 </div>
@@ -185,6 +210,7 @@ ReactDOM.render(React.createElement(Documentation, {
           }
         } ],
         "title" : "data/flat-list.json",
+        "anchorId" : "read-list-data-flat-list-json",
         "type" : "Json"
       }, {
         "tabsContent" : [ {
@@ -218,7 +244,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "List<Map<String, ?>> list = data.json.list(\"data/flat-list.json\");\nactual(list.get(0).get(\"name\")).should(equal(\"hello\"));\nactual(list.get(1).get(\"payload\")).should(\n        equal(aMapOf(\"info\", Pattern.compile(\"id2 payload\"))));",
+            "snippet" : "List<Map<String, ?>> list = data.json.list(\"data/flat-list.json\");\nactual(list.get(0).get(\"name\")).should(equal(\"hello\"));\nactual(list.get(1).get(\"payload\")).should(\n        equal(map(\"info\", Pattern.compile(\"id2 payload\"))));",
             "title" : "read json as list",
             "surroundedBy" : [ "// read-json-list", "// validate-json-list" ],
             "anchorId" : "read-list-read-json-as-list-2",
@@ -254,7 +280,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[33m> \u001B[34mreading \u001B[36mjson \u001B[33mfrom \u001B[36mfile or resource \u001B[35mdata/flat-list.json\u001B[0m", "\u001B[32m. \u001B[34mread \u001B[34m15 \u001B[36mlines of json \u001B[33mfrom \u001B[36mfile \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/flat-list.json\u001B[33m (\u001B[32m10ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mreading \u001B[36mjson \u001B[33mfrom \u001B[36mfile or resource \u001B[35mdata/flat-list.json\u001B[0m", "\u001B[32m. \u001B[34mread \u001B[34m16 \u001B[36mlines of json \u001B[33mfrom \u001B[36mfile \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/flat-list.json\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "read-list-console-output",
         "type" : "CliOutput"
       } ]
     }, {
@@ -296,6 +323,7 @@ ReactDOM.render(React.createElement(Documentation, {
           }
         },
         "title" : "data/root-map.json",
+        "anchorId" : "read-map-data-root-map-json",
         "type" : "Json"
       }, {
         "tabsContent" : [ {
@@ -312,7 +340,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "Map<String, ?> map = data.json.map(\"data/root-map.json\");\nactual(map.get(\"payload\")).should(equal(aMapOf(\"info\", \"additional id1 payload\")));",
+            "snippet" : "Map<String, ?> map = data.json.map(\"data/root-map.json\");\nactual(map.get(\"payload\")).should(equal(map(\"info\", \"additional id1 payload\")));",
             "title" : "read json as map",
             "surroundedBy" : [ "// read-json-map" ],
             "anchorId" : "read-map-read-json-as-map-2",
@@ -366,6 +394,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ],
         "paths" : [ ],
         "title" : "data/flat-list.json",
+        "anchorId" : "read-tabledata-data-flat-list-json",
         "type" : "Json"
       }, {
         "tabsContent" : [ {
@@ -382,10 +411,261 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "TableData jsonTable = data.json.table(\"data/flat-list.json\");\nTableData expected = table(\"id\" , \"name\"  ,                                      \"payload\",\n                          ________________________________________________________________,\n                           \"id1\", \"hello\" , aMapOf(\"info\", Pattern.compile(\"id1 payload\")),\n                           \"id2\", \"world\" , aMapOf(\"info\", Pattern.compile(\"id2 payload\")));\nactual(jsonTable).should(equal(expected));",
+            "snippet" : "TableData jsonTable = data.json.table(\"data/flat-list.json\");\nTableData expected = table(\"id\" , \"name\"  ,                                      \"payload\",\n                          ________________________________________________________________,\n                           \"id1\", \"hello\" , map(\"info\", Pattern.compile(\"id1 payload\")),\n                           \"id2\", \"world\" , map(\"info\", Pattern.compile(\"id2 payload\")));\nactual(jsonTable).should(equal(expected));",
             "title" : "read json as table",
             "surroundedBy" : [ "// read-json-table" ],
             "anchorId" : "read-tabledata-read-json-as-table-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "read-object",
+      "title" : "Read Object",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.json.object",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to read data as either ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.List",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " or ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.Map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " or a single value from JSON file. ",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : " Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "autoTitle" : true,
+        "data" : "hello world",
+        "paths" : [ ],
+        "title" : "data/single.json",
+        "anchorId" : "read-object-data-single-json",
+        "type" : "Json"
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def object = data.json.object(\"data/single.json\")\nobject.should == \"hello world\"",
+            "title" : "read json as object",
+            "entry" : "parse json as object from resource",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "Object object = data.json.object(\"data/single.json\");\nactual(object).should(equal(\"hello world\"));",
+            "title" : "read json as object",
+            "entry" : "readObject",
+            "bodyOnly" : true,
+            "anchorId" : "read-object-read-json-as-object",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "parse-map",
+      "title" : "Parse Map",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.json.mapFromString",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to parse given JSON string as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.Map",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def map = data.json.mapFromString(\"\"\"{\"key\": \"value\"}\"\"\")\nmap.should == [key: \"value\"]",
+            "title" : "parse json as map",
+            "entry" : "parse map from string",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "Map<String, ?> map = data.json.mapFromString(\"{\\\"key\\\": \\\"value\\\"})\");\nactual(map).should(equal(map(\"key\", \"value\")));",
+            "title" : "parse json as map",
+            "entry" : "parseMap",
+            "bodyOnly" : true,
+            "anchorId" : "parse-map-parse-json-as-map",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "parse-list",
+      "title" : "Parse List",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.json.listFromString",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to parse given JSON string as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.List",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def list = data.json.listFromString(\"\"\"[{\"key1\": \"value1\"}, {\"key2\": \"value2\"}]\"\"\")\nlist.should == [\n        [key1: \"value1\"],\n        [key2: \"value2\"]]",
+            "title" : "parse json as list",
+            "entry" : "parse list from string",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "List<Map<String, ?>> list = data.json.listFromString(\"[{\\\"key1\\\": \\\"value1\\\"}, {\\\"key2\\\": \\\"value2\\\"}]\");\nactual(list).should(equal(list(\n        map(\"key1\", \"value1\"),\n        map(\"key2\", \"value2\"))));",
+            "title" : "parse json as list",
+            "entry" : "parseList",
+            "bodyOnly" : true,
+            "anchorId" : "parse-list-parse-json-as-list",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "parse-tabledata",
+      "title" : "Parse TableData",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.json.tableFromString",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to parse given JSON string as ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def table = data.json.tableFromString(\"\"\"\n [\n   {\n     \"id\": \"id1\",\n     \"name\": \"hello\",\n     \"payload\": {\n       \"info\": \"additional id1 payload\"\n     }\n   },\n   {\n     \"id\": \"id2\",\n     \"name\": \"world\",\n     \"payload\": {\n       \"info\": \"additional id2 payload\"\n     }\n   }\n ]\n \"\"\")\n\n table.should == [ \"id\" |  \"name\" |           \"payload\"] {\n                  _________________________________________\n                  \"id1\" | \"hello\" | [info: ~/id1 payload/]\n                  \"id2\" | \"world\" | [info: ~/id2 payload/] }",
+            "title" : "parse json as table",
+            "entry" : "parse table from string",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "TableData jsonTable = data.json.tableFromString(\"[\\n\" +\n        \"  {\\n\" +\n        \"    \\\"id\\\": \\\"id1\\\",\\n\" +\n        \"    \\\"name\\\": \\\"hello\\\",\\n\" +\n        \"    \\\"payload\\\": {\\n\" +\n        \"      \\\"info\\\": \\\"additional id1 payload\\\"\\n\" +\n        \"    }\\n\" +\n        \"  },\\n\" +\n        \"  {\\n\" +\n        \"    \\\"id\\\": \\\"id2\\\",\\n\" +\n        \"    \\\"name\\\": \\\"world\\\",\\n\" +\n        \"    \\\"payload\\\": {\\n\" +\n        \"      \\\"info\\\": \\\"additional id2 payload\\\"\\n\" +\n        \"    }\\n\" +\n        \"  }\\n\" +\n        \"]\");\n\nTableData expected = table(\"id\" , \"name\"  ,                                      \"payload\",\n                           __________________________________________________________________,\n                           \"id1\", \"hello\" , map(\"info\", Pattern.compile(\"id1 payload\")),\n                           \"id2\", \"world\" , map(\"info\", Pattern.compile(\"id2 payload\")));\n\nactual(jsonTable).should(equal(expected));",
+            "title" : "parse json as table",
+            "entry" : "parseTable",
+            "bodyOnly" : true,
+            "anchorId" : "parse-tabledata-parse-json-as-table",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "parse-object",
+      "title" : "Parse Object",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "data.json.objectFromString",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to parse given JSON string as either ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.List",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " or ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "java.util.Map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " or a single value from JSON file.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def object = data.json.objectFromString(\"\\\"hello world\\\"\")\nobject.should == \"hello world\"",
+            "title" : "parse json as object",
+            "entry" : "parse json as object from string",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "Object list = data.json.objectFromString(\"\\\"hello world\\\"\");\nactual(list).should(equal(\"hello world\"));",
+            "title" : "parse json as object",
+            "entry" : "parseObject",
+            "bodyOnly" : true,
+            "anchorId" : "parse-object-parse-json-as-object",
             "type" : "Snippet"
           } ]
         } ],
@@ -429,7 +709,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "List<Map<String, ?>> list = Arrays.asList(\n        aMapOf(\"colA\", 1, \"colB\", \"R1\"),\n        aMapOf(\"colA\", 2, \"colB\", \"R2\"));",
+            "snippet" : "List<Map<String, ?>> list = list(\n        map(\"colA\", 1, \"colB\", \"R1\"),\n        map(\"colA\", 2, \"colB\", \"R2\"));",
             "title" : "data",
             "surroundedBy" : [ "// list-data" ],
             "anchorId" : "write-list-data-2",
@@ -455,7 +735,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[33m> \u001B[34mwriting \u001B[36mjson \u001B[33mto \u001B[36mfile \u001B[35mgenerated/from-list-maps.json\u001B[0m", "\u001B[32m. \u001B[34mwrote \u001B[34m6 \u001B[36mlines \u001B[33mto \u001B[36mjson \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-list-maps.json\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mwriting \u001B[36mjson \u001B[33mto \u001B[36mfile \u001B[35mgenerated/from-list-maps.json\u001B[0m", "\u001B[32m. \u001B[34mwrote \u001B[34m7 \u001B[36mlines \u001B[33mto \u001B[36mjson \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-list-maps.json\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "write-list-console-output",
         "type" : "CliOutput"
       }, {
         "lang" : "json",
@@ -491,7 +772,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "Map<String, ?> map = aMapOf(\"colA\", 1, \"colB\", \"R1\");",
+            "snippet" : "Map<String, ?> map = map(\"colA\", 1, \"colB\", \"R1\");",
             "title" : "data",
             "surroundedBy" : [ "// map-data" ],
             "anchorId" : "write-map-data-2",
@@ -565,6 +846,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "title" : "console output",
+        "lines" : [ "\u001B[33m> \u001B[34mwriting \u001B[36mjson \u001B[33mto \u001B[36mfile \u001B[35mgenerated/from-table-data.json\u001B[0m", "\u001B[32m. \u001B[34mwrote \u001B[34m7 \u001B[36mlines \u001B[33mto \u001B[36mjson \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.json\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "write-table-data-console-output",
+        "type" : "CliOutput"
+      }, {
         "lang" : "json",
         "snippet" : "[ {\n  \"id\" : \"id1\",\n  \"value\" : \"value1\"\n}, {\n  \"id\" : \"id2\",\n  \"value\" : \"value2\"\n} ]",
         "autoTitle" : true,
@@ -573,7 +859,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1671557712801,
+    "lastModifiedTime" : 1677178162240,
     "tocItem" : {
       "chapterTitle" : "Data",
       "pageTitle" : "Json",
@@ -590,6 +876,21 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Read TableData",
         "id" : "read-tabledata"
+      }, {
+        "title" : "Read Object",
+        "id" : "read-object"
+      }, {
+        "title" : "Parse Map",
+        "id" : "parse-map"
+      }, {
+        "title" : "Parse List",
+        "id" : "parse-list"
+      }, {
+        "title" : "Parse TableData",
+        "id" : "parse-tabledata"
+      }, {
+        "title" : "Parse Object",
+        "id" : "parse-object"
       }, {
         "title" : "Write List",
         "id" : "write-list"

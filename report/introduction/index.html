@@ -94,6 +94,11 @@
 </article>
 
 <article>
+<header><h1>Failed Test Summary</h1></header>
+<p>In case of a test failure, WebTau provides details on the failed step and highlights relevant code snippet:</p>
+</article>
+
+<article>
 <header><h1>Permalinks</h1></header>
 <p>Report is a self-contained single page application. You can email it, upload to slack, put on a shared drive without an HTTP server. Url tracks your navigation through screens, so you can share url to a specific problem.</p>
 </article>
@@ -141,9 +146,10 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "border" : true,
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-summary.png",
-        "timestamp" : 1671558350453,
+        "timestamp" : 1677178899609,
         "shapes" : [ ],
         "width" : 1310.0,
         "height" : 802.0,
@@ -160,9 +166,30 @@ ReactDOM.render(React.createElement(Documentation, {
           "type" : "SimpleText"
         } ]
       }, {
+        "border" : true,
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-test-summary.png",
-        "timestamp" : 1671558350761,
+        "timestamp" : 1677178899909,
+        "shapes" : [ ],
+        "width" : 1310.0,
+        "height" : 802.0,
+        "type" : "AnnotatedImage"
+      } ]
+    }, {
+      "id" : "failed-test-summary",
+      "title" : "Failed Test Summary",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "In case of a test failure, WebTau provides details on the failed step and highlights relevant code snippet:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "border" : true,
+        "fit" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-test-summary-failed-step.png",
+        "timestamp" : 1677178920037,
         "shapes" : [ ],
         "width" : 1310.0,
         "height" : 802.0,
@@ -234,7 +261,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "annotationsPath" : "doc-artifacts/reports/report-crud-steps.json",
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-http-calls.png",
-        "timestamp" : 1671558349525,
+        "timestamp" : 1677178898681,
         "shapes" : [ {
           "type" : "badge",
           "text" : "1",
@@ -257,7 +284,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "border" : true,
         "fit" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-steps.png",
-        "timestamp" : 1671558349845,
+        "timestamp" : 1677178899025,
         "shapes" : [ ],
         "width" : 1310.0,
         "height" : 802.0,
@@ -281,11 +308,13 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1671557712805,
+    "lastModifiedTime" : 1677178162248,
     "tocItem" : {
       "chapterTitle" : "Report",
       "pageTitle" : "Introduction",
-      "pageMeta" : { },
+      "pageMeta" : {
+        "image" : [ "{border: true}" ]
+      },
       "dirName" : "report",
       "fileName" : "introduction",
       "viewOnRelativePath" : null,
@@ -295,6 +324,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Test Summary",
         "id" : "test-summary"
+      }, {
+        "title" : "Failed Test Summary",
+        "id" : "failed-test-summary"
       }, {
         "title" : "Permalinks",
         "id" : "permalinks"

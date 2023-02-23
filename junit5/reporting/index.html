@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Reporting</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>WebTau Report</h1></header>
+<p>You can use WebTau http. , graphql. , browser. , cli. , db. modules without any additional setup, but to include a test into generated report and to get extra console output you need to use @WebTau annotation or enable global extension (see below) Groovy package com.example.tests.junit5 import org.testingisdocumenting.webtau.junit5.WebTau import org.junit.jupiter.api.* import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @WebTau // annotation to enable rich console output and html reporting @TestMethodOrder(MethodOrderer.OrderAnnotation) // forcing methods execution order @DisplayName(&quot;customer CRUD&quot;) class CustomerCrudSeparatedGroovyTest { private static def customerPayload = [firstName: 'FN', lastName : 'LN'] private static def changedCustomerPayload = [*: customerPayload, lastName: 'NLN'] private static def id @BeforeAll @DisplayName(&quot;create customer&quot;) // optional friendly name for reporting purposes static void createCustomer() { id = http.post(&quot;/customers&quot;, customerPayload) { body.id // using body prefix is required in this case as id conflicts with class field name } id.shouldNot == 0 } @Test @Order(1) @DisplayName(&quot;read customer&quot;) void read() { http.get(&quot;/customers/$id&quot;) { body.should == customerPayload } } @Test @Order(2) // order dependence saves from creating customer on every test @DisplayName(&quot;update customer&quot;) void update() { http.put(&quot;/customers/$id&quot;, changedCustomerPayload) { body.should == changedCustomerPayload } http.get(&quot;/customers/$id&quot;) { body.should == changedCustomerPayload } } @Test @Order(3) // but you can still run each method independently @DisplayName(&quot;delete customer&quot;) void delete() { http.delete(&quot;/customers/$id&quot;) { header.statusCode.should == 204 } http.get(&quot;/customers/$id&quot;) { header.statusCode.should == 404 } id = -1 // marking as deleted to let cleanup step know that no delete is required } @AfterAll static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean if (id == -1) { return } http.delete(&quot;/customers/$id&quot;) } } Java package com.example.tests.junit5; import org.testingisdocumenting.webtau.http.request.HttpRequestBody; import org.testingisdocumenting.webtau.junit5.WebTau; import org.junit.jupiter.api.*; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau // annotation to enable rich console output and html reporting @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order @DisplayName(&quot;customer CRUD&quot;) public class CustomerCrudSeparatedJavaTest { private static final HttpRequestBody customerPayload = http.json( &quot;firstName&quot;, &quot;FN&quot;, &quot;lastName&quot;, &quot;LN&quot;); private static final HttpRequestBody changedCustomerPayload = http.json( &quot;firstName&quot;, &quot;FN&quot;, &quot;lastName&quot;, &quot;NLN&quot;); private static int id; @BeforeAll @DisplayName(&quot;create customer&quot;) // optional friendly name for reporting purposes public static void createCustomer() { id = http.post(&quot;/customers&quot;, customerPayload, ((header, body) -&gt; { return body.get(&quot;id&quot;); })); actual(id).shouldNot(equal(0)); } @Test @Order(1) @DisplayName(&quot;read customer&quot;) public void read() { http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(customerPayload)); })); } @Test @Order(2) // order dependence saves from creating customer on every test @DisplayName(&quot;update customer&quot;) public void update() { http.put(&quot;/customers/&quot; + id, changedCustomerPayload, ((header, body) -&gt; { body.should(equal(changedCustomerPayload)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(changedCustomerPayload)); })); } @Test @Order(3) // but you can still run each method independently @DisplayName(&quot;delete customer&quot;) public void delete() { http.delete(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode.should(equal(204)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode.should(equal(404)); })); id = -1; // marking as deleted to let cleanup step know that no delete is required } @AfterAll public static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean if (id == -1) { return; } http.delete(&quot;/customers/&quot; + id); } }</p>
+</article>
+
+<article>
+<header><h1>Extra Console Output</h1></header>
+<p>WebTau produces extra console output when you enable reporting either via annotation or globally (see below). scenario create customers (customer query) &gt; executing HTTP POST http://localhost:44991/customers request (application/json): {&quot;firstName&quot;: &quot;CQ_FN1&quot;, &quot;lastName&quot;: &quot;CQ_LN1&quot;} . header.statusCode equals 201 (0ms) response (application/json): {&quot;id&quot;: 7, &quot;firstName&quot;: &quot;CQ_FN1&quot;, &quot;lastName&quot;: &quot;CQ_LN1&quot;} . executed HTTP POST http://localhost:44991/customers (8ms) &gt; executing HTTP POST http://localhost:44991/customers request (application/json): {&quot;firstName&quot;: &quot;CQ_FN1&quot;, &quot;lastName&quot;: &quot;CQ_LN2&quot;} . header.statusCode equals 201 (0ms) response (application/json): {&quot;id&quot;: 8, &quot;firstName&quot;: &quot;CQ_FN1&quot;, &quot;lastName&quot;: &quot;CQ_LN2&quot;} . executed HTTP POST http://localhost:44991/customers (13ms) &gt; executing HTTP POST http://localhost:44991/customers request (application/json): {&quot;firstName&quot;: &quot;CQ_FN2&quot;, &quot;lastName&quot;: &quot;CQ_LN2&quot;} . header.statusCode equals 201 (0ms) response (application/json): {&quot;id&quot;: 9, &quot;firstName&quot;: &quot;CQ_FN2&quot;, &quot;lastName&quot;: &quot;CQ_LN2&quot;} . executed HTTP POST http://localhost:44991/customers (5ms) [.] create customers (customer query) scenario query by last name (customer query) &gt; executing HTTP GET http://localhost:44991/customers/search/last-name?name=CQ_LN2 . body equals *id │ firstName │ lastName 8 │ &quot;CQ_FN1&quot; │ &quot;CQ_LN2&quot; 9 │ &quot;CQ_FN2&quot; │ &quot;CQ_LN2&quot; (1ms) . header.statusCode equals 200 (0ms) response (application/json): [ {&quot;id&quot;: __8__, &quot;firstName&quot;: __&quot;CQ_FN1&quot;__, &quot;lastName&quot;: __&quot;CQ_LN2&quot;__}, {&quot;id&quot;: __9__, &quot;firstName&quot;: __&quot;CQ_FN2&quot;__, &quot;lastName&quot;: __&quot;CQ_LN2&quot;__} ] . executed HTTP GET http://localhost:44991/customers/search/last-name?name=CQ_LN2 (6ms) [.] query by last name (customer query) scenario query by first name (customer query) &gt; executing HTTP GET http://localhost:44991/customers/search/first-name?name=CQ_FN1 . body equals *id │ firstName │ lastName 7 │ &quot;CQ_FN1&quot; │ &quot;CQ_LN1&quot; 8 │ &quot;CQ_FN1&quot; │ &quot;CQ_LN2&quot; (3ms) . header.statusCode equals 200 (0ms) response (application/json): [ {&quot;id&quot;: __7__, &quot;firstName&quot;: __&quot;CQ_FN1&quot;__, &quot;lastName&quot;: __&quot;CQ_LN1&quot;__}, {&quot;id&quot;: __8__, &quot;firstName&quot;: __&quot;CQ_FN1&quot;__, &quot;lastName&quot;: __&quot;CQ_LN2&quot;__} ] . executed HTTP GET http://localhost:44991/customers/search/first-name?name=CQ_FN1 (13ms) [.] query by first name (customer query) scenario clean up (customer query) &gt; executing HTTP DELETE http://localhost:44991/customers/7 . header.statusCode equals 204 (0ms) [no content] . executed HTTP DELETE http://localhost:44991/customers/7 (4ms) &gt; executing HTTP DELETE http://localhost:44991/customers/8 . header.statusCode equals 204 (0ms) [no content] . executed HTTP DELETE http://localhost:44991/customers/8 (5ms) &gt; executing HTTP DELETE http://localhost:44991/customers/9 . header.statusCode equals 204 (0ms) [no content] . executed HTTP DELETE http://localhost:44991/customers/9 (4ms) [.] clean up (customer query) Total time: 79ms Total: 4, Passed: 4, Skipped: 0, Failed: 0, Errored: 0 report is generated: /home/runner/work/webtau/webtau/webtau-junit5-examples/webtau-reports/com.example.tests.junit5.CustomerQueryJavaTest.html</p>
+</article>
+
+<article>
+<header><h1>Automatic Extension</h1></header>
+<p>To enable report for all the tests without annotating each of them, use JUnit5 https://junit.org/junit5/docs/current/user-guide/#extensions-registration-automatic automatic extension registration org.testingisdocumenting.webtau.junit5.WebTauJunitExtension junit.jupiter.extensions.autodetection.enabled=true</p>
+</article>
+
+<article>
+<header><h1>BeforeAll/AfterAll Reporting</h1></header>
+<p>@BeforeAll and @AfterAll are separate entries in the generated report Groovy package com.example.tests.junit5 import org.testingisdocumenting.webtau.junit5.WebTau import org.junit.jupiter.api.AfterAll import org.junit.jupiter.api.BeforeAll import org.junit.jupiter.api.DisplayName import org.junit.jupiter.api.Test import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @WebTau @DisplayName(&quot;customer query&quot;) class CustomerQueryGroovyTest { private static def id1 // keep track of created ids to assert and cleanup later private static def id2 private static def id3 @BeforeAll @DisplayName(&quot;create customers&quot;) static void createCustomers() { id1 = createCustomer(&quot;CQ_FN1&quot;, &quot;CQ_LN1&quot;) id2 = createCustomer(&quot;CQ_FN1&quot;, &quot;CQ_LN2&quot;) id3 = createCustomer(&quot;CQ_FN2&quot;, &quot;CQ_LN2&quot;) } @Test @DisplayName(&quot;query by first name&quot;) void queryByFirstName() { http.get(&quot;/customers/search/first-name&quot;, [name: &quot;CQ_FN1&quot;]) { body.should == [&quot;*id&quot; | &quot;firstName&quot; | &quot;lastName&quot;] { // star(*) marks key column so assertion is order agnostic __________________________________ id1 | &quot;CQ_FN1&quot; | &quot;CQ_LN1&quot; id2 | &quot;CQ_FN1&quot; | &quot;CQ_LN2&quot; } } } @Test @DisplayName(&quot;query by last name&quot;) void queryByLastName() { http.get(&quot;/customers/search/last-name&quot;, [name: &quot;CQ_LN2&quot;]) { body.should == [&quot;*id&quot; | &quot;firstName&quot; | &quot;lastName&quot;] { __________________________________ id2 | &quot;CQ_FN1&quot; | &quot;CQ_LN2&quot; id3 | &quot;CQ_FN2&quot; | &quot;CQ_LN2&quot; } } } @AfterAll @DisplayName(&quot;clean up&quot;) static void cleanup() { [id1, id2, id3].each { http.delete(&quot;/customers/$it&quot;) } } private static def createCustomer(String firstName, String lastName) { return http.post(&quot;/customers&quot;, [firstName: firstName, lastName: lastName]) { id } } } Java package com.example.tests.junit5; import org.junit.jupiter.api.AfterAll; import org.junit.jupiter.api.BeforeAll; import org.junit.jupiter.api.DisplayName; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import java.util.Map; import java.util.stream.Stream; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau @DisplayName(&quot;customer query&quot;) class CustomerQueryJavaTest { private static Integer id1; // keep track of created ids to assert and cleanup later private static Integer id2; private static Integer id3; @BeforeAll @DisplayName(&quot;create customers&quot;) static void createCustomers() { id1 = createCustomer(&quot;CQ_FN1&quot;, &quot;CQ_LN1&quot;); id2 = createCustomer(&quot;CQ_FN1&quot;, &quot;CQ_LN2&quot;); id3 = createCustomer(&quot;CQ_FN2&quot;, &quot;CQ_LN2&quot;); } @Test @DisplayName(&quot;query by first name&quot;) void queryByFirstName() { http.get(&quot;/customers/search/first-name&quot;, http.query(&quot;name&quot;, &quot;CQ_FN1&quot;), (header, body) -&gt; { body.should(equal(table(&quot;*id&quot;, &quot;firstName&quot;, &quot;lastName&quot;, // star(*) marks key column so assertion is order agnostic ________________________________, id1, &quot;CQ_FN1&quot; , &quot;CQ_LN1&quot;, id2, &quot;CQ_FN1&quot; , &quot;CQ_LN2&quot;))); }); } @Test @DisplayName(&quot;query by last name&quot;) void queryByLastName() { http.get(&quot;/customers/search/last-name&quot;, http.query(&quot;name&quot;, &quot;CQ_LN2&quot;), (header, body) -&gt; { body.should(equal(table(&quot;*id&quot;, &quot;firstName&quot;, &quot;lastName&quot;, ________________________________, id2, &quot;CQ_FN1&quot; , &quot;CQ_LN2&quot;, id3, &quot;CQ_FN2&quot; , &quot;CQ_LN2&quot;))); }); } @AfterAll @DisplayName(&quot;clean up&quot;) static void cleanup() { Stream.of(id1, id2, id3).forEach(id -&gt; http.delete(&quot;/customers/&quot; + id)); } private static int createCustomer(String firstName, String lastName) { Map&lt;String, Object&gt; payload = map( &quot;firstName&quot;, firstName, &quot;lastName&quot;, lastName); return http.post(&quot;/customers&quot;, payload, ((header, body) -&gt; { return body.get(&quot;id&quot;); })); } }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "webtau-report",
+      "title" : "WebTau Report",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "You can use WebTau ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "http.",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "graphql.",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browser.",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "cli.",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "db.",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " modules without any additional setup, but to include a test into generated report and to get extra console output you need to use",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "code" : "@WebTau",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " annotation or enable global extension (see below)",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "package com.example.tests.junit5\n\nimport org.testingisdocumenting.webtau.junit5.WebTau\nimport org.junit.jupiter.api.*\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n@WebTau // annotation to enable rich console output and html reporting\n@TestMethodOrder(MethodOrderer.OrderAnnotation) // forcing methods execution order\n@DisplayName(\"customer CRUD\")\nclass CustomerCrudSeparatedGroovyTest {\n    private static def customerPayload = [firstName: 'FN',\n                                          lastName : 'LN']\n    private static def changedCustomerPayload = [*: customerPayload, lastName: 'NLN']\n\n    private static def id\n\n    @BeforeAll\n    @DisplayName(\"create customer\") // optional friendly name for reporting purposes\n    static void createCustomer() {\n        id = http.post(\"/customers\", customerPayload) {\n            body.id // using body prefix is required in this case as id conflicts with class field name\n        }\n\n        id.shouldNot == 0\n    }\n\n    @Test\n    @Order(1)\n    @DisplayName(\"read customer\")\n    void read() {\n        http.get(\"/customers/$id\") {\n            body.should == customerPayload\n        }\n    }\n\n    @Test\n    @Order(2) // order dependence saves from creating customer on every test\n    @DisplayName(\"update customer\")\n    void update() {\n        http.put(\"/customers/$id\", changedCustomerPayload) {\n            body.should == changedCustomerPayload\n        }\n\n        http.get(\"/customers/$id\") {\n            body.should == changedCustomerPayload\n        }\n    }\n\n    @Test\n    @Order(3) // but you can still run each method independently\n    @DisplayName(\"delete customer\")\n    void delete() {\n        http.delete(\"/customers/$id\") {\n            header.statusCode.should == 204\n        }\n\n        http.get(\"/customers/$id\") {\n            header.statusCode.should == 404\n        }\n\n        id = -1 // marking as deleted to let cleanup step know that no delete is required\n    }\n\n    @AfterAll\n    static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean\n        if (id == -1) {\n            return\n        }\n\n        http.delete(\"/customers/$id\")\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit5;\n\nimport org.testingisdocumenting.webtau.http.request.HttpRequestBody;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\nimport org.junit.jupiter.api.*;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau // annotation to enable rich console output and html reporting\n@TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order\n@DisplayName(\"customer CRUD\")\npublic class CustomerCrudSeparatedJavaTest {\n    private static final HttpRequestBody customerPayload = http.json(\n            \"firstName\", \"FN\",\n            \"lastName\", \"LN\");\n\n    private static final HttpRequestBody changedCustomerPayload = http.json(\n            \"firstName\", \"FN\",\n            \"lastName\", \"NLN\");\n\n    private static int id;\n\n    @BeforeAll\n    @DisplayName(\"create customer\") // optional friendly name for reporting purposes\n    public static void createCustomer() {\n        id = http.post(\"/customers\", customerPayload, ((header, body) -> {\n            return body.get(\"id\");\n        }));\n\n        actual(id).shouldNot(equal(0));\n    }\n\n    @Test\n    @Order(1)\n    @DisplayName(\"read customer\")\n    public void read() {\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(customerPayload));\n        }));\n    }\n\n    @Test\n    @Order(2) // order dependence saves from creating customer on every test\n    @DisplayName(\"update customer\")\n    public void update() {\n        http.put(\"/customers/\" + id, changedCustomerPayload, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n    }\n\n    @Test\n    @Order(3) // but you can still run each method independently\n    @DisplayName(\"delete customer\")\n    public void delete() {\n        http.delete(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode.should(equal(204));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode.should(equal(404));\n        }));\n\n        id = -1; // marking as deleted to let cleanup step know that no delete is required\n    }\n\n    @AfterAll\n    public static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean\n        if (id == -1) {\n            return;\n        }\n\n        http.delete(\"/customers/\" + id);\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "extra-console-output",
+      "title" : "Extra Console Output",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau produces extra console output when you enable reporting either via annotation or globally (see below).",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "title" : "console output",
+        "readMore" : true,
+        "readMoreVisibleLines" : 20,
+        "lines" : [ "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m create customers \u001B[35m(customer query)\u001B[0m", "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mPOST \u001B[35mhttp://localhost:44991/customers\u001B[0m", "  \u001B[33mrequest\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"CQ_FN1\"\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"CQ_LN1\"\u001B[33m}\u001B[0m", "  \u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m201\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[34m7\u001B[33m, \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"CQ_FN1\"\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"CQ_LN1\"\u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mPOST \u001B[35mhttp://localhost:44991/customers\u001B[33m (\u001B[32m8ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mPOST \u001B[35mhttp://localhost:44991/customers\u001B[0m", "  \u001B[33mrequest\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"CQ_FN1\"\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"CQ_LN2\"\u001B[33m}\u001B[0m", "  \u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m201\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[34m8\u001B[33m, \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"CQ_FN1\"\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"CQ_LN2\"\u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mPOST \u001B[35mhttp://localhost:44991/customers\u001B[33m (\u001B[32m13ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mPOST \u001B[35mhttp://localhost:44991/customers\u001B[0m", "  \u001B[33mrequest\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"CQ_FN2\"\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"CQ_LN2\"\u001B[33m}\u001B[0m", "  \u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m201\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[34m9\u001B[33m, \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"CQ_FN2\"\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"CQ_LN2\"\u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mPOST \u001B[35mhttp://localhost:44991/customers\u001B[33m (\u001B[32m5ms\u001B[33m)\u001B[0m", "\u001B[32m[.] \u001B[34mcreate customers \u001B[35m(customer query)\u001B[0m", "\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m query by last name \u001B[35m(customer query)\u001B[0m", "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttp://localhost:44991/customers/search/last-name?name=CQ_LN2\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mbody \u001B[0m\u001B[34mequals \u001B[33m*\u001B[35mid\u001B[33m │ \u001B[35mfirstName\u001B[33m │ \u001B[35mlastName", "                  \u001B[34m8\u001B[33m │ \u001B[32m\"CQ_FN1\" \u001B[33m │ \u001B[32m\"CQ_LN2\"", "                  \u001B[34m9\u001B[33m │ \u001B[32m\"CQ_FN2\" \u001B[33m │ \u001B[32m\"CQ_LN2\"\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m[\u001B[0m", "    \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[1m\u001B[32m__8__\u001B[33m, \u001B[35m\"firstName\"\u001B[33m: \u001B[1m\u001B[32m__\"CQ_FN1\"__\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[1m\u001B[32m__\"CQ_LN2\"__\u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[1m\u001B[32m__9__\u001B[33m, \u001B[35m\"firstName\"\u001B[33m: \u001B[1m\u001B[32m__\"CQ_FN2\"__\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[1m\u001B[32m__\"CQ_LN2\"__\u001B[33m}\u001B[0m", "  \u001B[33m]\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttp://localhost:44991/customers/search/last-name?name=CQ_LN2\u001B[33m (\u001B[32m6ms\u001B[33m)\u001B[0m", "\u001B[32m[.] \u001B[34mquery by last name \u001B[35m(customer query)\u001B[0m", "\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m query by first name \u001B[35m(customer query)\u001B[0m", "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttp://localhost:44991/customers/search/first-name?name=CQ_FN1\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mbody \u001B[0m\u001B[34mequals \u001B[33m*\u001B[35mid\u001B[33m │ \u001B[35mfirstName\u001B[33m │ \u001B[35mlastName", "                  \u001B[34m7\u001B[33m │ \u001B[32m\"CQ_FN1\" \u001B[33m │ \u001B[32m\"CQ_LN1\"", "                  \u001B[34m8\u001B[33m │ \u001B[32m\"CQ_FN1\" \u001B[33m │ \u001B[32m\"CQ_LN2\"\u001B[33m (\u001B[32m3ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m[\u001B[0m", "    \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[1m\u001B[32m__7__\u001B[33m, \u001B[35m\"firstName\"\u001B[33m: \u001B[1m\u001B[32m__\"CQ_FN1\"__\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[1m\u001B[32m__\"CQ_LN1\"__\u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[1m\u001B[32m__8__\u001B[33m, \u001B[35m\"firstName\"\u001B[33m: \u001B[1m\u001B[32m__\"CQ_FN1\"__\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[1m\u001B[32m__\"CQ_LN2\"__\u001B[33m}\u001B[0m", "  \u001B[33m]\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttp://localhost:44991/customers/search/first-name?name=CQ_FN1\u001B[33m (\u001B[32m13ms\u001B[33m)\u001B[0m", "\u001B[32m[.] \u001B[34mquery by first name \u001B[35m(customer query)\u001B[0m", "\u001B[0m", "\u001B[43;1m\u001B[30mscenario\u001B[0m\u001B[34m clean up \u001B[35m(customer query)\u001B[0m", "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mDELETE \u001B[35mhttp://localhost:44991/customers/7\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m204\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m[no content]\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mDELETE \u001B[35mhttp://localhost:44991/customers/7\u001B[33m (\u001B[32m4ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mDELETE \u001B[35mhttp://localhost:44991/customers/8\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m204\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m[no content]\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mDELETE \u001B[35mhttp://localhost:44991/customers/8\u001B[33m (\u001B[32m5ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mDELETE \u001B[35mhttp://localhost:44991/customers/9\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m204\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m[no content]\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mDELETE \u001B[35mhttp://localhost:44991/customers/9\u001B[33m (\u001B[32m4ms\u001B[33m)\u001B[0m", "\u001B[32m[.] \u001B[34mclean up \u001B[35m(customer query)\u001B[0m", "\u001B[0m", "\u001B[0m", "\u001B[34mTotal time: \u001B[35m79ms\u001B[0m", "Total: 4, \u001B[32m Passed: 4, \u001B[33m Skipped: 0, \u001B[31m Failed: 0,  Errored: 0\u001B[0m", "\u001B[34mreport is generated: \u001B[35m/home/runner/work/webtau/webtau/webtau-junit5-examples/webtau-reports/com.example.tests.junit5.CustomerQueryJavaTest.html\u001B[0m" ],
+        "anchorId" : "extra-console-output-console-output",
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "id" : "automatic-extension",
+      "title" : "Automatic Extension",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To enable report for all the tests without annotating each of them, use JUnit5 ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://junit.org/junit5/docs/current/user-guide/#extensions-registration-automatic",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "automatic extension registration",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "lang" : "Extension",
+        "snippet" : "org.testingisdocumenting.webtau.junit5.WebTauJunitExtension",
+        "autoTitle" : true,
+        "title" : "src/test/resources/META-INF/services/org.junit.jupiter.api.extension.Extension",
+        "anchorId" : "automatic-extension-src-test-resources-meta-inf-services-org-junit-jupiter-api-extension-extension",
+        "type" : "Snippet"
+      }, {
+        "lang" : "properties",
+        "snippet" : "junit.jupiter.extensions.autodetection.enabled=true",
+        "autoTitle" : true,
+        "title" : "src/test/resources/junit-platform.properties",
+        "anchorId" : "automatic-extension-src-test-resources-junit-platform-properties",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "beforeall-afterall-reporting",
+      "title" : "BeforeAll/AfterAll Reporting",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "@BeforeAll",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "@AfterAll",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " are separate entries in the generated report",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "package com.example.tests.junit5\n\nimport org.testingisdocumenting.webtau.junit5.WebTau\nimport org.junit.jupiter.api.AfterAll\nimport org.junit.jupiter.api.BeforeAll\nimport org.junit.jupiter.api.DisplayName\nimport org.junit.jupiter.api.Test\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\n@WebTau\n@DisplayName(\"customer query\")\nclass CustomerQueryGroovyTest {\n    private static def id1 // keep track of created ids to assert and cleanup later\n    private static def id2\n    private static def id3\n\n    @BeforeAll\n    @DisplayName(\"create customers\")\n    static void createCustomers() {\n        id1 = createCustomer(\"CQ_FN1\", \"CQ_LN1\")\n        id2 = createCustomer(\"CQ_FN1\", \"CQ_LN2\")\n        id3 = createCustomer(\"CQ_FN2\", \"CQ_LN2\")\n    }\n\n    @Test\n    @DisplayName(\"query by first name\")\n    void queryByFirstName() {\n        http.get(\"/customers/search/first-name\", [name: \"CQ_FN1\"]) {\n            body.should == [\"*id\" | \"firstName\" | \"lastName\"] { // star(*) marks key column so assertion is order agnostic\n                           __________________________________\n                             id1  | \"CQ_FN1\"    | \"CQ_LN1\"\n                             id2  | \"CQ_FN1\"    | \"CQ_LN2\" }\n        }\n    }\n\n    @Test\n    @DisplayName(\"query by last name\")\n    void queryByLastName() {\n        http.get(\"/customers/search/last-name\", [name: \"CQ_LN2\"]) {\n            body.should == [\"*id\" | \"firstName\" | \"lastName\"] {\n                           __________________________________\n                             id2  | \"CQ_FN1\"    | \"CQ_LN2\"\n                             id3  | \"CQ_FN2\"    | \"CQ_LN2\" }\n        }\n    }\n\n    @AfterAll\n    @DisplayName(\"clean up\")\n    static void cleanup() {\n        [id1, id2, id3].each { http.delete(\"/customers/$it\") }\n    }\n\n    private static def createCustomer(String firstName, String lastName) {\n        return http.post(\"/customers\", [firstName: firstName, lastName: lastName]) { id }\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.AfterAll;\nimport org.junit.jupiter.api.BeforeAll;\nimport org.junit.jupiter.api.DisplayName;\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\n\nimport java.util.Map;\nimport java.util.stream.Stream;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\n@DisplayName(\"customer query\")\nclass CustomerQueryJavaTest {\n    private static Integer id1; // keep track of created ids to assert and cleanup later\n    private static Integer id2;\n    private static Integer id3;\n\n    @BeforeAll\n    @DisplayName(\"create customers\")\n    static void createCustomers() {\n        id1 = createCustomer(\"CQ_FN1\", \"CQ_LN1\");\n        id2 = createCustomer(\"CQ_FN1\", \"CQ_LN2\");\n        id3 = createCustomer(\"CQ_FN2\", \"CQ_LN2\");\n    }\n\n    @Test\n    @DisplayName(\"query by first name\")\n    void queryByFirstName() {\n        http.get(\"/customers/search/first-name\", http.query(\"name\", \"CQ_FN1\"), (header, body) -> {\n            body.should(equal(table(\"*id\", \"firstName\", \"lastName\", // star(*) marks key column so assertion is order agnostic\n                                   ________________________________,\n                                      id1, \"CQ_FN1\"   , \"CQ_LN1\",\n                                      id2, \"CQ_FN1\"   , \"CQ_LN2\")));\n        });\n    }\n\n    @Test\n    @DisplayName(\"query by last name\")\n    void queryByLastName() {\n        http.get(\"/customers/search/last-name\", http.query(\"name\", \"CQ_LN2\"), (header, body) -> {\n            body.should(equal(table(\"*id\", \"firstName\", \"lastName\",\n                                    ________________________________,\n                                      id2, \"CQ_FN1\"   , \"CQ_LN2\",\n                                      id3, \"CQ_FN2\"   , \"CQ_LN2\")));\n        });\n    }\n\n    @AfterAll\n    @DisplayName(\"clean up\")\n    static void cleanup() {\n        Stream.of(id1, id2, id3).forEach(id -> http.delete(\"/customers/\" + id));\n    }\n\n    private static int createCustomer(String firstName, String lastName) {\n        Map<String, Object> payload = map(\n                \"firstName\", firstName,\n                \"lastName\", lastName);\n\n        return http.post(\"/customers\", payload, ((header, body) -> {\n            return body.get(\"id\");\n        }));\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "title" : "web report",
+        "fit" : true,
+        "border" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/junit5-report-afterall.png",
+        "timestamp" : 1677178904721,
+        "shapes" : [ ],
+        "width" : 1310.0,
+        "height" : 802.0,
+        "anchorId" : "beforeall-afterall-reporting-web-report",
+        "type" : "AnnotatedImage"
+      } ]
+    } ],
+    "lastModifiedTime" : 1677178162244,
+    "tocItem" : {
+      "chapterTitle" : "JUnit 5",
+      "pageTitle" : "Reporting",
+      "pageMeta" : { },
+      "dirName" : "junit5",
+      "fileName" : "reporting",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "WebTau Report",
+        "id" : "webtau-report"
+      }, {
+        "title" : "Extra Console Output",
+        "id" : "extra-console-output"
+      }, {
+        "title" : "Automatic Extension",
+        "id" : "automatic-extension"
+      }, {
+        "title" : "BeforeAll/AfterAll Reporting",
+        "id" : "beforeall-afterall-reporting"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

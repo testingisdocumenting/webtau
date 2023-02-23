@@ -90,17 +90,12 @@
 
 <article>
 <header><h1>Reporting</h1></header>
-<p>Every comparison failed and successful generates console output with comparison details. Values have predefined names when they come from HTTP response or Web UI, etc. But regular values default to value .Pass name as a second parameter to actual to set an explicit reporting name. Groovy double price = calculatePrice() actual(price, &quot;price&quot;).shouldBe &gt; 10 // explict name to use in reporting Java double price = calculatePrice(); actual(price, &quot;price&quot;).shouldBe(greaterThan(10)); // explict name to use in reporting Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
-</article>
-
-<article>
-<header><h1>Java Beans And Maps</h1></header>
-<p>Use map and bean comparison to validate individual java bean properties. Groovy def account = new Account(&quot;ac1&quot;, &quot;My Account&quot;, &quot;test account&quot;) account.should == [ id: &quot;ac1&quot;, name: &quot;My Account&quot;] // only specified properties will be compared Java Account account = new Account(&quot;ac1&quot;, &quot;My Account&quot;, &quot;test account&quot;); actual(account).should(equal(aMapOf( // utility function from WebTauCore static import &quot;id&quot;, &quot;ac1&quot;, &quot;name&quot;, &quot;My Account&quot;))); // only specified properties will be compared public class Account { private final String id; private final String name; private final String description; public Account(String id, String name, String description) { this.id = id; this.name = name; this.description = description; } public String getId() { return id; } public String getName() { return name; } public String getDescription() { return description; } }</p>
+<p>Every comparison failed and successful generates console output with comparison details. . [value] equals &quot;insufficient disk space&quot; (0ms) Values have predefined names when they come from HTTP response or Web UI, etc. But regular values default to value .Pass name as a second parameter to actual to set an explicit reporting name. Groovy double price = calculatePrice() actual(price, &quot;price&quot;).shouldBe &gt; 10 // explict name to use in reporting Java double price = calculatePrice(); actual(price, &quot;price&quot;).shouldBe(greaterThan(10)); // explict name to use in reporting . price greater than 10 (8ms)</p>
 </article>
 
 <article>
 <header><h1>Dates</h1></header>
-<p>Universal compare lets you compare dates, local dates, strings, and times with timezones against each other. Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.shouldBe &gt; LocalDate.of(2018, 6, 9) def timeAsText = &quot;2018-01-02T00:00:00Z&quot; timeAsText.shouldBe &gt; LocalDate.of(2018, 1, 1) // date/time will be converted to local timezone def withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4) def dateOnly = LocalDate.of(2022, 3, 16) withTime.should == dateOnly // comparison ignores time portion when not provided Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(greaterThan(LocalDate.of(2018, 6, 9))); String timeAsText = &quot;2018-01-02T00:00:00Z&quot;; actual(timeAsText).shouldBe(greaterThan(LocalDate.of(2018, 1, 1))); // date/time will be converted to local timezone LocalDateTime withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4); LocalDate withDate = LocalDate.of(2022, 3, 16); actual(withTime).should(equal(withDate)); // comparison ignores time portion when not provided</p>
+<p>Universal compare lets you compare dates, local dates, strings, and times with timezones against each other. Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.shouldBe &gt; LocalDate.of(2018, 6, 9) def timeAsText = &quot;2018-01-02T00:00:00Z&quot; timeAsText.shouldBe &gt; LocalDate.of(2018, 1, 1) // date/time will be converted to local timezone def withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4) def dateOnly = LocalDate.of(2022, 3, 16) withTime.should == dateOnly // comparison ignores time portion when not provided Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(greaterThan(LocalDate.of(2018, 6, 9))); String timeAsText = &quot;2018-01-02T00:00:00Z&quot;; actual(timeAsText).shouldBe(greaterThan(LocalDate.of(2018, 1, 1))); // date/time will be converted to local timezone LocalDateTime withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4); LocalDate withDate = LocalDate.of(2022, 3, 16); actual(withTime).should(equal(withDate)); // comparison ignores time portion when not provided Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*; import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;</p>
 </article>
 </section>
 </div>
@@ -181,7 +176,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "report console output",
-        "lines" : [ "" ],
+        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[34mequals \u001B[32m\"insufficient disk space\"\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "reporting-report-console-output",
         "type" : "CliOutput"
       }, {
         "type" : "Paragraph",
@@ -236,74 +232,9 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "explicit name report console output",
-        "lines" : [ "" ],
+        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1mprice \u001B[0m\u001B[34mgreater than \u001B[34m10\u001B[33m (\u001B[32m8ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "reporting-explicit-name-report-console-output",
         "type" : "CliOutput"
-      } ]
-    }, {
-      "id" : "static-import",
-      "title" : "Static Import",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Examples assume ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "WebTauCore",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " static import.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "The class contains useful utility methods and matchers.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "java",
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
-        "surroundedBy" : "import-dsl",
-        "type" : "Snippet"
-      } ]
-    }, {
-      "id" : "java-beans-and-maps",
-      "title" : "Java Beans And Maps",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Use map and bean comparison to validate individual java bean properties.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "tabsContent" : [ {
-          "name" : "Groovy",
-          "content" : [ {
-            "lang" : "groovy",
-            "snippet" : "def account = new Account(\"ac1\", \"My Account\", \"test account\")\naccount.should == [\n        id: \"ac1\",\n        name: \"My Account\"] // only specified properties will be compared",
-            "surroundedBy" : "bean-map-example",
-            "commentsType" : "inline",
-            "type" : "Snippet"
-          } ]
-        }, {
-          "name" : "Java",
-          "content" : [ {
-            "lang" : "java",
-            "snippet" : "Account account = new Account(\"ac1\", \"My Account\", \"test account\");\nactual(account).should(equal(aMapOf( // utility function from WebTauCore static import\n        \"id\", \"ac1\",\n        \"name\", \"My Account\"))); // only specified properties will be compared",
-            "surroundedBy" : "bean-map-example",
-            "commentsType" : "inline",
-            "type" : "Snippet"
-          } ]
-        } ],
-        "type" : "Tabs"
-      }, {
-        "lang" : "java",
-        "snippet" : "public class Account {\n    private final String id;\n    private final String name;\n    private final String description;\n\n    public Account(String id, String name, String description) {\n        this.id = id;\n        this.name = name;\n        this.description = description;\n    }\n\n    public String getId() {\n        return id;\n    }\n\n    public String getName() {\n        return name;\n    }\n\n    public String getDescription() {\n        return description;\n    }\n}",
-        "surroundedBy" : "account",
-        "title" : "Account Bean",
-        "anchorId" : "java-beans-and-maps-account-bean",
-        "type" : "Snippet"
       } ]
     }, {
       "id" : "dates",
@@ -343,8 +274,35 @@ ReactDOM.render(React.createElement(Documentation, {
         } ],
         "type" : "Tabs"
       } ]
+    }, {
+      "id" : "static-import",
+      "title" : "Static Import",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Examples assume ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "WebTauCore",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " static import.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "The class contains useful utility methods and matchers.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;\nimport static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;",
+        "surroundedBy" : "import-dsl",
+        "type" : "Snippet"
+      } ]
     } ],
-    "lastModifiedTime" : 1671557712801,
+    "lastModifiedTime" : 1677178162244,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Universal Compare",
@@ -359,14 +317,11 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "Reporting",
         "id" : "reporting"
       }, {
-        "title" : "Static Import",
-        "id" : "static-import"
-      }, {
-        "title" : "Java Beans And Maps",
-        "id" : "java-beans-and-maps"
-      }, {
         "title" : "Dates",
         "id" : "dates"
+      }, {
+        "title" : "Static Import",
+        "id" : "static-import"
       } ]
     }
   }

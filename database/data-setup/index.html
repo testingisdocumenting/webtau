@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Semi-Auto Generated TableData</h1></header>
-<p>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;available&quot; | &quot;type&quot; | &quot;price&quot; ] { _____________________________________________________________________________________________ cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | 1000 // cell.guid generates random guid that can be used for ids cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | &quot;another set&quot; | permute(true, false) | permute(&quot;rts&quot;, &quot;fps&quot;) | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID EXTERNAL_ID DESCRIPTION AVAILABLE TYPE PRICE 42161dd8-b48f-4910-b32f-e987c3167183 nice set true card 1000 da70869e-c475-4fcf-add7-24539e1b6e2b nice set true card 1010 f20ee0b4-62d5-4ef1-9ceb-49f75e867215 another set true rts 1030 28e2a592-2d2c-46ec-8bed-627585a2f279 another set false rts 1050 e2e66938-516e-4e5d-bfe2-374242feccba another set true fps 1070 3af1f776-dd8c-42b3-a1e9-d425de3f4473 another set false fps 1090</p>
+<p>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;available&quot; | &quot;type&quot; | &quot;price&quot; ] { _____________________________________________________________________________________________ cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | 1000 // cell.guid generates random guid that can be used for ids cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | &quot;another set&quot; | permute(true, false) | permute(&quot;rts&quot;, &quot;fps&quot;) | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID EXTERNAL_ID DESCRIPTION AVAILABLE TYPE PRICE e04585f5-7b01-440e-8efd-3592565eb7ba nice set true card 1000 cabf4ffa-25d6-4fcb-ab90-dc9aed96cfac nice set true card 1010 8996508f-3b4d-4004-bf0a-6aa718a8bfb6 another set true rts 1030 5d808edd-17bb-4096-b222-64dd069e089a another set false rts 1050 5a9f3e4a-cc2b-4a0d-b408-1a79303e457a another set true fps 1070 59831348-be0e-4c95-bdfa-c78764cd830e another set false fps 1090</p>
 </article>
 
 <article>
@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Cleaning Tables</h1></header>
-<p>db.update(&quot;delete from PRICES where price &gt; :price&quot;, [price: 950]) db.update(&quot;delete from PRICES where price &gt; :price&quot;, 950)</p>
+<p>db.update(&quot;delete from PRICES where price &gt; :price&quot;, [price: 950]) db.update(&quot;delete from PRICES where price &gt; :price&quot;, 950) PRICES.clear()</p>
 </article>
 
 <article>
@@ -297,7 +297,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "42161dd8-b48f-4910-b32f-e987c3167183",
+              "text" : "e04585f5-7b01-440e-8efd-3592565eb7ba",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -327,7 +327,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "da70869e-c475-4fcf-add7-24539e1b6e2b",
+              "text" : "cabf4ffa-25d6-4fcb-ab90-dc9aed96cfac",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -357,7 +357,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "f20ee0b4-62d5-4ef1-9ceb-49f75e867215",
+              "text" : "8996508f-3b4d-4004-bf0a-6aa718a8bfb6",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -387,7 +387,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "28e2a592-2d2c-46ec-8bed-627585a2f279",
+              "text" : "5d808edd-17bb-4096-b222-64dd069e089a",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -417,7 +417,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "e2e66938-516e-4e5d-bfe2-374242feccba",
+              "text" : "5a9f3e4a-cc2b-4a0d-b408-1a79303e457a",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -447,7 +447,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "3af1f776-dd8c-42b3-a1e9-d425de3f4473",
+              "text" : "59831348-be0e-4c95-bdfa-c78764cd830e",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -602,6 +602,15 @@ ReactDOM.render(React.createElement(Documentation, {
         "includeRegexp" : "delete",
         "commentsType" : "inline",
         "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "PRICES.clear()",
+        "entry" : "delete with table shortcut",
+        "title" : "delete data through table shortcut",
+        "bodyOnly" : true,
+        "includeRegexp" : "clear",
+        "commentsType" : "inline",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "updating-tables",
@@ -730,7 +739,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Table"
       } ]
     } ],
-    "lastModifiedTime" : 1671557712801,
+    "lastModifiedTime" : 1677178162240,
     "tocItem" : {
       "chapterTitle" : "Database",
       "pageTitle" : "Data Setup",

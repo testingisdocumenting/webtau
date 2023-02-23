@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Test Containers</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Default WebDriver Creation</h1></header>
+<p>By default, WebTau creates https://www.selenium.dev Selenium WebDriver by pointing to a local browser. WebTau also downloads a driver using https://github.com/bonigarcia/webdrivermanager WebDriver Manager.To handle scenarios where local browsers are not an option, WebTau provides an integration with https://www.testcontainers.org Test Containers.</p>
+</article>
+
+<article>
+<header><h1>Explicit Selenium Test Containers</h1></header>
+<p>To support https://www.testcontainers.org Test Containers explicitly, WebTau expose browser.setDriver to force a specific driver to use: @WebTau public class BrowserTestContainerJavaTest { private final PageElement box = $(&quot;#search-box&quot;); private final PageElement results = $(&quot;#results .result&quot;); private final PageElementValue&lt;Integer&gt; numberOfResults = results.getCount(); private static BrowserWebDriverContainer&lt;?&gt; seleniumContainer; @BeforeAll public static void setupDriverUsingTestContainer() { step(&quot;preparing selenium test container&quot;, () -&gt; { Testcontainers.exposeHostPorts(browser.getBaseUrlPort()); FirefoxOptions firefox = new FirefoxOptions(); seleniumContainer = new BrowserWebDriverContainer&lt;&gt;() .withCapabilities(firefox); seleniumContainer.start(); browser.setDriver(new RemoteWebDriver(seleniumContainer.getSeleniumAddress(), firefox)); }); } @AfterAll public static void shutdownContainer() { seleniumContainer.stop(); } @Test public void search() { browser.open(&quot;/search&quot;); box.setValue(&quot;search this&quot;); box.sendKeys(browser.keys.enter); numberOfResults.waitToBe(greaterThan(1)); } }</p>
+</article>
+
+<article>
+<header><h1>Implicit Selenium Test Container</h1></header>
+<p>WebTau provides an option to simplify running tests using both local and https://www.testcontainers.org Test Containers based browser: browserId=firefox browserUrl=http://host.testcontainers.internal:8080 browserTestcontainersEnabled=true @WebTau public class BrowserImplicitTestContainerJavaTest { private final PageElement box = $(&quot;#search-box&quot;); private final PageElement results = $(&quot;#results .result&quot;); private final PageElementValue&lt;Integer&gt; numberOfResults = results.getCount(); @Test public void search() { browser.open(&quot;/search&quot;); box.setValue(&quot;search this&quot;); box.sendKeys(browser.keys.enter); numberOfResults.waitToBe(greaterThan(1)); } } Read getting-started/configuration Configuration page to learn about how to override config values using different environments, system properties or environment variables.</p>
+</article>
+
+<article>
+<header><h1>Dependency</h1></header>
+<p>By default, WebTau includes https://www.testcontainers.org Test Containers into groovy-standalone-runner/introduction Groovy Runner and into single catch-all dependency Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.51&lt;/version&gt; &lt;/dependency&gt; Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.51&lt;/version&gt; &lt;/dependency&gt; If you cherry-pick WebTau dependencies, then you need to add this to your list: &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-browser-testcontainers&lt;/artifactId&gt; &lt;version&gt;1.51&lt;/version&gt; &lt;/dependency&gt;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "default-webdriver-creation",
+      "title" : "Default WebDriver Creation",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "By default, WebTau creates ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://www.selenium.dev",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Selenium WebDriver",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " by pointing to a local browser. WebTau also downloads a driver using ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://github.com/bonigarcia/webdrivermanager",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "WebDriver Manager",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To handle scenarios where local browsers are not an option, WebTau provides an integration with ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://www.testcontainers.org",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Test Containers",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "explicit-selenium-test-containers",
+      "title" : "Explicit Selenium Test Containers",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To support ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://www.testcontainers.org",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Test Containers",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " explicitly, WebTau expose ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browser.setDriver",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to force a specific driver to use:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "@WebTau\npublic class BrowserTestContainerJavaTest {\n    private final PageElement box = $(\"#search-box\");\n    private final PageElement results = $(\"#results .result\");\n    private final PageElementValue<Integer> numberOfResults = results.getCount();\n\n    private static BrowserWebDriverContainer<?> seleniumContainer;\n\n    @BeforeAll\n    public static void setupDriverUsingTestContainer() {\n        step(\"preparing selenium test container\", () -> {\n            Testcontainers.exposeHostPorts(browser.getBaseUrlPort());\n            FirefoxOptions firefox = new FirefoxOptions();\n            seleniumContainer = new BrowserWebDriverContainer<>()\n                    .withCapabilities(firefox);\n\n            seleniumContainer.start();\n            browser.setDriver(new RemoteWebDriver(seleniumContainer.getSeleniumAddress(), firefox));\n        });\n    }\n\n    @AfterAll\n    public static void shutdownContainer() {\n        seleniumContainer.stop();\n    }\n\n    @Test\n    public void search() {\n        browser.open(\"/search\");\n\n        box.setValue(\"search this\");\n        box.sendKeys(browser.keys.enter);\n\n        numberOfResults.waitToBe(greaterThan(1));\n    }\n}",
+        "title" : "manually start selenium test container",
+        "entry" : "BrowserTestContainerJavaTest",
+        "highlight" : [ 17 ],
+        "anchorId" : "explicit-selenium-test-containers-manually-start-selenium-test-container",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "implicit-selenium-test-container",
+      "title" : "Implicit Selenium Test Container",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau provides an option to simplify running tests using both local and ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://www.testcontainers.org",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Test Containers",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " based browser:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "properties",
+        "snippet" : "browserId=firefox\nbrowserUrl=http://host.testcontainers.internal:8080\nbrowserTestcontainersEnabled=true",
+        "title" : "src/test/resources/webtau.properties",
+        "highlight" : [ 2 ],
+        "anchorId" : "implicit-selenium-test-container-src-test-resources-webtau-properties",
+        "type" : "Snippet"
+      }, {
+        "lang" : "java",
+        "snippet" : "@WebTau\npublic class BrowserImplicitTestContainerJavaTest {\n    private final PageElement box = $(\"#search-box\");\n    private final PageElement results = $(\"#results .result\");\n    private final PageElementValue<Integer> numberOfResults = results.getCount();\n\n    @Test\n    public void search() {\n        browser.open(\"/search\");\n\n        box.setValue(\"search this\");\n        box.sendKeys(browser.keys.enter);\n\n        numberOfResults.waitToBe(greaterThan(1));\n    }\n}",
+        "title" : "implicitly start selenium test container",
+        "entry" : "BrowserImplicitTestContainerJavaTest",
+        "anchorId" : "implicit-selenium-test-container-implicitly-start-selenium-test-container",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Read ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/getting-started/configuration",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Configuration",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " page to learn about how to override config values using different environments, system properties or environment variables.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "dependency",
+      "title" : "Dependency",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "By default, WebTau includes ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "https://www.testcontainers.org",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Test Containers",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " into ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/groovy-standalone-runner/introduction",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "Groovy Runner",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " and into single catch-all dependency",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.51</version>\n</dependency>",
+            "title" : "catch-all Groovy dependecy",
+            "anchorId" : "dependency-catch-all-groovy-dependecy",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.51</version>\n</dependency>",
+            "title" : "catch-all Java dependency",
+            "anchorId" : "dependency-catch-all-java-dependency",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "If you cherry-pick WebTau dependencies, then you need to add this to your list:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "xml",
+        "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-browser-testcontainers</artifactId>\n    <version>1.51</version>\n</dependency>",
+        "title" : "maven dependency",
+        "anchorId" : "dependency-maven-dependency",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1677178162240,
+    "tocItem" : {
+      "chapterTitle" : "Browser",
+      "pageTitle" : "Test Containers",
+      "pageMeta" : { },
+      "dirName" : "browser",
+      "fileName" : "test-containers",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Default WebDriver Creation",
+        "id" : "default-webdriver-creation"
+      }, {
+        "title" : "Explicit Selenium Test Containers",
+        "id" : "explicit-selenium-test-containers"
+      }, {
+        "title" : "Implicit Selenium Test Container",
+        "id" : "implicit-selenium-test-container"
+      }, {
+        "title" : "Dependency",
+        "id" : "dependency"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>
