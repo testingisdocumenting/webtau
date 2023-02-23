@@ -20,7 +20,18 @@ Test your application across multiple layers:
 * Database
 * Business Logic (JVM only)
 
-[REST test Java example](https://testingisdocumenting.org/webtau/HTTP/introduction):
+## [Business Logic Java Example](https://testingisdocumenting.org/webtau/matchers/java-bean)
+
+```java
+actual(account).should(equal(map(
+        "id", "ac1",
+        "name", "My Second Account",
+        "address", map("zipCode", "7777777"))));
+```
+
+![webtau bean validation output](webtau-docs/readme/bean-validation-output.png)
+
+## [REST test Java example](https://testingisdocumenting.org/webtau/HTTP/introduction):
 ```java
 public class WeatherJavaTest {
     @Test
@@ -38,6 +49,9 @@ public class WeatherJavaTest {
 }
 ```
 
+WebTau prints a lot of useful information with zero effort from your side. So you can investigate tests faster.
+![webtau http output](webtau-docs/readme/http-weather-test-output.png)
+
 [REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction):
 ```groovy
 scenario("check weather") {
@@ -47,7 +61,27 @@ scenario("check weather") {
 }
 ```
 
-Use [Persona Concept](https://testingisdocumenting.org/webtau/persona/introduction) to streamline Authorization testing
+## [Persona Concept](https://testingisdocumenting.org/webtau/persona/introduction) 
+
+Use `Persona` to streamline Authorization testing
+
+```java
+public class PersonaHttpJavaTest {
+    @Test
+    public void checkBalance() {
+        Alice.execute(() -> http.get("/statement", (header, body) -> {
+            body.get("balance").shouldBe(greaterThan(100));
+        }));
+
+        Bob.execute(() -> http.get("/statement", (header, body) -> {
+            body.get("balance").shouldBe(lessThan(50));
+        }));
+    }
+}
+```
+
+![webtau persona output](webtau-docs/readme/http-persona-output.png)
+
 ```groovy
 scenario("my bank balance") {
     Alice {
@@ -77,21 +111,6 @@ scenario("my bank balance") {
 }
 ```
 
-```java
-public class PersonaHttpJavaTest {
-    @Test
-    public void checkBalance() {
-        Alice.execute(() -> http.get("/statement", (header, body) -> {
-            body.get("balance").shouldBe(greaterThan(100));
-        }));
-
-        Bob.execute(() -> http.get("/statement", (header, body) -> {
-            body.get("balance").shouldBe(lessThan(50));
-        }));
-    }
-}
-```
-
 Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer
 to validate GraphQL API.
 
@@ -116,7 +135,7 @@ Tests can be written in any JVM language. Language specific syntactic sugar is a
 
 --------
 
-[Browser test Java example](https://testingisdocumenting.org/webtau/browser/introduction):
+## [Browser test Java example](https://testingisdocumenting.org/webtau/browser/introduction):
 ```java
 @WebTau
 public class WebSearchTest {
@@ -141,7 +160,7 @@ public class SearchPage {
 }
 ```
 
-[GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction):
+## [GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction):
 ```java
 @WebTau
 public class GraphQLWeatherJavaIT {
@@ -155,7 +174,7 @@ public class GraphQLWeatherJavaIT {
 }
 ```
 
-[Database data setup example](https://testingisdocumenting.org/webtau/database/data-setup):
+## [Database data setup example](https://testingisdocumenting.org/webtau/database/data-setup):
 ```groovy
 def PRICES = db.table("PRICES")
 PRICES << [     "id" | "description" |          "available" |                "type" |       "price" ] {
@@ -165,7 +184,7 @@ PRICES << [     "id" | "description" |          "available" |                "ty
            cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 }
 ```
 
-[CLI run example](https://testingisdocumenting.org/webtau/cli/introduction):
+## [CLI run example](https://testingisdocumenting.org/webtau/cli/introduction):
 ```groovy
 cli.run('echo hello world') {
     output.should contain('hello')
