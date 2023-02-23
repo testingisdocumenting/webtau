@@ -40,7 +40,7 @@ class JavaResourceConfigHandlerTest {
 
         handler.onAfterCreate(cfg)
 
-        actual(cfg.baseUrl).should(equal('http://qa'))
+        actual(cfg.baseUrl).should(equal('http://server.qa:8080'))
     }
 
     @Test
