@@ -17,18 +17,26 @@
 
 package org.testingisdocumenting.webtau.cfg
 
-import org.junit.After
-import org.junit.Before
+import org.junit.AfterClass
+import org.junit.BeforeClass
 import org.junit.Test
-import org.testingisdocumenting.webtau.console.ConsoleOutput
-import org.testingisdocumenting.webtau.console.ConsoleOutputs
-import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.Matchers.*
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.cfg.JavaResourceConfigHandler.WEBTAU_PROPERTIES_KEY
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class WebTauConfigTest {
+    @BeforeClass
+    static void disableJavaConfig() {
+        System.setProperty(WEBTAU_PROPERTIES_KEY, "disabled")
+
+    }
+
+    @AfterClass
+    static void enableJavaConfig() {
+        System.setProperty(WEBTAU_PROPERTIES_KEY, WEBTAU_PROPERTIES_KEY)
+    }
+
     @Test
     void "inits config values from env vars and overrides them from system properties"() {
         System.setProperty('url', 'test-base-url')

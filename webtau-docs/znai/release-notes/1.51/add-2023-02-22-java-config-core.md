@@ -1,0 +1,1 @@
+* Add: Java config is handled when only webtau-core dependency is present. No need for junit specific dependency.

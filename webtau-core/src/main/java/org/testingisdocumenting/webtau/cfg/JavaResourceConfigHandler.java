@@ -15,10 +15,8 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.javarunner.cfg;
+package org.testingisdocumenting.webtau.cfg;
 
-import org.testingisdocumenting.webtau.cfg.WebTauConfig;
-import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
 import java.io.IOException;
@@ -27,6 +25,8 @@ import java.util.Map;
 import java.util.Properties;
 
 public class JavaResourceConfigHandler implements WebTauConfigHandler {
+    static final String WEBTAU_PROPERTIES_KEY = "webtau.properties";
+
     @Override
     public void onBeforeCreate(WebTauConfig cfg) {
     }
@@ -70,6 +70,6 @@ public class JavaResourceConfigHandler implements WebTauConfigHandler {
     }
 
     private String configResourcePath() {
-        return System.getProperty("webtau.properties", "webtau.properties");
+        return System.getProperty(WEBTAU_PROPERTIES_KEY, WEBTAU_PROPERTIES_KEY);
     }
 }
