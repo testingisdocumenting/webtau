@@ -1,0 +1,1 @@
+* Fix: HTML report long test names replaced with ellipsis 
