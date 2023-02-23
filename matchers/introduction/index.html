@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Should</h1></header>
-<p>WebTau provides two methods to assert values: should and waitTo . They work for business logic testing, HTTP, Browser, and other layers. Methods accept a matcher as a second parameter:WebTau provides console output of all the matches it does, regardless of whether it fails or passes.Use should to assert a value using a matcher. One of the most common matchers is equal . In WebTau equal is a universal matcher that you will learn about matchers/universal-compare later. Groovy def errorMessage = generateErrorMessage() errorMessage.should == &quot;insufficient disk space&quot; // string and string equality comparison Note: Groovy has a shortcut for equal matcher. Java String errorMessage = generateErrorMessage(); actual(errorMessage).should(equal(&quot;insufficient disk space&quot;)); // string and string equality comparison . [value] equals &quot;insufficient disk space&quot; (0ms) Use shouldBe alias to make a better flow with matchers like greaterThan : Groovy def numberAsText = &quot;200&quot; numberAsText.shouldBe &gt; 150 // text and number relative comparison Java String numberAsText = &quot;200&quot;; actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison</p>
+<p>WebTau provides two methods to assert values: should and waitTo . They work for business logic testing, HTTP, Browser, and other layers. Methods accept a matcher as a second parameter:WebTau provides console output of all the matches it does, regardless of whether it fails or passes.Use should to assert a value using a matcher. One of the most common matchers is equal . In WebTau equal is a universal matcher that you will learn about matchers/universal-compare later. Groovy def errorMessage = generateErrorMessage() errorMessage.should == &quot;insufficient disk space&quot; // string and string equality comparison Note: Groovy has a shortcut for equal matcher. Java String errorMessage = generateErrorMessage(); actual(errorMessage).should(equal(&quot;insufficient disk space&quot;)); // string and string equality comparison . [value] equals &quot;insufficient disk space&quot; (1ms) Use shouldBe alias to make a better flow with matchers like greaterThan : Groovy def numberAsText = &quot;200&quot; numberAsText.shouldBe &gt; 150 // text and number relative comparison Java String numberAsText = &quot;200&quot;; actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison</p>
 </article>
 
 <article>
@@ -95,7 +95,7 @@
 
 <article>
 <header><h1>Failure Output</h1></header>
-<p>Above you saw how WebTau outputs matched information. In case of failed assertion WebTau outputs additional information about the actual value. Groovy values.should == [ 1, &quot;teasing&quot;, [key1: &quot;hello&quot;, key2: &quot;work&quot;]] Java actual(values).should(equal(Arrays.asList( 1, &quot;teasing&quot;, map(&quot;key1&quot;, &quot;hello&quot;, &quot;key2&quot;, &quot;work&quot;)))); X failed expecting [value] to equal [1, &quot;teasing&quot;, {&quot;key1&quot;: &quot;hello&quot;, &quot;key2&quot;: &quot;work&quot;}]: [value][1]: actual: &quot;testing&quot; &lt;java.lang.String&gt; expected: &quot;teasing&quot; &lt;java.lang.String&gt; ^ [value][2].key2: actual: &quot;world&quot; &lt;java.lang.String&gt; expected: &quot;work&quot; &lt;java.lang.String&gt; ^ (2ms) [1, **&quot;testing&quot;**, {&quot;key1&quot;: &quot;hello&quot;, &quot;key2&quot;: **&quot;world&quot;**}] Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*; import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;</p>
+<p>Above you saw how WebTau outputs matched information. In case of failed assertion WebTau outputs additional information about the actual value. Groovy values.should == [ 1, &quot;teasing&quot;, [key1: &quot;hello&quot;, key2: &quot;work&quot;]] Java actual(values).should(equal(Arrays.asList( 1, &quot;teasing&quot;, map(&quot;key1&quot;, &quot;hello&quot;, &quot;key2&quot;, &quot;work&quot;)))); X failed expecting [value] to equal [1, &quot;teasing&quot;, {&quot;key1&quot;: &quot;hello&quot;, &quot;key2&quot;: &quot;work&quot;}]: [value][1]: actual: &quot;testing&quot; &lt;java.lang.String&gt; expected: &quot;teasing&quot; &lt;java.lang.String&gt; ^ [value][2].key2: actual: &quot;world&quot; &lt;java.lang.String&gt; expected: &quot;work&quot; &lt;java.lang.String&gt; ^ (5ms) [1, **&quot;testing&quot;**, {&quot;key1&quot;: &quot;hello&quot;, &quot;key2&quot;: **&quot;world&quot;**}] Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
 </article>
 </section>
 </div>
@@ -231,7 +231,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "should console output",
-        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[34mequals \u001B[32m\"insufficient disk space\"\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[34mequals \u001B[32m\"insufficient disk space\"\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "should-should-console-output",
         "type" : "CliOutput"
       }, {
@@ -404,7 +404,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "failed assertion console output",
-        "lines" : [ "  \u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[34mto equal \u001B[33m[\u001B[34m1\u001B[33m, \u001B[32m\"teasing\"\u001B[33m, \u001B[33m{\u001B[35m\"key1\"\u001B[33m: \u001B[32m\"hello\"\u001B[33m, \u001B[35m\"key2\"\u001B[33m: \u001B[32m\"work\"\u001B[33m}\u001B[33m]\u001B[0m:\u001B[0m", "\u001B[0m      \u001B[0m\u001B[1m[value][1]\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"testing\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m      \u001B[0m           \u001B[36mexpected\u001B[0m: \u001B[32m\"teasing\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m      \u001B[0m           \u001B[0m             ^\u001B[0m", "\u001B[0m      \u001B[0m\u001B[1m[value][2].key2\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m      \u001B[0m                \u001B[36mexpected\u001B[0m: \u001B[32m\"work\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m      \u001B[0m                \u001B[0m              ^\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m", "    \u001B[0m", "    \u001B[33m[\u001B[34m1\u001B[33m, \u001B[31m**\"testing\"**\u001B[33m, \u001B[33m{\u001B[35m\"key1\"\u001B[33m: \u001B[32m\"hello\"\u001B[33m, \u001B[35m\"key2\"\u001B[33m: \u001B[31m**\"world\"**\u001B[33m}\u001B[33m]\u001B[0m" ],
+        "lines" : [ "  \u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[34mto equal \u001B[33m[\u001B[34m1\u001B[33m, \u001B[32m\"teasing\"\u001B[33m, \u001B[33m{\u001B[35m\"key1\"\u001B[33m: \u001B[32m\"hello\"\u001B[33m, \u001B[35m\"key2\"\u001B[33m: \u001B[32m\"work\"\u001B[33m}\u001B[33m]\u001B[0m:\u001B[0m", "\u001B[0m      \u001B[0m\u001B[1m[value][1]\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"testing\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m      \u001B[0m           \u001B[36mexpected\u001B[0m: \u001B[32m\"teasing\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m      \u001B[0m           \u001B[0m             ^\u001B[0m", "\u001B[0m      \u001B[0m\u001B[1m[value][2].key2\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m      \u001B[0m                \u001B[36mexpected\u001B[0m: \u001B[32m\"work\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m      \u001B[0m                \u001B[0m              ^\u001B[33m (\u001B[32m5ms\u001B[33m)\u001B[0m", "    \u001B[0m", "    \u001B[33m[\u001B[34m1\u001B[33m, \u001B[31m**\"testing\"**\u001B[33m, \u001B[33m{\u001B[35m\"key1\"\u001B[33m: \u001B[32m\"hello\"\u001B[33m, \u001B[35m\"key2\"\u001B[33m: \u001B[31m**\"world\"**\u001B[33m}\u001B[33m]\u001B[0m" ],
         "anchorId" : "failure-output-failed-assertion-console-output",
         "type" : "CliOutput"
       } ]
@@ -431,12 +431,12 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "java",
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;\nimport static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;",
-        "surroundedBy" : "import-dsl",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
+        "include" : "WebTauCore.*",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1677178162244,
+    "lastModifiedTime" : 1677186557938,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Introduction",

@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Mixing Values And Matchers</h1></header>
-<p>You can mix values and other matchers passed to anyOf Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.should == anyOf(&quot;2018-06-11&quot;, greaterThan(LocalDate.of(2018, 1, 1))) def message = &quot;hello world&quot; message.shouldNot == anyOf(&quot;hello&quot;, contain(&quot;super&quot;)) Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(anyOf(&quot;2018-06-11&quot;, greaterThan(LocalDate.of(2018, 1, 1)))); String message = &quot;hello world&quot;; actual(message).shouldNotBe(anyOf(&quot;hello&quot;, contain(&quot;super&quot;))); Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*; import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;</p>
+<p>You can mix values and other matchers passed to anyOf Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.should == anyOf(&quot;2018-06-11&quot;, greaterThan(LocalDate.of(2018, 1, 1))) def message = &quot;hello world&quot; message.shouldNot == anyOf(&quot;hello&quot;, contain(&quot;super&quot;)) Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(anyOf(&quot;2018-06-11&quot;, greaterThan(LocalDate.of(2018, 1, 1)))); String message = &quot;hello world&quot;; actual(message).shouldNotBe(anyOf(&quot;hello&quot;, contain(&quot;super&quot;))); Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
 </article>
 </section>
 </div>
@@ -229,12 +229,12 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "java",
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;\nimport static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;",
-        "surroundedBy" : "import-dsl",
+        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
+        "include" : "WebTauCore.*",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1677178162244,
+    "lastModifiedTime" : 1677186557938,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Any Of",
