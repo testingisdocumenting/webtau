@@ -16,6 +16,8 @@
 
 package org.testingisdocumenting.webtau.data.render;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
+
 import java.util.Objects;
 
 class FallbackPrettyPrintable implements PrettyPrintable {
@@ -26,7 +28,21 @@ class FallbackPrettyPrintable implements PrettyPrintable {
     }
 
     @Override
+    public boolean handlesDecoration() {
+        return true;
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter printer, ValuePath rootPath, PrettyPrinterDecorationToken decorationToken) {
+        if (decorationToken.isEmpty()) {
+            printer.print(PrettyPrinter.UNKNOWN_COLOR, Objects.toString(object));
+        } else {
+            printer.print(decorationToken.getColor(), decorationToken.getWrapWith(), Objects.toString(object), decorationToken.getWrapWith());
+        }
+    }
+
+    @Override
     public void prettyPrint(PrettyPrinter printer) {
-        printer.print(PrettyPrinter.UNKNOWN_COLOR, Objects.toString(object));
+        prettyPrint(printer, ValuePath.UNDEFINED, PrettyPrinterDecorationToken.EMPTY);
     }
 }
