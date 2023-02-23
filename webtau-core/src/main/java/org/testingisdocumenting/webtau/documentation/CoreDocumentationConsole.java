@@ -44,6 +44,20 @@ public class CoreDocumentationConsole {
     }
 
     /**
+     * capture the output of a provided code into the file with provided artifact name without using WebTau step.
+     * only one capture code will run at a time in multithreaded environment
+     *
+     * @param textFileNameWithoutExtension artifact name
+     * @param codeToProduceOutput          code to run and capture output
+     */
+    public void captureNoStep(String textFileNameWithoutExtension, ConsoleOutputGeneratingCode codeToProduceOutput) {
+        captureStep(textFileNameWithoutExtension, () -> {
+            codeToProduceOutput.runAndGenerate();
+            return null;
+        });
+    }
+
+    /**
      * capture the output of a provided code into the file with provided artifact name.
      * only one capture code will run at a time in multithreading environment
      *
