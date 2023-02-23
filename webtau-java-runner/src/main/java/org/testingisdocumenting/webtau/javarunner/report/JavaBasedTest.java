@@ -38,16 +38,19 @@ public class JavaBasedTest implements StepReporter {
 
     @Override
     public void onStepStart(WebTauStep step) {
+    }
+
+    @Override
+    public void onStepSuccess(WebTauStep step) {
         if (step.getNumberOfParents() == 0) {
             test.addStep(step);
         }
     }
 
     @Override
-    public void onStepSuccess(WebTauStep step) {
-    }
-
-    @Override
     public void onStepFailure(WebTauStep step) {
+        if (step.getNumberOfParents() == 0) {
+            test.addStep(step);
+        }
     }
 }
