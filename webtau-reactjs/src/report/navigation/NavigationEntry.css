@@ -39,6 +39,8 @@
     font-size: 14px;
     max-height: 70px;
     overflow-y: hidden;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
 }
 
 .navigation-entry .warning-sign {
