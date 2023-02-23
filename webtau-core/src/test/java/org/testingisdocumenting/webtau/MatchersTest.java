@@ -24,10 +24,8 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-// import-dsl
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;
-// import-dsl
 
 public class MatchersTest {
     private final List<String> messages = Arrays.asList("message one", "message two", "message we wait for");
