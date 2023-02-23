@@ -15,10 +15,8 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.javarunner.cfg;
+package org.testingisdocumenting.webtau.cfg;
 
-import org.testingisdocumenting.webtau.cfg.WebTauConfig;
-import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
 import java.io.IOException;

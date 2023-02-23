@@ -14,12 +14,14 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.javarunner.cfg
+package org.testingisdocumenting.webtau.cfg
 
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
-import org.testingisdocumenting.webtau.cfg.WebTauConfig
+
+import static org.testingisdocumenting.webtau.Matchers.actual
+import static org.testingisdocumenting.webtau.Matchers.equal
 
 class JavaResourceConfigHandlerTest {
     def cfg = WebTauConfig.cfg
@@ -38,7 +40,7 @@ class JavaResourceConfigHandlerTest {
 
         handler.onAfterCreate(cfg)
 
-        cfg.baseUrl.should == 'http://qa'
+        actual(cfg.baseUrl).should(equal('http://qa'))
     }
 
     @Test
@@ -46,6 +48,6 @@ class JavaResourceConfigHandlerTest {
         System.setProperty("webtau.properties", "webtau.override.properties")
         cfg.triggerConfigHandlers()
 
-        cfg.baseUrl.should == "http://local-override"
+        actual(cfg.baseUrl).should(equal("http://local-override"))
     }
 }
