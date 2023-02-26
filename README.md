@@ -22,6 +22,8 @@ Test your application across multiple layers:
 
 ## [Business Logic Java Example](https://testingisdocumenting.org/webtau/matchers/java-bean)
 
+### Single Bean Validation
+
 ```java
 actual(account).should(equal(map(
         "id", "ac1",
@@ -30,6 +32,19 @@ actual(account).should(equal(map(
 ```
 
 ![webtau bean validation output](webtau-docs/readme/bean-validation-output.png)
+
+### List Of Beans Validation
+    
+```java
+List<Account> accounts = fetchAccounts();
+TableData expected = table("*id",       "name", "address",
+                           ________________________________________,
+                           "ac2",      "Works", map("zipCode", "zip2"),
+                           "ac1",       "Home", map("zipCode", "zip1"),
+                           "ac3", "My Account", map("zipCode", "zip8"));
+```
+
+![webtau list of beans validation output](webtau-docs/readme/bean-list-validation.png)
 
 ## [REST test Java example](https://testingisdocumenting.org/webtau/HTTP/introduction):
 ```java
