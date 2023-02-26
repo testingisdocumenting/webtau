@@ -57,14 +57,8 @@ public class WeatherJavaTest {
     }
 }
 ```
-**server response**
-```json
-{
-  "temperature": 88
-}
-```
 
-WebTau prints a lot of useful information with zero effort from your side. So you can investigate tests faster.
+WebTau prints a lot of useful information with a zero effort from your side. So you can investigate tests faster.
 ![webtau http output](webtau-docs/readme/http-weather-test-output.png)
 
 [REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction):
@@ -110,19 +104,6 @@ scenario("my bank balance") {
             balance.shouldBe < 50
         }
     }
-}
-```
-
-**Alice server response**
-```json
-{
-  "balance": 150
-}
-```
-**Bob server response**
-```json
-{
-  "balance": 30
 }
 ```
 
