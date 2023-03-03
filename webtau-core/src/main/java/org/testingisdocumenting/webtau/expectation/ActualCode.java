@@ -17,7 +17,13 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.reporter.WebTauStepClassifiers;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
 
 public class ActualCode implements ActualCodeExpectations {
     private final CodeBlock actual;
@@ -28,6 +34,12 @@ public class ActualCode implements ActualCodeExpectations {
 
     @Override
     public void should(CodeMatcher codeMatcher) {
+        executeStep(codeMatcher,
+                tokenizedMessage().action("expecting"),
+                () -> shouldStep(codeMatcher), StepReportOptions.REPORT_ALL);
+    }
+
+    private void shouldStep(CodeMatcher codeMatcher) {
         boolean matches = codeMatcher.matches(actual);
 
         if (matches) {
@@ -45,7 +57,22 @@ public class ActualCode implements ActualCodeExpectations {
         final ExpectationHandler.Flow flow = ExpectationHandlers.onCodeMismatch(codeMatcher, message);
 
         if (flow != ExpectationHandler.Flow.Terminate) {
-            throw new AssertionError("\n" + message);
+            throw new AssertionTokenizedError(message);
         }
+    }
+
+    private void executeStep(CodeMatcher codeMatcher,
+                             TokenizedMessage messageStart,
+                             Runnable expectationValidation,
+                             StepReportOptions stepReportOptions) {
+        TokenizedMessage codeDescription = tokenizedMessage().id("code");
+        WebTauStep step = createStep(
+                messageStart.add(codeDescription).add(codeMatcher.matchingTokenizedMessage()),
+                () -> tokenizedMessage(codeDescription)
+                        .add(codeMatcher.matchedTokenizedMessage(actual)),
+                expectationValidation);
+        step.setClassifier(WebTauStepClassifiers.MATCHER);
+
+        step.execute(stepReportOptions);
     }
 }
