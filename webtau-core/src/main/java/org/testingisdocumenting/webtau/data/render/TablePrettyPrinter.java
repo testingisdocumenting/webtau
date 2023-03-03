@@ -108,6 +108,8 @@ public class TablePrettyPrinter {
         int effectiveHeight = rowHeight > 1 && !isLastRow ? rowHeight + 1 : rowHeight;
 
         for (int rowLineIdx = 0; rowLineIdx < effectiveHeight; rowLineIdx++) {
+            boolean isLastRowLine = rowLineIdx == effectiveHeight - 1;
+
             int columnIdx = 0;
             for (Object cellValue : row.getValues()) {
                 PrettyPrinter cellPrettyPrinter = (PrettyPrinter) cellValue;
@@ -141,7 +143,10 @@ public class TablePrettyPrinter {
 
                 columnIdx++;
             }
-            printer.flushCurrentLine();
+
+            if (!isLastRow || !isLastRowLine) {
+                printer.flushCurrentLine();
+            }
         }
     }
 

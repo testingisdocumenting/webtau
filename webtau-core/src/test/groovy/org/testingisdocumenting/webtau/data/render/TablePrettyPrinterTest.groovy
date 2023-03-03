@@ -134,6 +134,25 @@ class TablePrettyPrinterTest extends PrettyPrintableTestBase {
                 '"another" │ "world"              │ **[3, **8**]**')
     }
 
+    @Test
+    void "table rendered as block inside map"() {
+        def table = table("colA", "colB",
+                          ______________________,
+                          "text",     100,
+                          "hello",    200)
+
+        def map = [key1: 100, key2: table, key3: "hello"]
+        printer.printObject(map)
+
+        expectOutput("{\n" +
+                "  \"key1\": 100,\n" +
+                "  \"key2\": colA    │ colB\n" +
+                "          \"text\"  │  100\n" +
+                "          \"hello\" │  200,\n" +
+                "  \"key3\": \"hello\"\n" +
+                "}")
+    }
+
     private void prettyPrintTable(TableData tableData, List<String> paths, String expected) {
         printer.setPathsDecoration(new PrettyPrinterDecorationToken("**", Color.RED),
                 paths.collect { new ValuePath(it) } as Set)
