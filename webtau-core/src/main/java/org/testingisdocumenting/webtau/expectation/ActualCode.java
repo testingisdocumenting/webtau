@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+
 public class ActualCode implements ActualCodeExpectations {
     private final CodeBlock actual;
 
@@ -31,7 +33,7 @@ public class ActualCode implements ActualCodeExpectations {
         if (matches) {
             handleMatch(codeMatcher);
         } else {
-            handleMismatch(codeMatcher, codeMatcher.mismatchedMessage(actual));
+            handleMismatch(codeMatcher, codeMatcher.mismatchedTokenizedMessage(actual));
         }
     }
 
@@ -39,7 +41,7 @@ public class ActualCode implements ActualCodeExpectations {
         ExpectationHandlers.onCodeMatch(codeMatcher);
     }
 
-    private void handleMismatch(CodeMatcher codeMatcher, String message) {
+    private void handleMismatch(CodeMatcher codeMatcher, TokenizedMessage message) {
         final ExpectationHandler.Flow flow = ExpectationHandlers.onCodeMismatch(codeMatcher, message);
 
         if (flow != ExpectationHandler.Flow.Terminate) {

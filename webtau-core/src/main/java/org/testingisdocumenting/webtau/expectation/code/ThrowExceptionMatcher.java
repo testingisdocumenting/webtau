@@ -17,18 +17,19 @@
 
 package org.testingisdocumenting.webtau.expectation.code;
 
-import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
-
 import org.testingisdocumenting.webtau.expectation.ActualValueAware;
 import org.testingisdocumenting.webtau.expectation.CodeBlock;
 import org.testingisdocumenting.webtau.expectation.CodeMatcher;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, ActualValueAware {
     private String expectedMessage;
@@ -62,23 +63,27 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
     }
 
     @Override
-    public String matchingMessage() {
+    public TokenizedMessage matchingTokenizedMessage() {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String matchedMessage(CodeBlock codeBlock) {
+    public TokenizedMessage matchedTokenizedMessage(CodeBlock codeBlock) {
         throw new UnsupportedOperationException();
     }
 
     @Override
-    public String mismatchedMessage(CodeBlock codeBlock) {
+    public TokenizedMessage mismatchedTokenizedMessage(CodeBlock codeBlock) {
         if (thrownClass == null) {
             return generateExpectedExceptionButNoneWasThrown();
         }
 
-        return comparator.generateEqualMismatchReport() +
-                (thrownExceptionStackTrace != null ? "\nstack trace:\n" + thrownExceptionStackTrace : "");
+        TokenizedMessage message = comparator.generateEqualMismatchReport();
+        if (thrownExceptionStackTrace != null) {
+            message.newLine().none("stack trace").newLine().error(thrownExceptionStackTrace);
+        }
+
+        return message;
     }
 
     @Override
@@ -145,13 +150,13 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
         }
     }
 
-    private String generateExpectedExceptionButNoneWasThrown() {
-        String result = "expected exception but none was thrown";
+    private TokenizedMessage generateExpectedExceptionButNoneWasThrown() {
+        TokenizedMessage result = tokenizedMessage().error("expected exception but none was thrown");
         if (expectedClass != null) {
-            result += " <" + expectedClass.getSimpleName() + ">";
+            result.objectType("<" + (expectedClass.getCanonicalName()) + ">");
         }
         if (expectedMessage != null) {
-            result += ": " + expectedMessage;
+            result.colon().string(expectedMessage);
         }
 
         return result;

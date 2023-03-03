@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -31,7 +32,7 @@ public interface ExpectationHandler {
 
     default void onValueMatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue) {}
 
-    default Flow onCodeMismatch(CodeMatcher codeMatcher, String message) {
+    default Flow onCodeMismatch(CodeMatcher codeMatcher, TokenizedMessage message) {
         return Flow.PassToNext;
     }
 

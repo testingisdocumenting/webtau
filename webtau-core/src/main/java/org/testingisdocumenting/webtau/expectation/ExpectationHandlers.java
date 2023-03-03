@@ -68,7 +68,7 @@ public class ExpectationHandlers {
         handlersStream().forEach(h -> h.onCodeMatch(codeMatcher));
     }
 
-    public static Flow onCodeMismatch(CodeMatcher codeMatcher, String message) {
+    public static Flow onCodeMismatch(CodeMatcher codeMatcher, TokenizedMessage message) {
         return handlersStream()
                 .map(h -> h.onCodeMismatch(codeMatcher, message))
                 .filter(flow -> flow == Flow.Terminate)
