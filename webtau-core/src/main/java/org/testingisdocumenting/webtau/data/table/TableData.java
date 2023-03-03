@@ -310,6 +310,11 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
     }
 
     @Override
+    public boolean printAsBlock() {
+        return true;
+    }
+
+    @Override
     public void prettyPrint(PrettyPrinter printer) {
         prettyPrint(printer, ValuePath.UNDEFINED);
     }
