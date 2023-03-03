@@ -1,0 +1,1 @@
+* Add: pretty print [TableData](reference/table-data) inside maps as a block to maintain indentation
