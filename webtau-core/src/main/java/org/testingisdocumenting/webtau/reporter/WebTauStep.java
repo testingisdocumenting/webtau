@@ -249,7 +249,7 @@ public class WebTauStep {
             if (it.isMatcherOutputActualValueDisabled()) {
                 return true;
             }
-            it = parent.parent;
+            it = it.parent;
         }
 
         return false;
