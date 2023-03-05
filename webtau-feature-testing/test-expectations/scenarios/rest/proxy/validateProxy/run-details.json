@@ -3,6 +3,7 @@
     "scenario" : "use proxy value",
     "shortContainerId" : "validateProxy.groovy",
     "stepsSummary" : {
+      "numberOfSuccessful" : 2,
       "numberOfFailed" : 2
     }
   } ],
