@@ -1138,14 +1138,17 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "captures failed http call"() {
+        def codeThrowStepStartTime = 0;
         def stepForcedStartTime = 0
         def httpCallForcedStartTime = stepForcedStartTime + 100
         def httpElapsedTime = 500
 
         Time.withTimeProvider(new ControlledTimeProvider([
+                codeThrowStepStartTime,
                 stepForcedStartTime, httpCallForcedStartTime,
                 httpCallForcedStartTime + httpElapsedTime,
-                httpCallForcedStartTime + httpElapsedTime + 200])) {
+                httpCallForcedStartTime + httpElapsedTime + 200,
+                2000000])) {
             code {
                 http.get("mailto://demo", [a: 1, b: "text"]) {
                 }

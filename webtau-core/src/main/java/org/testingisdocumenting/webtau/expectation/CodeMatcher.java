@@ -16,23 +16,25 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+
 public interface CodeMatcher {
     /**
      * @return about to start matching message
      */
-    String matchingMessage();
+    TokenizedMessage matchingTokenizedMessage();
 
     /**
      * @param codeBlock matching code block
      * @return match message
      */
-    String matchedMessage(CodeBlock codeBlock);
+    TokenizedMessage matchedTokenizedMessage(CodeBlock codeBlock);
 
     /**
      * @param codeBlock matching code block
      * @return mismatch message
      */
-    String mismatchedMessage(CodeBlock codeBlock);
+    TokenizedMessage mismatchedTokenizedMessage(CodeBlock codeBlock);
 
     boolean matches(CodeBlock codeBlock);
 }

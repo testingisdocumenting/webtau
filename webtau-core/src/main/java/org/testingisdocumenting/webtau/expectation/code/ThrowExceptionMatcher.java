@@ -17,18 +17,21 @@
 
 package org.testingisdocumenting.webtau.expectation.code;
 
-import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
-
 import org.testingisdocumenting.webtau.expectation.ActualValueAware;
 import org.testingisdocumenting.webtau.expectation.CodeBlock;
 import org.testingisdocumenting.webtau.expectation.CodeMatcher;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 
 import java.lang.reflect.UndeclaredThrowableException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, ActualValueAware {
     private String expectedMessage;
@@ -62,33 +65,41 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
     }
 
     @Override
-    public String matchingMessage() {
-        throw new UnsupportedOperationException();
+    public TokenizedMessage matchingTokenizedMessage() {
+        return tokenizedMessage().matcher("to throw exception").value(buildExpectedValueForMessage());
     }
 
     @Override
-    public String matchedMessage(CodeBlock codeBlock) {
-        throw new UnsupportedOperationException();
+    public TokenizedMessage matchedTokenizedMessage(CodeBlock codeBlock) {
+        return tokenizedMessage().matcher("thrown").value(buildExpectedValueForMessage());
     }
 
     @Override
-    public String mismatchedMessage(CodeBlock codeBlock) {
+    public TokenizedMessage mismatchedTokenizedMessage(CodeBlock codeBlock) {
         if (thrownClass == null) {
-            return generateExpectedExceptionButNoneWasThrown();
+            return tokenizedMessage().error("no exception was thrown");
         }
 
-        return comparator.generateEqualMismatchReport() +
-                (thrownExceptionStackTrace != null ? "\nstack trace:\n" + thrownExceptionStackTrace : "");
+        TokenizedMessage message = comparator.generateEqualMismatchReport();
+        if (thrownExceptionStackTrace != null) {
+            message.newLine().none("stack trace").colon().newLine().error(thrownExceptionStackTrace);
+        }
+
+        return message;
     }
 
     @Override
     public Stream<Object> expectedValues() {
-        if (expectedMessage != null) {
-            return Stream.of(expectedMessage);
+        if (expectedMessage != null && expectedClass != null) {
+            return Stream.of(expectedClass, expectedMessage);
         }
 
         if (expectedClass != null) {
             return Stream.of(expectedClass);
+        }
+
+        if (expectedMessage != null) {
+            return Stream.of(expectedMessage);
         }
 
         return Stream.empty();
@@ -109,23 +120,47 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
 
         comparator = CompareToComparator.comparator();
 
-        boolean isEqual = true;
+        Map<String, Object> actualThrownAsMap = buildThrownToUseForCompare();
+        Map<String, Object> expectedAsMap = buildExpectedMapToUseForCompare();
 
-        if (expectedMessage != null) {
-            isEqual = comparator.compareIsEqual(createActualPath("expected exception message"), thrownMessage, expectedMessage);
-        }
+        return comparator.compareIsEqual(createActualPath("exception"), actualThrownAsMap, expectedAsMap);
+    }
 
-        if (expectedMessageRegexp != null) {
-            isEqual = comparator.compareIsEqual(createActualPath("expected exception message"),
-                    thrownMessage, expectedMessageRegexp) && isEqual;
+    private Map<String, Object> buildThrownToUseForCompare() {
+        Map<String, Object> result = new HashMap<>();
+        if (expectedMessage != null || expectedMessageRegexp != null) {
+            result.put("message", thrownMessage);
         }
 
         if (expectedClass != null) {
-            isEqual = comparator.compareIsEqual(createActualPath("expected exception class"),
-                    thrownClass, expectedClass) && isEqual;
+            result.put("class", thrownClass);
         }
 
-        return isEqual;
+        return result;
+    }
+
+    private Map<String, Object> buildExpectedMapToUseForCompare() {
+        Map<String, Object> result = new HashMap<>();
+        if (expectedMessage != null) {
+            result.put("message", expectedMessage);
+        }
+
+        if (expectedMessageRegexp != null) {
+            result.put("message", expectedMessageRegexp);
+        }
+
+        if (expectedClass != null) {
+            result.put("class", expectedClass);
+        }
+
+        return result;
+    }
+
+    private Object buildExpectedValueForMessage() {
+        Map<String, Object> map = buildExpectedMapToUseForCompare();
+        return map.size() == 1 ?
+                map.values().iterator().next():
+                map;
     }
 
     private void extractExceptionDetails(Throwable t) {
@@ -143,17 +178,5 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
             thrownMessage = t.getMessage();
             thrownClass = t.getClass();
         }
-    }
-
-    private String generateExpectedExceptionButNoneWasThrown() {
-        String result = "expected exception but none was thrown";
-        if (expectedClass != null) {
-            result += " <" + expectedClass.getSimpleName() + ">";
-        }
-        if (expectedMessage != null) {
-            result += ": " + expectedMessage;
-        }
-
-        return result;
     }
 }

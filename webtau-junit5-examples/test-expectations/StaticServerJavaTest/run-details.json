@@ -3,7 +3,8 @@
     "numberOfSuccessful" : 3
   },
   "slowDown()" : {
-    "numberOfFailed" : 1
+    "numberOfFailed" : 1,
+    "numberOfSuccessful" : 1
   },
   "serverBreak()" : {
     "numberOfSuccessful" : 2
