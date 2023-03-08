@@ -1,0 +1,1 @@
+* Add: `Path` pretty printable with different colors for file and extension
