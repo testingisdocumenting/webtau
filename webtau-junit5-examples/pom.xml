@@ -229,6 +229,9 @@
                         </configuration>
                     </execution>
                 </executions>
+                <configuration>
+                    <languageVersion>1.4</languageVersion>
+                </configuration>
             </plugin>
 
             <plugin>

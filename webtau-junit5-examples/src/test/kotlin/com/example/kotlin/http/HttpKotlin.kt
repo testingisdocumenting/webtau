@@ -33,8 +33,8 @@ fun interface KotlinValidatorWithReturn {
     fun validateAndReturn(): Any
 }
 
-fun interface HttpKotlinResponseValidator<R, RR> {
-    fun validate(header: HeaderDataNode, body: DataNode<R>): RR
+fun interface HttpKotlinResponseValidator {
+    fun validate(header: HeaderDataNode, body: DataNode<Any>): Any
 }
 
 //fun client(validator: KotlinValidator) {
@@ -42,10 +42,10 @@ fun interface HttpKotlinResponseValidator<R, RR> {
 //    validator.validate()
 //}
 
-fun <E> client(validatorAndReturn: KotlinValidatorWithReturn<E>): E {
-    println("validator WITH return")
-    return validatorAndReturn.validateAndReturn()
-}
+//fun <E> client(validatorAndReturn: KotlinValidatorWithReturn<E>): E {
+//    println("validator WITH return")
+//    return validatorAndReturn.validateAndReturn()
+//}
 
 fun test() {
 //    val fromValidator = client {
@@ -70,15 +70,15 @@ fun test() {
 //}
 
 class HttpKotlin {
-    fun <R> post(url: String, payload: Map<String, Any>, validator: HttpKotlinResponseValidator<R>): R {
+    fun post(url: String, payload: Map<String, Any>, validator: HttpResponseValidatorWithReturn): Any {
         println("kotlin post return")
-        return post(url, payload, validator)
+        return Http.http.post(url, payload, validator)
     }
 
-//    fun post(url: String, payload: Map<String, Any>, validator: KotlinValidator) {
-//        println("kotlin post")
-//        post(url, payload, validator)
-//    }
+    fun post(url: String, payload: Map<String, Any>, validator: KotlinValidator) {
+        println("kotlin post")
+        post(url, payload, validator)
+    }
 
 //    fun <R> post(url: String, payload: Map<String, Any>, validator: (header: HeaderDataNode, body: DataNode) -> Any): R {
 //        println("kotlin post return")

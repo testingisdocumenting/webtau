@@ -44,7 +44,7 @@ class CustomerCrudSeparatedKotlinTest {
     fun `create customer`() {
         id = http.post("/customers", customerPayload) { _, body ->
             body.get("id")
-        }
+        } as Int
 
         http.post("/customers", customerPayload) { _, body ->
             body.get("id")
