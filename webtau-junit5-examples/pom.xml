@@ -22,7 +22,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.51-SNAPSHOT</version>
+        <version>1.52-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-junit5-examples</artifactId>
@@ -100,6 +100,14 @@
         <dependency>
             <groupId>org.testingisdocumenting.webtau</groupId>
             <artifactId>webtau-feature-testing</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.testingisdocumenting.webtau</groupId>
+            <artifactId>webtau-core</artifactId>
             <version>${project.version}</version>
             <type>test-jar</type>
             <scope>test</scope>

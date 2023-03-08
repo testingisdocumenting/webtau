@@ -1,1 +1,1 @@
-* Add: render [trace](report/steps#tracing-values) console output in a special manner
+* Add: render [trace](report/tracing) console output in a special manner

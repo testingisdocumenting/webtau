@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
 
-createAndExecuteStep(tokenizedMessage(action("running errand")),
-        { -> tokenizedMessage(action("ran errand"))}) {
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage
+import static org.testingisdocumenting.webtau.reporter.WebTauStep.*
+
+createAndExecuteStep(tokenizedMessage().action("running errand"),
+        { -> tokenizedMessage().action("ran errand")}) {
 }
 
 scenario('scenario one') {

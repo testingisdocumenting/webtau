@@ -20,12 +20,11 @@ import com.googlecode.lanterna.TextColor;
 import com.googlecode.lanterna.gui2.*;
 import com.googlecode.lanterna.screen.TerminalScreen;
 import com.googlecode.lanterna.terminal.DefaultTerminalFactory;
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.io.IOException;
 import java.util.Arrays;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class TermUiTestApp {
     public static void main(String[] args) throws IOException, InterruptedException {
@@ -46,8 +45,8 @@ public class TermUiTestApp {
         Label title = new Label("This is a label that new line");
         Label anotherLabel = new Label("More text in\nmultiple lines");
 
-        TermUiWebTauStep step = new TermUiWebTauStep(TokenizedMessage.tokenizedMessage(
-                action("action"), OF, stringValue("hello world")));
+        TermUiWebTauStep step = new TermUiWebTauStep(tokenizedMessage()
+                .action("action").of().string("hello world"));
 
         Panel stepsPanel = new Panel(new LinearLayout());
         stepsPanel.addComponent(step);

@@ -23,14 +23,13 @@ import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.function.Consumer;
 
 import static org.testingisdocumenting.webtau.Matchers.equal;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 public class CliForegroundCommand {
     CliForegroundCommand() {
@@ -55,8 +54,8 @@ public class CliForegroundCommand {
         validationResult.setConfig(config);
 
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("running cli command "), stringValue(command)),
-                () -> tokenizedMessage(action("ran cli command"), stringValue(command)),
+                tokenizedMessage().action("running cli command ").string(command),
+                () -> tokenizedMessage().action("ran cli command").string(command),
                 () -> runAndValidate(validationResult, command, config, validationCode));
 
         try {
@@ -104,7 +103,7 @@ public class CliForegroundCommand {
 
             ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
                 @Override
-                public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
+                public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
                     validationResult.addMismatch(message);
                     return ExpectationHandler.Flow.PassToNext;
                 }

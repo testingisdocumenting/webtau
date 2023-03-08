@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler.Flow;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.ArrayList;
@@ -55,22 +56,24 @@ public class ExpectationHandlers {
         return Stream.concat(localHandlers.get().stream(), globalHandlers.stream());
     }
 
-    public static Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
+    public static Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
         return handlersStream()
                 .map(h -> h.onValueMismatch(valueMatcher, actualPath, actualValue, message))
                 .filter(flow -> flow == Flow.Terminate)
-                .findFirst().orElse(Flow.PassToNext);
+                .findFirst()
+                .orElse(Flow.PassToNext);
     }
 
     public static void onCodeMatch(CodeMatcher codeMatcher) {
         handlersStream().forEach(h -> h.onCodeMatch(codeMatcher));
     }
 
-    public static Flow onCodeMismatch(CodeMatcher codeMatcher, String message) {
+    public static Flow onCodeMismatch(CodeMatcher codeMatcher, TokenizedMessage message) {
         return handlersStream()
                 .map(h -> h.onCodeMismatch(codeMatcher, message))
                 .filter(flow -> flow == Flow.Terminate)
-                .findFirst().orElse(Flow.PassToNext);
+                .findFirst()
+                .orElse(Flow.PassToNext);
     }
 
 

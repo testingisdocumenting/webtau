@@ -34,7 +34,6 @@ class OpenApiSpecValidatorTest {
 
     @Before
     void setUp() {
-
         validator = new OpenApiSpecValidator(new OpenApiSpec(specLocation), new OpenApiValidationConfig())
     }
 
@@ -49,9 +48,10 @@ class OpenApiSpecValidatorTest {
             validator.validateApiSpec(result, OpenApiValidationMode.ALL)
         } should throwException(~/Object has missing required properties/)
 
-        result.mismatches.size().should == 2
-        result.mismatches.should contain(~/does not match any allowed primitive type/)
-        result.mismatches.should contain(~/missing required properties/)
+        def mismatchesAsStr = result.mismatches.collect { it.toString() }
+        mismatchesAsStr.size().should == 2
+        mismatchesAsStr.should contain(~/does not match any allowed primitive type/)
+        mismatchesAsStr.should contain(~/missing required properties/)
     }
 
     @Test

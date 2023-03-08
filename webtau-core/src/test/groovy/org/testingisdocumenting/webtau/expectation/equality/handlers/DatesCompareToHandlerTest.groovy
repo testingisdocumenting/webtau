@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -25,6 +26,7 @@ import java.time.ZoneId
 import java.time.ZonedDateTime
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class DatesCompareToHandlerTest {
     @Test
@@ -48,21 +50,24 @@ class DatesCompareToHandlerTest {
 
     @Test
     void "actual local date string doesn't equal expected local date instance"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal 2018-06-09:\n' +
+                '      actual: 2018-06-10 <java.time.LocalDate>\n' +
+                '    expected: 2018-06-09 <java.time.LocalDate> (Xms)\n' +
+                '  \n' +
+                '  **"2018-06-10"**') {
             actual("2018-06-10").should(equal(LocalDate.of(2018, 6, 9)))
-        } should throwException("\nmismatches:\n" +
-            "\n" +
-            "[value]:   actual: 2018-06-10 <java.time.LocalDate>\n" +
-            "         expected: 2018-06-09 <java.time.LocalDate>")
+        }
     }
 
     @Test
     void "actual zoned date time string equals expected local date instance, when should be greater"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to be greater than 2018-01-01:\n' +
+                '      actual: 2018-01-01T00:00Z <java.time.ZonedDateTime>\n' +
+                '    expected: greater than 2018-01-01 <java.time.LocalDate> (Xms)\n' +
+                '  \n' +
+                '  "2018-01-01T00:00:00Z"') {
             actual("2018-01-01T00:00:00Z").shouldBe(greaterThan(LocalDate.of(2018, 1, 1)))
-        } should throwException("\nmismatches:\n\n" +
-            "[value]:   actual: 2018-01-01T00:00Z <java.time.ZonedDateTime>\n" +
-            "         expected: greater than 2018-01-01 <java.time.LocalDate>")
+        }
     }
 
     @Test
@@ -79,13 +84,14 @@ class DatesCompareToHandlerTest {
 
     @Test
     void "actual zoned date time string less than expected zoned date time instance, when should be greater"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to be greater than 2018-01-02T10:00Z[UTC]:\n' +
+                '      actual: 2018-01-02T10:00+01:00 <java.time.ZonedDateTime> (UTC normalized: 2018-01-02T09:00Z[UTC])\n' +
+                '    expected: greater than 2018-01-02T10:00Z[UTC] <java.time.ZonedDateTime> (UTC normalized: 2018-01-02T10:00Z[UTC]) (Xms)\n' +
+                '  \n' +
+                '  "2018-01-02T10:00:00+01:00:00"') {
             actual("2018-01-02T10:00:00+01:00:00").shouldBe(greaterThan(
-                ZonedDateTime.of(2018, 1, 2, 10, 0, 0, 0, ZoneId.of("UTC"))))
-        } should throwException("\nmismatches:\n" +
-            "\n" +
-            "[value]:   actual: 2018-01-02T10:00+01:00 <java.time.ZonedDateTime>(UTC normalized: 2018-01-02T09:00Z[UTC])\n" +
-            "         expected: greater than 2018-01-02T10:00Z[UTC] <java.time.ZonedDateTime>(UTC normalized: 2018-01-02T10:00Z[UTC])")
+                    ZonedDateTime.of(2018, 1, 2, 10, 0, 0, 0, ZoneId.of("UTC"))))
+        }
     }
 
     @Test
@@ -108,13 +114,14 @@ class DatesCompareToHandlerTest {
 
     @Test
     void "actual zoned date time string equals expected instance when should not"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to equal 2018-01-02T09:00:00Z:\n" +
+                "      actual: 2018-01-02T10:00+02:00 <java.time.ZonedDateTime> (UTC normalized: 2018-01-02T08:00:00Z)\n" +
+                "    expected: 2018-01-02T09:00:00Z <java.time.Instant> (UTC normalized: 2018-01-02T09:00:00Z) (Xms)\n" +
+                "  \n" +
+                "  **\"2018-01-02T10:00:00+02:00:00\"**") {
             def expectedInstance = ZonedDateTime.of(2018, 1, 2, 9, 0, 0, 0, ZoneId.of("UTC")).toInstant()
             actual("2018-01-02T10:00:00+02:00:00").should(equal(expectedInstance))
-        } should throwException("\nmismatches:\n" +
-                "\n" +
-                "[value]:   actual: 2018-01-02T10:00+02:00 <java.time.ZonedDateTime>(UTC normalized: 2018-01-02T08:00:00Z)\n" +
-                "         expected: 2018-01-02T09:00:00Z <java.time.Instant>(UTC normalized: 2018-01-02T09:00:00Z)")
+        }
     }
 
     @Test
@@ -131,11 +138,10 @@ available formats:
         def withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4)
         def withDate = LocalDate.of(2022, 4, 16)
 
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to equal 2022-04-16:\n" +
+                "      actual: 2022-03-16T10:04:04 <java.time.LocalDateTime>\n" +
+                "    expected: 2022-04-16 <java.time.LocalDate> (Xms)") {
             actual(withTime).should(equal(withDate))
-        } should throwException("\nmismatches:\n" +
-                "\n" +
-                "[value]:   actual: 2022-03-16T10:04:04 <java.time.LocalDateTime>\n" +
-                "         expected: 2022-04-16 <java.time.LocalDate>")
+        }
     }
 }

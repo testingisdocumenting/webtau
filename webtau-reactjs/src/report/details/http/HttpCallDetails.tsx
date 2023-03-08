@@ -31,6 +31,7 @@ import { HttpCall } from '../../WebTauTest';
 import CardList from '../../widgets/CardList';
 
 import './HttpCallDetails.css';
+import { TokenizedMessage } from '../steps/TokenizedMessage';
 
 interface HttpCallProps {
   httpCall: HttpCall;
@@ -81,9 +82,9 @@ function Mismatches({ httpCall }: HttpCallProps) {
   }
 
   const mismatches = httpCall.mismatches.map((m, idx) => (
-    <div key={idx} className="mismatch">
-      <pre>{m}</pre>
-    </div>
+    <pre key={idx} className="mismatch">
+      <TokenizedMessage message={m} />
+    </pre>
   ));
 
   return <Card className="http-call-details-mismatches">{mismatches}</Card>;

@@ -25,8 +25,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.nio.file.Path;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.utils.StringUtils.*;
 
 public class CoreDocumentationConsole {
@@ -45,6 +44,20 @@ public class CoreDocumentationConsole {
     }
 
     /**
+     * capture the output of a provided code into the file with provided artifact name without using WebTau step.
+     * only one capture code will run at a time in multithreaded environment
+     *
+     * @param textFileNameWithoutExtension artifact name
+     * @param codeToProduceOutput          code to run and capture output
+     */
+    public void captureNoStep(String textFileNameWithoutExtension, ConsoleOutputGeneratingCode codeToProduceOutput) {
+        captureStep(textFileNameWithoutExtension, () -> {
+            codeToProduceOutput.runAndGenerate();
+            return null;
+        });
+    }
+
+    /**
      * capture the output of a provided code into the file with provided artifact name.
      * only one capture code will run at a time in multithreading environment
      *
@@ -53,11 +66,11 @@ public class CoreDocumentationConsole {
      */
     public <R> R capture(String textFileNameWithoutExtension, ConsoleOutputGeneratingCodeWithReturn<R> codeToProduceOutput) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("capturing"), classifier("console output"),
-                        action("documentation artifact"), id(textFileNameWithoutExtension)),
-                (pathAndResult) -> tokenizedMessage(action("captured"), classifier("console output"),
-                        action("documentation artifact"), id(textFileNameWithoutExtension), COLON,
-                        urlValue(((PathAndStepResult<?>)pathAndResult).artifactPath.toAbsolutePath())),
+                tokenizedMessage().action("capturing").classifier("console output")
+                        .action("documentation artifact").id(textFileNameWithoutExtension),
+                (pathAndResult) -> tokenizedMessage().action("captured").classifier("console output")
+                        .action("documentation artifact").id(textFileNameWithoutExtension).colon()
+                        .url(((PathAndStepResult<?>)pathAndResult).artifactPath.toAbsolutePath()),
                 () -> captureStep(textFileNameWithoutExtension, codeToProduceOutput));
 
         PathAndStepResult<R> pathAndResult = step.execute(StepReportOptions.REPORT_ALL);

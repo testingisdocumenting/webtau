@@ -16,12 +16,14 @@
 
 package org.testingisdocumenting.webtau.db;
 
+import org.apache.commons.lang3.StringUtils;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
 import java.util.Map;
+import java.util.function.Function;
 
 public class DatabaseCompareToHandler implements CompareToHandler {
     @Override
@@ -32,16 +34,19 @@ public class DatabaseCompareToHandler implements CompareToHandler {
 
     @Override
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
-        comparator.compareUsingEqualOnly(actualPath, extractActual(expected, actual), expected);
+        comparator.compareUsingEqualOnly(actualPath, actual, expected);
     }
 
-    private Object extractActual(Object expected, Object actual) {
+    @Override
+    public Object convertedActual(Object actual, Object expected) {
+        Function<String, String> actualHeaderConverter = headerConverterBasedOnExpected(expected);
+
         if (actual instanceof DatabaseTable) {
-            return ((DatabaseTable) actual).query().queryTableDataNoStep();
+            return ((DatabaseTable) actual).query().queryTableDataNoStep(actualHeaderConverter);
         }
 
         DbQuery actualResult = (DbQuery) actual;
-        TableData tableData = actualResult.queryTableDataNoStep();
+        TableData tableData = actualResult.queryTableDataNoStep(actualHeaderConverter);
         if (actualResult.isSingleValue(tableData)) {
             return actualResult.getUnderlyingSingleValue(tableData);
         }
@@ -51,5 +56,20 @@ public class DatabaseCompareToHandler implements CompareToHandler {
         }
 
         return tableData;
+    }
+
+    private Function<String, String> headerConverterBasedOnExpected(Object expected) {
+        if (!(expected instanceof TableData)) {
+            return TableHeaderConverters::toUpperCase;
+        }
+
+        TableData tableData = (TableData) expected;
+        if (tableData.getHeader().getNamesStream().allMatch(StringUtils::isAllUpperCase)) {
+            return TableHeaderConverters::unmodified;
+        }
+
+        return tableData.getHeader().getNamesStream().anyMatch(name -> name.contains("_")) ?
+                TableHeaderConverters::toUpperCase :
+                TableHeaderConverters::underscoreToCamelCase;
     }
 }

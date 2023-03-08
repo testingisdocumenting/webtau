@@ -1,3 +1,7 @@
+---
+image: {border: true}
+---
+
 # Summary
 
 Out of the box report provides high level information like number of failed tests and HTTP Operations coverage.
@@ -9,6 +13,12 @@ Out of the box report provides high level information like number of failed test
 Selected a test to see summary information about the test run
 
 :include-image: doc-artifacts/reports/report-test-summary.png {fit: true}
+
+# Failed Test Summary
+
+In case of a test failure, WebTau provides details on the failed step and highlights relevant code snippet:
+
+:include-image: doc-artifacts/reports/report-test-summary-failed-step.png {fit: true}
 
 # Permalinks
 

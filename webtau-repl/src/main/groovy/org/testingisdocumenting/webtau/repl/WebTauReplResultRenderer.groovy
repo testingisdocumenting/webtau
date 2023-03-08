@@ -38,7 +38,7 @@ class WebTauReplResultRenderer {
         } else if (result instanceof PrettyPrintable) {
             def printer = createPrettyPrinter()
             result.prettyPrint(printer)
-            printer.renderToConsole()
+            printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput())
         } else if (result != null) {
             ConsoleOutputs.out(DataRenderers.render(result))
         }
@@ -57,11 +57,11 @@ class WebTauReplResultRenderer {
     private static void renderPageElementAndHighlight(PageElement pageElement) {
         def printer = createPrettyPrinter()
         pageElement.prettyPrint(printer)
-        printer.renderToConsole()
+        printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput())
         pageElement.highlight()
     }
 
     private static PrettyPrinter createPrettyPrinter() {
-        return new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 0)
+        return new PrettyPrinter(0)
     }
 }

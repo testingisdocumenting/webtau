@@ -1,0 +1,1 @@
+* Add: highlight elements inside lists that match criteria when shouldn't (when using `shouldNot contain`)

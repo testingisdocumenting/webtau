@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,116 +17,92 @@
 
 package org.testingisdocumenting.webtau.expectation.code
 
-import org.junit.Assert
-import org.junit.Rule
 import org.junit.Test
-import org.junit.rules.ExpectedException
 
 import java.lang.reflect.UndeclaredThrowableException
 
-import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class ThrowExceptionMatcherGroovyTest {
-    @Rule
-    public ExpectedException thrown = ExpectedException.none()
-
     @Test
     void "should validate exception message"() {
-        thrown.expectMessage('\nmismatches:\n' +
-                '\n' +
-                'expected exception message:   actual: "error message" <java.lang.String>\n' +
-                '                            expected: "error message1" <java.lang.String>')
-
-        code {
-            throw new RuntimeException('error message')
-        } should throwException('error message1')
+        runExpectExceptionAndValidateOutput(AssertionError, contain('> expecting code to throw exception "error message1"\n' +
+                'X failed expecting code to throw exception "error message1":\n' +
+                '    exception.message:  actual: "error message" <java.lang.String>\n' +
+                '                      expected: "error message1" <java.lang.String>\n' +
+                '                                              ^')) {
+            code {
+                throw new RuntimeException('error message')
+            } should throwException('error message1')
+        }
     }
 
     @Test
     void "should validate exception message using regexp"() {
-        thrown.expectMessage('\nmismatches:\n' +
-                '\n' +
-                'expected exception message:    actual string: error message\n' +
-                '                            expected pattern: error \\d+')
-
-        code {
-            throw new RuntimeException('error message')
-        } should throwException(~/error \d+/)
+        runExpectExceptionAndValidateOutput(AssertionError, contain('exception.message:    actual string: error message\n' +
+                '                       expected pattern: ~/error \\d+/')) {
+            code {
+                throw new RuntimeException('error message')
+            } should throwException(~/error \d+/)
+        }
     }
 
     @Test
     void "should validate exception class"() {
-        thrown.expectMessage('\nmismatches:\n' +
-                '\n' +
-                'expected exception class:   actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
-                '                          expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
-
-        code {
-            throw new IllegalArgumentException('error message')
-        } should throwException(UnsupportedOperationException)
+        runExpectExceptionAndValidateOutput(AssertionError, contain('X failed expecting code to throw exception java.lang.UnsupportedOperationException:\n' +
+                '    exception.class:  actual: java.lang.IllegalArgumentException <java.lang.Class>\n' +
+                '                    expected: java.lang.UnsupportedOperationException <java.lang.Class>')) {
+            code {
+                throw new IllegalArgumentException('error message')
+            } should throwException(UnsupportedOperationException)
+        }
     }
 
     @Test
     void "should validate exception class and expected message pattern"() {
-        thrown.expectMessage('\nmismatches:\n' +
-                '\n' +
-                'expected exception message:    actual string: error message\n' +
-                '                            expected pattern: error \\d\n' +
-                'expected exception class:   actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
-                '                          expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
-
-        code {
-            throw new IllegalArgumentException('error message')
-        } should throwException(UnsupportedOperationException, ~/error \d/)
+        runExpectExceptionAndValidateOutput(AssertionError, contain('X failed expecting code to throw exception {"message": ~/error \\d/, "class": java.lang.UnsupportedOperationException}:\n' +
+                '    exception.message:    actual string: error message\n' +
+                '                       expected pattern: ~/error \\d/\n' +
+                '    exception.class:  actual: java.lang.IllegalArgumentException <java.lang.Class>\n' +
+                '                    expected: java.lang.UnsupportedOperationException <java.lang.Class>')) {
+            code {
+                throw new IllegalArgumentException('error message')
+            } should throwException(UnsupportedOperationException, ~/error \d/)
+        }
     }
 
     @Test
     void "should validate exception class and expected message"() {
-        thrown.expectMessage('\nmismatches:\n' +
-                '\n' +
-                'expected exception message:   actual: "error message" <java.lang.String>\n' +
-                '                            expected: "error message1" <java.lang.String>\n' +
-                '                                                    ^\n' +
-                'expected exception class:   actual: class java.lang.IllegalArgumentException <java.lang.Class>\n' +
-                '                          expected: class java.lang.UnsupportedOperationException <java.lang.Class>')
-
-        code {
-            throw new IllegalArgumentException('error message')
-        } should throwException(UnsupportedOperationException, 'error message1')
+        runExpectExceptionAndValidateOutput(AssertionError, contain('X failed expecting code to throw exception {"message": "error message1", "class": java.lang.UnsupportedOperationException}:\n' +
+                '    exception.message:  actual: "error message" <java.lang.String>\n' +
+                '                      expected: "error message1" <java.lang.String>\n' +
+                '                                              ^\n' +
+                '    exception.class:  actual: java.lang.IllegalArgumentException <java.lang.Class>\n' +
+                '                    expected: java.lang.UnsupportedOperationException <java.lang.Class>')) {
+            code {
+                throw new IllegalArgumentException('error message')
+            } should throwException(UnsupportedOperationException, 'error message1')
+        }
     }
 
     @Test
     void "should add exception stack trace when mismatched"() {
-        thrown.expectMessage('stack trace:\n' +
-                'java.lang.RuntimeException: java.lang.IllegalArgumentException: negative not allowed\n')
-
-        code {
-            businessLogicStart()
-        } should throwException(NullPointerException, 'error message1')
+        runExpectExceptionAndValidateOutput(AssertionError.class, contain("stack trace:\n" +
+                "    java.lang.RuntimeException: java.lang.IllegalArgumentException: negative not allowed")) {
+            code {
+                businessLogicStart()
+            } should throwException(NullPointerException, 'error message1')
+        }
     }
 
     @Test
     void "should clearly report expected exception message when none is thrown"() {
-        thrown.expectMessage('\nexpected exception but none was thrown: negative numbers are not supported')
-
-        code {
-        } should throwException("negative numbers are not supported")
-    }
-
-    @Test
-    void "should clearly report expected exception message and class when none is thrown"() {
-        thrown.expectMessage('\nexpected exception but none was thrown <IllegalArgumentException>: negative numbers are not supported')
-
-        code {
-        } should throwException(IllegalArgumentException, 'negative numbers are not supported')
-    }
-
-    @Test
-    void "should clearly report expected exception class when none is thrown"() {
-        thrown.expectMessage('\nexpected exception but none was thrown <IllegalArgumentException>')
-
-        code {
-        } should throwException(IllegalArgumentException)
+        runExpectExceptionAndValidateOutput(AssertionError, '> expecting code to throw exception "negative numbers are not supported"\n' +
+                'X failed expecting code to throw exception "negative numbers are not supported": no exception was thrown (Xms)') {
+            code {
+            } should throwException("negative numbers are not supported")
+        }
     }
 
     @Test

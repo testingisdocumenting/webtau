@@ -17,55 +17,23 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import org.testingisdocumenting.webtau.data.ValuePath;
-import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
-import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.data.converters.ObjectProperties;
 import org.testingisdocumenting.webtau.utils.JavaBeanUtils;
 
 import java.util.Map;
 
-public class MapAndBeanCompareToHandler implements CompareToHandler {
+public class MapAndBeanCompareToHandler extends MapAsExpectedCompareToHandlerBase {
     @Override
-    public boolean handleEquality(Object actual, Object expected) {
-        return isMapOfProps(expected) && isBean(actual); // only handles equality if actual is a java bean and expected is a map
+    protected boolean handleEquality(Object actual) {
+        return !(actual instanceof Iterable || actual instanceof Map);
     }
 
-    @SuppressWarnings("unchecked")
-    private boolean isMapOfProps(Object o) {
-        if (!(o instanceof Map)) {
-            return false;
+    @Override
+    public Object convertedActual(Object actual, Object expected) {
+        if (actual instanceof ObjectProperties) {
+            return ((ObjectProperties) actual).getTopLevelProperties();
         }
 
-        return ((Map<?, Object>) o).keySet().stream().allMatch(k -> k instanceof String); // making sure all the keys are strings
-    }
-
-    @Override
-    public Object convertedActual(Object actual) {
         return JavaBeanUtils.convertBeanToMap(actual);
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public void compareEqualOnly(CompareToComparator comparator,
-                                 ValuePath actualPath, Object actual,
-                                 Object expected) {
-        Map<String, ?> expectedMap = (Map<String, ?>) expected;
-        Map<String, ?> actualAsMap = (Map<String, ?>) actual;
-
-        expectedMap.keySet().forEach(p -> { // going only through expected keys, ignoring all other bean properties
-            ValuePath propertyPath = actualPath.property(p);
-
-            if (actualAsMap.containsKey(p)) {
-                // use provided comparator to delegate comparison of properties
-                comparator.compareUsingEqualOnly(propertyPath, actualAsMap.get(p), expectedMap.get(p));
-            } else {
-                // report missing properties
-                comparator.reportMissing(this, propertyPath, expectedMap.get(p));
-            }
-        });
-    }
-
-    private boolean isBean(Object o) {
-        return !(o instanceof Iterable || o instanceof Map);
     }
 }

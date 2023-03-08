@@ -2,7 +2,7 @@
 
 To query all data from a table use:
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
     entry: "query method on table should be optional during comparison",
     title: "validate whole table",
     bodyOnly: true,
@@ -13,7 +13,7 @@ To query all data from a table use:
 
 # Custom Query
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
     entry: "query table with select statement and param",
     title: "validate parts of a table",
     bodyOnly: true,
@@ -22,7 +22,7 @@ To query all data from a table use:
     excludeStartEnd: true
 }
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
     entry: "query table to match one row and assert against map",
     title: "validate parts of a table against map",
     bodyOnly: true,
@@ -31,7 +31,7 @@ To query all data from a table use:
     excludeStartEnd: true
 }
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
     entry: "query table with select statement and array param",
     title: "use array as input",
     bodyOnly: true,
@@ -44,7 +44,7 @@ To query all data from a table use:
 
 If your query uses a single unique placeholder name, you can pass a regular value instead of a `java.util.Map`
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
     entry: "query table to match one row using single param shortcut and assert against map",
     title: "use regular value in case of one unique placeholder name",
     bodyOnly: true,
@@ -57,7 +57,7 @@ If your query uses a single unique placeholder name, you can pass a regular valu
 
 `query` doesn't query database at the call time. It defines a query to be used later.
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
     entry: "create query is lazy",
     title: "create query is lazy",
     bodyOnly: true,
@@ -66,7 +66,7 @@ If your query uses a single unique placeholder name, you can pass a regular valu
     excludeStartEnd: true
 }
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
     entry: "lazy count query",
     title: "lazy count query",
     bodyOnly: true,
@@ -77,7 +77,7 @@ If your query uses a single unique placeholder name, you can pass a regular valu
 
 # Single Value
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
     entry: "should query single value with params",
     title: "validate single value",
     bodyOnly: true,
@@ -90,7 +90,7 @@ If your query uses a single unique placeholder name, you can pass a regular valu
 
 Use `waitTo` on query result to continuously query database until condition is met or timeout is reached.
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
     entry: "wait for count to change",
     title: "wait for count to change",
     bodyOnly: true,
@@ -108,7 +108,7 @@ and only performs query when validation is triggered.
 
 Use `queryXXX` to access underlying value.
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
     entry: "value returned from query is a special wrapper value",
     title: "access single value",
     bodyOnly: true,

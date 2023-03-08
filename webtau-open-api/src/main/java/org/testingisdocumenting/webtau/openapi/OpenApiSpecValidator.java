@@ -28,6 +28,7 @@ import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 import java.util.Optional;
 
 import static java.util.stream.Collectors.joining;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.utils.UrlUtils.extractPath;
 import static org.testingisdocumenting.webtau.utils.UrlUtils.extractQueryParams;
 
@@ -62,7 +63,7 @@ public class OpenApiSpecValidator {
 
         ValidationReport validationReport = validate(openApiValidationMode, request, response);
         validationReport.getMessages().forEach(message ->
-                result.addMismatch("API spec validation failure: " + renderMessage(message)));
+                result.addMismatch(tokenizedMessage().error("API sec validation failure: " + renderMessage(message))));
 
         if (!validationReport.getMessages().isEmpty()) {
             throw new AssertionError("schema is not valid:\n" + validationReport

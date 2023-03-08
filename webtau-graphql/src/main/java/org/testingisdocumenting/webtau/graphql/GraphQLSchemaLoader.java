@@ -39,15 +39,14 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.graphql.GraphQL.GRAPHQL_URL;
 import static org.testingisdocumenting.webtau.http.Http.http;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class GraphQLSchemaLoader {
     public static Optional<Set<GraphQLQuery>> fetchSchemaDeclaredQueries() {
-        WebTauStep step = WebTauStep.createStep(tokenizedMessage(action("fetching"), id("graphQL"), classifier("schema")),
-                () -> tokenizedMessage(action("fetched"), id("graphQL"), classifier("schema")),
+        WebTauStep step = WebTauStep.createStep(tokenizedMessage().action("fetching").id("graphQL").classifier("schema"),
+                () -> tokenizedMessage().action("fetched").id("graphQL").classifier("schema"),
                 GraphQLSchemaLoader::fetchSchemaDeclaredQueriesStep);
 
         return step.execute(StepReportOptions.REPORT_ALL);

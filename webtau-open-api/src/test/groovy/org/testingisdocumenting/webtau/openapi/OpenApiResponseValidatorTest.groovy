@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.openapi
 
+import org.junit.BeforeClass
+import org.junit.Test
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.http.HttpHeader
 import org.testingisdocumenting.webtau.http.HttpResponse
@@ -24,22 +26,11 @@ import org.testingisdocumenting.webtau.http.json.JsonRequestBody
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandlers
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 import org.testingisdocumenting.webtau.persona.Persona
-import org.testingisdocumenting.webtau.reporter.StepReporter
-import org.testingisdocumenting.webtau.reporter.StepReporters
-import org.testingisdocumenting.webtau.reporter.WebTauStep
-import org.testingisdocumenting.webtau.utils.ResourceUtils
-import org.junit.After
-import org.junit.Before
-import org.junit.BeforeClass
-import org.junit.Test
 
-import java.nio.file.Paths
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
-import static org.testingisdocumenting.webtau.WebTauCore.*
-
-class OpenApiResponseValidatorTest implements StepReporter {
-    List<String> stepMessages = []
-
+class OpenApiResponseValidatorTest {
     @BeforeClass
     static void init() {
         def specLocation = OpenApiSpecLocation.fromStringValue('src/test/resources/test-spec.json')
@@ -48,79 +39,65 @@ class OpenApiResponseValidatorTest implements StepReporter {
         WebTauConfig.cfg.get('openApiSpecUrl').toString().should contain('test-spec.json')
     }
 
-    @Before
-    void initiateStepReporter() {
-        stepMessages.clear()
-        StepReporters.add(this)
-    }
-
-    @After
-    void unregisterStepReporter() {
-        StepReporters.remove(this)
-    }
-
     @Test
     void "should be auto registered as custom validator"() {
         HttpValidationResult validationResult = createValidationResult()
 
-        def expectedError = "schema is not valid:\n" +
-                "GET /customer/2: No request body is expected but one was found.\n" +
-                "GET /customer/2: Object instance has properties which are not allowed by the schema: [\"key\"]\n" +
-                "GET /customer/2: Object has missing required properties ([\"mandatoryField\"])"
+        def expectedError = "schema is not valid"
+        def messageOne = "GET /customer/2: No request body is expected but one was found"
+        def messageTwo = "GET /customer/2: Object instance has properties which are not allowed by the schema: [\"key\"]"
+        def messageThree = "GET /customer/2: Object has missing required properties ([\"mandatoryField\"])"
 
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, containAll(expectedError, messageOne, messageTwo, messageThree)) {
             HttpValidationHandlers.validate(validationResult)
-        } should throwException(expectedError)
+        }
 
         validationResult.mismatches.size().should == 3
-
-        stepMessages.should contain("failed validating request and response : " + expectedError)
     }
 
     @Test
     void "should allow to disable validation for a code block"() {
         HttpValidationResult validationResult = createValidationResult()
 
-        OpenApi.withoutValidation {
-            HttpValidationHandlers.validate(validationResult)
+        runAndValidateOutput("") {
+            OpenApi.withoutValidation {
+                HttpValidationHandlers.validate(validationResult)
+            }
         }
 
         validationResult.mismatches.size().should == 0
-        stepMessages.should == [~/equals 0/]
     }
 
     @Test
     void "should allow to validate only responses for a code block"() {
         HttpValidationResult validationResult = createValidationResult()
 
-        def expectedError = "schema is not valid:\n" +
-                "GET /customer/2: Object instance has properties which are not allowed by the schema: [\"key\"]\n" +
-                "GET /customer/2: Object has missing required properties ([\"mandatoryField\"])"
+        def expectedError = "schema is not valid:"
+        def messageOne = "GET /customer/2: Object instance has properties which are not allowed by the schema: [\"key\"]"
+        def messageTwo = "GET /customer/2: Object has missing required properties ([\"mandatoryField\"])"
 
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, containAll(expectedError, messageOne, messageTwo)) {
             OpenApi.responseOnlyValidation {
                 HttpValidationHandlers.validate(validationResult)
             }
-        } should throwException(expectedError)
+        }
 
         validationResult.mismatches.size().should == 2
-        stepMessages.should contain("failed validating response : " + expectedError)
     }
 
     @Test
     void "should allow to validate only requests for a code block"() {
         HttpValidationResult validationResult = createValidationResult()
 
-        def expectedError = "schema is not valid:\n" +
-                "GET /customer/2: No request body is expected but one was found."
-        code {
+        def expectedError = "GET /customer/2: No request body is expected but one was found"
+
+        runExpectExceptionAndValidateOutput(AssertionError, contain(expectedError)) {
             OpenApi.requestOnlyValidation() {
                 HttpValidationHandlers.validate(validationResult)
             }
-        } should throwException(expectedError)
+        }
 
         validationResult.mismatches.size().should == 1
-        stepMessages.should  contain("failed validating request : " + expectedError)
     }
 
     private static HttpValidationResult createValidationResult() {
@@ -137,19 +114,5 @@ class OpenApiResponseValidatorTest implements StepReporter {
         response.setContentType('application/json')
         response.setStatusCode(200)
         response
-    }
-
-    @Override
-    void onStepStart(WebTauStep step) {
-    }
-
-    @Override
-    void onStepSuccess(WebTauStep step) {
-        stepMessages << step.completionMessage.toString()
-    }
-
-    @Override
-    void onStepFailure(WebTauStep step) {
-        stepMessages << step.completionMessage.toString()
     }
 }

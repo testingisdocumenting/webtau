@@ -18,10 +18,7 @@
 package org.testingisdocumenting.webtau.cache;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
-import org.testingisdocumenting.webtau.reporter.MessageToken;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
-import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
+import org.testingisdocumenting.webtau.reporter.*;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -29,9 +26,7 @@ import java.util.Collections;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 public class Cache {
     public static final Cache cache = new Cache();
@@ -52,13 +47,13 @@ public class Cache {
 
     public <E> E get(String key, long expirationMs, Supplier<E> newValueSupplier) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("getting cached or generating new value"), FROM, id(key)),
+                tokenizedMessage().action("getting cached or generating new value").from().id(key),
                 (r) -> {
                     @SuppressWarnings("unchecked")
                     CachedValueAndMethod<E> cachedValueAndMethod = (CachedValueAndMethod<E>) r;
 
-                    MessageToken preposition = cachedValueAndMethod.method == ObtainMethod.CACHED ? FROM : AS;
-                    return tokenizedMessage(action(cachedValueAndMethod.method.message), preposition, id(key), COLON, stringValue(cachedValueAndMethod.value));
+                    TokenizedMessage preposition = cachedValueAndMethod.method == ObtainMethod.CACHED ? tokenizedMessage().from() : tokenizedMessage().as();
+                    return tokenizedMessage().action(cachedValueAndMethod.method.message).add(preposition).id(key).colon().string(cachedValueAndMethod.value);
                 },
                 () -> getWithExpirationAndSupplierStep(key, expirationMs, newValueSupplier, Function.identity()));
 
@@ -70,33 +65,32 @@ public class Cache {
     }
 
     public boolean exists(String key) {
-        MessageToken valuePresenceMessage = action("cache value presence");
+        TokenizedMessage valuePresenceMessage = tokenizedMessage().action("cache value presence");
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("check"), id(key), valuePresenceMessage),
-                (result) -> tokenizedMessage(action("checked"), id(key), valuePresenceMessage, COLON,
-                        classifier((boolean)result ? "exists" : "absent")),
+                tokenizedMessage().action("check").id(key).add(valuePresenceMessage),
+                (result) -> tokenizedMessage().action("checked").id(key).add(valuePresenceMessage).colon().classifier((boolean)result ? "exists" : "absent"),
                 () -> fileBasedCache.exists(key));
 
         return step.execute(StepReportOptions.SKIP_START);
     }
 
     public void remove(String key) {
-        MessageToken valueMessage = action("cached value");
+        TokenizedMessage valueMessage = tokenizedMessage().action("cached value");
 
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("remove"), id(key), valueMessage),
-                () -> tokenizedMessage(action("removed"), id(key), valueMessage),
+                tokenizedMessage().action("remove").id(key).add(valueMessage),
+                () -> tokenizedMessage().action("removed").id(key).add(valueMessage),
                 () -> fileBasedCache.remove(key));
 
         step.execute(StepReportOptions.SKIP_START);
     }
 
     public boolean isExpired(String key, long expirationMs) {
-        MessageToken valueExpirationMessage = action("cache value expiration");
+        TokenizedMessage valueExpirationMessage = tokenizedMessage().action("cache value expiration");
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("check"), id(key), valueExpirationMessage),
-                (result) -> tokenizedMessage(action("checked"), id(key), valueExpirationMessage, COLON,
-                        classifier((boolean)result ? "expired" : "valid")),
+                tokenizedMessage().action("check").id(key).add(valueExpirationMessage),
+                (result) -> tokenizedMessage().action("checked").id(key).add(valueExpirationMessage).colon()
+                        .classifier((boolean)result ? "expired" : "valid"),
                 () -> fileBasedCache.isExpired(key, expirationMs));
 
         step.setInput(WebTauStepInputKeyValue.stepInput("expirationMs", expirationMs));
@@ -110,8 +104,8 @@ public class Cache {
 
     public void put(String key, Object value) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("caching value"), AS, id(key), COLON, stringValue(value)),
-                () -> tokenizedMessage(action("cached value"), AS, id(key), COLON, stringValue(value)),
+                tokenizedMessage().action("caching value").as().id(key).colon().string(value),
+                () -> tokenizedMessage().action("cached value").as().id(key).colon().string(value),
                 () -> fileBasedCache.put(key, CacheValueConverter.convertToCached(value)));
 
         step.execute(StepReportOptions.SKIP_START);
@@ -119,12 +113,12 @@ public class Cache {
 
     private <E, R> R getAsStep(String key, Function<E, R> converter) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("getting cached value"), FROM, id(key)),
-                (r) -> tokenizedMessage(action("got cached value"), FROM, id(key), COLON, stringValue(r)),
+                tokenizedMessage().action("getting cached value").from().id(key),
+                (r) -> tokenizedMessage().action("got cached value").from().id(key).colon().string(r),
                 () -> {
                     E value = fileBasedCache.get(key);
                     if (value == null) {
-                        throw new AssertionError("can't find cached value by key: " + key);
+                        throw new RuntimeException("can't find cached value by key: " + key);
                     }
 
                     return converter.apply(value);

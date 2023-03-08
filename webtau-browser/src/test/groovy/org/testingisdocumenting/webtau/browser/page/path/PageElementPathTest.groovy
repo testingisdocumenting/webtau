@@ -31,7 +31,7 @@ class PageElementPathTest {
         path.addFilter(new ByNumberPageElementsFilter(2))
         path.addFinder(new ByCssFinderPage(".child"))
 
-        path.toString().should == 'by css #cssid , element(s) with text "about" , element number 2 , nested find by css .child'
+        path.toString().should == 'by css #cssid, element(s) with text "about", element number 2, nested find by css .child'
     }
 
     @Test
@@ -41,10 +41,10 @@ class PageElementPathTest {
 
         def copy = path.copy()
         copy.addFilter(new ByNumberPageElementsFilter(2))
-        copy.toString().should == "by css #cssid , element number 2"
+        copy.toString().should == "by css #cssid, element number 2"
 
         def anotherCopy = path.copy()
         anotherCopy.addFilter(new ByNumberPageElementsFilter(3))
-        anotherCopy.toString().should == "by css #cssid , element number 3"
+        anotherCopy.toString().should == "by css #cssid, element number 3"
     }
 }

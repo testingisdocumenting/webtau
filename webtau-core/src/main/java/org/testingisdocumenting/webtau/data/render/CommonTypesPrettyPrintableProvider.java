@@ -16,16 +16,36 @@
 
 package org.testingisdocumenting.webtau.data.render;
 
+import org.testingisdocumenting.webtau.data.MultilineString;
+
+import java.nio.file.Path;
 import java.util.Map;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 public class CommonTypesPrettyPrintableProvider implements PrettyPrintableProvider {
     @Override
     public Optional<PrettyPrintable> prettyPrintableFor(Object o) {
-        if (o instanceof Iterable) {
+        if (o == null) {
+            return Optional.empty();
+        }
+
+        if (o.getClass().isArray()) {
+            return Optional.of(o.getClass().equals(byte[].class) ?
+                    new ByteArrayPrettyPrintable((byte[]) o) :
+                    new ArrayPrettyPrintable(o));
+        } if (o instanceof Pattern) {
+            return Optional.of(new PatternPrettyPrintable((Pattern) o));
+        } else if (o instanceof Path) {
+            return Optional.of(new PathPrettyPrintable((Path) o));
+        } if (o instanceof Iterable) {
             return Optional.of(new IterablePrettyPrintable((Iterable<?>) o));
         } else if (o instanceof Map) {
             return Optional.of(new MapPrettyPrintable((Map<?, ?>) o));
+        } else if (o instanceof Class) {
+            return Optional.of(new ClassPrettyPrintable((Class<?>) o));
+        } else if (o instanceof CharSequence) {
+            return Optional.of(new StringPrettyPrintable(new MultilineString(o.toString())));
         }
 
         return Optional.empty();

@@ -4,7 +4,7 @@ Use it in conjunction with other layers like `http.` to write more powerful test
 * [Data Setup](database/data-setup)
 * [Data Query](database/data-query)
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
     entry: "should insert table data into a table",
     title: "example of data setup",
     bodyOnly: true,
@@ -12,7 +12,7 @@ Use it in conjunction with other layers like `http.` to write more powerful test
     endLine: "2000 }"
 }
 
-:include-groovy: org/testingisdocumenting/webtau/db/DatabaseFacadeTest.groovy {
+:include-groovy: org/testingisdocumenting/webtau/db/DatabaseTest.groovy {
     entry: "query table with select statement and param",
     title: "validate parts of a table",
     bodyOnly: true,

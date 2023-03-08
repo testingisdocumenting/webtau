@@ -20,11 +20,13 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.TypeUtils;
 
 import java.util.regex.Pattern;
 
-import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.expected;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.expectedPrefixAndValueWithAssertionMode;
 
 public class RegexpEqualCompareToHandler implements CompareToHandler {
     @Override
@@ -41,8 +43,8 @@ public class RegexpEqualCompareToHandler implements CompareToHandler {
                 actualPath, renderActualExpected(comparator.getAssertionMode(), actual, expected));
     }
 
-    private String renderActualExpected(CompareToComparator.AssertionMode assertionMode, Object actual, Object expected) {
-        return "   actual string: " + actual.toString() + "\n" +
-               expected("expected pattern: ", assertionMode, expected.toString());
+    private TokenizedMessage renderActualExpected(CompareToComparator.AssertionMode assertionMode, Object actual, Object expected) {
+        return tokenizedMessage().delimiter("  ").classifier(" actual string").colon().string(actual.toString()).newLine()
+                .add(expectedPrefixAndValueWithAssertionMode(tokenizedMessage().classifier("expected pattern").colon(), assertionMode, expected));
     }
 }

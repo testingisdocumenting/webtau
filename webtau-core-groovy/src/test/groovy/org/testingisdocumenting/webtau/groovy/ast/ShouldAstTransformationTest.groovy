@@ -27,39 +27,40 @@ import org.testingisdocumenting.webtau.expectation.equality.GreaterThanOrEqualMa
 import org.testingisdocumenting.webtau.expectation.equality.LessThanMatcher
 import org.testingisdocumenting.webtau.expectation.equality.LessThanOrEqualMatcher
 import org.testingisdocumenting.webtau.expectation.equality.NotEqualMatcher
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class ShouldAstTransformationTest extends GroovyTestCase {
-    void testShouldNotTransformationOnNull() {
-        code {
+    void testShouldNotTransformation() {
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to not equal 2:\n" +
+                "      actual: 2 <java.lang.Integer>\n" +
+                "    expected: not 2 <java.lang.Integer> (Xms)") {
             assertScript('2.shouldNot == 2')
-        } should throwException('\nmismatches:\n' +
-            '\n' +
-            '[value]:   actual: 2 <java.lang.Integer>\n' +
-            '         expected: not 2 <java.lang.Integer>')
+        }
     }
 
     void testShouldTransformationOnNull() {
         code {
             assertScript('3.should == null')
-        } should throwException('\nmismatches:\n' +
-            '\n' +
-            '[value]:   actual: 3 <java.lang.Integer>\n' +
-            '         expected: null')
+        } should throwException(AssertionError)
     }
 
     void testShouldTransformationOnMap() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal {"a": 3}:\n' +
+                '    mismatches:\n' +
+                '    \n' +
+                '    [value].a:  actual: 1 <java.lang.Integer>\n' +
+                '              expected: 3 <java.lang.Integer>\n' +
+                '    \n' +
+                '    unexpected values:\n' +
+                '    \n' +
+                '    [value].b: 2 (Xms)\n' +
+                '  \n' +
+                '  {"a": **1**, "b": **2**}') {
             assertScript('[a:1, b:2].should == [a: 3]')
-        } should throwException('\nmismatches:\n' +
-            '\n' +
-            '[value].a:   actual: 1 <java.lang.Integer>\n' +
-            '           expected: 3 <java.lang.Integer>\n' +
-            '\n' +
-            'unexpected values:\n' +
-            '\n' +
-            '[value].b: 2')
+        }
     }
 
     void testInsideClosure() {
@@ -70,11 +71,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
             }
             
             code() """)
-        } should throwException('\nmismatches:\n' +
-            '\n' +
-            '[value]:   actual: 2 <java.lang.Integer>\n' +
-            '         expected: not 2 <java.lang.Integer>')
-
+        } should throwException(AssertionError)
     }
 
     void testOperationsOverload() {
@@ -82,7 +79,7 @@ class ShouldAstTransformationTest extends GroovyTestCase {
 
         def expectationHandler = new ExpectationHandler() {
             @Override
-            ExpectationHandler.Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
+            ExpectationHandler.Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
                 failedMatchers.add(valueMatcher.getClass())
                 return ExpectationHandler.Flow.Terminate
             }

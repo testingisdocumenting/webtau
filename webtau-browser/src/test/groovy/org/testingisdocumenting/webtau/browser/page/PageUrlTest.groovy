@@ -16,10 +16,11 @@
 
 package org.testingisdocumenting.webtau.browser.page
 
-import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.junit.Test
+import org.testingisdocumenting.webtau.utils.ResourceUtils
 
-import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class PageUrlTest {
     private static def browser = [
@@ -69,13 +70,15 @@ class PageUrlTest {
 
     @Test
     void "should provide context of the failure in case of failed should statement"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, "> expecting page url query of browser to equal \"wrong-value\"\n" +
+                "X failed expecting page url query of browser to equal \"wrong-value\":\n" +
+                "    page url query:  actual: \"type=full&debug=true\" <java.lang.String>\n" +
+                "                   expected: \"wrong-value\" <java.lang.String>\n" +
+                "                              ^ (Xms)\n" +
+                "  \n" +
+                "  browser page url query: \"type=full&debug=true\"") {
             browser.url.query.should == 'wrong-value'
-        } should throwException('\nmismatches:\n' +
-                '\n' +
-                'page url query:   actual: "type=full&debug=true" <java.lang.String>\n' +
-                '                expected: "wrong-value" <java.lang.String>\n' +
-                '                           ^')
+        }
     }
 
     @Test

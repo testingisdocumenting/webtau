@@ -30,70 +30,103 @@ class IterablePrettyPrintableTest extends PrettyPrintableTestBase {
     }
 
     @Test
-    void "non-empty list"() {
+    void "non-empty list single line"() {
         def prettyPrintable = new IterablePrettyPrintable([1, 2, "hello", "world"])
         prettyPrintable.prettyPrint(printer)
 
-        expectOutput("[\n" +
-                "  1,\n" +
-                "  2,\n" +
-                "  \"hello\",\n" +
-                "  \"world\"\n" +
-                "]")
+        expectOutput('[1, 2, "hello", "world"]')
     }
 
     @Test
-    void "decorated list"() {
+    void "non-empty list multi line"() {
+        printer.setRecommendedMaxWidthForSingleLineObjects(10)
+
+        def prettyPrintable = new IterablePrettyPrintable([1, 2, "hello", "world"])
+        prettyPrintable.prettyPrint(printer)
+
+        expectOutput('[\n' +
+                '  1,\n' +
+                '  2,\n' +
+                '  "hello",\n' +
+                '  "world"\n' +
+                ']')
+    }
+
+    @Test
+    void "decorated list single line"() {
         printer.setPathsDecoration(new PrettyPrinterDecorationToken("*", Color.RED),
                 [new ValuePath("[0]"), new ValuePath("[2]")])
 
         def prettyPrintable = new IterablePrettyPrintable([1, 2, "hello", "world"])
         prettyPrintable.prettyPrint(printer)
 
-        expectOutput("[\n" +
-                "  *1*,\n" +
-                "  2,\n" +
-                "  *\"hello\"*,\n" +
-                "  \"world\"\n" +
-                "]")
+        expectOutput('[*1*, 2, *"hello"*, "world"]')
     }
 
     @Test
-    void "list of lists"() {
+    void "list of lists single line"() {
         def prettyPrintable = new IterablePrettyPrintable([[1, 2], [3, 4], ["hello", "world"]])
         prettyPrintable.prettyPrint(printer)
 
-        expectOutput("[\n" +
-                "  [\n" +
-                "    1,\n" +
-                "    2\n" +
-                "  ],\n" +
-                "  [\n" +
-                "    3,\n" +
-                "    4\n" +
-                "  ],\n" +
-                "  [\n" +
-                "    \"hello\",\n" +
-                "    \"world\"\n" +
-                "  ]\n" +
-                "]")
+        expectOutput('[[1, 2], [3, 4], ["hello", "world"]]')
     }
 
     @Test
-    void "list of maps with decorations"() {
+    void "list of lists multi line"() {
+        printer.setRecommendedMaxWidthForSingleLineObjects(10)
+
+        def prettyPrintable = new IterablePrettyPrintable([[1, 2], [3, 4], ["hello", "world"]])
+        prettyPrintable.prettyPrint(printer)
+
+        expectOutput('[\n' +
+                '  [1, 2],\n' +
+                '  [3, 4],\n' +
+                '  [\n' +
+                '    "hello",\n' +
+                '    "world"\n' +
+                '  ]\n' +
+                ']')
+    }
+
+    @Test
+    void "list of single line maps with decorations"() {
         printer.setPathsDecoration(new PrettyPrinterDecorationToken("*", Color.RED),
                 [new ValuePath("[0].k2"), new ValuePath("[1].k3")])
         def prettyPrintable = new IterablePrettyPrintable([[k1: "v1", k2: "v2"], [k3: "v3"]])
         prettyPrintable.prettyPrint(printer)
 
-        expectOutput("[\n" +
-                "  {\n" +
-                "    \"k1\": \"v1\",\n" +
-                "    \"k2\": *\"v2\"*\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"k3\": *\"v3\"*\n" +
-                "  }\n" +
-                "]")
+        expectOutput('[{"k1": "v1", "k2": *"v2"*}, {"k3": *"v3"*}]')
+    }
+
+    @Test
+    void "multiline list of single line maps with decorations"() {
+        printer.setRecommendedMaxWidthForSingleLineObjects(25)
+
+        printer.setPathsDecoration(new PrettyPrinterDecorationToken("*", Color.RED),
+                [new ValuePath("[0].k2"), new ValuePath("[1].k3")])
+        def prettyPrintable = new IterablePrettyPrintable([[k1: "v1", k2: "v2"], [k3: "v3"]])
+        prettyPrintable.prettyPrint(printer)
+
+        expectOutput('[\n' +
+                '  {"k1": "v1", "k2": *"v2"*},\n' +
+                '  {"k3": *"v3"*}\n' +
+                ']')
+    }
+
+    @Test
+    void "list of multiline strings"() {
+        def prettyPrintable = new IterablePrettyPrintable(["hello\nworld", "second\nelement"])
+        prettyPrintable.prettyPrint(printer)
+
+        expectOutput('[\n' +
+                '  _____\n' +
+                '  hello\n' +
+                '  world\n' +
+                '  _____,\n' +
+                '  _______\n' +
+                '  second\n' +
+                '  element\n' +
+                '  _______\n' +
+                ']')
     }
 }

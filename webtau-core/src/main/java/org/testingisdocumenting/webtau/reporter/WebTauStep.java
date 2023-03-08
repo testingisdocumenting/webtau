@@ -17,16 +17,18 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
+import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.expectation.AssertionTokenizedError;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.time.Time;
+import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils.renderStackTrace;
 import static java.util.stream.Collectors.toList;
 import static org.testingisdocumenting.webtau.utils.FunctionUtils.*;
@@ -38,6 +40,8 @@ public class WebTauStep {
     private final Function<Object, TokenizedMessage> completionMessageFunc;
     private final Function<WebTauStepContext, Object> action;
     private TokenizedMessage completionMessage;
+
+    private TokenizedMessage exceptionTokenizedMessage;
 
     private boolean isInProgress;
     private boolean isSuccessful;
@@ -60,7 +64,7 @@ public class WebTauStep {
 
     // when true, nested matcher steps won't render extra details (step output pretty print) in case of failures
     // e.g. HTTP step consolidates all the failures/matches and renders a single response with details
-    private boolean isMatcherOutputDisabled;
+    private boolean isMatcherOutputActualValueDisabled;
 
     private static final ThreadLocal<WebTauStep> currentStep = new ThreadLocal<>();
 
@@ -118,8 +122,8 @@ public class WebTauStep {
 
     public static WebTauStep createRepeatStep(String label, int numberOfAttempts, Function<WebTauStepContext, Object> action) {
         WebTauStep step = WebTauStep.createStep(0,
-                tokenizedMessage(action("repeat " + label), numberValue(numberOfAttempts), classifier("times")),
-                (ignored) -> tokenizedMessage(action("repeated " + label), numberValue(numberOfAttempts), classifier("times")),
+                tokenizedMessage().action("repeat " + label).number(numberOfAttempts).classifier("times"),
+                (ignored) -> tokenizedMessage().action("repeated " + label).number(numberOfAttempts).classifier("times"),
                 action);
         step.setTotalNumberOfAttempts(numberOfAttempts);
 
@@ -171,7 +175,7 @@ public class WebTauStep {
 
     public static void createAndExecuteStep(Supplier<TokenizedMessage> completionMessageSupplier,
                                             Runnable action) {
-        createAndExecuteStep(TokenizedMessage.tokenizedMessage(), completionMessageSupplier,
+        createAndExecuteStep(tokenizedMessage(), completionMessageSupplier,
                 action, StepReportOptions.SKIP_START);
     }
 
@@ -192,6 +196,7 @@ public class WebTauStep {
         this.isInProgress = true;
         this.totalNumberOfAttempts = 1;
         this.classifier = "";
+        this.exceptionTokenizedMessage = tokenizedMessage();
     }
 
     public Stream<WebTauStep> children() {
@@ -226,21 +231,25 @@ public class WebTauStep {
         return classifier;
     }
 
-    public boolean isMatcherOutputDisabled() {
-        return isMatcherOutputDisabled;
+    public TokenizedMessage getExceptionTokenizedMessage() {
+        return exceptionTokenizedMessage;
     }
 
-    public void setMatcherOutputDisabled(boolean isMatcherOutputDisabled) {
-        this.isMatcherOutputDisabled = isMatcherOutputDisabled;
+    public boolean isMatcherOutputActualValueDisabled() {
+        return isMatcherOutputActualValueDisabled;
     }
 
-    public boolean hasParentWithDisabledMatcherOutput() {
+    public void setMatcherOutputActualValueDisabled(boolean isMatcherOutputDisabled) {
+        this.isMatcherOutputActualValueDisabled = isMatcherOutputDisabled;
+    }
+
+    public boolean hasParentWithDisabledMatcherOutputActualValue() {
         WebTauStep it = parent;
         while (it != null) {
-            if (it.isMatcherOutputDisabled()) {
+            if (it.isMatcherOutputActualValueDisabled()) {
                 return true;
             }
-            it = parent.parent;
+            it = it.parent;
         }
 
         return false;
@@ -371,13 +380,39 @@ public class WebTauStep {
             }
 
             StepReporters.onFailure(this);
-            throw e;
+
+            // to avoid full mismatch reports printing twice
+            if (e instanceof AssertionTokenizedError) {
+                throw new AssertionError(reduceMismatchedMessage(e.getMessage()));
+            } else {
+                throw e;
+            }
         } finally {
             WebTauStep localCurrentStep = WebTauStep.currentStep.get();
             if (localCurrentStep != null) {
                 currentStep.set(localCurrentStep.parent);
             }
         }
+    }
+
+    private String reduceMismatchedMessage(String message) {
+        // we throw the full message if the details are not rendered to the console
+        if (!StepReporters.isConsoleStepReporterActive() ||
+                !ConsoleOutputs.isTerminalConsoleOutputActive() ||
+                !StepReporters.defaultStepReporter.isWithingVerboseLevel(this)) {
+            return message;
+        }
+
+        if (StringUtils.numberOfLines(message) == 1) {
+            return message;
+        }
+
+        String seeMoreLabel = "see the failed assertion details above";
+        if (message.equals(seeMoreLabel)) {
+            return message;
+        }
+
+        return seeMoreLabel;
     }
 
     private <R> R executeMultipleRuns(StepReportOptions stepReportOptions) {
@@ -396,9 +431,9 @@ public class WebTauStep {
                 boolean reportStep = shouldReportStepAttemptDuringRepeat(attemptIdx);
 
                 int finalAttemptIdx = attemptIdx;
-                MessageToken repeatAction = action("repeat #" + (finalAttemptIdx + 1));
+                TokenizedMessage repeatAction = tokenizedMessage().action("repeat #" + (finalAttemptIdx + 1));
                 WebTauStep repeatedStep = WebTauStep.createStep(tokenizedMessage(repeatAction),
-                        () -> tokenizedMessage(classifier("completed"), repeatAction),
+                        () -> tokenizedMessage().classifier("completed").add(repeatAction),
                         () -> action.apply(new WebTauStepContext(finalAttemptIdx, totalNumberOfAttempts)));
 
                 if (!reportStep) {
@@ -460,6 +495,11 @@ public class WebTauStep {
         result.put("message", completionMessage.toListOfMaps());
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
+        result.put("isSuccessful", isSuccessful);
+
+        if (!exceptionTokenizedMessage.isEmpty()) {
+            result.put("exceptionTokenizedMessage", exceptionTokenizedMessage.toListOfMaps());
+        }
 
         if (!classifier.isEmpty()) {
             result.put("classifier", classifier);
@@ -493,13 +533,23 @@ public class WebTauStep {
     private void complete(TokenizedMessage message) {
         isInProgress = false;
         isSuccessful = true;
+
         completionMessage = message;
     }
 
     private void fail(Throwable t) {
+        isInProgress = false;
+        isSuccessful = false;
+
         stackTrace = renderStackTrace(t);
+
         completionMessage = new TokenizedMessage();
-        completionMessage.add("error", "failed").add(inProgressMessage).add("delimiter", ":")
-                .add("error", t.getMessage());
+        completionMessage.add("error", "failed").add(inProgressMessage);
+
+        if (t instanceof AssertionTokenizedError) {
+            exceptionTokenizedMessage = ((AssertionTokenizedError) t).getTokenizedMessage();
+        } else {
+            exceptionTokenizedMessage = tokenizedMessage().error(t.getMessage());
+        }
     }
 }

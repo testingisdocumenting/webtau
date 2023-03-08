@@ -16,85 +16,48 @@
 
 package org.testingisdocumenting.webtau.expectation.equality
 
-import org.junit.Assert
 import org.junit.Test
 import org.testingisdocumenting.webtau.data.ValuePath
 
 import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class AnyOfMatcherTest {
     private final ValuePath actualPath = new ValuePath("value")
 
     @Test
     void "positive match"() {
-        def actual = 10
-        def matcher = new AnyOfMatcher([3, 10, greaterThan(8), 10])
-
-        assert matcher.matches(actualPath, actual)
-
-        Assert.assertEquals("matches any of [3, 10, <greater than 8>, 10]\n" +
-                "value:   actual: 10 <java.lang.Integer>\n" +
-                "       expected: 10 <java.lang.Integer>", matcher.matchedMessage(actualPath, actual))
+        runAndValidateOutput('. [value] matches any of [3, 10, <greater than 8>, 10] (Xms)') {
+            actual(10).shouldBe(anyOf(3, 10, greaterThan(8), 10))
+        }
     }
 
     @Test
     void "positive mismatch"() {
-        def actual = 10
-        def matcher = new AnyOfMatcher([3, lessThan(8), 1])
-
-        assert !matcher.matches(actualPath, actual)
-        Assert.assertEquals("mismatches:\n" +
-                "\n" +
-                "value:   actual: 10 <java.lang.Integer>\n" +
-                "       expected: 3 <java.lang.Integer>\n" +
-                "value: to be less than 8:\n" +
-                "       mismatches:\n" +
-                "       \n" +
-                "       value:   actual: 10 <java.lang.Integer>\n" +
-                "              expected: less than 8 <java.lang.Integer>\n" +
-                "value:   actual: 10 <java.lang.Integer>\n" +
-                "       expected: 1 <java.lang.Integer>", matcher.mismatchedMessage(actualPath, actual))
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to match any of [3, <less than 8>, 1]:\n' +
+                '      actual: 12 <java.lang.Integer>\n' +
+                '    expected: 3 <java.lang.Integer>\n' +
+                '      actual: 12 <java.lang.Integer>\n' +
+                '    expected: less than 8 <java.lang.Integer>\n' +
+                '      actual: 12 <java.lang.Integer>\n' +
+                '    expected: 1 <java.lang.Integer> (Xms)') {
+            actual(12).shouldBe(anyOf(3, lessThan(8), 1))
+        }
     }
 
     @Test
     void "negative match"() {
-        def actual = 10
-        def matcher = new AnyOfMatcher([1, 3, greaterThan(12)])
-
-        assert matcher.negativeMatches(actualPath, actual)
-
-        Assert.assertEquals("doesn't match any of [1, 3, <greater than 12>]\n" +
-                "value:   actual: 10 <java.lang.Integer>\n" +
-                "       expected: not 1 <java.lang.Integer>\n" +
-                "value:   actual: 10 <java.lang.Integer>\n" +
-                "       expected: not 3 <java.lang.Integer>\n" +
-                "value: less than or equal to 12\n" +
-                "       value:   actual: 10 <java.lang.Integer>\n" +
-                "              expected: less than or equal to 12 <java.lang.Integer>",
-                matcher.negativeMatchedMessage(actualPath, actual))
+        runAndValidateOutput('. [value] doesn\'t match any of [3, 11, <less than 8>] (Xms)') {
+            actual(10).shouldNotBe(anyOf(3, 11, lessThan(8)))
+        }
     }
 
     @Test
     void "negative mismatch"() {
-        def actual = 10
-        def matcher = new AnyOfMatcher([1, 3, greaterThan(8)])
-
-        assert !matcher.negativeMatches(actualPath, actual)
-
-        Assert.assertEquals("mismatches:\n" +
-                "\n" +
-                "value: to be less than or equal to 8:\n" +
-                "       mismatches:\n" +
-                "       \n" +
-                "       value:   actual: 10 <java.lang.Integer>\n" +
-                "              expected: less than or equal to 8 <java.lang.Integer>",
-                matcher.negativeMismatchedMessage(actualPath, actual))
-    }
-
-    @Test
-    void "full matcher with actual step"() {
-        actual(8).shouldBe(anyOf(2, greaterThan(4)))
-        actual(10).shouldNotBe(anyOf(3, 11, greaterThan(20)))
-        actual("hello").shouldNotBe(anyOf("world", contain("super")))
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not match any of [3, 11, <less than 12>]:\n' +
+                '      actual: 10 <java.lang.Integer>\n' +
+                '    expected: greater than or equal to 12 <java.lang.Integer> (Xms)') {
+            actual(10).shouldNotBe(anyOf(3, 11, lessThan(12)))
+        }
     }
 }

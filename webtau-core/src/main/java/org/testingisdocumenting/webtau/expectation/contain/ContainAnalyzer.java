@@ -17,70 +17,114 @@
 
 package org.testingisdocumenting.webtau.expectation.contain;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.NullContainHandler;
 import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.TraceUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
-import static java.util.stream.Collectors.joining;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ContainAnalyzer {
     private static final List<ContainHandler> handlers = discoverHandlers();
 
+    private final List<ActualPathMessage> matches;
     private final List<ActualPathMessage> mismatches;
+
+    private ValuePath topLevelActualPath;
 
     public static ContainAnalyzer containAnalyzer() {
         return new ContainAnalyzer();
     }
 
     public boolean contains(ValuePath actualPath, Object actual, Object expected) {
-        return contains(actual, expected,
+        updateTopLevelActualPath(actualPath);
+
+        return contains(actual, expected, false,
                 (handler) -> handler.analyzeContain(this, actualPath, actual, expected));
     }
 
     public boolean notContains(ValuePath actualPath, Object actual, Object expected) {
-        return contains(actual, expected,
+        updateTopLevelActualPath(actualPath);
+
+        return contains(actual, expected, true,
                 (handler) -> handler.analyzeNotContain(this, actualPath, actual, expected));
     }
 
-    public void reportMismatch(ContainHandler reporter, ValuePath actualPath, String mismatch) {
+    public void reportMismatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch) {
         mismatches.add(new ActualPathMessage(actualPath, mismatch));
     }
 
-    public String generateMismatchReport() {
-        List<String> reports = new ArrayList<>();
-        if (!mismatches.isEmpty()) {
-            reports.add(mismatches.stream().map(ActualPathMessage::getFullMessage).collect(joining("\n")));
-        }
-
-        return String.join("\n\n", reports);
+    public void reportMatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch) {
+        matches.add(new ActualPathMessage(actualPath, mismatch));
     }
 
-    public boolean hasMismatches() {
+    public Set<ValuePath> generateMatchPaths() {
+        return extractActualPaths(matches);
+    }
+
+    public Set<ValuePath> generateMismatchPaths() {
+        return extractActualPaths(mismatches);
+    }
+
+    public TokenizedMessage generateMatchReport() {
+        return TokenizedMessage.join("\n", matches.stream().map(message ->
+                message.getActualPath().equals(topLevelActualPath) ?
+                        message.getMessage() :
+                        message.getFullMessage()).collect(Collectors.toList()));
+    }
+
+    public TokenizedMessage generateMismatchReport() {
+        return !mismatches.isEmpty() ?
+                tokenizedMessage().error("no match found") :
+                tokenizedMessage();
+    }
+
+    public boolean noMismatches() {
         return mismatches.isEmpty();
     }
 
+    public boolean noMatches() {
+        return matches.isEmpty();
+    }
+
     private ContainAnalyzer() {
+        this.matches = new ArrayList<>();
         this.mismatches = new ArrayList<>();
     }
 
-    private boolean contains(Object actual, Object expected, Consumer<ContainHandler> handle) {
+    private boolean contains(Object actual, Object expected, boolean isNegative, Consumer<ContainHandler> handle) {
         ContainHandler handler = handlers.stream().
                 filter(h -> h.handle(actual, expected)).findFirst().
                 orElseThrow(() -> noHandlerFound(actual, expected));
 
-        int before = mismatches.size();
+        int before = isNegative ? matches.size() :mismatches.size();
         handle.accept(handler);
-        int after = mismatches.size();
+        int after = isNegative ? matches.size() : mismatches.size();
 
         return after == before;
+    }
+
+    private Set<ValuePath> extractActualPaths(List<ActualPathMessage> notEqualMessages) {
+        return notEqualMessages
+                .stream()
+                .map(ActualPathMessage::getActualPath)
+                .collect(Collectors.toSet());
+    }
+
+    private void updateTopLevelActualPath(ValuePath actualPath) {
+        if (topLevelActualPath == null) {
+            topLevelActualPath = actualPath;
+        }
     }
 
     private static List<ContainHandler> discoverHandlers() {

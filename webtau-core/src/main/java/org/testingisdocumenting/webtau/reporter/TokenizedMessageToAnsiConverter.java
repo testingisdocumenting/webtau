@@ -17,7 +17,13 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
-import java.util.ArrayList;
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinterLine;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage.TokenTypes;
+import org.testingisdocumenting.webtau.utils.StringUtils;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -25,18 +31,24 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 public class TokenizedMessageToAnsiConverter {
+    public static final TokenizedMessageToAnsiConverter DEFAULT = new TokenizedMessageToAnsiConverter();
+    private static final int PRETTY_PRINT_NUMBER_OF_LINES_LIMIT = 5;
+
     private final Map<String, TokenRenderDetails> tokenRenderDetails;
+    private int firstLinePrefixWidth;
 
     public TokenizedMessageToAnsiConverter() {
         tokenRenderDetails = new HashMap<>();
+        associateDefaultTokens();
     }
 
-    public void associate(String tokenType, boolean isSpaceAfterRequired, Object... ansiSequence) {
-        tokenRenderDetails.put(tokenType, new TokenRenderDetails(Arrays.asList(ansiSequence), isSpaceAfterRequired));
+    public void associate(String tokenType, Object... ansiSequence) {
+        tokenRenderDetails.put(tokenType, new TokenRenderDetails(Arrays.asList(ansiSequence)));
     }
 
-    public List<Object> convert(TokenizedMessage tokenizedMessage) {
-        List<Object> valuesAndStyles = new ArrayList<>();
+    public List<Object> convert(TokenizedMessage tokenizedMessage, int firstLinePrefixWidth) {
+        this.firstLinePrefixWidth = firstLinePrefixWidth;
+        PrettyPrinterLine line = new PrettyPrinterLine();
 
         int len = tokenizedMessage.getNumberOfTokens();
         for (int idx = 0; idx < len; idx++) {
@@ -47,36 +59,103 @@ public class TokenizedMessageToAnsiConverter {
                 throw new RuntimeException("no render details found for token: " + messageToken);
             }
 
-            boolean isNextDelimiter = ((idx + 1) < len) && isDelimiter(tokenizedMessage.getTokenAtIdx(idx + 1));
+            boolean isNextDelimiter = ((idx + 1) < len) && tokenizedMessage.getTokenAtIdx(idx + 1).isDelimiter();
             boolean isLast = (idx == len - 1);
-            boolean addSpace = renderDetails.isSpaceAfterRequired && !isLast && !isNextDelimiter;
-            Stream<?> ansiSequence = convertToAnsiSequence(renderDetails, messageToken, addSpace);
+            boolean addSpace = !isLast && !isNextDelimiter && !isDelimiterNoAutoSpacing(tokenizedMessage.getTokenAtIdx(idx));
 
-            ansiSequence.forEach(valuesAndStyles::add);
+            Stream<?> ansiSequence = convertToAnsiSequence(line, renderDetails, messageToken);
+            if (addSpace) {
+                ansiSequence = Stream.concat(ansiSequence, Stream.of(" "));
+            }
+
+            line.appendStream(ansiSequence);
         }
 
-        return valuesAndStyles;
+        return line.getStyleAndValues();
     }
 
-    private boolean isDelimiter(MessageToken token) {
-        return token.getType().equals(IntegrationTestsMessageBuilder.TokenTypes.DELIMITER.getType());
+    private boolean isDelimiterNoAutoSpacing(MessageToken token) {
+        return token.getType().equals(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType());
     }
 
-    private Stream<?> convertToAnsiSequence(TokenRenderDetails renderDetails, MessageToken messageToken, boolean addSpace) {
-        Stream<Object> valueStream = addSpace ?
-                Stream.of(messageToken.getValue(), " "):
-                Stream.of(messageToken.getValue());
+    private Stream<?> convertToAnsiSequence(PrettyPrinterLine currentLine, TokenRenderDetails renderDetails, MessageToken messageToken) {
+        boolean usePrettyPrintFirstLinesOnly = messageToken.getType().equals(TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType());
+        boolean usePrettyPrint = messageToken.getType().equals(TokenTypes.PRETTY_PRINT_VALUE.getType());
+        if (usePrettyPrint || usePrettyPrintFirstLinesOnly) {
+            return ansiSequenceFromPrettyPrinter(currentLine, messageToken.getValue(), usePrettyPrintFirstLinesOnly);
+        }
 
+        Stream<Object> valueStream = Stream.of(messageToken.getValue());
         return Stream.concat(renderDetails.ansiSequence.stream(), valueStream);
+    }
+
+    private Stream<?> ansiSequenceFromPrettyPrinter(PrettyPrinterLine currentLine, Object value, boolean printFirstLinesOnly) {
+        PrettyPrinter printer = new PrettyPrinter(0);
+        printer.printObject(value);
+        printer.flushCurrentLine();
+
+        Stream<Object> result = Stream.empty();
+
+        String indentation = StringUtils.createIndentation(currentLine.hasNewLine() ?
+                currentLine.findWidthOfTheLastEffectiveLine():
+                currentLine.findWidthOfTheLastEffectiveLine() + firstLinePrefixWidth);
+
+        int numberOfLinesToPrint = printFirstLinesOnly ?
+                Math.min(printer.getNumberOfLines(), PRETTY_PRINT_NUMBER_OF_LINES_LIMIT):
+                printer.getNumberOfLines();
+
+        for (int idx = 0; idx < numberOfLinesToPrint; idx++) {
+            boolean isFirstLine = idx == 0;
+            boolean isLastLine = idx == printer.getNumberOfLines() - 1;
+            PrettyPrinterLine line = printer.getLine(idx);
+
+            if (isFirstLine) {
+                result = Stream.concat(result, line.getStyleAndValues().stream());
+            } else {
+                result = Stream.concat(result, Stream.concat(
+                        Stream.of(indentation),
+                        line.getStyleAndValues().stream()));
+            }
+
+            if (!isLastLine) {
+                result = Stream.concat(result, Stream.of("\n"));
+            }
+        }
+
+        if (numberOfLinesToPrint > 1 && numberOfLinesToPrint != printer.getNumberOfLines()) {
+            result = Stream.concat(result, Stream.of(PrettyPrinter.DELIMITER_COLOR, indentation, "..."));
+        }
+
+        return result;
+    }
+
+    private void associateDefaultTokens() {
+        associate(TokenTypes.ACTION.getType(), Color.BLUE);
+        associate(TokenTypes.ERROR.getType(), Color.RED);
+        associate(TokenTypes.WARNING.getType(), Color.YELLOW);
+        associate(TokenTypes.ID.getType(), Color.RESET, FontStyle.BOLD);
+        associate(TokenTypes.CLASSIFIER.getType(), Color.CYAN);
+        associate(TokenTypes.MATCHER.getType(), Color.RESET, Color.BLUE);
+        associate(TokenTypes.STRING_VALUE.getType(), Color.GREEN);
+        associate(TokenTypes.QUERY_VALUE.getType(), Color.YELLOW);
+        associate(TokenTypes.NUMBER_VALUE.getType(), Color.BLUE);
+        associate(TokenTypes.PRETTY_PRINT_VALUE.getType(), Color.RESET);
+        associate(TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType(), Color.RESET);
+        associate(TokenTypes.URL_VALUE.getType(), Color.PURPLE);
+        associate(TokenTypes.OBJECT_TYPE.getType(), Color.YELLOW);
+        associate(TokenTypes.SELECTOR_TYPE.getType(), Color.PURPLE);
+        associate(TokenTypes.SELECTOR_VALUE.getType(), FontStyle.BOLD, Color.PURPLE);
+        associate(TokenTypes.PREPOSITION.getType(), Color.YELLOW);
+        associate(TokenTypes.DELIMITER.getType(), Color.RESET);
+        associate(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType(), Color.RESET);
+        associate(TokenTypes.NONE.getType(), Color.RESET);
     }
 
     private static class TokenRenderDetails {
         private final List<Object> ansiSequence;
-        private final boolean isSpaceAfterRequired;
 
-        public TokenRenderDetails(List<Object> ansiSequence, boolean isSpaceAfterRequired) {
+        public TokenRenderDetails(List<Object> ansiSequence) {
             this.ansiSequence = ansiSequence;
-            this.isSpaceAfterRequired = isSpaceAfterRequired;
         }
     }
 }

@@ -28,18 +28,17 @@ import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 import java.nio.file.Path;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class HttpDocumentation {
     public void capture(String artifactName) {
         DocumentationArtifacts.registerName(artifactName);
 
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(classifier("documentation"), action("capturing last"), classifier("http"),
-                        action("call"), AS, urlValue(artifactName)),
-                (path) -> tokenizedMessage(classifier("documentation"), action("captured last"), classifier("http"),
-                        action("call"), AS, urlValue(((Path) path).toAbsolutePath())),
+                tokenizedMessage().classifier("documentation").action("capturing last").classifier("http")
+                        .action("call").as().url(artifactName),
+                (path) -> tokenizedMessage().classifier("documentation").action("captured last").classifier("http")
+                        .action("call").as().url(((Path) path).toAbsolutePath()),
                 () -> {
                     Capture capture = new Capture(artifactName);
                     capture.capture();

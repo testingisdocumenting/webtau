@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.math.BigDecimal;
 import java.util.Scanner;
@@ -78,8 +79,8 @@ public class NumbersCompareToHandler implements CompareToHandler {
             return convertedActual.compareTo(convertedExpected);
         }
 
-        String renderActualExpected() {
-            return HandlerMessages.renderActualExpected(assertionMode, convertedActual, convertedExpected, actual, expected);
+        TokenizedMessage renderActualExpected() {
+            return HandlerMessages.renderActualExpectedWithConversionInfo(assertionMode, convertedActual, convertedExpected, actual, expected);
         }
 
         private static Class largest(Object actual, Object expected) {

@@ -37,8 +37,7 @@ public class ConsoleReportGenerator implements ReportGenerator {
     private final static int NUMBER_OF_WARNINGS_TO_DISPLAY = 3;
     private final static int NUMBER_OF_WARNINGS_TO_DISPLAY_EXTRA_THRESHOLD = 2;
 
-    private final static ConsoleStepReporter consoleStepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(),
-            () -> Integer.MAX_VALUE);
+    private final static ConsoleStepReporter consoleStepReporter = StepReporters.defaultStepReporter;
 
     @Override
     public void generate(WebTauReport report) {
@@ -73,6 +72,7 @@ public class ConsoleReportGenerator implements ReportGenerator {
 
         if (withStatus.size() > testsLimit) {
             ConsoleOutputs.out(Color.YELLOW, "...(" + (withStatus.size() - testsLimit) + " more " + statusLabel + " tests)");
+            ConsoleOutputs.out();
         }
     }
 
@@ -88,8 +88,9 @@ public class ConsoleReportGenerator implements ReportGenerator {
     }
 
     private static void printFailedStep(WebTauStep step) {
-        consoleStepReporter.onStepFailure(step);
+        consoleStepReporter.printStepFailureWithoutOutput(step, false);
         step.findFailedChildStep().ifPresent(ConsoleReportGenerator::printFailedStep);
+        consoleStepReporter.printStepOutput(step);
     }
 
     private void printWarnings(WebTauReport report) {
@@ -127,9 +128,9 @@ public class ConsoleReportGenerator implements ReportGenerator {
         ConsoleOutputs.out(Color.RED, "*", Color.YELLOW, " ", message, " ",
                 Color.RESET, "(", Color.PURPLE, test.getShortContainerId(), " -> ", Color.BLUE, test.getScenario(), Color.RESET, ")");
 
-        PrettyPrinter printer = new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 2);
+        PrettyPrinter printer = new PrettyPrinter(2);
         WebTauStepInputKeyValue.stepInput(input).prettyPrint(printer);
-        printer.renderToConsole();
+        printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput());
     }
 
     private static void printTimeTaken(WebTauReport report) {

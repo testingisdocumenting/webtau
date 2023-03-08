@@ -1,0 +1,1 @@
+* Add: initial pretty printer of `class` instances

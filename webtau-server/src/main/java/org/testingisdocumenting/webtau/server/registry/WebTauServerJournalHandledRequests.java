@@ -16,17 +16,16 @@
 
 package org.testingisdocumenting.webtau.server.registry;
 
-import org.testingisdocumenting.webtau.data.live.LiveValue;
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.live.LiveValue;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
-import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.stream.Collectors;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 /**
  * convenient way to handle <code>waitTo</code> on calls
@@ -79,8 +78,8 @@ class WebTauServerJournalHandledRequests {
 
         @Override
         public TokenizedMessage describe() {
-            return TokenizedMessage.tokenizedMessage(classifier("server"),
-                    IntegrationTestsMessageBuilder.id(journal.getServerId()), classifier(method), action("handled calls"));
+            return tokenizedMessage().classifier("server").id(journal.getServerId())
+                    .classifier(method).action("handled calls");
         }
     }
 }

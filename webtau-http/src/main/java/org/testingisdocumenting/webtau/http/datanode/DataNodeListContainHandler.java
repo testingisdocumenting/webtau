@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,6 @@
 
 package org.testingisdocumenting.webtau.http.datanode;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.data.ValuePath;
@@ -28,6 +28,7 @@ import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 
 import java.util.List;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode;
 import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.comparator;
 
@@ -41,7 +42,7 @@ public class DataNodeListContainHandler implements ContainHandler {
     public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         List<DataNode> dataNodes = getDataNodes(actual);
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, dataNodes, expected);
-        List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::containingIndexedValues);
+        List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::findContainingIndexedValues);
 
         // earlier, traceable value is disabled and indexes of matches are found
         // it is done to avoid marking every mismatching entry as failed
@@ -62,7 +63,7 @@ public class DataNodeListContainHandler implements ContainHandler {
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         List<DataNode> dataNodes = getDataNodes(actual);
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, dataNodes, expected);
-        List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::containingIndexedValues);
+        List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::findContainingIndexedValues);
 
         if (indexedValues.isEmpty()) {
             dataNodes.forEach(n -> n.getTraceableValue().updateCheckLevel(CheckLevel.FuzzyPassed));
@@ -72,8 +73,8 @@ public class DataNodeListContainHandler implements ContainHandler {
             indexedValues.forEach(indexedValue -> {
                 ValuePath indexedPath = actualPath.index(indexedValue.getIdx());
 
-                containAnalyzer.reportMismatch(this, indexedPath,
-                        "equals " + DataRenderers.render(indexedValue.getValue()));
+                containAnalyzer.reportMatch(this, indexedPath,
+                        tokenizedMessage().error("equals").valueFirstLinesOnly(indexedValue.getValue()));
                 comparator.compareUsingEqualOnly(indexedPath, dataNodes.get(indexedValue.getIdx()), expected);
             });
         }

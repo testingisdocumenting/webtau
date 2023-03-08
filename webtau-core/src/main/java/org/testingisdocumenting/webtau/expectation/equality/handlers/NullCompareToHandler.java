@@ -21,11 +21,19 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.reporter.MessageToken;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
-import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.expected;
-import static org.testingisdocumenting.webtau.utils.TraceUtils.renderValueAndType;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.*;
 
 public class NullCompareToHandler implements CompareToHandler {
+    private final MessageToken NULL = TokenizedMessage.TokenTypes.CLASSIFIER.token("null");
+    private final MessageToken NULL_RED = TokenizedMessage.TokenTypes.ERROR.token("null");
+
+    private final TokenizedMessage ACTUAL_NULL_PREFIX = tokenizedMessage().add(ACTUAL_PREFIX).add(NULL);
+    private final TokenizedMessage ACTUAL_NULL_RED_PREFIX = tokenizedMessage().add(ACTUAL_PREFIX).add(NULL_RED);
+
     @Override
     public boolean handleEquality(Object actual, Object expected) {
         return eitherIsNull(actual, expected);
@@ -45,13 +53,17 @@ public class NullCompareToHandler implements CompareToHandler {
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         if (actual == null && expected == null) {
             comparator.reportEqual(this, actualPath,
-                    "  actual: null\n" + expected(comparator.getAssertionMode(), null));
+                    tokenizedMessage().add(ACTUAL_NULL_PREFIX).newLine()
+                            .add(expectedPrefixAndAssertionMode(comparator.getAssertionMode()))
+                            .add(NULL));
         } else if (actual == null) {
             comparator.reportNotEqual(this, actualPath,
-                    "  actual: null\n" + expected(comparator.getAssertionMode(), renderValueAndType(expected)));
+                    tokenizedMessage().add(ACTUAL_NULL_RED_PREFIX).newLine()
+                            .add(expectedPrefixAndAssertionMode(comparator.getAssertionMode())).add(valueAndType(expected)));
         } else {
             comparator.reportNotEqual(this, actualPath,
-                    "  actual: " + renderValueAndType(actual) + "\n" + expected(comparator.getAssertionMode(), null));
+                    tokenizedMessage().add(HandlerMessages.ACTUAL_PREFIX).add(valueAndType(actual)).newLine()
+                            .add(expectedPrefixAndAssertionMode(comparator.getAssertionMode()).add(NULL_RED)));
         }
     }
 
@@ -59,18 +71,21 @@ public class NullCompareToHandler implements CompareToHandler {
     public void compareGreaterLessEqual(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         if (actual == null && expected == null && checksEquality(comparator)) {
             comparator.reportEqual(this, actualPath,
-                    "  actual: null\n" + expected(comparator.getAssertionMode(), null));
+                    tokenizedMessage().add(ACTUAL_NULL_PREFIX).newLine()
+                            .add(expectedPrefixAndAssertionMode(comparator.getAssertionMode())).add(NULL));
         } else if (actual == null) {
-            String message = "  actual: null\n" + expected(comparator.getAssertionMode(), renderValueAndType(expected));
+            TokenizedMessage message = tokenizedMessage().add(ACTUAL_NULL_RED_PREFIX).newLine()
+                    .add(expectedPrefixAndAssertionMode(comparator.getAssertionMode()).add(valueAndType(expected)));
             generateOppositeReport(comparator, actualPath, message);
         } else {
-            String message = "  actual: " + renderValueAndType(actual) + "\n" + expected(comparator.getAssertionMode(),
-                    null);
+            TokenizedMessage message = tokenizedMessage().add(HandlerMessages.ACTUAL_PREFIX).add(valueAndType(actual)).newLine()
+                    .add(expectedPrefixAndAssertionMode(comparator.getAssertionMode())).add(NULL_RED);
+
             generateOppositeReport(comparator, actualPath, message);
         }
     }
 
-    private void generateOppositeReport(CompareToComparator comparator, ValuePath actualPath, String message) {
+    private void generateOppositeReport(CompareToComparator comparator, ValuePath actualPath, TokenizedMessage message) {
         switch (comparator.getAssertionMode()) {
             case GREATER_THAN:
             case GREATER_THAN_OR_EQUAL:

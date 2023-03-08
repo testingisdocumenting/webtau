@@ -56,3 +56,7 @@
 .test-http-calls-call-error-message {
     margin-bottom: var(--webtau-spacing-double);
 }
+
+.webtau-http-mismatch {
+    margin-bottom: var(--webtau-spacing);
+}

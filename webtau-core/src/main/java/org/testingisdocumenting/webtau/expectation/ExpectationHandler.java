@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,6 +18,7 @@
 package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 public interface ExpectationHandler {
     enum Flow {
@@ -24,13 +26,13 @@ public interface ExpectationHandler {
         PassToNext
     }
 
-    default Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
+    default Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
         return Flow.PassToNext;
     }
 
     default void onValueMatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue) {}
 
-    default Flow onCodeMismatch(CodeMatcher codeMatcher, String message) {
+    default Flow onCodeMismatch(CodeMatcher codeMatcher, TokenizedMessage message) {
         return Flow.PassToNext;
     }
 

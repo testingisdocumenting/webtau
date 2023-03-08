@@ -21,9 +21,7 @@ import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.classifier;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class OpenApiResponseValidator implements HttpValidationHandler {
     @Override
@@ -41,8 +39,8 @@ public class OpenApiResponseValidator implements HttpValidationHandler {
 
         String modeLabel = validationModeLabel(mode);
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("validating"), classifier(modeLabel)),
-                () -> tokenizedMessage(action("validated"), classifier(modeLabel)),
+                tokenizedMessage().action("validating").classifier(modeLabel),
+                () -> tokenizedMessage().action("validated").classifier(modeLabel),
                 () -> validator.validateApiSpec(validationResult, mode));
     }
 

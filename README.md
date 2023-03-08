@@ -20,7 +20,33 @@ Test your application across multiple layers:
 * Database
 * Business Logic (JVM only)
 
-[REST test Java example](https://testingisdocumenting.org/webtau/HTTP/introduction):
+## [Business Logic Java Example](https://testingisdocumenting.org/webtau/matchers/java-bean)
+
+### Single Bean Validation
+
+```java
+actual(account).should(equal(map(
+        "id", "ac1",
+        "name", "My Second Account",
+        "address", map("zipCode", "7777777"))));
+```
+
+![webtau bean validation output](webtau-docs/readme/bean-validation-output.png)
+
+### List Of Beans Validation
+    
+```java
+List<Account> accounts = fetchAccounts();
+TableData expected = table("*id",       "name", "address",
+                           ________________________________________,
+                           "ac2",      "Works", map("zipCode", "zip2"),
+                           "ac1",       "Home", map("zipCode", "zip1"),
+                           "ac3", "My Account", map("zipCode", "zip8"));
+```
+
+![webtau list of beans validation output](webtau-docs/readme/bean-list-validation.png)
+
+## [REST test Java example](https://testingisdocumenting.org/webtau/HTTP/introduction):
 ```java
 public class WeatherJavaTest {
     @Test
@@ -31,12 +57,9 @@ public class WeatherJavaTest {
     }
 }
 ```
-**server response**
-```json
-{
-  "temperature": 88
-}
-```
+
+WebTau prints a lot of useful information with a zero effort from your side. So you can investigate tests faster.
+![webtau http output](webtau-docs/readme/http-weather-test-output.png)
 
 [REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction):
 ```groovy
@@ -47,35 +70,9 @@ scenario("check weather") {
 }
 ```
 
-Use [Persona Concept](https://testingisdocumenting.org/webtau/persona/introduction) to streamline Authorization testing
-```groovy
-scenario("my bank balance") {
-    Alice {
-        http.get("/statement") {
-            balance.shouldBe > 100
-        }
-    }
+## [Persona Concept](https://testingisdocumenting.org/webtau/persona/introduction) 
 
-    Bob {
-        http.get("/statement") {
-            balance.shouldBe < 50
-        }
-    }
-}
-```
-
-**Alice server response**
-```json
-{
-  "balance": 150
-}
-```
-**Bob server response**
-```json
-{
-  "balance": 30
-}
-```
+Use `Persona` to streamline Authorization testing
 
 ```java
 public class PersonaHttpJavaTest {
@@ -88,6 +85,24 @@ public class PersonaHttpJavaTest {
         Bob.execute(() -> http.get("/statement", (header, body) -> {
             body.get("balance").shouldBe(lessThan(50));
         }));
+    }
+}
+```
+
+![webtau persona output](webtau-docs/readme/http-persona-output.png)
+
+```groovy
+scenario("my bank balance") {
+    Alice {
+        http.get("/statement") {
+            balance.shouldBe > 100
+        }
+    }
+
+    Bob {
+        http.get("/statement") {
+            balance.shouldBe < 50
+        }
     }
 }
 ```
@@ -116,7 +131,7 @@ Tests can be written in any JVM language. Language specific syntactic sugar is a
 
 --------
 
-[Browser test Java example](https://testingisdocumenting.org/webtau/browser/introduction):
+## [Browser test Java example](https://testingisdocumenting.org/webtau/browser/introduction):
 ```java
 @WebTau
 public class WebSearchTest {
@@ -141,7 +156,7 @@ public class SearchPage {
 }
 ```
 
-[GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction):
+## [GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction):
 ```java
 @WebTau
 public class GraphQLWeatherJavaIT {
@@ -155,7 +170,7 @@ public class GraphQLWeatherJavaIT {
 }
 ```
 
-[Database data setup example](https://testingisdocumenting.org/webtau/database/data-setup):
+## [Database data setup example](https://testingisdocumenting.org/webtau/database/data-setup):
 ```groovy
 def PRICES = db.table("PRICES")
 PRICES << [     "id" | "description" |          "available" |                "type" |       "price" ] {
@@ -165,7 +180,7 @@ PRICES << [     "id" | "description" |          "available" |                "ty
            cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 }
 ```
 
-[CLI run example](https://testingisdocumenting.org/webtau/cli/introduction):
+## [CLI run example](https://testingisdocumenting.org/webtau/cli/introduction):
 ```groovy
 cli.run('echo hello world') {
     output.should contain('hello')

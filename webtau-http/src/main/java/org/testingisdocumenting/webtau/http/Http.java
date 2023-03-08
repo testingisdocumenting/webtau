@@ -19,18 +19,18 @@ package org.testingisdocumenting.webtau.http;
 
 import static org.testingisdocumenting.webtau.WebTauCore.equal;
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.urlValue;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.expectation.AssertionTokenizedError;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
 import org.testingisdocumenting.webtau.http.binary.BinaryRequestBody;
 import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
@@ -53,6 +53,7 @@ import org.testingisdocumenting.webtau.http.text.TextRequestBody;
 import org.testingisdocumenting.webtau.http.validation.*;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 import org.testingisdocumenting.webtau.time.Time;
@@ -101,8 +102,8 @@ public class Http {
     public boolean ping(String url, HttpQueryParams queryParams, HttpHeader header) {
         String fullUrl = WebTauHttpConfigurations.fullUrl(queryParams.attachToUrl(url));
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("pinging"), urlValue(fullUrl)),
-                () -> tokenizedMessage(action("pinged"), urlValue(fullUrl)),
+                tokenizedMessage().action("pinging").url(fullUrl),
+                () -> tokenizedMessage().action("pinged").url(fullUrl),
                 () -> HttpValidationHandlers.withDisabledHandlers(() -> {
                     HttpOperationIdProviders.withDisabledProviders(() -> {
                         http.get(url, header);
@@ -984,7 +985,7 @@ public class Http {
                 R validationBlockReturnedValue = validateAndRecord(validationResult, validator);
 
                 if (validationResult.hasMismatches()) {
-                    throw new AssertionError("\n" + validationResult.renderMismatches());
+                    throw new AssertionError("check validation errors above");
                 }
 
                 return validationBlockReturnedValue;
@@ -1005,10 +1006,10 @@ public class Http {
         };
 
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("executing HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
-                () -> tokenizedMessage(action("executed HTTP " + validationResult.getRequestMethod()), urlValue(validationResult.getFullUrl())),
+                tokenizedMessage().action("executing HTTP").classifier(validationResult.getRequestMethod()).url(validationResult.getFullUrl()),
+                () -> tokenizedMessage().action("executed HTTP").classifier(validationResult.getRequestMethod()).url(validationResult.getFullUrl()),
                 httpCallSupplier);
-        step.setMatcherOutputDisabled(true);
+        step.setMatcherOutputActualValueDisabled(true);
 
         return step;
     }
@@ -1026,8 +1027,8 @@ public class Http {
                                           HttpHeader fullRequestHeader) {
         Supplier<Object> httpCallSupplier = () -> httpCall.execute(fullUrl, fullRequestHeader);
 
-        return WebTauStep.createStep(tokenizedMessage(action("executing HTTP redirect to " + requestMethod), urlValue(fullUrl)),
-                () -> tokenizedMessage(action("executed HTTP redirect to " + requestMethod), urlValue(fullUrl)),
+        return WebTauStep.createStep(tokenizedMessage().action("executing HTTP redirect").to().classifier(requestMethod).url(fullUrl),
+                () -> tokenizedMessage().action("executed HTTP redirect").to().classifier(requestMethod).url(fullUrl),
                 httpCallSupplier);
     }
 
@@ -1044,8 +1045,8 @@ public class Http {
 
         ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
             @Override
-            public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
-                validationResult.addMismatch(message);
+            public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
+                validationResult.addMismatch(new ActualPathMessage(actualPath, message).getFullMessage());
                 return ExpectationHandler.Flow.PassToNext;
             }
         };
@@ -1071,19 +1072,19 @@ public class Http {
         } catch (Throwable e) {
             ExpectationHandlers.withAdditionalHandler(new ExpectationHandler() {
                 @Override
-                public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, String message) {
+                public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
                     validationResult.addMismatch(message);
 
                     // another assertion happened before status code check
                     // we discard it and throw status code instead
                     if (e instanceof AssertionError) {
-                        throw new AssertionError('\n' + message);
+                        throw new AssertionTokenizedError(message);
                     }
 
                     // originally an exception happened,
                     // so we combine its message with status code failure
-                    throw new AssertionError('\n' + message +
-                            "\n\nadditional exception message:\n" + e.getMessage(), e);
+                    throw new AssertionTokenizedError(tokenizedMessage().add(message).doubleNewLine()
+                            .error("additional exception message: " + e.getMessage()));
 
                 }
             }, () -> {
@@ -1122,8 +1123,7 @@ public class Http {
             return DataNodeBuilder.fromValue(id, object);
         } catch (JsonParseException e) {
             validationResult.setBodyParseErrorMessage(e.getMessage());
-            validationResult.addMismatch("can't parse JSON response of " + validationResult.getFullUrl()
-                    + ": " + e.getMessage());
+            validationResult.addMismatch(tokenizedMessage().error("can't parse JSON response").of().url(validationResult.getFullUrl()).colon().error(e.getMessage()));
 
             return new StructuredDataNode(id,
                     new TraceableValue("invalid JSON:\n" + textContent));

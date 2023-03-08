@@ -37,6 +37,8 @@ class Report {
     def steps = $(".step")
     def stepPersonaId = $(".step .persona-id")
 
+    def styledText = $(".webtau-styled-text")
+
     def tabNames = $(".tab-selection .tab-name")
     def stepsTab = tabNames.get("Steps")
     def httpCallsTab = tabNames.get("HTTP calls")

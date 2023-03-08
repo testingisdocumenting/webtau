@@ -23,9 +23,8 @@ import org.junit.BeforeClass
 
 import javax.sql.DataSource
 
-import static org.testingisdocumenting.webtau.WebTauCore.___________________________________
-import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
-import static org.testingisdocumenting.webtau.db.DatabaseFacade.db
+import static org.testingisdocumenting.webtau.WebTauCore.*
+import static Database.db
 
 class DatabaseBaseTest {
     private static boolean areTablesCreated
@@ -57,9 +56,9 @@ class DatabaseBaseTest {
         db.update("delete from PRICES")
         def PRICES = db.table("PRICES")
         PRICES << ["id" | "description" | "price"] {
-            ___________________________________
-            "id1" | "nice set"    | 1000
-            "id2" | "another set" | 2000 }
+                  __________________________________
+                  "id1" | "nice set"    | 1000
+                  "id2" | "another set" | 2000 }
 
         return PRICES
     }

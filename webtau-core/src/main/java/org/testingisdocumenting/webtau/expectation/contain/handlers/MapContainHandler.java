@@ -23,6 +23,8 @@ import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 
 import java.util.Map;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+
 public class MapContainHandler implements ContainHandler {
     @Override
     public boolean handle(Object actual, Object expected) {
@@ -63,7 +65,7 @@ public class MapContainHandler implements ContainHandler {
                                  ValuePath propertyPath,
                                  Map.Entry<?, ?> expectedEntry) {
         if (!actualMap.containsKey(expectedEntry.getKey())) {
-            containAnalyzer.reportMismatch(this, propertyPath, "is missing");
+            containAnalyzer.reportMismatch(this, propertyPath, tokenizedMessage().matcher("is missing"));
         } else {
             CompareToComparator comparator = CompareToComparator.comparator();
 
@@ -89,7 +91,7 @@ public class MapContainHandler implements ContainHandler {
                     actualValue, expectedEntry.getValue());
 
             if (!actualValueNotEqual) {
-                containAnalyzer.reportMismatch(this, propertyPath, comparator.generateNotEqualMismatchReport());
+                containAnalyzer.reportMatch(this, propertyPath, comparator.generateNotEqualMismatchReport());
             }
         }
     }

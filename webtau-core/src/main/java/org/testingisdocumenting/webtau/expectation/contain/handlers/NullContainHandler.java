@@ -21,6 +21,8 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+
 public class NullContainHandler implements ContainHandler {
     @Override
     public boolean handle(Object actual, Object expected) {
@@ -29,11 +31,11 @@ public class NullContainHandler implements ContainHandler {
 
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
-        containAnalyzer.reportMismatch(this, actualPath, actual + " doesn't contain " + expected);
+        containAnalyzer.reportMismatch(this, actualPath, tokenizedMessage().valueFirstLinesOnly(actual).error("doesn't contain").valueFirstLinesOnly(expected));
     }
 
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
-        containAnalyzer.reportMismatch(this, actualPath, actual + " doesn't contain " + expected);
+        containAnalyzer.reportMismatch(this, actualPath, tokenizedMessage().valueFirstLinesOnly(actual).error("doesn't contain").valueFirstLinesOnly(expected));
     }
 }

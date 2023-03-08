@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,15 +17,19 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.stream.Stream;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+
 public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware {
     private CompareToComparator comparator;
+    private CompareToHandler handler;
+
     private final Object expected;
 
     public NotEqualMatcher(Object expected) {
@@ -32,49 +37,49 @@ public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String matchingMessage() {
-        return "to not equal " + DataRenderers.render(expected);
+    public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        comparator = CompareToComparator.comparator();
+        handler = CompareToComparator.findCompareToEqualHandler(actual, expected);
+
+        return tokenizedMessage().matcher("to not equal").valueFirstLinesOnly(handler.convertedExpected(actual, expected));
     }
 
     @Override
-    public String matchedMessage(ValuePath actualPath, Object actual) {
-        return "doesn't equal " + DataRenderers.render(expected) + "\n" +
-                comparator.generateNotEqualMatchReport();
+    public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("doesn't equal").valueFirstLinesOnly(expected);
     }
 
     @Override
-    public String mismatchedMessage(ValuePath actualPath, Object actual) {
-        return "equals " + DataRenderers.render(expected) + ", but shouldn't\n" +
-                comparator.generateNotEqualMismatchReport();
+    public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return comparator.generateNotEqualMismatchReport();
     }
 
     @Override
     public boolean matches(ValuePath actualPath, Object actual) {
+        return comparator.compareIsNotEqual(handler, actualPath, actual, expected);
+    }
+
+    @Override
+    public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
         comparator = CompareToComparator.comparator();
-        return comparator.compareIsNotEqual(actualPath, actual, expected);
+        handler = CompareToComparator.findCompareToEqualHandler(actual, expected);
+
+        return tokenizedMessage().matcher("to equal").valueFirstLinesOnly(handler.convertedExpected(actual, expected));
     }
 
     @Override
-    public String negativeMatchingMessage() {
-        return "to equal " + DataRenderers.render(expected);
+    public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("equals").valueFirstLinesOnly(expected);
     }
 
     @Override
-    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
-        return "equals " + DataRenderers.render(expected) + "\n" +
-                comparator.generateEqualMatchReport();
-    }
-
-    @Override
-    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-        return "doesn't equal " + DataRenderers.render(expected) + ", but should\n" +
-                comparator.generateEqualMismatchReport();
+    public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return comparator.generateEqualMismatchReport();
     }
 
     @Override
     public boolean negativeMatches(ValuePath actualPath, Object actual) {
-        comparator = CompareToComparator.comparator();
-        return comparator.compareIsEqual(actualPath, actual, expected);
+        return comparator.compareIsEqual(handler, actualPath, actual, expected);
     }
 
     @Override

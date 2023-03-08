@@ -21,22 +21,21 @@ import org.junit.After
 import org.junit.Before
 import org.testingisdocumenting.webtau.TestFile
 import org.testingisdocumenting.webtau.reporter.ConsoleStepReporter
-import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.TestListener
 import org.testingisdocumenting.webtau.TestListeners
 import org.junit.Test
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage
+import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter
 import org.testingisdocumenting.webtau.reporter.WebTauStep
 
 import java.nio.file.Paths
 
 import static org.testingisdocumenting.webtau.WebTauCore.contain
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.none
 
 class StandaloneTestRunnerTest {
-    final StepReporter stepReporter = new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(),
+    final StepReporter stepReporter = new ConsoleStepReporter(TokenizedMessageToAnsiConverter.DEFAULT,
             () -> Integer.MAX_VALUE)
 
     @Before
@@ -68,10 +67,7 @@ class StandaloneTestRunnerTest {
 
         runner.tests[1].hasError().should == false
         runner.tests[1].isFailed().should == true
-        runner.tests[1].assertionMessage.should == "\nmismatches:\n" +
-                "\n" +
-                "[value]:   actual: 10 <java.lang.Integer>\n" +
-                "         expected: 11 <java.lang.Integer>"
+        runner.tests[1].assertionMessage.should == "see the failed assertion details above"
 
         runner.tests[2].hasError().should == false
         runner.tests[2].isFailed().should == false

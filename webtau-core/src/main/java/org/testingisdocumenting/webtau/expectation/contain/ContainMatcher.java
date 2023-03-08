@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,8 +21,12 @@ import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
+import java.util.Set;
 import java.util.stream.Stream;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
     private ContainAnalyzer containAnalyzer;
@@ -33,19 +38,28 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String matchingMessage() {
-        return "to contain " + DataRenderers.render(expected);
+    public Set<ValuePath> matchedPaths() {
+        return containAnalyzer.generateMatchPaths();
     }
 
     @Override
-    public String matchedMessage(ValuePath actualPath, Object actual) {
-        return "contains " + DataRenderers.render(expected);
+    public Set<ValuePath> mismatchedPaths() {
+        return containAnalyzer.generateMismatchPaths();
     }
 
     @Override
-    public String mismatchedMessage(ValuePath actualPath, Object actual) {
-        return actualPath + " expects to contain " + DataRenderers.render(expected) + "\n" +
-                containAnalyzer.generateMismatchReport();
+    public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("to contain").valueFirstLinesOnly(expected);
+    }
+
+    @Override
+    public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("contains").value(expected);
+    }
+
+    @Override
+    public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().error("no match found");
     }
 
     @Override
@@ -54,23 +68,22 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
         isNegative = false;
 
         containAnalyzer.contains(actualPath, actual, expected);
-        return containAnalyzer.hasMismatches();
+        return containAnalyzer.noMismatches();
     }
 
     @Override
-    public String negativeMatchingMessage() {
-        return "to not contain " + DataRenderers.render(expected);
+    public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("to").classifier("not").matcher("contain").valueFirstLinesOnly(expected);
     }
 
     @Override
-    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
-        return "does not contain " + DataRenderers.render(expected);
+    public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("does not contain").value(expected);
     }
 
     @Override
-    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-        return actualPath + " expects to not contain " + DataRenderers.render(expected) + "\n" +
-                containAnalyzer.generateMismatchReport();
+    public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return containAnalyzer.generateMatchReport();
     }
 
     @Override
@@ -79,7 +92,7 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
         isNegative = true;
 
         containAnalyzer.notContains(actualPath, actual, expected);
-        return containAnalyzer.hasMismatches();
+        return containAnalyzer.noMatches();
     }
 
     @Override

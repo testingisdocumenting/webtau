@@ -1,0 +1,1 @@
+* Doc: move [trace](report/tracing) and [warning](report/warnings) to their own documentation pages and document import prerequisites

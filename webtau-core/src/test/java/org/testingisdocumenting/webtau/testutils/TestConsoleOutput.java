@@ -16,7 +16,6 @@
 
 package org.testingisdocumenting.webtau.testutils;
 
-import org.junit.Assert;
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
 import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString;
@@ -55,36 +54,75 @@ public class TestConsoleOutput implements ConsoleOutput {
     public void err(Object... styleOrValues) {
     }
 
-    public static TestConsoleOutput runAndValidateOutput(String expectedOutput, Runnable code) {
+    public static String replaceTimeAndPort(String original) {
+        return original.replaceAll("\\d+ms", "Xms")
+                .replaceAll("localhost:\\d+", "localhost:port");
+    }
+
+    public static TestConsoleOutput runAndValidateOutput(Object expectedOutput, Runnable code) {
+        return runExpectExceptionAndValidateOutput(null, expectedOutput, code);
+    }
+
+    public static TestConsoleOutput runExpectExceptionAndValidateOutput(Class<?> expectedException, Object expectedOutput, Runnable code) {
         TestConsoleOutput testOutput = new TestConsoleOutput();
 
         ConsoleOutputs.add(ConsoleOutputs.defaultOutput);
         StepReporters.add(StepReporters.defaultStepReporter);
         try {
-            ConsoleOutputs.withAdditionalOutput(testOutput, () -> {
+            OutputAndCaughtException outputAndCaughtException = ConsoleOutputs.withAdditionalOutput(testOutput, () -> {
+                Throwable caughtException = null;
                 try {
                     code.run();
-                } catch (AssertionError ignored) {
+                } catch (Throwable e) {
+                    caughtException = e;
                 }
-                return null;
+
+                String output = replaceTimeAndPort(testOutput.getNoColorOutput());
+                return new OutputAndCaughtException(output, caughtException);
             });
+
+            if (expectedException != null) {
+                actual(outputAndCaughtException.caughtException != null ?
+                        outputAndCaughtException.caughtException.getClass() : null,
+                        "caught exception").should(equal(expectedException));
+            } else if (outputAndCaughtException.caughtException != null) {
+                throw new AssertionError("expected no exception, but caught: " + outputAndCaughtException.caughtException);
+            }
+
+            actual(outputAndCaughtException.output, "output").should(equal(expectedOutput));
         } finally {
             StepReporters.remove(StepReporters.defaultStepReporter);
             ConsoleOutputs.remove(ConsoleOutputs.defaultOutput);
         }
-
-        String output = replaceTime(testOutput.getNoColorOutput());
-        Assert.assertEquals(expectedOutput, output);
 
         return testOutput;
     }
 
     public static void runCaptureAndValidateOutput(String artifactName, String expectedOutput, Runnable code) {
         TestConsoleOutput testConsoleOutput = runAndValidateOutput(expectedOutput, code);
+
+        ConsoleOutputs.add(ConsoleOutputs.defaultOutput);
+        StepReporters.add(StepReporters.defaultStepReporter);
+        try {
+            doc.capture(artifactName, testConsoleOutput.getColorOutput());
+        } finally {
+            StepReporters.remove(StepReporters.defaultStepReporter);
+            ConsoleOutputs.remove(ConsoleOutputs.defaultOutput);
+        }
+    }
+
+    public static void runExpectExceptionCaptureAndValidateOutput(Class<?> expectedException, String artifactName, String expectedOutput, Runnable code) {
+        TestConsoleOutput testConsoleOutput = runExpectExceptionAndValidateOutput(expectedException, expectedOutput, code);
         doc.capture(artifactName, testConsoleOutput.getColorOutput());
     }
 
-    private static String replaceTime(String original) {
-        return original.replaceAll("\\d+ms", "Xms");
+    private static class OutputAndCaughtException {
+        private final String output;
+        private final Throwable caughtException;
+
+        public OutputAndCaughtException(String output, Throwable caughtException) {
+            this.output = output;
+            this.caughtException = caughtException;
+        }
     }
 }

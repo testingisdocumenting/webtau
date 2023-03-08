@@ -31,9 +31,8 @@ import java.nio.file.Paths;
 import java.util.*;
 
 import static java.util.stream.Collectors.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class BrowserDocumentation {
     private final List<ImageAnnotation> annotations;
@@ -96,10 +95,8 @@ public class BrowserDocumentation {
 
     public void capture(String screenshotName) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(classifier("documentation"), action("capturing"), classifier("screenshot"),
-                        AS, urlValue(screenshotName)),
-                (path) -> tokenizedMessage(classifier("documentation"), action("captured"), classifier("screenshot")
-                        , AS, urlValue(((Path) path).toAbsolutePath())),
+                tokenizedMessage().classifier("documentation").action("capturing").classifier("screenshot").as().url(screenshotName),
+                (path) -> tokenizedMessage().classifier("documentation").action("captured").classifier("screenshot").as().url(((Path) path).toAbsolutePath()),
                 () -> {
                     Number pixelRatio = detectPixelRatio();
 

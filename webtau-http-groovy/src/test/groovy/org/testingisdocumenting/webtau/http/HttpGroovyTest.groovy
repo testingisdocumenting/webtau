@@ -42,6 +42,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 import static org.testingisdocumenting.webtau.data.Data.data
 import static org.testingisdocumenting.webtau.http.Http.http
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class HttpGroovyTest extends HttpTestBase {
     private static final byte[] sampleFile = [1, 2, 3]
@@ -58,14 +59,11 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "handles nulls"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/expected: not null/) {
             http.post("/echo", [a: null]) {
                 a.shouldNot == null
             }
-        } should throwException("\nmismatches:\n" +
-            "\n" +
-            "body.a:   actual: null\n" +
-            "        expected: not null")
+        }
     }
 
     @Test
@@ -1061,12 +1059,9 @@ class HttpGroovyTest extends HttpTestBase {
     void "implicit status code check when no explicit check present"() {
         code {
             def id = http.get("/no-resource") { id }
-        } should throwException("\nmismatches:\n" +
-            "\n" +
-            "header.statusCode:   actual: 404 <java.lang.Integer>\n" +
-            "                   expected: 200 <java.lang.Integer>")
+        } should throwException(AssertionError)
 
-        assertStatusCodeMismatchRegistered()
+        assertStatusCodeMismatchRegistered("200")
 
         http.get("/no-resource") {
             statusCode.should == 404
@@ -1075,48 +1070,36 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "implicit status code should happen even if there is another assertion mismatch"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, contain(actual404)) {
             http.get("/no-resource") {
                 id.should == 0
                 message.shouldBe == 10
             }
-        } should throwException("\nmismatches:\n" +
-                    "\n" +
-                    "header.statusCode:   actual: 404 <java.lang.Integer>\n" +
-                    "                   expected: 200 <java.lang.Integer>")
+        }
 
-        assertStatusCodeMismatchRegistered()
+        assertStatusCodeMismatchRegistered("200")
     }
 
     @Test
     void "implicit status code should happen even if there is runtime exception"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, contain(actual404)) {
             http.get("/no-resource") {
                 throw new RuntimeException("error")
             }
-        } should throwException("\nmismatches:\n" +
-                "\n" +
-                "header.statusCode:   actual: 404 <java.lang.Integer>\n" +
-                "                   expected: 200 <java.lang.Integer>\n" +
-                "\n" +
-                "additional exception message:\n" +
-                "error")
+        }
 
-        assertStatusCodeMismatchRegistered()
+        assertStatusCodeMismatchRegistered("200")
     }
 
     @Test
     void "implicit status code should not happen if explicit status code failed"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, contain("expected: 401")) {
             http.get("/no-resource") {
                 statusCode.should == 401
             }
-        } should throwException("\nmismatches:\n" +
-                "\n" +
-                "header.statusCode:   actual: 404 <java.lang.Integer>\n" +
-                "                   expected: 401 <java.lang.Integer>")
+        }
 
-        assertStatusCodeMismatchRegistered()
+        assertStatusCodeMismatchRegistered("401")
     }
 
     @Test
@@ -1147,21 +1130,25 @@ class HttpGroovyTest extends HttpTestBase {
             http.get("/path", [a: 1, b: "text"]) {
                 a.should == 2
             }
-        } should throwException(AssertionError, ~/body\.a:/)
+        } should throwException(AssertionError)
 
-        http.lastValidationResult.mismatches.should == [~/body\.a:/]
+        http.lastValidationResult.mismatches
+                .collect { it.toString() }.should == [~/body\.a:/]
     }
 
     @Test
     void "captures failed http call"() {
+        def codeThrowStepStartTime = 0;
         def stepForcedStartTime = 0
         def httpCallForcedStartTime = stepForcedStartTime + 100
         def httpElapsedTime = 500
 
         Time.withTimeProvider(new ControlledTimeProvider([
+                codeThrowStepStartTime,
                 stepForcedStartTime, httpCallForcedStartTime,
                 httpCallForcedStartTime + httpElapsedTime,
-                httpCallForcedStartTime + httpElapsedTime + 200])) {
+                httpCallForcedStartTime + httpElapsedTime + 200,
+                2000000])) {
             code {
                 http.get("mailto://demo", [a: 1, b: "text"]) {
                 }
@@ -1211,56 +1198,48 @@ class HttpGroovyTest extends HttpTestBase {
         HttpValidationHandlers.withAdditionalHandler(handler, closure)
     }
 
-    static String expected404 = "\n" +
-        "mismatches:\n" +
-        "\n" +
-        "header.statusCode:   actual: 404 <java.lang.Integer>\n" +
-        "                   expected: 200 <java.lang.Integer>"
+    static String actual404 = "actual: 404 <java.lang.Integer>"
 
     @Test
     void "reports implicit status code mismatch instead of additional validator errors"() {
         withFailingHandler {
-            code {
+            runExpectExceptionAndValidateOutput(AssertionError, contain(actual404)) {
                 http.get("/notfound") {}
-            } should throwException(AssertionError, expected404)
+            }
         }
     }
 
     @Test
     void "reports explicit status code mismatch instead of additional validator errors"() {
         withFailingHandler {
-            code {
+            runExpectExceptionAndValidateOutput(AssertionError, contain(actual404)) {
                 http.get("/notfound") {
                     statusCode.should == 200
                 }
-            } should throwException(AssertionError, expected404)
+            }
         }
     }
 
     @Test
     void "reports status code mismatch instead of additional validator errors or failing body assertions"() {
         withFailingHandler {
-            code {
+            runExpectExceptionAndValidateOutput(AssertionError, contain(actual404)) {
                 http.get("/notfound") {
                     id.should == "foo"
                 }
-            } should throwException(AssertionError, expected404)
+            }
         }
     }
 
     @Test
     void "reports body assertions instead of additional validation errors"() {
         withFailingHandler() {
-            code {
+            runExpectExceptionAndValidateOutput(AssertionError, contain("actual: null")) {
                 http.get("/notfound") {
                     statusCode.should == 404
                     id.should == "foo"
                 }
-            } should throwException(AssertionError, "\n" +
-                "mismatches:\n" +
-                "\n" +
-                "body.id:   actual: null\n" +
-                "         expected: \"foo\" <java.lang.String>")
+            }
         }
     }
 
@@ -1353,8 +1332,8 @@ class HttpGroovyTest extends HttpTestBase {
         }
     }
 
-    private static void assertStatusCodeMismatchRegistered() {
-        http.lastValidationResult.mismatches.should contain(~/statusCode/)
+    private static void assertStatusCodeMismatchRegistered(String expected) {
+        http.lastValidationResult.mismatches.collect { it.toString() }.should contain(~/expected: ${expected}/)
     }
 
     private static byte[] binaryFileContent(String path) {

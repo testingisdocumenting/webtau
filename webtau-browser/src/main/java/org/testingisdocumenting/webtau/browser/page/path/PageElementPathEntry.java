@@ -24,8 +24,6 @@ import org.openqa.selenium.WebElement;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.COMMA;
-
 class PageElementPathEntry {
     private final PageElementsFinder finder;
     private List<PageElementsFilter> filters;
@@ -69,10 +67,7 @@ class PageElementPathEntry {
      */
     public TokenizedMessage description(boolean isFirst) {
         TokenizedMessage description = finder.description(isFirst);
-        filters.forEach((f) -> {
-            description.add(COMMA);
-            description.add(f.description());
-        });
+        filters.forEach((f) -> description.comma().add(f.description()));
 
         return description;
     }

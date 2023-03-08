@@ -19,10 +19,14 @@ package org.testingisdocumenting.webtau.http.datanode
 
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
+import static org.testingisdocumenting.webtau.Matchers.actual
+import static org.testingisdocumenting.webtau.Matchers.equal
 import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.ExplicitPassed
 import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.None
 import static org.junit.Assert.assertEquals
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class DataNodeCompareToHandlerTest {
     @Test
@@ -76,13 +80,15 @@ class DataNodeCompareToHandlerTest {
 
     @Test
     void "should handle comparison between structured node and string"() {
-        def comparator = CompareToComparator.comparator()
         def node = DataNodeBuilder.fromMap(new DataNodeId('node'), [node: [k1: 'v1', k2: 'v2']])
 
-        assert comparator.compareIsNotEqual(node.actualPath(), node, "hello")
-        comparator.generateNotEqualMatchReport().should ==
-            'node:   actual: [{k1: v1, k2: v2}] <java.util.Collections.UnmodifiableCollection>\n' +
-            '      expected: not "hello" <java.lang.String>'
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting node to equal "hello":\n' +
+                '      actual: [{"k1": "v1", "k2": "v2"}] <java.util.Collections.UnmodifiableCollection>\n' +
+                '    expected: "hello" <java.lang.String> (Xms)\n' +
+                '  \n' +
+                '  {"node": {"k1": "v1", "k2": "v2"}}') {
+            node.should(equal("hello"))
+        }
     }
 
     @Test
@@ -91,8 +97,8 @@ class DataNodeCompareToHandlerTest {
         def node = DataNodeBuilder.fromMap(new DataNodeId('node'), [node: [k1: 'v1', k2: 'v2']])
 
         assert comparator.compareIsNotEqual(node.actualPath(), node, null)
-        comparator.generateNotEqualMatchReport().should ==
-            'node:   actual: [{k1: v1, k2: v2}] <java.util.Collections.UnmodifiableCollection>\n' +
-            '      expected: not null'
+        comparator.generateNotEqualMatchReport().toString().should ==
+                '  actual: [{"k1": "v1", "k2": "v2"}] <java.util.Collections.UnmodifiableCollection>\n' +
+                'expected: not null'
     }
 }

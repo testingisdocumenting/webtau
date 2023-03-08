@@ -33,6 +33,8 @@
 
 .step > .message-parts > .show-children {
     background-color: var(--webtau-background-color);
+    color: var(--webtau-text-color);
+
     margin-left: var(--webtau-spacing-double);
     padding: 0 var(--webtau-spacing-half);
 
@@ -42,4 +44,10 @@
 .step > .message-parts > .step-time {
     color: var(--webtau-text-color);
     justify-self: end;
+    align-self: start;
+}
+
+.webtau-step-input-pretty-print {
+    margin-top: var(--webtau-spacing);
+    margin-left: var(--webtau-spacing);
 }

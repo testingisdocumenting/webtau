@@ -17,11 +17,10 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
-import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
 
-import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.junit.Assert.assertEquals
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class StringCompareToHandlerTest {
     @Test
@@ -53,169 +52,148 @@ class StringCompareToHandlerTest {
 
     @Test
     void "reports types before conversion to string in case of failure"() {
-        def comparator = CompareToComparator.comparator()
-        comparator.compareIsEqual(createActualPath('text'), Character.valueOf('t'.toCharArray()[0]), 'b')
-
-        assertEquals('mismatches:\n' +
-                '\n' +
-                'text:   actual: "t" <java.lang.String>(before conversion: t <java.lang.Character>)\n' +
-                '      expected: "b" <java.lang.String>\n' +
-                '                 ^',
-                comparator.generateEqualMismatchReport())
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal "b":\n' +
+                '      actual: "t" <java.lang.String> (before conversion: t <java.lang.Character>)\n' +
+                '    expected: "b" <java.lang.String>\n' +
+                '               ^ (Xms)') {
+            actual(Character.valueOf('t'.toCharArray()[0]), "text").should(equal('b'))
+        }
     }
 
     @Test
     void "shows caret indicator for first mismatch of a one line strings"() {
-        def comparator = CompareToComparator.comparator()
-        comparator.compareIsEqual(createActualPath('text'), 'hello world', 'herlo world')
-
-        assertEquals('mismatches:\n' +
-                '\n' +
-                'text:   actual: "hello world" <java.lang.String>\n' +
-                '      expected: "herlo world" <java.lang.String>\n' +
-                '                   ^',
-                comparator.generateEqualMismatchReport())
+        runExpectExceptionAndValidateOutput(AssertionError,
+                'X failed expecting text to equal "herlo world":\n' +
+                '      actual: "hello world" <java.lang.String>\n' +
+                '    expected: "herlo world" <java.lang.String>\n' +
+                '                 ^ (Xms)') {
+            actual('hello world', 'text').should(equal('herlo world'))
+        }
     }
 
     @Test
-    void "shows caret indicator for first match of a one line strings"() {
-        def comparator = CompareToComparator.comparator()
-        comparator.compareIsNotEqual(createActualPath('text'), 'hello world', 'herlo world')
-
-        assertEquals('mismatches:\n' +
-                '\n' +
-                'text:   actual:     "hello world" <java.lang.String>\n' +
-                '      expected: not "herlo world" <java.lang.String>\n' +
-                '                       ^',
-                comparator.generateEqualMismatchReport())
+    void "does not shows caret when strings match but not supposed to"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to not equal "hello world":\n' +
+                '      actual:     "hello world" <java.lang.String>\n' +
+                '    expected: not "hello world" <java.lang.String> (Xms)') {
+            actual('hello world', 'text').shouldNot(equal('hello world'))
+        }
     }
 
     @Test
     void "renders multiline strings in blocks"() {
-        def comparator = CompareToComparator.comparator()
-        comparator.compareIsEqual(createActualPath('text'),
-                'hello world world\nhello again',
-                'hello world world\nhi again')
-
-        assertEquals('mismatches:\n' +
-                '\n' +
-                'text:   actual: <java.lang.String>\n' +
-                '      _________________\n' +
-                '      hello world world\n' +
-                '      hello again\n' +
-                '      _________________\n' +
-                '      \n' +
-                '      expected: <java.lang.String>\n' +
-                '      _________________\n' +
-                '      hello world world\n' +
-                '      hi again\n' +
-                '      _________________\n' +
-                '      \n' +
-                '      first mismatch at line idx 1:\n' +
-                '        actual: hello again\n' +
-                '      expected: hi again\n' +
-                '                 ^',
-                comparator.generateEqualMismatchReport())
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal _________________\n' +
+                '                                 hello world world\n' +
+                '                                 hi again\n' +
+                '                                 _________________:\n' +
+                '    first mismatch at line idx 1:\n' +
+                '      actual: "hello again"\n' +
+                '    expected: "hi again"\n' +
+                '                ^ (Xms)\n' +
+                '  \n' +
+                '    _________________\n' +
+                '    hello world world\n' +
+                '  **hello again**\n' +
+                '    _________________') {
+            actual("hello world world\nhello again", "text").should(equal('hello world world\nhi again'))
+        }
     }
 
     @Test
     void "properly handles new line symbol at the end of a single line"() {
-        def comparator = CompareToComparator.comparator()
-        comparator.compareIsEqual(createActualPath('text'),
-                'single line\n',
-                'single lone\n')
-
-        assertEquals('mismatches:\n' +
-                '\n' +
-                'text:   actual: <java.lang.String>\n' +
-                '      ___________\n' +
-                '      single line\n' +
-                '      \n' +
-                '      ___________\n' +
-                '      \n' +
-                '      expected: <java.lang.String>\n' +
-                '      ___________\n' +
-                '      single lone\n' +
-                '      \n' +
-                '      ___________\n' +
-                '      \n' +
-                '      first mismatch at line idx 0:\n' +
-                '        actual: single line\n' +
-                '      expected: single lone\n' +
-                '                        ^', comparator.generateEqualMismatchReport())
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal ___________\n' +
+                '                                 single lone\n' +
+                '                                 \n' +
+                '                                 ___________:\n' +
+                '    first mismatch at line idx 0:\n' +
+                '      actual: "single line"\n' +
+                '    expected: "single lone"\n' +
+                '                       ^ (Xms)\n' +
+                '  \n' +
+                '    ___________\n' +
+                '  **single line**\n' +
+                '    \n' +
+                '    ___________') {
+            actual('single line\n', 'text').should(equal('single lone\n'))
+        }
     }
 
     @Test
     void "properly handles multiple new line symbols at the end of a single line"() {
-        def comparator = CompareToComparator.comparator()
-        comparator.compareIsEqual(createActualPath('text'),
-                'single line\n\n\n',
-                'single lone\n\n\n')
-
-        assertEquals('mismatches:\n' +
-                '\n' +
-                'text:   actual: <java.lang.String>\n' +
-                '      ___________\n' +
-                '      single line\n' +
-                '      \n' +
-                '      \n' +
-                '      \n' +
-                '      ___________\n' +
-                '      \n' +
-                '      expected: <java.lang.String>\n' +
-                '      ___________\n' +
-                '      single lone\n' +
-                '      \n' +
-                '      \n' +
-                '      \n' +
-                '      ___________\n' +
-                '      \n' +
-                '      first mismatch at line idx 0:\n' +
-                '        actual: single line\n' +
-                '      expected: single lone\n' +
-                '                        ^', comparator.generateEqualMismatchReport())
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal ___________\n' +
+                '                                 single lone\n' +
+                '                                 \n' +
+                '                                 \n' +
+                '                                 \n' +
+                '                                 ...:\n' +
+                '    first mismatch at line idx 0:\n' +
+                '      actual: "single line"\n' +
+                '    expected: "single lone"\n' +
+                '                       ^ (Xms)\n' +
+                '  \n' +
+                '    ___________\n' +
+                '  **single line**\n' +
+                '    \n' +
+                '    \n' +
+                '    \n' +
+                '    ___________') {
+            actual('single line\n\n\n', 'text').should(equal('single lone\n\n\n'))
+        }
     }
 
     @Test
     void "reports different number of lines"() {
-        def comparator = CompareToComparator.comparator()
-        comparator.compareIsEqual(createActualPath('text'),
-                '\nhello world world\nhello again',
-                'hello world world\nhi again')
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal _________________\n' +
+                '                                 hello world world\n' +
+                '                                 hi again\n' +
+                '                                 _________________:\n' +
+                '    different number of lines, expected: 3 actual: 2\n' +
+                '    first mismatch at line idx 0:\n' +
+                '      actual: ""\n' +
+                '    expected: "hello world world"\n' +
+                '               ^ (Xms)\n' +
+                '  \n' +
+                '    _________________\n' +
+                '  ****\n' +
+                '    hello world world\n' +
+                '    hello again\n' +
+                '    _________________') {
+            actual('\nhello world world\nhello again', 'text').should(equal('hello world world\nhi again'))
+        }
+    }
 
-        assertEquals('mismatches:\n' +
-                '\n' +
-                'text: different number of lines, expected: 2, actual: 3\n' +
-                '        actual: <java.lang.String>\n' +
-                '      _________________\n' +
-                '      \n' +
-                '      hello world world\n' +
-                '      hello again\n' +
-                '      _________________\n' +
-                '      \n' +
-                '      expected: <java.lang.String>\n' +
-                '      _________________\n' +
-                '      hello world world\n' +
-                '      hi again\n' +
-                '      _________________\n' +
-                '      \n' +
-                '      first mismatch at line idx 0:\n' +
-                '        actual: \n' +
-                '      expected: hello world world\n' +
-                '                ^',
-                comparator.generateEqualMismatchReport())
+    @Test
+    void "multiple lines as actual and single line expected"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal "word":\n' +
+                '    different number of lines, expected: 2 actual: 1\n' +
+                '    first mismatch at line idx 0:\n' +
+                '      actual: "hello world world"\n' +
+                '    expected: "word"\n' +
+                '               ^ (Xms)\n' +
+                '  \n' +
+                '    _________________\n' +
+                '  **hello world world**\n' +
+                '    hello again\n' +
+                '    _________________') {
+            actual('hello world world\nhello again', 'text').should(equal('word'))
+        }
     }
 
     @Test
     void "reports different line ending"() {
-        def comparator = CompareToComparator.comparator()
-        comparator.compareIsEqual(createActualPath('text'),
-                'hello world world\n\rhello again',
-                'hello world world\nhello again')
-
-        assertEquals('mismatches:\n' +
-                '\n' +
-                'text: different line endings, expected doesn\'t contain \\r, but actual does',
-                comparator.generateEqualMismatchReport())
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal _________________\n' +
+                '                                 hello world world\n' +
+                '                                 hello again\n' +
+                '                                 _________________:\n' +
+                '    different line endings:\n' +
+                '      actual: contains \\r\n' +
+                '    expected: doesn\'t contain \\r (Xms)\n' +
+                '  \n' +
+                '  **_________________**\n' +
+                '    hello world world\n' +
+                '    hello again\n' +
+                '  **_________________**') {
+            actual('hello world world\n\rhello again', 'text').should(equal('hello world world\nhello again'))
+        }
     }
 }

@@ -33,7 +33,7 @@ public class DocumentationArtifacts {
     public static void registerName(String artifactName) {
         Boolean previous = usedArtifactNames.put(artifactName, true);
         if (previous != null) {
-            throw new AssertionError("doc artifact name <" + artifactName + "> was already used");
+            throw new DocumentationDuplicateArtifactNameException(artifactName);
         }
     }
 

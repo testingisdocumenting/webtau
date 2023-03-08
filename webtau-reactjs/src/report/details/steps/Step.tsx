@@ -19,12 +19,14 @@ import React, { useState } from 'react';
 
 import { Card } from '../../widgets/Card';
 
-import { StepMessage } from './StepMessage';
+import { TokenizedMessage } from './TokenizedMessage';
 import { StepTime } from './StepTime';
 
 import { WebTauStep, WebTauStepInput, WebTauStepOutput } from '../../WebTauTest';
 
 import { StepInputOutputKeyValue } from './StepInputOutputKeyValue';
+
+import { StyledText } from './StyledText';
 
 import './Step.css';
 
@@ -34,7 +36,7 @@ interface Props {
 }
 
 export function Step({ step, isTopLevel }: Props) {
-  const [collapsed, setCollapsed] = useState(true);
+  const [collapsed, setCollapsed] = useState(step.isSuccessful);
 
   const children = step.children ? step.children.map((c, idx) => <Step key={idx} step={c} />) : null;
 
@@ -44,24 +46,48 @@ export function Step({ step, isTopLevel }: Props) {
       <div className="message-parts">
         {step.personaId ? <div className="persona-id">{step.personaId}</div> : <div />}
 
-        <StepMessage message={step.message} />
+        <TokenizedMessage message={step.message} />
         {renderMoreToggle()}
         <StepTime millis={step.elapsedTime} />
       </div>
 
-      {(step.input || step.output) && renderStepInputOutput(step.input, step.output)}
+      {step.exceptionTokenizedMessage && !hasFailedChildren() && (
+        <pre className="message-parts">
+          <TokenizedMessage message={step.exceptionTokenizedMessage} />
+        </pre>
+      )}
+
+      {(step.input || step.output) && renderStepInputOutputKeyValue(step.input, step.output)}
+      {step.input && renderStepInput(step.input)}
+      {step.output && renderStepOutput(step.output)}
 
       {children && !collapsed && <div className="steps-children">{children}</div>}
     </ParentContainer>
   );
 
-  function renderStepInputOutput(input?: WebTauStepInput, output?: WebTauStepOutput) {
+  function renderStepInputOutputKeyValue(input?: WebTauStepInput, output?: WebTauStepOutput) {
     const isInputKeyValue = input?.type === 'WebTauStepInputKeyValue';
     const isOutputKeyValue = output?.type === 'WebTauStepOutputKeyValue';
     if (isInputKeyValue || isOutputKeyValue) {
       const inputData = isInputKeyValue ? input?.data : {};
       const outputData = isOutputKeyValue ? output?.data : {};
       return <StepInputOutputKeyValue inputData={inputData} outputData={outputData} />;
+    }
+  }
+
+  function renderStepInput(input: WebTauStepInput) {
+    if (input.type === 'WebTauStepInputPrettyPrint') {
+      return (
+        <div className="webtau-step-input-pretty-print">
+          <StyledText lines={input.data.styledText} />
+        </div>
+      );
+    }
+  }
+
+  function renderStepOutput(output: WebTauStepOutput) {
+    if (output.type === 'ValueMatcherStepOutput' || output.type === 'WebTauStepInputPrettyPrint') {
+      return <StyledText lines={output.data.styledText} />;
     }
   }
 
@@ -75,6 +101,10 @@ export function Step({ step, isTopLevel }: Props) {
         ...
       </div>
     );
+  }
+
+  function hasFailedChildren() {
+    return !!step.children && step.children.some((child) => child.exceptionTokenizedMessage);
   }
 
   function showChildren() {

@@ -24,19 +24,32 @@ import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import java.util.Collections;
 import java.util.Map;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createStep;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 public class Database {
+    private static final LabeledDataSourceCachedProvider primaryDataSourceProvider =
+            new LabeledDataSourceCachedProvider(
+                    () -> new LabeledDataSource("primary-db", DbDataSourceProviders.provideByName("primary")));
+
     private final LabeledDataSourceProvider dataSourceProvider;
+
+    public static final Database db = new Database(primaryDataSourceProvider);
 
     Database(LabeledDataSourceProvider dataSourceProvider) {
         this.dataSourceProvider = dataSourceProvider;
     }
 
+    public DbLabeledFromChain labeled(String label) {
+        return new DbLabeledFromChain(label);
+    }
+
+    public Database from(LabeledDataSourceProvider labeledDataSourceProvider) {
+        return new Database(labeledDataSourceProvider);
+    }
+
     public DatabaseTable table(String name) {
-        return new DatabaseTable(dataSourceProvider, name);
+        return new DatabaseTable(this, dataSourceProvider, name);
     }
 
     public DbQuery query(String query) {
@@ -86,13 +99,16 @@ public class Database {
         step.execute(StepReportOptions.REPORT_ALL);
     }
 
+    static void reset() {
+        primaryDataSourceProvider.reset();
+    }
+
     private TokenizedMessage updateMessage(String actionLabel,
                                            String query,
                                            Map<String, Object> params,
                                            Integer numberOfRows) {
         return appendParamsAndAffectedIfRequired(
-                tokenizedMessage(action(actionLabel), stringValue(query), ON,
-                        id(dataSourceProvider.provide().getLabel())),
+                tokenizedMessage().action(actionLabel).query(query).on().id(dataSourceProvider.provide().getLabel()),
                 params,
                 numberOfRows);
     }
@@ -101,11 +117,11 @@ public class Database {
                                                                Map<String, Object> params,
                                                                Integer numberOfRows) {
         if (!params.isEmpty()) {
-            message.add(WITH, stringValue(params));
+            message.with().string(params);
         }
 
         if (numberOfRows != null) {
-            message.add(action("affected"), numberValue(numberOfRows), classifier("rows"));
+            message.action("affected").number(numberOfRows).classifier("rows");
         }
 
         return message;

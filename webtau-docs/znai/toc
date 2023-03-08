@@ -57,12 +57,16 @@ database
     introduction
     data-setup
     data-query
+    spring-boot-example
     config
 report
     introduction
     steps
+    tracing
+    warnings
     configuration
     custom-reports
+    import-and-dependencies
 REPL
     experiments
     test-runs

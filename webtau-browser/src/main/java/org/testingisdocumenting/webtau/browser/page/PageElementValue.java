@@ -18,13 +18,12 @@
 package org.testingisdocumenting.webtau.browser.page;
 
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
-import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
-import org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter;
@@ -32,8 +31,6 @@ import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 /**
  * Live element value that can be matched or waited against
@@ -50,8 +47,7 @@ public class PageElementValue<E> implements ActualValueExpectations, ActualPathA
         this.parent = parent;
         this.name = name;
         this.valueFetcher = valueFetcher;
-        this.description = tokenizedMessage(
-                IntegrationTestsMessageBuilder.classifier(name)).add(OF).add(parent.describe());
+        this.description = tokenizedMessage().classifier(name).of().add(parent.describe());
     }
 
     public ActualPathAndDescriptionAware getParent() {
@@ -93,7 +89,6 @@ public class PageElementValue<E> implements ActualValueExpectations, ActualPathA
             return Stream.empty();
         }
 
-        TokenizedMessageToAnsiConverter toAnsiConverter = IntegrationTestsMessageBuilder.getConverter();
-        return Stream.concat(toAnsiConverter.convert(parent.describe()).stream(), Stream.of(" "));
+        return Stream.concat(TokenizedMessageToAnsiConverter.DEFAULT.convert(parent.describe(), 0).stream(), Stream.of(" "));
     }
 }

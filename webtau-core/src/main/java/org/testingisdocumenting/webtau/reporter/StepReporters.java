@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 
 import java.util.ArrayList;
@@ -27,8 +28,8 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 public class StepReporters {
-    public static final StepReporter defaultStepReporter =
-            new ConsoleStepReporter(IntegrationTestsMessageBuilder.getConverter(), () -> Integer.MAX_VALUE);
+    public static final ConsoleStepReporter defaultStepReporter =
+            new ConsoleStepReporter(TokenizedMessageToAnsiConverter.DEFAULT, () -> WebTauConfig.getCfg().getVerbosityLevel());
 
     private static final List<StepReporter> reporters = Collections.synchronizedList(
             ServiceLoaderUtils.load(StepReporter.class));
@@ -52,6 +53,10 @@ public class StepReporters {
 
     public static void remove(StepReporter reporter) {
         reporters.remove(reporter);
+    }
+
+    public static boolean isConsoleStepReporterActive() {
+        return StepReporters.getReportersStream().anyMatch(r -> r instanceof ConsoleStepReporter);
     }
 
     public static <R> R withAdditionalReporter(StepReporter reporter, Supplier<R> code) {

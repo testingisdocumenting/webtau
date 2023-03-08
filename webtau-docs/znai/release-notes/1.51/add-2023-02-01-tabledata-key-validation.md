@@ -1,0 +1,1 @@
+* Add: [TableData](reference/table-data) `findByKey` validation for keys presence and composite key size match

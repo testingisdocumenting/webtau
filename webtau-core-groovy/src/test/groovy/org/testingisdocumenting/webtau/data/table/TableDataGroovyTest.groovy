@@ -17,37 +17,15 @@
 
 package org.testingisdocumenting.webtau.data.table
 
-import org.junit.After
-import org.junit.Before
 import org.junit.Test
-import org.testingisdocumenting.webtau.console.ConsoleOutput
-import org.testingisdocumenting.webtau.console.ConsoleOutputs
-import org.testingisdocumenting.webtau.data.render.PrettyPrinter
 
 import java.time.LocalDate
 
+import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateAboveValue
-import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateAboveValueWithMath
-import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validatePermute
-import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validatePermuteAndGuid
-import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateSimpleTableData
-import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.validateSimpleTableDataAfterReplace
+import static org.testingisdocumenting.webtau.data.table.TableDataJavaTestValidations.*
 
-class TableDataGroovyTest implements ConsoleOutput {
-    private List<String> capturedOutLines = []
-
-    @Before
-    void init() {
-        capturedOutLines = []
-        ConsoleOutputs.add(this)
-    }
-
-    @After
-    void clean() {
-        ConsoleOutputs.remove(this)
-    }
-
+class TableDataGroovyTest {
     @Test
     void "should register header and values using pipes"() {
         def tableData = createTableWithUnderscore()
@@ -70,6 +48,36 @@ class TableDataGroovyTest implements ConsoleOutput {
         table.header.getNamesStream().should == ["hello", "world"]
         table.row(0).should == [hello: 12, world: 46]
         table.row(1).should == [hello: 54, world: null]
+    }
+
+    @Test
+    void "should create a new table by selecting rows by id"() {
+        def table = ["*id" | "description"] {
+                    __________________________
+                     "id1" | "description one"
+                     "id2" | "description two"
+                     "id3" | "description three" }
+
+        def newTable = table.fromRowsByKeys("id1", "id3")
+        newTable.should ==  ["*id" | "description"] {
+                            __________________________
+                             "id1" | "description one"
+                             "id3" | "description three" }
+    }
+
+    @Test
+    void "should create a new table by selecting rows by composite keys"() {
+        def table = ["*id1" | "*id2" | "description"] {
+                    _____________________________________
+                     "id11" | "id21" | "description one"
+                     "id21" | "id22" | "description two"
+                     "id31" | "id32" | "description three" }
+
+        def newTable = table.fromRowsByKeys(key("id11", "id21"), key("id31", "id32"))
+        newTable.should ==  ["*id1" | "*id2" | "description"] {
+                             _____________________________________
+                             "id11" | "id21" | "description one"
+                             "id31" | "id32" | "description three" }
     }
 
     @Test
@@ -113,8 +121,24 @@ class TableDataGroovyTest implements ConsoleOutput {
 
     @Test
     void "access by key column"() {
-        TableData tableData = createTableWithKeyColumns()
+        TableData tableData = createTableWithKeyColumn()
         findByKeyAndValidate(tableData)
+    }
+
+    @Test
+    void "should error when find by key without keys defined"() {
+        def table = createTableWithUnderscore()
+        code {
+            table.findByKey("id")
+        } should throwException("no key columns defined")
+    }
+
+    @Test
+    void "should error when find by key has different number of key parts"() {
+        def table = createTableWithMultipleKeyColumns()
+        code {
+            table.findByKey("id")
+        } should throwException("header has <2> key column(s) but provided key has <1>: [id1, id2]")
     }
 
     @Test
@@ -135,7 +159,7 @@ class TableDataGroovyTest implements ConsoleOutput {
 
     @Test
     void "should change key columns and validate uniqueness"() {
-        def tableData = createTableWithKeyColumns()
+        def tableData = createTableWithKeyColumn()
         code {
             changeKeyColumns(tableData)
         } should throwException("duplicate entry found with key: [N, T]\n" +
@@ -152,7 +176,7 @@ class TableDataGroovyTest implements ConsoleOutput {
     }
 
     private static void findByKeyAndValidate(TableData tableData) {
-        def found = tableData.find(key("id2"))
+        def found = tableData.findByKey("id2")
         found.Name.should == "N2"
     }
 
@@ -222,7 +246,7 @@ class TableDataGroovyTest implements ConsoleOutput {
          "Mike" | cell.above                | increment }
     }
 
-    static TableData createTableWithKeyColumns() {
+    static TableData createTableWithKeyColumn() {
         ["*id" | "Name" | "Type"] {
         ___________________________
          "id1" | "N"    | "T"
@@ -230,13 +254,11 @@ class TableDataGroovyTest implements ConsoleOutput {
          "id3" | "N"    | "T" }
     }
 
-    @Override
-    void out(Object... styleOrValues) {
-        capturedOutLines << styleOrValues.join("")
-    }
-
-    @Override
-    void err(Object... styleOrValues) {
-
+    static TableData createTableWithMultipleKeyColumns() {
+        ["*id1" | "*id2" | "Type"] {
+        ___________________________
+          "id1" | "sid1" | "T"
+          "id2" | "sid2" | "T2"
+          "id3" | "sid3" | "T" }
     }
 }

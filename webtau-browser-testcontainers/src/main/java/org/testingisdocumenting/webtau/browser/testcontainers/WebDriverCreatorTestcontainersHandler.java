@@ -26,8 +26,8 @@ import org.testcontainers.containers.BrowserWebDriverContainer;
 import org.testingisdocumenting.webtau.browser.BrowserConfig;
 import org.testingisdocumenting.webtau.browser.driver.WebDriverCreatorHandler;
 import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
-import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 
 import java.util.ArrayList;
@@ -36,8 +36,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
 
 public class WebDriverCreatorTestcontainersHandler implements WebDriverCreatorHandler {
@@ -53,15 +51,14 @@ public class WebDriverCreatorTestcontainersHandler implements WebDriverCreatorHa
 
         int port = BrowserConfig.getBaseUrlPort();
 
-        MessageToken testContainersToken = id("test containers");
-        MessageToken webDriverToken = classifier("webdriver");
+        TokenizedMessage testContainersId = tokenizedMessage().id("test containers");
+        TokenizedMessage webDriverClassifier = tokenizedMessage().classifier("webdriver");
 
-        WebTauStep step = createStep(tokenizedMessage(action("creating"), testContainersToken, webDriverToken),
-                () -> tokenizedMessage(action("created"), testContainersToken, webDriverToken),
+        WebTauStep step = createStep(tokenizedMessage().action("creating").add(testContainersId).add(webDriverClassifier),
+                () -> tokenizedMessage().action("created").add(testContainersId).add(webDriverClassifier),
                 () -> {
-                    step("expose test containers port", map("port", port), () -> {
-                        Testcontainers.exposeHostPorts(port);
-                    });
+                    step("expose test containers port", map("port", port),
+                            () -> Testcontainers.exposeHostPorts(port));
 
                     BrowserWebDriverContainer<?> seleniumContainer = step("start container", () -> {
                         BrowserWebDriverContainer<?> container = new BrowserWebDriverContainer<>()

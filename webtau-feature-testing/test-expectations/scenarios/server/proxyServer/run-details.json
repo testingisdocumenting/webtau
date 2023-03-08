@@ -27,7 +27,7 @@
     "scenario" : "slowed down proxy",
     "shortContainerId" : "proxyServer.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4,
+      "numberOfSuccessful" : 5,
       "numberOfFailed" : 1
     }
   }, {
@@ -46,7 +46,7 @@
     "scenario" : "proxy override and slow down",
     "shortContainerId" : "proxyServer.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 7,
+      "numberOfSuccessful" : 8,
       "numberOfFailed" : 1
     }
   }, {

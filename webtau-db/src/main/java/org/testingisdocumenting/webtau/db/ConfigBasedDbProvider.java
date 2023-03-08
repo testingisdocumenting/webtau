@@ -16,9 +16,6 @@
 
 package org.testingisdocumenting.webtau.db;
 
-import com.zaxxer.hikari.HikariConfig;
-import com.zaxxer.hikari.HikariDataSource;
-
 import javax.sql.DataSource;
 
 public class ConfigBasedDbProvider implements DbDataSourceProvider {
@@ -28,15 +25,9 @@ public class ConfigBasedDbProvider implements DbDataSourceProvider {
             return null;
         }
 
-        HikariConfig hikariConfig = new HikariConfig();
-        hikariConfig.setJdbcUrl(DbConfig.getDbPrimaryUrl());
-        hikariConfig.setUsername(DbConfig.getDbPrimaryUserName());
-        hikariConfig.setPassword(DbConfig.getDbPrimaryPassword());
-
-        if (!DbConfig.getDbPrimaryDriverClassName().isEmpty()) {
-            hikariConfig.setDriverClassName(DbConfig.getDbPrimaryDriverClassName());
-        }
-
-        return new HikariDataSource(hikariConfig);
+        return HikariDataSourceUtils.create(DbConfig.getDbPrimaryUrl(),
+                DbConfig.getDbPrimaryUserName(),
+                DbConfig.getDbPrimaryPassword(),
+                DbConfig.getDbPrimaryDriverClassName());
     }
 }

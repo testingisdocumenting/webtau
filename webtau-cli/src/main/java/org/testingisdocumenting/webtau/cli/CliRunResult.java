@@ -22,9 +22,7 @@ import org.testingisdocumenting.webtau.utils.RegexpUtils;
 
 import java.util.regex.Pattern;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.stringValue;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 public class CliRunResult {
     private final String command;
@@ -69,10 +67,10 @@ public class CliRunResult {
 
     private String extractFromSourceByRegexp(String sourceLabel, String source, Pattern regexp) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("extracting text"), classifier("by regexp"), stringValue(regexp),
-                        FROM, urlValue(command), classifier(sourceLabel)),
-                (r) -> tokenizedMessage(action("extracted text"), classifier("by regexp"), stringValue(regexp),
-                        FROM, urlValue(command), classifier(sourceLabel), COLON, stringValue(r)),
+                tokenizedMessage().action("extracting text").classifier("by regexp").string(regexp)
+                        .from().url(command).classifier(sourceLabel),
+                (r) -> tokenizedMessage().action("extracted text").classifier("by regexp").string(regexp)
+                        .from().url(command).classifier(sourceLabel).colon().string(r),
                 () -> extractByRegexpStepImpl(sourceLabel, source, regexp));
 
         return step.execute(StepReportOptions.SKIP_START);

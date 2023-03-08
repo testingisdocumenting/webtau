@@ -17,19 +17,22 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
-import org.testingisdocumenting.webtau.data.converters.ValueConverter;
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.Set;
 import java.util.stream.Stream;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     private CompareToComparator comparator;
     private final Object expected;
     private final ValueMatcher expectedMatcher;
+    private CompareToHandler handler;
 
     public EqualMatcher(Object expected) {
         this.expected = expected;
@@ -44,23 +47,26 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String matchingMessage() {
+    public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
-            return expectedMatcher.matchingMessage();
+            return expectedMatcher.matchingTokenizedMessage(actualPath, actual);
         }
 
-        return "to equal " + DataRenderers.render(expected);
+        comparator = CompareToComparator.comparator();
+        handler = CompareToComparator.findCompareToEqualHandler(actual, expected);
+
+        return tokenizedMessage().matcher("to equal").valueFirstLinesOnly(handler.convertedExpected(actual, expected));
     }
 
     @Override
-    public String matchedMessage(ValuePath actualPath, Object actual) {
+    public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
-            return expectedMatcher.matchedMessage(actualPath, actual);
+            return expectedMatcher.matchedTokenizedMessage(actualPath, actual);
         }
 
-        return "equals " + DataRenderers.render(expected) + "\n" +
-                comparator.generateEqualMatchReport();
+        return tokenizedMessage().matcher("equals").valueFirstLinesOnly(expected);
     }
+
 
     @Override
     public Set<ValuePath> matchedPaths() {
@@ -68,9 +74,9 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String mismatchedMessage(ValuePath actualPath, Object actual) {
+    public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
-            return expectedMatcher.mismatchedMessage(actualPath, actual);
+            return expectedMatcher.mismatchedTokenizedMessage(actualPath, actual);
         }
 
         return comparator.generateEqualMismatchReport();
@@ -87,33 +93,34 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.matches(actualPath, actual);
         }
 
+        return comparator.compareIsEqual(handler, actualPath, actual, expected);
+    }
+
+    @Override
+    public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        if (expectedMatcher != null) {
+            return expectedMatcher.negativeMatchingTokenizedMessage(actualPath, actual);
+        }
+
         comparator = CompareToComparator.comparator();
-        return comparator.compareIsEqual(actualPath, actual, expected);
+        handler = CompareToComparator.findCompareToEqualHandler(actual, expected);
+
+        return tokenizedMessage().matcher("to not equal").valueFirstLinesOnly(handler.convertedExpected(actual, expected));
     }
 
     @Override
-    public String negativeMatchingMessage() {
+    public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
-            return expectedMatcher.negativeMatchingMessage();
+            return expectedMatcher.negativeMatchedTokenizedMessage(actualPath, actual);
         }
 
-        return "to not equal " + DataRenderers.render(expected);
+        return tokenizedMessage().matcher("doesn't equal").valueFirstLinesOnly(expected);
     }
 
     @Override
-    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
+    public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
         if (expectedMatcher != null) {
-            return expectedMatcher.negativeMatchedMessage(actualPath, actual);
-        }
-
-        return "doesn't equal " + DataRenderers.render(expected) + "\n" +
-                comparator.generateNotEqualMatchReport();
-    }
-
-    @Override
-    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-        if (expectedMatcher != null) {
-            return expectedMatcher.negativeMismatchedMessage(actualPath, actual);
+            return expectedMatcher.negativeMismatchedTokenizedMessage(actualPath, actual);
         }
 
         return comparator.generateNotEqualMismatchReport();
@@ -125,7 +132,6 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.negativeMatches(actualPath, actual);
         }
 
-        comparator = CompareToComparator.comparator();
         return comparator.compareIsNotEqual(actualPath, actual, expected);
     }
 

@@ -1,1 +1,1 @@
-* Add: [warnings](report/steps#warnings) concept
+* Add: [warnings](report/warnings) concept

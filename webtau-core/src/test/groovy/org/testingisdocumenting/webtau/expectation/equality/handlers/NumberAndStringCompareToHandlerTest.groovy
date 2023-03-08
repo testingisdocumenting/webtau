@@ -18,8 +18,10 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class NumberAndStringCompareToHandlerTest {
     @Test
@@ -43,6 +45,17 @@ class NumberAndStringCompareToHandlerTest {
     void "automatically convert string to a number for greater-less comparison"() {
         actual("100.54").shouldBe(greaterThan(30))
         actual("${100}.54").should(equal(100.54))
+    }
+
+    @Test
+    void "failed string and number equal comparison"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal 100.64:\n' +
+                '      actual: 100.54 <java.math.BigDecimal> (before conversion: 100.54 <java.lang.Double>)\n' +
+                '    expected: 100.64 <java.math.BigDecimal> (before conversion: 100.64 <java.math.BigDecimal>) (Xms)\n' +
+                '  \n' +
+                '  **"100.54"**') {
+            actual("100.54").should(equal(100.64))
+        }
     }
 
     @Test

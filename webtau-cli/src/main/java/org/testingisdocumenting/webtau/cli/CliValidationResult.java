@@ -18,13 +18,15 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class CliValidationResult implements WebTauStepOutput {
     private final String command;
-    private final List<String> mismatches;
+    private final List<TokenizedMessage> mismatches;
 
     private CliExitCode exitCode;
     private CliOutput out;
@@ -96,11 +98,11 @@ public class CliValidationResult implements WebTauStepOutput {
         this.errorMessage = errorMessage;
     }
 
-    public void addMismatch(String message) {
+    public void addMismatch(TokenizedMessage message) {
         mismatches.add(message);
     }
 
-    public List<String> getMismatches() {
+    public List<TokenizedMessage> getMismatches() {
         return mismatches;
     }
 
@@ -124,7 +126,7 @@ public class CliValidationResult implements WebTauStepOutput {
         result.put("errMatches", err != null ? err.extractMatchedLines() : Collections.emptyList());
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
-        result.put("mismatches", mismatches);
+        result.put("mismatches", mismatches.stream().map(TokenizedMessage::toListOfMaps).collect(Collectors.toList()));
         result.put("errorMessage", errorMessage);
         result.put("config", config != null ?
                 config.createStepInput().toMap():

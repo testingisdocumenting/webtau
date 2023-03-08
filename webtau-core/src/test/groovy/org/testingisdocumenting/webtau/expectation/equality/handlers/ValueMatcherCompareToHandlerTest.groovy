@@ -24,6 +24,7 @@ import org.junit.Test
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.junit.Assert.assertEquals
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class ValueMatcherCompareToHandlerTest {
     private static final ValuePath actualPath = createActualPath("value")
@@ -40,7 +41,7 @@ class ValueMatcherCompareToHandlerTest {
         CompareToComparator comparator = CompareToComparator.comparator()
         assert comparator.compareIsEqual(actualPath, 100, new DummyValueMatcher(true))
 
-        assertEquals("value: matchedMessage", comparator.generateEqualMatchReport())
+        assertEquals("matchedMessage", comparator.generateEqualMatchReport().toString())
     }
 
     @Test
@@ -48,10 +49,7 @@ class ValueMatcherCompareToHandlerTest {
         CompareToComparator comparator = CompareToComparator.comparator()
         assert !comparator.compareIsEqual(actualPath, 100, new DummyValueMatcher(false))
 
-        assertEquals("mismatches:\n" +
-            "\n" +
-            "value: matchingMessage:\n" +
-                "       mismatchedMessage", comparator.generateEqualMismatchReport())
+        assertEquals("mismatchedMessage", comparator.generateEqualMismatchReport().toString())
     }
 
     @Test
@@ -59,9 +57,7 @@ class ValueMatcherCompareToHandlerTest {
         CompareToComparator comparator = CompareToComparator.comparator()
         assert comparator.compareIsNotEqual(actualPath, 100, new DummyValueMatcher(true))
 
-        assertEquals("mismatches:\n" +
-            "\n" +
-            "value: negativeMatchedMessage", comparator.generateEqualMismatchReport())
+        assertEquals("negativeMatchedMessage", comparator.generateEqualMismatchReport().toString())
     }
 
     @Test
@@ -69,26 +65,27 @@ class ValueMatcherCompareToHandlerTest {
         CompareToComparator comparator = CompareToComparator.comparator()
         assert !comparator.compareIsNotEqual(actualPath, 100, new DummyValueMatcher(false))
 
-        assertEquals("value: negativeMatchingMessage:\n" +
-                     "       negativeMismatchedMessage", comparator.generateEqualMatchReport())
+        assertEquals("negativeMismatchedMessage", comparator.generateEqualMatchReport().toString())
     }
 
     @Test
     void "should work in combination with contain matcher"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain <greater than 7>: [value][2]: greater than 7 (Xms)\n' +
+                '  \n' +
+                '  [1, 3, **8**]') {
             actual([1, 3, 8]).shouldNot(contain(greaterThan(7)))
-        } should(throwException("\n[value] expects to not contain <greater than 7>\n" +
-            "[value][2]: equals 8"))
+        }
     }
 
     @Test
     void "should work in combination with nested contain matcher"() {
         actual(["hello", "world", "of matchers"]).should(contain(containing("of")))
 
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain <contain "of">: [value][2]: contains "of" (Xms)\n' +
+                '  \n' +
+                '  ["hello", "world", **"of matchers"**]') {
             actual(["hello", "world", "of matchers"]).shouldNot(contain(containing("of")))
-        } should(throwException('\n[value] expects to not contain <contain "of">\n' +
-            '[value][2]: equals "of matchers"'))
+        }
     }
 
     static class DummyValueMatcher implements ValueMatcher {

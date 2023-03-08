@@ -28,8 +28,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.regex.Pattern;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 public class FileTextContent implements ActualValueExpectations, ActualPathAndDescriptionAware {
     private final ValuePath actualPath;
@@ -59,9 +58,9 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAndDe
      */
     public String getDataWithReportedStep() {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("reading text"), FROM, urlValue(path)),
-                (r) -> tokenizedMessage(action("read text"), FROM, urlValue(path), OF, classifier("size"),
-                        numberValue(r.toString().length())),
+                tokenizedMessage().action("reading text").from().url(path),
+                (r) -> tokenizedMessage().action("read text").from().url(path).of()
+                        .classifier("size").number(r.toString().length()),
                 this::getData);
 
         return step.execute(StepReportOptions.REPORT_ALL);
@@ -78,10 +77,10 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAndDe
 
     public String extractByRegexp(Pattern regexp) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("extracting text"), classifier("by regexp"), stringValue(regexp),
-                        FROM, urlValue(path)),
-                (r) -> tokenizedMessage(action("extracted text"), classifier("by regexp"), stringValue(regexp),
-                        FROM, urlValue(path), COLON, stringValue(r)),
+                tokenizedMessage().action("extracting text").classifier("by regexp").string(regexp)
+                        .from().url(path),
+                (r) -> tokenizedMessage().action("extracted text").classifier("by regexp").string(regexp)
+                        .from().url(path).colon().string(r),
                 () -> extractByRegexpStepImpl(regexp));
 
         return step.execute(StepReportOptions.REPORT_ALL);

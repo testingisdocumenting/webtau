@@ -40,12 +40,50 @@ public class IterablePrettyPrintable implements PrettyPrintable {
     public void prettyPrint(PrettyPrinter printer, ValuePath rootPath) {
         if (list.isEmpty()) {
             printEmptyList(printer);
+        } else if (canFitIntoSingleLine(printer.getRecommendedMaxWidthForSingleLineObjects())) {
+            printSingeLineList(printer, rootPath);
         } else {
-            printNonEmptyList(printer, rootPath);
+            printMultiLineList(printer, rootPath);
         }
     }
 
-    private void printNonEmptyList(PrettyPrinter printer, ValuePath path) {
+    private boolean canFitIntoSingleLine(int recommendedMaxWidth) {
+        PrettyPrinterCanFitWidthCalculator canFitCalculator = new PrettyPrinterCanFitWidthCalculator(recommendedMaxWidth, list.size());
+
+        for (Object value : list) {
+            PrettyPrinter printer = canFitCalculator.getPrinter();
+            printer.printObject(value);
+            printer.flushCurrentLine();
+
+            if (canFitCalculator.isOutOfBoundaries()) {
+                return false;
+            }
+
+            canFitCalculator.nextIteration();
+        }
+
+        return !canFitCalculator.isOutOfBoundaries();
+    }
+
+    private void printSingeLineList(PrettyPrinter printer, ValuePath path) {
+        printer.printDelimiter("[");
+
+        int idx = 0;
+        for (Object element : list) {
+            printer.printObject(path.index(idx), element);
+
+            boolean isLast = idx == list.size() - 1;
+            if (!isLast) {
+                printer.printDelimiter(", ");
+            }
+
+            idx++;
+        }
+
+        printer.printDelimiter("]");
+    }
+
+    private void printMultiLineList(PrettyPrinter printer, ValuePath path) {
         printer.printDelimiter("[");
         printer.printLine();
         printer.increaseIndentation();

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,14 +17,17 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.Arrays;
 import java.util.Formatter;
 import java.util.Objects;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.*;
 
 public class ByteArrayCompareToHandler implements CompareToHandler {
     @Override
@@ -39,20 +43,20 @@ public class ByteArrayCompareToHandler implements CompareToHandler {
 
         if (actualArray.length != expectedArray.length) {
             comparator.reportNotEqual(this, actualPath,
-                    "binary content has different size:\n" +
-                            "  actual: " + actualArray.length + "\n" +
-                            "expected: " + expectedArray.length);
+                    tokenizedMessage().error("binary content has different size").colon().newLine()
+                            .add(ACTUAL_PREFIX).value(actualArray.length).newLine()
+                            .add(HandlerMessages.EXPECTED_PREFIX).value(expectedArray.length));
         }
 
         int diffIdx = indexOfFirstDifference(actualArray, expectedArray);
         boolean isEqual = diffIdx == -1;
         if (isEqual) {
-            comparator.reportEqual(this, actualPath, DataRenderers.render(actualArray) + "\n" +
-                    renderActualExpected(actualArray, expectedArray, 0));
+            comparator.reportEqual(this, actualPath, tokenizedMessage().value(actualArray).newLine()
+                    .add(renderActualExpected(actualArray, expectedArray, 0)));
         } else {
             comparator.reportNotEqual(this, actualPath,
-                    "binary content first difference idx: " + diffIdx + "\n" +
-                            renderActualExpected(actualArray, expectedArray, diffIdx));
+                    tokenizedMessage().error("binary content first difference idx").colon().number(diffIdx).newLine()
+                            .add(renderActualExpected(actualArray, expectedArray, diffIdx)));
         }
     }
 
@@ -67,18 +71,18 @@ public class ByteArrayCompareToHandler implements CompareToHandler {
         return -1;
     }
 
-    private String renderActualExpected(byte[] actual, byte[] expected, int startIdx) {
-        return "  actual: " + portionOfArrayAsHex(actual, startIdx) + "\n" +
-                "expected: " + portionOfArrayAsHex(expected, startIdx);
+    private TokenizedMessage renderActualExpected(byte[] actual, byte[] expected, int startIdx) {
+        return tokenizedMessage().add(ACTUAL_PREFIX).add(portionOfArrayAsHex(actual, startIdx)).newLine()
+                .add(EXPECTED_PREFIX).add(portionOfArrayAsHex(expected, startIdx));
     }
 
-    private String portionOfArrayAsHex(byte[] array, int startIdx) {
+    private TokenizedMessage portionOfArrayAsHex(byte[] array, int startIdx) {
         int len = Math.min(array.length - startIdx, 16);
         byte[] subArray = Arrays.copyOfRange(array, startIdx, startIdx + len);
 
-        String possibleEllipsisPrefix = startIdx > 0 ? "..." : "";
+        String possibleEllipsisPrefix = startIdx > 0 ? " ..." : "";
         String possibleEllipsisSuffix = (startIdx + len) < array.length ? "..." : "";
-        return possibleEllipsisPrefix + renderAsHex(subArray) + possibleEllipsisSuffix;
+        return tokenizedMessage().delimiterNoAutoSpacing(possibleEllipsisPrefix).none(renderAsHex(subArray)).delimiterNoAutoSpacing(possibleEllipsisSuffix);
     }
 
     private String renderAsHex(byte[] content) {

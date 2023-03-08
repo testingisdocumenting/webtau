@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.data.render;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
-import org.testingisdocumenting.webtau.console.IndentedConsoleOutput;
+import org.testingisdocumenting.webtau.console.ansi.AnsiAsStylesValuesListConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
@@ -30,12 +30,14 @@ import java.util.*;
  * prints values using pretty ANSI colors, maintains indentation
  * delegates to either {@link PrettyPrintable} or {@link PrettyPrintableProvider}
  */
-public class PrettyPrinter {
+public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
+    private static final int DEFAULT_RECOMMENDED_MAX_WIDTH_FOR_SINGLE_LINE_OBJECTS = 100;
+
     public static final Color DELIMITER_COLOR = Color.YELLOW;
     public static final Color STRING_COLOR = Color.GREEN;
-    public static final Color NUMBER_COLOR = Color.CYAN;
+    public static final Color NUMBER_COLOR = Color.BLUE;
     public static final Color KEY_COLOR = Color.PURPLE;
-    public static final Color UNKNOWN_COLOR = Color.BLUE;
+    public static final Color UNKNOWN_COLOR = Color.CYAN;
 
     private static final int INDENTATION_STEP = 2;
     private static final List<PrettyPrintableProvider> prettyPrintProviders = ServiceLoaderUtils.load(PrettyPrintableProvider.class);
@@ -46,17 +48,18 @@ public class PrettyPrinter {
     private final List<PrettyPrinterLine> lines;
     private PrettyPrinterLine currentLine;
 
-    private final ConsoleOutput consoleOutput;
     private int indentationSize;
     private String indentation;
 
     private ValueConverter valueConverter;
+    private int recommendedMaxWidthForSingleLineObjects;
 
-    public PrettyPrinter(ConsoleOutput consoleOutput, int indentationSize) {
-        this.consoleOutput = consoleOutput;
+    public PrettyPrinter(int indentationSize) {
         this.lines = new ArrayList<>();
         this.currentLine = new PrettyPrinterLine();
         this.pathsToDecorate = new HashSet<>();
+
+        this.setRecommendedMaxWidthForSingleLineObjects(DEFAULT_RECOMMENDED_MAX_WIDTH_FOR_SINGLE_LINE_OBJECTS);
 
         setIndentationSize(indentationSize);
     }
@@ -69,14 +72,35 @@ public class PrettyPrinter {
         return valueConverter;
     }
 
+    public void setRecommendedMaxWidthForSingleLineObjects(int width) {
+        this.recommendedMaxWidthForSingleLineObjects = width;
+    }
+
+    public int getRecommendedMaxWidthForSingleLineObjects() {
+        return recommendedMaxWidthForSingleLineObjects;
+    }
+
     public static boolean isPrettyPrintable(Object value) {
+        return findPrettyPrintable(value).isPresent();
+    }
+
+    public static Optional<PrettyPrintable> findPrettyPrintable(Object value) {
         if (value instanceof PrettyPrintable) {
-            return true;
+            return Optional.of((PrettyPrintable) value);
         }
 
         return prettyPrintProviders.stream()
                 .map(provider -> provider.prettyPrintableFor(value))
-                .anyMatch(Optional::isPresent);
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .findFirst();
+    }
+
+    public List<List<Map<String, Object>>> generateStyledTextListOfListsOfMaps() {
+        AnsiAsStylesValuesListConsoleOutput ansiStylesConsoleOutput = new AnsiAsStylesValuesListConsoleOutput();
+        renderToConsole(ansiStylesConsoleOutput);
+
+        return ansiStylesConsoleOutput.toListOfListsOfMaps();
     }
 
     public void setPathsDecoration(PrettyPrinterDecorationToken decorationToken, Set<ValuePath> paths) {
@@ -89,19 +113,6 @@ public class PrettyPrinter {
         setPathsDecoration(decorationToken, new HashSet<>(paths));
     }
 
-    // TODO remove once DataNode is rewritten using printer
-    public ConsoleOutput createIndentedConsoleOutput() {
-        return new IndentedConsoleOutput(consoleOutput, indentationSize);
-    }
-
-    public void newLine() {
-        consoleOutput.out();
-    }
-
-    public ConsoleOutput getConsoleOutput() {
-        return consoleOutput;
-    }
-
     public Set<ValuePath> getPathsToDecorate() {
         return pathsToDecorate;
     }
@@ -110,7 +121,15 @@ public class PrettyPrinter {
         return decorationToken;
     }
 
-    public void renderToConsole() {
+    public void clear() {
+        lines.clear();
+        currentLine.clear();
+        pathsToDecorate.clear();
+        indentationSize = 0;
+    }
+
+    public void renderToConsole(ConsoleOutput consoleOutput) {
+        flushCurrentLine();
         for (PrettyPrinterLine line : lines) {
             consoleOutput.out(line.getStyleAndValues().toArray());
         }
@@ -131,6 +150,11 @@ public class PrettyPrinter {
         return lines.get(lineIdx);
     }
 
+    @Override
+    public Iterator<PrettyPrinterLine> iterator() {
+        return lines.listIterator();
+    }
+
     public void setIndentationSize(int indentationSize) {
         if (indentationSize < 0) {
             throw new IllegalStateException("can't set indentation to a negative value: " + indentationSize);
@@ -149,11 +173,11 @@ public class PrettyPrinter {
     }
 
     public void print(PrettyPrinterLine line) {
-        currentLine.append(line.getStyleAndValues());
+        appendToCurrentLine(line.getStyleAndValues());
     }
 
     public void print(Object... styleOrValues) {
-        currentLine.append(styleOrValues);
+        appendToCurrentLine(styleOrValues);
     }
 
     public void printDelimiter(String d) {
@@ -161,14 +185,16 @@ public class PrettyPrinter {
     }
 
     public void printLine(Object... styleOrValues) {
-        currentLine.append(styleOrValues);
+        appendToCurrentLine(styleOrValues);
         flushCurrentLine();
     }
 
     public void flushCurrentLine() {
-        currentLine.prepend(indentation);
-        lines.add(currentLine);
+        if (currentLine.isEmpty()) {
+            return;
+        }
 
+        lines.add(currentLine);
         currentLine = new PrettyPrinterLine();
     }
 
@@ -181,35 +207,56 @@ public class PrettyPrinter {
                 valueConverter.convertValue(valuePath, o) :
                 o;
 
-        if (effectiveObject instanceof PrettyPrintable) {
-            ((PrettyPrintable) effectiveObject).prettyPrint(this, valuePath);
-            return;
-        }
-
         boolean needToDecorate = pathsToDecorate.contains(valuePath);
 
         if (effectiveObject instanceof Number) {
             printPrimitive(NUMBER_COLOR, effectiveObject, needToDecorate);
-        } else if (effectiveObject instanceof String) {
-            printPrimitive(STRING_COLOR, quoteString(effectiveObject), needToDecorate);
         } else {
-            PrettyPrintable prettyPrintable = prettyPrintProviders.stream()
-                    .map(provider -> provider.prettyPrintableFor(effectiveObject))
-                    .filter(Optional::isPresent)
-                    .findFirst()
-                    .orElseGet(() -> Optional.of(new FallbackPrettyPrintable(effectiveObject)))
-                    .get();
+            PrettyPrintable prettyPrintable = findPrettyPrintable(effectiveObject)
+                    .orElseGet(() -> new FallbackPrettyPrintable(effectiveObject));
 
-            if (needToDecorate) {
+            boolean handlesDecoration = prettyPrintable.handlesDecoration();
+            if (!handlesDecoration && needToDecorate) {
                 print(decorationToken.getColor(), decorationToken.getWrapWith());
             }
 
-            prettyPrintable.prettyPrint(this, valuePath);
+            if (handlesDecoration && needToDecorate) {
+                prettyPrintable.prettyPrint(this, valuePath, decorationToken);
+            } else {
+                prettyPrintable.prettyPrint(this, valuePath);
+            }
 
-            if (needToDecorate) {
+            if (!handlesDecoration && needToDecorate) {
                 print(decorationToken.getColor(), decorationToken.getWrapWith());
             }
         }
+    }
+
+    public void printObjectIndented(Object value, int width) {
+        printObjectIndented(ValuePath.UNDEFINED, value, width);
+    }
+
+    public void printObjectIndented(ValuePath path, Object value, int width) {
+        int previousIndentation = indentationSize;
+        setIndentationSize(width);
+        printObject(path, value);
+        setIndentationSize(previousIndentation);
+    }
+
+    public void printObjectAutoIndentedByCurrentLine(Object value) {
+        printObjectAutoIndentedByCurrentLine(ValuePath.UNDEFINED, value);
+    }
+
+    public void printObjectAutoIndentedByCurrentLine(ValuePath path, Object value) {
+        printObjectIndented(path, value, currentLine.getWidth());
+    }
+
+    private void appendToCurrentLine(Object... styleOrValue) {
+        if (currentLine.isEmpty()) {
+            currentLine.append(indentation);
+        }
+
+        currentLine.append(styleOrValue);
     }
 
     private void printPrimitive(Color color, Object o, boolean needToDecorate) {
@@ -218,9 +265,5 @@ public class PrettyPrinter {
         } else {
             print(color, o);
         }
-    }
-
-    private String quoteString(Object text) {
-        return "\"" + text + "\"";
     }
 }

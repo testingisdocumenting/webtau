@@ -19,18 +19,18 @@ package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler.Flow;
 import org.testingisdocumenting.webtau.expectation.stepoutput.ValueMatcherStepOutput;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 import org.testingisdocumenting.webtau.reporter.*;
 
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
 
 public class ActualValue implements ActualValueExpectations {
@@ -61,14 +61,14 @@ public class ActualValue implements ActualValueExpectations {
     @Override
     public void should(ValueMatcher valueMatcher) {
         executeStep(valueMatcher, false,
-                tokenizedMessage(action("expecting")),
+                tokenizedMessage().action("expecting"),
                 () -> shouldStep(valueMatcher), shouldReportOptions);
     }
 
     @Override
     public void shouldNot(ValueMatcher valueMatcher) {
         executeStep(valueMatcher, true,
-                tokenizedMessage(action("expecting")),
+                tokenizedMessage().action("expecting"),
                 () -> shouldNotStep(valueMatcher), shouldReportOptions);
     }
 
@@ -76,7 +76,7 @@ public class ActualValue implements ActualValueExpectations {
     public void waitTo(ValueMatcher valueMatcher,
                      ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
         executeStep(valueMatcher, false,
-                tokenizedMessage(action("waiting"), FOR),
+                tokenizedMessage().action("waiting").forP(),
                 () -> waitToStep(valueMatcher, expectationTimer, tickMillis, timeOutMillis),
                 StepReportOptions.REPORT_ALL);
     }
@@ -85,7 +85,7 @@ public class ActualValue implements ActualValueExpectations {
     public void waitToNot(ValueMatcher valueMatcher,
                           ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
         executeStep(valueMatcher, true,
-                tokenizedMessage(action("waiting"), FOR),
+                tokenizedMessage().action("waiting").forP(),
                 () -> waitToNotStep(valueMatcher, expectationTimer, tickMillis, timeOutMillis),
                 StepReportOptions.REPORT_ALL);
     }
@@ -143,18 +143,18 @@ public class ActualValue implements ActualValueExpectations {
         ExpectationHandlers.onValueMatch(valueMatcher, actualPath, actual);
     }
 
-    private void handleMismatch(ValueMatcher valueMatcher, String message) {
+    private void handleMismatch(ValueMatcher valueMatcher, TokenizedMessage message) {
         final Flow flow = ExpectationHandlers.onValueMismatch(valueMatcher, actualPath, actual, message);
 
         if (flow != Flow.Terminate) {
-            throw new AssertionError("\n" + message);
+            throw new AssertionTokenizedError(message);
         }
     }
 
-    private String mismatchMessage(ValueMatcher matcher, boolean isNegative) {
+    private TokenizedMessage mismatchMessage(ValueMatcher matcher, boolean isNegative) {
         return isNegative ?
-                matcher.negativeMismatchedMessage(actualPath, actual):
-                matcher.mismatchedMessage(actualPath, actual);
+                matcher.negativeMismatchedTokenizedMessage(actualPath, actual):
+                matcher.mismatchedTokenizedMessage(actualPath, actual);
     }
 
     private static ValuePath extractPath(Object actual) {
@@ -166,7 +166,7 @@ public class ActualValue implements ActualValueExpectations {
     private static TokenizedMessage extractDescription(Object actual, ValuePath path) {
         return (actual instanceof ActualPathAndDescriptionAware) ?
                 (((ActualPathAndDescriptionAware) actual).describe()):
-                TokenizedMessage.tokenizedMessage(IntegrationTestsMessageBuilder.id(path.getPath()));
+                tokenizedMessage().id(path.getPath());
     }
 
     private Object extractActualValue(Object actual) {
@@ -178,15 +178,16 @@ public class ActualValue implements ActualValueExpectations {
     }
 
     private void executeStep(ValueMatcher valueMatcher, boolean isNegative,
-                             TokenizedMessage messageStart, Supplier<Object> expectationValidation,
+                             TokenizedMessage messageStart,
+                             Supplier<Object> expectationValidation,
                              StepReportOptions stepReportOptions) {
         WebTauStep step = createStep(
                 messageStart.add(valueDescription)
-                        .add(matcher(isNegative ? valueMatcher.negativeMatchingMessage() : valueMatcher.matchingMessage())),
+                        .add(isNegative ? valueMatcher.negativeMatchingTokenizedMessage(actualPath, actual): valueMatcher.matchingTokenizedMessage(actualPath, actual)),
                 () -> tokenizedMessage(valueDescription)
-                        .add(matcher(isNegative ?
-                                valueMatcher.negativeMatchedMessage(null, actual) :
-                                valueMatcher.matchedMessage(null, actual))),
+                        .add(isNegative ?
+                                valueMatcher.negativeMatchedTokenizedMessage(null, actual) :
+                                valueMatcher.matchedTokenizedMessage(null, actual)),
                 expectationValidation);
         step.setClassifier(WebTauStepClassifiers.MATCHER);
 
@@ -194,18 +195,37 @@ public class ActualValue implements ActualValueExpectations {
             ValueConverter valueConverter = valueMatcher.valueConverter();
             Object convertedActual = valueConverter.convertValue(actualPath, actual);
 
-            if (Boolean.TRUE.equals(matched) || !PrettyPrinter.isPrettyPrintable(convertedActual) || step.hasParentWithDisabledMatcherOutput()) {
+            // if we already displayed the actual value as part of mismatch message, we don't need to display it again even if it is pretty printable
+            TokenizedMessage assertionTokenizedMessage = step.getExceptionTokenizedMessage();
+            if (assertionTokenizedMessage.tokensStream()
+                    .filter(MessageToken::isPrettyPrintValue)
+                    .anyMatch(token -> token.getValue() == actual || token.getValue() == convertedActual)) {
                 return WebTauStepOutput.EMPTY;
+            }
+
+            if (Boolean.TRUE.equals(matched) || !PrettyPrinter.isPrettyPrintable(convertedActual) || step.hasParentWithDisabledMatcherOutputActualValue()) {
+                return WebTauStepOutput.EMPTY;
+            }
+
+            Set<ValuePath> pathsToDecorate = isNegative ?
+                    valueMatcher.matchedPaths() :
+                    valueMatcher.mismatchedPaths();
+
+            if (!keepRootActualPathDecorated(convertedActual)) {
+                pathsToDecorate.remove(actualPath);
             }
 
             return new ValueMatcherStepOutput(actualPath,
                     convertedActual,
                     valueConverter,
-                    isNegative ?
-                            valueMatcher.matchedPaths() :
-                            valueMatcher.mismatchedPaths());
+                    pathsToDecorate);
         });
 
         step.execute(stepReportOptions);
+    }
+
+    private static boolean keepRootActualPathDecorated(Object actual) {
+        return PrettyPrinter.findPrettyPrintable(actual)
+                .map(PrettyPrintable::handlesDecoration).orElse(false);
     }
 }

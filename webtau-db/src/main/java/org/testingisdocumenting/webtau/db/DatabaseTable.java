@@ -17,27 +17,30 @@
 package org.testingisdocumenting.webtau.db;
 
 import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.lang3.StringUtils;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.db.gen.SqlQueriesGenerator;
-import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.sql.SQLException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.createAndExecuteStep;
 
 public class DatabaseTable {
+    private final Database database;
     private final LabeledDataSourceProvider dataSourceProvider;
     private final String name;
 
-    public DatabaseTable(LabeledDataSourceProvider dataSourceProvider, String name) {
+    public DatabaseTable(Database database, LabeledDataSourceProvider dataSourceProvider, String name) {
+        this.database = database;
         this.dataSourceProvider = dataSourceProvider;
         this.name = name;
     }
@@ -63,6 +66,10 @@ public class DatabaseTable {
                 () -> insertRowStep(row));
     }
 
+    public void clear() {
+        database.update("delete from " + name);
+    }
+
     public DbQuery queryCount() {
         return QueryRunnerUtils.createQuery(dataSourceProvider, SqlQueriesGenerator.count(name));
     }
@@ -70,7 +77,6 @@ public class DatabaseTable {
     public DbQuery query() {
         return QueryRunnerUtils.createQuery(dataSourceProvider, SqlQueriesGenerator.fullTable(name));
     }
-
 
     private TokenizedMessage insertingMessage(int numberOfRows) {
         return insertMessageWithLabel("inserting", numberOfRows);
@@ -81,16 +87,30 @@ public class DatabaseTable {
     }
 
     private TokenizedMessage insertMessageWithLabel(String actionLabel, int numberOfRows) {
-        return tokenizedMessage(action(actionLabel), numberValue(numberOfRows),
-                numberOfRows > 1 ? action("rows") : action("row"),
-                INTO, createMessageId());
+        return tokenizedMessage().action(actionLabel).number(numberOfRows).action(
+                numberOfRows > 1 ? "rows" : "row").into().add(createMessageId());
     }
 
     private void insertTableStep(TableData tableData) {
         insertMultipleRowsStep(tableData::isEmpty,
                 tableData::numberOfRows,
-                () -> tableData.getHeader().getNamesStream(),
+                () -> extractHeaderStream(tableData.getHeader().getNamesStream()),
                 (idx) -> tableData.row(idx).valuesStream());
+    }
+
+    private Stream<String> extractHeaderStream(Stream<String> original) {
+        return original.map(this::convertToUnderscoresIfRequired);
+    }
+
+    private String convertToUnderscoresIfRequired(String name) {
+        if (name.contains("_")) {
+            return name;
+        }
+
+        String[] parts = StringUtils.splitByCharacterTypeCamelCase(name);
+        return Arrays.stream(parts)
+                .map(String::toUpperCase)
+                .collect(Collectors.joining("_"));
     }
 
     private void insertTableStep(List<Map<String, Object>> rows) {
@@ -132,8 +152,8 @@ public class DatabaseTable {
         }
     }
 
-    private MessageToken createMessageId() {
-        return id(dataSourceProvider.provide().getLabel() + "." + name);
+    private TokenizedMessage createMessageId() {
+        return tokenizedMessage().id(dataSourceProvider.provide().getLabel() + "." + name);
     }
 
     public void leftShift(TableData tableData) {

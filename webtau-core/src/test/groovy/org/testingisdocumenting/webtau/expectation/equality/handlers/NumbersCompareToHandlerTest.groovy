@@ -17,48 +17,59 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
+import org.junit.Test
 import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
-import org.junit.Test
 
+import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.junit.Assert.assertEquals
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class NumbersCompareToHandlerTest {
     private static final ValuePath actualPath = createActualPath("value")
 
     @Test
-    void "handles numbers of different types only for equality"() {
-        assertHandlesTypes('handleEquality')
+    void "failed equality"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal 9:\n' +
+                '      actual: 100.0 <java.math.BigDecimal> (before conversion: 100.0 <java.lang.Double>)\n' +
+                '    expected: 9 <java.math.BigDecimal> (before conversion: 9 <java.lang.Long>) (Xms)') {
+            actual(100d).should(equal(9L))
+        }
     }
 
     @Test
-    void "handles numbers of different types only for greater less"() {
-        assertHandlesTypes('handleGreaterLessEqual')
+    void "failed greater than"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to be greater than 9:\n' +
+                '      actual: 8.0 <java.math.BigDecimal> (before conversion: 8.0 <java.lang.Double>)\n' +
+                '    expected: greater than 9 <java.math.BigDecimal> (before conversion: 9 <java.lang.Long>) (Xms)') {
+            actual(8d).shouldBe(greaterThan(9L))
+        }
     }
 
     @Test
-    void "report contains value before conversion when fails for equality"() {
-        def comparator = CompareToComparator.comparator()
-        assert !comparator.compareIsEqual(actualPath, 10d, 9l)
-
-        assertEquals(
-            "mismatches:\n\n" +
-            "value:   actual: 10.0 <java.math.BigDecimal>(before conversion: 10.0 <java.lang.Double>)\n" +
-            "       expected: 9 <java.math.BigDecimal>(before conversion: 9 <java.lang.Long>)",
-            comparator.generateEqualMismatchReport())
+    void "failed less than"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to be less than 7:\n' +
+                '      actual: 8.0 <java.math.BigDecimal> (before conversion: 8.0 <java.lang.Double>)\n' +
+                '    expected: less than 7 <java.math.BigDecimal> (before conversion: 7 <java.lang.Long>) (Xms)') {
+            actual(8d).shouldBe(lessThan(7L))
+        }
     }
 
     @Test
-    void "report contains value before conversion when fails for greater-less"() {
-        def comparator = CompareToComparator.comparator()
-        assert !comparator.compareIsLess(actualPath, 10d, 9l)
+    void "failed less than equal"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to be less than or equal to 7:\n' +
+                '      actual: 8.0 <java.math.BigDecimal> (before conversion: 8.0 <java.lang.Double>)\n' +
+                '    expected: less than or equal to 7 <java.math.BigDecimal> (before conversion: 7 <java.lang.Long>) (Xms)') {
+            actual(8d).shouldBe(lessThanOrEqual(7L))
+        }
+    }
 
-        assertEquals(
-            "mismatches:\n\n" +
-            "value:   actual: 10.0 <java.math.BigDecimal>(before conversion: 10.0 <java.lang.Double>)\n" +
-            "       expected: less than 9 <java.math.BigDecimal>(before conversion: 9 <java.lang.Long>)",
-            comparator.generateLessThanMismatchReport())
+    @Test
+    void "matches"() {
+        actual(8d).shouldBe(lessThan(9L))
+        actual(8d).shouldBe(greaterThan(7L))
+        actual(8d).shouldBe(lessThanOrEqual(8L))
+        actual(8d).shouldBe(greaterThanOrEqual(8L))
     }
 
     @Test
@@ -77,29 +88,5 @@ class NumbersCompareToHandlerTest {
         assert comparator.compareIsEqual(actualPath, 8d, 8)
 
         assert !comparator.compareIsEqual(actualPath, 8d, 9d)
-    }
-
-    @Test
-    void "handler is linked"() {
-        actual(10.0).should(equal(10))
-        actual(10.0).shouldBe(greaterThanOrEqual(8l))
-
-        code {
-            actual(10.0).should(equal(9))
-        } should throwException(AssertionError, ~/expected: 9/)
-
-        code {
-            actual(10.0).shouldBe(greaterThanOrEqual(11))
-        } should throwException(AssertionError, ~/expected: greater than or equal to 11/)
-    }
-
-    private static void assertHandlesTypes(handleMethodName) {
-        def handler = new NumbersCompareToHandler()
-        assert handler."$handleMethodName"(2l, 1i)
-        assert handler."$handleMethodName"(2l, 1d)
-        assert handler."$handleMethodName"(2i, 1d)
-
-        assert !handler."$handleMethodName"(2i, 2i)
-        assert !handler."$handleMethodName"(2d, 2d)
     }
 }

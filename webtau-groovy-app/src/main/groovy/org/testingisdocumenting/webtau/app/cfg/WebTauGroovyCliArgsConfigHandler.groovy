@@ -19,14 +19,12 @@ package org.testingisdocumenting.webtau.app.cfg
 
 import org.testingisdocumenting.webtau.TestFile
 import groovy.io.FileType
-import org.testingisdocumenting.webtau.cfg.ConfigValue
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler
 
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
-import java.util.stream.Stream
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 

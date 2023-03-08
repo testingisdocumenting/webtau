@@ -20,7 +20,7 @@
     <parent>
         <groupId>org.testingisdocumenting.webtau</groupId>
         <artifactId>webtau-parent</artifactId>
-        <version>1.51-SNAPSHOT</version>
+        <version>1.52-SNAPSHOT</version>
     </parent>
 
     <artifactId>webtau-db</artifactId>
@@ -29,12 +29,6 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>webtau-core</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>webtau-config</artifactId>
             <version>${project.version}</version>
         </dependency>
 
@@ -77,11 +71,35 @@
         </dependency>
 
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>webtau-core</artifactId>
+            <version>${project.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
             <groupId>com.h2database</groupId>
             <artifactId>h2</artifactId>
             <version>2.1.210</version>
             <scope>test</scope>
         </dependency>
+
+<!--        postgresql-tc-dep-->
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>42.3.8</version>
+            <scope>test</scope>
+        </dependency>
+    <!--        postgresql-tc-dep-->
     </dependencies>
 
     <build>

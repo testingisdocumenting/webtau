@@ -42,6 +42,7 @@ public class ValueMatcherStepOutput implements WebTauStepOutput {
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
+        printer.printLine();
         printer.setPathsDecoration(new PrettyPrinterDecorationToken("**", Color.RED), valuePathsToHighlight);
         printer.setValueConverter(valueConverter);
 
@@ -51,6 +52,9 @@ public class ValueMatcherStepOutput implements WebTauStepOutput {
 
     @Override
     public Map<String, ?> toMap() {
-        return Collections.emptyMap();
+        PrettyPrinter printer = new PrettyPrinter(0);
+        prettyPrint(printer);
+
+        return Collections.singletonMap("styledText", printer.generateStyledTextListOfListsOfMaps());
     }
 }

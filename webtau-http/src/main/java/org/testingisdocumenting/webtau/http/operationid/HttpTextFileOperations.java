@@ -19,8 +19,8 @@ package org.testingisdocumenting.webtau.http.operationid;
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
 import org.testingisdocumenting.webtau.http.config.HttpConfig;
-import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
@@ -29,8 +29,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.concurrent.atomic.AtomicReference;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class HttpTextFileOperations implements WebTauConfigHandler {
     private static final AtomicReference<HttpTextDefinedOperations> textDefinedOperations = new AtomicReference<>();
@@ -68,12 +67,12 @@ public class HttpTextFileOperations implements WebTauConfigHandler {
         String content = filePath != null ? FileUtils.fileTextContent(filePath) : ResourceUtils.textContent(resourcePath);
         String source = filePath != null ? "file" : "class path resource";
 
-        MessageToken spec = classifier("HTTP routes definition");
+        TokenizedMessage specClassifier = tokenizedMessage().classifier("HTTP routes definition");
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action("reading"), spec,
-                        FROM, classifier(source), urlValue(pathToUse)),
-                () -> tokenizedMessage(action("read"), spec,
-                        FROM, classifier(source), urlValue(pathToUse)),
+                tokenizedMessage().action("reading").add(specClassifier)
+                        .from().classifier(source).url(pathToUse),
+                () -> tokenizedMessage().action("read").add(specClassifier)
+                        .from().classifier(source).url(pathToUse),
                 () -> new HttpTextDefinedOperations(content)
         );
 

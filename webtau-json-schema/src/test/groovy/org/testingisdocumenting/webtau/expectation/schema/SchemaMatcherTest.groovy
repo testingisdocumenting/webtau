@@ -6,6 +6,7 @@ import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher
 import org.junit.Test
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class SchemaMatcherTest {
     private final static TEST_SCHEMA = "test-schema-default-version.json"
@@ -24,18 +25,17 @@ class SchemaMatcherTest {
 
     @Test
     void "should throw exception when object does not match schema"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, contain("[\$.val: is missing but it is required]")) {
             actual([name: "test"]).should(complyWithSchema(TEST_SCHEMA))
-        } should throwException('\n[value] expected to comply with schema test-schema-default-version.json\n' +
-            '[$.val: is missing but it is required]')
+        }
     }
 
     @Test
     void "should throw exception when object has incorrect types"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, containAll("[value] expected to comply with schema test-schema-default-version.json",
+                "[\$.val: string found, integer expected]")) {
             actual([name: "test", val: "foo"]).should(complyWithSchema(TEST_SCHEMA))
-        } should throwException('\n[value] expected to comply with schema test-schema-default-version.json\n' +
-            '[$.val: string found, integer expected]')
+        }
     }
 
     @Test
@@ -45,10 +45,10 @@ class SchemaMatcherTest {
 
     @Test
     void "should throw exception when object matches schema but should not"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, containAll(
+                "[value] expected to not comply with schema test-schema-default-version.json", "[]")) {
             actual([name: "test", val: 123]).shouldNot(complyWithSchema(TEST_SCHEMA))
-        } should throwException('\n[value] expected to not comply with schema test-schema-default-version.json\n' +
-            '[]')
+        }
     }
 
     @Test

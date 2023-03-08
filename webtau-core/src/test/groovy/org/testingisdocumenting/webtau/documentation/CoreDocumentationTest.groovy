@@ -53,7 +53,7 @@ class CoreDocumentationTest implements StepReporter {
                 equal("hello world"))
 
         actual(completedStepMessages[0]).should(
-                equal(~/captured text documentation artifact text-artifact-id : .*doc-artifacts\/text-artifact-id\.txt/))
+                equal(~/captured text documentation artifact text-artifact-id: .*doc-artifacts\/text-artifact-id\.txt/))
     }
 
     @Test
@@ -65,7 +65,7 @@ class CoreDocumentationTest implements StepReporter {
                       "}"))
 
         actual(completedStepMessages[0]).should(
-                equal(~/captured json documentation artifact json-artifact-id : .*doc-artifacts\/json-artifact-id\.json/))
+                equal(~/captured json documentation artifact json-artifact-id: .*doc-artifacts\/json-artifact-id\.json/))
     }
 
     @Test
@@ -80,7 +80,7 @@ class CoreDocumentationTest implements StepReporter {
                       "1,2\r\n"))
 
         actual(completedStepMessages[0]).should(
-                equal(~/captured csv documentation artifact csv-artifact-id : .*doc-artifacts\/csv-artifact-id\.csv/))
+                equal(~/captured csv documentation artifact csv-artifact-id: .*doc-artifacts\/csv-artifact-id\.csv/))
     }
 
     @Test

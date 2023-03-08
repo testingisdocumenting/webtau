@@ -26,8 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage;
+import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
 public class CliBackgroundCommand implements WebTauStepPayload {
     private final String command;
@@ -52,9 +51,9 @@ public class CliBackgroundCommand implements WebTauStepPayload {
         }
 
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("running cli command in background"), stringValue(command)),
+                tokenizedMessage().action("running cli command in background").string(command),
                 processConfig.createStepInput(),
-                () -> tokenizedMessage(action("ran cli command in background"), stringValue(command)),
+                () -> tokenizedMessage().action("ran cli command in background").string(command),
                                 this::startBackgroundProcess);
 
         waitToStopThread = waitForProcessToFinishInBackground();
@@ -62,11 +61,11 @@ public class CliBackgroundCommand implements WebTauStepPayload {
 
     public void stop() {
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("stopping cli command in background"),
-                        classifier("pid"), id(String.valueOf(backgroundProcess.getPid())), COLON, stringValue(command)),
+                tokenizedMessage().action("stopping cli command in background").classifier("pid")
+                        .id(String.valueOf(backgroundProcess.getPid())).colon().string(command),
                 (wasRunning) -> (Boolean) wasRunning ?
-                        tokenizedMessage(action("stopped cli command in background"), stringValue(command)) :
-                        tokenizedMessage(action("command has already finished"), stringValue(command)),
+                        tokenizedMessage().action("stopped cli command in background").string(command) :
+                        tokenizedMessage().action("command has already finished").string(command),
                 () -> {
                     boolean wasRunning = backgroundProcess.isActive();
                     if (wasRunning) {
@@ -110,14 +109,14 @@ public class CliBackgroundCommand implements WebTauStepPayload {
 
     public void send(String line) {
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("sending"), stringValue(line), TO, classifier("running"), stringValue(command)),
-                () -> tokenizedMessage(action("sent"), stringValue(line), TO, classifier("running"), stringValue(command)),
+                tokenizedMessage().action("sending").string(line).to().classifier("running").string(command),
+                () -> tokenizedMessage().action("sent").string(line).to().classifier("running").string(command),
                 () -> backgroundProcess.send(line));
     }
 
     public void clearOutput() {
         WebTauStep.createAndExecuteStep(
-                () -> tokenizedMessage(action("cleared output"), OF, classifier("running"), stringValue(command)),
+                () -> tokenizedMessage().action("cleared output").of().classifier("running").string(command),
                 () -> backgroundProcess.clearOutput());
     }
 
@@ -157,8 +156,8 @@ public class CliBackgroundCommand implements WebTauStepPayload {
                 WebTauStep step = WebTauStep.createStep(
                         startTime,
                         tokenizedMessage(),
-                        (exitCode) -> tokenizedMessage(action("background cli command"), COLON, stringValue(command),
-                                action("finished with exit code"), numberValue(exitCode)),
+                        (exitCode) -> tokenizedMessage().classifier("background cli command").colon().string(command).
+                                action("finished with exit code").number((Number) exitCode),
                         (context) -> {
                             synchronized (this) {
                                 backgroundProcess.setAsInactive();

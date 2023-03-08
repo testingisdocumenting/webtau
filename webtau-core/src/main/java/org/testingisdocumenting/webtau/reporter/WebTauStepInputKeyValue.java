@@ -38,6 +38,7 @@ public class WebTauStepInputKeyValue implements WebTauStepInput {
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
+        printer.increaseIndentation();
         WebTauStepKeyValue.prettyPrint(printer, data);
     }
 

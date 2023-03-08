@@ -28,6 +28,10 @@
     color: var(--webtau-step-action-color);
 }
 
+.step-token.classifier {
+    color: var(--webtau-step-classifer-color);
+}
+
 .step-token.warning {
     color: var(--webtau-step-warning-color);
 }
@@ -44,7 +48,8 @@
     white-space: pre;
 }
 
-.step-token.delimiter {
+.step-token.delimiter,
+.step-token.delimiterNoAutoSpacing {
     color: var(--webtau-step-delimiter-color);
 }
 
@@ -54,6 +59,10 @@
 
 .step-token.preposition {
     color: var(--webtau-step-preposition-color);
+}
+
+.step-token.objectType {
+    color: var(--webtau-step-object-type-color);
 }
 
 .step-token.selectorType {

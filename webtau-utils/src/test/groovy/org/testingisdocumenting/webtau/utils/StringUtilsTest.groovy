@@ -32,6 +32,21 @@ line #_3\r""")
     }
 
     @Test
+    void "split lines preserve separator"() {
+        assert StringUtils.splitLinesPreserveNewLineSeparator("").toList() == [""]
+        assert StringUtils.splitLinesPreserveNewLineSeparator("hello").toList() == ["hello"]
+
+        assert StringUtils.splitLinesPreserveNewLineSeparator("hello\nworld\n\nof lines\n")
+                .toList() == ["hello", "\n", "world", "\n", "\n", "of lines", "\n"]
+    }
+
+    @Test
+    void "has new line separator"() {
+        assert !StringUtils.hasNewLineSeparator("hello")
+        assert StringUtils.hasNewLineSeparator("hello\n")
+    }
+
+    @Test
     void "strip common indentation"() {
         def code = "    int a = 2;\n    int b = 3;"
         def stripped = StringUtils.stripIndentation(code)
@@ -45,6 +60,27 @@ line #_3\r""")
         assert stripped == "\n    statement1;\n    statement2"
 
         assert StringUtils.extractInsideCurlyBraces("") == ""
+    }
+
+    @Test
+    void "first n lines"() {
+        assert StringUtils.firstNLines("", 3) == ""
+        assert StringUtils.firstNLines("one", 0) == ""
+        assert StringUtils.firstNLines("one", 1) == "one"
+        assert StringUtils.firstNLines("one", 3) == "one"
+        assert StringUtils.firstNLines("one\ntwo", 3) == "one\ntwo"
+        assert StringUtils.firstNLines("one\ntwo\nthree", 3) == "one\ntwo\nthree"
+        assert StringUtils.firstNLines("one\ntwo\nthree\nfour", 3) == "one\ntwo\nthree"
+    }
+
+    @Test
+    void "number of lines"() {
+        assert StringUtils.numberOfLines("") == 1
+        assert StringUtils.numberOfLines("hello") == 1
+        assert StringUtils.numberOfLines("hello\n") == 2
+        assert StringUtils.numberOfLines("hello\nworld") == 2
+        assert StringUtils.numberOfLines("hello\nworld\n") == 3
+        assert StringUtils.numberOfLines("hello\nworld\n\n") == 4
     }
 
     @Test

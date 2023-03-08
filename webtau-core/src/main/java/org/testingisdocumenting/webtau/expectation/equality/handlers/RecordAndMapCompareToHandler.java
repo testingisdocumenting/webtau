@@ -18,39 +18,15 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.testingisdocumenting.webtau.data.table.Record;
-import org.testingisdocumenting.webtau.data.ValuePath;
-import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
-import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
-import java.util.Map;
-
-public class RecordAndMapCompareToHandler implements CompareToHandler {
+public class RecordAndMapCompareToHandler extends MapAsExpectedCompareToHandlerBase {
     @Override
-    public boolean handleEquality(Object actual, Object expected) {
-        return actual instanceof Record && mapWithStringKeys(expected);
-    }
-
-    private boolean mapWithStringKeys(Object expected) {
-        return expected instanceof Map &&
-                ((Map<?, ?>) expected).keySet().stream().allMatch(k -> k instanceof String);
+    protected boolean handleEquality(Object actual) {
+        return actual instanceof Record;
     }
 
     @Override
-    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
-        Record actualRecord = (Record) actual;
-        Map expectedMap = (Map) expected;
-
-        for (Object key : expectedMap.keySet()) {
-            String name = key.toString();
-            ValuePath propertyPath = actualPath.property(name);
-
-            if (actualRecord.getHeader().has(name)) {
-                Object actualValue = actualRecord.get(name);
-                Object expectedValue = expectedMap.get(name);
-                comparator.compareUsingEqualOnly(propertyPath, actualValue, expectedValue);
-            } else {
-                comparator.reportMissing(this, propertyPath, expectedMap.get(name));
-            }
-        }
+    public Object convertedActual(Object actual, Object expected) {
+        return ((Record) actual).toMap();
     }
 }

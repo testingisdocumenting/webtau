@@ -30,10 +30,10 @@ Use `*` in front of a column to specify it as a key column
 
 ```tabs
 Groovy:
-:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableWithKeyColumns", bodyOnly: true}
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {entry: "createTableWithKeyColumn", bodyOnly: true}
 
 Java:
-:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableWithKeyColumns", bodyOnly: true, removeReturn: true, removeSemicolon: true}
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {entry: "createTableWithKeyColumn", bodyOnly: true, removeReturn: true, removeSemicolon: true}
 ```
 
 To access a value by key column
@@ -71,6 +71,38 @@ Java:
 ```
 
 Note: WebTau merges keys from all list elements to create the table header
+
+# Create From Existing Rows
+
+Use `:identifier: fromRowsByKeys {validationPath: "org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java"}` to create `TableData` from existing rows.
+
+```tabs
+Groovy:
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {
+  title: "from existing rows by keys",
+  entry: "should create a new table by selecting rows by id", 
+  bodyOnly: true
+}
+
+:include-groovy: org/testingisdocumenting/webtau/data/table/TableDataGroovyTest.groovy {
+  title: "from existing rows by composite keys",
+  entry: "should create a new table by selecting rows by composite keys", 
+  bodyOnly: true
+}
+
+Java:
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {
+  title: "from existing rows by keys",
+  entry: "shouldCreateANewTableBySelectingRowsById",
+  bodyOnly: true
+}
+
+:include-java: org/testingisdocumenting/webtau/data/table/TableDataJavaTest.java {
+  title: "from existing rows by composite keys",
+  entry: "shouldCreateANewTableBySelectingRowsByCompositeKeys",
+  bodyOnly: true
+}
+```
 
 # Serialization
 

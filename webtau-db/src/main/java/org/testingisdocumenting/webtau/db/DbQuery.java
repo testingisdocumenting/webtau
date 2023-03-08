@@ -29,11 +29,11 @@ import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
 
 /**
@@ -76,7 +76,7 @@ public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptio
 
     @Override
     public TokenizedMessage describe() {
-        return appendParamsIfRequired(tokenizedMessage(queryValue(query)));
+        return appendParamsIfRequired(tokenizedMessage().query(query));
     }
 
     @Override
@@ -93,7 +93,11 @@ public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptio
     }
 
     TableData queryTableDataNoStep() {
-        return convertToTable(dataFetcher.get());
+        return convertToTable(dataFetcher.get(), TableHeaderConverters::toUpperCase);
+    }
+
+    TableData queryTableDataNoStep(Function<String, String> headerConverter) {
+        return convertToTable(dataFetcher.get(), headerConverter);
     }
 
     <E> E querySingleValueNoStep() {
@@ -116,7 +120,7 @@ public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptio
 
     private TokenizedMessage queryMessage(String actionLabel) {
         return appendParamsIfRequired(
-                tokenizedMessage(action(actionLabel), stringValue(query), ON, id(dataSourceLabelSupplier.get())));
+                tokenizedMessage().action(actionLabel).string(query).on().id(dataSourceLabelSupplier.get()));
     }
 
     private TokenizedMessage appendParamsIfRequired(TokenizedMessage message) {
@@ -124,16 +128,17 @@ public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptio
             return message;
         }
 
-        return message.add(WITH, stringValue(params));
+        return message.with().string(params);
     }
 
-    private TableData convertToTable(List<Map<String, Object>> result) {
+    private TableData convertToTable(List<Map<String, Object>> result,
+                                     Function<String, String> headerConverter) {
         if (result.isEmpty()) {
             return new TableData(Collections.emptyList());
         }
 
         List<String> columns = result.get(0).keySet().stream()
-                .map(String::toUpperCase)
+                .map(headerConverter)
                 .collect(Collectors.toList());
 
         TableDataHeader header = new TableDataHeader(columns.stream());

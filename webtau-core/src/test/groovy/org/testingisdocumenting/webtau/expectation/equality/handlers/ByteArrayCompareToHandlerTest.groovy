@@ -17,12 +17,13 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
-import org.testingisdocumenting.webtau.data.ValuePath
-import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
-import org.junit.Test
 
-import static org.testingisdocumenting.webtau.WebTauCore.createActualPath
-import static org.junit.Assert.assertEquals
+import org.junit.Test
+import org.testingisdocumenting.webtau.data.ValuePath
+
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class ByteArrayCompareToHandlerTest {
     private static final ValuePath actualPath = createActualPath("value")
@@ -39,29 +40,18 @@ class ByteArrayCompareToHandlerTest {
     }
 
     @Test
-    void "prints first bytes of array as hex when matched and ellipsis to show there is more"() {
+    void "prints first bytes of array when fails"() {
         def a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 29] as byte[]
+        def b = [1, 2, 3, 4, 5, 6, 7, 9, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 29] as byte[]
 
-        def comparator = CompareToComparator.comparator()
-        assert comparator.compareIsEqual(actualPath, a, a)
-
-        assertEquals(
-            'value: binary content of size 20\n' +
-            '         actual: 0102030405060708090A0B0C0D0E0F10...\n' +
-            '       expected: 0102030405060708090A0B0C0D0E0F10...', comparator.generateEqualMatchReport())
-    }
-
-    @Test
-    void "prints first bytes of array as hex without ellipsis if it fits"() {
-        def a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16] as byte[]
-
-        def comparator = CompareToComparator.comparator()
-        assert comparator.compareIsEqual(actualPath, a, a)
-
-        assertEquals(
-            'value: binary content of size 16\n' +
-            '         actual: 0102030405060708090A0B0C0D0E0F10\n' +
-            '       expected: 0102030405060708090A0B0C0D0E0F10', comparator.generateEqualMatchReport())
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal binary content of size 20:\n' +
+                '    binary content first difference idx: 7\n' +
+                '      actual: ...08090A0B0C0D0E0F101112131D\n' +
+                '    expected: ...09090A0B0C0D0E0F101112131D (Xms)\n' +
+                '  \n' +
+                '  binary content of size 20') {
+            actual(a).should(equal(b))
+        }
     }
 
     @Test
@@ -69,16 +59,16 @@ class ByteArrayCompareToHandlerTest {
         def a = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22] as byte[]
         def b = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 18, 18, 19, 20, 21, 22, 23] as byte[]
 
-        def comparator = CompareToComparator.comparator()
-        assert !comparator.compareIsEqual(actualPath, a, b)
-
-        assertEquals('mismatches:\n' +
-            '\n' +
-            'value: binary content has different size:\n' +
-            '         actual: 22\n' +
-            '       expected: 23\n' +
-            'value: binary content first difference idx: 16\n' +
-            '         actual: ...111213141516\n' +
-            '       expected: ...12121314151617', comparator.generateEqualMismatchReport())
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal binary content of size 23:\n' +
+                '    binary content has different size:\n' +
+                '      actual: 22\n' +
+                '    expected: 23\n' +
+                '    binary content first difference idx: 16\n' +
+                '      actual: ...111213141516\n' +
+                '    expected: ...12121314151617 (Xms)\n' +
+                '  \n' +
+                '  binary content of size 22') {
+            actual(a).should(equal(b))
+        }
     }
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +17,6 @@
 
 package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
@@ -32,7 +32,7 @@ public class IterableContainHandler implements ContainHandler {
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected);
-        List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
+        List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         if (indexedValues.isEmpty()) {
             containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
@@ -43,11 +43,8 @@ public class IterableContainHandler implements ContainHandler {
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected);
-        List<IndexedValue> indexedValues = analyzer.containingIndexedValues();
+        analyzer.findContainingIndexedValues();
 
-        indexedValues.forEach(indexedValue ->
-                containAnalyzer.reportMismatch(this, actualPath.index(indexedValue.getIdx()),
-                        "equals " + DataRenderers.render(indexedValue.getValue()))
-        );
+        analyzer.getComparator().getEqualMessages().forEach(message -> containAnalyzer.reportMatch(this, message.getActualPath(),message.getMessage()));
     }
 }

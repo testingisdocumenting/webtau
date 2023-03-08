@@ -59,7 +59,11 @@ public class TableDataHeader {
     }
 
     public boolean hasKeyColumns() {
-        return ! keyNames.isEmpty();
+        return !keyNames.isEmpty();
+    }
+
+    public int numberOfKeyColumns() {
+        return keyNames.size();
     }
 
     public Stream<String> getKeyNamesStream() {
@@ -76,6 +80,10 @@ public class TableDataHeader {
 
     public boolean hasColumn(String columnName) {
         return namesByIndex.contains(columnName);
+    }
+
+    public boolean isKeyColumn(String columnName) {
+        return keyNames.contains(columnName);
     }
 
     private void add(String nameWithMeta) {

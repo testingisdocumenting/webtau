@@ -21,12 +21,14 @@ import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.table.Record;
 import org.testingisdocumenting.webtau.data.table.TableData;
+import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 public class TablePrettyPrinter {
+    private static final Color COLUMN_NAME_KEY_INDICATOR_COLOR = Color.YELLOW;
     private static final Color COLUMN_NAME_COLOR = Color.PURPLE;
     private static final String COLUMNS_DELIMITER = " │ ";
 
@@ -38,9 +40,12 @@ public class TablePrettyPrinter {
 
     public TablePrettyPrinter(TableData tableData) {
         this.tableData = tableData;
-        this.columnWidthByIdx = tableData.getHeader().getNamesStream()
-                .map(String::length)
+
+        TableDataHeader header = tableData.getHeader();
+        this.columnWidthByIdx = header.getNamesStream()
+                .map(name -> name.length() + (header.isKeyColumn(name) ? 1 : 0))
                 .collect(Collectors.toList());
+
         this.rowHeightByIdx = tableData.rowsStream()
                 .map(record -> 1)
                 .collect(Collectors.toList());
@@ -55,15 +60,22 @@ public class TablePrettyPrinter {
     }
 
     private void renderHeader(PrettyPrinter printer) {
-        Iterator<String> namesIt = tableData.getHeader().getNamesStream().iterator();
+        TableDataHeader tableHeader = tableData.getHeader();
+        Iterator<String> namesIt = tableHeader.getNamesStream().iterator();
         int columnIdx = 0;
         while (namesIt.hasNext()) {
             String name = namesIt.next();
+            boolean isKeyColumn = tableHeader.isKeyColumn(name);
+
             int columnWidth = columnWidthByIdx.get(columnIdx);
-            boolean isLastColumn = columnIdx == tableData.getHeader().size() - 1;
+            boolean isLastColumn = columnIdx == tableHeader.size() - 1;
 
+            if (isKeyColumn) {
+                printer.print(COLUMN_NAME_KEY_INDICATOR_COLOR, '*');
+            }
 
-            printer.print(COLUMN_NAME_COLOR, StringUtils.rightPad(name,columnWidth, ' '));
+            printer.print(COLUMN_NAME_COLOR, StringUtils.rightPad(name, columnWidth - (isKeyColumn ? 1 : 0), ' '));
+
             if (!isLastColumn) {
                 printer.print(PrettyPrinter.DELIMITER_COLOR, COLUMNS_DELIMITER);
             }
@@ -76,6 +88,12 @@ public class TablePrettyPrinter {
 
     private void renderBody(PrettyPrinter printer) {
         int numberOfRows = prettyPrintersTable.numberOfRows();
+
+        if (numberOfRows == 0) {
+            printer.printLine(Color.YELLOW, "[empty]");
+            return;
+        }
+
         for (int rowIdx = 0; rowIdx < numberOfRows; rowIdx++) {
             Record row = prettyPrintersTable.row(rowIdx);
             renderRow(printer, row, rowIdx, rowIdx == numberOfRows - 1);
@@ -90,6 +108,8 @@ public class TablePrettyPrinter {
         int effectiveHeight = rowHeight > 1 && !isLastRow ? rowHeight + 1 : rowHeight;
 
         for (int rowLineIdx = 0; rowLineIdx < effectiveHeight; rowLineIdx++) {
+            boolean isLastRowLine = rowLineIdx == effectiveHeight - 1;
+
             int columnIdx = 0;
             for (Object cellValue : row.getValues()) {
                 PrettyPrinter cellPrettyPrinter = (PrettyPrinter) cellValue;
@@ -123,7 +143,10 @@ public class TablePrettyPrinter {
 
                 columnIdx++;
             }
-            printer.flushCurrentLine();
+
+            if (!isLastRow || !isLastRowLine) {
+                printer.flushCurrentLine();
+            }
         }
     }
 
@@ -146,11 +169,12 @@ public class TablePrettyPrinter {
         }
     }
 
-    private TableData createPrettyPrintersTable(PrettyPrinter prettyPrinter, ValuePath root, TableData tableData) {
+    private TableData createPrettyPrintersTable(PrettyPrinter parentPrinter, ValuePath root, TableData tableData) {
         return tableData.map(((rowIdx, colIdx, columnName, v) -> {
-            PrettyPrinter cellPrettyPrinter = new PrettyPrinter(prettyPrinter.getConsoleOutput(), 0);
-            cellPrettyPrinter.setPathsDecoration(prettyPrinter.getDecorationToken(), prettyPrinter.getPathsToDecorate());
-            cellPrettyPrinter.setValueConverter(prettyPrinter.getValueConverter());
+            PrettyPrinter cellPrettyPrinter = new PrettyPrinter(0);
+            cellPrettyPrinter.setPathsDecoration(parentPrinter.getDecorationToken(), parentPrinter.getPathsToDecorate());
+            cellPrettyPrinter.setValueConverter(parentPrinter.getValueConverter());
+            cellPrettyPrinter.setRecommendedMaxWidthForSingleLineObjects(parentPrinter.getRecommendedMaxWidthForSingleLineObjects());
 
             cellPrettyPrinter.printObject(root.index(rowIdx).property(columnName), v);
 

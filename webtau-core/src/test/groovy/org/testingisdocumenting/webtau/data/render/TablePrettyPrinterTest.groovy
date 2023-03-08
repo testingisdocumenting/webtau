@@ -17,15 +17,22 @@
 package org.testingisdocumenting.webtau.data.render
 
 import org.junit.Test
-import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.data.table.TableData
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 
-class TablePrettyPrinterTest {
+class TablePrettyPrinterTest extends PrettyPrintableTestBase {
+    @Test
+    void "render empty table"() {
+        def emptyTable = table("colA", "colB", "colC",
+                               ________________________)
+
+        prettyPrintTable(emptyTable, [], "colA │ colB │ colC\n" +
+                "[empty]")
+    }
+
     @Test
     void "render table of simple values"() {
         def simpleTable = table("colA", "colB", "colC",
@@ -36,6 +43,18 @@ class TablePrettyPrinterTest {
         prettyPrintTable(simpleTable, [], 'colA      │ colB    │ colC\n' +
                 '"hello"   │ "world" │   10\n' +
                 '"another" │ "world" │  200')
+    }
+
+    @Test
+    void "render table keys"() {
+        def simpleTable = table("*colA", "colB", "*colC",
+                                ________________________,
+                                "hello", "world", 10,
+                                "another", "world", 200)
+
+        prettyPrintTable(simpleTable, [], '*colA     │ colB    │ *colC\n' +
+                '"hello"   │ "world" │    10\n' +
+                '"another" │ "world" │   200')
     }
 
     @Test
@@ -51,9 +70,10 @@ class TablePrettyPrinterTest {
                 '"another" │ "world"     │ **200**')
     }
 
-
     @Test
     void "render table with map and list inside"() {
+        printer.setRecommendedMaxWidthForSingleLineObjects(5)
+
         def table = table("colA", "colB",               "colC",
                          ______________________________________,
                          "text",     100, "12",
@@ -75,6 +95,8 @@ class TablePrettyPrinterTest {
 
     @Test
     void "render table with decorated map and list inside"() {
+        printer.setRecommendedMaxWidthForSingleLineObjects(5)
+
         def table = table("colA", "colB",               "colC",
                           ______________________________________,
                           "text",     100, "12",
@@ -96,16 +118,48 @@ class TablePrettyPrinterTest {
                 '          │                      │ ]**    ')
     }
 
-    private static void prettyPrintTable(TableData tableData, List<String> paths, String expected) {
-        TestConsoleOutput.runAndValidateOutput(expected) {
-            def prettyPrinter = new PrettyPrinter(ConsoleOutputs.asCombinedConsoleOutput(), 0)
-            prettyPrinter.setPathsDecoration(new PrettyPrinterDecorationToken("**", Color.RED),
+    @Test
+    void "render table with decorated map and list inside single line"() {
+        def table = table("colA", "colB",               "colC",
+                          ______________________________________,
+                          "text",     100,               "12",
+                          "hello", map("key", "value"), [2, 5],
+                          "another", "world",           [3, 8])
+
+        def paths = ["[1].colB.key", "[2].colC", "[2].colC[1]"]
+
+        prettyPrintTable(table, paths, 'colA      │ colB                 │ colC          \n' +
+                '"text"    │                  100 │ "12"          \n' +
+                '"hello"   │ {"key": **"value"**} │ [2, 5]        \n' +
+                '"another" │ "world"              │ **[3, **8**]**')
+    }
+
+    @Test
+    void "table rendered as block inside map"() {
+        def table = table("colA", "colB",
+                          ______________________,
+                          "text",     100,
+                          "hello",    200)
+
+        def map = [key1: 100, key2: table, key3: "hello"]
+        printer.printObject(map)
+
+        expectOutput("{\n" +
+                "  \"key1\": 100,\n" +
+                "  \"key2\": colA    │ colB\n" +
+                "          \"text\"  │  100\n" +
+                "          \"hello\" │  200,\n" +
+                "  \"key3\": \"hello\"\n" +
+                "}")
+    }
+
+    private void prettyPrintTable(TableData tableData, List<String> paths, String expected) {
+        printer.setPathsDecoration(new PrettyPrinterDecorationToken("**", Color.RED),
                 paths.collect { new ValuePath(it) } as Set)
 
-            def tablePrinter = new TablePrettyPrinter(tableData)
-            tablePrinter.prettyPrint(prettyPrinter, new ValuePath(""))
+        def tablePrinter = new TablePrettyPrinter(tableData)
+        tablePrinter.prettyPrint(printer, new ValuePath(""))
 
-            prettyPrinter.renderToConsole()
-        }
+        expectOutput(expected)
     }
 }

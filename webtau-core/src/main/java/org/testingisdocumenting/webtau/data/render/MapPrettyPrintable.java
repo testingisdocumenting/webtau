@@ -20,6 +20,7 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.testingisdocumenting.webtau.data.render.PrettyPrinter.*;
 
@@ -39,8 +40,10 @@ public class MapPrettyPrintable implements PrettyPrintable {
     public void prettyPrint(PrettyPrinter printer, ValuePath root) {
         if (map.isEmpty()) {
             printEmptyMap(printer);
+        } else if (canFitIntoSingleLine(printer.getRecommendedMaxWidthForSingleLineObjects())) {
+            printSingleLineMap(printer, root);
         } else {
-            printNonEmptyMap(printer, root);
+            printMultiLineMap(printer, root);
         }
     }
 
@@ -49,7 +52,50 @@ public class MapPrettyPrintable implements PrettyPrintable {
         printer.printDelimiter("}");
     }
 
-    public void printNonEmptyMap(PrettyPrinter printer, ValuePath path) {
+    private boolean canFitIntoSingleLine(int recommendedMaxWidth) {
+        PrettyPrinterCanFitWidthCalculator canFitCalculator = new PrettyPrinterCanFitWidthCalculator(recommendedMaxWidth, map.size());
+
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            Object key = entry.getKey();
+            Object value = entry.getValue();
+
+            PrettyPrinter printer = canFitCalculator.getPrinter();
+
+            printKeyValue(printer, ValuePath.UNDEFINED, key, value);
+            printer.flushCurrentLine();
+
+            if (canFitCalculator.isOutOfBoundaries()) {
+                return false;
+            }
+
+            canFitCalculator.nextIteration();
+        }
+
+        return !canFitCalculator.isOutOfBoundaries();
+    }
+
+    private void printSingleLineMap(PrettyPrinter printer, ValuePath path) {
+        printer.printDelimiter("{");
+
+        int idx = 0;
+        for (Map.Entry<?, ?> entry : map.entrySet()) {
+            Object key = entry.getKey();
+            Object value = entry.getValue();
+
+            printKeyValue(printer, path, key, value);
+
+            boolean isLast = idx == map.size() - 1;
+            if (!isLast) {
+                printer.printDelimiter(", ");
+            }
+
+            idx++;
+        }
+
+        printer.printDelimiter("}");
+    }
+
+    public void printMultiLineMap(PrettyPrinter printer, ValuePath path) {
         printer.printDelimiter("{");
         printer.printLine();
         printer.increaseIndentation();
@@ -59,9 +105,14 @@ public class MapPrettyPrintable implements PrettyPrintable {
             Object key = entry.getKey();
             Object value = entry.getValue();
 
-            printKey(printer,key);
+            printKey(printer, key);
             printer.printDelimiter(": ");
-            printer.printObject(path.property(key.toString()), value);
+            Optional<PrettyPrintable> prettyPrintable = findPrettyPrintable(value);
+            if (prettyPrintable.isPresent() && prettyPrintable.map(PrettyPrintable::printAsBlock).orElse(false)) {
+                printer.printObjectAutoIndentedByCurrentLine(path.property(key.toString()), value);
+            } else {
+                printer.printObject(path.property(key.toString()), value);
+            }
 
             boolean isLast = idx == map.size() - 1;
             if (!isLast) {
@@ -75,6 +126,12 @@ public class MapPrettyPrintable implements PrettyPrintable {
         printer.printLine();
         printer.decreaseIndentation();
         printer.printDelimiter("}");
+    }
+
+    private void printKeyValue(PrettyPrinter printer, ValuePath path, Object key, Object value) {
+        printKey(printer, key);
+        printer.printDelimiter(": ");
+        printer.printObject(path.property(key.toString()), value);
     }
 
     private void printKey(PrettyPrinter printer, Object key) {

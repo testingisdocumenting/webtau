@@ -15,7 +15,7 @@
     "scenario" : "slow down",
     "shortContainerId" : "fakeRest.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4,
+      "numberOfSuccessful" : 5,
       "numberOfFailed" : 1
     }
   }, {

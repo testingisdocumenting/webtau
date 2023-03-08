@@ -40,8 +40,94 @@ function incompleteJsonHttpCalls() {
       elapsedTime: 90,
       errorMessage: null,
       mismatches: [
-        "can't parse JSON response of http://localhost:54605/invalid-json-response: Unexpected end-of-input: " +
-          'was expecting closing quote for a string value at [Source: (String)"{"key": "value"; line: 1, column: 15]',
+        [
+          {
+            type: 'id',
+            value: 'body.temperature',
+          },
+          {
+            type: 'delimiter',
+            value: ':',
+          },
+          {
+            type: 'delimiterNoAutoSpacing',
+            value: '  ',
+          },
+          {
+            type: 'classifier',
+            value: 'actual',
+          },
+          {
+            type: 'delimiter',
+            value: ':',
+          },
+          {
+            type: 'styledText',
+            value: [
+              [
+                {
+                  styles: [],
+                  text: '',
+                },
+                {
+                  styles: ['blue'],
+                  text: '88',
+                },
+              ],
+            ],
+          },
+          {
+            type: 'delimiterNoAutoSpacing',
+            value: ' ',
+          },
+          {
+            type: 'objectType',
+            value: '<java.lang.Integer>',
+          },
+          {
+            type: 'delimiterNoAutoSpacing',
+            value: '\n',
+          },
+          {
+            type: 'delimiterNoAutoSpacing',
+            value: '                 ',
+          },
+          {
+            type: 'classifier',
+            value: 'expected',
+          },
+          {
+            type: 'delimiter',
+            value: ':',
+          },
+          {
+            type: 'classifier',
+            value: 'less than',
+          },
+          {
+            type: 'styledText',
+            value: [
+              [
+                {
+                  styles: [],
+                  text: '',
+                },
+                {
+                  styles: ['blue'],
+                  text: '10',
+                },
+              ],
+            ],
+          },
+          {
+            type: 'delimiterNoAutoSpacing',
+            value: ' ',
+          },
+          {
+            type: 'objectType',
+            value: '<java.lang.Integer>',
+          },
+        ],
       ],
       warnings: [],
       requestHeader: [],

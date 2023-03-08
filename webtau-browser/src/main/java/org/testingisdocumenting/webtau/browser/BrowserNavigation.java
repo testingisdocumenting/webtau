@@ -16,12 +16,7 @@
 
 package org.testingisdocumenting.webtau.browser;
 
-import org.openqa.selenium.Cookie;
 import org.openqa.selenium.WebDriver;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
-
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 
 public class BrowserNavigation {
     private final WebDriver driver;
@@ -29,5 +24,4 @@ public class BrowserNavigation {
     public BrowserNavigation(WebDriver driver) {
         this.driver = driver;
     }
-
 }

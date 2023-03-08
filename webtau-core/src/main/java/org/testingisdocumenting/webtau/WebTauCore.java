@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau;
 
 import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.data.MultiValue;
+import org.testingisdocumenting.webtau.data.converters.ObjectProperties;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.TableDataUnderscore;
 import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenFunctions;
@@ -29,17 +30,13 @@ import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.*;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.data.table.TableDataUnderscore.*;
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.*;
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.*;
 import static org.testingisdocumenting.webtau.utils.FunctionUtils.*;
 
 /**
@@ -58,6 +55,11 @@ public class WebTauCore extends Matchers {
         return new TableData(Arrays.stream(columnNames));
     }
 
+    /**
+     * creates composite key from provided part(s)
+     * @param values key parts
+     * @return composite key
+     */
     public static CompositeKey key(Object... values) {
         return new CompositeKey(Arrays.stream(values));
     }
@@ -124,8 +126,8 @@ public class WebTauCore extends Matchers {
      */
     public static void sleep(long millis) {
         WebTauStep.createAndExecuteStep(
-                tokenizedMessage(action("sleeping"), FOR, numberValue(millis), classifier("milliseconds")),
-                () -> tokenizedMessage(action("slept"), FOR, numberValue(millis), classifier("milliseconds")),
+                tokenizedMessage().action("sleeping").forP().number(millis).classifier("milliseconds"),
+                () -> tokenizedMessage().action("slept").forP().number(millis).classifier("milliseconds"),
                 () -> {
                     try {
                         Thread.sleep(millis);
@@ -184,8 +186,8 @@ public class WebTauCore extends Matchers {
 
     public static <R> R step(String label, Map<String, Object> stepInput, Supplier<Object> action) {
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action(label)),
-                () -> tokenizedMessage(none("completed"), action(label)),
+                tokenizedMessage().action(label),
+                () -> tokenizedMessage().none("completed").action(label),
                 action);
 
         if (!stepInput.isEmpty()) {
@@ -209,12 +211,35 @@ public class WebTauCore extends Matchers {
         step.execute(StepReportOptions.REPORT_ALL);
     }
 
+    public static TokenizedMessage tokenizedMessage(MessageToken... tokens) {
+        TokenizedMessage message = new TokenizedMessage();
+        message.add(tokens);
+
+        return message;
+    }
+
+    public static TokenizedMessage tokenizedMessage(TokenizedMessage tokenizedMessage) {
+        TokenizedMessage message = new TokenizedMessage();
+        message.add(tokenizedMessage);
+
+        return message;
+    }
+
     /**
      * outputs provided message for tracing
      * @param label label to print
      */
     public static void trace(String label) {
         trace(label, Collections.emptyMap());
+    }
+
+    /**
+     * outputs provided message and object for tracing
+     * @param label label to print
+     * @param value value to print
+     */
+    public static void trace(String label, Object value) {
+        trace(label, new WebTauStepInputPrettyPrint(value));
     }
 
     /**
@@ -234,17 +259,42 @@ public class WebTauCore extends Matchers {
      * @param info key-values as a map
      */
     public static void trace(String label, Map<String, Object> info) {
-        WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(action(label)),
-                () -> tokenizedMessage(action(label)),
-                () -> {});
-        step.setClassifier(WebTauStepClassifiers.TRACE);
+        trace(label, WebTauStepInputKeyValue.stepInput(info));
+    }
 
-        if (!info.isEmpty()) {
-            step.setInput(WebTauStepInputKeyValue.stepInput(info));
-        }
+    /**
+     * extract properties from an object. use with trace to debug values.
+     * don't need to explicitly extract properties if you want to compare with a map or table: WebTau matchers will automatically perform the conversion.
+     * @param object object to extract properties form
+     * @return object properties
+     */
+    public static ObjectProperties properties(Object object) {
+        return new ObjectProperties(object);
+    }
 
-        step.execute(StepReportOptions.REPORT_ALL);
+    /**
+     * extract properties from list of objects. use with trace to debug values.
+     * don't need to explicitly extract properties if you want to compare with a map or table: WebTau matchers will automatically perform the conversion.
+     * @param objects list of objects
+     * @return object properties
+     */
+    public static List<ObjectProperties> properties(Collection<?> objects) {
+        return objects.stream()
+                .map(WebTauCore::properties)
+                .collect(Collectors.toList());
+    }
+
+    /**
+     * extract properties from list of objects. use with trace to debug values.
+     * don't need to explicitly extract properties if you want to compare with a map or table: WebTau matchers will automatically perform the conversion.
+     * @param objects list of objects
+     * @return object properties
+     */
+    public static TableData propertiesTable(Collection<?> objects) {
+        List<ObjectProperties> properties = properties(objects);
+        return TableData.fromListOfMaps(properties.stream()
+                .map(ObjectProperties::getUnwrappedProperties)
+                .collect(Collectors.toList()));
     }
 
     /**
@@ -272,10 +322,10 @@ public class WebTauCore extends Matchers {
      * @param info key-values as a map
      */
     public static void warning(String label, Map<String, Object> info) {
-        MessageToken messageToken = IntegrationTestsMessageBuilder.warning(label);
+        TokenizedMessage tokenizedMessage = tokenizedMessage().warning(label);
         WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage(messageToken),
-                () -> tokenizedMessage(messageToken),
+                tokenizedMessage,
+                () -> tokenizedMessage,
                 () -> {});
         step.setClassifier(WebTauStepClassifiers.WARNING);
 
@@ -308,6 +358,20 @@ public class WebTauCore extends Matchers {
     @Deprecated
     public static <K> Map<K, Object> aMapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
         return map(original, firstKey, firstValue, restKv);
+    }
+
+    private static void trace(String label, WebTauStepInput stepInput) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage().action(label),
+                () -> tokenizedMessage().action(label),
+                () -> {});
+        step.setClassifier(WebTauStepClassifiers.TRACE);
+
+        if (stepInput != WebTauStepInput.EMPTY) {
+            step.setInput(stepInput);
+        }
+
+        step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public static final TableDataUnderscore __ = UNDERSCORE;

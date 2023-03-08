@@ -23,26 +23,22 @@ import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString
 import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
-import org.testingisdocumenting.webtau.reporter.StepReportOptions
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage
-import org.testingisdocumenting.webtau.reporter.WebTauReport
-import org.testingisdocumenting.webtau.reporter.WebTauReportLog
-import org.testingisdocumenting.webtau.reporter.WebTauReportName
-import org.testingisdocumenting.webtau.reporter.WebTauStep
-import org.testingisdocumenting.webtau.reporter.WebTauTest
-import org.testingisdocumenting.webtau.reporter.WebTauTestList
+import org.testingisdocumenting.webtau.reporter.*
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import java.nio.file.Paths
 
-import static org.testingisdocumenting.webtau.Matchers.contain
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
+import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class ConsoleReportGeneratorTest implements ConsoleOutput {
     def lines = []
+    def output = ""
 
     @Before
     void setup() {
         lines.clear()
+        output = ""
         ConsoleOutputs.add(this)
     }
 
@@ -105,6 +101,33 @@ class ConsoleReportGeneratorTest implements ConsoleOutput {
         lines.should contain("...(3 more errored tests)")
     }
 
+    @Test
+    void "print failed test steps"() {
+        def tests = new WebTauTestList()
+        tests.add(createTestWithNestedFailedStepsAndOutput("with nested"))
+
+        def report = createReport(tests)
+        new ConsoleReportGenerator().generate(report)
+
+        output.should == '> do x\n' +
+                '  > nested do x\n' +
+                '    nestedKey: "value1"\n' +
+                '  X failed nested do x: nested failed step (Xms)\n' +
+                '  outerKey: "value1"\n' +
+                'X failed do x (Xms)\n' +
+                '\n' +
+                'you have 1 errored test(s):\n' +
+                '[x] with nested (dummy)\n' +
+                'X failed do x (Xms)\n' +
+                '  X failed nested do x: nested failed step (Xms)\n' +
+                '    nestedKey: "value1"\n' +
+                '  outerKey: "value1"\n' +
+                'java.lang.RuntimeException: nested failed step\n' +
+                '\n' +
+                'Total time: Xms\n' +
+                'Total: 1,  Passed: 0,  Skipped: 0,  Failed: 0,  Errored: 1\n'
+    }
+
     static def createFailedTest(String scenario) {
         def exception = new AssertionError("mismatch" as Object)
         return createTestWithException(scenario, exception)
@@ -122,8 +145,8 @@ class ConsoleReportGeneratorTest implements ConsoleOutput {
         test.shortContainerId = "dummy"
 
         def step = WebTauStep.createStep(
-                TokenizedMessage.tokenizedMessage(action("do x")),
-                () -> TokenizedMessage.tokenizedMessage(action("done x")),
+                tokenizedMessage().action("do x"),
+                () -> tokenizedMessage().action("done x"),
                 () -> {
                     throw exception
                 })
@@ -139,6 +162,41 @@ class ConsoleReportGeneratorTest implements ConsoleOutput {
         return test
     }
 
+    static def createTestWithNestedFailedStepsAndOutput(String scenario) {
+        def test = new WebTauTest(Paths.get(""))
+        test.id = scenario.toLowerCase()
+        test.scenario = scenario
+        test.shortContainerId = "dummy"
+
+        def exception = new RuntimeException("nested failed step")
+        def stepOuter = WebTauStep.createStep(
+                tokenizedMessage().action("do x"),
+                () -> tokenizedMessage().action("done x"),
+                () -> {
+                    def nestedStep = WebTauStep.createStep(
+                            tokenizedMessage().action("nested do x"),
+                                    () -> tokenizedMessage().action("nested done x"),
+                                            () -> {
+                                                throw exception
+                                            })
+
+                    nestedStep.setOutput(WebTauStepOutputKeyValue.stepOutput(["nestedKey": "value1"]))
+                    nestedStep.execute(StepReportOptions.REPORT_ALL)
+                })
+
+        stepOuter.setOutput(WebTauStepOutputKeyValue.stepOutput("outerKey", "value1"))
+
+        try {
+            stepOuter.execute(StepReportOptions.REPORT_ALL)
+        } catch (Throwable ignored) {
+        }
+
+        test.addStep(stepOuter)
+        test.exception = exception
+
+        return test
+    }
+
     static WebTauReport createReport(WebTauTestList tests) {
         def report = new WebTauReport(new WebTauReportName("test", ""), tests, 0, 0)
         report.addCustomData(new WarningsReportDataProvider().provide(tests, new WebTauReportLog()).findFirst().orElse(null))
@@ -149,7 +207,11 @@ class ConsoleReportGeneratorTest implements ConsoleOutput {
     @Override
     void out(Object... styleOrValues) {
         println new AutoResetAnsiString(styleOrValues)
-        lines.add(new IgnoreAnsiString(styleOrValues).toString())
+
+        def noAnsiText = TestConsoleOutput.replaceTimeAndPort(new IgnoreAnsiString(styleOrValues).toString())
+        lines.add(noAnsiText)
+
+        output += noAnsiText + "\n"
     }
 
     @Override

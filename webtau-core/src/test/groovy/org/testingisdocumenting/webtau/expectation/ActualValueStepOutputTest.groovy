@@ -19,62 +19,48 @@ package org.testingisdocumenting.webtau.expectation
 import org.junit.Test
 import org.testingisdocumenting.webtau.reporter.StepReportOptions
 import org.testingisdocumenting.webtau.reporter.WebTauStep
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
-import static org.testingisdocumenting.webtau.Matchers.actual
-import static org.testingisdocumenting.webtau.Matchers.equal
-import static org.testingisdocumenting.webtau.reporter.IntegrationTestsMessageBuilder.action
-import static org.testingisdocumenting.webtau.reporter.TokenizedMessage.tokenizedMessage
+import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class ActualValueStepOutputTest {
     @Test
     void "should print iterable with marked failed values in case of mismatch"() {
-        TestConsoleOutput.runAndValidateOutput("X failed expecting [value] to equal [1, world, 2]: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value][1]:   actual: \"hello\" <java.lang.String>\n" +
-                "                expected: \"world\" <java.lang.String>\n" +
-                "                           ^ (Xms)\n" +
-                "  [\n" +
-                "    1,\n" +
-                "    **\"hello\"**,\n" +
-                "    2\n" +
-                "  ]") {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal [1, "world", 2]:\n' +
+                '    [value][1]:  actual: "hello" <java.lang.String>\n' +
+                '               expected: "world" <java.lang.String>\n' +
+                '                          ^ (Xms)\n' +
+                '  \n' +
+                '  [1, **"hello"**, 2]') {
             actual([1, "hello", 2]).should(equal([1, "world", 2]))
         }
     }
 
     @Test
     void "should print map with marked failed values in case of mismatch"() {
-        TestConsoleOutput.runAndValidateOutput("X failed expecting [value] to equal {key=value1, another=23}: \n" +
-                "    mismatches:\n" +
-                "    \n" +
-                "    [value].another:   actual: 22 <java.lang.Integer>\n" +
-                "                     expected: 23 <java.lang.Integer> (Xms)\n" +
-                "  {\n" +
-                "    \"key\": \"value1\",\n" +
-                "    \"another\": **22**\n" +
-                "  }") {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to equal {"key": "value1", "another": 23}:\n' +
+                '    [value].another:  actual: 22 <java.lang.Integer>\n' +
+                '                    expected: 23 <java.lang.Integer> (Xms)\n' +
+                '  \n' +
+                '  {"key": "value1", "another": **22**}') {
             actual([key: "value1", another: 22]).should(equal([key: "value1", another: 23]))
         }
     }
 
     @Test
     void "should not print actual if a parent step handles it"() {
-        def step = WebTauStep.createStep(tokenizedMessage(action("parent step")),
-                () -> tokenizedMessage(action("parent step done")),
+        def step = WebTauStep.createStep(tokenizedMessage().action("parent step"),
+                () -> tokenizedMessage().action("parent step done"),
                         () -> {
                             actual([key: "value1", another: 22]).should(equal([key: "value1", another: 23]))
                         })
-        step.matcherOutputDisabled = true
+        step.matcherOutputActualValueDisabled = true
 
-        TestConsoleOutput.runAndValidateOutput("> parent step\n" +
-                "  X failed expecting [value] to equal {key=value1, another=23}: \n" +
-                "      mismatches:\n" +
-                "      \n" +
-                "      [value].another:   actual: 22 <java.lang.Integer>\n" +
-                "                       expected: 23 <java.lang.Integer> (Xms)\n" +
-                "X failed parent step (Xms)") {
+        runExpectExceptionAndValidateOutput(AssertionError, '> parent step\n' +
+                '  X failed expecting [value] to equal {"key": "value1", "another": 23}:\n' +
+                '      [value].another:  actual: 22 <java.lang.Integer>\n' +
+                '                      expected: 23 <java.lang.Integer> (Xms)\n' +
+                'X failed parent step (Xms)') {
             step.execute(StepReportOptions.REPORT_ALL)
         }
     }

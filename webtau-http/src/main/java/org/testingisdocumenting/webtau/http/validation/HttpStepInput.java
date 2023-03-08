@@ -16,13 +16,11 @@
 
 package org.testingisdocumenting.webtau.http.validation;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
-import org.testingisdocumenting.webtau.http.render.DataNodeAnsiPrinter;
 import org.testingisdocumenting.webtau.http.request.HttpApplicationMime;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.reporter.WebTauStepInput;
@@ -31,8 +29,6 @@ import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.util.Collections;
 import java.util.Map;
-
-import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*;
 
 public class HttpStepInput implements WebTauStepInput {
     private final HttpValidationResult validationResult;
@@ -43,7 +39,20 @@ public class HttpStepInput implements WebTauStepInput {
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
-        renderRequest(printer.createIndentedConsoleOutput());
+        if (validationResult.getRequestBody() == null) {
+            return;
+        }
+
+        if (validationResult.getRequestBody().isEmpty()) {
+            printer.printLine(Color.YELLOW, "[no request body]");
+        } else if (validationResult.getRequestBody().isBinary()) {
+            printer.printLine(Color.YELLOW, "[binary request]");
+        } else {
+            printer.printLine(Color.YELLOW, "request", Color.CYAN, " (", validationResult.getRequestBody().type(), "):");
+            renderRequestBody(printer, validationResult.getRequestBody());
+        }
+
+        printer.printLine();
     }
 
     @Override
@@ -51,34 +60,21 @@ public class HttpStepInput implements WebTauStepInput {
         return Collections.emptyMap();
     }
 
-    private void renderRequest(ConsoleOutput console) {
-        if (validationResult.getRequestBody() == null) {
-            return;
-        }
-
-        if (validationResult.getRequestBody().isEmpty()) {
-            console.out(Color.YELLOW, "[no request body]");
-        } else if (validationResult.getRequestBody().isBinary()) {
-            console.out(Color.YELLOW, "[binary request]");
-        } else {
-            console.out(Color.YELLOW, "request", Color.CYAN, " (", validationResult.getRequestBody().type(), "):");
-            renderRequestBody(console, validationResult.getRequestBody());
-        }
-    }
-
-    private void renderRequestBody(ConsoleOutput console, HttpRequestBody requestBody) {
+    private void renderRequestBody(PrettyPrinter printer, HttpRequestBody requestBody) {
         if (requestBody.type().equals(HttpApplicationMime.JSON)) {
             try {
                 DataNode dataNode = DataNodeBuilder.fromValue(new DataNodeId("request"),
                         JsonUtils.deserialize(requestBody.asString()));
-                new DataNodeAnsiPrinter(console).print(dataNode, getCfg().getConsolePayloadOutputLimit());
+
+                printer.printObject(dataNode);
+                printer.flushCurrentLine();
             } catch (JsonParseException e) {
-                console.out(Color.RED, "can't parse request:");
-                console.out(requestBody.asString());
-                console.out(Color.RED, e.getMessage());
+                printer.printLine(Color.RED, "can't parse request:");
+                printer.printLine(requestBody.asString());
+                printer.printLine(Color.RED, e.getMessage());
             }
         } else {
-            console.out(requestBody.asString());
+            printer.printLine(requestBody.asString());
         }
     }
 }

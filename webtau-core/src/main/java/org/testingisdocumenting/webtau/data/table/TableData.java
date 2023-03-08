@@ -44,7 +44,7 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
     private final TableDataHeader header;
 
     public static TableData fromListOfMaps(List<Map<String, ?>> rows) {
-        TableDataHeader header = createCombinedActualHeader(rows);
+        TableDataHeader header = createCombinedHeaderFromRecords(rows);
         TableData table = new TableData(header);
         for (Map<String, ?> row : rows) {
             table.addRow(mapToListUsingHeader(header, row));
@@ -103,6 +103,33 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
     }
 
     /**
+     * create a new instance of table data with subset of rows by provided keys
+     * @param keys keys of rows to include
+     * @return sub table
+     */
+    public TableData fromRowsByKeys(Object... keys) {
+        validateKeyColumnsPresence();
+
+        TableData result = new TableData(header);
+
+        for (Object key : keys) {
+            CompositeKey compositeKey = key instanceof CompositeKey ?
+                    (CompositeKey) key :
+                    new CompositeKey(Stream.of(key));
+
+            Record row = find(compositeKey);
+
+            if (row == null) {
+                throw new RuntimeException("can't find row by key: <" + key + ">");  
+            }
+
+            result.addRow(row);
+        }
+
+        return result;
+    }
+
+    /**
      * @param values row values combined in one vararg
      * @return populate table data instance
      */
@@ -130,8 +157,31 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
         return rows.get(rowIdx);
     }
 
+    /**
+     * finds by key when defined, if no keys defined, rowIdx is considered to be a key
+     * @param key composite key to use
+     * @return record or null
+     */
     public Record find(CompositeKey key) {
         return rowsByKey.get(key);
+    }
+
+    /**
+     * finds a record by key only. If no key columns are defined, exception will be thrown
+     * @param keyParts parts of composite key to use for lookup
+     */
+    public Record findByKey(Object... keyParts) {
+        validateKeyColumnsPresence();
+
+        CompositeKey key = new CompositeKey(Arrays.stream(keyParts));
+
+        if (key.getValues().size() != header.numberOfKeyColumns()) {
+            throw new IllegalArgumentException("header has <" + header.numberOfKeyColumns() +
+                    "> key column(s) but provided key has <" + key.getValues().size() +
+                    ">: [" + header.getKeyNamesStream().collect(joining(", ")) + "]");
+        }
+
+        return find(key);
     }
 
     public void addRow(List<?> values) {
@@ -260,6 +310,11 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
     }
 
     @Override
+    public boolean printAsBlock() {
+        return true;
+    }
+
+    @Override
     public void prettyPrint(PrettyPrinter printer) {
         prettyPrint(printer, ValuePath.UNDEFINED);
     }
@@ -270,7 +325,13 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
         tablePrinter.prettyPrint(prettyPrinter, valuePath);
     }
 
-    private static TableDataHeader createCombinedActualHeader(List<Map<String, ?>> rows) {
+    private void validateKeyColumnsPresence() {
+        if (!header.hasKeyColumns()) {
+            throw new RuntimeException("no key columns defined");
+        }
+    }
+
+    private static TableDataHeader createCombinedHeaderFromRecords(List<Map<String, ?>> rows) {
         Set<String> columnNames = new LinkedHashSet<>();
         for (Map<String, ?> row : rows) {
             columnNames.addAll(row.keySet());

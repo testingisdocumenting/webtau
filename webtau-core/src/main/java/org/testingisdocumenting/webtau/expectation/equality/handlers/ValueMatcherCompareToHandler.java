@@ -41,20 +41,26 @@ public class ValueMatcherCompareToHandler implements CompareToHandler {
     }
 
     private void handleMatcher(CompareToComparator comparator, ValuePath actualPath, Object actual, ValueMatcher expectedMatcher) {
+        // trigger initializations if any is performed during matching message phase
+        expectedMatcher.matchingTokenizedMessage(actualPath, actual);
+
         boolean matches = expectedMatcher.matches(actualPath, actual);
         if (matches) {
-            comparator.reportEqual(this, actualPath, expectedMatcher.matchedMessage(actualPath, actual));
+            comparator.reportEqual(this, actualPath, expectedMatcher.matchedTokenizedMessage(actualPath, actual));
         } else {
-            comparator.reportNotEqual(this, actualPath, expectedMatcher.matchingMessage() + ":\n" + expectedMatcher.mismatchedMessage(actualPath, actual));
+            comparator.reportNotEqual(this, actualPath, expectedMatcher.mismatchedTokenizedMessage(actualPath, actual));
         }
     }
 
     private void handleNegativeMatcher(CompareToComparator comparator, ValuePath actualPath, Object actual, ValueMatcher expectedMatcher) {
+        // trigger initializations if any is performed during matching message phase
+        expectedMatcher.negativeMatchingTokenizedMessage(actualPath, actual);
+
         boolean matches = expectedMatcher.negativeMatches(actualPath, actual);
         if (matches) {
-            comparator.reportNotEqual(this, actualPath, expectedMatcher.negativeMatchedMessage(actualPath, actual));
+            comparator.reportNotEqual(this, actualPath, expectedMatcher.negativeMatchedTokenizedMessage(actualPath, actual));
         } else {
-            comparator.reportEqual(this, actualPath, expectedMatcher.negativeMatchingMessage() + ":\n" + expectedMatcher.negativeMismatchedMessage(actualPath, actual));
+            comparator.reportEqual(this, actualPath, expectedMatcher.negativeMismatchedTokenizedMessage(actualPath, actual));
         }
     }
 }
