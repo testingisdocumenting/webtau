@@ -65,6 +65,18 @@ public class FileUtils {
         }
     }
 
+    public static String extractNameWithoutExtension(Path file) {
+        String name = file.getFileName().toString();
+        int dotIdx = name.indexOf('.');
+        return dotIdx == -1 ? name : name.substring(0, dotIdx);
+    }
+
+    public static String extractExtension(Path file) {
+        String name = file.getFileName().toString();
+        int dotIdx = name.lastIndexOf('.');
+        return dotIdx == -1 ? "" : name.substring(dotIdx + 1);
+    }
+
     public static void writeTextContent(Path path, String text) {
         writeBinaryContent(path, text.getBytes());
     }

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,6 +21,7 @@ import org.junit.Test
 
 import java.nio.charset.StandardCharsets
 import java.nio.file.Files
+import java.nio.file.Paths
 
 class FileUtilsTest {
     @Test
@@ -57,5 +59,24 @@ class FileUtilsTest {
 
         Files.write(testFile.toPath(), "content of a file \u275e".getBytes(StandardCharsets.UTF_8))
         assert FileUtils.fileTextContent(testFile.toPath()) == "content of a file ❞"
+    }
+    
+    @Test
+    void "extract name without extension"() {
+        assert FileUtils.extractNameWithoutExtension(Paths.get("")) == ""
+        assert FileUtils.extractNameWithoutExtension(Paths.get("name")) == "name"
+        assert FileUtils.extractNameWithoutExtension(Paths.get("/parent/name")) == "name"
+        assert FileUtils.extractNameWithoutExtension(Paths.get("name.")) == "name"
+        assert FileUtils.extractNameWithoutExtension(Paths.get("name.txt")) == "name"
+        assert FileUtils.extractNameWithoutExtension(Paths.get("name.dat.zip")) == "name"
+    }
+
+    @Test
+    void "extract extension"() {
+        assert FileUtils.extractExtension(Paths.get("")) == ""
+        assert FileUtils.extractExtension(Paths.get("name")) == ""
+        assert FileUtils.extractExtension(Paths.get("name.")) == ""
+        assert FileUtils.extractExtension(Paths.get("name.txt")) == "txt"
+        assert FileUtils.extractExtension(Paths.get("name.dat.zip")) == "zip"
     }
 }

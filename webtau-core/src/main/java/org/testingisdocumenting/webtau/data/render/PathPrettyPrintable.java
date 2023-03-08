@@ -16,6 +16,9 @@
 
 package org.testingisdocumenting.webtau.data.render;
 
+import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.utils.FileUtils;
+
 import java.nio.file.Path;
 
 public class PathPrettyPrintable implements PrettyPrintable {
@@ -27,6 +30,23 @@ public class PathPrettyPrintable implements PrettyPrintable {
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
-       printer.print(PrettyPrinter.STRING_COLOR, path.toString());
+        if (path.isAbsolute()) {
+            printer.printDelimiter("/");
+        }
+
+        if (path.getParent() != null) {
+            for (Path part : path.getParent()) {
+                printer.print(Color.RESET, part);
+                printer.printDelimiter("/");
+            }
+        }
+
+        String nameWithoutExtension = FileUtils.extractNameWithoutExtension(path);
+        String extension = FileUtils.extractExtension(path);
+
+        printer.print(Color.PURPLE, nameWithoutExtension);
+        if (!extension.isEmpty()) {
+            printer.print(Color.BLUE, ".", extension);
+        }
     }
 }
