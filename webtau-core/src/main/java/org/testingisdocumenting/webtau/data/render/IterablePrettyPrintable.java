@@ -38,9 +38,18 @@ public class IterablePrettyPrintable implements PrettyPrintable {
 
     @Override
     public void prettyPrint(PrettyPrinter printer, ValuePath rootPath) {
+        prettyPrint(printer, rootPath, false);
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter printer, ValuePath rootPath, RenderMethod renderMethod, PrettyPrinterDecorationToken decorationToken) {
+        prettyPrint(printer, rootPath, renderMethod == RenderMethod.FORCE_MULTILINE);
+    }
+
+    public void prettyPrint(PrettyPrinter printer, ValuePath rootPath, boolean forceMultiLine) {
         if (list.isEmpty()) {
             printEmptyList(printer);
-        } else if (canFitIntoSingleLine(printer.getRecommendedMaxWidthForSingleLineObjects())) {
+        } else if (!forceMultiLine && canFitIntoSingleLine(printer.getRecommendedMaxWidthForSingleLineObjects())) {
             printSingeLineList(printer, rootPath);
         } else {
             printMultiLineList(printer, rootPath);

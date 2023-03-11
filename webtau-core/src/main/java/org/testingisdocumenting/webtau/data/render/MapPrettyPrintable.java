@@ -38,9 +38,18 @@ public class MapPrettyPrintable implements PrettyPrintable {
 
     @Override
     public void prettyPrint(PrettyPrinter printer, ValuePath root) {
+        prettyPrint(printer, root, false);
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter printer, ValuePath rootPath, RenderMethod renderMethod, PrettyPrinterDecorationToken decorationToken) {
+        prettyPrint(printer, rootPath, renderMethod == RenderMethod.FORCE_MULTILINE);
+    }
+
+    private void prettyPrint(PrettyPrinter printer, ValuePath root, boolean forceMultiLine) {
         if (map.isEmpty()) {
             printEmptyMap(printer);
-        } else if (canFitIntoSingleLine(printer.getRecommendedMaxWidthForSingleLineObjects())) {
+        } else if (!forceMultiLine && canFitIntoSingleLine(printer.getRecommendedMaxWidthForSingleLineObjects())) {
             printSingleLineMap(printer, root);
         } else {
             printMultiLineMap(printer, root);
@@ -140,4 +149,5 @@ public class MapPrettyPrintable implements PrettyPrintable {
                 Objects.toString(key);
         printer.print(KEY_COLOR, renderedKey);
     }
+
 }

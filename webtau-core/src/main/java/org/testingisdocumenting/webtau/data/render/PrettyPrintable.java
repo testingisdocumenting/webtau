@@ -23,6 +23,11 @@ import org.testingisdocumenting.webtau.data.ValuePath;
  * Used in e.g. REPL, {@link org.testingisdocumenting.webtau.reporter.ConsoleStepReporter}
  */
 public interface PrettyPrintable {
+    enum RenderMethod {
+        REGULAR,
+        FORCE_MULTILINE,
+    }
+
     void prettyPrint(PrettyPrinter printer);
 
     default boolean handlesDecoration() {
@@ -39,5 +44,9 @@ public interface PrettyPrintable {
 
     default void prettyPrint(PrettyPrinter printer, ValuePath rootPath, PrettyPrinterDecorationToken decorationToken) {
         prettyPrint(printer, rootPath);
+    }
+
+    default void prettyPrint(PrettyPrinter printer, ValuePath rootPath, RenderMethod renderMethod, PrettyPrinterDecorationToken decorationToken) {
+        prettyPrint(printer);
     }
 }
