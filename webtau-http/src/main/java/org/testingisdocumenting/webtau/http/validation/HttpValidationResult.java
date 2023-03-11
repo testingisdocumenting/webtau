@@ -18,7 +18,9 @@
 package org.testingisdocumenting.webtau.http.validation;
 
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinterDecorationToken;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
@@ -341,7 +343,7 @@ public class HttpValidationResult implements WebTauStepOutput {
                 printer.printLine(response.getTextContent());
                 printer.printLine(Color.RED, bodyParseErrorMessage);
             } else {
-                printer.printObject(responseBodyNode);
+                responseBodyNode.prettyPrint(printer, ValuePath.UNDEFINED, RenderMethod.FORCE_MULTILINE, PrettyPrinterDecorationToken.EMPTY);
                 printer.flushCurrentLine();
             }
         }

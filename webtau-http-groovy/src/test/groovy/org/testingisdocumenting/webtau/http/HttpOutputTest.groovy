@@ -25,10 +25,24 @@ import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*
 
 class HttpOutputTest extends HttpTestBase {
     @Test
-    void "should print json request body"() {
+    void "should print json request body as multiline"() {
         runAndValidateOutput(contain("""  request (application/json):
-  {"hello": "world", "id": "generated-id"}""")) {
-            http.post("/echo", [hello: "world", id: "generated-id"])
+  {
+    "hello": ["world", "of"],
+    "id": "generated-id"
+  }""")) {
+            http.post("/echo", [hello: ["world", "of"], id: "generated-id"])
+        }
+    }
+
+    @Test
+    void "should print json response body as multiline"() {
+        runAndValidateOutput(contain("""  response (application/json):
+  {
+    "hello": ["world", "of"],
+    "id": "generated-id"
+  }""")) {
+            http.post("/echo", [hello: ["world", "of"], id: "generated-id"])
         }
     }
 

@@ -17,7 +17,9 @@
 package org.testingisdocumenting.webtau.http.validation;
 
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinterDecorationToken;
 import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
@@ -66,7 +68,7 @@ public class HttpStepInput implements WebTauStepInput {
                 DataNode dataNode = DataNodeBuilder.fromValue(new DataNodeId("request"),
                         JsonUtils.deserialize(requestBody.asString()));
 
-                printer.printObject(dataNode);
+                dataNode.prettyPrint(printer, ValuePath.UNDEFINED, RenderMethod.FORCE_MULTILINE, PrettyPrinterDecorationToken.EMPTY);
                 printer.flushCurrentLine();
             } catch (JsonParseException e) {
                 printer.printLine(Color.RED, "can't parse request:");

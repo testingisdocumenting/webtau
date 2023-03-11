@@ -443,7 +443,10 @@ public class HttpJavaTest extends HttpTestBase {
     public void validateConsoleOutput() {
         runExpectExceptionAndValidateOutput(AssertionError.class, "> executing HTTP POST http://localhost:port/end-point\n" +
                 "  request (application/json):\n" +
-                "  {\"key1\": \"value1\", \"key2\": \"value2\"}\n" +
+                "  {\n" +
+                "    \"key1\": \"value1\",\n" +
+                "    \"key2\": \"value2\"\n" +
+                "  }\n" +
                 "  \n" +
                 "  . body.amount greater than 10 (Xms)\n" +
                 "  X failed expecting body.price to be less than 100:\n" +

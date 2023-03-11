@@ -70,6 +70,10 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public Set<ValuePath> matchedPaths() {
+        if (expectedMatcher != null) {
+            return expectedMatcher.matchedPaths();
+        }
+
         return comparator.generateEqualMatchPaths();
     }
 
@@ -84,6 +88,10 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public Set<ValuePath> mismatchedPaths() {
+        if (expectedMatcher != null) {
+            return expectedMatcher.mismatchedPaths();
+        }
+
         return comparator.generateEqualMismatchPaths();
     }
 
