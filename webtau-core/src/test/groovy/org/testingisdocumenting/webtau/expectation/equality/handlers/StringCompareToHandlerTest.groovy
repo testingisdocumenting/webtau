@@ -181,7 +181,7 @@ class StringCompareToHandlerTest {
 
     @Test
     void "reports different line ending"() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal _________________\n' +
+        runExpectExceptionCaptureAndValidateOutput(AssertionError, 'line-ending-string-compare-output', 'X failed expecting text to equal _________________\n' +
                 '                                 hello world world\n' +
                 '                                 hello again\n' +
                 '                                 _________________:\n' +

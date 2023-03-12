@@ -100,7 +100,15 @@ public class TestConsoleOutput implements ConsoleOutput {
 
     public static void runCaptureAndValidateOutput(String artifactName, String expectedOutput, Runnable code) {
         TestConsoleOutput testConsoleOutput = runAndValidateOutput(expectedOutput, code);
+        captureArtifact(artifactName, testConsoleOutput);
+    }
 
+    public static void runExpectExceptionCaptureAndValidateOutput(Class<?> expectedException, String artifactName, String expectedOutput, Runnable code) {
+        TestConsoleOutput testConsoleOutput = runExpectExceptionAndValidateOutput(expectedException, expectedOutput, code);
+        captureArtifact(artifactName, testConsoleOutput);
+    }
+
+    private static void captureArtifact(String artifactName, TestConsoleOutput testConsoleOutput) {
         ConsoleOutputs.add(ConsoleOutputs.defaultOutput);
         StepReporters.add(StepReporters.defaultStepReporter);
         try {
@@ -109,11 +117,6 @@ public class TestConsoleOutput implements ConsoleOutput {
             StepReporters.remove(StepReporters.defaultStepReporter);
             ConsoleOutputs.remove(ConsoleOutputs.defaultOutput);
         }
-    }
-
-    public static void runExpectExceptionCaptureAndValidateOutput(Class<?> expectedException, String artifactName, String expectedOutput, Runnable code) {
-        TestConsoleOutput testConsoleOutput = runExpectExceptionAndValidateOutput(expectedException, expectedOutput, code);
-        doc.capture(artifactName, testConsoleOutput.getColorOutput());
     }
 
     private static class OutputAndCaughtException {
