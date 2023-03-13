@@ -85,6 +85,7 @@ matchers
     introduction
     universal-compare
     java-bean
+    string
     any-of
     custom-compare-to-handler
 groovy-standalone-runner
