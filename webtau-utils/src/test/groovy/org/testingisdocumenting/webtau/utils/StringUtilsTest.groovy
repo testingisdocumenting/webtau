@@ -84,6 +84,28 @@ line #_3\r""")
     }
 
     @Test
+    void "number of empty lines at start"() {
+        assert StringUtils.numberOfEmptyLinesAtStart("") == 0
+        assert StringUtils.numberOfEmptyLinesAtStart("\n") == 1
+        assert StringUtils.numberOfEmptyLinesAtStart("\n\n") == 2
+        assert StringUtils.numberOfEmptyLinesAtStart("\n\r\n") == 2
+        assert StringUtils.numberOfEmptyLinesAtStart("\n \n") == 1
+        assert StringUtils.numberOfEmptyLinesAtStart("\nhello\n") == 1
+        assert StringUtils.numberOfEmptyLinesAtStart("\n\nhello\n") == 2
+    }
+
+    @Test
+    void "number of empty lines at end"() {
+        assert StringUtils.numberOfEmptyLinesAtEnd("") == 0
+        assert StringUtils.numberOfEmptyLinesAtEnd("\n") == 1
+        assert StringUtils.numberOfEmptyLinesAtEnd("\n\n") == 2
+        assert StringUtils.numberOfEmptyLinesAtEnd("\n\r\n") == 2
+        assert StringUtils.numberOfEmptyLinesAtEnd("\n \n") == 1
+        assert StringUtils.numberOfEmptyLinesAtEnd("\nhello\n") == 1
+        assert StringUtils.numberOfEmptyLinesAtEnd("\nhello\n\n") == 2
+    }
+
+    @Test
     void "removes content inside brackets and brackets"() {
         assert StringUtils.removeContentInsideBracketsInclusive("hello <world>") == "hello "
     }

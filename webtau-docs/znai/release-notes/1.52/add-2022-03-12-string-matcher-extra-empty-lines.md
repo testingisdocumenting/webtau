@@ -1,0 +1,1 @@
+* Add: string matcher [extra new lines check](matchers/string#different-number-of-empty-lines)

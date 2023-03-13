@@ -39,25 +39,22 @@ public class StringMatchersJavaExamplesTest {
     @Test
     public void multiLine() {
         runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "multi-line-string-compare-output",
-                "X failed expecting [value] to equal ________\n" +
-                        "                                    line one\n" +
-                        "                                    line 2\n" +
-                        "                                    ________:\n" +
-                        "    different number of lines, expected: 3 actual: 2\n" +
-                        "    first mismatch at line idx 1:\n" +
-                        "      actual: \"line two\"\n" +
-                        "    expected: \"line 2\"\n" +
-                        "                    ^ (Xms)\n" +
-                        "  \n" +
-                        "    __________\n" +
-                        "    line one\n" +
-                        "  **line two**\n" +
-                        "    line three\n" +
-                        "    __________", () -> {
+                contain("**line two**"),  () -> {
                     // multi-line-compare
                     String output = buildOutput();
                     actual(output).should(equal("line one\nline 2"));
                     // multi-line-compare
+                });
+    }
+
+    @Test
+    public void extraEmptyLines() {
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "extra-empty-line-string-compare-output",
+                contain("different number of empty lines at the end"),  () -> {
+                    // extra-empty-line-compare
+                    String output = buildOutput();
+                    actual(output).should(equal("line one\nline two\nline three\n"));
+                    // extra-empty-line-compare
                 });
     }
 

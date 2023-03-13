@@ -74,6 +74,7 @@ public class StringCompareToHandler implements CompareToHandler {
         void compare() {
             compareNumberOfLines();
             compareEndOfLineChars();
+            compareNumberOfEmptyLinesAtStartAndEnd();
             compareContent();
 
             boolean isEqual = mismatchDetails.isEmpty();
@@ -98,9 +99,9 @@ public class StringCompareToHandler implements CompareToHandler {
 
         private void compareNumberOfLines() {
             if (actual.getNumberOfLines() != expected.getNumberOfLines()) {
-                report(tokenizedMessage().error("different number of lines").comma()
-                        .classifier("expected").colon().number(actual.getNumberOfLines())
-                        .classifier("actual").colon().number(expected.getNumberOfLines()));
+                report(tokenizedMessage().error("different number of").classifier("lines").colon().newLine()
+                        .add(ACTUAL_PREFIX).number(actual.getNumberOfLines()).newLine()
+                        .add(EXPECTED_PREFIX).number(expected.getNumberOfLines()));
             }
         }
 
@@ -112,6 +113,19 @@ public class StringCompareToHandler implements CompareToHandler {
                 report(message.add(ACTUAL_PREFIX).error("contains").add(slashR).newLine().add(EXPECTED_PREFIX).error("doesn't contain").add(slashR));
             } else if (!actual.hasSlashR() && expected.hasSlashR()) {
                 report(message.add(ACTUAL_PREFIX).error("doesn't contains").add(slashR).newLine().add(EXPECTED_PREFIX).error("contains").add(slashR));
+            }
+        }
+
+        private void compareNumberOfEmptyLinesAtStartAndEnd() {
+            reportDifferentEmptyLines("the start", actual.calcNumberOfEmptyLinesStart(), expected.calcNumberOfEmptyLinesStart());
+            reportDifferentEmptyLines("the end", actual.calcNumberOfEmptyLinesEnd(), expected.calcNumberOfEmptyLinesEnd());
+        }
+
+        private void reportDifferentEmptyLines(String startEndLabel, int actual, int expected) {
+            if (actual != expected) {
+                report(tokenizedMessage().error("different number of").classifier("empty lines").preposition("at").classifier(startEndLabel) .newLine()
+                        .add(ACTUAL_PREFIX).number(actual).newLine()
+                        .add(EXPECTED_PREFIX).number(expected));
             }
         }
 
