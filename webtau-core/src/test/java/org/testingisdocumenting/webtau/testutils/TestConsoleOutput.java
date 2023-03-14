@@ -103,7 +103,7 @@ public class TestConsoleOutput implements ConsoleOutput {
         captureArtifact(artifactName, testConsoleOutput);
     }
 
-    public static void runExpectExceptionCaptureAndValidateOutput(Class<?> expectedException, String artifactName, String expectedOutput, Runnable code) {
+    public static void runExpectExceptionCaptureAndValidateOutput(Class<?> expectedException, String artifactName, Object expectedOutput, Runnable code) {
         TestConsoleOutput testConsoleOutput = runExpectExceptionAndValidateOutput(expectedException, expectedOutput, code);
         captureArtifact(artifactName, testConsoleOutput);
     }

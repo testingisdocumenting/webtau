@@ -46,3 +46,23 @@ WebTau automatically checks line ending, e.g. presence of `\r` and will notify i
   title: "console output"
 }
 
+# Different Number Of Empty Lines
+
+WebTau separately checks extra empty lines to help with missing/extra `\n`:
+
+```tabs
+Groovy:
+:include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/StringMatchersGroovyExamplesTest.groovy {
+  surroundedBy: "extra-empty-line-compare"
+}
+
+Java:
+:include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/StringMatchersJavaExamplesTest.java {
+  surroundedBy: "extra-empty-line-compare"
+}
+```
+
+:include-cli-output: doc-artifacts/extra-empty-line-string-compare-output.txt {
+  title: "console output"
+}
+

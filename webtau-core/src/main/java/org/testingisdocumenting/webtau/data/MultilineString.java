@@ -59,6 +59,14 @@ public class MultilineString implements PrettyPrintable {
         return lines.length;
     }
 
+    public int calcNumberOfEmptyLinesStart() {
+        return StringUtils.numberOfEmptyLinesAtStart(text);
+    }
+
+    public int calcNumberOfEmptyLinesEnd() {
+        return StringUtils.numberOfEmptyLinesAtEnd(text);
+    }
+
     public boolean isSingleLine() {
         return lines.length == 1;
     }
