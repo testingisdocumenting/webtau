@@ -64,7 +64,6 @@ public class HttpTestBase implements WebTauHttpConfiguration {
         WebTauHttpConfigurations.remove(this);
     }
 
-
     @Override
     public String fullUrl(String url) {
         if (UrlUtils.isFull(url)) {

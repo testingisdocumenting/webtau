@@ -49,6 +49,7 @@ import org.testingisdocumenting.webtau.http.request.HttpApplicationMime;
 import org.testingisdocumenting.webtau.http.request.HttpQueryParams;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.http.request.HttpTextMime;
+import org.testingisdocumenting.webtau.http.resource.HttpResource;
 import org.testingisdocumenting.webtau.http.text.TextRequestBody;
 import org.testingisdocumenting.webtau.http.validation.*;
 import org.testingisdocumenting.webtau.persona.Persona;
@@ -86,6 +87,10 @@ public class Http {
 
     public final HttpApplicationMime application = new HttpApplicationMime();
     public final HttpTextMime text = new HttpTextMime();
+
+    public HttpResource resource(String definitionGet) {
+        return new HttpResource(definitionGet);
+    }
 
     public boolean ping(String url) {
         return ping(url, HttpQueryParams.EMPTY, HttpHeader.EMPTY);

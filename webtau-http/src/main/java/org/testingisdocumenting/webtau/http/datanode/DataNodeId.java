@@ -41,7 +41,7 @@ public class DataNodeId {
     }
 
     public DataNodeId child(String name) {
-        String newPath = path + "." + name;
+        String newPath = path + (path.isEmpty() ? "" : ".") + name;
         return new DataNodeId(newPath, newPath, name);
     }
 

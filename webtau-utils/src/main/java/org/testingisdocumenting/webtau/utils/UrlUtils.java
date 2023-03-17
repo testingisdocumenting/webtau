@@ -158,6 +158,16 @@ public class UrlUtils {
         return new UrlRouteRegexp(Pattern.compile(colonReplaced), groupNames);
     }
 
+    public static String buildUrlFromPathDefinitionAndParams(String definition, Map<String, Object> routeParams) {
+        Function<Matcher, String> matcherFunc = (m) -> {
+            String name = m.group(1);
+            return routeParams.getOrDefault(name, "").toString();
+        };
+
+        String curlyReplaced = RegexpUtils.replaceAll(definition, ROUTE_NAMED_PARAM_REGEXP_CURLY, matcherFunc);
+        return RegexpUtils.replaceAll(curlyReplaced, ROUTE_NAMED_PARAM_REGEXP_COLON, matcherFunc);
+    }
+
     public static String removeTrailingSlash(String url) {
         if (url.endsWith("/")) {
             return url.substring(0, url.length() - 1);

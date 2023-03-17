@@ -155,4 +155,12 @@ class UrlUtilsTest {
 
         assert routeAndGroups.groupNames as List == ["id", "name"]
     }
+
+    @Test
+    void "build url from route and params"() {
+        assert UrlUtils.buildUrlFromPathDefinitionAndParams("/:idA/point/:id", [id: "mytest"]) == "//point/mytest"
+        assert UrlUtils.buildUrlFromPathDefinitionAndParams("/:idA/point/:id", [idA: "A", id: "mytest"]) == "/A/point/mytest"
+
+        assert UrlUtils.buildUrlFromPathDefinitionAndParams("/point/{id}", [id: "mytest"]) == "/point/mytest"
+    }
 }
