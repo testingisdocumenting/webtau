@@ -1,0 +1,1 @@
+* Fix: chrome driver init workaround for origin to work with new chrome 

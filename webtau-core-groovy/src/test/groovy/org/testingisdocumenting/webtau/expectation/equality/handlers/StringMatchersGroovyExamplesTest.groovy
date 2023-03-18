@@ -40,6 +40,16 @@ class StringMatchersGroovyExamplesTest {
         } should throwException(AssertionError)
     }
 
+    @Test
+    void extraEmptyLines() {
+        code {
+            // extra-empty-line-compare
+            String output = buildOutput()
+            output.should == "line one\nline two\nline three\n"
+            // extra-empty-line-compare
+        } should throwException(AssertionError)
+    }
+
     private static String buildOutput() {
         return "line one\nline two\nline three"
     }

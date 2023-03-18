@@ -147,7 +147,39 @@ class StringCompareToHandlerTest {
                 '                                 hello world world\n' +
                 '                                 hi again\n' +
                 '                                 _________________:\n' +
-                '    different number of lines, expected: 3 actual: 2\n' +
+                '    different number of lines:\n' +
+                '      actual: 3\n' +
+                '    expected: 2\n' +
+                '    first mismatch at line idx 0:\n' +
+                '      actual: "some"\n' +
+                '    expected: "hello world world"\n' +
+                '               ^ (Xms)\n' +
+                '  \n' +
+                '    _________________\n' +
+                '  **some**\n' +
+                '    hello world world\n' +
+                '    hello again\n' +
+                '    _________________') {
+            actual('some\nhello world world\nhello again', 'text').should(equal('hello world world\nhi again'))
+        }
+    }
+
+    @Test
+    void "reports different number of empty lines at start and end"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal _________________\n' +
+                '                                 hello world world\n' +
+                '                                 hi again\n' +
+                '                                 \n' +
+                '                                 _________________:\n' +
+                '    different number of lines:\n' +
+                '      actual: 4\n' +
+                '    expected: 3\n' +
+                '    different number of empty lines at the start\n' +
+                '      actual: 2\n' +
+                '    expected: 0\n' +
+                '    different number of empty lines at the end\n' +
+                '      actual: 0\n' +
+                '    expected: 1\n' +
                 '    first mismatch at line idx 0:\n' +
                 '      actual: ""\n' +
                 '    expected: "hello world world"\n' +
@@ -155,17 +187,20 @@ class StringCompareToHandlerTest {
                 '  \n' +
                 '    _________________\n' +
                 '  ****\n' +
+                '    \n' +
                 '    hello world world\n' +
                 '    hello again\n' +
                 '    _________________') {
-            actual('\nhello world world\nhello again', 'text').should(equal('hello world world\nhi again'))
+            actual('\n\nhello world world\nhello again', 'text').should(equal('hello world world\nhi again\n'))
         }
     }
 
     @Test
     void "multiple lines as actual and single line expected"() {
         runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal "word":\n' +
-                '    different number of lines, expected: 2 actual: 1\n' +
+                '    different number of lines:\n' +
+                '      actual: 2\n' +
+                '    expected: 1\n' +
                 '    first mismatch at line idx 0:\n' +
                 '      actual: "hello world world"\n' +
                 '    expected: "word"\n' +

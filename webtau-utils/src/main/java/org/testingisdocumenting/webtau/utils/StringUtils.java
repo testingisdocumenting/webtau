@@ -75,6 +75,35 @@ public class StringUtils {
         return numberOfEol + 1;
     }
 
+    public static int numberOfEmptyLinesAtStart(String text) {
+        int result = 0;
+        for (int idx = 0; idx < text.length(); idx++) {
+            char c = text.charAt(idx);
+            if (c == '\n') {
+                result++;
+            } else if (c != '\r') {
+                break;
+            }
+        }
+
+        return result;
+    }
+
+    public static int numberOfEmptyLinesAtEnd(String text) {
+        int result = 0;
+        for (int idx = text.length() - 1; idx >=0; idx--) {
+            char c = text.charAt(idx);
+            if (c == '\n') {
+                result++;
+            } else if (c != '\r') {
+                break;
+            }
+        }
+
+        return result;
+    }
+
+
     public static String extractInsideCurlyBraces(String code) {
         int startIdx = code.indexOf('{');
         if (startIdx == -1) {

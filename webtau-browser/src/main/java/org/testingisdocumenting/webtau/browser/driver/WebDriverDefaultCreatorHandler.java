@@ -101,6 +101,7 @@ public class WebDriverDefaultCreatorHandler implements WebDriverCreatorHandler {
 
     private static ChromeOptions createChromeOptions() {
         ChromeOptions options = new ChromeOptions();
+        options.addArguments("--remote-allow-origins=*");
 
         if (BrowserConfig.isHeadless()) {
             options.addArguments("--headless");
