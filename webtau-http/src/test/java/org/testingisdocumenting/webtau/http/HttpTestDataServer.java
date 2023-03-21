@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
@@ -30,13 +31,23 @@ public class HttpTestDataServer {
     private final FixedResponsesHandler handler = new FixedResponsesHandler();
     private final TestServer testServer = new TestServer(handler);
 
+    public static TestServerJsonLiveResponse IBM_PRICES = new TestServerJsonLiveResponse(Arrays.asList(
+            "{\"price\": 100}",
+            "{\"price\": 110}",
+            "{\"price\": 120}"));
+
     public HttpTestDataServer() {
         TestServerJsonResponse queryTestResponse = jsonResponse("queryTestResponse.json");
         TestServerJsonResponse objectTestResponse = jsonResponse("objectTestResponse.json");
 
         handler.registerGet("/end-point", objectTestResponse);
+        handler.registerGet("/end-point/id1", jsonResponse("objectTestResponseA.json"));
+        handler.registerGet("/end-point/id2", jsonResponse("objectTestResponseB.json"));
+        handler.registerGet("/end-point/10/20", jsonResponse("objectTestResponseA.json"));
         handler.registerGet("/end-point?a=1&b=text", objectTestResponse);
         handler.registerGet("/end-point?queryParam1=queryParamValue1", objectTestResponse);
+
+        handler.registerGet("/prices/IBM", IBM_PRICES);
 
         handler.registerPost("/end-point", jsonResponse("objectTestResponse.json", 201,
                 CollectionUtils.map(
@@ -170,15 +181,19 @@ public class HttpTestDataServer {
         handler.registerDelete(relativeUrl, response);
     }
 
+    private static String json(String resourceName) {
+        return ResourceUtils.textContent(resourceName);
+    }
+
     private static TestServerJsonResponse jsonResponse(String resourceName) {
-        return new TestServerJsonResponse(ResourceUtils.textContent(resourceName), 200, Collections.emptyMap());
+        return new TestServerJsonResponse(json(resourceName), 200, Collections.emptyMap());
     }
 
     private static TestServerJsonResponse jsonResponse(String resourceName, int statusCode) {
-        return new TestServerJsonResponse(ResourceUtils.textContent(resourceName), statusCode, Collections.emptyMap());
+        return new TestServerJsonResponse(json(resourceName), statusCode, Collections.emptyMap());
     }
 
     private static TestServerJsonResponse jsonResponse(String resourceName, int statusCode, Map<String, Object> headerResponse) {
-        return new TestServerJsonResponse(ResourceUtils.textContent(resourceName), statusCode, headerResponse);
+        return new TestServerJsonResponse(json(resourceName), statusCode, headerResponse);
     }
 }
