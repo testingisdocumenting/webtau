@@ -322,10 +322,8 @@ public class CompareToComparator {
         Object convertedActual = handler.convertedActual(actual, expected);
         recordConvertedActual(actualPath, actual, convertedActual);
 
-        Object convertedExpected = handler.convertedExpected(actual, expected);
-
         CompareToComparator comparator = CompareToComparator.comparator(mode);
-        handler.compareEqualOnly(comparator, actualPath, convertedActual, convertedExpected);
+        handler.compareEqualOnly(comparator, actualPath, convertedActual, expected);
 
         mergeResults(comparator);
 
@@ -341,10 +339,8 @@ public class CompareToComparator {
         Object convertedActual = handler.convertedActual(actual, expected);
         recordConvertedActual(actualPath, actual, convertedActual);
 
-        Object convertedExpected = handler.convertedExpected(actual, expected);
-
         CompareToComparator comparator = CompareToComparator.comparator(mode);
-        handler.compareGreaterLessEqual(comparator, actualPath, convertedActual, convertedExpected);
+        handler.compareGreaterLessEqual(comparator, actualPath, convertedActual, expected);
 
         mergeResults(comparator);
 
