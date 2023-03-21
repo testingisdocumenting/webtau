@@ -42,13 +42,9 @@ public class StringCompareToHandler implements CompareToHandler {
         return new MultilineString(actual);
     }
 
-    public Object convertedExpected(Object actual, Object expected) {
-        return new MultilineString(expected);
-    }
-
     @Override
     public void compareEqualOnly(CompareToComparator compareToComparator, ValuePath actualPath, Object actual, Object expected) {
-        Comparator comparator = new Comparator(compareToComparator, actualPath, (MultilineString) actual, (MultilineString) expected);
+        Comparator comparator = new Comparator(compareToComparator, actualPath, (MultilineString) actual, new MultilineString(expected));
         comparator.compare();
     }
 

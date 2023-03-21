@@ -32,7 +32,6 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     private CompareToComparator comparator;
     private final Object expected;
     private final ValueMatcher expectedMatcher;
-    private CompareToHandler handler;
 
     public EqualMatcher(Object expected) {
         this.expected = expected;
@@ -53,9 +52,8 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
         }
 
         comparator = CompareToComparator.comparator();
-        handler = CompareToComparator.findCompareToEqualHandler(actual, expected);
 
-        return tokenizedMessage().matcher("to equal").valueFirstLinesOnly(handler.convertedExpected(actual, expected));
+        return tokenizedMessage().matcher("to equal").valueFirstLinesOnly(expected);
     }
 
     @Override
@@ -101,7 +99,8 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.matches(actualPath, actual);
         }
 
-        return comparator.compareIsEqual(handler, actualPath, actual, expected);
+        comparator.resetReportData();
+        return comparator.compareIsEqual(actualPath, actual, expected);
     }
 
     @Override
@@ -111,9 +110,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
         }
 
         comparator = CompareToComparator.comparator();
-        handler = CompareToComparator.findCompareToEqualHandler(actual, expected);
-
-        return tokenizedMessage().matcher("to not equal").valueFirstLinesOnly(handler.convertedExpected(actual, expected));
+        return tokenizedMessage().matcher("to not equal").valueFirstLinesOnly(expected);
     }
 
     @Override
@@ -140,6 +137,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.negativeMatches(actualPath, actual);
         }
 
+        comparator.resetReportData();
         return comparator.compareIsNotEqual(actualPath, actual, expected);
     }
 

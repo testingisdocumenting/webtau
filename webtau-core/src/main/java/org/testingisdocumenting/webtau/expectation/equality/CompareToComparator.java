@@ -226,6 +226,15 @@ public class CompareToComparator {
         return equalMessages;
     }
 
+    public void resetReportData() {
+        equalMessages.clear();
+        notEqualMessages.clear();
+        greaterMessages.clear();
+        lessMessages.clear();
+        missingMessages.clear();
+        extraMessages.clear();
+    }
+
     @Deprecated
     public void reportEqual(CompareToHandler reporter, ValuePath actualPath, String message) {
         reportEqual(reporter, actualPath, tokenizedMessage().none(message));
@@ -313,10 +322,8 @@ public class CompareToComparator {
         Object convertedActual = handler.convertedActual(actual, expected);
         recordConvertedActual(actualPath, actual, convertedActual);
 
-        Object convertedExpected = handler.convertedExpected(actual, expected);
-
         CompareToComparator comparator = CompareToComparator.comparator(mode);
-        handler.compareEqualOnly(comparator, actualPath, convertedActual, convertedExpected);
+        handler.compareEqualOnly(comparator, actualPath, convertedActual, expected);
 
         mergeResults(comparator);
 
@@ -332,10 +339,8 @@ public class CompareToComparator {
         Object convertedActual = handler.convertedActual(actual, expected);
         recordConvertedActual(actualPath, actual, convertedActual);
 
-        Object convertedExpected = handler.convertedExpected(actual, expected);
-
         CompareToComparator comparator = CompareToComparator.comparator(mode);
-        handler.compareGreaterLessEqual(comparator, actualPath, convertedActual, convertedExpected);
+        handler.compareGreaterLessEqual(comparator, actualPath, convertedActual, expected);
 
         mergeResults(comparator);
 
