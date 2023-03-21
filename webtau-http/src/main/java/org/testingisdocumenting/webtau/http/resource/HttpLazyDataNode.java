@@ -47,11 +47,6 @@ public class HttpLazyDataNode implements ActualValueExpectations, ActualValueAwa
 
     @Override
     public Object actualValue() {
-        // somehow need to fetch here, but make sure that HTTP call is part of report
-        // in case of wait we don't want all 55 calls to be in HTTP tab
-        // need a concept of collapsing calls(?)
-        // maybe use repeat step somehow?
-        // we can start with a regular http calls with responses as well and then replace
         return Http.http.get(resourceDefinition.buildUrl(), (header, body) -> {
             return body.get(id.getPath());
         });

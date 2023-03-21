@@ -54,7 +54,6 @@ public class ActualValue implements ActualValueExpectations {
 
     public ActualValue(Object actual, ValuePath actualPath, StepReportOptions shouldReportOptions) {
         this.actualGiven = actual;
-//        this.actualExtracted = extractActualValue(actual);
         this.actualPath = actualPath != ValuePath.UNDEFINED ? actualPath : extractPath(actual);
         this.valueDescription = extractDescription(actual, this.actualPath);
         this.shouldReportOptions = shouldReportOptions;
@@ -187,11 +186,13 @@ public class ActualValue implements ActualValueExpectations {
                              StepReportOptions stepReportOptions) {
         WebTauStep step = createStep(
                 messageStart.add(valueDescription)
-                        .add(isNegative ? valueMatcher.negativeMatchingTokenizedMessage(actualPath, actualGiven): valueMatcher.matchingTokenizedMessage(actualPath, actualGiven)),
+                        .add(isNegative ?
+                                valueMatcher.negativeMatchingTokenizedMessage(actualPath, actualExtracted):
+                                valueMatcher.matchingTokenizedMessage(actualPath, actualExtracted)),
                 () -> tokenizedMessage(valueDescription)
                         .add(isNegative ?
-                                valueMatcher.negativeMatchedTokenizedMessage(null, actualGiven) :
-                                valueMatcher.matchedTokenizedMessage(null, actualGiven)),
+                                valueMatcher.negativeMatchedTokenizedMessage(null, actualExtracted) :
+                                valueMatcher.matchedTokenizedMessage(null, actualExtracted)),
                 expectationValidation);
         step.setClassifier(WebTauStepClassifiers.MATCHER);
 
