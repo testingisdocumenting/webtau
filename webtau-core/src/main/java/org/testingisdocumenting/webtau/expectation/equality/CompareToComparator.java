@@ -226,6 +226,15 @@ public class CompareToComparator {
         return equalMessages;
     }
 
+    public void resetReportData() {
+        equalMessages.clear();
+        notEqualMessages.clear();
+        greaterMessages.clear();
+        lessMessages.clear();
+        missingMessages.clear();
+        extraMessages.clear();
+    }
+
     @Deprecated
     public void reportEqual(CompareToHandler reporter, ValuePath actualPath, String message) {
         reportEqual(reporter, actualPath, tokenizedMessage().none(message));

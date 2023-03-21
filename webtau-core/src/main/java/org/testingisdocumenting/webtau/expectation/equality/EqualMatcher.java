@@ -101,6 +101,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.matches(actualPath, actual);
         }
 
+        comparator.resetReportData();
         return comparator.compareIsEqual(handler, actualPath, actual, expected);
     }
 
@@ -140,6 +141,7 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
             return expectedMatcher.negativeMatches(actualPath, actual);
         }
 
+        comparator.resetReportData();
         return comparator.compareIsNotEqual(actualPath, actual, expected);
     }
 

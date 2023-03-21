@@ -25,6 +25,7 @@ import org.junit.Test
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class ActualValueTest {
     LiveValue liveValue
@@ -54,10 +55,15 @@ class ActualValueTest {
         actual(liveValue).waitToNot(equal(1), expectationTimer, 1000, 10)
     }
 
-    @Test(expected = AssertionError)
+    @Test
     void "waitToNot fails when timer times out"() {
         def expectationTimer = new DummyExpectationTimer(2)
-        actual(ones).waitToNot(equal(1), expectationTimer, 1000, 10)
+        runExpectExceptionAndValidateOutput(AssertionError.class, '> waiting for [value] to not equal 1\n' +
+                'X failed waiting for [value] to not equal 1:\n' +
+                '      actual: 1 <java.lang.Integer>\n' +
+                '    expected: 1 <java.lang.Integer> (Xms)') {
+            actual(ones).waitToNot(equal(1), expectationTimer, 1000, 10)
+        }
     }
 
     @Test
