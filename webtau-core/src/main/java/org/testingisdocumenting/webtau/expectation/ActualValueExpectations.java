@@ -25,20 +25,36 @@ public interface ActualValueExpectations {
         return StepReportOptions.SKIP_START;
     }
 
+    default boolean isDisabledMatcherStepOutput() {
+        return false;
+    }
+
     default void should(ValueMatcher valueMatcher) {
-        new ActualValue(this, shouldReportOption()).should(valueMatcher);
+        ActualValue actualValue = new ActualValue(this, shouldReportOption());
+        actualValue.setDisabledStepOutput(isDisabledMatcherStepOutput());
+
+        actualValue.should(valueMatcher);
     }
 
     default void shouldNot(ValueMatcher valueMatcher) {
-        new ActualValue(this, shouldReportOption()).shouldNot(valueMatcher);
+        ActualValue actualValue = new ActualValue(this, shouldReportOption());
+        actualValue.setDisabledStepOutput(isDisabledMatcherStepOutput());
+
+        actualValue.shouldNot(valueMatcher);
     }
 
     default void waitTo(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        new ActualValue(this).waitTo(valueMatcher, expectationTimer, tickMillis, timeOutMillis);
+        ActualValue actualValue = new ActualValue(this);
+        actualValue.setDisabledStepOutput(isDisabledMatcherStepOutput());
+
+        actualValue.waitTo(valueMatcher, expectationTimer, tickMillis, timeOutMillis);
     }
 
     default void waitToNot(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        new ActualValue(this).waitToNot(valueMatcher, expectationTimer, tickMillis, timeOutMillis);
+        ActualValue actualValue = new ActualValue(this);
+        actualValue.setDisabledStepOutput(isDisabledMatcherStepOutput());
+
+        actualValue.waitToNot(valueMatcher, expectationTimer, tickMillis, timeOutMillis);
     }
 
     default void shouldBe(ValueMatcher valueMatcher) {

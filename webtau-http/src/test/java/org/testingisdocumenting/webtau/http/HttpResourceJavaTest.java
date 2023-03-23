@@ -17,18 +17,19 @@
 package org.testingisdocumenting.webtau.http;
 
 import org.junit.Test;
-import org.testingisdocumenting.webtau.http.resource.HttpLazyDataNode;
+import org.testingisdocumenting.webtau.http.resource.HttpLazyResponseValue;
 
 import static org.testingisdocumenting.webtau.Matchers.*;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.http.Http.*;
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;
 
 public class HttpResourceJavaTest extends HttpTestBase {
-    private final HttpLazyDataNode priceNoParams = http.resource("/end-point").body.get("price");
-    private final HttpLazyDataNode price = http.resource("/end-point/:id").body.get("price");
-    private final HttpLazyDataNode livePrice = http.resource("/prices/:ticker").body.get("price");
+    private final HttpLazyResponseValue priceNoParams = http.resource("/end-point").body.get("price");
+    private final HttpLazyResponseValue price = http.resource("/end-point/:id").body.get("price");
+    private final HttpLazyResponseValue livePrice = http.resource("/prices/:ticker").body.get("price");
 
-    private final HttpLazyDataNode myObj = http.resource("/end-point/:param1/:param2").body.get("object");
+    private final HttpLazyResponseValue myObj = http.resource("/end-point/:param1/:param2").body.get("object");
 
     @Test
     public void resourceNodeNoRouteParam() {
@@ -43,14 +44,77 @@ public class HttpResourceJavaTest extends HttpTestBase {
 
     @Test
     public void resourceNodeMultipleParam() {
-        myObj.of("param1", "10", "param2", "20").should(
-                equal(map("k1", "v1_", "k2", "v2_", "k3", "v3_")));
+        runAndValidateOutput("> expecting value of /end-point/10/20: object to equal {\"k1\": \"v1_\", \"k2\": \"v2_\", \"k3\": \"v3_\"}\n" +
+                "  > executing HTTP GET http://localhost:port/end-point/10/20\n" +
+                "    . header.statusCode equals 200 (Xms)\n" +
+                "    \n" +
+                "    response (application/json):\n" +
+                "    {\n" +
+                "      \"id\": 10,\n" +
+                "      \"price\": 120,\n" +
+                "      \"amount\": 30,\n" +
+                "      \"list\": [1, 2, 3],\n" +
+                "      \"object\": {\"k1\": \"v1_\", \"k2\": \"v2_\", \"k3\": \"v3_\"},\n" +
+                "      \"complexList\": [{\"id\": \"id1\", \"k1\": \"v1\", \"k2\": 30}, {\"id\": \"id2\", \"k1\": \"v11\", \"k2\": 40}]\n" +
+                "    }\n" +
+                "  . executed HTTP GET http://localhost:port/end-point/10/20 (Xms)\n" +
+                ". value of /end-point/10/20: object equals {\"k1\": \"v1_\", \"k2\": \"v2_\", \"k3\": \"v3_\"} (Xms)",
+                () -> myObj.of("param1", "10", "param2", "20").should(
+                        equal(map("k1", "v1_", "k2", "v2_", "k3", "v3_"))));
     }
 
     @Test
-    public void waitForValue() {
+    public void waitForMultipleTimes() {
         HttpTestDataServer.IBM_PRICES.reset();
-        livePrice.of("IBM").waitToBe(greaterThan(115));
+        runAndValidateOutput("> waiting for value of /prices/IBM: price to be greater than 115\n" +
+                "  > [1/3] executing HTTP GET http://localhost:port/prices/IBM\n" +
+                "    \n" +
+                "    response (application/json):\n" +
+                "    {\n" +
+                "      \"price\": **100**\n" +
+                "    }\n" +
+                "  . [1/3] executed HTTP GET http://localhost:port/prices/IBM (Xms)\n" +
+                "  > [3/3] executing HTTP GET http://localhost:port/prices/IBM\n" +
+                "    \n" +
+                "    response (application/json):\n" +
+                "    {\n" +
+                "      \"price\": ~~120~~\n" +
+                "    }\n" +
+                "  . [3/3] executed HTTP GET http://localhost:port/prices/IBM (Xms)\n" +
+                        ". value of /prices/IBM: price greater than 115 (Xms)",
+                () -> livePrice.of("IBM").waitToBe(greaterThan(115)));
+    }
+
+    @Test
+    public void waitForValueOnce() {
+        HttpTestDataServer.IBM_PRICES.reset();
+        runAndValidateOutput("> waiting for value of /prices/IBM: price to equal 100\n" +
+                "  > executing HTTP GET http://localhost:port/prices/IBM\n" +
+                "    \n" +
+                "    response (application/json):\n" +
+                "    {\n" +
+                "      \"price\": __100__\n" +
+                "    }\n" +
+                "  . executed HTTP GET http://localhost:port/prices/IBM (Xms)\n" +
+                ". value of /prices/IBM: price equals 100 (Xms)",
+                () -> livePrice.of("IBM").waitTo(equal(100)));
+    }
+
+    @Test
+    public void waitForValueFailure() {
+        HttpTestDataServer.IBM_PRICES.reset();
+        runExpectExceptionAndValidateOutput(AssertionError.class, "> waiting for value of /prices/IBM: price to equal 1000\n" +
+                "  > executing HTTP GET http://localhost:port/prices/IBM\n" +
+                "    \n" +
+                "    response (application/json):\n" +
+                "    {\n" +
+                "      \"price\": **100**\n" +
+                "    }\n" +
+                "  . executed HTTP GET http://localhost:port/prices/IBM (Xms)\n" +
+                "X failed waiting for value of /prices/IBM: price to equal 1000:\n" +
+                "      actual: 100 <java.lang.Integer>\n" +
+                "    expected: 1000 <java.lang.Integer> (Xms)",
+                () -> livePrice.of("IBM").waitTo(equal(1000), 10, 5));
     }
 
     @Test

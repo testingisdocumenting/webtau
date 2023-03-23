@@ -41,6 +41,19 @@ public class IgnoreAnsiString {
             return;
         }
 
-        stringBuilder.append(styleOrValue == null ? "null" : styleOrValue.toString());
+        if (styleOrValue == null) {
+            stringBuilder.append("null");
+            return;
+        }
+
+        String result = styleOrValue.toString();
+        for (Color value : Color.values()) {
+            result = result.replace(value.toString(), "");
+        }
+        for (FontStyle value : FontStyle.values()) {
+            result = result.replace(value.toString(), "");
+        }
+
+        stringBuilder.append(result);
     }
 }

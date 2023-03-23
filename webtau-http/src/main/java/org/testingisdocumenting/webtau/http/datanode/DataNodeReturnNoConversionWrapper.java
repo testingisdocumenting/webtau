@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.resource;
+package org.testingisdocumenting.webtau.http.datanode;
 
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
+/**
+ * to return from http. validation callback without auto conversion
+ */
+public class DataNodeReturnNoConversionWrapper {
+    private final DataNode dataNode;
 
-import java.util.Collections;
-
-public class HttpResource {
-    private final HttpResourceDefinition definitionGet;
-
-    public HttpResource(String definitionGet) {
-        this.definitionGet = new HttpResourceDefinition(definitionGet, Collections.emptyMap());
-        this.body = new HttpLazyResponseValue(this.definitionGet, new DataNodeId(""));
+    public DataNodeReturnNoConversionWrapper(DataNode dataNode) {
+        this.dataNode = dataNode;
     }
 
-    public final HttpLazyResponseValue body;
+    public DataNode getDataNode() {
+        return dataNode;
+    }
 }

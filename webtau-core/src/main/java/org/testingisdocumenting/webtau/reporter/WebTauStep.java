@@ -55,6 +55,11 @@ public class WebTauStep {
 
     private Function<Object, WebTauStepOutput> stepOutputFunc = null;
 
+    private Runnable onBeforeSuccessReport;
+    private Runnable onBeforeFailureReport;
+    private Function<TokenizedMessage, TokenizedMessage> inProgressMessageModifier;
+    private Function<TokenizedMessage, TokenizedMessage> completionMessageModifier;
+
     private long startTime;
     private long elapsedTime;
 
@@ -231,6 +236,22 @@ public class WebTauStep {
         return classifier;
     }
 
+    public void setOnBeforeSuccessReport(Runnable onBeforeSuccessReport) {
+        this.onBeforeSuccessReport = onBeforeSuccessReport;
+    }
+
+    public void setOnBeforeFailureReport(Runnable onBeforeFailureReport) {
+        this.onBeforeFailureReport = onBeforeFailureReport;
+    }
+
+    public void setInProgressMessageModifier(Function<TokenizedMessage, TokenizedMessage> inProgressMessageModifier) {
+        this.inProgressMessageModifier = inProgressMessageModifier;
+    }
+
+    public void setCompletionMessageModifier(Function<TokenizedMessage, TokenizedMessage> completionMessageModifier) {
+        this.completionMessageModifier = completionMessageModifier;
+    }
+
     public TokenizedMessage getExceptionTokenizedMessage() {
         return exceptionTokenizedMessage;
     }
@@ -367,6 +388,10 @@ public class WebTauStep {
             }
 
             if (stepReportOptions != StepReportOptions.SKIP_ALL) {
+                if (onBeforeSuccessReport != null) {
+                    onBeforeSuccessReport.run();
+                }
+
                 StepReporters.onSuccess(this);
             }
 
@@ -377,6 +402,10 @@ public class WebTauStep {
             fail(e);
             if (stepOutputFunc != null) {
                 output = stepOutputFunc.apply(null);
+            }
+
+            if (onBeforeFailureReport != null) {
+                onBeforeFailureReport.run();
             }
 
             StepReporters.onFailure(this);
@@ -482,17 +511,21 @@ public class WebTauStep {
     }
 
     public TokenizedMessage getInProgressMessage() {
-        return inProgressMessage;
+        return inProgressMessageModifier != null ?
+                inProgressMessageModifier.apply(inProgressMessage) :
+                inProgressMessage;
     }
 
     public TokenizedMessage getCompletionMessage() {
-        return completionMessage;
+        return completionMessageModifier != null ?
+                completionMessageModifier.apply(completionMessage):
+                completionMessage;
     }
 
     public Map<String, ?> toMap() {
         Map<String, Object> result = new LinkedHashMap<>();
 
-        result.put("message", completionMessage.toListOfMaps());
+        result.put("message", getCompletionMessage().toListOfMaps());
         result.put("startTime", startTime);
         result.put("elapsedTime", elapsedTime);
         result.put("isSuccessful", isSuccessful);

@@ -22,6 +22,8 @@ import org.testingisdocumenting.webtau.expectation.ActualValueAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.http.Http;
 import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
+import org.testingisdocumenting.webtau.http.datanode.DataNodeReturnNoConversionWrapper;
+import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 
@@ -31,30 +33,37 @@ import java.util.Set;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
-public class HttpLazyDataNode implements ActualValueExpectations, ActualValueAware, ActualPathAndDescriptionAware {
+public class HttpLazyResponseValue implements ActualValueExpectations, ActualValueAware, ActualPathAndDescriptionAware {
     private final DataNodeId id;
     private final HttpResourceDefinition resourceDefinition;
 
-    HttpLazyDataNode(HttpResourceDefinition resourceDefinition, DataNodeId id) {
+    HttpLazyResponseValue(HttpResourceDefinition resourceDefinition, DataNodeId id) {
         this.resourceDefinition = resourceDefinition;
         this.id = id;
     }
 
-    // copy from Structured Data Node to handle nested path. make reusable code
-    public HttpLazyDataNode get(String path) {
-        return new HttpLazyDataNode(resourceDefinition, id.child(path));
+    public HttpLazyResponseValue get(String path) {
+        // TODO if path starts with [ need a different `concat` method
+        return new HttpLazyResponseValue(resourceDefinition, id.child(path));
+    }
+
+    @Override
+    public StepReportOptions shouldReportOption() {
+        return StepReportOptions.REPORT_ALL;
+    }
+
+    @Override
+    public boolean isDisabledMatcherStepOutput() {
+        return true;
     }
 
     @Override
     public Object actualValue() {
-        // somehow need to fetch here, but make sure that HTTP call is part of report
-        // in case of wait we don't want all 55 calls to be in HTTP tab
-        // need a concept of collapsing calls(?)
-        // maybe use repeat step somehow?
-        // we can start with a regular http calls with responses as well and then replace
-        return Http.http.get(resourceDefinition.buildUrl(), (header, body) -> {
-            return body.get(id.getPath());
+        DataNodeReturnNoConversionWrapper returnWrapper = Http.http.get(resourceDefinition.buildUrl(), (header, body) -> {
+            return new DataNodeReturnNoConversionWrapper(body.get(id.getPath()));
         });
+
+        return returnWrapper.getDataNode();
     }
 
     @Override
@@ -67,12 +76,12 @@ public class HttpLazyDataNode implements ActualValueExpectations, ActualValueAwa
         return tokenizedMessage().classifier("value").of().value(resourceDefinition).colon().id(id.getPath());
     }
 
-    public HttpLazyDataNode of(String firstKey, Object firstValue, Object... restKv) {
+    public HttpLazyResponseValue of(String firstKey, Object firstValue, Object... restKv) {
         Map<String, Object> map = CollectionUtils.map(firstKey, firstValue, restKv);
         return of(map);
     }
 
-    public HttpLazyDataNode of(String param) {
+    public HttpLazyResponseValue of(String param) {
         Set<String> paramNames = resourceDefinition.getParamNames();
         if (paramNames.isEmpty()) {
             throw new IllegalArgumentException("route definition must have one parameter, but definition has zero: " + resourceDefinition.getRoute());
@@ -81,7 +90,7 @@ public class HttpLazyDataNode implements ActualValueExpectations, ActualValueAwa
         return of(Collections.singletonMap(paramNames.iterator().next(), param));
     }
 
-    public HttpLazyDataNode of(Map<String, Object> routeParams) {
+    public HttpLazyResponseValue of(Map<String, Object> routeParams) {
         Set<String> paramNames = resourceDefinition.getParamNames();
         if (paramNames.isEmpty()) {
             throw new IllegalArgumentException("no route parameter names found in the definition: " + resourceDefinition.getRoute());
@@ -92,6 +101,6 @@ public class HttpLazyDataNode implements ActualValueExpectations, ActualValueAwa
                     paramNames + ", given: " + routeParams.keySet());
         }
 
-        return new HttpLazyDataNode(resourceDefinition.withRouteParams(routeParams), id);
+        return new HttpLazyResponseValue(resourceDefinition.withRouteParams(routeParams), id);
     }
 }
