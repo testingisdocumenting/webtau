@@ -33,10 +33,7 @@ import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
 import org.testingisdocumenting.webtau.http.binary.BinaryRequestBody;
 import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations;
-import org.testingisdocumenting.webtau.http.datanode.DataNode;
-import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder;
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
-import org.testingisdocumenting.webtau.http.datanode.StructuredDataNode;
+import org.testingisdocumenting.webtau.http.datanode.*;
 import org.testingisdocumenting.webtau.http.formdata.FormUrlEncodedRequestBody;
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
 import org.testingisdocumenting.webtau.http.listener.HttpListeners;
@@ -1302,6 +1299,10 @@ public class Http {
      * @return extracted regular value
      */
     private Object extractOriginalValue(Object v) {
+        if (v instanceof DataNodeReturnNoConversionWrapper) {
+            return v;
+        }
+
         if (v instanceof DataNode) {
             return ((DataNode) v).get();
         }

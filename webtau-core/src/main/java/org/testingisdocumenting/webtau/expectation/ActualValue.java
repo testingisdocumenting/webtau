@@ -26,9 +26,11 @@ import org.testingisdocumenting.webtau.expectation.stepoutput.ValueMatcherStepOu
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 import org.testingisdocumenting.webtau.reporter.*;
 
+import java.util.List;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
@@ -39,6 +41,7 @@ public class ActualValue implements ActualValueExpectations {
     private final TokenizedMessage valueDescription;
     private final ValuePath actualPath;
     private final StepReportOptions shouldReportOptions;
+    private boolean isDisabledStepOutput;
 
     public ActualValue(Object actual) {
         this(actual, ValuePath.UNDEFINED);
@@ -59,6 +62,10 @@ public class ActualValue implements ActualValueExpectations {
         this.shouldReportOptions = shouldReportOptions;
     }
 
+    public void setDisabledStepOutput(boolean disabledStepOutput) {
+        isDisabledStepOutput = disabledStepOutput;
+    }
+
     @Override
     public void should(ValueMatcher valueMatcher) {
         executeStep(valueMatcher, false,
@@ -75,20 +82,74 @@ public class ActualValue implements ActualValueExpectations {
 
     @Override
     public void waitTo(ValueMatcher valueMatcher,
-                     ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        executeStep(valueMatcher, false,
-                tokenizedMessage().action("waiting").forP(),
-                () -> waitToStep(valueMatcher, expectationTimer, tickMillis, timeOutMillis),
-                StepReportOptions.REPORT_ALL);
+                       ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
+        waitToWithModifiedInnerStepsReporting(valueMatcher, false,
+                () -> waitImpl(valueMatcher, expectationTimer, tickMillis, timeOutMillis, (result) -> result, false));
     }
 
     @Override
     public void waitToNot(ValueMatcher valueMatcher,
                           ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        executeStep(valueMatcher, true,
+        waitToWithModifiedInnerStepsReporting(valueMatcher, true,
+                () -> waitImpl(valueMatcher, expectationTimer, tickMillis, timeOutMillis, (result) -> ! result, true));
+    }
+
+    private void waitToWithModifiedInnerStepsReporting(ValueMatcher valueMatcher,
+                                                       boolean isNegative,
+                                                       Supplier<Object> expectationValidation) {
+        WebTauStep waitStep = createShouldWaitStep(valueMatcher, isNegative,
                 tokenizedMessage().action("waiting").forP(),
-                () -> waitToNotStep(valueMatcher, expectationTimer, tickMillis, timeOutMillis),
-                StepReportOptions.REPORT_ALL);
+                expectationValidation);
+
+        Runnable reportFirstAndLastStep = () -> reportFirstAndLastWaitChild(waitStep);
+        waitStep.setOnBeforeSuccessReport(reportFirstAndLastStep);
+        waitStep.setOnBeforeFailureReport(reportFirstAndLastStep);
+
+        waitStep.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    private static void reportFirstAndLastWaitChild(WebTauStep waitStep) {
+        List<WebTauStep> children = waitStep.children().collect(Collectors.toList());
+        if (children.isEmpty()) {
+            return;
+        }
+
+        if (children.size() == 1) {
+            reportStepAsIs(children.get(0));
+        } else {
+            reportFirstAndLastModified(children);
+        }
+    }
+
+    private static void reportStepAsIs(WebTauStep step) {
+        StepReporters.onStart(step);
+        if (step.isFailed()) {
+            StepReporters.onFailure(step);
+        } else {
+            StepReporters.onSuccess(step);
+        }
+    }
+
+    private static void reportFirstAndLastModified(List<WebTauStep> children) {
+        WebTauStep first = children.get(0);
+        WebTauStep last = children.get(children.size() - 1);
+
+        reportStepWithModifiedMessage(first, "[1/" + children.size() + "]");
+        reportStepWithModifiedMessage(last, "[" + children.size() + "/" + children.size() + "]");
+
+    }
+
+    private static void reportStepWithModifiedMessage(WebTauStep step, String classifierPrefix) {
+        Function<TokenizedMessage, TokenizedMessage> messageModifier = (message) -> tokenizedMessage().classifier(classifierPrefix).add(message);
+        step.setInProgressMessageModifier(messageModifier);
+        step.setCompletionMessageModifier(messageModifier);
+
+        StepReporters.onStart(step);
+        if (step.isFailed()) {
+            StepReporters.onFailure(step);
+        } else {
+            StepReporters.onSuccess(step);
+        }
     }
 
     private boolean shouldStep(ValueMatcher valueMatcher) {
@@ -115,29 +176,24 @@ public class ActualValue implements ActualValueExpectations {
         return matches;
     }
 
-    private boolean waitToStep(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        return waitImpl(valueMatcher, expectationTimer, tickMillis, timeOutMillis, (result) -> result, false);
-    }
-
-    private boolean waitToNotStep(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis) {
-        return waitImpl(valueMatcher, expectationTimer, tickMillis, timeOutMillis, (result) -> ! result, true);
-    }
-
     private boolean waitImpl(ValueMatcher valueMatcher, ExpectationTimer expectationTimer, long tickMillis, long timeOutMillis,
-                         Function<Boolean, Boolean> isMatchedFunc, boolean isNegative) {
-        expectationTimer.start();
-        while (!expectationTimer.hasTimedOut(timeOutMillis)) {
-            boolean matches = valueMatcher.matches(actualPath, extractAndCacheActualValue(actualGiven));
-            if (isMatchedFunc.apply(matches)) {
-                handleMatch(valueMatcher);
-                return true;
+                             Function<Boolean, Boolean> isMatchedFunc, boolean isNegative) {
+        return StepReporters.withoutReporters(() -> {
+            expectationTimer.start();
+
+            while (!expectationTimer.hasTimedOut(timeOutMillis)) {
+                boolean matches = valueMatcher.matches(actualPath, extractAndCacheActualValue(actualGiven));
+                if (isMatchedFunc.apply(matches)) {
+                    handleMatch(valueMatcher);
+                    return true;
+                }
+
+                expectationTimer.tick(tickMillis);
             }
 
-            expectationTimer.tick(tickMillis);
-        }
-
-        handleMismatch(valueMatcher, mismatchMessage(valueMatcher, isNegative));
-        return false;
+            handleMismatch(valueMatcher, mismatchMessage(valueMatcher, isNegative));
+            return false;
+        });
     }
 
     private void handleMatch(ValueMatcher valueMatcher) {
@@ -184,17 +240,28 @@ public class ActualValue implements ActualValueExpectations {
                              TokenizedMessage messageStart,
                              Supplier<Object> expectationValidation,
                              StepReportOptions stepReportOptions) {
+        WebTauStep step = createShouldWaitStep(valueMatcher, isNegative, messageStart, expectationValidation);
+        step.execute(stepReportOptions);
+    }
+
+    private WebTauStep createShouldWaitStep(ValueMatcher valueMatcher, boolean isNegative,
+                                            TokenizedMessage messageStart,
+                                            Supplier<Object> expectationValidation) {
         WebTauStep step = createStep(
                 messageStart.add(valueDescription)
                         .add(isNegative ?
-                                valueMatcher.negativeMatchingTokenizedMessage(actualPath, actualExtracted):
-                                valueMatcher.matchingTokenizedMessage(actualPath, actualExtracted)),
+                                valueMatcher.negativeMatchingTokenizedMessage(actualPath, actualGiven):
+                                valueMatcher.matchingTokenizedMessage(actualPath, actualGiven)),
                 () -> tokenizedMessage(valueDescription)
                         .add(isNegative ?
-                                valueMatcher.negativeMatchedTokenizedMessage(null, actualExtracted) :
-                                valueMatcher.matchedTokenizedMessage(null, actualExtracted)),
+                                valueMatcher.negativeMatchedTokenizedMessage(null, actualGiven) :
+                                valueMatcher.matchedTokenizedMessage(null, actualGiven)),
                 expectationValidation);
         step.setClassifier(WebTauStepClassifiers.MATCHER);
+
+        if (isDisabledStepOutput) {
+            return step;
+        }
 
         step.setStepOutputFunc((matched) -> {
             ValueConverter valueConverter = valueMatcher.valueConverter();
@@ -226,7 +293,7 @@ public class ActualValue implements ActualValueExpectations {
                     pathsToDecorate);
         });
 
-        step.execute(stepReportOptions);
+        return step;
     }
 
     private static boolean keepRootActualPathDecorated(Object actual) {
