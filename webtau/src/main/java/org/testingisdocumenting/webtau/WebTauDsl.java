@@ -36,6 +36,7 @@ import org.testingisdocumenting.webtau.http.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;
 import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher;
 import org.testingisdocumenting.webtau.server.WebTauServerFacade;
+import org.testingisdocumenting.webtau.websocket.WebSocket;
 
 /*
 Convenient class for static * import
@@ -46,6 +47,7 @@ public class WebTauDsl extends WebTauCore {
     public static final Cache cache = Cache.cache;
 
     public static final Http http = Http.http;
+    public static final WebSocket websocket = WebSocket.websocket;
     public static final Browser browser = Browser.browser;
     public static final Cli cli = Cli.cli;
     public static final Database db = Database.db;

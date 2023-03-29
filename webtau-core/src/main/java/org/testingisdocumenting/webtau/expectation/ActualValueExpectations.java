@@ -29,6 +29,10 @@ public interface ActualValueExpectations {
         return false;
     }
 
+    default ExpectationTimer createExpectationTimer() {
+        return ExpectationTimerConfigProvider.createExpectationTimer();
+    }
+
     default void should(ValueMatcher valueMatcher) {
         ActualValue actualValue = new ActualValue(this, shouldReportOption());
         actualValue.setDisabledStepOutput(isDisabledMatcherStepOutput());
@@ -66,7 +70,7 @@ public interface ActualValueExpectations {
     }
 
     default void waitTo(ValueMatcher valueMatcher) {
-        waitTo(valueMatcher, ExpectationTimerConfigProvider.createExpectationTimer(),
+        waitTo(valueMatcher, createExpectationTimer(),
                 ExpectationTimerConfigProvider.defaultTickMillis(),
                 ExpectationTimerConfigProvider.defaultTimeoutMillis());
     }
@@ -76,7 +80,7 @@ public interface ActualValueExpectations {
     }
 
     default void waitTo(ValueMatcher valueMatcher, long tickMillis, long timeOutMillis) {
-        waitTo(valueMatcher, ExpectationTimerConfigProvider.createExpectationTimer(),
+        waitTo(valueMatcher, createExpectationTimer(),
                 tickMillis,
                 timeOutMillis);
     }
@@ -86,7 +90,7 @@ public interface ActualValueExpectations {
     }
 
     default void waitTo(ValueMatcher valueMatcher, long timeOutMillis) {
-        waitTo(valueMatcher, ExpectationTimerConfigProvider.createExpectationTimer(),
+        waitTo(valueMatcher, createExpectationTimer(),
                 ExpectationTimerConfigProvider.defaultTickMillis(),
                 timeOutMillis);
     }
@@ -96,7 +100,7 @@ public interface ActualValueExpectations {
     }
 
     default void waitToNot(ValueMatcher valueMatcher) {
-        waitToNot(valueMatcher, ExpectationTimerConfigProvider.createExpectationTimer(),
+        waitToNot(valueMatcher, createExpectationTimer(),
                 ExpectationTimerConfigProvider.defaultTickMillis(),
                 ExpectationTimerConfigProvider.defaultTimeoutMillis());
     }
@@ -106,7 +110,7 @@ public interface ActualValueExpectations {
     }
 
     default void waitToNot(ValueMatcher valueMatcher, long tickMillis, long timeOutMillis) {
-        waitToNot(valueMatcher, ExpectationTimerConfigProvider.createExpectationTimer(),
+        waitToNot(valueMatcher, createExpectationTimer(),
                 tickMillis,
                 timeOutMillis);
     }
@@ -116,7 +120,7 @@ public interface ActualValueExpectations {
     }
 
     default void waitToNot(ValueMatcher valueMatcher, long timeOutMillis) {
-        waitToNot(valueMatcher, ExpectationTimerConfigProvider.createExpectationTimer(),
+        waitToNot(valueMatcher, createExpectationTimer(),
                 ExpectationTimerConfigProvider.defaultTickMillis(),
                 timeOutMillis);
     }

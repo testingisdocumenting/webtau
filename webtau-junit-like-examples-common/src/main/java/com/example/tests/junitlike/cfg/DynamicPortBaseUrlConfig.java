@@ -45,7 +45,7 @@ public class DynamicPortBaseUrlConfig implements WebTauHttpConfiguration {
         return given;
     }
 
-    private String getSpringbootAppPort() {
+    public static String getSpringbootAppPort() {
         String port = System.getProperty("springboot.http.port", DEFAULT_SPRINGBOOT_APP_PORT);
         if (port == null || port.isEmpty()) {
             return DEFAULT_SPRINGBOOT_APP_PORT;

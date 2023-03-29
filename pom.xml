@@ -102,6 +102,7 @@
         <module>webtau-browser-testcontainers</module>
         <module>webtau-http</module>
         <module>webtau-http-groovy</module>
+        <module>webtau-websocket</module>
         <module>webtau-graphql</module>
         <module>webtau-graphql-groovy</module>
         <module>webtau-open-api</module>
