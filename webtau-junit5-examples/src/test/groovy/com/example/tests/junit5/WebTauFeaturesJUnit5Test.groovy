@@ -62,6 +62,11 @@ class WebTauFeaturesJUnit5Test {
     }
 
     @Test
+    void websocketSpringBoot() {
+        testRunner.runAndValidate(WebSocketSpringBootTest, testServer.uri.toString())
+    }
+
+    @Test
     void searchByQuery() {
         testRunner.runAndValidate(WebSearchJavaTest, testServer.uri.toString())
     }

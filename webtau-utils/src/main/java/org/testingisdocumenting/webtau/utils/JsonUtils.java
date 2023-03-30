@@ -45,6 +45,12 @@ public class JsonUtils {
     private JsonUtils() {
     }
 
+    public static boolean looksLikeJson(String text) {
+        String trimmed = text.trim();
+        return (trimmed.startsWith("[") && trimmed.endsWith("]")) ||
+                (trimmed.startsWith("{") && trimmed.endsWith("}"));
+    }
+
     public static String serialize(Object json) {
         if (json == null) {
             return "null";

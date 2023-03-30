@@ -21,6 +21,17 @@ import org.junit.Test
 
 class JsonUtilsTest {
     @Test
+    void "should check if it looks like json"() {
+        assert JsonUtils.looksLikeJson("[]")
+        assert JsonUtils.looksLikeJson("[hello]")
+        assert JsonUtils.looksLikeJson("{}")
+        assert JsonUtils.looksLikeJson("{hello}")
+
+        assert !JsonUtils.looksLikeJson("[}")
+        assert !JsonUtils.looksLikeJson("{]")
+    }
+
+    @Test
     void "should serialize json using compact print"() {
         def asText = JsonUtils.serialize([k1: "v1", k2: ["v2", "v3"]])
         assert asText == '{"k1":"v1","k2":["v2","v3"]}'
