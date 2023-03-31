@@ -86,8 +86,12 @@ export function Step({ step, isTopLevel }: Props) {
   }
 
   function renderStepOutput(output: WebTauStepOutput) {
-    if (output.type === 'ValueMatcherStepOutput' || output.type === 'WebTauStepInputPrettyPrint') {
-      return <StyledText lines={output.data.styledText} />;
+    if (output.type === 'ValueMatcherStepOutput' || output.type === 'WebTauStepOutputPrettyPrint') {
+      return (
+        <div className="webtau-step-output-pretty-print">
+          <StyledText lines={output.data.styledText} />
+        </div>
+      );
     }
   }
 
