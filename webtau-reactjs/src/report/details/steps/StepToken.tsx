@@ -29,7 +29,7 @@ interface Props {
 export function StepToken({ token, next }: Props) {
   const className = 'step-token ' + token.type;
   const isNextDelimiter = next?.type === 'delimiter' || next?.type === 'delimiterNoAutoSpacing';
-  const isCurrentNoAutoSpacing = token.type == 'delimiterNoAutoSpacing';
+  const isCurrentNoAutoSpacing = token.type === 'delimiterNoAutoSpacing';
 
   const valueToUse = token.value + (isNextDelimiter || isCurrentNoAutoSpacing ? '' : ' ');
 
