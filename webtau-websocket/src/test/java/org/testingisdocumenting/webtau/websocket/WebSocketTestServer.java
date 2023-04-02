@@ -14,23 +14,16 @@
  * limitations under the License.
  */
 
-package com.example.tests.junit5;
+package org.testingisdocumenting.webtau.websocket;
 
-import org.junit.jupiter.api.Test;
-import org.testingisdocumenting.webtau.junit5.WebTau;
-import org.testingisdocumenting.webtau.websocket.WebSocketSession;
+import javax.websocket.ContainerProvider;
+import javax.websocket.WebSocketContainer;
 
-import static org.testingisdocumenting.webtau.WebTauDsl.*;
+public class WebSocketTestServer {
+    public static void main(String[] args) {
+        System.out.println("embedded websocket server");
 
-@WebTau
-public class WebSocketSpringBootTest {
-    @Test
-    public void waitUntilReceiveMessage() {
-        WebSocketSession wsSession = websocket.connect("/prices");
-        wsSession.send(map("symbol", "IBM"));
-
-        wsSession.received.waitTo(equal(map(
-                "price", greaterThan(100),
-                "symbol", "IBM")));
+        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
+        System.out.println(container);
     }
 }

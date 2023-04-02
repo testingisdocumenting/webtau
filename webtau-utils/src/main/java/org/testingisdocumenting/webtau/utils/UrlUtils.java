@@ -30,6 +30,9 @@ public class UrlUtils {
     private static final String HTTPS_URL_PREFIX = "https://";
     private static final String HTTP_URL_PREFIX = "http://";
 
+    private static final String WSS_URL_PREFIX = "wss://";
+    private static final String WS_URL_PREFIX = "ws://";
+
     private static final Pattern ROUTE_CHARS_TO_ESCAPE = Pattern.compile("([<(\\[^\\-=\\\\$!|\\])?*+.>])");
     private static final Pattern ROUTE_NAMED_PARAM_REGEXP_CURLY = Pattern.compile("\\{(\\w+)}");
     private static final Pattern ROUTE_NAMED_PARAM_REGEXP_COLON = Pattern.compile(":(\\w+)");
@@ -53,6 +56,16 @@ public class UrlUtils {
             return new URL(url).getPath();
         } catch (MalformedURLException e) {
             throw new IllegalArgumentException("invalid url: " + url, e);
+        }
+    }
+
+    public static String replaceHttpWithWs(String url) {
+        if (url.startsWith(HTTPS_URL_PREFIX)) {
+            return WSS_URL_PREFIX + url.substring(HTTPS_URL_PREFIX.length());
+        } else if (url.startsWith(HTTP_URL_PREFIX)) {
+            return WS_URL_PREFIX + url.substring(HTTP_URL_PREFIX.length());
+        } else {
+            return url;
         }
     }
 

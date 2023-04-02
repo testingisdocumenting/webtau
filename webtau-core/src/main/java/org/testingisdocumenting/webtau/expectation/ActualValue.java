@@ -153,7 +153,7 @@ public class ActualValue implements ActualValueExpectations {
     }
 
     private boolean shouldStep(ValueMatcher valueMatcher) {
-        boolean matches = valueMatcher.matches(actualPath, extractAndCacheActualValue(actualGiven));
+        boolean matches = valueMatcher.matches(actualPath, extractAndCacheActualValue(actualGiven, 0, 0));
 
         if (matches) {
             handleMatch(valueMatcher);
@@ -165,7 +165,7 @@ public class ActualValue implements ActualValueExpectations {
     }
 
     private boolean shouldNotStep(ValueMatcher valueMatcher) {
-        boolean matches = valueMatcher.negativeMatches(actualPath, extractAndCacheActualValue(actualGiven));
+        boolean matches = valueMatcher.negativeMatches(actualPath, extractAndCacheActualValue(actualGiven, 0, 0));
 
         if (matches) {
             handleMatch(valueMatcher);
@@ -182,7 +182,7 @@ public class ActualValue implements ActualValueExpectations {
             expectationTimer.start();
 
             while (!expectationTimer.hasTimedOut(timeOutMillis)) {
-                boolean matches = valueMatcher.matches(actualPath, extractAndCacheActualValue(actualGiven));
+                boolean matches = valueMatcher.matches(actualPath, extractAndCacheActualValue(actualGiven, tickMillis, timeOutMillis));
                 if (isMatchedFunc.apply(matches)) {
                     handleMatch(valueMatcher);
                     return true;
@@ -226,9 +226,9 @@ public class ActualValue implements ActualValueExpectations {
                 tokenizedMessage().id(path.getPath());
     }
 
-    private Object extractAndCacheActualValue(Object actual) {
+    private Object extractAndCacheActualValue(Object actual, long tickMillis, long timeOutMillis) {
         if (actual instanceof ActualValueAware) {
-            actualExtracted = ((ActualValueAware) actual).actualValue();
+            actualExtracted = ((ActualValueAware) actual).actualValue(tickMillis, timeOutMillis);
         } else {
             actualExtracted = actual;
         }

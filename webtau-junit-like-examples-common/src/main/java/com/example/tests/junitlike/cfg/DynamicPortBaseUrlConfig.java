@@ -28,9 +28,9 @@ public class DynamicPortBaseUrlConfig implements WebTauHttpConfiguration {
 
     @Override
     public String fullUrl(String url) {
-        if (url.contains("/customers")) {
+        if (url.contains(SPRING_BOOT_EXAMPLE_URL_PREFIX)) {
             int prefixIdx = url.indexOf(SPRING_BOOT_EXAMPLE_URL_PREFIX);
-            return "http://localhost:" + getSpringbootAppPort() + url.substring(prefixIdx);
+            return baseUrl() + url.substring(prefixIdx);
         }
 
         if (UrlUtils.isFull(url)) {
@@ -43,6 +43,10 @@ public class DynamicPortBaseUrlConfig implements WebTauHttpConfiguration {
     @Override
     public HttpHeader fullHeader(String fullUrl, String passedUrl, HttpHeader given) {
         return given;
+    }
+
+    public static String baseUrl() {
+        return "http://localhost:" + getSpringbootAppPort();
     }
 
     public static String getSpringbootAppPort() {

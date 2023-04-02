@@ -31,6 +31,8 @@ class UrlUtilsTest {
         assert UrlUtils.isFull("https://localhost:3030/abc")
         assert UrlUtils.isFull("file://localhost:3030/abc")
         assert UrlUtils.isFull("mailto://test.account")
+        assert UrlUtils.isFull("ws://test.account")
+        assert UrlUtils.isFull("wss://test.account")
 
         assert !UrlUtils.isFull("/relative-url")
         assert !UrlUtils.isFull("relative-url")
@@ -97,6 +99,15 @@ class UrlUtilsTest {
         assert UrlUtils.extractPort("https://site.com:9343") == 9343
         assert UrlUtils.extractPort("http://site.com:9343/basepath") == 9343
         assert UrlUtils.extractPort("https://site.com:9343/basepath") == 9343
+    }
+
+    @Test
+    void "replace http(s) with ws(s)"() {
+        assert UrlUtils.replaceHttpWithWs("") == ""
+        assert UrlUtils.replaceHttpWithWs("/relative") == "/relative"
+        assert UrlUtils.replaceHttpWithWs("http://path1/path2") == "ws://path1/path2"
+        assert UrlUtils.replaceHttpWithWs("https://path1/path2") == "wss://path1/path2"
+        assert UrlUtils.replaceHttpWithWs("https://") == "wss://"
     }
 
     @Test

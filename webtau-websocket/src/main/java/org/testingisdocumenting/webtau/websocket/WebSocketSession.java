@@ -19,13 +19,15 @@ package org.testingisdocumenting.webtau.websocket;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.reporter.WebTauStepInputPrettyPrint;
-import org.testingisdocumenting.webtau.utils.JsonParseException;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import javax.websocket.Session;
 import java.io.IOException;
+import java.util.List;
+import java.util.Map;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.websocket.WebSocketUtils.*;
 
 public class WebSocketSession {
     private final Session session;
@@ -43,31 +45,43 @@ public class WebSocketSession {
         return session;
     }
 
-    public void sendText(String text) {
+    public String getDestination() {
+        return destination;
+    }
+
+    public void send(String text) {
+        sendAsText(text);
+    }
+
+    public void send(Map<String, Object> json) {
+        sendAsText(json);
+    }
+
+    public void send(List<Object> json) {
+        sendAsText(json);
+    }
+
+    private void sendAsText(Object value) {
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage().action("sending").classifier("text").action("message").to().url(destination),
                 () -> tokenizedMessage().action("sent").classifier("text").action("message").to().url(destination),
                 () -> {
                     try {
-                        session.getBasicRemote().sendText(text);
+                        session.getBasicRemote().sendText(convertToText(value));
                     } catch (IOException e) {
                         throw new RuntimeException(e);
                     }
                 });
 
-        step.setInput(new WebTauStepInputPrettyPrint(convertForPrettyPrint(text)));
+        step.setInput(new WebTauStepInputPrettyPrint(convertForPrettyPrint(value)));
         step.execute(StepReportOptions.REPORT_ALL);
     }
 
-    private static Object convertForPrettyPrint(String original) {
-        if (JsonUtils.looksLikeJson(original)) {
-            try {
-                return JsonUtils.deserialize(original);
-            } catch (JsonParseException e) {
-                return original;
-            }
+    private static String convertToText(Object payload) {
+        if (payload instanceof CharSequence) {
+            return payload.toString();
         }
 
-        return original;
+        return JsonUtils.serialize(payload);
     }
 }
