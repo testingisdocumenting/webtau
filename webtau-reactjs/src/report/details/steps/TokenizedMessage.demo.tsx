@@ -22,11 +22,80 @@ import './TokenizedMessage.demo.css';
 
 export function tokenizedMessageDemo(registry: Registry) {
   add('styled text', <TokenizedMessage message={messageWithStyledText()} />);
+  add('url and styled text', <TokenizedMessage message={messageWithUrlAndStyledText()} />);
 
   function add(label: string, element: JSX.Element) {
     registry.add(label + ' [dark]', wrapInDarkTheme(<div className="message-demo-background">{element}</div>));
     registry.add(label + ' [light]', wrapInLightTheme(<div className="message-demo-background">{element}</div>));
   }
+}
+
+function messageWithUrlAndStyledText() {
+  return [
+    {
+      type: 'id',
+      value: 'received',
+    },
+    {
+      type: 'preposition',
+      value: 'from',
+    },
+    {
+      type: 'url',
+      value: 'ws://localhost:8080/prices',
+    },
+    {
+      type: 'matcher',
+      value: 'equals',
+    },
+    {
+      type: 'styledText',
+      value: [
+        [
+          {
+            styles: [],
+            text: '',
+          },
+          {
+            styles: ['yellow'],
+            text: '{',
+          },
+          {
+            styles: ['purple'],
+            text: '"price"',
+          },
+          {
+            styles: ['yellow'],
+            text: ': ',
+          },
+          {
+            styles: ['cyan'],
+            text: '<greater than 100>',
+          },
+          {
+            styles: ['yellow'],
+            text: ', ',
+          },
+          {
+            styles: ['purple'],
+            text: '"symbol"',
+          },
+          {
+            styles: ['yellow'],
+            text: ': ',
+          },
+          {
+            styles: ['green'],
+            text: '"IBM"',
+          },
+          {
+            styles: ['yellow'],
+            text: '}',
+          },
+        ],
+      ],
+    },
+  ];
 }
 
 function messageWithStyledText() {

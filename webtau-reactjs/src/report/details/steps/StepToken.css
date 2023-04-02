@@ -53,6 +53,11 @@
     color: var(--webtau-step-delimiter-color);
 }
 
+.step-token.delimiterNoAutoSpacing {
+    font-family: var(--webtau-monospace-font);
+    white-space: pre;
+}
+
 .step-token.stringValue {
     color: var(--webtau-step-string-color);
 }

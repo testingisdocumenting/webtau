@@ -47,7 +47,7 @@
     align-self: start;
 }
 
-.webtau-step-input-pretty-print {
-    margin-top: var(--webtau-spacing);
-    margin-left: var(--webtau-spacing);
+.webtau-step-input-pretty-print,
+.webtau-step-output-pretty-print {
+    margin: var(--webtau-spacing);
 }

@@ -28,13 +28,16 @@ interface Props {
 
 export function StepToken({ token, next }: Props) {
   const className = 'step-token ' + token.type;
-  const valueToUse = token.value + (next?.type === 'delimiter' ? '' : ' ');
+  const isNextDelimiter = next?.type === 'delimiter' || next?.type === 'delimiterNoAutoSpacing';
+  const isCurrentNoAutoSpacing = token.type === 'delimiterNoAutoSpacing';
+
+  const valueToUse = token.value + (isNextDelimiter || isCurrentNoAutoSpacing ? '' : ' ');
 
   switch (token.type) {
     case 'url':
       return (
         <a className="step-token url" href={token.value} target="_blank" rel="noopener noreferrer">
-          {token.value}
+          {valueToUse}
         </a>
       );
     default:
