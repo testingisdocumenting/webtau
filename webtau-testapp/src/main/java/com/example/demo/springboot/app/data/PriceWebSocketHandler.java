@@ -21,24 +21,32 @@ import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
+import org.testingisdocumenting.webtau.utils.JsonUtils;
+
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 @Component
 public class PriceWebSocketHandler extends TextWebSocketHandler {
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println("@#@ connected: " + session.getId());
     }
 
     @Override
     public void afterConnectionClosed(WebSocketSession session, CloseStatus status) throws Exception {
-        System.out.println("byeybe");
     }
 
     @Override
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
-        System.out.println("@#@ message: " + message.getPayload());
+        Map<String, ?> request = JsonUtils.deserializeAsMap(message.getPayload());
+
         for (int price = 77; price < 130; price++) {
-            session.sendMessage(new TextMessage("{\"price\":" + price + "}"));
+            Map<String, Object> response = new LinkedHashMap<>();
+            response.put("symbol", request.get("symbol"));
+            response.put("price", price);
+
+            session.sendMessage(new TextMessage(JsonUtils.serialize(response)));
+            Thread.sleep(5);
         }
     }
 }

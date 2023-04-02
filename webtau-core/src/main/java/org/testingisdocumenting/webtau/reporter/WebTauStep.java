@@ -113,12 +113,21 @@ public class WebTauStep {
                                         TokenizedMessage inProgressMessage,
                                         Function<Object, TokenizedMessage> completionMessageFunc,
                                         Function<WebTauStepContext, Object> action) {
-        WebTauStep step = new WebTauStep(startTime, inProgressMessage, completionMessageFunc, action);
-        WebTauStep localCurrentStep = WebTauStep.currentStep.get();
+        return createStepWithExplicitParent(WebTauStep.currentStep.get(), startTime,
+                inProgressMessage, completionMessageFunc,
+                action);
+    }
 
-        step.parent = localCurrentStep;
-        if (localCurrentStep != null) {
-            localCurrentStep.children.add(step);
+    public static WebTauStep createStepWithExplicitParent(WebTauStep parent,
+                                                          long startTime,
+                                                          TokenizedMessage inProgressMessage,
+                                                          Function<Object, TokenizedMessage> completionMessageFunc,
+                                                          Function<WebTauStepContext, Object> action) {
+        WebTauStep step = new WebTauStep(startTime, inProgressMessage, completionMessageFunc, action);
+
+        step.parent = parent;
+        if (parent != null) {
+            parent.children.add(step);
         }
         currentStep.set(step);
 
@@ -202,6 +211,10 @@ public class WebTauStep {
         this.totalNumberOfAttempts = 1;
         this.classifier = "";
         this.exceptionTokenizedMessage = tokenizedMessage();
+    }
+
+    public WebTauStep getParent() {
+        return parent;
     }
 
     public Stream<WebTauStep> children() {

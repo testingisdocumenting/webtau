@@ -21,9 +21,9 @@ import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware
 import org.testingisdocumenting.webtau.expectation.ActualValueAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.testingisdocumenting.webtau.utils.JsonParseException;
-import org.testingisdocumenting.webtau.utils.JsonUtils;
+import org.testingisdocumenting.webtau.reporter.*;
+
+import java.util.concurrent.TimeUnit;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
@@ -31,6 +31,7 @@ public class WebSocketValue implements ActualValueExpectations, ActualValueAware
     private final String id;
     private final String destination;
     private final WebSocketMessageListener messageListener;
+    private Object lastConvertedMessage;
 
     public WebSocketValue(String id, String destination, WebSocketMessageListener messageListener) {
         this.id = id;
@@ -55,19 +56,46 @@ public class WebSocketValue implements ActualValueExpectations, ActualValueAware
 
     @Override
     public Object actualValue() {
-        String last = messageListener.getMessages().poll();
-        if (last == null) {
-            return null;
-        }
+        return actualValue(0, 0);
+    }
 
-        if (JsonUtils.looksLikeJson(last)) {
-            try {
-                return JsonUtils.deserialize(last);
-            } catch (JsonParseException e) {
-                return last;
-            }
-        }
+    @Override
+    public Object actualValue(long tickMillis, long timeOutMillis) {
+        Object converted = runPollMessageStep(lastConvertedMessage, tickMillis);
+        lastConvertedMessage = converted;
 
-        return last;
+        return converted;
+    }
+
+    private Object runPollMessageStep(Object lastConvertedMessage, long tickMillis) {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage().action("polling").classifier("websocket message"),
+                (result) -> ((PolledMessage) result).isNewMessage ?
+                        tokenizedMessage().action("polled new message") :
+                        tokenizedMessage().action("no new message is polled"),
+                () -> {
+                    try {
+                        return new PolledMessage(messageListener.getMessages().poll(tickMillis, TimeUnit.MILLISECONDS), lastConvertedMessage);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
+                });
+
+        step.setStepOutputFunc((result) -> ((PolledMessage)result).isNewMessage ?
+                new WebTauStepOutputPrettyPrint(((PolledMessage) result).converted) :
+                WebTauStepOutput.EMPTY);
+        PolledMessage result = step.execute(StepReportOptions.REPORT_ALL);
+        return result.converted;
+    }
+
+    private static class PolledMessage {
+        private final Object converted;
+        private final boolean isNewMessage;
+
+        PolledMessage(String message, Object lastConvertedMessage) {
+            isNewMessage = message != null;
+            converted = message == null ? lastConvertedMessage : WebSocketUtils.convertToJsonIfPossible(message);
+
+        }
     }
 }

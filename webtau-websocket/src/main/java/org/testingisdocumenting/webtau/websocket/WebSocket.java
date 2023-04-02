@@ -16,8 +16,10 @@
 
 package org.testingisdocumenting.webtau.websocket;
 
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
 
 import javax.websocket.ContainerProvider;
 import javax.websocket.DeploymentException;
@@ -37,7 +39,8 @@ public class WebSocket {
 
     public WebSocketSession connect(String destination) {
         WebTauStep step = WebTauStep.createStep(tokenizedMessage().action("connecting").to().classifier("websocket").url(destination),
-                () -> tokenizedMessage().action("connected").to().classifier("websocket").url(destination),
+                (session) -> tokenizedMessage().action("connected").to().classifier("websocket")
+                        .url(((WebSocketSession) session).getDestination()),
                 () -> {
                     try {
                         return connectImpl(destination);
@@ -49,11 +52,22 @@ public class WebSocket {
         return step.execute(StepReportOptions.REPORT_ALL);
     }
 
-    private static WebSocketSession connectImpl(String destination) throws DeploymentException, IOException, URISyntaxException {
+    private WebSocketSession connectImpl(String destination) throws DeploymentException, IOException, URISyntaxException {
+        String fullUrl = UrlUtils.isFull(destination) ? destination : buildFullUrl(destination);
+
         WebSocketContainer container = ContainerProvider.getWebSocketContainer();
         WebSocketMessageListener messageListener = new WebSocketMessageListener();
-        Session session = container.connectToServer(messageListener, new URI(destination));
+        Session session = container.connectToServer(messageListener, new URI(fullUrl));
 
-        return new WebSocketSession(session, destination, messageListener);
+        return new WebSocketSession(session, fullUrl, messageListener);
+    }
+
+    private static String buildFullUrl(String relativeUrl) {
+        String baseUrl = WebTauConfig.getCfg().getBaseUrl();
+        if (baseUrl.isEmpty()) {
+            throw new IllegalArgumentException("base url is not set, either use full url or set base url via config");
+        }
+
+        return UrlUtils.replaceHttpWithWs(UrlUtils.concat(baseUrl, relativeUrl));
     }
 }

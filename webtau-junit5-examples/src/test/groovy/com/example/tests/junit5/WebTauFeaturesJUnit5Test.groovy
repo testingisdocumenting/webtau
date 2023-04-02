@@ -17,6 +17,7 @@
 package com.example.tests.junit5
 
 import com.example.tests.junit5.config.HttpPersonaAuthHeaderProvider
+import com.example.tests.junitlike.cfg.DynamicPortBaseUrlConfig
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
@@ -63,7 +64,7 @@ class WebTauFeaturesJUnit5Test {
 
     @Test
     void websocketSpringBoot() {
-        testRunner.runAndValidate(WebSocketSpringBootTest, testServer.uri.toString())
+        testRunner.runAndValidate(WebSocketSpringBootTest, DynamicPortBaseUrlConfig.baseUrl())
     }
 
     @Test
