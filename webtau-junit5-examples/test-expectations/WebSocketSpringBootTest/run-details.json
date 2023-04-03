@@ -1,5 +1,8 @@
 {
   "waitUntilReceiveMessage()" : {
     "numberOfSuccessful" : 5
+  },
+  "pollMessage()" : {
+    "numberOfSuccessful" : 6
   }
 }
