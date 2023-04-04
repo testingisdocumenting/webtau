@@ -66,11 +66,15 @@ public class WebSocketValue implements ActualValueExpectations, ActualValueAware
 
     @Override
     public Object actualValue() {
-        return actualValue(0, 0);
+        return actualValue(0, 0, 0);
     }
 
     @Override
-    public Object actualValue(long tickMillis, long timeOutMillis) {
+    public Object actualValue(int attemptIdx, long tickMillis, long timeOutMillis) {
+        if (attemptIdx == 0) {
+            lastConvertedMessage = null;
+        }
+
         Object converted = runPollMessageStep(lastConvertedMessage, tickMillis, WebSocketUtils::convertToJsonIfPossible);
         lastConvertedMessage = converted;
 

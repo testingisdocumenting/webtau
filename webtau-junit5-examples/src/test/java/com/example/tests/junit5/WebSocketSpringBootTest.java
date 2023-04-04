@@ -45,4 +45,14 @@ public class WebSocketSpringBootTest {
         String messageTwo = wsSession.received.pollAsText(10);
         actual(messageTwo).should(equal(null));
     }
+
+    @Test
+    public void waitMessageSecondTimeShouldNotUseCachedValue() {
+        WebSocketSession wsSession = websocket.connect("/prices");
+        wsSession.send(map("symbol", "DUMMY"));
+
+        wsSession.received.waitTo(equal(map("symbol", "DUMMY", "price", 0)));
+        wsSession.received.should(equal(null));
+        wsSession.received.waitTo(equal(null));
+    }
 }
