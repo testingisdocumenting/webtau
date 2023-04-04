@@ -34,6 +34,10 @@ public class WebTauHttpConfigurations {
         configurations.add(configuration);
     }
 
+    public static void addFront(WebTauHttpConfiguration configuration) {
+        configurations.add(0, configuration);
+    }
+
     public static void remove(WebTauHttpConfiguration configuration) {
         configurations.remove(configuration);
     }
