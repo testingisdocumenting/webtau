@@ -165,8 +165,12 @@ public class Browser {
                 });
     }
 
-    public PageElement $(String css) {
+    public PageElement element(String css) {
         return new GenericPageElement(driver, additionalBrowserInteractions, PageElementPath.css(css), false);
+    }
+
+    public PageElement $(String css) {
+        return element(css);
     }
 
     public boolean hasActiveBrowsers() {
