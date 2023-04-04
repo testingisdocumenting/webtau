@@ -223,6 +223,7 @@ class WebTauBrowserFeaturesTestBase {
                 "checkBox.groovy": "select checkbox",
                 "radioButton.groovy": "select radio button",
                 "selectOptions.groovy": "select options",
+                "selectOptionsText.groovy": "select options by text",
                 "validation.groovy": "values validation",
         ])
 
