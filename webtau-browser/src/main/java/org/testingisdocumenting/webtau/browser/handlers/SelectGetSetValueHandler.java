@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.handlers;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.testingisdocumenting.webtau.browser.page.*;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.WebElement;
@@ -45,8 +46,19 @@ public class SelectGetSetValueHandler implements PageElementGetSetValueHandler {
         stepExecutor.execute(tokenizedMessage().action("selecting drop down option").string(value).add(pathDescription),
                 () -> tokenizedMessage().action("selected drop down option").string(value).add(pathDescription),
                 () -> {
-                    Select select = new Select(pageElement.findElement());
-                    select.selectByValue(value.toString());
+                    WebElement element = pageElement.findElement();
+                    Select select = new Select(element);
+                    try {
+                        select.selectByValue(value.toString());
+                        return;
+                    } catch (NoSuchElementException ignored) {
+                    }
+
+                    try {
+                        select.selectByVisibleText(value.toString());
+                    } catch (NoSuchElementException ignored) {
+                        throw new NoSuchElementException("Cannot locate option with either value or visible text: " + value);
+                    }
                 });
     }
 

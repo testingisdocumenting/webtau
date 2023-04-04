@@ -25,7 +25,9 @@ Page object can be defined as
 
 # Select
 
-:include-file: doc-artifacts/snippets/forms/selectOptions.groovy {title: "set value to select"}
+:include-file: doc-artifacts/snippets/forms/selectOptions.groovy {title: "set value to select by value"}
+
+:include-file: doc-artifacts/snippets/forms/selectOptionsText.groovy {title: "set value to select by visible text"}
  
 # CheckBox
 

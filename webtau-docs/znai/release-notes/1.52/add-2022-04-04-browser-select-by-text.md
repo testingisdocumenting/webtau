@@ -1,0 +1,1 @@
+* Add: browser handle set select form value [by text](browser/forms#select) 
