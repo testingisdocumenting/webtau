@@ -1,0 +1,1 @@
+* Fix: [HTTP](HTTP/introduction) java module now automatically handles config file, without requiring larger WebTau dependency 
