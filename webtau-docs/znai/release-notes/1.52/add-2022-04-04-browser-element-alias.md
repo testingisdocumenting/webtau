@@ -1,0 +1,1 @@
+* Add: add `browser.element` as alias to `$`

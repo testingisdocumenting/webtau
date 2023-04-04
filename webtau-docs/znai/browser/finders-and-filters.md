@@ -8,7 +8,7 @@ Finders in WebTau is the initial web element selection that could select one or 
 
 # CSS Finder
 
-Use `$` to select an element by a given `css` selector ([Read W3Schools CSS selectors](https://www.w3schools.com/cssref/css_selectors.asp) to learn all kind of CSS selection techniques).   
+Use `$` or `browser.element` to select an element by a given `css` selector ([Read W3Schools CSS selectors](https://www.w3schools.com/cssref/css_selectors.asp) to learn all kind of CSS selection techniques).   
 
 :include-file: doc-artifacts/snippets/finders-filters/byCss.groovy {title: "example of selecting by id"}
 
