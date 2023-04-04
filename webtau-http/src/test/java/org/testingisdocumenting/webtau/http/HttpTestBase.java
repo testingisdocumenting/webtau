@@ -56,7 +56,7 @@ public class HttpTestBase implements WebTauHttpConfiguration {
 
     @Before
     public void initCfg() {
-        WebTauHttpConfigurations.add(this);
+        WebTauHttpConfigurations.addFront(this);
     }
 
     @After
