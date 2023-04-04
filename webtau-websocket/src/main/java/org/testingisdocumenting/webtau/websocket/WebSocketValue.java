@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.websocket;
 
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueAware;
@@ -24,6 +25,7 @@ import org.testingisdocumenting.webtau.expectation.timer.ExpectationTimer;
 import org.testingisdocumenting.webtau.reporter.*;
 
 import java.util.concurrent.TimeUnit;
+import java.util.function.Function;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
@@ -54,6 +56,14 @@ public class WebSocketValue implements ActualValueExpectations, ActualValueAware
         return tokenizedMessage().id(id).from().url(destination);
     }
 
+    public String pollAsText() {
+        return pollAsText(WebTauConfig.getCfg().getWaitTimeout());
+    }
+
+    public String pollAsText(long timeOutMillis) {
+        return (String) runPollMessageStep(null, timeOutMillis, (message) -> message);
+    }
+
     @Override
     public Object actualValue() {
         return actualValue(0, 0);
@@ -61,13 +71,13 @@ public class WebSocketValue implements ActualValueExpectations, ActualValueAware
 
     @Override
     public Object actualValue(long tickMillis, long timeOutMillis) {
-        Object converted = runPollMessageStep(lastConvertedMessage, tickMillis);
+        Object converted = runPollMessageStep(lastConvertedMessage, tickMillis, WebSocketUtils::convertToJsonIfPossible);
         lastConvertedMessage = converted;
 
         return converted;
     }
 
-    private Object runPollMessageStep(Object lastConvertedMessage, long tickMillis) {
+    private Object runPollMessageStep(Object lastConvertedMessage, long tickMillis, Function<String, Object> converter) {
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage().action("polling").classifier("websocket message"),
                 (result) -> ((PolledMessage) result).isNewMessage ?
@@ -75,7 +85,7 @@ public class WebSocketValue implements ActualValueExpectations, ActualValueAware
                         tokenizedMessage().action("no new message is polled"),
                 () -> {
                     try {
-                        return new PolledMessage(messageListener.getMessages().poll(tickMillis, TimeUnit.MILLISECONDS), lastConvertedMessage);
+                        return new PolledMessage(messageListener.getMessages().poll(tickMillis, TimeUnit.MILLISECONDS), lastConvertedMessage, converter);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -92,10 +102,9 @@ public class WebSocketValue implements ActualValueExpectations, ActualValueAware
         private final Object converted;
         private final boolean isNewMessage;
 
-        PolledMessage(String message, Object lastConvertedMessage) {
+        PolledMessage(String message, Object lastConvertedMessage, Function<String, Object> converter) {
             isNewMessage = message != null;
-            converted = message == null ? lastConvertedMessage : WebSocketUtils.convertToJsonIfPossible(message);
-
+            converted = message == null ? lastConvertedMessage : converter.apply(message);
         }
     }
 }

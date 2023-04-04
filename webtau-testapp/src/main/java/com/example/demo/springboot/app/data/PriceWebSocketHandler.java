@@ -23,6 +23,7 @@ import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -40,6 +41,19 @@ public class PriceWebSocketHandler extends TextWebSocketHandler {
     protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
         Map<String, ?> request = JsonUtils.deserializeAsMap(message.getPayload());
 
+        Object symbol = request.get("symbol");
+        if (symbol.equals("IBM")) {
+            sendIbm(session, request);
+        } else if (symbol.equals("DUMMY")) {
+            Map<String, Object> response = new LinkedHashMap<>();
+            response.put("symbol", request.get("symbol"));
+            response.put("price", 0);
+
+            session.sendMessage(new TextMessage(JsonUtils.serialize(response)));
+        }
+    }
+
+    private static void sendIbm(WebSocketSession session, Map<String, ?> request) throws IOException, InterruptedException {
         for (int price = 77; price < 130; price++) {
             Map<String, Object> response = new LinkedHashMap<>();
             response.put("symbol", request.get("symbol"));

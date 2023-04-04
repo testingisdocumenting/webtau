@@ -33,4 +33,16 @@ public class WebSocketSpringBootTest {
                 "price", greaterThan(100),
                 "symbol", "IBM")));
     }
+
+    @Test
+    public void pollMessage() {
+        WebSocketSession wsSession = websocket.connect("/prices");
+        wsSession.send(map("symbol", "DUMMY"));
+
+        String messageOne = wsSession.received.pollAsText();
+        actual(messageOne).should(equal("{\"symbol\":\"DUMMY\",\"price\":0}"));
+
+        String messageTwo = wsSession.received.pollAsText(10);
+        actual(messageTwo).should(equal(null));
+    }
 }
