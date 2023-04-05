@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import javax.websocket.Session;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.util.List;
 import java.util.Map;
 
@@ -41,12 +42,20 @@ public class WebSocketSession {
         this.received = new WebSocketValue("received", destination, messageListener);
     }
 
-    public Session getSession() {
-        return session;
-    }
-
     public String getDestination() {
         return destination;
+    }
+
+    public boolean isOpen() {
+        return session.isOpen();
+    }
+
+    public void close() {
+        WebTauStep step = WebTauStep.createStep(tokenizedMessage().action("closing").classifier("websocket").url(destination),
+                () -> tokenizedMessage().action("closed").classifier("websocket").url(destination),
+                this::closeImpl);
+
+        step.execute(StepReportOptions.REPORT_ALL);
     }
 
     public void send(String text) {
@@ -75,6 +84,14 @@ public class WebSocketSession {
 
         step.setInput(new WebTauStepInputPrettyPrint(convertForPrettyPrint(value)));
         step.execute(StepReportOptions.REPORT_ALL);
+    }
+
+    private void closeImpl() {
+        try {
+            session.close();
+        } catch (IOException e) {
+            throw new UncheckedIOException(e);
+        }
     }
 
     private static String convertToText(Object payload) {

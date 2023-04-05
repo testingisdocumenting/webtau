@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.websocket;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
@@ -28,10 +29,13 @@ import javax.websocket.WebSocketContainer;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class WebSocket {
+    private static final List<WebSocketSession> createdSessions = new ArrayList<>();
     public static final WebSocket websocket = new WebSocket();
 
     private WebSocket() {
@@ -59,7 +63,12 @@ public class WebSocket {
         WebSocketMessageListener messageListener = new WebSocketMessageListener();
         Session session = container.connectToServer(messageListener, new URI(fullUrl));
 
-        return new WebSocketSession(session, fullUrl, messageListener);
+        WebSocketSession webSocketSession = new WebSocketSession(session, fullUrl, messageListener);
+        createdSessions.add(webSocketSession);
+
+        LazyCleanupRegistration.INSTANCE.noOp();
+
+        return webSocketSession;
     }
 
     private static String buildFullUrl(String relativeUrl) {
@@ -69,5 +78,24 @@ public class WebSocket {
         }
 
         return UrlUtils.replaceHttpWithWs(UrlUtils.concat(baseUrl, relativeUrl));
+    }
+
+    private static void closeOpenedSessions() {
+        createdSessions.stream()
+                .filter(WebSocketSession::isOpen)
+                .forEach(WebSocketSession::close);
+    }
+
+    private static class LazyCleanupRegistration {
+        private static final LazyCleanupRegistration INSTANCE = new LazyCleanupRegistration();
+
+        private LazyCleanupRegistration() {
+            DeferredCallsRegistration.callAfterAllTests("closing", "closed", "websocket active sessions",
+                    () -> createdSessions.stream().anyMatch(WebSocketSession::isOpen),
+                    WebSocket::closeOpenedSessions);
+        }
+
+        private void noOp() {
+        }
     }
 }
