@@ -4,5 +4,8 @@
   },
   "pollMessage()" : {
     "numberOfSuccessful" : 6
+  },
+  "waitMessageSecondTimeShouldNotUseCachedValue()" : {
+    "numberOfSuccessful" : 8
   }
 }

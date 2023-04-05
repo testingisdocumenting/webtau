@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.expectation;
 public interface ActualValueAware {
     Object actualValue();
 
-    default Object actualValue(long tickMillis, long timeOutMillis) {
+    default Object actualValue(int attemptIdx, long tickMillis, long timeOutMillis) {
         return actualValue();
     }
 }

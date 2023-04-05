@@ -153,7 +153,7 @@ public class ActualValue implements ActualValueExpectations {
     }
 
     private boolean shouldStep(ValueMatcher valueMatcher) {
-        boolean matches = valueMatcher.matches(actualPath, extractAndCacheActualValue(actualGiven, 0, 0));
+        boolean matches = valueMatcher.matches(actualPath, extractAndCacheActualValue(actualGiven, 0, 0, 0));
 
         if (matches) {
             handleMatch(valueMatcher);
@@ -165,7 +165,7 @@ public class ActualValue implements ActualValueExpectations {
     }
 
     private boolean shouldNotStep(ValueMatcher valueMatcher) {
-        boolean matches = valueMatcher.negativeMatches(actualPath, extractAndCacheActualValue(actualGiven, 0, 0));
+        boolean matches = valueMatcher.negativeMatches(actualPath, extractAndCacheActualValue(actualGiven, 0, 0, 0));
 
         if (matches) {
             handleMatch(valueMatcher);
@@ -181,14 +181,16 @@ public class ActualValue implements ActualValueExpectations {
         return StepReporters.withoutReporters(() -> {
             expectationTimer.start();
 
+            int attemptIdx = 0;
             while (!expectationTimer.hasTimedOut(timeOutMillis)) {
-                boolean matches = valueMatcher.matches(actualPath, extractAndCacheActualValue(actualGiven, tickMillis, timeOutMillis));
+                boolean matches = valueMatcher.matches(actualPath, extractAndCacheActualValue(actualGiven, attemptIdx, tickMillis, timeOutMillis));
                 if (isMatchedFunc.apply(matches)) {
                     handleMatch(valueMatcher);
                     return true;
                 }
 
                 expectationTimer.tick(tickMillis);
+                attemptIdx++;
             }
 
             handleMismatch(valueMatcher, mismatchMessage(valueMatcher, isNegative));
@@ -226,9 +228,9 @@ public class ActualValue implements ActualValueExpectations {
                 tokenizedMessage().id(path.getPath());
     }
 
-    private Object extractAndCacheActualValue(Object actual, long tickMillis, long timeOutMillis) {
+    private Object extractAndCacheActualValue(Object actual, int attemptIdx, long tickMillis, long timeOutMillis) {
         if (actual instanceof ActualValueAware) {
-            actualExtracted = ((ActualValueAware) actual).actualValue(tickMillis, timeOutMillis);
+            actualExtracted = ((ActualValueAware) actual).actualValue(attemptIdx, tickMillis, timeOutMillis);
         } else {
             actualExtracted = actual;
         }
