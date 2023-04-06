@@ -16,7 +16,6 @@
 
 package org.testingisdocumenting.webtau.websocket;
 
-import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueAware;
@@ -57,7 +56,7 @@ public class WebSocketValue implements ActualValueExpectations, ActualValueAware
     }
 
     public String pollAsText() {
-        return pollAsText(WebTauConfig.getCfg().getWaitTimeout());
+        return pollAsText(WebSocketConfig.getWebSocketPollTimeout());
     }
 
     public String pollAsText(long timeOutMillis) {
