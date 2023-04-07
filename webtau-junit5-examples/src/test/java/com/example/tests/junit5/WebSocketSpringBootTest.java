@@ -21,21 +21,42 @@ import org.testingisdocumenting.webtau.junit5.WebTau;
 import org.testingisdocumenting.webtau.websocket.WebSocketSession;
 
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
+import static org.testingisdocumenting.webtau.websocket.WebSocket.websocket;
 
 @WebTau
 public class WebSocketSpringBootTest {
     @Test
     public void waitUntilReceiveMessage() {
+        // connect-send-wait
         WebSocketSession wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "IBM"));
 
         wsSession.received.waitTo(equal(map(
                 "price", greaterThan(100),
                 "symbol", "IBM")));
+        wsSession.close();
+        // connect-send-wait
     }
 
     @Test
-    public void pollMessage() {
+    public void pollMessageAfterWait() {
+        WebSocketSession wsSession = websocket.connect("/prices");
+        wsSession.send(map("symbol", "IBM"));
+
+        wsSession.received.waitTo(equal(map(
+                "price", greaterThan(100),
+                "symbol", "IBM")));
+
+        // poll-after-wait
+        String nextMessage = wsSession.received.pollAsText();
+        actual(nextMessage).should(equal("{\"symbol\":\"IBM\",\"price\":102}"));
+        // poll-after-wait
+
+        wsSession.close();
+    }
+
+    @Test
+    public void pollDummyMessage() {
         WebSocketSession wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "DUMMY"));
 
@@ -44,6 +65,8 @@ public class WebSocketSpringBootTest {
 
         String messageTwo = wsSession.received.pollAsText(10);
         actual(messageTwo).should(equal(null));
+
+        wsSession.close();
     }
 
     @Test
@@ -54,5 +77,6 @@ public class WebSocketSpringBootTest {
         wsSession.received.waitTo(equal(map("symbol", "DUMMY", "price", 0)));
         wsSession.received.should(equal(null));
         wsSession.received.waitTo(equal(null));
+        wsSession.close();
     }
 }

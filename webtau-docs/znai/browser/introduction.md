@@ -1,4 +1,4 @@
-WebTau `browser.` module lets you interact with a browser.  
+WebTau `browser` module lets you interact with a browser.  
 
 It provides higher level abstractions to locate elements, encapsulate page implementation details and deal with
 async nature of modern UIs.

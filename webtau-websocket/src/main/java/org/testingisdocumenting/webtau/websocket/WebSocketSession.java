@@ -34,6 +34,10 @@ public class WebSocketSession {
     private final Session session;
     private final String destination;
 
+    /**
+     * WebSocket messages are asynchronous in nature. To make writing tests easier, WebTau receives and stores all messages behind the scene.
+     * Messages are exposed via <code>session.received</code> special value. You can validate, wait on or poll from in a synchronous manner.
+     */
     public final WebSocketValue received;
 
     public WebSocketSession(Session session, String destination, WebSocketMessageListener messageListener) {

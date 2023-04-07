@@ -31,6 +31,8 @@
 ../../webtau-http/src/test/resources
 ../../webtau-http-groovy/src/test/groovy
 ../../webtau-http-groovy/src/test/resources
+../../webtau-websocket/src/main/java
+../../webtau-websocket/src/test/java
 ../../webtau-pdf/src/test/groovy
 ../../webtau-testapp/src/main/java
 ../../webtau-http/src/test/java
