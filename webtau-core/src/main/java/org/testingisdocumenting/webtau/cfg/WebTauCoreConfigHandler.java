@@ -26,7 +26,7 @@ import java.nio.file.Path;
  * core module doesn't depend on config so it can be used independently.
  * instead of using config to drive values of core modules you set values directly on certain components
  * e.g
- * {@link org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig#setWaitTimeout(int)}
+ * {@link org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig#setWaitTimeout(long)}
  * {@link org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation#setRoot(Path)}
  * <p>
  * this config handler is going to be run last and have access to config values.

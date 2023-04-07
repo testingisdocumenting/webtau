@@ -222,8 +222,8 @@ public class WebTauConfig implements PrettyPrintable {
         return !httpProxy.isDefault();
     }
 
-    public int getWaitTimeout() {
-        return waitTimeout.getAsInt();
+    public long getWaitTimeout() {
+        return waitTimeout.getAsLong();
     }
 
     public int getHttpTimeout() {
