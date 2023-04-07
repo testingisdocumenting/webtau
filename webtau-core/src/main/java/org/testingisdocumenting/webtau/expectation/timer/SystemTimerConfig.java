@@ -18,10 +18,10 @@
 package org.testingisdocumenting.webtau.expectation.timer;
 
 public class SystemTimerConfig implements ExpectationTimerConfig {
-    public static int DEFAULT_WAIT_TIMEOUT = 5000;
-    private static int waitTimeout = DEFAULT_WAIT_TIMEOUT;
+    public static long DEFAULT_WAIT_TIMEOUT = 5000L;
+    private static long waitTimeout = DEFAULT_WAIT_TIMEOUT;
 
-    public static void setWaitTimeout(int waitTimeout) {
+    public static void setWaitTimeout(long waitTimeout) {
         SystemTimerConfig.waitTimeout = waitTimeout;
     }
 
