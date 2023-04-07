@@ -1,11 +1,14 @@
 {
-  "waitUntilReceiveMessage()" : {
-    "numberOfSuccessful" : 5
+  "pollDummyMessage()" : {
+    "numberOfSuccessful" : 7
   },
-  "pollMessage()" : {
+  "waitUntilReceiveMessage()" : {
     "numberOfSuccessful" : 6
   },
-  "waitMessageSecondTimeShouldNotUseCachedValue()" : {
+  "pollMessageAfterWait()" : {
     "numberOfSuccessful" : 8
+  },
+  "waitMessageSecondTimeShouldNotUseCachedValue()" : {
+    "numberOfSuccessful" : 9
   }
 }

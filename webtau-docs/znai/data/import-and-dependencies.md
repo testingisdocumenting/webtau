@@ -2,7 +2,7 @@
 
 # Data Specific Import
 
-To only import `data.` module use
+To only import `data` module use
 
 ```tabs
 Groovy:

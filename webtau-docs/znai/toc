@@ -23,6 +23,10 @@ GraphQL
     queries-and-mutations
     customized-graphql-urls
     report
+web-socket
+    introduction
+    received-messages
+    import-and-dependencies
 browser
     introduction
     basic-configuration

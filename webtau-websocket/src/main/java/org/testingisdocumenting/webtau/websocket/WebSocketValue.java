@@ -55,6 +55,13 @@ public class WebSocketValue implements ActualValueExpectations, ActualValueAware
         return tokenizedMessage().id(id).from().url(destination);
     }
 
+    /**
+     * WebTau receives and stores asynchronous messages behind the scene.
+     * <p>
+     * Use <code>pollAsText</code> to access messages in a synchronous manner.
+     * If message is not yet received, <code>pollAsText</code> will wait for a configured (<code>webSocketPollTimeout</code>) milliseconds (default 5 seconds).
+     * @return polled message
+     */
     public String pollAsText() {
         return pollAsText(WebSocketConfig.getWebSocketPollTimeout());
     }
