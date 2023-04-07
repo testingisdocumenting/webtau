@@ -11,4 +11,5 @@ Java:
 :include-file: com/example/tests/junit5/WebSocketSpringBootTest.java {
   title: "connect, send and wait example", 
   surroundedBy: "connect-send-wait"
+}
 ```
