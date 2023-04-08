@@ -71,7 +71,7 @@ public class ConsoleStepReporter implements StepReporter {
         executeIfWithinVerboseLevel(step, () -> printStepRepeatFailure(step, current, total));
     }
 
-    public boolean isWithingVerboseLevel(WebTauStep step) {
+    public boolean isWithinVerboseLevel(WebTauStep step) {
         int currentLevel = step.getNumberOfParents() + 1;
         return currentLevel <= verboseLevelSupplier.get();
     }
@@ -278,7 +278,7 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private void executeIfWithinVerboseLevel(WebTauStep step, Runnable code) {
-        if (isWithingVerboseLevel(step)) {
+        if (isWithinVerboseLevel(step)) {
             code.run();
         }
     }
