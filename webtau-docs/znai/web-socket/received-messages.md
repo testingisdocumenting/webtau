@@ -37,7 +37,7 @@ Java:
 
 # Poll Message
 
-:include-java-doc: org/testingisdocumenting/webtau/websocket/WebSocketValue.java { entry: "pollAsText" }
+:include-java-doc: org/testingisdocumenting/webtau/websocket/WebSocketValues.java { entry: "pollAsText" }
 
 In example above, we wait until the price becomes greater than 100. All the messages including the matched one are discarded after `waitTo`.
 
@@ -47,17 +47,46 @@ In example above, we wait until the price becomes greater than 100. All the mess
 Groovy:
 :include-file: scenarios/websocket/springBoot.groovy {
   title: "poll message", 
-  surroundedBy: "poll-after-wait"
+  surroundedBy: "poll-after-wait",
+  commentsType: "inline"
 }
 
 Java:
 :include-file: com/example/tests/junit5/WebSocketSpringBootTest.java {
   title: "poll message", 
-  surroundedBy: "poll-after-wait"
+  surroundedBy: "poll-after-wait",
+  commentsType: "inline"
 }
 ```
+
+Note: if there are no already received messages, and no new message arrives within a wait time, `null` will be returned.
 
 # Max Number Of Messages
 
 By default, WebTau keeps only 1000 messages. If new messages arrive, the old ones get discarded. 
 Use `:identifier: webSocketMaxMessages` config value to change number of messages to keep.
+
+# Discard Messages
+
+Use `:identifier: received.discard` to remove all already received messages. 
+Next `:identifier: received.pollAsText` will wait for a new message to arrive as all the received messages will be discarded.
+
+```tabs
+Groovy:
+:include-file: scenarios/websocket/springBoot.groovy {
+  title: "discard messages", 
+  surroundedBy: "discard-poll"
+}
+
+Java:
+:include-file: com/example/tests/junit5/WebSocketSpringBootTest.java {
+  title: "discard messages", 
+  surroundedBy: "discard-poll"
+}
+```
+
+:include-cli-output: doc-artifacts/com.example.tests.junit5.WebSocketSpringBootTest-console-output.txt {
+  title: "console output",
+  startLine: "discarded",
+  endLine: "no new message is polled"
+}

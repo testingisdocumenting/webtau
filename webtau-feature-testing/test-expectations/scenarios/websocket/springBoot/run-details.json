@@ -9,13 +9,19 @@
     "scenario" : "poll message after wait",
     "shortContainerId" : "springBoot.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 31
+      "numberOfSuccessful" : 33
     }
   }, {
     "scenario" : "poll message",
     "shortContainerId" : "springBoot.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 7
+    }
+  }, {
+    "scenario" : "discard messages",
+    "shortContainerId" : "springBoot.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 33
     }
   } ],
   "exitCode" : 0
