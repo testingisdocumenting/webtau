@@ -28,13 +28,13 @@ import java.util.function.Function;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
-public class WebSocketValue implements ActualValueExpectations, ActualValueAware, ActualPathAndDescriptionAware {
+public class WebSocketValues implements ActualValueExpectations, ActualValueAware, ActualPathAndDescriptionAware {
     private final String id;
     private final String destination;
     private final WebSocketMessageListener messageListener;
     private Object lastConvertedMessage;
 
-    public WebSocketValue(String id, String destination, WebSocketMessageListener messageListener) {
+    public WebSocketValues(String id, String destination, WebSocketMessageListener messageListener) {
         this.id = id;
         this.destination = destination;
         this.messageListener = messageListener;
@@ -68,6 +68,18 @@ public class WebSocketValue implements ActualValueExpectations, ActualValueAware
 
     public String pollAsText(long timeOutMillis) {
         return (String) runPollMessageStep(null, timeOutMillis, (message) -> message);
+    }
+
+    /**
+     * discards all received messages
+     */
+    public void discard() {
+        WebTauStep step = WebTauStep.createStep(
+                tokenizedMessage().action("discarding all").classifier("messages").add(describe()),
+                () -> tokenizedMessage().action("discarded all").classifier("messages").add(describe()),
+                () -> messageListener.getMessages().clear());
+
+        step.execute(StepReportOptions.SKIP_START);
     }
 
     @Override

@@ -60,7 +60,9 @@ public class PriceWebSocketHandler extends TextWebSocketHandler {
             response.put("price", price);
 
             session.sendMessage(new TextMessage(JsonUtils.serialize(response)));
-            Thread.sleep(5);
+            if (price < 100) {
+                Thread.sleep(5);
+            }
         }
     }
 }

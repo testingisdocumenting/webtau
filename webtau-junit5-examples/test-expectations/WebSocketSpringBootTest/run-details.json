@@ -5,8 +5,11 @@
   "waitUntilReceiveMessage()" : {
     "numberOfSuccessful" : 6
   },
+  "discardMessages()" : {
+    "numberOfSuccessful" : 9
+  },
   "pollMessageAfterWait()" : {
-    "numberOfSuccessful" : 8
+    "numberOfSuccessful" : 10
   },
   "waitMessageSecondTimeShouldNotUseCachedValue()" : {
     "numberOfSuccessful" : 9

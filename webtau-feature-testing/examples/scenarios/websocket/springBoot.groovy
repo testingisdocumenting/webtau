@@ -41,6 +41,9 @@ scenario("poll message after wait") {
     // poll-after-wait
     def nextMessage = wsSession.received.pollAsText()
     nextMessage.should == "{\"symbol\":\"IBM\",\"price\":102}"
+
+    def nextNextMessage = wsSession.received.pollAsText(100) // explicit timeout in milliseconds for new message to arrive
+    nextNextMessage.should == "{\"symbol\":\"IBM\",\"price\":103}"
     // poll-after-wait
 
     wsSession.close()
@@ -55,6 +58,26 @@ scenario("poll message") {
 
     def messageTwo = wsSession.received.pollAsText(10)
     messageTwo.should == null
+
+    wsSession.close()
+}
+
+scenario("discard messages") {
+    def wsSession = websocket.connect("/prices")
+    wsSession.send([symbol: "IBM"])
+
+    wsSession.received.waitTo == [
+            price: greaterThan(100),
+            symbol: "IBM"]
+
+    sleep(200) // TODO remove when exposed count
+
+    // discard-poll
+    wsSession.received.discard()
+
+    def nextMessage = wsSession.received.pollAsText(1)
+    nextMessage.should == null
+    // discard-poll
 
     wsSession.close()
 }

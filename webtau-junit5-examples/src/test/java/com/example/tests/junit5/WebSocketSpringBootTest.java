@@ -50,6 +50,9 @@ public class WebSocketSpringBootTest {
         // poll-after-wait
         String nextMessage = wsSession.received.pollAsText();
         actual(nextMessage).should(equal("{\"symbol\":\"IBM\",\"price\":102}"));
+
+        String nextNextMessage = wsSession.received.pollAsText(100); // explicit timeout in milliseconds for new message to arrive
+        actual(nextNextMessage).should(equal("{\"symbol\":\"IBM\",\"price\":103}"));
         // poll-after-wait
 
         wsSession.close();
@@ -78,5 +81,24 @@ public class WebSocketSpringBootTest {
         wsSession.received.should(equal(null));
         wsSession.received.waitTo(equal(null));
         wsSession.close();
+    }
+
+    @Test
+    public void discardMessages() {
+        WebSocketSession wsSession = websocket.connect("/prices");
+        wsSession.send(map("symbol", "IBM"));
+
+        wsSession.received.waitTo(equal(map(
+                "price", greaterThan(100),
+                "symbol", "IBM")));
+
+        sleep(200); // TODO remove when exposed count
+
+        // discard-poll
+        wsSession.received.discard();
+
+        String nextMessage = wsSession.received.pollAsText(1);
+        actual(nextMessage).should(equal(null));
+        // discard-poll
     }
 }
