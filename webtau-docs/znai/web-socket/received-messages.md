@@ -29,6 +29,12 @@ Java:
 :include-markdown: import-ref.md
 ```
 
+:include-cli-output: doc-artifacts/com.example.tests.junit5.WebSocketSpringBootTest-console-output.txt {
+  title: "console output",
+  startLine: "waiting", 
+  endLine: "received"
+}
+
 # Poll Message
 
 :include-java-doc: org/testingisdocumenting/webtau/websocket/WebSocketValue.java { entry: "pollAsText" }
