@@ -82,18 +82,6 @@ public class WebSocketValues implements ActualValueExpectations, ActualValueAwar
         step.execute(StepReportOptions.SKIP_START);
     }
 
-    /**
-     * discards all received messages
-     */
-    public void discard() {
-        WebTauStep step = WebTauStep.createStep(
-                tokenizedMessage().action("discarding all").classifier("messages").add(describe()),
-                () -> tokenizedMessage().action("discarded all").classifier("messages").add(describe()),
-                () -> messageListener.getMessages().clear());
-
-        step.execute(StepReportOptions.SKIP_START);
-    }
-
     @Override
     public Object actualValue() {
         return actualValue(0, 0, 0);
