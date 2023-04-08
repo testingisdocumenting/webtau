@@ -1,5 +1,5 @@
 ---
-identifier: {validationPath: "com/example/tests/junit5/WebSocketSpringBootTest.java"}
+identifier: {validationPath: ["com/example/tests/junit5/WebSocketSpringBootTest.java", "org/testingisdocumenting/webtau/websocket/WebSocketConfig.java"]}
 ---
 
 # Asynchronous To Synchronous
@@ -50,3 +50,8 @@ Java:
   surroundedBy: "poll-after-wait"
 }
 ```
+
+# Max Number Of Messages
+
+By default, WebTau keeps only 1000 messages. If new messages arrive, the old ones get discarded. 
+Use `:identifier: webSocketMaxMessages` config value to change number of messages to keep.
