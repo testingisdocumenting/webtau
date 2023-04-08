@@ -18,33 +18,25 @@ package org.testingisdocumenting.webtau.websocket;
 
 import javax.websocket.ClientEndpoint;
 import javax.websocket.OnMessage;
-import javax.websocket.OnOpen;
 import javax.websocket.Session;
-import java.io.IOException;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
 @ClientEndpoint
 public class WebSocketMessageListener {
-    private final int MAX_MESSAGES_TO_KEEP = 500;
-
     private final BlockingQueue<String> messages;
 
     public WebSocketMessageListener() {
-        messages = new ArrayBlockingQueue<>(MAX_MESSAGES_TO_KEEP);
+        messages = new ArrayBlockingQueue<>(WebSocketConfig.getWebSocketMaxMessages());
     }
 
     public BlockingQueue<String> getMessages() {
         return messages;
     }
 
-    @OnOpen
-    public void onOpen(Session session) throws IOException {
-    }
-
     @OnMessage
     public void onMessage(String message, Session session) {
-        if (messages.size() == MAX_MESSAGES_TO_KEEP) {
+        if (messages.size() == WebSocketConfig.getWebSocketMaxMessages()) {
             messages.remove();
         }
 

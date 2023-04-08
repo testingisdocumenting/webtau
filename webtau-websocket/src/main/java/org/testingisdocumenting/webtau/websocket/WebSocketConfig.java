@@ -28,12 +28,19 @@ public class WebSocketConfig implements WebTauConfigHandler {
     private static final ConfigValue webSocketPollTimeout = declare("webSocketPollTimeout", "poll new message timeout",
             () -> SystemTimerConfig.DEFAULT_WAIT_TIMEOUT);
 
+    private static final ConfigValue webSocketMaxMessages = declare("webSocketMaxMessages", "max number of received messages to keep for polling/waiting",
+            () -> 1000);
+
     @Override
     public Stream<ConfigValue> additionalConfigValues() {
-        return Stream.of(webSocketPollTimeout);
+        return Stream.of(webSocketPollTimeout, webSocketMaxMessages);
     }
 
     public static long getWebSocketPollTimeout() {
         return webSocketPollTimeout.getAsLong();
+    }
+
+    public static int getWebSocketMaxMessages() {
+        return webSocketMaxMessages.getAsInt();
     }
 }
