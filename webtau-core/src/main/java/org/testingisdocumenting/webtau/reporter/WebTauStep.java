@@ -441,7 +441,7 @@ public class WebTauStep {
         // we throw the full message if the details are not rendered to the console
         if (!StepReporters.isConsoleStepReporterActive() ||
                 !ConsoleOutputs.isTerminalConsoleOutputActive() ||
-                !StepReporters.defaultStepReporter.isWithingVerboseLevel(this)) {
+                !StepReporters.defaultStepReporter.isWithinVerboseLevel(this)) {
             return message;
         }
 
