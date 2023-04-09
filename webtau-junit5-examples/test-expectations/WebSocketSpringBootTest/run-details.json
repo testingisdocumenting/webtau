@@ -6,7 +6,10 @@
     "numberOfSuccessful" : 6
   },
   "discardMessages()" : {
-    "numberOfSuccessful" : 6
+    "numberOfSuccessful" : 7
+  },
+  "pollAsMap()" : {
+    "numberOfSuccessful" : 5
   },
   "pollMessageAfterWait()" : {
     "numberOfSuccessful" : 10

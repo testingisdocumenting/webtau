@@ -18,6 +18,12 @@
       "numberOfSuccessful" : 7
     }
   }, {
+    "scenario" : "poll map",
+    "shortContainerId" : "springBoot.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  }, {
     "scenario" : "discard messages",
     "shortContainerId" : "springBoot.groovy",
     "stepsSummary" : {

@@ -75,6 +75,15 @@ public class WebSocketMessages implements ActualValueExpectations, ActualValueAw
         return (String) runPollMessageStep(null, timeOutMillis, WebSocketUtils::convertToJsonIfPossible).original;
     }
 
+    public <R> R poll() {
+        return poll(WebSocketConfig.getWebSocketPollTimeout());
+    }
+
+    @SuppressWarnings("unchecked")
+    public <R> R poll(long timeOutMillis) {
+        return (R) runPollMessageStep(null, timeOutMillis, WebSocketUtils::convertToJsonIfPossible).converted;
+    }
+
     /**
      * discards all received messages
      */

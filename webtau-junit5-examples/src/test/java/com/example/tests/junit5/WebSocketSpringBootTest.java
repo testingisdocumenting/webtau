@@ -20,6 +20,8 @@ import org.junit.jupiter.api.Test;
 import org.testingisdocumenting.webtau.junit5.WebTau;
 import org.testingisdocumenting.webtau.websocket.WebSocketSession;
 
+import java.util.Map;
+
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 import static org.testingisdocumenting.webtau.websocket.WebSocket.websocket;
 
@@ -54,6 +56,19 @@ public class WebSocketSpringBootTest {
         String nextNextMessage = wsSession.received.pollAsText(100); // explicit timeout in milliseconds for new message to arrive
         actual(nextNextMessage).should(equal("{\"symbol\":\"IBM\",\"price\":103}"));
         // poll-after-wait
+
+        wsSession.close();
+    }
+
+    @Test
+    public void pollAsMap() {
+        WebSocketSession wsSession = websocket.connect("/prices");
+        wsSession.send(map("symbol", "IBM"));
+
+        // poll-as-map
+        Map<String, ?> message = wsSession.received.poll();
+        actual(message.get("symbol")).should(equal("IBM"));
+        // poll-as-map
 
         wsSession.close();
     }
@@ -96,5 +111,7 @@ public class WebSocketSpringBootTest {
         String nextMessage = wsSession.received.pollAsText(1);
         actual(nextMessage).should(equal(null));
         // discard-poll
+
+        wsSession.close();
     }
 }
