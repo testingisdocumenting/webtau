@@ -88,11 +88,7 @@ public class WebSocketSpringBootTest {
         WebSocketSession wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "IBM"));
 
-        wsSession.received.waitTo(equal(map(
-                "price", greaterThan(100),
-                "symbol", "IBM")));
-
-        sleep(200); // TODO remove when exposed count
+        wsSession.received.count.waitTo(equal(53));
 
         // discard-poll
         wsSession.received.discard();

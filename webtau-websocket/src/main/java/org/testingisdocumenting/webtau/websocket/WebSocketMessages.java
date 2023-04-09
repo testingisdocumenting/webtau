@@ -28,16 +28,21 @@ import java.util.function.Function;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
-public class WebSocketValues implements ActualValueExpectations, ActualValueAware, ActualPathAndDescriptionAware {
+public class WebSocketMessages implements ActualValueExpectations, ActualValueAware, ActualPathAndDescriptionAware {
     private final String id;
+    private final ValuePath valuePath;
     private final String destination;
     private final WebSocketMessageListener messageListener;
     private Object lastConvertedMessage;
 
-    public WebSocketValues(String id, String destination, WebSocketMessageListener messageListener) {
+    public final WebSocketMessagesCount count;
+
+    public WebSocketMessages(String id, String destination, WebSocketMessageListener messageListener) {
         this.id = id;
+        this.valuePath = new ValuePath(id);
         this.destination = destination;
         this.messageListener = messageListener;
+        this.count = new WebSocketMessagesCount(this, messageListener);
     }
 
     @Override
@@ -47,7 +52,7 @@ public class WebSocketValues implements ActualValueExpectations, ActualValueAwar
 
     @Override
     public ValuePath actualPath() {
-        return new ValuePath(id);
+        return valuePath;
     }
 
     @Override
