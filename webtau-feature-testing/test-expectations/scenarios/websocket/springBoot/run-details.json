@@ -21,7 +21,7 @@
     "scenario" : "discard messages",
     "shortContainerId" : "springBoot.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 33
+      "numberOfSuccessful" : 7
     }
   } ],
   "exitCode" : 0
