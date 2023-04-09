@@ -67,7 +67,7 @@ public class WebSocketValues implements ActualValueExpectations, ActualValueAwar
     }
 
     public String pollAsText(long timeOutMillis) {
-        return (String) runPollMessageStep(null, timeOutMillis, (message) -> message);
+        return (String) runPollMessageStep(null, timeOutMillis, WebSocketUtils::convertToJsonIfPossible).original;
     }
 
     /**
@@ -93,13 +93,13 @@ public class WebSocketValues implements ActualValueExpectations, ActualValueAwar
             lastConvertedMessage = null;
         }
 
-        Object converted = runPollMessageStep(lastConvertedMessage, tickMillis, WebSocketUtils::convertToJsonIfPossible);
-        lastConvertedMessage = converted;
+        PolledMessage message = runPollMessageStep(lastConvertedMessage, tickMillis, WebSocketUtils::convertToJsonIfPossible);
+        lastConvertedMessage = message.converted;
 
-        return converted;
+        return message.converted;
     }
 
-    private Object runPollMessageStep(Object lastConvertedMessage, long tickMillis, Function<String, Object> converter) {
+    private PolledMessage runPollMessageStep(Object lastConvertedMessage, long tickMillis, Function<String, Object> converter) {
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage().action("polling").classifier("websocket message"),
                 (result) -> ((PolledMessage) result).isNewMessage ?
@@ -116,16 +116,17 @@ public class WebSocketValues implements ActualValueExpectations, ActualValueAwar
         step.setStepOutputFunc((result) -> ((PolledMessage)result).isNewMessage ?
                 new WebTauStepOutputPrettyPrint(((PolledMessage) result).converted) :
                 WebTauStepOutput.EMPTY);
-        PolledMessage result = step.execute(StepReportOptions.REPORT_ALL);
-        return result.converted;
+        return step.execute(StepReportOptions.REPORT_ALL);
     }
 
     private static class PolledMessage {
+        private final Object original;
         private final Object converted;
         private final boolean isNewMessage;
 
         PolledMessage(String message, Object lastConvertedMessage, Function<String, Object> converter) {
             isNewMessage = message != null;
+            original = message;
             converted = message == null ? lastConvertedMessage : converter.apply(message);
         }
     }
