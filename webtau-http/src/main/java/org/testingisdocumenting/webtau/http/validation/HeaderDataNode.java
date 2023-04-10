@@ -20,10 +20,10 @@ package org.testingisdocumenting.webtau.http.validation;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.HttpResponse;
-import org.testingisdocumenting.webtau.http.datanode.DataNode;
-import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder;
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
-import org.testingisdocumenting.webtau.http.datanode.NullDataNode;
+import org.testingisdocumenting.webtau.data.datanode.DataNode;
+import org.testingisdocumenting.webtau.data.datanode.DataNodeBuilder;
+import org.testingisdocumenting.webtau.data.datanode.DataNodeId;
+import org.testingisdocumenting.webtau.data.datanode.NullDataNode;
 
 import java.util.*;
 import java.util.function.Function;

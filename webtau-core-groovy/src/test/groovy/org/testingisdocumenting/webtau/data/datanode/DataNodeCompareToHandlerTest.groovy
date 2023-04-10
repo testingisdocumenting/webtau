@@ -15,17 +15,14 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.datanode
+package org.testingisdocumenting.webtau.data.datanode
 
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
-import static org.testingisdocumenting.webtau.Matchers.actual
 import static org.testingisdocumenting.webtau.Matchers.equal
 import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.ExplicitPassed
 import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.None
-import static org.junit.Assert.assertEquals
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class DataNodeCompareToHandlerTest {
@@ -96,7 +93,7 @@ class DataNodeCompareToHandlerTest {
         def comparator = CompareToComparator.comparator()
         def node = DataNodeBuilder.fromMap(new DataNodeId('node'), [node: [k1: 'v1', k2: 'v2']])
 
-        assert comparator.compareIsNotEqual(node.actualPath(), node, null)
+        comparator.compareIsNotEqual(node.actualPath(), node, null).should == true
         comparator.generateNotEqualMatchReport().toString().should ==
                 '  actual: [{"k1": "v1", "k2": "v2"}] <java.util.Collections.UnmodifiableCollection>\n' +
                 'expected: not null'

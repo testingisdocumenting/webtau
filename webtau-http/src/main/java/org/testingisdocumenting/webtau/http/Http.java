@@ -23,6 +23,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toList;
 
+import org.testingisdocumenting.webtau.data.datanode.*;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.data.ValuePath;
@@ -33,7 +34,6 @@ import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
 import org.testingisdocumenting.webtau.http.binary.BinaryRequestBody;
 import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations;
-import org.testingisdocumenting.webtau.http.datanode.*;
 import org.testingisdocumenting.webtau.http.formdata.FormUrlEncodedRequestBody;
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
 import org.testingisdocumenting.webtau.http.listener.HttpListeners;

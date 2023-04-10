@@ -18,8 +18,8 @@ package org.testingisdocumenting.webtau.graphql
 
 
 import org.testingisdocumenting.webtau.http.HttpHeader
-import org.testingisdocumenting.webtau.http.datanode.DataNode
-import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
+import org.testingisdocumenting.webtau.data.datanode.DataNode
+import org.testingisdocumenting.webtau.data.datanode.GroovyDataNode
 import org.testingisdocumenting.webtau.http.validation.BodyDataNode
 import org.testingisdocumenting.webtau.http.validation.HeaderDataNode
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn

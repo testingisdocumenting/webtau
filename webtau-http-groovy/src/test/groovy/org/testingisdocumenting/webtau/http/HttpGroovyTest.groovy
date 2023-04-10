@@ -19,8 +19,8 @@ package org.testingisdocumenting.webtau.http
 
 import org.junit.Test
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel
-import org.testingisdocumenting.webtau.http.datanode.DataNode
-import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
+import org.testingisdocumenting.webtau.data.datanode.DataNode
+import org.testingisdocumenting.webtau.data.datanode.GroovyDataNode
 import org.testingisdocumenting.webtau.http.testserver.TestServerResponse
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler
@@ -1138,7 +1138,7 @@ class HttpGroovyTest extends HttpTestBase {
 
     @Test
     void "captures failed http call"() {
-        def codeThrowStepStartTime = 0;
+        def codeThrowStepStartTime = 0
         def stepForcedStartTime = 0
         def httpCallForcedStartTime = stepForcedStartTime + 100
         def httpElapsedTime = 500

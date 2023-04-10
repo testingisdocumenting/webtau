@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.datanode;
+package org.testingisdocumenting.webtau.data.datanode;
 
 public class DataNodeId {
     private final String path;

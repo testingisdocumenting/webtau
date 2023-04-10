@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.http
 
 import org.testingisdocumenting.webtau.http.datanode.GroovyBodyDataNode
-import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
+import org.testingisdocumenting.webtau.data.datanode.GroovyDataNode
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody
 import org.testingisdocumenting.webtau.http.request.HttpQueryParams
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody

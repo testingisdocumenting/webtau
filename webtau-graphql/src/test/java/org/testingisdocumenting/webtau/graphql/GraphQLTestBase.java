@@ -23,7 +23,7 @@ import org.junit.BeforeClass;
 import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration;
 import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations;
-import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.data.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidator;
 import org.testingisdocumenting.webtau.http.validation.HttpResponseValidatorWithReturn;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;

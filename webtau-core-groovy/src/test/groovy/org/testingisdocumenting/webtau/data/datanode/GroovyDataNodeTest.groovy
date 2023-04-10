@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http
+package org.testingisdocumenting.webtau.data.datanode
 
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel
-import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId
-import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
+import org.testingisdocumenting.webtau.data.datanode.DataNodeBuilder
+import org.testingisdocumenting.webtau.data.datanode.DataNodeId
+import org.testingisdocumenting.webtau.data.datanode.GroovyDataNode
 import org.junit.Test
 
 class GroovyDataNodeTest {

@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.datanode
+package org.testingisdocumenting.webtau.data.datanode
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.datanode.DataNodeBuilder
+import org.testingisdocumenting.webtau.data.datanode.DataNodeId
 import org.testingisdocumenting.webtau.data.render.PrettyPrintableTestBase
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel
 

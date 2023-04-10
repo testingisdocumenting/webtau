@@ -21,8 +21,8 @@ import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware
 import org.testingisdocumenting.webtau.expectation.ActualValueAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.http.Http;
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
-import org.testingisdocumenting.webtau.http.datanode.DataNodeReturnNoConversionWrapper;
+import org.testingisdocumenting.webtau.data.datanode.DataNodeId;
+import org.testingisdocumenting.webtau.data.datanode.DataNodeReturnNoConversionWrapper;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;

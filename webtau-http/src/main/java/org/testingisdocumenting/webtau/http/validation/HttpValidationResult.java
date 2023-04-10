@@ -23,12 +23,12 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinterDecorationToken;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.http.HttpHeader;
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
+import org.testingisdocumenting.webtau.data.datanode.DataNodeId;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.http.HttpResponse;
-import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
-import org.testingisdocumenting.webtau.http.datacoverage.TraceableValueConverter;
-import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.data.datanode.DataNodeToMapOfValuesConverter;
+import org.testingisdocumenting.webtau.data.datanode.DataNodeTraceableValueConverter;
+import org.testingisdocumenting.webtau.data.datanode.DataNode;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
@@ -299,7 +299,7 @@ public class HttpValidationResult implements WebTauStepOutput {
     private Set<String> extractPaths(DataNode dataNode, Function<CheckLevel, Boolean> includePath, Function<DataNodeId, String> pathSupplier) {
         Set<String> paths = new TreeSet<>();
 
-        TraceableValueConverter traceableValueConverter = (id, traceableValue) -> {
+        DataNodeTraceableValueConverter traceableValueConverter = (id, traceableValue) -> {
             if (includePath.apply(traceableValue.getCheckLevel())) {
                 paths.add(replaceStartOfThePath(pathSupplier.apply(id)));
             }

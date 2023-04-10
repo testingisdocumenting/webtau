@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.resource;
+package org.testingisdocumenting.webtau.data.converters;
 
-import org.testingisdocumenting.webtau.data.datanode.DataNodeId;
+import java.util.Map;
 
-import java.util.Collections;
+public class ToMapConvertableConverter implements ToMapConverter {
+    @Override
+    public Map<String, ?> convert(Object v) {
+        if (v instanceof ToMapConvertable) {
+            ToMapConvertable convertable = (ToMapConvertable) v;
+           return convertable.canBeConvertedToMap() ? convertable.convertToMap() : null;
+        }
 
-public class HttpResource {
-    private final HttpResourceDefinition definitionGet;
-
-    public HttpResource(String definitionGet) {
-        this.definitionGet = new HttpResourceDefinition(definitionGet, Collections.emptyMap());
-        this.body = new HttpLazyResponseValue(this.definitionGet, new DataNodeId(""));
+        return null;
     }
-
-    public final HttpLazyResponseValue body;
 }

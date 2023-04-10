@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.repl
 
-import org.testingisdocumenting.webtau.http.datanode.GroovyDataNode
+import org.testingisdocumenting.webtau.data.datanode.GroovyDataNode
 import org.testingisdocumenting.webtau.http.validation.HttpValidationHandler
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult
 

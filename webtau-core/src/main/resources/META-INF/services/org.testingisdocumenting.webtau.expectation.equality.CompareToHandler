@@ -35,3 +35,4 @@ org.testingisdocumenting.webtau.expectation.equality.handlers.MapAndBeanCompareT
 org.testingisdocumenting.webtau.expectation.equality.handlers.DatesCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.ValueMatcherCompareToHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.NumberAndStringCompareToHandler
+org.testingisdocumenting.webtau.data.datanode.DataNodeCompareToHandler

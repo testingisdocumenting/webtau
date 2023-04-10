@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.datanode;
+package org.testingisdocumenting.webtau.data.datanode;
 
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.BinaryDataProvider;

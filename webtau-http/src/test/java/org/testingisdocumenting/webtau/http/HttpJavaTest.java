@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.http;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.data.table.TableData;
-import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.data.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;
 import org.junit.*;
 

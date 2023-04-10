@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.http.json;
 
+import org.testingisdocumenting.webtau.data.converters.ToMapConvertable;
 import org.testingisdocumenting.webtau.http.request.HttpApplicationMime;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
@@ -24,7 +25,7 @@ import org.testingisdocumenting.webtau.utils.JsonUtils;
 import java.util.Collection;
 import java.util.Map;
 
-public class JsonRequestBody implements HttpRequestBody {
+public class JsonRequestBody implements HttpRequestBody, ToMapConvertable {
     private final String asString;
     private final Object original;
 
@@ -64,5 +65,16 @@ public class JsonRequestBody implements HttpRequestBody {
     @Override
     public String asString() {
         return asString;
+    }
+
+    @Override
+    public boolean canBeConvertedToMap() {
+        return isMap();
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public Map<String, ?> convertToMap() {
+        return (Map<String, ?>) original;
     }
 }

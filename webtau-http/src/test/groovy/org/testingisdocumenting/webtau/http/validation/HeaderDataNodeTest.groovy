@@ -17,7 +17,7 @@
 package org.testingisdocumenting.webtau.http.validation
 
 import org.testingisdocumenting.webtau.http.HttpResponse
-import org.testingisdocumenting.webtau.http.datanode.NullDataNode
+import org.testingisdocumenting.webtau.data.datanode.NullDataNode
 import org.junit.Before
 import org.junit.Test
 

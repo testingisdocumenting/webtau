@@ -1,5 +1,5 @@
 #
-# Copyright 2020 webtau maintainers
+# Copyright 2023 webtau maintainers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,7 +14,4 @@
 # limitations under the License.
 #
 
-org.testingisdocumenting.webtau.expectation.contain.handlers.StringContainHandler
-org.testingisdocumenting.webtau.expectation.contain.handlers.MapContainHandler
-org.testingisdocumenting.webtau.expectation.equality.handlers.LiveValueContainHandler
-org.testingisdocumenting.webtau.data.datanode.DataNodeListContainHandler
+org.testingisdocumenting.webtau.data.datanode.CompositeKeyDataNodeValueExtractor

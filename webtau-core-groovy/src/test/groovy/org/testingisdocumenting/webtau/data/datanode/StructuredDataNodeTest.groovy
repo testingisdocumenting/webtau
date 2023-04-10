@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,14 +15,13 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.datanode
+package org.testingisdocumenting.webtau.data.datanode
 
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue
 import org.junit.Test
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class StructuredDataNodeTest {

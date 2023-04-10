@@ -14,19 +14,18 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.resource;
+package org.testingisdocumenting.webtau.data.datanode;
 
-import org.testingisdocumenting.webtau.data.datanode.DataNodeId;
+import org.testingisdocumenting.webtau.data.table.header.CompositeKeyUnderlyingValueExtractor;
 
-import java.util.Collections;
-
-public class HttpResource {
-    private final HttpResourceDefinition definitionGet;
-
-    public HttpResource(String definitionGet) {
-        this.definitionGet = new HttpResourceDefinition(definitionGet, Collections.emptyMap());
-        this.body = new HttpLazyResponseValue(this.definitionGet, new DataNodeId(""));
+public class CompositeKeyDataNodeValueExtractor implements CompositeKeyUnderlyingValueExtractor {
+    @Override
+    public boolean handles(Object value) {
+        return value instanceof DataNode;
     }
 
-    public final HttpLazyResponseValue body;
+    @Override
+    public Object extract(Object value) {
+        return ((DataNode)value).get();
+    }
 }
