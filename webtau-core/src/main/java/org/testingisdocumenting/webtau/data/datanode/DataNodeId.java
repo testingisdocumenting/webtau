@@ -42,11 +42,28 @@ public class DataNodeId {
 
     public DataNodeId child(String name) {
         String newPath = path + (path.isEmpty() ? "" : ".") + name;
-        return new DataNodeId(newPath, newPath, name);
+        String newNormalizedPath = normalizedPath + (normalizedPath.isEmpty() ? "" : ".") + name;
+
+        return new DataNodeId(newPath, newNormalizedPath, name);
     }
 
     public DataNodeId peer(int idx) {
         return new DataNodeId(path + "[" + idx + "]", path, name, idx);
+    }
+
+    public DataNodeId concat(String pathPart) {
+        String newPath = path + (pathPart.startsWith("[") || path.isEmpty() ? "" : ".") + pathPart;
+
+        String pathPartWithoutIndex = pathPart.replaceAll("\\[\\d+]", "");
+        String newPathWithoutIndex = normalizedPath +
+                (normalizedPath.isEmpty() || pathPartWithoutIndex.isEmpty() || pathPartWithoutIndex.startsWith(".") ? "" : ".") +
+                pathPartWithoutIndex;
+
+        String extractedName = pathPartWithoutIndex.isEmpty() ?
+                name:
+                pathPartWithoutIndex.substring(pathPartWithoutIndex.lastIndexOf(".") + 1);
+
+        return new DataNodeId(newPath, newPathWithoutIndex, extractedName);
     }
 
     public String getPath() {
