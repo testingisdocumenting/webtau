@@ -21,12 +21,19 @@ import org.testingisdocumenting.webtau.data.datanode.DataNodeId;
 import java.util.Collections;
 
 public class HttpResource {
-    private final HttpResourceDefinition definitionGet;
+    private final HttpLazyResponseValue body;
 
     public HttpResource(String definitionGet) {
-        this.definitionGet = new HttpResourceDefinition(definitionGet, Collections.emptyMap());
-        this.body = new HttpLazyResponseValue(this.definitionGet, new DataNodeId(""));
+        this.body = new HttpLazyResponseValue(
+                new HttpResourceDefinition(definitionGet, Collections.emptyMap()),
+                new DataNodeId(""));
     }
 
-    public final HttpLazyResponseValue body;
+    public HttpLazyResponseValue get(String path) {
+        return body.get(path);
+    }
+
+    public HttpLazyResponseValue get(int idx) {
+        return body.get(idx);
+    }
 }
