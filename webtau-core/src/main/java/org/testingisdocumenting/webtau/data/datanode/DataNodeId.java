@@ -56,7 +56,7 @@ public class DataNodeId {
 
         String pathPartWithoutIndex = pathPart.replaceAll("\\[\\d+]", "");
         String newPathWithoutIndex = normalizedPath +
-                (normalizedPath.isEmpty() || pathPartWithoutIndex.startsWith(".") ? "" : ".") +
+                (normalizedPath.isEmpty() || pathPartWithoutIndex.isEmpty() || pathPartWithoutIndex.startsWith(".") ? "" : ".") +
                 pathPartWithoutIndex;
 
         String extractedName = pathPartWithoutIndex.isEmpty() ?

@@ -43,8 +43,11 @@ public class HttpLazyResponseValue implements ActualValueExpectations, ActualVal
     }
 
     public HttpLazyResponseValue get(String path) {
-        // TODO if path starts with [ need a different `concat` method
-        return new HttpLazyResponseValue(resourceDefinition, id.child(path));
+        return new HttpLazyResponseValue(resourceDefinition, id.concat(path));
+    }
+
+    public HttpLazyResponseValue get(int idx) {
+        return new HttpLazyResponseValue(resourceDefinition, id.peer(idx));
     }
 
     @Override
