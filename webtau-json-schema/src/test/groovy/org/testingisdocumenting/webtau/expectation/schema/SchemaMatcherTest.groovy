@@ -1,7 +1,7 @@
 package org.testingisdocumenting.webtau.expectation.schema
 
-import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId
+import org.testingisdocumenting.webtau.data.datanode.DataNodeBuilder
+import org.testingisdocumenting.webtau.data.datanode.DataNodeId
 import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher
 import org.junit.Test
 

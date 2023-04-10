@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.datanode
+package org.testingisdocumenting.webtau.data.datanode
 
 import org.junit.Test
 
@@ -23,8 +24,8 @@ class DataNodeBuilderTest {
     void "should convert a map to data node"() {
         def n = DataNodeBuilder.fromMap(new DataNodeId("body"), [childA: "valueA", childB: "valueB"])
 
-        assert n.numberOfChildren() == 2
-        assert n.numberOfElements() == 0
+        n.numberOfChildren().should == 2
+        n.numberOfElements().should == 0
 
         assertSingleValue(n.get("childA"), "valueA")
         assertSingleValue(n.get("childB"), "valueB")
@@ -34,8 +35,8 @@ class DataNodeBuilderTest {
     void "should convert a list to data node"() {
         def n = DataNodeBuilder.fromList(new DataNodeId("body"), ["valueA", "valueB"])
 
-        assert n.numberOfChildren() == 0
-        assert n.numberOfElements() == 2
+        n.numberOfChildren().should == 0
+        n.numberOfElements().should == 2
 
         assertSingleValue(n.get(0), "valueA")
         assertSingleValue(n.get(1), "valueB")
@@ -45,8 +46,8 @@ class DataNodeBuilderTest {
     void "should convert list of maps to data node"() {
         def n = DataNodeBuilder.fromList(new DataNodeId("body"), [[k11: "v11", k12: "v12"], [k21: "v21", k22: "v22"]])
 
-        assert n.numberOfChildren() == 0
-        assert n.numberOfElements() == 2
+        n.numberOfChildren().should == 0
+        n.numberOfElements().should == 2
 
         assertSingleValue(n.get(0).get("k11"), "v11")
         assertSingleValue(n.get(0).get("k12"), "v12")
@@ -55,8 +56,8 @@ class DataNodeBuilderTest {
     }
 
     private static void assertSingleValue(DataNode actual, expected) {
-        assert actual.numberOfChildren() == 0
-        assert actual.numberOfElements() == 0
-        assert actual.getTraceableValue().value == expected
+        actual.numberOfChildren().should == 0
+        actual.numberOfElements().should == 0
+        actual.getTraceableValue().value.should == expected
     }
 }

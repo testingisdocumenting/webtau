@@ -26,8 +26,8 @@ import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel
 import org.testingisdocumenting.webtau.http.HttpHeader
 import org.testingisdocumenting.webtau.http.HttpResponse
-import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId
+import org.testingisdocumenting.webtau.data.datanode.DataNodeBuilder
+import org.testingisdocumenting.webtau.data.datanode.DataNodeId
 import org.testingisdocumenting.webtau.http.request.EmptyRequestBody
 import org.testingisdocumenting.webtau.http.validation.BodyDataNode
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult

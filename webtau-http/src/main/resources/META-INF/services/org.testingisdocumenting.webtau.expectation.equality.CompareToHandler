@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-org.testingisdocumenting.webtau.http.datanode.DataNodeCompareToHandler
+org.testingisdocumenting.webtau.data.datanode.DataNodeCompareToHandler

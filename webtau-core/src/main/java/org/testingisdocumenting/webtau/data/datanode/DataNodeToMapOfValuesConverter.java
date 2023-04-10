@@ -15,11 +15,9 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.datacoverage;
+package org.testingisdocumenting.webtau.data.datanode;
 
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
-import org.testingisdocumenting.webtau.http.datanode.DataNode;
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -28,9 +26,9 @@ import java.util.Map;
 import static java.util.stream.Collectors.toList;
 
 public class DataNodeToMapOfValuesConverter {
-    private final TraceableValueConverter traceableValueConverter;
+    private final DataNodeTraceableValueConverter traceableValueConverter;
 
-    public DataNodeToMapOfValuesConverter(TraceableValueConverter traceableValueConverter) {
+    public DataNodeToMapOfValuesConverter(DataNodeTraceableValueConverter traceableValueConverter) {
         this.traceableValueConverter = traceableValueConverter;
     }
 

@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.http;
 
 import org.testingisdocumenting.webtau.WebTauCore;
-import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.data.datanode.DataNode;
 import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
 import org.testingisdocumenting.webtau.http.request.HttpQueryParams;
 import org.testingisdocumenting.webtau.http.request.HttpRequestBody;

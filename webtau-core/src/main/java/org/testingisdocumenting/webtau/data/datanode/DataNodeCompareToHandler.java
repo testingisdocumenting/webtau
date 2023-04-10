@@ -15,12 +15,12 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.datanode;
+package org.testingisdocumenting.webtau.data.datanode;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ToMapConvertable;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
-import org.testingisdocumenting.webtau.http.json.JsonRequestBody;
 
 import java.util.Map;
 import java.util.Set;
@@ -45,8 +45,8 @@ public class DataNodeCompareToHandler implements CompareToHandler {
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         if (expected instanceof Map) {
             compareWithMap(comparator, actualPath, (DataNode) actual, (Map<?, ?>) expected);
-        } else if (expected instanceof JsonRequestBody && ((JsonRequestBody) expected).isMap()) {
-            compareWithMap(comparator, actualPath, (DataNode) actual, (Map<?, ?>) ((JsonRequestBody) expected).getOriginal());
+        } else if (expected instanceof ToMapConvertable && ((ToMapConvertable) expected).canBeConvertedToMap()) {
+            compareWithMap(comparator, actualPath, (DataNode) actual, ((ToMapConvertable) expected).convertToMap());
         } else {
             Object extractedActual = extractActual((DataNode) actual);
             comparator.compareUsingEqualOnly(actualPath, extractedActual, expected);

@@ -20,8 +20,8 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.http.HttpResponse;
-import org.testingisdocumenting.webtau.http.datanode.DataNode;
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
+import org.testingisdocumenting.webtau.data.datanode.DataNode;
+import org.testingisdocumenting.webtau.data.datanode.DataNodeId;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.Collection;

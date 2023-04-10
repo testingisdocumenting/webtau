@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,11 +15,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.datacoverage;
+package org.testingisdocumenting.webtau.data.datanode;
 
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId;
 
-public interface TraceableValueConverter {
+public interface DataNodeTraceableValueConverter {
     Object convert(DataNodeId id, TraceableValue traceableValue);
 }

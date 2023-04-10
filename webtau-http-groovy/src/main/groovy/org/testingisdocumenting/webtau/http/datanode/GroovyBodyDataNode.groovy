@@ -16,6 +16,9 @@
 
 package org.testingisdocumenting.webtau.http.datanode
 
+import org.testingisdocumenting.webtau.data.datanode.DataNode
+import org.testingisdocumenting.webtau.data.datanode.GroovyDataNode
+
 class GroovyBodyDataNode extends GroovyDataNode {
     private final String textContent
     private final byte[] binaryContent

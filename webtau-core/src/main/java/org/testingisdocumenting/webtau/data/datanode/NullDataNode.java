@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.datanode;
+package org.testingisdocumenting.webtau.data.datanode;
 
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
 

@@ -20,9 +20,9 @@ package org.testingisdocumenting.webtau.http
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue
 import org.testingisdocumenting.webtau.http.binary.BinaryRequestBody
-import org.testingisdocumenting.webtau.http.datanode.DataNodeBuilder
-import org.testingisdocumenting.webtau.http.datanode.DataNodeId
-import org.testingisdocumenting.webtau.http.datanode.StructuredDataNode
+import org.testingisdocumenting.webtau.data.datanode.DataNodeBuilder
+import org.testingisdocumenting.webtau.data.datanode.DataNodeId
+import org.testingisdocumenting.webtau.data.datanode.StructuredDataNode
 import org.testingisdocumenting.webtau.http.validation.BodyDataNode
 import org.testingisdocumenting.webtau.http.validation.HeaderDataNode
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult

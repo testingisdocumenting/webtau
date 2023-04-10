@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.datanode;
+package org.testingisdocumenting.webtau.data.datanode;
 
 /**
  * to return from http. validation callback without auto conversion

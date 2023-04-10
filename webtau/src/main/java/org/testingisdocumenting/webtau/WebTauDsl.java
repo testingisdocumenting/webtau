@@ -32,7 +32,7 @@ import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.fs.FileSystem;
 import org.testingisdocumenting.webtau.graphql.GraphQL;
 import org.testingisdocumenting.webtau.http.Http;
-import org.testingisdocumenting.webtau.http.datanode.DataNode;
+import org.testingisdocumenting.webtau.data.datanode.DataNode;
 import org.testingisdocumenting.webtau.pdf.Pdf;
 import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher;
 import org.testingisdocumenting.webtau.server.WebTauServerFacade;

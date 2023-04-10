@@ -15,11 +15,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.http.datanode;
+package org.testingisdocumenting.webtau.data.datanode;
 
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
-import org.testingisdocumenting.webtau.http.datacoverage.DataNodeToMapOfValuesConverter;
 
 import java.util.*;
 import java.util.function.Predicate;
