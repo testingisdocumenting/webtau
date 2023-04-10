@@ -62,6 +62,18 @@ scenario("poll message") {
     wsSession.close()
 }
 
+scenario("poll map") {
+    def wsSession = websocket.connect("/prices")
+    wsSession.send([symbol: "IBM"])
+
+    // poll-as-map
+    def message = wsSession.received.poll()
+    message.symbol.should == "IBM"
+    // poll-as-map
+
+    wsSession.close()
+}
+
 scenario("discard messages") {
     def wsSession = websocket.connect("/prices")
     wsSession.send([symbol: "IBM"])

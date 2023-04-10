@@ -35,7 +35,7 @@ Java:
   endLine: "received"
 }
 
-# Poll Message
+# Poll Message As Text
 
 :include-java-doc: org/testingisdocumenting/webtau/websocket/WebSocketMessages.java { entry: "pollAsText" }
 
@@ -60,6 +60,24 @@ Java:
 ```
 
 Note: if there are no already received messages, and no new message arrives within a wait time, `null` will be returned.
+
+# Poll Message As Object
+
+Use `:identifier: received.poll` to convert JSON message to a list or a map. 
+
+```tabs
+Groovy:
+:include-file: scenarios/websocket/springBoot.groovy {
+  title: "poll message as map", 
+  surroundedBy: "poll-as-map"
+}
+
+Java:
+:include-file: com/example/tests/junit5/WebSocketSpringBootTest.java {
+  title: "poll message as map", 
+  surroundedBy: "poll-as-map"
+}
+```
 
 # Max Number Of Messages
 
