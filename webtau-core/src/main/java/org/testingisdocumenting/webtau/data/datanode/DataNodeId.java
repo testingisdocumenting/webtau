@@ -52,15 +52,16 @@ public class DataNodeId {
     }
 
     public DataNodeId concat(String pathPart) {
-        String newPath = path + (pathPart.startsWith("[") ? "" : ".") + pathPart;
+        String newPath = path + (pathPart.startsWith("[") || path.isEmpty() ? "" : ".") + pathPart;
 
         String pathPartWithoutIndex = pathPart.replaceAll("\\[\\d+]", "");
         String newPathWithoutIndex = normalizedPath +
-                (pathPartWithoutIndex.isEmpty() || pathPartWithoutIndex.startsWith(".") ? "" : ".") +
+                (normalizedPath.isEmpty() || pathPartWithoutIndex.startsWith(".") ? "" : ".") +
                 pathPartWithoutIndex;
 
-        int lastDotIdx = pathPartWithoutIndex.lastIndexOf(".");
-        String extractedName = lastDotIdx == -1 ? name : pathPartWithoutIndex.substring(lastDotIdx + 1);
+        String extractedName = pathPartWithoutIndex.isEmpty() ?
+                name:
+                pathPartWithoutIndex.substring(pathPartWithoutIndex.lastIndexOf(".") + 1);
 
         return new DataNodeId(newPath, newPathWithoutIndex, extractedName);
     }
