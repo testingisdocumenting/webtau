@@ -25,15 +25,21 @@ import static org.testingisdocumenting.webtau.http.Http.*;
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;
 
 public class HttpResourceJavaTest extends HttpTestBase {
-    private final HttpLazyResponseValue priceNoParams = http.resource("/end-point").body.get("price");
-    private final HttpLazyResponseValue price = http.resource("/end-point/:id").body.get("price");
-    private final HttpLazyResponseValue livePrice = http.resource("/prices/:ticker").body.get("price");
+    private final HttpLazyResponseValue priceNoParams = http.resource("/end-point").get("price");
+    private final HttpLazyResponseValue price = http.resource("/end-point/:id").get("price");
+    private final HttpLazyResponseValue nestedProp = http.resource("/end-point").get("object.k3");
+    private final HttpLazyResponseValue livePrice = http.resource("/prices/:ticker").get("price");
 
-    private final HttpLazyResponseValue myObj = http.resource("/end-point/:param1/:param2").body.get("object");
+    private final HttpLazyResponseValue myObj = http.resource("/end-point/:param1/:param2").get("object");
 
     @Test
     public void resourceNodeNoRouteParam() {
         priceNoParams.should(equal(100));
+    }
+
+    @Test
+    public void nestedPathNoRouteParams() {
+        nestedProp.should(equal("v3"));
     }
 
     @Test
