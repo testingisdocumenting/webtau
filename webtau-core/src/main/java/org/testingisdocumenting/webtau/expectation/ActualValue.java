@@ -68,16 +68,16 @@ public class ActualValue implements ActualValueExpectations {
 
     @Override
     public void should(ValueMatcher valueMatcher) {
-        executeStep(valueMatcher, false,
+        executeStepWithDelayedStepReporting(valueMatcher, false,
                 tokenizedMessage().action("expecting"),
-                () -> shouldStep(valueMatcher), shouldReportOptions);
+                () -> shouldStepImpl(valueMatcher), shouldReportOptions);
     }
 
     @Override
     public void shouldNot(ValueMatcher valueMatcher) {
-        executeStep(valueMatcher, true,
+        executeStepWithDelayedStepReporting(valueMatcher, true,
                 tokenizedMessage().action("expecting"),
-                () -> shouldNotStep(valueMatcher), shouldReportOptions);
+                () -> shouldNotStepImpl(valueMatcher), shouldReportOptions);
     }
 
     @Override
@@ -144,15 +144,10 @@ public class ActualValue implements ActualValueExpectations {
         step.setInProgressMessageModifier(messageModifier);
         step.setCompletionMessageModifier(messageModifier);
 
-        StepReporters.onStart(step);
-        if (step.isFailed()) {
-            StepReporters.onFailure(step);
-        } else {
-            StepReporters.onSuccess(step);
-        }
+        step.reReportStep();
     }
 
-    private boolean shouldStep(ValueMatcher valueMatcher) {
+    private boolean shouldStepImpl(ValueMatcher valueMatcher) {
         boolean matches = valueMatcher.matches(actualPath, extractAndCacheActualValue(actualGiven, 0, 0, 0));
 
         if (matches) {
@@ -164,7 +159,7 @@ public class ActualValue implements ActualValueExpectations {
         return matches;
     }
 
-    private boolean shouldNotStep(ValueMatcher valueMatcher) {
+    private boolean shouldNotStepImpl(ValueMatcher valueMatcher) {
         boolean matches = valueMatcher.negativeMatches(actualPath, extractAndCacheActualValue(actualGiven, 0, 0, 0));
 
         if (matches) {
@@ -238,11 +233,24 @@ public class ActualValue implements ActualValueExpectations {
         return actualExtracted;
     }
 
-    private void executeStep(ValueMatcher valueMatcher, boolean isNegative,
-                             TokenizedMessage messageStart,
-                             Supplier<Object> expectationValidation,
-                             StepReportOptions stepReportOptions) {
-        WebTauStep step = createShouldWaitStep(valueMatcher, isNegative, messageStart, expectationValidation);
+    private void executeStepWithDelayedStepReporting(ValueMatcher valueMatcher, boolean isNegative,
+                                                     TokenizedMessage messageStart,
+                                                     Supplier<Object> expectationValidation,
+                                                     StepReportOptions stepReportOptions) {
+        boolean delayedStepReporting = actualGiven instanceof ActualValueAware;
+
+        Supplier<Object> wrappedValidation = delayedStepReporting ?
+                () -> StepReporters.withoutReporters(expectationValidation) :
+                expectationValidation;
+
+        WebTauStep step = createShouldWaitStep(valueMatcher, isNegative, messageStart, wrappedValidation);
+
+        if (delayedStepReporting) {
+            Runnable reReportChildren = () -> step.children().forEach(WebTauStep::reReportStep);
+            step.setOnBeforeSuccessReport(reReportChildren);
+            step.setOnBeforeFailureReport(reReportChildren);
+        }
+
         step.execute(stepReportOptions);
     }
 

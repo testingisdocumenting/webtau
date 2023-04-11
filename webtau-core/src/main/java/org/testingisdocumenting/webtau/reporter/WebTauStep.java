@@ -46,6 +46,8 @@ public class WebTauStep {
     private boolean isInProgress;
     private boolean isSuccessful;
 
+    private StepReportOptions usedReportOptions;
+
     private final List<WebTauStep> children;
     private WebTauStep parent;
     private String stackTrace;
@@ -367,7 +369,22 @@ public class WebTauStep {
         return elapsedTime;
     }
 
+    public void reReportStep() {
+        if (usedReportOptions != StepReportOptions.SKIP_START) {
+            StepReporters.onStart(this);
+        }
+
+        children().forEach(WebTauStep::reReportStep);
+        if (isFailed()) {
+            StepReporters.onFailure(this);
+        } else {
+            StepReporters.onSuccess(this);
+        }
+    }
+
     public <R> R execute(StepReportOptions stepReportOptions) {
+        usedReportOptions = stepReportOptions;
+
         if (totalNumberOfAttempts == 1) {
             return executeSingleRun(stepReportOptions);
         } else {

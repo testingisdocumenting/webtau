@@ -34,7 +34,21 @@ public class HttpResourceJavaTest extends HttpTestBase {
 
     @Test
     public void resourceNodeNoRouteParam() {
-        priceNoParams.should(equal(100));
+        runAndValidateOutput("> expecting value of /end-point: price to equal 100\n" +
+                "  > executing HTTP GET http://localhost:port/end-point\n" +
+                "    . header.statusCode equals 200 (Xms)\n" +
+                "    \n" +
+                "    response (application/json):\n" +
+                "    {\n" +
+                "      \"id\": 10,\n" +
+                "      \"price\": __100__,\n" +
+                "      \"amount\": 30,\n" +
+                "      \"list\": [1, 2, 3],\n" +
+                "      \"object\": {\"k1\": \"v1\", \"k2\": \"v2\", \"k3\": \"v3\"},\n" +
+                "      \"complexList\": [{\"id\": \"id1\", \"k1\": \"v1\", \"k2\": 30}, {\"id\": \"id2\", \"k1\": \"v11\", \"k2\": 40}]\n" +
+                "    }\n" +
+                "  . executed HTTP GET http://localhost:port/end-point (Xms)\n" +
+                ". value of /end-point: price equals 100 (Xms)", () -> priceNoParams.should(equal(100)));
     }
 
     @Test
@@ -60,7 +74,7 @@ public class HttpResourceJavaTest extends HttpTestBase {
                 "      \"price\": 120,\n" +
                 "      \"amount\": 30,\n" +
                 "      \"list\": [1, 2, 3],\n" +
-                "      \"object\": {\"k1\": \"v1_\", \"k2\": \"v2_\", \"k3\": \"v3_\"},\n" +
+                "      \"object\": {\"k1\": __\"v1_\"__, \"k2\": __\"v2_\"__, \"k3\": __\"v3_\"__},\n" +
                 "      \"complexList\": [{\"id\": \"id1\", \"k1\": \"v1\", \"k2\": 30}, {\"id\": \"id2\", \"k1\": \"v11\", \"k2\": 40}]\n" +
                 "    }\n" +
                 "  . executed HTTP GET http://localhost:port/end-point/10/20 (Xms)\n" +
@@ -74,6 +88,7 @@ public class HttpResourceJavaTest extends HttpTestBase {
         HttpTestDataServer.IBM_PRICES.reset();
         runAndValidateOutput("> waiting for value of /prices/IBM: price to be greater than 115\n" +
                 "  > [1/3] executing HTTP GET http://localhost:port/prices/IBM\n" +
+                "    . header.statusCode equals 200 (Xms)\n" +
                 "    \n" +
                 "    response (application/json):\n" +
                 "    {\n" +
@@ -81,6 +96,7 @@ public class HttpResourceJavaTest extends HttpTestBase {
                 "    }\n" +
                 "  . [1/3] executed HTTP GET http://localhost:port/prices/IBM (Xms)\n" +
                 "  > [3/3] executing HTTP GET http://localhost:port/prices/IBM\n" +
+                "    . header.statusCode equals 200 (Xms)\n" +
                 "    \n" +
                 "    response (application/json):\n" +
                 "    {\n" +
