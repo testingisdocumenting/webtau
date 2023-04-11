@@ -245,9 +245,11 @@ public class ActualValue implements ActualValueExpectations {
 
         WebTauStep step = createShouldWaitStep(valueMatcher, isNegative, messageStart, wrappedValidation);
 
-        Runnable reReportChildren = () -> step.children().forEach(WebTauStep::reReportStep);
-        step.setOnBeforeSuccessReport(reReportChildren);
-        step.setOnBeforeFailureReport(reReportChildren);
+        if (delayedStepReporting) {
+            Runnable reReportChildren = () -> step.children().forEach(WebTauStep::reReportStep);
+            step.setOnBeforeSuccessReport(reReportChildren);
+            step.setOnBeforeFailureReport(reReportChildren);
+        }
 
         step.execute(stepReportOptions);
     }
