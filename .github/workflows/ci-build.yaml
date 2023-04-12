@@ -37,6 +37,14 @@ jobs:
           path: "*/**/*-failed*.html"
           retention-days: 2
 
+      - name: Upload all reports
+        uses: actions/upload-artifact@v2
+        if: failure()
+        with:
+          name: all-webtau-reports
+          path: "*/**/*webtau-report.html"
+          retention-days: 1
+
       - name: Upload CLI sanity test reports
         uses: actions/upload-artifact@v2
         if: failure()
