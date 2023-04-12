@@ -61,4 +61,13 @@ class DataNodeIdTest {
         concat.path.should == "object"
         concat.normalizedPath.should == "object"
     }
+
+    @Test
+    void "concat empty param"() {
+        def id = new DataNodeId("parent")
+        def concat = id.concat("")
+        concat.name.should == "parent"
+        concat.path.should == "parent"
+        concat.normalizedPath.should == "parent"
+    }
 }

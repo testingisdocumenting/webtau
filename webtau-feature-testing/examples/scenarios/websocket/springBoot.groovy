@@ -30,6 +30,16 @@ scenario("wait until receive message") {
     // connect-send-wait
 }
 
+scenario("wait until receive message using path") {
+    def wsSession = websocket.connect("/prices")
+    wsSession.send([symbol: "IBM"])
+
+    // received-get
+    wsSession.received.get("price").waitToBe > 100
+    // received-get
+    wsSession.close()
+}
+
 scenario("poll message after wait") {
     def wsSession = websocket.connect("/prices")
     wsSession.send([symbol: "IBM"])
