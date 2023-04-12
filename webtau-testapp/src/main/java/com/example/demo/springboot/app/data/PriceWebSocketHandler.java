@@ -24,6 +24,7 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -50,6 +51,21 @@ public class PriceWebSocketHandler extends TextWebSocketHandler {
             response.put("price", 0);
 
             session.sendMessage(new TextMessage(JsonUtils.serialize(response)));
+        } else if (symbol.equals("LIST")) {
+            Map<String, Object> priceLow = new LinkedHashMap<>();
+            priceLow.put("symbol", "IBM");
+            priceLow.put("price", 20);
+
+            Map<String, Object> priceHigh = new LinkedHashMap<>();
+            priceHigh.put("symbol", "IBM");
+            priceHigh.put("price", 30);
+
+            Map<String, Object> priceLive = new LinkedHashMap<>();
+            priceLive.put("symbol", "IBM");
+            priceLive.put("price", 33);
+
+            String json = JsonUtils.serialize(Arrays.asList(priceLow, priceHigh, priceLive));
+            session.sendMessage(new TextMessage(json));
         }
     }
 

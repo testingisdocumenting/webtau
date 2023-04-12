@@ -12,6 +12,12 @@
       "numberOfSuccessful" : 29
     }
   }, {
+    "scenario" : "wait until receive message using path list",
+    "shortContainerId" : "springBoot.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  }, {
     "scenario" : "poll message after wait",
     "shortContainerId" : "springBoot.groovy",
     "stepsSummary" : {

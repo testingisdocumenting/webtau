@@ -11,6 +11,9 @@
   "discardMessages()" : {
     "numberOfSuccessful" : 7
   },
+  "waitUntilReceiveMessageUsingPathList()" : {
+    "numberOfSuccessful" : 5
+  },
   "pollAsMap()" : {
     "numberOfSuccessful" : 5
   },
