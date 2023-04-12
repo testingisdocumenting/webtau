@@ -23,6 +23,10 @@ public class DataNodeId {
     private final String normalizedPath; // name without array index
     private int idx;
 
+    public DataNodeId() {
+        this("");
+    }
+
     public DataNodeId(String name) {
         this.name = name;
         this.path = name;
