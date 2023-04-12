@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.websocket;
 
+import org.testingisdocumenting.webtau.data.datanode.DataNodeId;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.reporter.WebTauStepInputPrettyPrint;
@@ -43,7 +44,7 @@ public class WebSocketSession {
     public WebSocketSession(Session session, String destination, WebSocketMessageListener messageListener) {
         this.session = session;
         this.destination = destination;
-        this.received = new WebSocketMessages("received", destination, messageListener);
+        this.received = new WebSocketMessages("received", destination, new DataNodeId(), messageListener);
     }
 
     public String getDestination() {

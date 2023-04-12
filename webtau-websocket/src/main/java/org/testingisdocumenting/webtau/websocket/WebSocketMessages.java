@@ -17,6 +17,8 @@
 package org.testingisdocumenting.webtau.websocket;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.datanode.DataNodeId;
+import org.testingisdocumenting.webtau.data.datanode.ValueExtractorByPath;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
@@ -29,35 +31,27 @@ import java.util.function.Function;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class WebSocketMessages implements ActualValueExpectations, ActualValueAware, ActualPathAndDescriptionAware {
-    private final String id;
+    private final String label;
     private final ValuePath valuePath;
     private final String destination;
     private final WebSocketMessageListener messageListener;
     private Object lastConvertedMessage;
 
+    private final DataNodeId nodeToExtract;
+
     public final WebSocketMessagesCount count;
 
-    public WebSocketMessages(String id, String destination, WebSocketMessageListener messageListener) {
-        this.id = id;
-        this.valuePath = new ValuePath(id);
+    public WebSocketMessages(String label, String destination, DataNodeId nodeToExtract, WebSocketMessageListener messageListener) {
+        this.label = label;
+        this.valuePath = new ValuePath(label);
         this.destination = destination;
+        this.nodeToExtract = nodeToExtract;
         this.messageListener = messageListener;
         this.count = new WebSocketMessagesCount(this, messageListener);
     }
 
-    @Override
-    public ExpectationTimer createExpectationTimer() {
-        return new WebSocketValueExpectationTimer(messageListener);
-    }
-
-    @Override
-    public ValuePath actualPath() {
-        return valuePath;
-    }
-
-    @Override
-    public TokenizedMessage describe() {
-        return tokenizedMessage().id(id).from().url(destination);
+    public WebSocketMessages get(String path) {
+        return new WebSocketMessages(label, destination, nodeToExtract.concat(path), messageListener);
     }
 
     /**
@@ -110,7 +104,23 @@ public class WebSocketMessages implements ActualValueExpectations, ActualValueAw
         PolledMessage message = runPollMessageStep(lastConvertedMessage, tickMillis, WebSocketUtils::convertToJsonIfPossible);
         lastConvertedMessage = message.converted;
 
-        return message.converted;
+        return message.convertedAndExtracted;
+    }
+
+    @Override
+    public ValuePath actualPath() {
+        return valuePath;
+    }
+
+    @Override
+    public TokenizedMessage describe() {
+        DataNodeId id = new DataNodeId(label).concat(nodeToExtract.getPath());
+        return tokenizedMessage().id(id.getPath()).from().url(destination);
+    }
+
+    @Override
+    public ExpectationTimer createExpectationTimer() {
+        return new WebSocketValueExpectationTimer(messageListener);
     }
 
     private PolledMessage runPollMessageStep(Object lastConvertedMessage, long tickMillis, Function<String, Object> converter) {
@@ -121,7 +131,7 @@ public class WebSocketMessages implements ActualValueExpectations, ActualValueAw
                         tokenizedMessage().action("no new message is polled"),
                 () -> {
                     try {
-                        return new PolledMessage(messageListener.getMessages().poll(tickMillis, TimeUnit.MILLISECONDS), lastConvertedMessage, converter);
+                        return new PolledMessage(messageListener.getMessages().poll(tickMillis, TimeUnit.MILLISECONDS), lastConvertedMessage, converter, nodeToExtract);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }
@@ -136,12 +146,17 @@ public class WebSocketMessages implements ActualValueExpectations, ActualValueAw
     private static class PolledMessage {
         private final Object original;
         private final Object converted;
+        private final Object convertedAndExtracted;
         private final boolean isNewMessage;
 
-        PolledMessage(String message, Object lastConvertedMessage, Function<String, Object> converter) {
+        PolledMessage(String message, Object lastConvertedMessage, Function<String, Object> converter, DataNodeId nodeToExtract) {
             isNewMessage = message != null;
             original = message;
-            converted = message == null ? lastConvertedMessage : converter.apply(message);
+            converted = message == null ?
+                    lastConvertedMessage :
+                    converter.apply(message);
+
+            convertedAndExtracted = ValueExtractorByPath.extractFromMapOrList(converted, nodeToExtract.getPath());
         }
     }
 }

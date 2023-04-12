@@ -2,6 +2,9 @@
   "pollDummyMessage()" : {
     "numberOfSuccessful" : 7
   },
+  "waitUntilReceiveMessageUsingPath()" : {
+    "numberOfSuccessful" : 6
+  },
   "waitUntilReceiveMessage()" : {
     "numberOfSuccessful" : 6
   },

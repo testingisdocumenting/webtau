@@ -41,6 +41,17 @@ public class WebSocketSpringBootTest {
     }
 
     @Test
+    public void waitUntilReceiveMessageUsingPath() {
+        WebSocketSession wsSession = websocket.connect("/prices");
+        wsSession.send(map("symbol", "IBM"));
+
+        // received-get
+        wsSession.received.get("price").waitToBe(greaterThan(100));
+        // received-get
+        wsSession.close();
+    }
+
+    @Test
     public void pollMessageAfterWait() {
         WebSocketSession wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "IBM"));

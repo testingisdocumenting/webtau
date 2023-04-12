@@ -56,6 +56,11 @@ public class DataNodeId {
     }
 
     public DataNodeId concat(String pathPart) {
+        pathPart = pathPart.trim();
+        if (pathPart.isEmpty()) {
+            return this;
+        }
+
         String newPath = path + (pathPart.startsWith("[") || path.isEmpty() ? "" : ".") + pathPart;
 
         String pathPartWithoutIndex = pathPart.replaceAll("\\[\\d+]", "");

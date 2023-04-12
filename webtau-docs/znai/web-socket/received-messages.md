@@ -35,6 +35,30 @@ Java:
   endLine: "received"
 }
 
+# Wait For A Specific Message Path
+
+Use `get(path)` to narrow to a specific response value
+
+```tabs
+Groovy:
+:include-file: scenarios/websocket/springBoot.groovy {
+  title: "wait on specific response value", 
+  surroundedBy: "received-get"
+}
+
+Java:
+:include-file: com/example/tests/junit5/WebSocketSpringBootTest.java {
+  title: "wait on specific response value", 
+  surroundedBy: "received-get"
+}
+```
+
+:include-cli-output: doc-artifacts/com.example.tests.junit5.WebSocketSpringBootTest-console-output.txt {
+  title: "console output",
+  startLine: "received.price",
+  endLine: "received.price"
+}
+
 # Poll Message As Text
 
 :include-java-doc: org/testingisdocumenting/webtau/websocket/WebSocketMessages.java { entry: "pollAsText" }
