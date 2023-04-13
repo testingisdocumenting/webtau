@@ -120,5 +120,4 @@ scenario("special names to check no clash with groovy dsl") {
     wsSession.received.destination.waitTo == "hello destination"
 
     wsSession.close()
-
 }
