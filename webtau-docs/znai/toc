@@ -11,6 +11,7 @@ HTTP
     header
     body
     query-parameters
+    HTTP-resource
     HTTP-calls
     documentation-artifacts
     openAPI-spec
