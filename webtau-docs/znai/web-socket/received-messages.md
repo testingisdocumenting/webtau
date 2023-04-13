@@ -29,13 +29,14 @@ Java:
 :include-markdown: import-ref.md
 ```
 
-:include-cli-output: doc-artifacts/com.example.tests.junit5.WebSocketSpringBootTest-console-output.txt {
+:include-cli-output: doc-artifacts/springBoot.groovy-console-output.txt {
   title: "console output",
+  surroundedBy: "wait until receive message",
   startLine: "waiting", 
   endLine: "received"
 }
 
-# Wait For A Specific Message Path
+# Wait For A Specific Message Using Value Path
 
 Use `get(path)` to narrow to a specific response value
 
@@ -46,6 +47,8 @@ Groovy:
   surroundedBy: "received-get"
 }
 
+ Note: Groovy dynamic nature allows you bypass explicit `get`
+
 Java:
 :include-file: com/example/tests/junit5/WebSocketSpringBootTest.java {
   title: "wait on specific response value", 
@@ -53,10 +56,34 @@ Java:
 }
 ```
 
-:include-cli-output: doc-artifacts/com.example.tests.junit5.WebSocketSpringBootTest-console-output.txt {
+:include-cli-output: doc-artifacts/springBoot.groovy-console-output.txt {
   title: "console output",
-  startLine: "received.price",
-  endLine: "received.price"
+  surroundedBy: "wait until receive message using path",
+  startLine: "waiting",
+  endLine: "received"
+}
+
+Use `[idx]` To deal with a list response:
+
+```tabs
+Groovy:
+:include-file: scenarios/websocket/springBoot.groovy {
+  title: "wait on specific response value within list", 
+  surroundedBy: "received-list"
+}
+
+Java:
+:include-file: com/example/tests/junit5/WebSocketSpringBootTest.java {
+  title: "wait on specific response value within list", 
+  surroundedBy: "received-list"
+}
+```
+
+:include-cli-output: doc-artifacts/springBoot.groovy-console-output.txt {
+  title: "console output",
+  surroundedBy: "wait until receive message using path list",
+  startLine: "waiting",
+  endLine: "received"
 }
 
 # Poll Message As Text

@@ -50,8 +50,31 @@ public class WebSocketMessages implements ActualValueExpectations, ActualValueAw
         this.count = new WebSocketMessagesCount(this, messageListener);
     }
 
+    /**
+     * Use `get(path)` to narrow to a specific response value
+     * @param path path to narrow to, e.g. "details.price"
+     * @return new instance messages with updated path
+     */
     public WebSocketMessages get(String path) {
         return new WebSocketMessages(label, destination, nodeToExtract.concat(path), messageListener);
+    }
+
+    /**
+     * Use `get(idx)` to narrow to a specific response value from a list
+     * @param idx idx to access to
+     * @return new instance messages with updated path
+     */
+    public WebSocketMessages get(int idx) {
+        return new WebSocketMessages(label, destination, nodeToExtract.peer(idx), messageListener);
+    }
+
+    /**
+     * alias to {@link #get(int)} and a shortcut for Groovy DSL
+     * @param idx index to get value at
+     * @return new instance messages with updated path
+     */
+    public WebSocketMessages getAt(int idx) {
+        return get(idx);
     }
 
     /**
