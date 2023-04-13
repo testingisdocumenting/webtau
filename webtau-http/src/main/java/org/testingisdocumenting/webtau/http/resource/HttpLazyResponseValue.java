@@ -82,9 +82,9 @@ public class HttpLazyResponseValue implements ActualValueExpectations, ActualVal
 
     @Override
     public Object actualValue() {
-        DataNodeReturnNoConversionWrapper returnWrapper = Http.http.get(_webtauInternalResourceDefinition.buildUrl(), (header, body) -> {
-            return new DataNodeReturnNoConversionWrapper(body.get(_webtauInternalId.getPath()));
-        });
+        DataNodeReturnNoConversionWrapper returnWrapper = Http.http.get(_webtauInternalResourceDefinition.buildUrl(), (header, body) -> _webtauInternalId.getPath().isEmpty() ?
+                new DataNodeReturnNoConversionWrapper(body):
+                new DataNodeReturnNoConversionWrapper(body.get(_webtauInternalId.getPath())));
 
         return returnWrapper.getDataNode();
     }
@@ -96,7 +96,12 @@ public class HttpLazyResponseValue implements ActualValueExpectations, ActualVal
 
     @Override
     public TokenizedMessage describe() {
-        return tokenizedMessage().classifier("value").of().value(_webtauInternalResourceDefinition).colon().id(_webtauInternalId.getPath());
+        TokenizedMessage result = tokenizedMessage().classifier("value").of().value(_webtauInternalResourceDefinition).colon();
+        if (!_webtauInternalId.getPath().isEmpty()) {
+            result.id(_webtauInternalId.getPath());
+        }
+
+        return result;
     }
 
     public HttpLazyResponseValue of(String firstKey, Object firstValue, Object... restKv) {

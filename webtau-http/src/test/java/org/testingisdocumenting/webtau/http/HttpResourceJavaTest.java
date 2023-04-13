@@ -32,6 +32,10 @@ public class HttpResourceJavaTest extends HttpTestBase {
     private final HttpLazyResponseValue livePrice = http.resource("/prices/:ticker").get("price");
     // live-price-definition
 
+    // no-path-definition
+    private final HttpLazyResponseValue livePriceBody = http.resource("/prices/:ticker").body;
+    // no-path-definition
+
     // complex-path-definition
     private final HttpLazyResponseValue complexListFirstId = http.resource("/end-point").get("complexList[0].id");
     // complex-path-definition
@@ -141,6 +145,33 @@ public class HttpResourceJavaTest extends HttpTestBase {
                         // live-price-wait
                         livePrice.of("IBM").waitToBe(greaterThan(115)));
                         // live-price-wait
+    }
+
+    @Test
+    public void waitForMultipleTimesNoPath() {
+        HttpTestDataServer.IBM_PRICES.reset();
+        runCaptureAndValidateOutput("no-path-output", "> waiting for value of /prices/IBM: to equal {\"price\": <greater than 115>}\n" +
+                        "  > [1/3] executing HTTP GET http://localhost:port/prices/IBM\n" +
+                        "    . header.statusCode equals 200 (Xms)\n" +
+                        "    \n" +
+                        "    response (application/json):\n" +
+                        "    {\n" +
+                        "      \"price\": **100**\n" +
+                        "    }\n" +
+                        "  . [1/3] executed HTTP GET http://localhost:port/prices/IBM (Xms)\n" +
+                        "  > [3/3] executing HTTP GET http://localhost:port/prices/IBM\n" +
+                        "    . header.statusCode equals 200 (Xms)\n" +
+                        "    \n" +
+                        "    response (application/json):\n" +
+                        "    {\n" +
+                        "      \"price\": __120__\n" +
+                        "    }\n" +
+                        "  . [3/3] executed HTTP GET http://localhost:port/prices/IBM (Xms)\n" +
+                        ". value of /prices/IBM: equals {\"price\": <greater than 115>} (Xms)",
+                () ->
+                        // no-path-wait
+                        livePriceBody.of("IBM").waitTo(equal(map("price", greaterThan(115)))));
+                        // no-path-wait
     }
 
     @Test

@@ -1,8 +1,6 @@
 # Response Lazy Value
 
-WebTau has a way to define a lazy value associated with `HTTP GET` response. After that it can be used in multiple tests, `should` and `waitTo` on it.
-
-Value can be associated with a static url like `/info` or a dynamic url like `/price/:ticker`:
+:include-java-doc: org/testingisdocumenting/webtau/http/Http.java { entry: "resource" }
 
 ```tabs
 Groovy:
@@ -21,6 +19,28 @@ Java:
 ```
 
 :include-cli-output: doc-artifacts/live-price-output.txt {title: "console output"}
+
+# Full Body
+
+Use `.body` to define a resource matching the whole response:
+
+```tabs
+Groovy:
+:include-file: org/testingisdocumenting/webtau/http/HttpResourceGroovyTest.groovy {
+  title: "wait on whole body",
+  surroundedBy: ["no-path-definition", "no-path-wait"],
+  surroundedBySeparator: "\n...\n"
+}
+
+Java:
+:include-file: org/testingisdocumenting/webtau/http/HttpResourceJavaTest.java {
+  title: "wait on whole body",
+  surroundedBy: ["no-path-definition", "no-path-wait"],
+  surroundedBySeparator: "\n...\n"
+}
+```
+
+:include-cli-output: doc-artifacts/no-path-output.txt {title: "console output"}
 
 # Complex Value Path
 
