@@ -109,3 +109,16 @@ scenario("discard messages") {
 
     wsSession.close()
 }
+
+scenario("special names to check no clash with groovy dsl") {
+    def wsSession = websocket.connect("/prices")
+
+    wsSession.send([symbol: "GROOVY_DSL"])
+    wsSession.received.label.waitTo == "hello label"
+
+    wsSession.send([symbol: "GROOVY_DSL"])
+    wsSession.received.destination.waitTo == "hello destination"
+
+    wsSession.close()
+
+}
