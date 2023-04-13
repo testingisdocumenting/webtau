@@ -34,20 +34,40 @@ import java.util.Set;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class HttpLazyResponseValue implements ActualValueExpectations, ActualValueAware, ActualPathAndDescriptionAware {
-    private final DataNodeId id;
-    private final HttpResourceDefinition resourceDefinition;
+    // we use _webtauInternal to avoid automatic groovy properties resolution and clash when using shortcut like resource.list[0].id
+    private final DataNodeId _webtauInternalId;
+    private final HttpResourceDefinition _webtauInternalResourceDefinition;
 
     HttpLazyResponseValue(HttpResourceDefinition resourceDefinition, DataNodeId id) {
-        this.resourceDefinition = resourceDefinition;
-        this.id = id;
+        this._webtauInternalResourceDefinition = resourceDefinition;
+        this._webtauInternalId = id;
     }
 
+    /**
+     * declares response at a specific path based using current parent path as a base, e.g. details.price[0]
+     * @param path path to a value
+     * @return lazy response value
+     */
     public HttpLazyResponseValue get(String path) {
-        return new HttpLazyResponseValue(resourceDefinition, id.concat(path));
+        return new HttpLazyResponseValue(_webtauInternalResourceDefinition, _webtauInternalId.concat(path));
     }
 
+    /**
+     * declares response at a specific index using current parent path as a base
+     * @param idx index in the response
+     * @return lazy response value
+     */
     public HttpLazyResponseValue get(int idx) {
-        return new HttpLazyResponseValue(resourceDefinition, id.peer(idx));
+        return new HttpLazyResponseValue(_webtauInternalResourceDefinition, _webtauInternalId.peer(idx));
+    }
+
+    /**
+     * alias to {@link #get(String)} for Groovy DSL
+     * @param idx index in the response
+     * @return lazy response value
+     */
+    public HttpLazyResponseValue getAt(int idx) {
+        return get(idx);
     }
 
     @Override
@@ -62,8 +82,8 @@ public class HttpLazyResponseValue implements ActualValueExpectations, ActualVal
 
     @Override
     public Object actualValue() {
-        DataNodeReturnNoConversionWrapper returnWrapper = Http.http.get(resourceDefinition.buildUrl(), (header, body) -> {
-            return new DataNodeReturnNoConversionWrapper(body.get(id.getPath()));
+        DataNodeReturnNoConversionWrapper returnWrapper = Http.http.get(_webtauInternalResourceDefinition.buildUrl(), (header, body) -> {
+            return new DataNodeReturnNoConversionWrapper(body.get(_webtauInternalId.getPath()));
         });
 
         return returnWrapper.getDataNode();
@@ -71,12 +91,12 @@ public class HttpLazyResponseValue implements ActualValueExpectations, ActualVal
 
     @Override
     public ValuePath actualPath() {
-        return new ValuePath(id.getPath());
+        return new ValuePath(_webtauInternalId.getPath());
     }
 
     @Override
     public TokenizedMessage describe() {
-        return tokenizedMessage().classifier("value").of().value(resourceDefinition).colon().id(id.getPath());
+        return tokenizedMessage().classifier("value").of().value(_webtauInternalResourceDefinition).colon().id(_webtauInternalId.getPath());
     }
 
     public HttpLazyResponseValue of(String firstKey, Object firstValue, Object... restKv) {
@@ -85,18 +105,18 @@ public class HttpLazyResponseValue implements ActualValueExpectations, ActualVal
     }
 
     public HttpLazyResponseValue of(String param) {
-        Set<String> paramNames = resourceDefinition.getParamNames();
+        Set<String> paramNames = _webtauInternalResourceDefinition.getParamNames();
         if (paramNames.isEmpty()) {
-            throw new IllegalArgumentException("route definition must have one parameter, but definition has zero: " + resourceDefinition.getRoute());
+            throw new IllegalArgumentException("route definition must have one parameter, but definition has zero: " + _webtauInternalResourceDefinition.getRoute());
         }
 
         return of(Collections.singletonMap(paramNames.iterator().next(), param));
     }
 
     public HttpLazyResponseValue of(Map<String, Object> routeParams) {
-        Set<String> paramNames = resourceDefinition.getParamNames();
+        Set<String> paramNames = _webtauInternalResourceDefinition.getParamNames();
         if (paramNames.isEmpty()) {
-            throw new IllegalArgumentException("no route parameter names found in the definition: " + resourceDefinition.getRoute());
+            throw new IllegalArgumentException("no route parameter names found in the definition: " + _webtauInternalResourceDefinition.getRoute());
         }
 
         if (routeParams.size() != paramNames.size() || !paramNames.containsAll(routeParams.keySet())) {
@@ -104,6 +124,6 @@ public class HttpLazyResponseValue implements ActualValueExpectations, ActualVal
                     paramNames + ", given: " + routeParams.keySet());
         }
 
-        return new HttpLazyResponseValue(resourceDefinition.withRouteParams(routeParams), id);
+        return new HttpLazyResponseValue(_webtauInternalResourceDefinition.withRouteParams(routeParams), _webtauInternalId);
     }
 }
