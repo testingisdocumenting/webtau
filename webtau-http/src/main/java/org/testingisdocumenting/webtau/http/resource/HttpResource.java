@@ -29,11 +29,30 @@ public class HttpResource {
                 new DataNodeId(""));
     }
 
+    /**
+     * declares response at a specific path, e.g. details.price[0]
+     * @param path path to a value
+     * @return lazy response value
+     */
     public HttpLazyResponseValue get(String path) {
         return body.get(path);
     }
 
+    /**
+     * declares response at a specific index
+     * @param idx index in the response
+     * @return lazy response value
+     */
     public HttpLazyResponseValue get(int idx) {
         return body.get(idx);
+    }
+
+    /**
+     * alias to {@link #get(String)} for Groovy DSL
+     * @param idx index in the response
+     * @return lazy response value
+     */
+    public HttpLazyResponseValue getAt(int idx) {
+        return get(idx);
     }
 }

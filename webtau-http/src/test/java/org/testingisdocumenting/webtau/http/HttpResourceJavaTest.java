@@ -30,6 +30,8 @@ public class HttpResourceJavaTest extends HttpTestBase {
     private final HttpLazyResponseValue nestedProp = http.resource("/end-point").get("object.k3");
     private final HttpLazyResponseValue livePrice = http.resource("/prices/:ticker").get("price");
 
+    private final HttpLazyResponseValue complexListFirstId = http.resource("/end-point").get("complexList[0].id");
+
     private final HttpLazyResponseValue myObj = http.resource("/end-point/:param1/:param2").get("object");
 
     @Test
@@ -49,6 +51,26 @@ public class HttpResourceJavaTest extends HttpTestBase {
                 "    }\n" +
                 "  . executed HTTP GET http://localhost:port/end-point (Xms)\n" +
                 ". value of /end-point: price equals 100 (Xms)", () -> priceNoParams.should(equal(100)));
+    }
+
+    @Test
+    public void listItemId() {
+        runAndValidateOutput("> expecting value of /end-point: complexList[0].id to equal \"id1\"\n" +
+                        "  > executing HTTP GET http://localhost:port/end-point\n" +
+                        "    . header.statusCode equals 200 (Xms)\n" +
+                        "    \n" +
+                        "    response (application/json):\n" +
+                        "    {\n" +
+                        "      \"id\": 10,\n" +
+                        "      \"price\": 100,\n" +
+                        "      \"amount\": 30,\n" +
+                        "      \"list\": [1, 2, 3],\n" +
+                        "      \"object\": {\"k1\": \"v1\", \"k2\": \"v2\", \"k3\": \"v3\"},\n" +
+                        "      \"complexList\": [{\"id\": __\"id1\"__, \"k1\": \"v1\", \"k2\": 30}, {\"id\": \"id2\", \"k1\": \"v11\", \"k2\": 40}]\n" +
+                        "    }\n" +
+                        "  . executed HTTP GET http://localhost:port/end-point (Xms)\n" +
+                        ". value of /end-point: complexList[0].id equals \"id1\" (Xms)",
+                () -> complexListFirstId.should(equal("id1")));
     }
 
     @Test
