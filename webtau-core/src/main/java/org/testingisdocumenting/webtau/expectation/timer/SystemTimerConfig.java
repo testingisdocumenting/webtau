@@ -32,6 +32,6 @@ public class SystemTimerConfig implements ExpectationTimerConfig {
 
     @Override
     public long defaultTickMillis() {
-        return 100;
+        return WebTauConfig.getCfg().getWaitTick();
     }
 }
