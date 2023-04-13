@@ -25,9 +25,17 @@ class HttpResourceGroovyTest extends HttpTestBase {
 
     private final def nestedProp = http.resource("/end-point").object.k3
 
+    // live-price-definition
     private final def livePrice = http.resource("/prices/:ticker").price
+    // live-price-definition
 
+    // complex-path-definition
     private final def complexListFirstId = http.resource("/end-point").complexList[0].id
+    // complex-path-definition
+
+    // multiple-url-params-definition
+    private final def myObj = http.resource("/end-point/:param1/:param2").object
+    // multiple-url-params-definition
 
     @Test
     void "resource node no route param"() {
@@ -43,11 +51,22 @@ class HttpResourceGroovyTest extends HttpTestBase {
     void "wait for multiple times"() {
         HttpTestDataServer.IBM_PRICES.reset()
 
+        // live-price-wait
         livePrice.of("IBM").waitToBe > 115
+        // live-price-wait
     }
 
     @Test
     void "complex list first id"() {
+        // complex-path-validation
         complexListFirstId.should == "id1"
+        // complex-path-validation
+    }
+
+    @Test
+    void "resource multiple params"() {
+        // multiple-url-params-validation
+        myObj.of([param1: 10, param2: 20]).should == [k1: "v1_", k2: "v2_", k3: "v3_"]
+        // multiple-url-params-validation
     }
 }

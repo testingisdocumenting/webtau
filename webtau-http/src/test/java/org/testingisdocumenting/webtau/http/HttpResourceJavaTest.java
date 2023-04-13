@@ -28,14 +28,20 @@ public class HttpResourceJavaTest extends HttpTestBase {
     private final HttpLazyResponseValue priceNoParams = http.resource("/end-point").get("price");
     private final HttpLazyResponseValue price = http.resource("/end-point/:id").get("price");
     private final HttpLazyResponseValue nestedProp = http.resource("/end-point").get("object.k3");
+    // live-price-definition
     private final HttpLazyResponseValue livePrice = http.resource("/prices/:ticker").get("price");
+    // live-price-definition
 
+    // complex-path-definition
     private final HttpLazyResponseValue complexListFirstId = http.resource("/end-point").get("complexList[0].id");
+    // complex-path-definition
 
+    // multiple-url-params-definition
     private final HttpLazyResponseValue myObj = http.resource("/end-point/:param1/:param2").get("object");
+    // multiple-url-params-definition
 
     @Test
-    public void resourceNodeNoRouteParam() {
+    public void resourceNoRouteParam() {
         runAndValidateOutput("> expecting value of /end-point: price to equal 100\n" +
                 "  > executing HTTP GET http://localhost:port/end-point\n" +
                 "    . header.statusCode equals 200 (Xms)\n" +
@@ -55,7 +61,7 @@ public class HttpResourceJavaTest extends HttpTestBase {
 
     @Test
     public void listItemId() {
-        runAndValidateOutput("> expecting value of /end-point: complexList[0].id to equal \"id1\"\n" +
+        runCaptureAndValidateOutput("complex-path-output", "> expecting value of /end-point: complexList[0].id to equal \"id1\"\n" +
                         "  > executing HTTP GET http://localhost:port/end-point\n" +
                         "    . header.statusCode equals 200 (Xms)\n" +
                         "    \n" +
@@ -70,7 +76,10 @@ public class HttpResourceJavaTest extends HttpTestBase {
                         "    }\n" +
                         "  . executed HTTP GET http://localhost:port/end-point (Xms)\n" +
                         ". value of /end-point: complexList[0].id equals \"id1\" (Xms)",
-                () -> complexListFirstId.should(equal("id1")));
+                () ->
+                        // complex-path-validation
+                        complexListFirstId.should(equal("id1")));
+                        // complex-path-validation
     }
 
     @Test
@@ -79,14 +88,14 @@ public class HttpResourceJavaTest extends HttpTestBase {
     }
 
     @Test
-    public void resourceNodeUseParam() {
+    public void resourcUseParam() {
         price.of("id1").should(equal(120));
         price.of("id2").should(equal(80));
     }
 
     @Test
-    public void resourceNodeMultipleParam() {
-        runAndValidateOutput("> expecting value of /end-point/10/20: object to equal {\"k1\": \"v1_\", \"k2\": \"v2_\", \"k3\": \"v3_\"}\n" +
+    public void resourceMultipleParam() {
+        runCaptureAndValidateOutput("multiple-url-params-output", "> expecting value of /end-point/10/20: object to equal {\"k1\": \"v1_\", \"k2\": \"v2_\", \"k3\": \"v3_\"}\n" +
                 "  > executing HTTP GET http://localhost:port/end-point/10/20\n" +
                 "    . header.statusCode equals 200 (Xms)\n" +
                 "    \n" +
@@ -101,14 +110,16 @@ public class HttpResourceJavaTest extends HttpTestBase {
                 "    }\n" +
                 "  . executed HTTP GET http://localhost:port/end-point/10/20 (Xms)\n" +
                 ". value of /end-point/10/20: object equals {\"k1\": \"v1_\", \"k2\": \"v2_\", \"k3\": \"v3_\"} (Xms)",
-                () -> myObj.of("param1", "10", "param2", "20").should(
-                        equal(map("k1", "v1_", "k2", "v2_", "k3", "v3_"))));
+                () ->
+                        // multiple-url-params-validation
+                        myObj.of("param1", "10", "param2", "20").should(equal(map("k1", "v1_", "k2", "v2_", "k3", "v3_"))));
+                        // multiple-url-params-validation
     }
 
     @Test
     public void waitForMultipleTimes() {
         HttpTestDataServer.IBM_PRICES.reset();
-        runAndValidateOutput("> waiting for value of /prices/IBM: price to be greater than 115\n" +
+        runCaptureAndValidateOutput("live-price-output", "> waiting for value of /prices/IBM: price to be greater than 115\n" +
                 "  > [1/3] executing HTTP GET http://localhost:port/prices/IBM\n" +
                 "    . header.statusCode equals 200 (Xms)\n" +
                 "    \n" +
@@ -126,7 +137,10 @@ public class HttpResourceJavaTest extends HttpTestBase {
                 "    }\n" +
                 "  . [3/3] executed HTTP GET http://localhost:port/prices/IBM (Xms)\n" +
                         ". value of /prices/IBM: price greater than 115 (Xms)",
-                () -> livePrice.of("IBM").waitToBe(greaterThan(115)));
+                () ->
+                        // live-price-wait
+                        livePrice.of("IBM").waitToBe(greaterThan(115)));
+                        // live-price-wait
     }
 
     @Test
