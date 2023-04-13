@@ -18,7 +18,6 @@
 package org.testingisdocumenting.webtau.cli;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
-import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -29,6 +28,7 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*;
 import static org.testingisdocumenting.webtau.cli.Cli.cli;
 import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly;
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;
@@ -38,14 +38,13 @@ public class CliJavaTest {
 
     @BeforeClass
     public static void init() {
-        existingDocRoot = DocumentationArtifactsLocation.getRoot();
-        DocumentationArtifactsLocation.setRoot(
-                Paths.get("cli-doc-artifacts"));
+        existingDocRoot = getCfg().getDocArtifactsPath();
+        getCfg().setDocArtifactsPath(Paths.get("cli-doc-artifacts"));
     }
 
     @AfterClass
     public static void clean() {
-        DocumentationArtifactsLocation.setRoot(existingDocRoot);
+        getCfg().setDocArtifactsPath(existingDocRoot);
     }
 
     @Test

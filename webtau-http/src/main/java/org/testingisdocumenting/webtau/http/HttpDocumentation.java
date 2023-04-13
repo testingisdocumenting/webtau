@@ -17,8 +17,8 @@
 
 package org.testingisdocumenting.webtau.http;
 
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts;
-import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
 import org.testingisdocumenting.webtau.http.validation.HttpValidationResult;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
@@ -54,7 +54,7 @@ public class HttpDocumentation {
         private final HttpValidationResult lastValidationResult;
 
         public Capture(String artifactName) {
-            this.path = DocumentationArtifactsLocation.resolve(artifactName);
+            this.path = WebTauConfig.getCfg().getDocArtifactsPath().resolve(artifactName);
 
             this.lastValidationResult = Http.http.getLastValidationResult();
             if (this.lastValidationResult == null) {

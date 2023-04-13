@@ -17,7 +17,6 @@
 package org.testingisdocumenting.webtau.cli
 
 import org.junit.Test
-import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
 import org.testingisdocumenting.webtau.utils.FileUtils
 
 import java.nio.file.Files
@@ -25,6 +24,7 @@ import java.nio.file.Path
 import java.util.regex.Pattern
 
 import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 import static org.testingisdocumenting.webtau.cli.Cli.cli
 import static org.testingisdocumenting.webtau.cli.CliTestUtils.supportedPlatformOnly
 
@@ -99,7 +99,7 @@ class CliDocTest {
     }
 
     private static void validateCapturedDocs(String artifactName, String fileName, String expectedContent) {
-        Path path = DocumentationArtifactsLocation.resolve(artifactName).resolve(fileName)
+        Path path = getCfg().docArtifactsPath.resolve(artifactName).resolve(fileName)
         Files.exists(path).should == true
 
         FileUtils.fileTextContent(path).should == expectedContent

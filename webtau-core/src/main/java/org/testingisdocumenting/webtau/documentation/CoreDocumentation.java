@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.documentation;
 
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
@@ -49,7 +50,7 @@ public class CoreDocumentation {
     public final CoreDocumentationConsole console = new CoreDocumentationConsole();
 
     /**
-     * Captures value to a text or JSON file (based on the content) in parent location defined by {@link DocumentationArtifactsLocation}
+     * Captures value to a text or JSON file (based on the content) in parent location defined by {@link WebTauConfig#getDocArtifactsPath()}
      *
      * @param artifactName artifact name (file name without extension)
      * @param value value to capture
@@ -63,7 +64,7 @@ public class CoreDocumentation {
     }
 
     /**
-     * Captures value to a text file in parent location defined by {@link DocumentationArtifactsLocation}
+     * Captures value to a text file in parent location defined by {@link WebTauConfig#getDocArtifactsPath()}
      *
      * @param artifactName artifact name (file name without extension)
      * @param value value to capture
@@ -73,7 +74,7 @@ public class CoreDocumentation {
     }
 
     /**
-     * Captures value to a JSON file in parent location defined by {@link DocumentationArtifactsLocation}
+     * Captures value to a JSON file in parent location defined by {@link WebTauConfig#getDocArtifactsPath()}
      *
      * @param artifactName artifact name (file name without extension)
      * @param value value to capture
@@ -83,7 +84,7 @@ public class CoreDocumentation {
     }
 
     /**
-     * Captures value to a CSV file in parent location defined by {@link DocumentationArtifactsLocation}
+     * Captures value to a CSV file in parent location defined by {@link WebTauConfig#getDocArtifactsPath()}
      *
      * @param artifactName artifact name (file name without extension)
      * @param value value to capture

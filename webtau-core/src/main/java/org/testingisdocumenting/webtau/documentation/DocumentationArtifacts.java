@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.documentation;
 
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.data.table.Record;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.utils.CsvUtils;
@@ -72,7 +73,7 @@ public class DocumentationArtifacts {
     private static Path capture(String artifactName, String extension, String text) {
         registerName(artifactName);
 
-        Path path = DocumentationArtifactsLocation.resolve(artifactName + "." + extension);
+        Path path = WebTauConfig.getCfg().getDocArtifactsPath().resolve(artifactName + "." + extension);
         FileUtils.writeTextContent(path, text);
 
         return path;

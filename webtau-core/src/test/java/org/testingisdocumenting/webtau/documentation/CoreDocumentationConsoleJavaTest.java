@@ -1,6 +1,7 @@
 package org.testingisdocumenting.webtau.documentation;
 
 import org.junit.Test;
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 
 import java.nio.file.Path;
@@ -14,7 +15,7 @@ public class CoreDocumentationConsoleJavaTest {
             System.out.println("hello no return");
         });
 
-        Path path = DocumentationArtifactsLocation.resolve("my-output-example.txt");
+        Path path = WebTauConfig.getCfg().getDocArtifactsPath().resolve("my-output-example.txt");
         actual(FileUtils.fileTextContent(path)).should(equal("hello no return"));
     }
 
@@ -27,7 +28,7 @@ public class CoreDocumentationConsoleJavaTest {
 
         actual(stepResult).should(equal(42));
 
-        Path path = DocumentationArtifactsLocation.resolve("my-output-return-example.txt");
+        Path path = WebTauConfig.getCfg().getDocArtifactsPath().resolve("my-output-return-example.txt");
         actual(FileUtils.fileTextContent(path)).should(equal("hello return"));
     }
 }

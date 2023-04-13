@@ -21,7 +21,6 @@ import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
-import org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
@@ -35,7 +34,6 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.cfg.ConfigValue.*;
-import static org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation.*;
 
 public class WebTauConfig implements PrettyPrintable {
     private static final String SOURCE_MANUAL = "manual";
@@ -61,7 +59,7 @@ public class WebTauConfig implements PrettyPrintable {
     private final ConfigValue consolePayloadOutputLimit = declare("consolePayloadOutputLimit",
             "max number of lines to display in console for outputs (e.g. http response)", () -> 500);
 
-    private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> SystemTimerConfig.DEFAULT_WAIT_TIMEOUT);
+    private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> 5000L);
 
     private final ConfigValue httpTimeout = declare("httpTimeout", "http connect and read timeout in milliseconds", () -> 30000);
 
@@ -77,7 +75,7 @@ public class WebTauConfig implements PrettyPrintable {
             () -> workingDir.getAsPath().resolve(".webtau-cache"));
 
     private final ConfigValue docPath = declare("docPath", "path for captured request/responses, screenshots and other generated " +
-            "artifacts for documentation", () -> workingDir.getAsPath().resolve(DEFAULT_DOC_ARTIFACTS_DIR_NAME));
+            "artifacts for documentation", () -> workingDir.getAsPath().resolve("doc-artifacts"));
     private final ConfigValue noColor = declareBoolean("noColor", "disable ANSI colors", false);
     private final ConfigValue reportPath = declare("reportPath", "report file path", () -> getWorkingDir().resolve("webtau.report.html"));
     private final ConfigValue failedReportPath = declare("failedReportPath", "failed report file path", () -> null);
@@ -88,8 +86,6 @@ public class WebTauConfig implements PrettyPrintable {
 
     private final List<ConfigValue> freeFormCfgValues = new ArrayList<>();
 
-    private static final WebTauConfigHandler coreConfigHandler = new WebTauCoreConfigHandler();
-
     public static WebTauConfig getCfg() {
         return CfgInstanceHolder.INSTANCE;
     }
@@ -97,6 +93,7 @@ public class WebTauConfig implements PrettyPrintable {
     /**
      * Handlers are automatically discovered using service loader.
      * Use this method to manually register additional config handler in front of the queue.
+     *
      * @param handler config handler to add
      */
     public static void registerConfigHandlerAsFirstHandler(WebTauConfigHandler handler) {
@@ -122,7 +119,7 @@ public class WebTauConfig implements PrettyPrintable {
     }
 
     public void triggerConfigHandlers() {
-        registeredHandlersAndCore().forEach(h -> h.onBeforeCreate(this));
+        registeredHandlers().forEach(h -> h.onBeforeCreate(this));
 
         Map<String, ?> envVarValues = envVarsAsMap();
         acceptConfigValues("environment variable", envVarValues);
@@ -130,7 +127,7 @@ public class WebTauConfig implements PrettyPrintable {
 
         acceptConfigValues("system property", systemPropsAsMap());
 
-        registeredHandlersAndCore().forEach(h -> h.onAfterCreate(this));
+        registeredHandlers().forEach(h -> h.onAfterCreate(this));
     }
 
     public Stream<ConfigValue> getEnumeratedCfgValuesStream() {
@@ -280,6 +277,10 @@ public class WebTauConfig implements PrettyPrintable {
         return getWorkingDir().resolve(docPath.getAsPath());
     }
 
+    public void setDocArtifactsPath(Path path) {
+       docPath.setAndReport("manual", path);
+    }
+
     public boolean isAnsiEnabled() {
         return !noColor.getAsBoolean();
     }
@@ -365,19 +366,19 @@ public class WebTauConfig implements PrettyPrintable {
                 .map(v -> v.getAsString().length()).max(Integer::compareTo).orElse(0);
 
         configValues.stream().filter(ConfigValue::nonDefault).forEach(v -> {
-            String valueAsText = v.getAsString();
-            int valuePadding = maxValueLength - valueAsText.length();
+                    String valueAsText = v.getAsString();
+                    int valuePadding = maxValueLength - valueAsText.length();
 
-            printer.printLine(Color.BLUE, String.format("%" + maxKeyLength + "s", v.getKey()), ": ",
-                    Color.YELLOW, valueAsText,
-                    StringUtils.createIndentation(valuePadding),
-                    FontStyle.RESET, " // from ", v.getSource());
+                    printer.printLine(Color.BLUE, String.format("%" + maxKeyLength + "s", v.getKey()), ": ",
+                            Color.YELLOW, valueAsText,
+                            StringUtils.createIndentation(valuePadding),
+                            FontStyle.RESET, " // from ", v.getSource());
                 }
         );
     }
 
-    private Stream<WebTauConfigHandler> registeredHandlersAndCore() {
-        return Stream.concat(handlers.stream(), Stream.of(coreConfigHandler));
+    private Stream<WebTauConfigHandler> registeredHandlers() {
+        return handlers.stream();
     }
 
     private void registerFreeFormCfgValues(Map<String, ?> values) {

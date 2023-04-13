@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.documentation;
 
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
+
 import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.WebTauCore.doc;
@@ -29,7 +31,7 @@ public class CoreDocumentationAssertionValue {
     }
 
     /**
-     * Captures value to a text or JSON file (based on the content) in parent location defined by {@link DocumentationArtifactsLocation}
+     * Captures value to a text or JSON file (based on the content) in parent location defined by {@link WebTauConfig#getDocArtifactsPath()}
      *
      * @param artifactName artifact name (file name without extension)
      */
@@ -38,7 +40,7 @@ public class CoreDocumentationAssertionValue {
     }
 
     /**
-     * Captures value to a text file in parent location defined by {@link DocumentationArtifactsLocation}
+     * Captures value to a text file in parent location defined by {@link WebTauConfig#getDocArtifactsPath()}
 
      * @param artifactName artifact name (file name without extension)
      */
@@ -47,7 +49,7 @@ public class CoreDocumentationAssertionValue {
     }
 
     /**
-     * Captures value to a JSON file in parent location defined by {@link DocumentationArtifactsLocation}
+     * Captures value to a JSON file in parent location defined by {@link WebTauConfig#getDocArtifactsPath()}
 
      * @param artifactName artifact name (file name without extension)
      */
@@ -56,7 +58,7 @@ public class CoreDocumentationAssertionValue {
     }
 
     /**
-     * Captures value to a CSV file in parent location defined by {@link DocumentationArtifactsLocation}
+     * Captures value to a CSV file in parent location defined by {@link WebTauConfig#getDocArtifactsPath()}
 
      * @param artifactName artifact name (file name without extension)
      */
