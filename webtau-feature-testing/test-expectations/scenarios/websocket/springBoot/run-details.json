@@ -41,6 +41,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 7
     }
+  }, {
+    "scenario" : "special names to check no clash with groovy dsl",
+    "shortContainerId" : "springBoot.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 8
+    }
   } ],
   "exitCode" : 0
 }

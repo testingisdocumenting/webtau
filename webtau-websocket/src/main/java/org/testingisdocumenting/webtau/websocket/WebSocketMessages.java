@@ -31,22 +31,23 @@ import java.util.function.Function;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class WebSocketMessages implements ActualValueExpectations, ActualValueAware, ActualPathAndDescriptionAware {
-    private final String label;
-    private final ValuePath valuePath;
-    private final String destination;
-    private final WebSocketMessageListener messageListener;
-    private Object lastConvertedMessage;
+    // we use _webtauInternal to avoid automatic groovy properties resolution and clash when using shortcut like resource.list[0].id
+    private final String _webtauInternalLabel;
+    private final ValuePath _webtauInternalValuePath;
+    private final String _webtauInternalDestination;
+    private final WebSocketMessageListener _webtauInternalMessageListener;
+    private Object _webtauInternalLastConvertedMessage;
 
-    private final DataNodeId nodeToExtract;
+    private final DataNodeId _webtauInternalNodeToExtract;
 
     public final WebSocketMessagesCount count;
 
     public WebSocketMessages(String label, String destination, DataNodeId nodeToExtract, WebSocketMessageListener messageListener) {
-        this.label = label;
-        this.valuePath = new ValuePath(label);
-        this.destination = destination;
-        this.nodeToExtract = nodeToExtract;
-        this.messageListener = messageListener;
+        this._webtauInternalLabel = label;
+        this._webtauInternalValuePath = new ValuePath(label);
+        this._webtauInternalDestination = destination;
+        this._webtauInternalNodeToExtract = nodeToExtract;
+        this._webtauInternalMessageListener = messageListener;
         this.count = new WebSocketMessagesCount(this, messageListener);
     }
 
@@ -56,7 +57,7 @@ public class WebSocketMessages implements ActualValueExpectations, ActualValueAw
      * @return new instance messages with updated path
      */
     public WebSocketMessages get(String path) {
-        return new WebSocketMessages(label, destination, nodeToExtract.concat(path), messageListener);
+        return new WebSocketMessages(_webtauInternalLabel, _webtauInternalDestination, _webtauInternalNodeToExtract.concat(path), _webtauInternalMessageListener);
     }
 
     /**
@@ -65,7 +66,7 @@ public class WebSocketMessages implements ActualValueExpectations, ActualValueAw
      * @return new instance messages with updated path
      */
     public WebSocketMessages get(int idx) {
-        return new WebSocketMessages(label, destination, nodeToExtract.peer(idx), messageListener);
+        return new WebSocketMessages(_webtauInternalLabel, _webtauInternalDestination, _webtauInternalNodeToExtract.peer(idx), _webtauInternalMessageListener);
     }
 
     /**
@@ -108,7 +109,7 @@ public class WebSocketMessages implements ActualValueExpectations, ActualValueAw
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage().action("discarding all").classifier("messages").add(describe()),
                 () -> tokenizedMessage().action("discarded all").classifier("messages").add(describe()),
-                () -> messageListener.getMessages().clear());
+                () -> _webtauInternalMessageListener.getMessages().clear());
 
         step.execute(StepReportOptions.SKIP_START);
     }
@@ -121,29 +122,29 @@ public class WebSocketMessages implements ActualValueExpectations, ActualValueAw
     @Override
     public Object actualValue(int attemptIdx, long tickMillis, long timeOutMillis) {
         if (attemptIdx == 0) {
-            lastConvertedMessage = null;
+            _webtauInternalLastConvertedMessage = null;
         }
 
-        PolledMessage message = runPollMessageStep(lastConvertedMessage, tickMillis, WebSocketUtils::convertToJsonIfPossible);
-        lastConvertedMessage = message.converted;
+        PolledMessage message = runPollMessageStep(_webtauInternalLastConvertedMessage, tickMillis, WebSocketUtils::convertToJsonIfPossible);
+        _webtauInternalLastConvertedMessage = message.converted;
 
         return message.convertedAndExtracted;
     }
 
     @Override
     public ValuePath actualPath() {
-        return valuePath;
+        return _webtauInternalValuePath;
     }
 
     @Override
     public TokenizedMessage describe() {
-        DataNodeId id = new DataNodeId(label).concat(nodeToExtract.getPath());
-        return tokenizedMessage().id(id.getPath()).from().url(destination);
+        DataNodeId id = new DataNodeId(_webtauInternalLabel).concat(_webtauInternalNodeToExtract.getPath());
+        return tokenizedMessage().id(id.getPath()).from().url(_webtauInternalDestination);
     }
 
     @Override
     public ExpectationTimer createExpectationTimer() {
-        return new WebSocketValueExpectationTimer(messageListener);
+        return new WebSocketValueExpectationTimer(_webtauInternalMessageListener);
     }
 
     private PolledMessage runPollMessageStep(Object lastConvertedMessage, long tickMillis, Function<String, Object> converter) {
@@ -154,7 +155,7 @@ public class WebSocketMessages implements ActualValueExpectations, ActualValueAw
                         tokenizedMessage().action("no new message is polled"),
                 () -> {
                     try {
-                        return new PolledMessage(messageListener.getMessages().poll(tickMillis, TimeUnit.MILLISECONDS), lastConvertedMessage, converter, nodeToExtract);
+                        return new PolledMessage(_webtauInternalMessageListener.getMessages().poll(tickMillis, TimeUnit.MILLISECONDS), lastConvertedMessage, converter, _webtauInternalNodeToExtract);
                     } catch (InterruptedException e) {
                         throw new RuntimeException(e);
                     }

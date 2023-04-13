@@ -66,6 +66,12 @@ public class PriceWebSocketHandler extends TextWebSocketHandler {
 
             String json = JsonUtils.serialize(Arrays.asList(priceLow, priceHigh, priceLive));
             session.sendMessage(new TextMessage(json));
+        } else if (symbol.equals("GROOVY_DSL")) {
+            Map<String, Object> response = new LinkedHashMap<>();
+            response.put("label", "hello label");
+            response.put("destination", "hello destination");
+
+            session.sendMessage(new TextMessage(JsonUtils.serialize(response)));
         }
     }
 
