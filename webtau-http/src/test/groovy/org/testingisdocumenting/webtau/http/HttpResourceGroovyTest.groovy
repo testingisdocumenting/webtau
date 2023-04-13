@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.http
 
 import org.junit.Test
 
+import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.http.Http.*
 
 class HttpResourceGroovyTest extends HttpTestBase {
@@ -28,6 +29,10 @@ class HttpResourceGroovyTest extends HttpTestBase {
     // live-price-definition
     private final def livePrice = http.resource("/prices/:ticker").price
     // live-price-definition
+
+    // no-path-definition
+    private final def livePriceBody = http.resource("/prices/:ticker").body
+    // no-path-definition
 
     // complex-path-definition
     private final def complexListFirstId = http.resource("/end-point").complexList[0].id
@@ -54,6 +59,14 @@ class HttpResourceGroovyTest extends HttpTestBase {
         // live-price-wait
         livePrice.of("IBM").waitToBe > 115
         // live-price-wait
+    }
+
+    @Test
+    void "wait for multiple times no path"() {
+        HttpTestDataServer.IBM_PRICES.reset()
+        // no-path-wait
+        livePriceBody.of("IBM").waitTo == [price: greaterThan(115)]
+        // no-path-wait
     }
 
     @Test

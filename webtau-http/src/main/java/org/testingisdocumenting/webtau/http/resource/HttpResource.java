@@ -21,12 +21,12 @@ import org.testingisdocumenting.webtau.data.datanode.DataNodeId;
 import java.util.Collections;
 
 public class HttpResource {
-    private final HttpLazyResponseValue body;
+    public final HttpLazyResponseValue body;
 
     public HttpResource(String definitionGet) {
         this.body = new HttpLazyResponseValue(
                 new HttpResourceDefinition(definitionGet, Collections.emptyMap()),
-                new DataNodeId(""));
+                new DataNodeId());
     }
 
     /**
@@ -53,6 +53,6 @@ public class HttpResource {
      * @return lazy response value
      */
     public HttpLazyResponseValue getAt(int idx) {
-        return get(idx);
+        return body.get(idx);
     }
 }
