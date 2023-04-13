@@ -50,7 +50,7 @@ class WebTauEndToEndTestValidator {
 
         def serializedTestDetails = JsonUtils.serializePrettyPrint(resultConverter.apply(testDetails))
 
-        if (! Files.exists(expectedPath)) {
+        if (!Files.exists(expectedPath)) {
             FileUtils.writeTextContent(expectedPath, serializedTestDetails)
 
             throw new AssertionError('make sure ' + expectedPath + ' is correct. and commit it as a baseline. ' +
@@ -63,7 +63,7 @@ class WebTauEndToEndTestValidator {
         CompareToComparator comparator = CompareToComparator.comparator()
         def isEqual = comparator.compareIsEqual(new ValuePath('testDetails'), testDetails, expectedDetails)
 
-        if (! isEqual) {
+        if (!isEqual) {
             ConsoleOutputs.defaultOutput.out('reports are different, you can use IDE to compare files: ', Color.PURPLE, actualPath,
                     Color.BLUE, ' and ', Color.PURPLE, expectedPath)
             FileUtils.writeTextContent(actualPath, serializedTestDetails)
