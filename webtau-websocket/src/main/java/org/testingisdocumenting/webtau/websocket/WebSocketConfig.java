@@ -18,7 +18,6 @@ package org.testingisdocumenting.webtau.websocket;
 
 import org.testingisdocumenting.webtau.cfg.ConfigValue;
 import org.testingisdocumenting.webtau.cfg.WebTauConfigHandler;
-import org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig;
 
 import java.util.stream.Stream;
 
@@ -26,7 +25,7 @@ import static org.testingisdocumenting.webtau.cfg.ConfigValue.*;
 
 public class WebSocketConfig implements WebTauConfigHandler {
     private static final ConfigValue webSocketPollTimeout = declare("webSocketPollTimeout", "poll new message timeout",
-            () -> SystemTimerConfig.DEFAULT_WAIT_TIMEOUT);
+            () -> 5000L);
 
     private static final ConfigValue webSocketMaxMessages = declare("webSocketMaxMessages", "max number of received messages to keep for polling/waiting",
             () -> 1000);

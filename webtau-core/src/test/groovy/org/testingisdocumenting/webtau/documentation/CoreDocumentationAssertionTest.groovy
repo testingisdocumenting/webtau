@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.documentation
 
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.data.components.Account
 import org.testingisdocumenting.webtau.utils.FileUtils
 import org.junit.Test
@@ -92,7 +93,7 @@ class CoreDocumentationAssertionTest {
     }
 
     private static void validateArtifactContent(String artifactName, String extension, String expectedFileContent) {
-        def path = DocumentationArtifactsLocation.resolve(artifactName + "." + extension)
+        def path = WebTauConfig.getCfg().getDocArtifactsPath().resolve(artifactName + "." + extension)
         actual(FileUtils.fileTextContent(path)).should(equal(expectedFileContent))
     }
 }

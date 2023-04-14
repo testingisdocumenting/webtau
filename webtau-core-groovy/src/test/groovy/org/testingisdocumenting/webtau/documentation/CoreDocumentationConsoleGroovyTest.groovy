@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.utils.FileUtils
 
 import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg
 
 class CoreDocumentationConsoleGroovyTest {
     @Test
@@ -46,7 +47,7 @@ class CoreDocumentationConsoleGroovyTest {
             t2.join()
         }
 
-        def path = DocumentationArtifactsLocation.resolve("my-output-example.txt")
+        def path = getCfg().docArtifactsPath.resolve("my-output-example.txt")
         actual(FileUtils.fileTextContent(path)).should(equal("\u001B[32mhello world test\u001B[0m"))
     }
 
@@ -59,7 +60,7 @@ class CoreDocumentationConsoleGroovyTest {
 
         actual(stepResult).should(equal(42))
 
-        def path = DocumentationArtifactsLocation.resolve("my-output-return-example.txt")
+        def path = getCfg().docArtifactsPath.resolve("my-output-return-example.txt")
         actual(FileUtils.fileTextContent(path)).should(equal("hello"))
     }
 }

@@ -18,7 +18,6 @@
 package org.testingisdocumenting.webtau.featuretesting
 
 import groovy.transform.PackageScope
-import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
 import org.testingisdocumenting.webtau.utils.FileUtils
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 import org.testingisdocumenting.webtau.utils.StringUtils

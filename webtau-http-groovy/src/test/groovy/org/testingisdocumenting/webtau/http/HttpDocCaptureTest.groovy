@@ -17,7 +17,6 @@
 package org.testingisdocumenting.webtau.http
 
 import org.junit.Test
-import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation
 import org.testingisdocumenting.webtau.utils.FileUtils
 import org.testingisdocumenting.webtau.utils.JsonUtils
 
@@ -31,6 +30,7 @@ import static org.junit.Assert.assertTrue
 import static org.testingisdocumenting.webtau.Matchers.code
 import static org.testingisdocumenting.webtau.Matchers.contain
 import static org.testingisdocumenting.webtau.Matchers.throwException
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 import static org.testingisdocumenting.webtau.http.Http.http
 
 class HttpDocCaptureTest extends HttpTestBase {
@@ -43,7 +43,7 @@ class HttpDocCaptureTest extends HttpTestBase {
         def artifactName = 'empty'
         http.doc.capture(artifactName)
 
-        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
+        Path docRoot = getCfg().docArtifactsPath.resolve(artifactName)
         Path requestFile = docRoot.resolve("request.json")
         assertFalse(Files.exists(requestFile))
 
@@ -61,7 +61,7 @@ class HttpDocCaptureTest extends HttpTestBase {
         def artifactName = 'empty-binary'
         http.doc.capture(artifactName)
 
-        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
+        Path docRoot = getCfg().docArtifactsPath.resolve(artifactName)
         Path requestFile = docRoot.resolve("request.data")
         assertFalse(Files.exists(requestFile))
     }
@@ -189,7 +189,7 @@ class HttpDocCaptureTest extends HttpTestBase {
     }
 
     static def readAndAssertCapturedFile(String artifactName, String name, Consumer<Path> assertions) {
-        Path docRoot = DocumentationArtifactsLocation.resolve(artifactName)
+        Path docRoot = getCfg().docArtifactsPath.resolve(artifactName)
         Path captureFile = docRoot.resolve(name)
         assertTrue("${name} for ${artifactName} expected in ${captureFile} but does not exist", Files.exists(captureFile))
         assertions.accept(captureFile)

@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.http;
 
-import org.testingisdocumenting.webtau.documentation.DocumentationArtifactsLocation;
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.http.config.WebTauHttpConfiguration;
 import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
@@ -45,13 +45,13 @@ public class HttpTestBase implements WebTauHttpConfiguration {
 
     @Before
     public void setupDocArtifacts() {
-        existingDocRoot = DocumentationArtifactsLocation.getRoot();
-        DocumentationArtifactsLocation.setRoot(Paths.get("doc-artifacts"));
+        existingDocRoot = WebTauConfig.getCfg().getDocArtifactsPath();
+        WebTauConfig.getCfg().setDocArtifactsPath(Paths.get("doc-artifacts"));
     }
 
     @After
     public void restoreDocArtifacts() {
-        DocumentationArtifactsLocation.setRoot(existingDocRoot);
+        WebTauConfig.getCfg().setDocArtifactsPath(existingDocRoot);
     }
 
     @Before
