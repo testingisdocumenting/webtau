@@ -41,7 +41,7 @@ public class DataNodeListContainHandler implements ContainHandler {
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         List<DataNode> dataNodes = getDataNodes(actual);
-        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, dataNodes, expected);
+        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, dataNodes, expected, false);
         List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::findContainingIndexedValues);
 
         // earlier, traceable value is disabled and indexes of matches are found
@@ -51,7 +51,7 @@ public class DataNodeListContainHandler implements ContainHandler {
 
         if (indexedValues.isEmpty()) {
             containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
-                    .generateEqualMismatchReport());
+                    .generateEqualMismatchReport(), expected);
 
             dataNodes.forEach(n -> comparator.compareUsingEqualOnly(actualPath, n, expected));
         } else {
@@ -62,7 +62,7 @@ public class DataNodeListContainHandler implements ContainHandler {
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         List<DataNode> dataNodes = getDataNodes(actual);
-        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, dataNodes, expected);
+        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, dataNodes, expected, true);
         List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::findContainingIndexedValues);
 
         if (indexedValues.isEmpty()) {

@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -30,11 +31,11 @@ public class IterableContainAnalyzer {
     private final Object expected;
     private final CompareToComparator comparator;
 
-    public IterableContainAnalyzer(ValuePath actualPath, Object actual, Object expected) {
+    public IterableContainAnalyzer(ValuePath actualPath, Object actual, Object expected, boolean isNegative) {
         this.actualPath = actualPath;
         this.actual = actual;
         this.expected = expected;
-        this.comparator = CompareToComparator.comparator();
+        this.comparator = CompareToComparator.comparator(isNegative ? CompareToComparator.AssertionMode.NOT_EQUAL : CompareToComparator.AssertionMode.EQUAL);
     }
 
     public List<IndexedValue> findContainingIndexedValues() {
@@ -48,7 +49,8 @@ public class IterableContainAnalyzer {
             Object actualValue = iterator.next();
             ValuePath indexedPath = actualPath.index(idx);
 
-            boolean isEqual = comparator.compareIsEqual(indexedPath, actualValue, expected);
+            CompareToResult compareToResult = comparator.compareUsingEqualOnly(indexedPath, actualValue, expected);
+            boolean isEqual = compareToResult.isEqual();
             if (isEqual) {
                 matchedIndexes.add(new IndexedValue(idx, actualValue));
             }

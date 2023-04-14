@@ -70,7 +70,9 @@ class ValueMatcherCompareToHandlerTest {
 
     @Test
     void "should work in combination with contain matcher"() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain <greater than 7>: [value][2]: greater than 7 (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain <greater than 7>:\n' +
+                '    [value][2]:  actual: 8 <java.lang.Integer>\n' +
+                '               expected: less than or equal to 7 <java.lang.Integer> (Xms)\n' +
                 '  \n' +
                 '  [1, 3, **8**]') {
             actual([1, 3, 8]).shouldNot(contain(greaterThan(7)))
@@ -78,10 +80,13 @@ class ValueMatcherCompareToHandlerTest {
     }
 
     @Test
-    void "should work in combination with nested contain matcher"() {
+    void "combination with nested contain matcher"() {
         actual(["hello", "world", "of matchers"]).should(contain(containing("of")))
+    }
 
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain <contain "of">: [value][2]: contains "of" (Xms)\n' +
+    @Test
+    void "combination with negative nested contain matcher"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain <contain "of">: [value][2]: contains at idx 0 (Xms)\n' +
                 '  \n' +
                 '  ["hello", "world", **"of matchers"**]') {
             actual(["hello", "world", "of matchers"]).shouldNot(contain(containing("of")))
