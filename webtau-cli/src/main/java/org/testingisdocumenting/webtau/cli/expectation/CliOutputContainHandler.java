@@ -39,12 +39,12 @@ public class CliOutputContainHandler implements ContainHandler {
     public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         CliOutput cliOutput = ((CliOutput) actual);
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, cliOutput.copyLines(),
-                adjustedExpected(expected));
+                adjustedExpected(expected), false);
         List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         if (indexedValues.isEmpty()) {
             containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
-                    .generateEqualMismatchReport());
+                    .generateEqualMismatchReport(), expected);
         }
 
         indexedValues.forEach(iv -> cliOutput.registerMatchedLine(iv.getIdx()));
@@ -55,7 +55,7 @@ public class CliOutputContainHandler implements ContainHandler {
         CliOutput cliOutput = ((CliOutput) actual);
 
         IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, cliOutput.copyLines(),
-                adjustedExpected(expected));
+                adjustedExpected(expected), true);
         List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         indexedValues.forEach(indexedValue ->

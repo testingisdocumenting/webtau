@@ -23,7 +23,7 @@ import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
 
 import java.util.List;
 
-public class IterableContainHandler implements ContainHandler {
+public class IterableAndSingleValueContainHandler implements ContainHandler {
     @Override
     public boolean handle(Object actual, Object expected) {
         return actual instanceof Iterable;
@@ -31,20 +31,22 @@ public class IterableContainHandler implements ContainHandler {
 
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
-        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected);
+        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected, false);
         List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         if (indexedValues.isEmpty()) {
             containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
-                    .generateEqualMismatchReport());
+                    .generateEqualMismatchReport(), expected);
         }
     }
 
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
-        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected);
-        analyzer.findContainingIndexedValues();
+        IterableContainAnalyzer analyzer = new IterableContainAnalyzer(actualPath, actual, expected, true);
+        List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
-        analyzer.getComparator().getEqualMessages().forEach(message -> containAnalyzer.reportMatch(this, message.getActualPath(),message.getMessage()));
+        if (!indexedValues.isEmpty()) {
+            analyzer.getComparator().getEqualMessages().forEach(message -> containAnalyzer.reportMatch(this, message.getActualPath(), message.getMessage()));
+        }
     }
 }

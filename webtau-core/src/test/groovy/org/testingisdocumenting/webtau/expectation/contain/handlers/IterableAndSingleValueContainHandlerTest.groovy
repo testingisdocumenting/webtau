@@ -17,15 +17,13 @@
 package org.testingisdocumenting.webtau.expectation.contain.handlers
 
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer
-import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
-class IterableContainHandlerTest {
+class IterableAndSingleValueContainHandlerTest {
     private ContainAnalyzer analyzer
 
     @Before
@@ -35,7 +33,7 @@ class IterableContainHandlerTest {
 
     @Test
     void "handles iterable as actual and anything as expected"() {
-        def handler = new IterableContainHandler()
+        def handler = new IterableAndSingleValueContainHandler()
         assert handler.handle([1, 2], 1)
         assert handler.handle([1, 2], 'hello')
         assert !handler.handle('hello', 'hello')
@@ -56,7 +54,7 @@ class IterableContainHandlerTest {
     void "highlights and prints element that matched when expecting to not contain"() {
         runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain 2:\n' +
                 '    [value][1]:  actual: 2 <java.lang.Integer>\n' +
-                '               expected: 2 <java.lang.Integer> (Xms)\n' +
+                '               expected: not 2 <java.lang.Integer> (Xms)\n' +
                 '  \n' +
                 '  [1, **2**, 3]') {
             actual([1, 2, 3]).shouldNot(contain(2))
@@ -81,21 +79,32 @@ class IterableContainHandlerTest {
     }
 
     @Test
+    void "complex values not contain passes when only a subset of fields matches"() {
+        actual([
+                [firstName: 'FN1', lastName: 'LN1'],
+                [firstName: 'FN2', lastName: 'LN2'],
+                [firstName: 'FN3', lastName: 'LN3'],
+        ]).shouldNot(contain([firstName: 'FN31', lastName: 'LN3']))
+    }
+
+    @Test
     void "highlights and prints complex element that matched when expecting to not contain"() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain {"firstName": "FN31", "lastName": "LN3"}:\n' +
-                '    [value][2].lastName:  actual: "LN3" <java.lang.String>\n' +
-                '                        expected: "LN3" <java.lang.String> (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain {"firstName": "FN3", "lastName": "LN3"}:\n' +
+                '    [value][2].firstName:  actual:     "FN3" <java.lang.String>\n' +
+                '                         expected: not "FN3" <java.lang.String>\n' +
+                '    [value][2].lastName:  actual:     "LN3" <java.lang.String>\n' +
+                '                        expected: not "LN3" <java.lang.String> (Xms)\n' +
                 '  \n' +
                 '  [\n' +
                 '    {"firstName": "FN1", "lastName": "LN1"},\n' +
                 '    {"firstName": "FN2", "lastName": "LN2"},\n' +
-                '    {"firstName": "FN3", "lastName": **"LN3"**}\n' +
+                '    {"firstName": **"FN3"**, "lastName": **"LN3"**}\n' +
                 '  ]') {
             actual([
                     [firstName: 'FN1', lastName: 'LN1'],
                     [firstName: 'FN2', lastName: 'LN2'],
                     [firstName: 'FN3', lastName: 'LN3'],
-            ]).shouldNot(contain([firstName: 'FN31', lastName: 'LN3']))
+            ]).shouldNot(contain([firstName: 'FN3', lastName: 'LN3']))
         }
     }
 
