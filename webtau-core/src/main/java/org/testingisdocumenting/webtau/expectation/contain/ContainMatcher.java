@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -59,7 +60,8 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        if (containAnalyzer.getMismatchedExpectedValues().size() == 1 && containAnalyzer.getMismatchedExpectedValues().get(0) == expected) {
+        List<Object> mismatchedExpected = containAnalyzer.getMismatchedExpectedValues();
+        if (mismatchedExpected.isEmpty() || (mismatchedExpected.size() == 1 && mismatchedExpected.get(0) == expected)) {
             return tokenizedMessage().error("no match found");
         }
 
@@ -102,14 +104,7 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
     @Override
     public String toString() {
         String renderedExpected = DataRenderers.render(expected);
-
-        if (isNegative == null) {
-            return this.getClass().getCanonicalName() + " " + renderedExpected;
-        } else if (isNegative) {
-            return "<not contain " + renderedExpected + ">";
-        } else {
-            return "<contain " + renderedExpected + ">";
-        }
+        return "<contain " + renderedExpected + ">";
     }
 
     @Override
