@@ -113,14 +113,7 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
     @Override
     public String toString() {
         String renderedExpected = DataRenderers.render(expectedList);
-
-        if (isNegative == null) {
-            return this.getClass().getCanonicalName() + " " + renderedExpected;
-        } else if (isNegative) {
-            return "<not contain all " + renderedExpected + ">";
-        } else {
-            return "<contain all " + renderedExpected + ">";
-        }
+        return "<contain all " + renderedExpected + ">";
     }
 
     @Override

@@ -1,0 +1,1 @@
+* Fix: [Matchers](matchers/introduction) contain messages to use `not` in details report in case of `shouldNot`

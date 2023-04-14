@@ -19,7 +19,8 @@ package org.testingisdocumenting.webtau.expectation.contain;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
-import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableContainHandler;
+import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableAndTableContainHandler;
+import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableAndSingleValueContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.NullContainHandler;
 import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -40,10 +41,16 @@ public class ContainAnalyzer {
     private final List<ActualPathMessage> matches;
     private final List<ActualPathMessage> mismatches;
 
+    private final List<Object> mismatchedExpectedValues;
+
     private ValuePath topLevelActualPath;
 
     public static ContainAnalyzer containAnalyzer() {
         return new ContainAnalyzer();
+    }
+
+    public List<Object> getMismatchedExpectedValues() {
+        return mismatchedExpectedValues;
     }
 
     public boolean contains(ValuePath actualPath, Object actual, Object expected) {
@@ -62,6 +69,11 @@ public class ContainAnalyzer {
 
     public void reportMismatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch) {
         mismatches.add(new ActualPathMessage(actualPath, mismatch));
+    }
+
+    public void reportMismatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch, Object oneOfExpectedValues) {
+        reportMismatch(reporter, actualPath, mismatch);
+        mismatchedExpectedValues.add(oneOfExpectedValues);
     }
 
     public void reportMatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch) {
@@ -100,6 +112,7 @@ public class ContainAnalyzer {
     private ContainAnalyzer() {
         this.matches = new ArrayList<>();
         this.mismatches = new ArrayList<>();
+        this.mismatchedExpectedValues = new ArrayList<>();
     }
 
     private boolean contains(Object actual, Object expected, boolean isNegative, Consumer<ContainHandler> handle) {
@@ -131,7 +144,8 @@ public class ContainAnalyzer {
         List<ContainHandler> result = new ArrayList<>();
         result.add(new NullContainHandler());
         result.addAll(ServiceLoaderUtils.load(ContainHandler.class));
-        result.add(new IterableContainHandler());
+        result.add(new IterableAndTableContainHandler());
+        result.add(new IterableAndSingleValueContainHandler());
 
         return result;
     }
