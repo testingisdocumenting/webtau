@@ -25,7 +25,7 @@ import static org.testingisdocumenting.webtau.cfg.ConfigValue.*;
 
 public class WebSocketConfig implements WebTauConfigHandler {
     private static final ConfigValue webSocketPollTimeout = declare("webSocketPollTimeout", "poll new message timeout",
-            () -> 5000);
+            () -> 5000L);
 
     private static final ConfigValue webSocketMaxMessages = declare("webSocketMaxMessages", "max number of received messages to keep for polling/waiting",
             () -> 1000);
