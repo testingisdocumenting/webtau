@@ -18,6 +18,8 @@
 package org.testingisdocumenting.webtau.data.table;
 
 import org.testingisdocumenting.webtau.data.MultiValue;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.table.autogen.TableDataCellValueGenerator;
 import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
@@ -26,7 +28,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 
-public class Record {
+public class Record implements PrettyPrintable {
     private final TableDataHeader header;
     private final List<Object> values;
     private final CompositeKey key;
@@ -144,6 +146,11 @@ public class Record {
     @Override
     public String toString() {
         return toMap().toString();
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter printer) {
+        printer.printObject(toMap());
     }
 
     private static class MultiValuesUnwrapper {
