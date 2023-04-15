@@ -17,4 +17,5 @@
 org.testingisdocumenting.webtau.expectation.contain.handlers.StringContainHandler
 org.testingisdocumenting.webtau.expectation.contain.handlers.MapContainHandler
 org.testingisdocumenting.webtau.expectation.equality.handlers.LiveValueContainHandler
-org.testingisdocumenting.webtau.data.datanode.DataNodeListContainHandler
+org.testingisdocumenting.webtau.data.datanode.DataNodeListAndTableContainHandler
+org.testingisdocumenting.webtau.data.datanode.DataNodeListAndValueContainHandler

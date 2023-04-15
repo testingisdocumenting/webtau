@@ -224,6 +224,18 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
+    public void containTableMatcher() {
+        http.get("/end-point-large-list", (header, body) -> {
+            body.should(contain(table("id", "k1" , "k2",
+                                      ______________________,
+                                      "id1", "v11", "v12",
+                                      "id3", "v31", "v32" )));
+        });
+
+        http.doc.capture("end-point-object-contain-all-table-matchers");
+    }
+
+    @Test
     public void compareNumbersWithGreaterLessMatchers() {
         http.get("/end-point-numbers", (header, body) -> {
             body.get("id").shouldBe(greaterThan(0));
