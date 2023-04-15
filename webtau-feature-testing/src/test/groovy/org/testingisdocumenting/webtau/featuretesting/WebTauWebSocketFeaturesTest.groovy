@@ -29,7 +29,7 @@ class WebTauWebSocketFeaturesTest {
 
     @Test
     void "standard operations"() {
-        runCli("springBoot.groovy", "webtau.cfg.groovy",
+        runCli("springBoot.groovy", "webtau.socket.cfg.groovy",
                 "--url=${SpringBootDemoAppUrl.baseUrl}")
 
     }
