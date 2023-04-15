@@ -208,7 +208,7 @@ class ConsoleReportGeneratorTest implements ConsoleOutput {
     void out(Object... styleOrValues) {
         println new AutoResetAnsiString(styleOrValues)
 
-        def noAnsiText = TestConsoleOutput.replaceTimeAndPort(new IgnoreAnsiString(styleOrValues).toString())
+        def noAnsiText = TestConsoleOutput.replaceTimePortAndObjRefs(new IgnoreAnsiString(styleOrValues).toString())
         lines.add(noAnsiText)
 
         output += noAnsiText + "\n"

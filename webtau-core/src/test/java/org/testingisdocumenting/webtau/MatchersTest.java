@@ -96,7 +96,7 @@ public class MatchersTest {
     }
 
     @Test
-    public void beanAndMapExample() {
+    public void beanAndMapEqualityExample() {
         runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "bean-map-compare-output", "X failed expecting [value] to equal {\"id\": \"ac1\", \"name\": \"My Second Account\", \"address\": {\"zipCode\": \"7777777\"}}:\n" +
                 "    [value].name:  actual: \"My Account\" <java.lang.String>\n" +
                 "                 expected: \"My Second Account\" <java.lang.String>\n" +
@@ -123,7 +123,42 @@ public class MatchersTest {
     }
 
     @Test
-    public void listOfBeansAndTable() {
+    public void beanAndMapContainsExample() {
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "list-of-beans-map-contain", "X failed expecting [value] to not contain {\"id\": \"ac2\", \"name\": \"Work\"}:\n" +
+                "    [value][1].id:  actual:     \"ac2\" <java.lang.String>\n" +
+                "                  expected: not \"ac2\" <java.lang.String>\n" +
+                "    [value][1].name:  actual:     \"Work\" <java.lang.String>\n" +
+                "                    expected: not \"Work\" <java.lang.String> (Xms)\n" +
+                "  \n" +
+                "  [\n" +
+                "    {\n" +
+                "      \"address\": org.testingisdocumenting.webtau.Address@<ref>,\n" +
+                "      \"description\": \"test account\",\n" +
+                "      \"id\": \"ac1\",\n" +
+                "      \"name\": \"Home\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"address\": org.testingisdocumenting.webtau.Address@<ref>,\n" +
+                "      \"description\": \"test account\",\n" +
+                "      \"id\": **\"ac2\"**,\n" +
+                "      \"name\": **\"Work\"**\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"address\": org.testingisdocumenting.webtau.Address@<ref>,\n" +
+                "      \"description\": \"test account\",\n" +
+                "      \"id\": \"ac3\",\n" +
+                "      \"name\": \"My Account\"\n" +
+                "    }\n" +
+                "  ]", () -> {
+            // bean-map-contains-example
+            List<Account> accounts = fetchAccounts();
+            actual(accounts).shouldNot(contain(map("id", "ac2", "name", "Work"))); // only check specified properties
+            // bean-map-contains-example
+        });
+    }
+
+    @Test
+    public void listOfBeansAndTableEqualityExample() {
         runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "beans-table-compare-output", "X failed expecting [value] to equal *id   │ name         │ address            \n" +
                 "                                    \"ac2\" │ \"Works\"      │ {\"zipCode\": \"zip2\"}\n" +
                 "                                    \"ac1\" │ \"Home\"       │ {\"zipCode\": \"zip1\"}\n" +
@@ -141,14 +176,52 @@ public class MatchersTest {
                 "  {\"city\": \"TC3\", \"zipCode\": **\"zip3\"**} │ \"test account\" │ \"ac3\" │ \"My Account\"", () -> {
             // beans-table-example
             List<Account> accounts = fetchAccounts();
-            TableData expected = table("*id",       "name", "address",
+            TableData expected = table("*id",       "name", "address",  // id is a key column
                                        ________________________________________,
-                                       "ac2",      "Works", map("zipCode", "zip2"),
+                                       "ac2",      "Works", map("zipCode", "zip2"), // when key is present, comparison is order agnostic
                                        "ac1",       "Home", map("zipCode", "zip1"),
                                        "ac3", "My Account", map("zipCode", "zip8"));
 
             actual(accounts).should(equal(expected));
             // beans-table-example
+        });
+    }
+
+    @Test
+    public void listOfBeansAndTableContainExample() {
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "beans-table-contain-output", "X failed expecting [value] to contain id    │ name    │ address            \n" +
+                "                                      \"ac2\" │ \"Works\" │ {\"zipCode\": \"zip2\"}\n" +
+                "                                      \"ac1\" │ \"Home\"  │ {\"zipCode\": \"zip1\"}: no matches found for: [{\"id\": \"ac2\", \"name\": \"Works\", \"address\": {\"zipCode\": \"zip2\"}}] (Xms)\n" +
+                "  \n" +
+                "  [\n" +
+                "    {\n" +
+                "      \"address\": {\"city\": \"TC1\", \"zipCode\": \"zip1\"},\n" +
+                "      \"description\": \"test account\",\n" +
+                "      \"id\": \"ac1\",\n" +
+                "      \"name\": \"Home\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"address\": {\"city\": \"TC2\", \"zipCode\": \"zip2\"},\n" +
+                "      \"description\": \"test account\",\n" +
+                "      \"id\": \"ac2\",\n" +
+                "      \"name\": \"Work\"\n" +
+                "    },\n" +
+                "    {\n" +
+                "      \"address\": {\"city\": \"TC3\", \"zipCode\": \"zip3\"},\n" +
+                "      \"description\": \"test account\",\n" +
+                "      \"id\": \"ac3\",\n" +
+                "      \"name\": \"My Account\"\n" +
+                "    }\n" +
+                "  ]", () -> {
+            // beans-table-contain-example
+            List<Account> accounts = fetchAccounts();
+            TableData expected = table("id",  "name", "address",
+                                       _______________________________________,
+                                       "ac2", "Works", map("zipCode", "zip2"),
+                                       "ac1",  "Home", map("zipCode", "zip1"));
+
+            actual(accounts).should(contain(expected));
+            // beans-table-contain-example
         });
     }
 

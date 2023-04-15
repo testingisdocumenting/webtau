@@ -78,7 +78,7 @@ class MatchersGroovyTest {
     }
 
     @Test
-    void "bean and map example"() {
+    void "bean and map equality example"() {
         runExpectExceptionAndValidateOutput(AssertionError, ~/expected: "My Second Account"/) {
             // bean-map-example
             def account = new Account("ac1", "My Account", "test account", new Address("TestingCity", "88888888"))
@@ -91,18 +91,43 @@ class MatchersGroovyTest {
     }
 
     @Test
-    void "beans and table example"() {
+    void "bean and map contains example"() {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/expected: not "ac2"/) {
+            // bean-map-contains-example
+            def accounts = fetchAccounts()
+            accounts.shouldNot contain([id: "ac2", name: "Work"]) // only check specified properties
+            // bean-map-contains-example
+        }
+    }
+
+    @Test
+    void "beans and table equality"() {
         runExpectExceptionAndValidateOutput(AssertionError, ~/expected: "zip8"/) {
             // beans-table-example
             List<Account> accounts = fetchAccounts()
-            TableData expected = ["*id" | "name"       | "address"] {
+            TableData expected = ["*id" | "name"       | "address"] { // id is a key column
                                  _________________________________________
-                                  "ac2" | "Works"      | [zipCode: "zip2"]
+                                  "ac2" | "Works"      | [zipCode: "zip2"] // when key is present, comparison is order agnostic
                                   "ac1" | "Home"       | [zipCode: "zip1"]
                                   "ac3" | "My Account" | [zipCode: "zip8"] }
 
             accounts.should == expected
             // beans-table-example
+        }
+    }
+
+    @Test
+    void "beans and table contain"() {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/no matches found for: \[\{"id": "ac2",/) {
+            // beans-table-contain-example
+            List<Account> accounts = fetchAccounts()
+            TableData expected = ["*id" | "name"  | "address"] {
+                                  ____________________________________
+                                  "ac2" | "Works" | [zipCode: "zip2"]
+                                  "ac1" | "Home"  | [zipCode: "zip1"] }
+
+            accounts.should contain(expected)
+            // beans-table-contain-example
         }
     }
 

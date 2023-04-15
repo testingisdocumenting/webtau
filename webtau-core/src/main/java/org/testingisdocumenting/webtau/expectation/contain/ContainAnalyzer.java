@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.expectation.contain;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableAndTableContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableAndSingleValueContainHandler;
@@ -27,9 +28,7 @@ import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.TraceUtils;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
@@ -44,6 +43,8 @@ public class ContainAnalyzer {
     private final List<Object> mismatchedExpectedValues;
 
     private ValuePath topLevelActualPath;
+
+    private final Map<ValuePath, Object> convertedActualByPath = new HashMap<>();
 
     public static ContainAnalyzer containAnalyzer() {
         return new ContainAnalyzer();
@@ -65,6 +66,10 @@ public class ContainAnalyzer {
 
         return contains(actual, expected, true,
                 (handler) -> handler.analyzeNotContain(this, actualPath, actual, expected));
+    }
+
+    public ValueConverter createValueConverter() {
+        return convertedActualByPath::getOrDefault;
     }
 
     public void reportMismatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch) {
@@ -107,6 +112,10 @@ public class ContainAnalyzer {
 
     public boolean noMatches() {
         return matches.isEmpty();
+    }
+
+    public void registerConvertedActualByPath(Map<ValuePath, Object> convertedActualByPath) {
+        this.convertedActualByPath.putAll(convertedActualByPath);
     }
 
     private ContainAnalyzer() {

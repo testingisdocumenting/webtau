@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.contain;
 
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
@@ -32,10 +33,14 @@ import static org.testingisdocumenting.webtau.WebTauCore.*;
 public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
     private ContainAnalyzer containAnalyzer;
     private final Object expected;
-    private Boolean isNegative;
 
     public ContainMatcher(Object expected) {
         this.expected = expected;
+    }
+
+    @Override
+    public ValueConverter valueConverter() {
+        return containAnalyzer == null ? ValueConverter.EMPTY : containAnalyzer.createValueConverter();
     }
 
     @Override
@@ -71,7 +76,6 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
     @Override
     public boolean matches(ValuePath actualPath, Object actual) {
         containAnalyzer = ContainAnalyzer.containAnalyzer();
-        isNegative = false;
 
         containAnalyzer.contains(actualPath, actual, expected);
         return containAnalyzer.noMismatches();
@@ -95,7 +99,6 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
     @Override
     public boolean negativeMatches(ValuePath actualPath, Object actual) {
         containAnalyzer = ContainAnalyzer.containAnalyzer();
-        isNegative = true;
 
         containAnalyzer.notContains(actualPath, actual, expected);
         return containAnalyzer.noMatches();
