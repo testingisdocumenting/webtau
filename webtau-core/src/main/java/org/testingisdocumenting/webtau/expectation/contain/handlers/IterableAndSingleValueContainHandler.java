@@ -38,6 +38,8 @@ public class IterableAndSingleValueContainHandler implements ContainHandler {
             containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
                     .generateEqualMismatchReport(), expected);
         }
+
+        containAnalyzer.registerConvertedActualByPath(analyzer.getComparator().getConvertedActualByPath());
     }
 
     @Override
@@ -48,5 +50,7 @@ public class IterableAndSingleValueContainHandler implements ContainHandler {
         if (!indexedValues.isEmpty()) {
             analyzer.getComparator().getEqualMessages().forEach(message -> containAnalyzer.reportMatch(this, message.getActualPath(), message.getMessage()));
         }
+
+        containAnalyzer.registerConvertedActualByPath(analyzer.getComparator().getConvertedActualByPath());
     }
 }

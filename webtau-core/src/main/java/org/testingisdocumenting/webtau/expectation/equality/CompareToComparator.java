@@ -86,6 +86,10 @@ public class CompareToComparator {
         return convertedActualByPath::getOrDefault;
     }
 
+    public Map<ValuePath, Object> getConvertedActualByPath() {
+        return Collections.unmodifiableMap(convertedActualByPath);
+    }
+
     public boolean compareIsEqual(ValuePath actualPath, Object actual, Object expected) {
         CompareToHandler handler = findCompareToEqualHandler(actual, expected);
         return compareIsEqual(handler, actualPath, actual, expected);

@@ -1,1 +1,1 @@
-* Add: [Beans And Table](matchers/java-bean#collection-of-java-beans-and-table-data) comparison pretty prints beans as table
+* Add: [Beans And Table](matchers/java-bean#java-beans-equal-table-data) comparison pretty prints beans as table

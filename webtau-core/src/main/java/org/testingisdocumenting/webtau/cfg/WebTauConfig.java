@@ -59,6 +59,7 @@ public class WebTauConfig implements PrettyPrintable {
     private final ConfigValue consolePayloadOutputLimit = declare("consolePayloadOutputLimit",
             "max number of lines to display in console for outputs (e.g. http response)", () -> 500);
 
+    private final ConfigValue waitTick = declare("waitTick", "wait tick in milliseconds", () -> 100L);
     private final ConfigValue waitTimeout = declare("waitTimeout", "wait timeout in milliseconds", () -> 5000L);
 
     private final ConfigValue httpTimeout = declare("httpTimeout", "http connect and read timeout in milliseconds", () -> 30000);
@@ -221,6 +222,18 @@ public class WebTauConfig implements PrettyPrintable {
 
     public long getWaitTimeout() {
         return waitTimeout.getAsLong();
+    }
+
+    public void setWaitTimout(long waitTimoutMs) {
+        waitTimeout.setAndReport("manual", waitTimoutMs);
+    }
+
+    public long getWaitTick() {
+        return waitTick.getAsLong();
+    }
+
+    public void setWaitTick(long waitTickMs) {
+        waitTick.setAndReport("manual", waitTickMs);
     }
 
     public int getHttpTimeout() {
@@ -435,6 +448,7 @@ public class WebTauConfig implements PrettyPrintable {
                 verbosityLevel,
                 fullStackTrace,
                 workingDir,
+                waitTick,
                 waitTimeout,
                 httpTimeout,
                 disableFollowingRedirects,
