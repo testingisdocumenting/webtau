@@ -88,6 +88,19 @@ Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.gro
 Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "containMatcher", bodyOnly: true, excludeRegexp: "doc.capture"}
 ```
 
+# Contain Table
+
+Use `contain` and `TableData` to assert that a list contains multiple entries of interest
+
+:include-empty-block: {rightSide: true}
+
+:include-json: largeListTestResponse.json {title: "response", pathsFile: "doc-artifacts/end-point-object-contain-all-table-matchers/paths.json"}
+
+```tabs {rightSide: true}
+Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "contain table matcher", bodyOnly: true}
+Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "containTableMatcher", bodyOnly: true, excludeRegexp: "doc.capture"}
+```
+
 # Contain All
 
 Use `containAll` when you cannot rely on order of values in a response and need to check more than one value. 

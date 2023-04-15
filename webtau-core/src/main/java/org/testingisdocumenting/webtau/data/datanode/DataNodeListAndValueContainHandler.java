@@ -32,7 +32,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode;
 import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.comparator;
 
-public class DataNodeListContainHandler implements ContainHandler {
+public class DataNodeListAndValueContainHandler implements ContainHandler {
     @Override
     public boolean handle(Object actual, Object expected) {
         return actual instanceof DataNode && ((DataNode) actual).isList();
@@ -66,7 +66,11 @@ public class DataNodeListContainHandler implements ContainHandler {
         List<IndexedValue> indexedValues = TraceableValue.withDisabledChecks(analyzer::findContainingIndexedValues);
 
         if (indexedValues.isEmpty()) {
-            dataNodes.forEach(n -> n.getTraceableValue().updateCheckLevel(CheckLevel.FuzzyPassed));
+            dataNodes.forEach(n -> {
+                if (n.getTraceableValue() != null) {
+                    n.getTraceableValue().updateCheckLevel(CheckLevel.FuzzyPassed);
+                }
+            });
         } else {
             CompareToComparator comparator = comparator(AssertionMode.NOT_EQUAL);
 

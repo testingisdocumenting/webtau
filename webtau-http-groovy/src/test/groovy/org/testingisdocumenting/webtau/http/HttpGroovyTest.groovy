@@ -992,6 +992,16 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "contain table matcher"() {
+        http.get("/end-point-large-list") {
+            body.should contain(["id" | "k1"  | "k2"] {
+                                ________________________
+                                 "id1" | "v11" | "v12"
+                                 "id3" | "v31" | "v32" })
+        }
+    }
+
+    @Test
     void "compare numbers with greater less matchers"() {
         http.get("/end-point-numbers") {
             id.shouldBe > 0

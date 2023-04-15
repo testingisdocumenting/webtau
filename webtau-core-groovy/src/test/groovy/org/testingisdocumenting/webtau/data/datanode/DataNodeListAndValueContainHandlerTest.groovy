@@ -26,7 +26,7 @@ import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.FuzzyPas
 import static org.testingisdocumenting.webtau.data.traceable.CheckLevel.None
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
-class DataNodeListContainHandlerTest {
+class DataNodeListAndValueContainHandlerTest {
     def listOfFirstNames = ['FN0', 'FN1', 'FN2', 'FN3']
 
     def listOfFullNames = [
