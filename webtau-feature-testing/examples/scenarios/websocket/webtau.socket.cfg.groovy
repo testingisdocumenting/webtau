@@ -15,3 +15,4 @@
  */
 
 url = "http://localhost:8080"
+waitTick = 1000
