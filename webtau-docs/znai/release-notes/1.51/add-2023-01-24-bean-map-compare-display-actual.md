@@ -1,1 +1,1 @@
-* Add: [Bean And Map](matchers/java-bean#java-bean-and-maps) comparison pretty prints actual bean data in case of mismatch
+* Add: [Bean And Map](matchers/java-bean#java-bean-equals-map) comparison pretty prints actual bean data in case of mismatch

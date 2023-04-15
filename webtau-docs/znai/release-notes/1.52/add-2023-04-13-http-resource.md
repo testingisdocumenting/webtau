@@ -1,1 +1,1 @@
-Add: [HTTP Resource](HTTP/HTTP-resource) to define lazy values to be waited or asserted on later
+* Add: [HTTP Resource](HTTP/HTTP-resource) to define lazy values to be waited or asserted on later

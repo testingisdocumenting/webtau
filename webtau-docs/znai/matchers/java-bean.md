@@ -1,6 +1,6 @@
 WebTau provides [universal comparison](matchers/universal-compare) handlers to streamline Java Bean assertions.
 
-# Java Bean And Maps
+# Java Bean Equals Map
 
 Use map and bean comparison to validate individual java bean properties.
 
@@ -25,9 +25,29 @@ right: :include-file: org/testingisdocumenting/webtau/Address.java { surroundedB
 
 :include-cli-output: doc-artifacts/bean-map-compare-output.txt {title: "bean mismatches highlighted"}
 
-# Collection of Java Beans And Table Data
+# Java Beans Contain Map
 
-Use `TableData` to assert a collection of beans 
+Use `contain(map)` to check if a collection of beans contains a bean with specified properties:
+
+```tabs
+Groovy: 
+:include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
+    surroundedBy: "bean-map-contains-example",
+    commentsType: "inline"
+}
+
+Java: 
+:include-file: org/testingisdocumenting/webtau/MatchersTest.java {
+    surroundedBy: "bean-map-contains-example",
+    commentsType: "inline"
+} 
+``` 
+
+:include-cli-output: doc-artifacts/list-of-beans-map-contain.txt {title: "list of beans should not contain output"}
+
+# Java Beans Equal Table Data
+
+Use `equal` with `TableData` to compare with a collection of java beans. All records must be present.
 
 ```tabs
 Groovy: 
@@ -43,6 +63,28 @@ Java:
 } 
 ``` 
 
+Note: Only specified properties will be matched
+
 :include-cli-output: doc-artifacts/beans-table-compare-output.txt {title: "beans mismatches highlighted"}
+
+# Java Beans Contain Table Data
+
+Use `contain` with `TableData` to partially compare list of java beans.
+
+```tabs
+Groovy: 
+:include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
+    surroundedBy: "beans-table-contain-example",
+    commentsType: "inline"
+}
+
+Java: 
+:include-file: org/testingisdocumenting/webtau/MatchersTest.java {
+    surroundedBy: "beans-table-contain-example",
+    commentsType: "inline"
+} 
+``` 
+
+:include-cli-output: doc-artifacts/beans-table-contain-output.txt {title: "contain handler output"}
 
 :include-markdown: static-import.md
