@@ -79,7 +79,8 @@ class StringContainHandlerTest {
 
     @Test
     void "not contains fails"() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain "lo": contains at idx 3 (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain "lo":\n' +
+                '    contains at idx 3 (Xms)\n' +
                 '  \n' +
                 '  **"hello"**') {
             actual("hello").shouldNot(contain("lo"))

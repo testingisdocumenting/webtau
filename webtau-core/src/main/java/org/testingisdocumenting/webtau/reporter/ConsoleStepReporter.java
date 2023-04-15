@@ -236,7 +236,7 @@ public class ConsoleStepReporter implements StepReporter {
 
         TokenizedMessage completionMessageWithError = tokenizedMessage().add(completionMessage);
 
-        if (!exceptionTokenizedMessage.hasNewLineToken()) {
+        if (!exceptionTokenizedMessage.hasNewLineToken() && exceptionTokenizedMessage.onlyErrorTokens()) {
             return completionMessageWithError.colon().add(exceptionTokenizedMessage);
         }
 

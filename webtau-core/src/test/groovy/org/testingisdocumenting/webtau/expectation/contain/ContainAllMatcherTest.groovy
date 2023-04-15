@@ -24,7 +24,8 @@ import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExp
 class ContainAllMatcherTest {
     @Test
     void "fails when not all values are present"() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain all ["b", "A"]: no matches found for: ["A"] (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain all ["b", "A"]:\n' +
+                '    no matches found for: ["A"] (Xms)\n' +
                 '  \n' +
                 '  ["a", "b", "d"]') {
             actual(['a', 'b', 'd']).should(containAll('b', 'A'))

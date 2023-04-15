@@ -1,1 +1,1 @@
-Add: [waitTick](configuration/options#waitTick) globally configurable value
+* Add: [waitTick](configuration/options#waitTick) globally configurable value

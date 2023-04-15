@@ -25,6 +25,7 @@ import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleOutput
 import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter
+import org.testingisdocumenting.webtau.expectation.AssertionTokenizedError
 import org.testingisdocumenting.webtau.time.ControlledTimeProvider
 import org.testingisdocumenting.webtau.time.Time
 import static org.testingisdocumenting.webtau.WebTauCore.*
@@ -125,6 +126,21 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
         expectReport(Integer.MAX_VALUE, '> action\n' +
                 '. action completed (5s 250ms)') {
+            action.execute(StepReportOptions.REPORT_ALL)
+        }
+    }
+
+    @Test
+    void "should render failed step on a new line if error comes with additional values"() {
+        Time.setTimeProvider(new ControlledTimeProvider([100, 350]))
+        def action = WebTauStep.createStep(tokenizedMessage().action("action"),
+                { -> tokenizedMessage().action("action completed") }) {
+            throw new AssertionTokenizedError(tokenizedMessage().error("error summary").colon().value(map("key", "value")))
+        }
+
+        expectReport(Integer.MAX_VALUE, '> action\n' +
+                'X failed action:\n' +
+                '    error summary: {"key": "value"} (250ms)') {
             action.execute(StepReportOptions.REPORT_ALL)
         }
     }
@@ -306,14 +322,6 @@ class ConsoleStepReporterTest implements ConsoleOutput {
         StepReporters.remove(stepReporter)
 
         assertEquals(expectedReport, lines.join('\n'))
-    }
-
-    private static String multilineMatcherMessage(String label) {
-        return 'equals 100\n' +
-                label + ':\n' +
-                '\n' +
-                'body.price:   actual: 100 <java.lang.Integer>\n' +
-                '            expected: 100 <java.lang.Integer>'
     }
 
     @Override

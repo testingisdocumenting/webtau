@@ -1,0 +1,1 @@
+* Add: [Steps](report/steps) reporter prints error details on a next line as long as there is additional pretty printed details present (even if one liner)
