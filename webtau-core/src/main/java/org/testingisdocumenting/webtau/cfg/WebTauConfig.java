@@ -21,7 +21,6 @@ import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
-import org.testingisdocumenting.webtau.expectation.timer.SystemTimerConfig;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
@@ -95,6 +94,7 @@ public class WebTauConfig implements PrettyPrintable {
     /**
      * Handlers are automatically discovered using service loader.
      * Use this method to manually register additional config handler in front of the queue.
+     *
      * @param handler config handler to add
      */
     public static void registerConfigHandlerAsFirstHandler(WebTauConfigHandler handler) {
