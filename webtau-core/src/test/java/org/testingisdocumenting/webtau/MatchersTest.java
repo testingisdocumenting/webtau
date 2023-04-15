@@ -191,7 +191,8 @@ public class MatchersTest {
     public void listOfBeansAndTableContainExample() {
         runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "beans-table-contain-output", "X failed expecting [value] to contain id    │ name    │ address            \n" +
                 "                                      \"ac2\" │ \"Works\" │ {\"zipCode\": \"zip2\"}\n" +
-                "                                      \"ac1\" │ \"Home\"  │ {\"zipCode\": \"zip1\"}: no matches found for: [{\"id\": \"ac2\", \"name\": \"Works\", \"address\": {\"zipCode\": \"zip2\"}}] (Xms)\n" +
+                "                                      \"ac1\" │ \"Home\"  │ {\"zipCode\": \"zip1\"}:\n" +
+                "    no matches found for: [{\"id\": \"ac2\", \"name\": \"Works\", \"address\": {\"zipCode\": \"zip2\"}}] (Xms)\n" +
                 "  \n" +
                 "  [\n" +
                 "    {\n" +
