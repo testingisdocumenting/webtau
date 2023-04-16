@@ -56,7 +56,8 @@ class DataNodeListAndTableContainHandlerTest {
 
         TestConsoleOutput.runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting body to contain firstName │ lastName\n' +
                 '                                   "FN1_"    │ "LN1"   \n' +
-                '                                   "FN2"     │ "LN2"   : no matches found for: [{"firstName": "FN1_", "lastName": "LN1"}] (Xms)\n' +
+                '                                   "FN2"     │ "LN2"   :\n' +
+                '    no matches found for: [{"firstName": "FN1_", "lastName": "LN1"}] (Xms)\n' +
                 '  \n' +
                 '  [\n' +
                 '    {"firstName": **"FN0"**, "lastName": **"LN0"**},\n' +
@@ -87,7 +88,8 @@ class DataNodeListAndTableContainHandlerTest {
 
         TestConsoleOutput.runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting body to not contain firstName │ lastName\n' +
                 '                                       "FN11"    │ "LN11"  \n' +
-                '                                       "FN2"     │ "LN2"   : body[2]: equals {"firstName": **"FN2"**, "lastName": **"LN2"**} (Xms)\n' +
+                '                                       "FN2"     │ "LN2"   :\n' +
+                '    body[2]: equals {"firstName": **"FN2"**, "lastName": **"LN2"**} (Xms)\n' +
                 '  \n' +
                 '  [\n' +
                 '    {"firstName": "FN0", "lastName": "LN0"},\n' +

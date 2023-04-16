@@ -56,7 +56,8 @@ class IterableAndTableContainHandlerTest {
         runExpectExceptionAndValidateOutput(AssertionError.class, 'X failed expecting [value] to contain a    │ b   \n' +
                 '                                      "a1" │ "b1"\n' +
                 '                                      "a2" │ "b3"\n' +
-                '                                      "a3" │ "b4": no matches found for: [{"a": "a2", "b": "b3"}, {"a": "a3", "b": "b4"}] (Xms)\n' +
+                '                                      "a3" │ "b4":\n' +
+                '    no matches found for: [{"a": "a2", "b": "b3"}, {"a": "a3", "b": "b4"}] (Xms)\n' +
                 '  \n' +
                 '  [{"a": "a1", "b": "b1"}, {"a": "a2", "b": "b2"}, {"a": "a3", "b": "b3"}, {"a": "a4", "b": "b4"}]') {
             actual(maps).should(contain(table))

@@ -294,6 +294,10 @@ public class TokenizedMessage implements Iterable<MessageToken> {
         return tokens.stream().anyMatch(token -> "\n".equals(token.getValue()));
     }
 
+    public boolean onlyErrorTokens() {
+        return tokens.stream().allMatch(token -> TokenTypes.ERROR.getType().equals(token.getType()));
+    }
+
     public int getNumberOfTokens() {
         return tokens.size();
     }

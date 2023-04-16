@@ -86,7 +86,8 @@ class ValueMatcherCompareToHandlerTest {
 
     @Test
     void "combination with negative nested contain matcher"() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain <contain "of">: [value][2]: contains at idx 0 (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain <contain "of">:\n' +
+                '    [value][2]: contains at idx 0 (Xms)\n' +
                 '  \n' +
                 '  ["hello", "world", **"of matchers"**]') {
             actual(["hello", "world", "of matchers"]).shouldNot(contain(containing("of")))
