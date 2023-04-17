@@ -8,6 +8,10 @@ Out of the box report provides high level information like number of failed test
 
 :include-image: doc-artifacts/reports/report-summary.png {fit: true}
 
+# Continuous Integration
+
+Example of [GitHub](continuous-integration/GitHub) actions to upload reports during `CI`
+
 # Test Summary
 
 Selected a test to see summary information about the test run
