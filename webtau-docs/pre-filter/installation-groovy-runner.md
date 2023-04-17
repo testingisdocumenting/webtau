@@ -12,3 +12,5 @@ sdk install webtau
 
 Alternatively, download and unzip [WebTau](https://repo.maven.apache.org/maven2/org/testingisdocumenting/webtau/webtau-dist/${project.version}/webtau-dist-${project.version}-webtau.zip). 
 Add it to your `PATH`.
+
+Note: WebTau installed manually requires Java 8+ to be present in `PATH`

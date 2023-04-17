@@ -102,6 +102,7 @@ groovy-standalone-runner
     test-metadata
     test-listeners
     test-execution
+    IDE-setup
 configuration
     groovy-config-file
     options
