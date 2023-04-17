@@ -113,6 +113,8 @@ junit5 {title: "JUnit 5"}
 JVM-business-logic
     data-driven
     documentation-artifacts
+continuous-integration
+    GitHub
 reference
     table-data
 release-notes
