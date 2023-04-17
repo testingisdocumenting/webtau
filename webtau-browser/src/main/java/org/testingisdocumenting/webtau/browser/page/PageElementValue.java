@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.browser.page;
 
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
@@ -89,6 +90,6 @@ public class PageElementValue<E> implements ActualValueExpectations, ActualPathA
             return Stream.empty();
         }
 
-        return Stream.concat(TokenizedMessageToAnsiConverter.DEFAULT.convert(parent.describe(), 0).stream(), Stream.of(" "));
+        return Stream.concat(TokenizedMessageToAnsiConverter.DEFAULT.convert(ValueConverter.EMPTY, parent.describe(), 0).stream(), Stream.of(" "));
     }
 }

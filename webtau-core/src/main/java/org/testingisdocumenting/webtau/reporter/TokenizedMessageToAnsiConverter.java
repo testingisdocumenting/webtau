@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.reporter;
 
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinterLine;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage.TokenTypes;
@@ -46,7 +47,7 @@ public class TokenizedMessageToAnsiConverter {
         tokenRenderDetails.put(tokenType, new TokenRenderDetails(Arrays.asList(ansiSequence)));
     }
 
-    public List<Object> convert(TokenizedMessage tokenizedMessage, int firstLinePrefixWidth) {
+    public List<Object> convert(ValueConverter valueConverter, TokenizedMessage tokenizedMessage, int firstLinePrefixWidth) {
         this.firstLinePrefixWidth = firstLinePrefixWidth;
         PrettyPrinterLine line = new PrettyPrinterLine();
 
@@ -63,7 +64,7 @@ public class TokenizedMessageToAnsiConverter {
             boolean isLast = (idx == len - 1);
             boolean addSpace = !isLast && !isNextDelimiter && !isDelimiterNoAutoSpacing(tokenizedMessage.getTokenAtIdx(idx));
 
-            Stream<?> ansiSequence = convertToAnsiSequence(line, renderDetails, messageToken);
+            Stream<?> ansiSequence = convertToAnsiSequence(valueConverter, line, renderDetails, messageToken);
             if (addSpace) {
                 ansiSequence = Stream.concat(ansiSequence, Stream.of(" "));
             }
@@ -78,19 +79,20 @@ public class TokenizedMessageToAnsiConverter {
         return token.getType().equals(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType());
     }
 
-    private Stream<?> convertToAnsiSequence(PrettyPrinterLine currentLine, TokenRenderDetails renderDetails, MessageToken messageToken) {
+    private Stream<?> convertToAnsiSequence(ValueConverter valueConverter, PrettyPrinterLine currentLine, TokenRenderDetails renderDetails, MessageToken messageToken) {
         boolean usePrettyPrintFirstLinesOnly = messageToken.getType().equals(TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType());
         boolean usePrettyPrint = messageToken.getType().equals(TokenTypes.PRETTY_PRINT_VALUE.getType());
         if (usePrettyPrint || usePrettyPrintFirstLinesOnly) {
-            return ansiSequenceFromPrettyPrinter(currentLine, messageToken.getValue(), usePrettyPrintFirstLinesOnly);
+            return ansiSequenceFromPrettyPrinter(valueConverter, currentLine, messageToken.getValue(), usePrettyPrintFirstLinesOnly);
         }
 
         Stream<Object> valueStream = Stream.of(messageToken.getValue());
         return Stream.concat(renderDetails.ansiSequence.stream(), valueStream);
     }
 
-    private Stream<?> ansiSequenceFromPrettyPrinter(PrettyPrinterLine currentLine, Object value, boolean printFirstLinesOnly) {
+    private Stream<?> ansiSequenceFromPrettyPrinter(ValueConverter valueConverter, PrettyPrinterLine currentLine, Object value, boolean printFirstLinesOnly) {
         PrettyPrinter printer = new PrettyPrinter(0);
+        printer.setValueConverter(valueConverter);
         printer.printObject(value);
         printer.flushCurrentLine();
 

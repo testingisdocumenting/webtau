@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.termui;
 import com.googlecode.lanterna.TerminalSize;
 import com.googlecode.lanterna.gui2.ComponentRenderer;
 import com.googlecode.lanterna.gui2.TextGUIGraphics;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class TermUiWebTauStepRenderer implements ComponentRenderer<TermUiWebTauS
 
     @Override
     public void drawComponent(TextGUIGraphics graphics, TermUiWebTauStep component) {
-        List<Object> ansiParts = TokenizedMessageToAnsiConverter.DEFAULT.convert(component.getMessage(), 0);
+        List<Object> ansiParts = TokenizedMessageToAnsiConverter.DEFAULT.convert(ValueConverter.EMPTY, component.getMessage(), 0);
 
         TerminalSize size = graphics.getSize();
         String text = ansiParts.stream().map(Object::toString).collect(Collectors.joining());

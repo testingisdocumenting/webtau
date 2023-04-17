@@ -264,17 +264,18 @@ public class ActualValue implements ActualValueExpectations {
                                 valueMatcher.matchingTokenizedMessage(actualPath, actualGiven)),
                 () -> tokenizedMessage(valueDescription)
                         .add(isNegative ?
-                                valueMatcher.negativeMatchedTokenizedMessage(null, actualGiven) :
-                                valueMatcher.matchedTokenizedMessage(null, actualGiven)),
+                                valueMatcher.negativeMatchedTokenizedMessage(actualPath, actualGiven) :
+                                valueMatcher.matchedTokenizedMessage(actualPath, actualGiven)),
                 expectationValidation);
         step.setClassifier(WebTauStepClassifiers.MATCHER);
+        step.setValueConverter(valueMatcher.valueConverter());
 
         if (isDisabledStepOutput) {
             return step;
         }
 
         step.setStepOutputFunc((matched) -> {
-            ValueConverter valueConverter = valueMatcher.valueConverter();
+            ValueConverter valueConverter = step.getValueConverter();
             Object convertedActual = valueConverter.convertValue(actualPath, actualExtracted);
 
             // if we already displayed the actual value as part of mismatch message, we don't need to display it again even if it is pretty printable
