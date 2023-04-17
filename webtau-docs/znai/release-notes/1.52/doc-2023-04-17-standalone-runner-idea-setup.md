@@ -1,0 +1,1 @@
+* Doc: [IDE Setup](groovy-standalone-runner/IDE-setup) for auto-completion
