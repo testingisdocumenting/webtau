@@ -131,4 +131,10 @@ public class HttpLazyResponseValue implements ActualValueExpectations, ActualVal
 
         return new HttpLazyResponseValue(_webtauInternalResourceDefinition.withRouteParams(routeParams), _webtauInternalId);
     }
+
+    public String fullTextResponse() {
+        return Http.http.get(_webtauInternalResourceDefinition.buildUrl(), (header, body) -> {
+            return body.getTextContent();
+        });
+    }
 }
