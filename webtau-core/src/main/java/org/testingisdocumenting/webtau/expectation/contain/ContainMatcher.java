@@ -76,6 +76,8 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public boolean matches(ValuePath actualPath, Object actual) {
+        containAnalyzer.resetReportData();
+
         containAnalyzer.contains(actualPath, actual, expected);
         return containAnalyzer.noMismatches();
     }
@@ -98,6 +100,8 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public boolean negativeMatches(ValuePath actualPath, Object actual) {
+        containAnalyzer.resetReportData();
+
         containAnalyzer.notContains(actualPath, actual, expected);
         return containAnalyzer.noMatches();
     }
