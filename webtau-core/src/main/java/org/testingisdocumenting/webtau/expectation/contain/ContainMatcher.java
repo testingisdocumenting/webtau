@@ -55,6 +55,7 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        containAnalyzer = ContainAnalyzer.containAnalyzer();
         return tokenizedMessage().matcher("to contain").valueFirstLinesOnly(expected);
     }
 
@@ -75,14 +76,13 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public boolean matches(ValuePath actualPath, Object actual) {
-        containAnalyzer = ContainAnalyzer.containAnalyzer();
-
         containAnalyzer.contains(actualPath, actual, expected);
         return containAnalyzer.noMismatches();
     }
 
     @Override
     public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        containAnalyzer = ContainAnalyzer.containAnalyzer();
         return tokenizedMessage().matcher("to").classifier("not").matcher("contain").valueFirstLinesOnly(expected);
     }
 
@@ -98,8 +98,6 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public boolean negativeMatches(ValuePath actualPath, Object actual) {
-        containAnalyzer = ContainAnalyzer.containAnalyzer();
-
         containAnalyzer.notContains(actualPath, actual, expected);
         return containAnalyzer.noMatches();
     }
