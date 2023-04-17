@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -35,12 +36,18 @@ public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
+    public ValueConverter valueConverter() {
+        return comparator.createValueConverter();
+    }
+
+    @Override
     public Stream<Object> expectedValues() {
         return expectedList.stream();
     }
 
     @Override
     public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        comparator = CompareToComparator.comparator();
         return tokenizedMessage().matcher("to match any of").valueFirstLinesOnly(expectedList);
     }
 
@@ -58,7 +65,7 @@ public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
     public boolean matches(ValuePath actualPath, Object actual) {
         boolean result = false;
 
-        comparator = CompareToComparator.comparator();
+        comparator.resetReportData();
         for (Object expected : expectedList) {
             result = result || comparator.compareIsEqual(actualPath, actual, expected);
         }
@@ -68,6 +75,7 @@ public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        comparator = CompareToComparator.comparator();
         return tokenizedMessage().matcher("to not match any of").valueFirstLinesOnly(expectedList);
     }
 
@@ -85,7 +93,7 @@ public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
     public boolean negativeMatches(ValuePath actualPath, Object actual) {
         boolean result = true;
 
-        comparator = CompareToComparator.comparator();
+        comparator.resetReportData();
         for (Object expected : expectedList) {
             result = result && comparator.compareIsNotEqual(actualPath, actual, expected);
         }

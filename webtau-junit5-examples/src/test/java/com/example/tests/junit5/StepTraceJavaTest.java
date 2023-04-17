@@ -17,7 +17,7 @@
 package com.example.tests.junit5;
 
 import org.junit.jupiter.api.Test;
-import org.testingisdocumenting.webtau.data.Account;
+import org.example.domain.Account;
 import org.testingisdocumenting.webtau.junit5.WebTau;
 
 import java.util.Arrays;
