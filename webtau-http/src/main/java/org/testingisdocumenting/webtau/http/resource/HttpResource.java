@@ -29,6 +29,10 @@ public class HttpResource {
                 new DataNodeId());
     }
 
+    public String fullTextResponse() {
+        return body.fullTextResponse();
+    }
+
     /**
      * declares response at a specific path, e.g. details.price[0]
      * @param path path to a value

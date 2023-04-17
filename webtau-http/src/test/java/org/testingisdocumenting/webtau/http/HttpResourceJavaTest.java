@@ -223,4 +223,13 @@ public class HttpResourceJavaTest extends HttpTestBase {
         code(() -> myObj.of("param1", "test", "param3", "tost").should(equal(120)))
                 .should(throwException("route parameter names mismatch with provided, expected names: [param1, param2], given: [param1, param3]"));
     }
+
+    @Test
+    public void extractTextResponse() {
+        HttpTestDataServer.IBM_PRICES.reset();
+        // full-text-response
+        String responseAsText = http.resource("/prices/IBM").fullTextResponse();
+        actual(responseAsText, "response").should(equal("{\"price\": 100}"));
+        // full-text-response
+    }
 }

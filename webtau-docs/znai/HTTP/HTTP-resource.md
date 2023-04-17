@@ -1,3 +1,7 @@
+---
+identifier: {validationPath: "org/testingisdocumenting/webtau/http/HttpResourceJavaTest.java"}
+---
+
 # Response Lazy Value
 
 :include-java-doc: org/testingisdocumenting/webtau/http/Http.java { entry: "resource" }
@@ -89,3 +93,21 @@ Java:
 :include-cli-output: doc-artifacts/multiple-url-params-output.txt {
   title: "console output"
 }
+
+# Full Text Response
+
+Use `:identifier: fullTextResponse` to extract full original response:
+
+```tabs
+Groovy:
+:include-file: org/testingisdocumenting/webtau/http/HttpResourceGroovyTest.groovy {
+  title: "full text response",
+  surroundedBy: "full-text-response"
+}
+
+Java:
+:include-file: org/testingisdocumenting/webtau/http/HttpResourceJavaTest.java {
+  title: "full text response",
+  surroundedBy: "full-text-response"
+}
+```

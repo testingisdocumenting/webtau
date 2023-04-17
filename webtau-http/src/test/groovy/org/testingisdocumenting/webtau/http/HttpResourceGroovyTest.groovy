@@ -82,4 +82,13 @@ class HttpResourceGroovyTest extends HttpTestBase {
         myObj.of([param1: 10, param2: 20]).should == [k1: "v1_", k2: "v2_", k3: "v3_"]
         // multiple-url-params-validation
     }
+
+    @Test
+    void "extract text response"() {
+        HttpTestDataServer.IBM_PRICES.reset()
+        // full-text-response
+        String responseAsText = http.resource("/prices/IBM").fullTextResponse()
+        responseAsText.should == "{\"price\": 100}"
+        // full-text-response
+    }
 }
