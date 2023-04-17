@@ -14,16 +14,28 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data;
+package org.example.domain;
 
-public class Money {
-    private final long dollars;
+public class Account {
+    private final String id;
+    private final String name;
+    private final Money money;
 
-    public Money(long dollars) {
-        this.dollars = dollars;
+    public Account(String id, String name, long dollarsMoney) {
+        this.id = id;
+        this.name = name;
+        this.money = new Money(dollarsMoney);
     }
 
-    public long getDollars() {
-        return dollars;
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Money getMoney() {
+        return money;
     }
 }

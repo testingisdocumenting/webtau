@@ -17,8 +17,8 @@
 package org.testingisdocumenting.webtau.data.converters
 
 import org.junit.Test
-import org.testingisdocumenting.webtau.data.Account
-import org.testingisdocumenting.webtau.data.GameConfig
+import org.example.domain.Account
+import org.example.domain.GameConfig
 import org.testingisdocumenting.webtau.expectation.equality.handlers.SmallBean
 
 import java.nio.file.Paths
