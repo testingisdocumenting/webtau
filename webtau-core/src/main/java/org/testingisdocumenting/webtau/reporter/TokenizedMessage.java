@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.reporter;
 
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.nio.file.Path;
@@ -329,7 +330,7 @@ public class TokenizedMessage implements Iterable<MessageToken> {
 
     @Override
     public String toString() {
-        List<Object> stylesAndValues = TokenizedMessageToAnsiConverter.DEFAULT.convert(this, 0);
+        List<Object> stylesAndValues = TokenizedMessageToAnsiConverter.DEFAULT.convert(ValueConverter.EMPTY, this, 0);
         return stylesAndValues.stream()
                 .filter(v -> !(v instanceof Color) && !(v instanceof FontStyle))
                 .map(Object::toString)

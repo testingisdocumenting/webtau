@@ -66,6 +66,8 @@ public class CompareToComparator {
 
     // when actual value was converted for comparison, e.g. bean to Map, it will go into this map
     private final Map<ValuePath, Object> convertedActualByPath = new HashMap<>();
+    private Object topLevelExpected;
+    private Object convertedTopLevelExpected;
 
     private ValuePath topLevelActualPath;
     private AssertionMode assertionMode;
@@ -83,7 +85,13 @@ public class CompareToComparator {
     }
 
     public ValueConverter createValueConverter() {
-        return convertedActualByPath::getOrDefault;
+        return (path, original) -> {
+            if (original == topLevelExpected) {
+                return convertedTopLevelExpected;
+            }
+
+            return convertedActualByPath.getOrDefault(path, original);
+        };
     }
 
     public Map<ValuePath, Object> getConvertedActualByPath() {
@@ -326,8 +334,11 @@ public class CompareToComparator {
         Object convertedActual = handler.convertedActual(actual, expected);
         recordConvertedActual(actualPath, actual, convertedActual);
 
+        Object convertedExpected = handler.convertedExpected(actual, expected);
+        recordConvertedExpected(expected, convertedExpected);
+
         CompareToComparator comparator = CompareToComparator.comparator(mode);
-        handler.compareEqualOnly(comparator, actualPath, convertedActual, expected);
+        handler.compareEqualOnly(comparator, actualPath, convertedActual, convertedExpected);
 
         mergeResults(comparator);
 
@@ -343,8 +354,11 @@ public class CompareToComparator {
         Object convertedActual = handler.convertedActual(actual, expected);
         recordConvertedActual(actualPath, actual, convertedActual);
 
+        Object convertedExpected = handler.convertedExpected(actual, expected);
+        recordConvertedExpected(expected, convertedExpected);
+
         CompareToComparator comparator = CompareToComparator.comparator(mode);
-        handler.compareGreaterLessEqual(comparator, actualPath, convertedActual, expected);
+        handler.compareGreaterLessEqual(comparator, actualPath, convertedActual, convertedExpected);
 
         mergeResults(comparator);
 
@@ -357,6 +371,15 @@ public class CompareToComparator {
         }
 
         convertedActualByPath.put(actualPath, convertedActual);
+    }
+
+    private void recordConvertedExpected(Object expected, Object convertedExpected) {
+        if (topLevelExpected != null) {
+            return;
+        }
+
+        topLevelExpected = expected;
+        convertedTopLevelExpected = convertedExpected;
     }
 
     private void setAssertionMode(AssertionMode mode) {

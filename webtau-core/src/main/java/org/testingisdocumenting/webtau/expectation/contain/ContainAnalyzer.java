@@ -118,6 +118,12 @@ public class ContainAnalyzer {
         this.convertedActualByPath.putAll(convertedActualByPath);
     }
 
+    public void resetReportData() {
+        mismatches.clear();
+        matches.clear();
+        mismatchedExpectedValues.clear();
+    }
+
     private ContainAnalyzer() {
         this.matches = new ArrayList<>();
         this.mismatches = new ArrayList<>();

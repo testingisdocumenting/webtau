@@ -40,6 +40,18 @@ public interface CompareToHandler {
     }
 
     /**
+     * value optionally can be converted to another value to be passed down comparison chain.
+     * exposed as outside method for more precise reporting of expected values for reporting
+     *
+     * @param actual original actual
+     * @param expected original expected
+     * @return optionally converted expected
+     */
+    default Object convertedExpected(Object actual, Object expected) {
+        return expected;
+    }
+
+    /**
      * determines whether supports greater/less than comparison family
      * @param actual actual value
      * @param expected expected value

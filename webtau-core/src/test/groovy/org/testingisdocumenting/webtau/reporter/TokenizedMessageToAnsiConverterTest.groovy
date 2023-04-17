@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString
 import org.testingisdocumenting.webtau.console.ansi.Color
 import org.testingisdocumenting.webtau.console.ansi.FontStyle
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.converters.ValueConverter
 
 class TokenizedMessageToAnsiConverterTest {
     @Test
@@ -33,7 +34,7 @@ class TokenizedMessageToAnsiConverterTest {
         def message = new TokenizedMessage()
         message.add("keyword", "hello").add("id", "world").add("id2", "world")
 
-        def valuesAndStyles = converter.convert(message, 0)
+        def valuesAndStyles = converter.convert(ValueConverter.EMPTY, message, 0)
         assert new AutoResetAnsiString(valuesAndStyles.stream()).toString() == "\u001B[1m\u001B[36mhello \u001B[34mworld \u001B[1m\u001B[34mworld\u001B[0m"
     }
 }

@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.reporter;
 
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.expectation.AssertionTokenizedError;
 import org.testingisdocumenting.webtau.persona.Persona;
 import org.testingisdocumenting.webtau.time.Time;
@@ -72,6 +73,9 @@ public class WebTauStep {
     // when true, nested matcher steps won't render extra details (step output pretty print) in case of failures
     // e.g. HTTP step consolidates all the failures/matches and renders a single response with details
     private boolean isMatcherOutputActualValueDisabled;
+
+    // value converter that was used by this step, so pretty printers can use converted(actual/expected) values from e.g. matchers
+    private ValueConverter valueConverter = ValueConverter.EMPTY;
 
     private static final ThreadLocal<WebTauStep> currentStep = new ThreadLocal<>();
 
@@ -289,6 +293,14 @@ public class WebTauStep {
         }
 
         return false;
+    }
+
+    public ValueConverter getValueConverter() {
+        return valueConverter;
+    }
+
+    public void setValueConverter(ValueConverter valueConverter) {
+        this.valueConverter = valueConverter;
     }
 
     public Stream<WebTauStepOutput> collectOutputs() {

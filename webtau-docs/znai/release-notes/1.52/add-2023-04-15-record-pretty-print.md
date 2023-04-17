@@ -1,1 +1,1 @@
-Add: [TableData](reference/table-data) Record is pretty printable
+* Add: [TableData](reference/table-data) Record is pretty printable

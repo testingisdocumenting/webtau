@@ -1,0 +1,2 @@
+* Add: [CompareToHandler](matchers/custom-compare-to-handler#custom-complex-domain-data) `convertedExpected`. It now participates in matching step output and 
+uses converted values for failed and matched messaging. 

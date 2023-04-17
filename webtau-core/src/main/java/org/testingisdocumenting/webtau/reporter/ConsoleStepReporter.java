@@ -87,7 +87,7 @@ public class ConsoleStepReporter implements StepReporter {
                 .collect(Collectors.toList());
 
         ConsoleOutputs.out(Stream.concat(Stream.concat(prefix.stream(),
-                        toAnsiConverter.convert(completionMessageToUse, AnsiConsoleUtils.calcEffectiveWidth(prefix)).stream()),
+                        toAnsiConverter.convert(step.getValueConverter(), completionMessageToUse, AnsiConsoleUtils.calcEffectiveWidth(prefix)).stream()),
                 timeTakenTokenStream(step)).toArray());
     }
 
@@ -108,7 +108,7 @@ public class ConsoleStepReporter implements StepReporter {
         ConsoleOutputs.out(
                 Stream.concat(
                         prefix.stream(),
-                        toAnsiConverter.convert(step.getInProgressMessage(), AnsiConsoleUtils.calcEffectiveWidth(prefix)).stream()
+                        toAnsiConverter.convert(step.getValueConverter(), step.getInProgressMessage(), AnsiConsoleUtils.calcEffectiveWidth(prefix)).stream()
                 ).toArray());
 
         printStepInput(step);
@@ -134,7 +134,7 @@ public class ConsoleStepReporter implements StepReporter {
         ConsoleOutputs.out(Stream.concat(
                 Stream.concat(
                         messagePrefix.stream(),
-                        toAnsiConverter.convert(completionMessageToUse, AnsiConsoleUtils.calcEffectiveWidth(messagePrefix)).stream()),
+                        toAnsiConverter.convert(step.getValueConverter(), completionMessageToUse, AnsiConsoleUtils.calcEffectiveWidth(messagePrefix)).stream()),
                 timeTakenTokenStream(step)).toArray());
     }
 

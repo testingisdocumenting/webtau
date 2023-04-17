@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.browser.page;
 
 import org.testingisdocumenting.webtau.browser.page.path.PageElementsFinder;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
@@ -177,13 +178,13 @@ public interface PageElement extends
         if (!isPresent()) {
             printer.printLine(Stream.concat(
                     Stream.of(Color.RED, "element is not present: "),
-                    toAnsiConverter.convert(locationDescription(), 0).stream()).toArray());
+                    toAnsiConverter.convert(ValueConverter.EMPTY, locationDescription(), 0).stream()).toArray());
             return;
         }
 
         printer.printLine(Stream.concat(
                 Stream.of(Color.GREEN, "element is found: "),
-                toAnsiConverter.convert(locationDescription(), 0).stream()).toArray());
+                toAnsiConverter.convert(ValueConverter.EMPTY, locationDescription(), 0).stream()).toArray());
 
         printer.printLine(Color.YELLOW, "           getText(): ", Color.GREEN, getText());
         printer.printLine(Color.YELLOW, "getUnderlyingValue(): ", Color.GREEN, getUnderlyingValue());
