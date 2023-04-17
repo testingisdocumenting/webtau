@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.example.domain;
+package org.testingisdocumenting.webtau.data;
 
 import java.nio.file.Path;
 import java.util.ArrayList;
