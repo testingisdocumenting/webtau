@@ -5,13 +5,12 @@ getting-started
     configuration
 HTTP
     introduction
-    CRUD
-    CRUD-separated
+    CRUD-example
     data-node
+    HTTP-resource
     header
     body
     query-parameters
-    HTTP-resource
     HTTP-calls
     documentation-artifacts
     openAPI-spec
@@ -19,6 +18,7 @@ HTTP
     data-coverage
     matchers
     configuration
+    import-and-dependencies
 GraphQL
     introduction
     queries-and-mutations

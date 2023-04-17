@@ -1,8 +1,23 @@
 WebTau `http.` module lets you exercise and validate HTTP endpoints.
-It provides a simplified way to access JSON response of an end-point and simplifies REST API tests.
+It provides a simplified way to make HTTP calls and validate responses
+
+```tabs
+Groovy:
+:include-file: org/testingisdocumenting/webtau/http/HttpResourceGroovyTest.groovy {
+  title: "wait on http response value",
+  surroundedBy: ["live-price-definition", "live-price-wait"],
+  surroundedBySeparator: "\n...\n"
+}
+
+Java:
+:include-file: org/testingisdocumenting/webtau/http/HttpResourceJavaTest.java {
+  title: "wait on http response value",
+  surroundedBy: ["live-price-definition", "live-price-wait"],
+  surroundedBySeparator: "\n...\n"
+}
+```
 
 ``````tabs
-
 Groovy:
  ````columns
 
@@ -30,6 +45,4 @@ Java:
  }
 ```
 ````
-
 ``````
- 

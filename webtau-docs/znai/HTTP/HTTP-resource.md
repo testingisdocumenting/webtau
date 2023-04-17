@@ -9,6 +9,7 @@ Groovy:
   surroundedBy: ["live-price-definition", "live-price-wait"],
   surroundedBySeparator: "\n...\n"
 }
+:include-markdown: import-ref.md
 
 Java:
 :include-file: org/testingisdocumenting/webtau/http/HttpResourceJavaTest.java {
@@ -16,6 +17,7 @@ Java:
   surroundedBy: ["live-price-definition", "live-price-wait"],
   surroundedBySeparator: "\n...\n"
 }
+:include-markdown: import-ref.md
 ```
 
 :include-cli-output: doc-artifacts/live-price-output.txt {title: "console output"}

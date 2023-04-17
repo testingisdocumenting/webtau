@@ -8,6 +8,8 @@ Groovy:
 :include-file: com/example/tests/junit5/WeatherGroovyTest.groovy {title: "core import", includeRegexp: "WebTauGroovyDsl"} 
 :include-file: maven/groovy-dep.xml {title: "maven dependency"}
 
+If you use [Groovy Runner](groovy-standalone-runner/introduction) then all the dependencies are already present.
+
 Java:
 :include-file: com/example/tests/junit5/WeatherJavaTest.java {title: "core import", includeRegexp: "WebTauDsl"} 
 :include-file: maven/java-dep.xml {title: "maven dependency"}
