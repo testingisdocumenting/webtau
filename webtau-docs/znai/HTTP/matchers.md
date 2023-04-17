@@ -2,9 +2,7 @@
 type: two-sides
 ---
 
-# Imports to use
-
-:include-file: scenarios/rest/simpleGet.groovy {includeRegexp: "import.*Dsl", title: "Single import to use"}
+:include-markdown: import-ref.md
  
 # Response Mapping
 

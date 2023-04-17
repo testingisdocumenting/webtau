@@ -17,6 +17,7 @@ Groovy:
   entry: "get no query syntax example",
   bodyOnly: true
 }
+:include-markdown: import-ref.md
 
 Java: 
 :include-java: org/testingisdocumenting/webtau/http/HttpJavaOverloadsTest.java {
@@ -24,6 +25,7 @@ Java:
   entry: "getNoQuerySyntaxExample", 
   bodyOnly: true
 }
+:include-markdown: import-ref.md
 ``` 
 
 :include-json: queryTestResponse.json {title: "GET /query response", pathsFile: "doc-artifacts/get-full-syntax-assertion/paths.json"}

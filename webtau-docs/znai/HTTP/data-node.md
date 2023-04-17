@@ -12,12 +12,14 @@ Groovy:
   bodyOnly: true,
   excludeRegexp: "doc-exclude"
 }
+:include-markdown: import-ref.md
 
 Java:
 :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {
   entry: "useClosureAsValidation", 
   bodyOnly: true
 }
+:include-markdown: import-ref.md
 ```
 
 :include-json: objectTestResponse.json {
@@ -27,7 +29,7 @@ Java:
 
 # Extracting Values
 
-As you have seen in [CRUD example](HTTP/CRUD) you can return values back from a validation block.
+As you have seen in [CRUD example](HTTP/CRUD-example) you can return values back from a validation block.
 
 ```tabs
 Groovy:
