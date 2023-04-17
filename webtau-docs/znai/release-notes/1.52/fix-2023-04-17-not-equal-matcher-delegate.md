@@ -1,0 +1,1 @@
+* Fix: `notEqual` [Matcher](matchers/introduction) now properly delegates to nested matcher such as `anyOf`
