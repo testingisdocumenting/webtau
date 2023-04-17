@@ -61,6 +61,40 @@ class NotEqualMatcherTest {
     }
 
     @Test
+    void "delegates to matcher in case of negative mismatch if passed as expected"() {
+        runExpectExceptionAndValidateOutput(AssertionError.class, 'X failed expecting [value] to not match any of [30, 100]:\n' +
+                '      actual: 100 <java.lang.Integer>\n' +
+                '    expected: not 100 <java.lang.Integer> (Xms)') {
+            actual(100).should(notEqual(anyOf(30, 100)))
+        }
+    }
+
+    @Test
+    void "delegates to matcher in case of negative match if passed as expected"() {
+        runAndValidateOutput(". [value] doesn't match any of [30, 110] (Xms)") {
+            actual(100).should(notEqual(anyOf(30, 110)))
+        }
+    }
+
+    @Test
+    void "delegates to matcher in case of positive mismatch if passed as expected"() {
+        runExpectExceptionAndValidateOutput(AssertionError.class, 'X failed expecting [value] to match any of [30, 110]:\n' +
+                '      actual: 100 <java.lang.Integer>\n' +
+                '    expected: 30 <java.lang.Integer>\n' +
+                '      actual: 100 <java.lang.Integer>\n' +
+                '    expected: 110 <java.lang.Integer> (Xms)') {
+            actual(100).shouldNot(notEqual(anyOf(30, 110)))
+        }
+    }
+
+    @Test
+    void "delegates to matcher in case of positive match if passed as expected"() {
+        runAndValidateOutput(". [value] matches any of [30, 100] (Xms)") {
+            actual(100).shouldNot(notEqual(anyOf(30, 100)))
+        }
+    }
+
+    @Test
     void "matching message"() {
         assert matcher.matchingTokenizedMessage(actualPath, 100).toString() == "to not equal $expected"
     }

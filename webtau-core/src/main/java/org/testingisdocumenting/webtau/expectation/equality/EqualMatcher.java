@@ -65,7 +65,6 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
         return tokenizedMessage().matcher("equals").valueFirstLinesOnly(expected);
     }
 
-
     @Override
     public Set<ValuePath> matchedPaths() {
         if (expectedMatcher != null) {
