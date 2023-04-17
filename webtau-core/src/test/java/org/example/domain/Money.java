@@ -14,28 +14,16 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data;
+package org.example.domain;
 
-public class GameAchievement {
-    private final String id;
-    private final String name;
-    private final String description;
+public class Money {
+    private final long dollars;
 
-    public GameAchievement(String id, String name, String description) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
+    public Money(long dollars) {
+        this.dollars = dollars;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDescription() {
-        return description;
+    public long getDollars() {
+        return dollars;
     }
 }

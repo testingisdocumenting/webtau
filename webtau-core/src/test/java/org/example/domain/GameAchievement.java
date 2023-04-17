@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data;
+package org.example.domain;
 
-public class Account {
+public class GameAchievement {
     private final String id;
     private final String name;
-    private final Money money;
+    private final String description;
 
-    public Account(String id, String name, long dollarsMoney) {
+    public GameAchievement(String id, String name, String description) {
         this.id = id;
         this.name = name;
-        this.money = new Money(dollarsMoney);
+        this.description = description;
     }
 
     public String getId() {
@@ -35,7 +35,7 @@ public class Account {
         return name;
     }
 
-    public Money getMoney() {
-        return money;
+    public String getDescription() {
+        return description;
     }
 }
