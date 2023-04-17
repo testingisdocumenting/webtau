@@ -23,16 +23,16 @@ import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
-class HandlerMessages {
+public class HandlerMessages {
     static final TokenizedMessage ACTUAL_PREFIX = tokenizedMessage().delimiterNoAutoSpacing("  ").classifier("actual").colon();
     static final TokenizedMessage EXPECTED_PREFIX = tokenizedMessage().classifier("expected").colon();
 
-    static TokenizedMessage renderActualExpected(CompareToComparator.AssertionMode assertionMode, Object actual, Object expected) {
+    public static TokenizedMessage renderActualExpected(CompareToComparator.AssertionMode assertionMode, Object actual, Object expected) {
         return tokenizedMessage().add(ACTUAL_PREFIX).add(valueAndType(actual)).newLine()
                 .add(expectedPrefixAndAssertionMode(assertionMode)).add(valueAndType(expected));
     }
 
-    static TokenizedMessage renderActualExpectedWithConversionInfo(CompareToComparator.AssertionMode assertionMode,
+    public static TokenizedMessage renderActualExpectedWithConversionInfo(CompareToComparator.AssertionMode assertionMode,
                                                                    Object convertedActual, Object convertedExpected,
                                                                    Object actual, Object expected) {
         return tokenizedMessage().add(ACTUAL_PREFIX).add(valueAndType(convertedActual)).add(beforeConversion(actual)).newLine()
