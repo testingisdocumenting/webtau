@@ -17,15 +17,17 @@
 package org.testingisdocumenting.webtau.http.resource;
 
 import org.testingisdocumenting.webtau.data.datanode.DataNodeId;
+import org.testingisdocumenting.webtau.http.HttpHeader;
 
 import java.util.Collections;
 
 public class HttpResource {
     public final HttpLazyResponseValue body;
 
-    public HttpResource(String definitionGet) {
+    public HttpResource(String definitionGet, HttpHeader header) {
         this.body = new HttpLazyResponseValue(
                 new HttpResourceDefinition(definitionGet, Collections.emptyMap()),
+                header,
                 new DataNodeId());
     }
 

@@ -89,11 +89,23 @@ public class Http {
      * WebTau has a way to define a lazy value associated with <code>HTTP GET</code> response. After that it can be used in multiple tests, <code>should</code> and <code>waitTo</code> on it.
      * <p>
      * Value can be associated with static urls like <code>/info</code> or dynamic urls like <code>/price/:ticker</code>
-     * @param definitionGet resource defintion with optional placeholders
+     * @param definitionGet resource definition with optional placeholders
      * @return resource definition
      */
     public HttpResource resource(String definitionGet) {
-        return new HttpResource(definitionGet);
+        return new HttpResource(definitionGet, HttpHeader.EMPTY);
+    }
+
+    /**
+     * WebTau has a way to define a lazy value associated with <code>HTTP GET</code> response. After that it can be used in multiple tests, <code>should</code> and <code>waitTo</code> on it.
+     * <p>
+     * Value can be associated with static urls like <code>/info</code> or dynamic urls like <code>/price/:ticker</code>
+     * @param definitionGet resource definition with optional placeholders
+     * @param header header to use for the calls
+     * @return resource definition
+     */
+    public HttpResource resource(String definitionGet, HttpHeader header) {
+        return new HttpResource(definitionGet, header);
     }
 
     public boolean ping(String url) {

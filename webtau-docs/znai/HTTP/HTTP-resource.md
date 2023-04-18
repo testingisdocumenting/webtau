@@ -113,3 +113,23 @@ Java:
   surroundedBy: "full-text-response"
 }
 ```
+
+# HTTP Header
+
+Use `http.resource` optional second parameter to pass HTTP header:
+
+```tabs
+Groovy:
+:include-file: org/testingisdocumenting/webtau/http/HttpResourceGroovyTest.groovy {
+  title: "resource header",
+  surroundedBy: "pass-header",
+  replace: [["full-echo", "end-point"], ['get\\("x-prop"\\)', 'path']]
+}
+
+Java:
+:include-file: org/testingisdocumenting/webtau/http/HttpResourceJavaTest.java {
+  title: "resource header",
+  surroundedBy: "pass-header",
+  replace: [["full-echo", "end-point"], ['"x-prop"', '"path"']]
+}
+```

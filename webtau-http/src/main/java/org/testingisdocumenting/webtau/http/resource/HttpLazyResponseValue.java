@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.http.Http;
 import org.testingisdocumenting.webtau.data.datanode.DataNodeId;
 import org.testingisdocumenting.webtau.data.datanode.DataNodeReturnNoConversionWrapper;
+import org.testingisdocumenting.webtau.http.HttpHeader;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
@@ -34,12 +35,14 @@ import java.util.Set;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class HttpLazyResponseValue implements ActualValueExpectations, ActualValueAware, ActualPathAndDescriptionAware {
+    private final HttpHeader _webtauInternalHeader;
     // we use _webtauInternal to avoid automatic groovy properties resolution and clash when using shortcut like resource.list[0].id
     private final DataNodeId _webtauInternalId;
     private final HttpResourceDefinition _webtauInternalResourceDefinition;
 
-    HttpLazyResponseValue(HttpResourceDefinition resourceDefinition, DataNodeId id) {
+    HttpLazyResponseValue(HttpResourceDefinition resourceDefinition, HttpHeader header, DataNodeId id) {
         this._webtauInternalResourceDefinition = resourceDefinition;
+        this._webtauInternalHeader = header;
         this._webtauInternalId = id;
     }
 
@@ -49,7 +52,7 @@ public class HttpLazyResponseValue implements ActualValueExpectations, ActualVal
      * @return lazy response value
      */
     public HttpLazyResponseValue get(String path) {
-        return new HttpLazyResponseValue(_webtauInternalResourceDefinition, _webtauInternalId.concat(path));
+        return new HttpLazyResponseValue(_webtauInternalResourceDefinition, _webtauInternalHeader, _webtauInternalId.concat(path));
     }
 
     /**
@@ -58,7 +61,7 @@ public class HttpLazyResponseValue implements ActualValueExpectations, ActualVal
      * @return lazy response value
      */
     public HttpLazyResponseValue get(int idx) {
-        return new HttpLazyResponseValue(_webtauInternalResourceDefinition, _webtauInternalId.peer(idx));
+        return new HttpLazyResponseValue(_webtauInternalResourceDefinition, _webtauInternalHeader, _webtauInternalId.peer(idx));
     }
 
     /**
@@ -82,9 +85,11 @@ public class HttpLazyResponseValue implements ActualValueExpectations, ActualVal
 
     @Override
     public Object actualValue() {
-        DataNodeReturnNoConversionWrapper returnWrapper = Http.http.get(_webtauInternalResourceDefinition.buildUrl(), (header, body) -> _webtauInternalId.getPath().isEmpty() ?
-                new DataNodeReturnNoConversionWrapper(body):
-                new DataNodeReturnNoConversionWrapper(body.get(_webtauInternalId.getPath())));
+        DataNodeReturnNoConversionWrapper returnWrapper = Http.http.get(_webtauInternalResourceDefinition.buildUrl(),
+                _webtauInternalHeader,
+                (header, body) -> _webtauInternalId.getPath().isEmpty() ?
+                        new DataNodeReturnNoConversionWrapper(body):
+                        new DataNodeReturnNoConversionWrapper(body.get(_webtauInternalId.getPath())));
 
         return returnWrapper.getDataNode();
     }
@@ -129,11 +134,11 @@ public class HttpLazyResponseValue implements ActualValueExpectations, ActualVal
                     paramNames + ", given: " + routeParams.keySet());
         }
 
-        return new HttpLazyResponseValue(_webtauInternalResourceDefinition.withRouteParams(routeParams), _webtauInternalId);
+        return new HttpLazyResponseValue(_webtauInternalResourceDefinition.withRouteParams(routeParams), _webtauInternalHeader, _webtauInternalId);
     }
 
     public String fullTextResponse() {
-        return Http.http.get(_webtauInternalResourceDefinition.buildUrl(), (header, body) -> {
+        return Http.http.get(_webtauInternalResourceDefinition.buildUrl(), _webtauInternalHeader, (header, body) -> {
             return body.getTextContent();
         });
     }
