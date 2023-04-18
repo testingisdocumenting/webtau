@@ -1,9 +1,8 @@
-WebTau `browser` module lets you interact with a browser.  
+WebTau `browser` module lets you interact with a browser.
 
-It provides higher level abstractions to locate elements, encapsulate page implementation details and deal with
-async nature of modern UIs.
+High level abstractions streamline location, assertion and async logic.
 
-WebTau implements browser high level interactions by using [Selenium WebDriver](https://www.selenium.dev) to interact with the browser.
+WebTau leverages [Selenium WebDriver](https://www.selenium.dev) to do the heavy lifting.
 
 ```tabs
 Groovy:
@@ -26,3 +25,7 @@ Java:
 }
 ```
 
+:include-cli-output: doc-artifacts/com.example.tests.junit5.WebSearchJavaTest-console-output.txt  {
+  title: "console output",
+  surroundedBy: "searchByQuery"
+}
