@@ -41,6 +41,10 @@ public class ConsoleReportGenerator implements ReportGenerator {
 
     @Override
     public void generate(WebTauReport report) {
+        if (WebTauConfig.getCfg().isConsoleOverallReportDisabled()) {
+            return;
+        }
+
         ConsoleOutputs.out();
 
         printTestsWithStatus(report, TestStatus.Errored, NUMBER_OF_ERRORED_TESTS_TO_DISPLAY);

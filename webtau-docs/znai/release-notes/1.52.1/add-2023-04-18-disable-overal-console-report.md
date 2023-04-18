@@ -1,0 +1,1 @@
+* Add: `disableConsoleOverallReport` option to disable printing of overall test summary and report link

@@ -49,7 +49,10 @@ public class HtmlReportGenerator implements ReportGenerator {
         Path reportPath = reportPath(report);
 
         FileUtils.writeTextContent(reportPath, generateHtml(report));
-        ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, reportPath);
+
+        if (!getCfg().isConsoleOverallReportDisabled()) {
+            ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, reportPath);
+        }
     }
 
     private Path reportPath(WebTauReport report) {

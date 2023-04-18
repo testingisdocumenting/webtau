@@ -1,0 +1,1 @@
+* Add: `tableVerticalSeparator` option to override what vertical separator to use when printing `TableData`
