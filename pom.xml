@@ -159,7 +159,7 @@
         <graphql.version>16.2</graphql.version>
         <jacoco.version>0.8.5</jacoco.version>
         <swagger.version>1.6.1</swagger.version>
-        <jetty.version>9.4.44.v20210927</jetty.version>
+        <jetty.version>10.0.14</jetty.version>
         <testcontainers.version>1.17.6</testcontainers.version>
     </properties>
 
