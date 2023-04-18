@@ -1,4 +1,5 @@
-WebTau `server.` module lets you create and control static, fake and proxy servers:
+WebTau `server` module lets you create and control static, fake and proxy servers:
+
 * Static servers to quickly host HTML, JSON, and similar content 
 * Fake servers to control response based request 
 * Proxy servers to simulate outages and record interactions for failures investigation
@@ -10,8 +11,7 @@ WebTau `server.` module lets you create and control static, fake and proxy serve
 
 :include-file: scenarios/server/fakeRest.groovy {
   title: "fake server creation example",
-  includeRegexp: "router-example",
-  commentsType: "remove"
+  surroundedBy: "router-example"
 }
 
 :include-file: scenarios/server/proxyServer.groovy {

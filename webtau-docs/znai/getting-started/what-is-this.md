@@ -4,12 +4,14 @@ WebTau (**Web** **T**est **au**tomation) - concise and expressive way to write e
 
 :include-image: webtau-logo.png {scale: 0.5, align: "left"}
 
-Test your application across multiple layers with the help of cross-cutting concepts:
+Test your application across multiple layers and use unique features:
+
 * [REST API](#rest-api)
 * [WebSocket](#websocket)
 * [GraphQL API](#graphql-api)
 * [Authorization Personas](#persona)
 * [Browser](#browser)
+* [Fake, Static And Proxy Servers](#fake-static-and-proxy-servers)
 * [Database](#database)
 * [CLI](#cli)
 * [Business Logic (JVM only)](#business-logic-jvm)
@@ -68,6 +70,12 @@ Java:
 :include-markdown: browser/introduction.md
 
 [Read More](browser/basic-configuration)
+
+# Fake, Static And Proxy Servers
+
+:include-markdown: servers/introduction.md
+
+[Read More](servers/introduction)
 
 # Database
 
