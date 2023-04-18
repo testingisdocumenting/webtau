@@ -1,5 +1,7 @@
-WebTau `http.` module lets you exercise and validate HTTP endpoints.
+WebTau `http` module lets you exercise and validate HTTP endpoints.
 It provides a simplified way to make HTTP calls and validate responses
+
+Now with [Data Coverage](HTTP/data-coverage).
 
 ```tabs
 Groovy:
@@ -16,6 +18,8 @@ Java:
   surroundedBySeparator: "\n...\n"
 }
 ```
+
+:include-cli-output: doc-artifacts/live-price-output.txt {title: "console output"}
 
 ``````tabs
 Groovy:
@@ -46,3 +50,9 @@ Java:
 ```
 ````
 ``````
+
+:include-cli-output: doc-artifacts/com.example.tests.junit5.WeatherGroovyTest-console-output.txt {
+  title: "console output",
+  startLine: "executing",
+  endLine: "executed"
+}

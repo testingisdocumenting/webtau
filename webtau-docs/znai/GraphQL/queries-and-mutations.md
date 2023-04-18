@@ -1,3 +1,11 @@
+Before diving further into writing tests for your GraphQL server, please read through the HTTP testing documentation
+starting with the [Data node page](HTTP/data-node) as much of the same core principles apply to GraphQL also.
+
+The main GraphQL specific features are covered in the subsequent pages:
+* [Queries and Mutations](GraphQL/queries-and-mutations)
+* [Customized GraphQL URLs](GraphQL/customized-graphql-urls)
+* [Report](GraphQL/report)
+ 
 # Executing Queries and Mutations
 
 WebTau follows GraphQL's [Serving over HTTP best practices](https://graphql.org/learn/serving-over-http/) when invoking
