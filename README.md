@@ -12,180 +12,27 @@ Web Test Automation [User Guide](https://testingisdocumenting.org/webtau/)
 
 WebTau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
 
-Test your application across multiple layers:
-* REST API (including [Data Coverage](https://testingisdocumenting.org/webtau/HTTP/data-coverage/))
-* GraphQL API
-* Web UI
-* CLI
-* Database
-* Business Logic (JVM only)
+Test your application across multiple layers and use unique features:
+* [REST API with Data Coverage](https://testingisdocumenting.org/webtau/getting-started/what-is-this#rest-api)
+* [Web Socket](https://testingisdocumenting.org/webtau/getting-started/what-is-this#websocket)
+* [GraphQL API](https://testingisdocumenting.org/webtau/getting-started/what-is-this#graphql-api)
+* [Browser](https://testingisdocumenting.org/webtau/getting-started/what-is-this#browser)
+* [Fake, Static And Proxy Servers](https://testingisdocumenting.org/webtau/getting-started/what-is-this#fake-static-and-proxy-servers)
+* [Database](https://testingisdocumenting.org/webtau/getting-started/what-is-this#database)
+* [CLI](https://testingisdocumenting.org/webtau/getting-started/what-is-this#cli)
+* [Business Logic (JVM only)](https://testingisdocumenting.org/webtau/getting-started/what-is-this#business-logic-jvm)
+* [REPL](https://testingisdocumenting.org/webtau/getting-started/what-is-this#repl)
+* [Reporting](https://testingisdocumenting.org/webtau/getting-started/what-is-this#reporting)
+* [Documentation Assistance](https://testingisdocumenting.org/webtau/getting-started/what-is-this#documentation-assistance)
 
-## [Business Logic Java Example](https://testingisdocumenting.org/webtau/matchers/java-bean)
+There are many modules, but you can use any module you need independently, or use all the modules at once with convenient single imports.
 
-### Single Bean Validation
+**Note:** Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
 
-```java
-actual(account).should(equal(map(
-        "id", "ac1",
-        "name", "My Second Account",
-        "address", map("zipCode", "7777777"))));
-```
+Unique console output keeps you informed at all times:
 
-![webtau bean validation output](webtau-docs/readme/bean-validation-output.png)
+![image of http resource code and its output](webtau-docs/readme/live-price-http.png)
 
-### List Of Beans Validation
-    
-```java
-List<Account> accounts = fetchAccounts();
-TableData expected = table("*id",       "name", "address",
-                           ________________________________________,
-                           "ac2",      "Works", map("zipCode", "zip2"),
-                           "ac1",       "Home", map("zipCode", "zip1"),
-                           "ac3", "My Account", map("zipCode", "zip8"));
-```
+Leverage out of the box rich reporting to speed up investigation and persist testing evidences:
 
-![webtau list of beans validation output](webtau-docs/readme/bean-list-validation.png)
-
-## [REST test Java example](https://testingisdocumenting.org/webtau/HTTP/introduction):
-```java
-public class WeatherJavaTest {
-    @Test
-    public void checkWeather() {
-        http.get("/weather", (header, body) -> {
-            body.get("temperature").shouldBe(lessThan(100));
-        });
-    }
-}
-```
-
-WebTau prints a lot of useful information with a zero effort from your side. So you can investigate tests faster.
-![webtau http output](webtau-docs/readme/http-weather-test-output.png)
-
-[REST test Groovy example](https://testingisdocumenting.org/webtau/HTTP/introduction):
-```groovy
-scenario("check weather") {
-    http.get("/weather") {
-        temperature.shouldBe < 100
-    }
-}
-```
-
-## [Persona Concept](https://testingisdocumenting.org/webtau/persona/introduction) 
-
-Use `Persona` to streamline Authorization testing
-
-```java
-public class PersonaHttpJavaTest {
-    @Test
-    public void checkBalance() {
-        Alice.execute(() -> http.get("/statement", (header, body) -> {
-            body.get("balance").shouldBe(greaterThan(100));
-        }));
-
-        Bob.execute(() -> http.get("/statement", (header, body) -> {
-            body.get("balance").shouldBe(lessThan(50));
-        }));
-    }
-}
-```
-
-![webtau persona output](webtau-docs/readme/http-persona-output.png)
-
-```groovy
-scenario("my bank balance") {
-    Alice {
-        http.get("/statement") {
-            balance.shouldBe > 100
-        }
-    }
-
-    Bob {
-        http.get("/statement") {
-            balance.shouldBe < 50
-        }
-    }
-}
-```
-
-Use one layer to re-enforce tests on another. E.g. REST API layer to set up data for Web UI test, or database layer
-to validate GraphQL API.
-
-Use REPL to tighten test feedback loop and speed up test writing
-```groovy
-webtau:000> $("ul li a")
-element is found: by css ul li a
-           getText(): Guide
-getUnderlyingValue(): Guide
-               count: 3
-```
-
-Capture test artifacts like API Responses, screenshots, command line output to automate your user facing documentation.
-
-Leverage out of the box rich reporting:
 ![report example](https://testingisdocumenting.org/webtau/doc-artifacts/reports/report-crud-separated-http-calls.png)
-
-Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
-
-* [Full User Guide](https://testingisdocumenting.org/webtau/)
-* [Multiple layers testing example blog](https://testingisdocumenting.org/blog/entry/ultimate-end-to-end-test)
-
---------
-
-## [Browser test Java example](https://testingisdocumenting.org/webtau/browser/introduction):
-```java
-@WebTau
-public class WebSearchTest {
-    @Test
-    public void searchByQuery() {
-        search.submit("search this");
-        search.numberOfResults.waitToBe(greaterThan(1));
-    }
-}
-
-public class SearchPage {
-    private final PageElement box = $("#search-box");
-    private final PageElement results = $("#results .result");
-    public final ElementValue<Integer> numberOfResults = results.getCount();
-
-    public void submit(String query) {
-        browser.open("/search");
-
-        box.setValue(query);
-        box.sendKeys(browser.keys.enter);
-    }
-}
-```
-
-## [GraphQL example](https://testingisdocumenting.org/webtau/GraphQL/introduction):
-```java
-@WebTau
-public class GraphQLWeatherJavaIT {
-    @Test
-    public void checkWeather() {
-        String query = "{ weather { temperature } }";
-        graphql.execute(query, (header, body) -> {
-            body.get("data.weather.temperature").shouldBe(lessThan(100));
-        });
-    }
-}
-```
-
-## [Database data setup example](https://testingisdocumenting.org/webtau/database/data-setup):
-```groovy
-def PRICES = db.table("PRICES")
-PRICES << [     "id" | "description" |          "available" |                "type" |       "price" ] {
-           _____________________________________________________________________________________________
-           cell.guid | "nice set"    |                 true |                "card" |            1000
-           cell.guid | "nice set"    |                 true |                "card" | cell.above + 10
-           cell.guid | "another set" | permute(true, false) | permute("rts", "fps") | cell.above + 20 }
-```
-
-## [CLI run example](https://testingisdocumenting.org/webtau/cli/introduction):
-```groovy
-cli.run('echo hello world') {
-    output.should contain('hello')
-    output.should contain('world')
-}
-```
-
-[Learn More](https://testingisdocumenting.org/webtau/)
