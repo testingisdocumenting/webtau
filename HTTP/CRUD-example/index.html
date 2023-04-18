@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: CRUD Separated</title>
+<title>WebTau: CRUD Example</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,13 +84,23 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>HTTP Calls Separation</h1></header>
+<header><h1>Single Test Method</h1></header>
+<p>We have an app that exposes create , read , update , and delete operations for customer records. Records are being served under /customers .Here is an example of a CRUD operations test. Groovy package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;CRUD operations for customer&quot;) { def customerPayload = [firstName: &quot;FN&quot;, lastName: &quot;LN&quot;] // new customer data def id = http.post(&quot;/customers&quot;, customerPayload) { return id // return id value from response body } http.get(&quot;/customers/${id}&quot;) { body.should == customerPayload // only specified properties will be asserted against } def changedLastName = &quot;NLN&quot; http.put(&quot;/customers/${id}&quot;, [*:customerPayload, lastName: changedLastName]) { lastName.should == changedLastName // specifying body is optional } http.get(&quot;/customers/${id}&quot;) { firstName.should == &quot;FN&quot; lastName.should == changedLastName } def changedFirstName = &quot;NFN&quot; http.patch(&quot;/customers/${id}&quot;, [firstName: changedFirstName]) http.get(&quot;/customers/${id}&quot;) { firstName.should == changedFirstName lastName.should == changedLastName } http.delete(&quot;/customers/${id}&quot;) { statusCode.should == 204 } http.get(&quot;/customers/${id}&quot;) { statusCode.should == 404 } } Check HTTP/import-and-dependencies Import And Dependencies for prerequisites. Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.http.request.HttpRequestBody; import org.testingisdocumenting.webtau.junit5.WebTau; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class CustomerCrudJavaTest { @Test public void crud() { HttpRequestBody customerPayload = http.json( // new customer data &quot;firstName&quot;, &quot;FN&quot;, &quot;lastName&quot;, &quot;LN&quot;); int id = http.post(&quot;/customers&quot;, customerPayload, ((header, body) -&gt; { return body.get(&quot;id&quot;); // return id value from response body })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(customerPayload)); // only specified properties will be asserted against })); String changedLastName = &quot;NLN&quot;; HttpRequestBody changedCustomerPayload = http.json( &quot;firstName&quot;, &quot;FN&quot;, &quot;lastName&quot;, &quot;NLN&quot;); http.put(&quot;/customers/&quot; + id, changedCustomerPayload, ((header, body) -&gt; { body.get(&quot;firstName&quot;).should(equal(&quot;FN&quot;)); body.get(&quot;lastName&quot;).should(equal(changedLastName)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(changedCustomerPayload)); })); http.delete(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode.should(equal(204)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode.should(equal(404)); })); } } Check HTTP/import-and-dependencies Import And Dependencies for prerequisites.</p>
+</article>
+
+<article>
+<header><h1>Generated Report</h1></header>
+<p>After test runs, WebTau generates report/introduction HTML report:Note: asserted values are being tracked and highlighted inside the report</p>
+</article>
+
+<article>
+<header><h1>Separate Test Methods</h1></header>
 <p>Groovy One of the benefits of separating one CRUD scenario into multiple is to be able to run one test at a time. In order to make each test runnable independently we will use createLazyResource . package scenarios.rest.springboot import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def customerPayload = [firstName: &quot;FN&quot;, lastName: &quot;LN&quot;] def customer = createLazyResource(&quot;customer&quot;) { // lazy resource to be created on the first access def id = http.post(&quot;/customers&quot;, customerPayload) { return id } return new Customer(id: id, url: &quot;/customers/${id}&quot;) // definition is below } scenario(&quot;customer create&quot;) { customer.id.should != null // accessing resource for the first time will trigger POST (in this example) } scenario(&quot;customer read&quot;) { http.get(customer.url) { // convenient re-use of url defined above body.should == customerPayload } } scenario(&quot;customer update&quot;) { def changedLastName = &quot;NLN&quot; http.put(customer.url, [*:customerPayload, lastName: changedLastName]) { lastName.should == changedLastName } http.get(customer.url) { lastName.should == changedLastName } } scenario(&quot;customer delete&quot;) { http.delete(customer.url) { statusCode.should == 204 } http.get(customer.url) { statusCode.should == 404 } } package scenarios.rest.springboot class Customer { Number id String url // store url of the created entity } Note: to run one scenario at a time use sscenario (additional s in front). groovy-standalone-runner/selective-run Read more Java One of the benefits of separating one CRUD @Test into multiple is to be able to run one test at a time. In order to make each test runnable independently we will leverage BeforeAll , AfterAll , and TestMethodOrder . package com.example.tests.junit5; import org.testingisdocumenting.webtau.http.request.HttpRequestBody; import org.testingisdocumenting.webtau.junit5.WebTau; import org.junit.jupiter.api.*; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau // annotation to enable rich console output and html reporting @TestMethodOrder(MethodOrderer.OrderAnnotation.class) // forcing methods execution order @DisplayName(&quot;customer CRUD&quot;) public class CustomerCrudSeparatedJavaTest { private static final HttpRequestBody customerPayload = http.json( &quot;firstName&quot;, &quot;FN&quot;, &quot;lastName&quot;, &quot;LN&quot;); private static final HttpRequestBody changedCustomerPayload = http.json( &quot;firstName&quot;, &quot;FN&quot;, &quot;lastName&quot;, &quot;NLN&quot;); private static int id; @BeforeAll @DisplayName(&quot;create customer&quot;) // optional friendly name for reporting purposes public static void createCustomer() { id = http.post(&quot;/customers&quot;, customerPayload, ((header, body) -&gt; { return body.get(&quot;id&quot;); })); actual(id).shouldNot(equal(0)); } @Test @Order(1) @DisplayName(&quot;read customer&quot;) public void read() { http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(customerPayload)); })); } @Test @Order(2) // order dependence saves from creating customer on every test @DisplayName(&quot;update customer&quot;) public void update() { http.put(&quot;/customers/&quot; + id, changedCustomerPayload, ((header, body) -&gt; { body.should(equal(changedCustomerPayload)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { body.should(equal(changedCustomerPayload)); })); } @Test @Order(3) // but you can still run each method independently @DisplayName(&quot;delete customer&quot;) public void delete() { http.delete(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode.should(equal(204)); })); http.get(&quot;/customers/&quot; + id, ((header, body) -&gt; { header.statusCode.should(equal(404)); })); id = -1; // marking as deleted to let cleanup step know that no delete is required } @AfterAll public static void cleanup() { // optional (since we create new ids all the time) step to keep your environment clean if (id == -1) { return; } http.delete(&quot;/customers/&quot; + id); } }</p>
 </article>
 
 <article>
-<header><h1>Report</h1></header>
-<p>As you can see in the report below, each CRUD operation has its own entry. If you follow this pattern, then you can filter tests by create , update , read , delete to streamline investigation.</p>
+<header><h1>Separate Methods Report</h1></header>
+<p>Now report has separate entries for each CRUD operation. Makes it possible to filter tests by create , update , read , delete to streamline investigation.</p>
 </article>
 </section>
 </div>
@@ -121,8 +131,157 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "id" : "http-calls-separation",
-      "title" : "HTTP Calls Separation",
+      "id" : "single-test-method",
+      "title" : "Single Test Method",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "We have an app that exposes ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "create",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "read",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "update",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "delete",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " operations for customer records. Records are being served",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "under ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "/customers",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Here is an example of a ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "CRUD",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " operations test.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"CRUD operations for customer\") {\n    def customerPayload = [firstName: \"FN\", lastName: \"LN\"] // new customer data\n\n    def id = http.post(\"/customers\", customerPayload) {\n        return id // return id value from response body\n    }\n\n    http.get(\"/customers/${id}\") {\n        body.should == customerPayload // only specified properties will be asserted against\n    }\n\n    def changedLastName = \"NLN\"\n    http.put(\"/customers/${id}\", [*:customerPayload, lastName: changedLastName]) {\n        lastName.should == changedLastName // specifying body is optional\n    }\n\n    http.get(\"/customers/${id}\") {\n        firstName.should == \"FN\"\n        lastName.should == changedLastName\n    }\n\n    def changedFirstName = \"NFN\"\n    http.patch(\"/customers/${id}\", [firstName: changedFirstName])\n\n    http.get(\"/customers/${id}\") {\n        firstName.should == changedFirstName\n        lastName.should == changedLastName\n    }\n\n    http.delete(\"/customers/${id}\") {\n        statusCode.should == 204\n    }\n\n    http.get(\"/customers/${id}\") {\n        statusCode.should == 404\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "package com.example.tests.junit5;\n\nimport org.junit.jupiter.api.Test;\nimport org.testingisdocumenting.webtau.http.request.HttpRequestBody;\nimport org.testingisdocumenting.webtau.junit5.WebTau;\n\nimport static org.testingisdocumenting.webtau.WebTauDsl.*;\n\n@WebTau\npublic class CustomerCrudJavaTest {\n    @Test\n    public void crud() {\n        HttpRequestBody customerPayload = http.json( // new customer data\n                \"firstName\", \"FN\",\n                \"lastName\", \"LN\");\n\n        int id = http.post(\"/customers\", customerPayload, ((header, body) -> {\n            return body.get(\"id\"); // return id value from response body\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(customerPayload)); // only specified properties will be asserted against\n        }));\n\n        String changedLastName = \"NLN\";\n        HttpRequestBody changedCustomerPayload = http.json(\n                \"firstName\", \"FN\",\n                \"lastName\", \"NLN\");\n\n        http.put(\"/customers/\" + id, changedCustomerPayload, ((header, body) -> {\n            body.get(\"firstName\").should(equal(\"FN\"));\n            body.get(\"lastName\").should(equal(changedLastName));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            body.should(equal(changedCustomerPayload));\n        }));\n\n        http.delete(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode.should(equal(204));\n        }));\n\n        http.get(\"/customers/\" + id, ((header, body) -> {\n            header.statusCode.should(equal(404));\n        }));\n    }\n}",
+            "commentsType" : "inline",
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "generated-report",
+      "title" : "Generated Report",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "After test runs, WebTau generates ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/report/introduction",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "HTML report",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ":",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "fit" : true,
+        "annotate" : false,
+        "border" : true,
+        "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-http-calls.png",
+        "timestamp" : 1681826034563,
+        "shapes" : [ ],
+        "width" : 1310.0,
+        "height" : 802.0,
+        "type" : "AnnotatedImage"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: asserted values are being tracked and highlighted inside the report",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "separate-test-methods",
+      "title" : "Separate Test Methods",
       "type" : "Section",
       "content" : [ {
         "tabsContent" : [ {
@@ -155,14 +314,14 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "package scenarios.rest.springboot\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef customerPayload = [firstName: \"FN\", lastName: \"LN\"]\n\ndef customer = createLazyResource(\"customer\") { // lazy resource to be created on the first access\n    def id = http.post(\"/customers\", customerPayload) {\n        return id\n    }\n\n    return new Customer(id: id, url: \"/customers/${id}\") // definition is below\n}\n\nscenario(\"customer create\") {\n    customer.id.should != null // accessing resource for the first time will trigger POST (in this example)\n}\n\nscenario(\"customer read\") {\n    http.get(customer.url) { // convenient re-use of url defined above\n        body.should == customerPayload\n    }\n}\n\nscenario(\"customer update\") {\n    def changedLastName = \"NLN\"\n    http.put(customer.url, [*:customerPayload, lastName: changedLastName]) {\n        lastName.should == changedLastName\n    }\n\n    http.get(customer.url) {\n        lastName.should == changedLastName\n    }\n}\n\nscenario(\"customer delete\") {\n    http.delete(customer.url) {\n        statusCode.should == 204\n    }\n\n    http.get(customer.url) {\n        statusCode.should == 404\n    }\n}",
             "commentsType" : "inline",
             "title" : "CRUD separated",
-            "anchorId" : "http-calls-separation-crud-separated",
+            "anchorId" : "separate-test-methods-crud-separated",
             "type" : "Snippet"
           }, {
             "lang" : "groovy",
             "snippet" : "package scenarios.rest.springboot\n\nclass Customer {\n    Number id\n    String url // store url of the created entity\n}",
             "commentsType" : "inline",
             "title" : "Customer lazy resource",
-            "anchorId" : "http-calls-separation-customer-lazy-resource",
+            "anchorId" : "separate-test-methods-customer-lazy-resource",
             "type" : "Snippet"
           }, {
             "type" : "Paragraph",
@@ -238,24 +397,19 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     }, {
-      "id" : "report",
-      "title" : "Report",
+      "id" : "separate-methods-report",
+      "title" : "Separate Methods Report",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "As you can see in the report below, each ",
+          "text" : "Now report has separate entries for each ",
           "type" : "SimpleText"
         }, {
           "code" : "CRUD",
           "type" : "InlinedCode"
         }, {
-          "text" : " operation has its own entry. If you follow this pattern, then you",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "can filter tests by ",
+          "text" : " operation. Makes it possible to filter tests by ",
           "type" : "SimpleText"
         }, {
           "code" : "create",
@@ -284,28 +438,35 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "fit" : true,
+        "border" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-separated-http-calls.png",
-        "timestamp" : 1677187557308,
+        "timestamp" : 1681826036483,
         "shapes" : [ ],
         "width" : 1310.0,
         "height" : 802.0,
         "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1677186557934,
+    "lastModifiedTime" : 1681825041900,
     "tocItem" : {
       "chapterTitle" : "HTTP",
-      "pageTitle" : "CRUD Separated",
+      "pageTitle" : "CRUD Example",
       "pageMeta" : { },
       "dirName" : "HTTP",
-      "fileName" : "CRUD-separated",
+      "fileName" : "CRUD-example",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "HTTP Calls Separation",
-        "id" : "http-calls-separation"
+        "title" : "Single Test Method",
+        "id" : "single-test-method"
       }, {
-        "title" : "Report",
-        "id" : "report"
+        "title" : "Generated Report",
+        "id" : "generated-report"
+      }, {
+        "title" : "Separate Test Methods",
+        "id" : "separate-test-methods"
+      }, {
+        "title" : "Separate Methods Report",
+        "id" : "separate-methods-report"
       } ]
     }
   }

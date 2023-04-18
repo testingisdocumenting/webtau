@@ -84,7 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>WebTau http. module lets you exercise and validate HTTP endpoints. It provides a simplified way to access JSON response of an end-point and simplifies REST API tests. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } package com.example.tests.junit5 import org.junit.jupiter.api.Test import org.testingisdocumenting.webtau.junit5.WebTau import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @WebTau class WeatherGroovyTest { @Test void checkWeather() { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class WeatherJavaTest { @Test public void checkWeather() { http.get(&quot;/weather&quot;, (header, body) -&gt; { body.get(&quot;temperature&quot;).shouldBe(lessThan(100)); }); } }</p>
+<p>WebTau http module lets you exercise and validate HTTP endpoints. It provides a simplified way to make HTTP calls and validate responsesNow with HTTP/data-coverage Data Coverage. Groovy private final def livePrice = http.resource(&quot;/prices/:ticker&quot;).price ... livePrice.of(&quot;IBM&quot;).waitToBe &gt; 115 Java private final HttpLazyResponseValue livePrice = http.resource(&quot;/prices/:ticker&quot;).get(&quot;price&quot;); ... livePrice.of(&quot;IBM&quot;).waitToBe(greaterThan(115))); &gt; waiting for value of /prices/IBM: price to be greater than 115 &gt; [1/3] executing HTTP GET http://localhost:41841/prices/IBM . header.statusCode equals 200 (0ms) response (application/json): { &quot;price&quot;: **100** } . [1/3] executed HTTP GET http://localhost:41841/prices/IBM (1ms) &gt; [3/3] executing HTTP GET http://localhost:41841/prices/IBM . header.statusCode equals 200 (0ms) response (application/json): { &quot;price&quot;: ~~120~~ } . [3/3] executed HTTP GET http://localhost:41841/prices/IBM (2ms) . value of /prices/IBM: price greater than 115 (206ms) Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } package com.example.tests.junit5 import org.junit.jupiter.api.Test import org.testingisdocumenting.webtau.junit5.WebTau import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @WebTau class WeatherGroovyTest { @Test void checkWeather() { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class WeatherJavaTest { @Test public void checkWeather() { http.get(&quot;/weather&quot;, (header, body) -&gt; { body.get(&quot;temperature&quot;).shouldBe(lessThan(100)); }); } } &gt; executing HTTP GET http://localhost:35471/weather . body.temperature less than 100 (0ms) . header.statusCode equals 200 (0ms) response (application/json): { &quot;temperature&quot;: ~~88~~ } . executed HTTP GET http://localhost:35471/weather (31ms)</p>
 </article>
 </section>
 </div>
@@ -120,7 +120,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "text" : "WebTau ",
         "type" : "SimpleText"
       }, {
-        "code" : "http.",
+        "code" : "http",
         "type" : "InlinedCode"
       }, {
         "text" : " module lets you exercise and validate HTTP endpoints.",
@@ -128,9 +128,56 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "SoftLineBreak"
       }, {
-        "text" : "It provides a simplified way to access JSON response of an end-point and simplifies REST API tests.",
+        "text" : "It provides a simplified way to make HTTP calls and validate responses",
         "type" : "SimpleText"
       } ]
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Now with ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/webtau/HTTP/data-coverage",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Data Coverage",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : ".",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "tabsContent" : [ {
+        "name" : "Groovy",
+        "content" : [ {
+          "lang" : "groovy",
+          "snippet" : "private final def livePrice = http.resource(\"/prices/:ticker\").price\n\n...\n\nlivePrice.of(\"IBM\").waitToBe > 115",
+          "title" : "wait on http response value",
+          "surroundedBy" : [ "live-price-definition", "live-price-wait" ],
+          "surroundedBySeparator" : "\n...\n",
+          "anchorId" : "wait-on-http-response-value",
+          "type" : "Snippet"
+        } ]
+      }, {
+        "name" : "Java",
+        "content" : [ {
+          "lang" : "java",
+          "snippet" : "private final HttpLazyResponseValue livePrice = http.resource(\"/prices/:ticker\").get(\"price\");\n\n...\n\nlivePrice.of(\"IBM\").waitToBe(greaterThan(115)));",
+          "title" : "wait on http response value",
+          "surroundedBy" : [ "live-price-definition", "live-price-wait" ],
+          "surroundedBySeparator" : "\n...\n",
+          "anchorId" : "wait-on-http-response-value-2",
+          "type" : "Snippet"
+        } ]
+      } ],
+      "type" : "Tabs"
+    }, {
+      "title" : "console output",
+      "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[36mvalue \u001B[33mof \u001B[35m/prices/\u001B[0m\u001B[1mIBM\u001B[35m\u001B[0m: \u001B[0m\u001B[1mprice \u001B[0m\u001B[34mto be greater than \u001B[34m115\u001B[0m", "  \u001B[33m> \u001B[36m[1/3] \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttp://localhost:41841/prices/IBM\u001B[0m", "    \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "    \u001B[0m", "    \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "    \u001B[33m{\u001B[0m", "      \u001B[35m\"price\"\u001B[33m: \u001B[1m\u001B[31m**100**\u001B[0m", "    \u001B[33m}\u001B[0m", "  \u001B[32m. \u001B[36m[1/3] \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttp://localhost:41841/prices/IBM\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[33m> \u001B[36m[3/3] \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttp://localhost:41841/prices/IBM\u001B[0m", "    \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "    \u001B[0m", "    \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "    \u001B[33m{\u001B[0m", "      \u001B[35m\"price\"\u001B[33m: \u001B[1m\u001B[32m~~120~~\u001B[0m", "    \u001B[33m}\u001B[0m", "  \u001B[32m. \u001B[36m[3/3] \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttp://localhost:41841/prices/IBM\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m", "\u001B[32m. \u001B[36mvalue \u001B[33mof \u001B[35m/prices/\u001B[0m\u001B[1mIBM\u001B[35m\u001B[0m: \u001B[0m\u001B[1mprice \u001B[0m\u001B[34mgreater than \u001B[34m115\u001B[33m (\u001B[32m206ms\u001B[33m)\u001B[0m" ],
+      "anchorId" : "console-output",
+      "type" : "CliOutput"
     }, {
       "tabsContent" : [ {
         "name" : "Groovy",
@@ -190,8 +237,15 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ],
       "type" : "Tabs"
+    }, {
+      "title" : "console output",
+      "startLine" : "executing",
+      "endLine" : "executed",
+      "lines" : [ "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttp://localhost:35471/weather\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mbody.temperature \u001B[0m\u001B[34mless than \u001B[34m100\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"temperature\"\u001B[33m: \u001B[1m\u001B[32m~~88~~\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttp://localhost:35471/weather\u001B[33m (\u001B[32m31ms\u001B[33m)\u001B[0m" ],
+      "anchorId" : "console-output-2",
+      "type" : "CliOutput"
     } ],
-    "lastModifiedTime" : 1677186557934,
+    "lastModifiedTime" : 1681825041900,
     "tocItem" : {
       "chapterTitle" : "HTTP",
       "pageTitle" : "Introduction",

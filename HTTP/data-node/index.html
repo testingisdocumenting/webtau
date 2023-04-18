@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Special Values</h1></header>
-<p>Values that you access inside the http call validation block are special values of DataNode type. DataNode has methods to assert and traverse the response.All assertions made on DataNode are tracked and are available as part of the generated report. Groovy http.get(&quot;/end-point&quot;) { price.should == 100 assert price instanceof DataNode } Java http.get(&quot;/end-point&quot;, ((header, body) -&gt; { DataNode price = body.get(&quot;price&quot;); price.should(equal(100)); }));</p>
+<p>Values that you access inside the http call validation block are special values of DataNode type. DataNode has methods to assert and traverse the response.All assertions made on DataNode are tracked and are available as part of the generated report. Groovy http.get(&quot;/end-point&quot;) { price.should == 100 assert price instanceof DataNode } Check HTTP/import-and-dependencies Import And Dependencies for prerequisites. Java http.get(&quot;/end-point&quot;, ((header, body) -&gt; { DataNode price = body.get(&quot;price&quot;); price.should(equal(100)); })); Check HTTP/import-and-dependencies Import And Dependencies for prerequisites.</p>
 </article>
 
 <article>
 <header><h1>Extracting Values</h1></header>
-<p>As you have seen in HTTP/CRUD CRUD example you can return values back from a validation block. Groovy def id = http.get(&quot;/end-point&quot;) { return id } id.should == 10 id.getClass().should == Integer List&lt;Map&lt;String, ?&gt;&gt; complexList = http.get(&quot;/end-point&quot;) { return complexList } complexList[0].k2.should == 30 Java Integer id = http.get(&quot;/end-point&quot;, ((header, body) -&gt; { return body.get(&quot;id&quot;); })); actual(id).should(equal(10)); List&lt;Map&lt;String, ?&gt;&gt; complexList = http.get(&quot;/end-point&quot;, ((header, body) -&gt; { return body.get(&quot;complexList&quot;); })); Number k2 = (Number) complexList.get(0).get(&quot;k2&quot;); actual(k2).should(equal(30)); WebTau automatically converts leaf value to its correspondent primitive. It converts List and object to java.util.List and java.util.Map .Note: WebTau will not be able to associate assertions on returned values with a specific call. Avoid using returned values for validation. Make assertions on DataNode instance to generate useful report information such as data coverage.</p>
+<p>As you have seen in HTTP/CRUD-example CRUD example you can return values back from a validation block. Groovy def id = http.get(&quot;/end-point&quot;) { return id } id.should == 10 id.getClass().should == Integer List&lt;Map&lt;String, ?&gt;&gt; complexList = http.get(&quot;/end-point&quot;) { return complexList } complexList[0].k2.should == 30 Java Integer id = http.get(&quot;/end-point&quot;, ((header, body) -&gt; { return body.get(&quot;id&quot;); })); actual(id).should(equal(10)); List&lt;Map&lt;String, ?&gt;&gt; complexList = http.get(&quot;/end-point&quot;, ((header, body) -&gt; { return body.get(&quot;complexList&quot;); })); Number k2 = (Number) complexList.get(0).get(&quot;k2&quot;); actual(k2).should(equal(30)); WebTau automatically converts leaf value to its correspondent primitive. It converts List and object to java.util.List and java.util.Map .Note: WebTau will not be able to associate assertions on returned values with a specific call. Avoid using returned values for validation. Make assertions on DataNode instance to generate useful report information such as data coverage.</p>
 </article>
 
 <article>
@@ -212,6 +212,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "bodyOnly" : true,
             "excludeRegexp" : "doc-exclude",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         }, {
           "name" : "Java",
@@ -221,6 +238,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "entry" : "useClosureAsValidation",
             "bodyOnly" : true,
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         } ],
         "type" : "Tabs"
@@ -261,7 +295,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "As you have seen in ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/HTTP/CRUD",
+          "url" : "/webtau/HTTP/CRUD-example",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
@@ -888,7 +922,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1677186557934,
+    "lastModifiedTime" : 1681825041900,
     "tocItem" : {
       "chapterTitle" : "HTTP",
       "pageTitle" : "Data Node",

@@ -85,12 +85,17 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Handler vs Matcher</h1></header>
-<p>Adding new equality and greater/less rules is done by creating and registering new . Creating new matchers is not required in this case.</p>
+<p>A lot of times you need to check if two things are equal. Instead of creating multiple matchers like arraysEqual , pathsEqual , myDataEqual , you define additional equality rule.Adding a new equality and greater/less rules is done by creating and registering new .</p>
 </article>
 
 <article>
 <header><h1>CompareToHandler</h1></header>
 <p>To add a new handler you need toimplement register new class using Java Services Interface public interface CompareToHandler { /** * determines whether supports equality comparison * @param actual actual value * @param expected expected value * @return true if comparison can be handled */ boolean handleEquality(Object actual, Object expected); /** * value optionally can be converted to another value to be passed down comparison chain. * exposed as outside method for more precise reporting of actual values in case of a failure. * * @param actual original actual * @param expected expected value * @return optionally converted actual */ default Object convertedActual(Object actual, Object expected) { return actual; } /** * value optionally can be converted to another value to be passed down comparison chain. * exposed as outside method for more precise reporting of expected values for reporting * * @param actual original actual * @param expected original expected * @return optionally converted expected */ default Object convertedExpected(Object actual, Object expected) { return expected; } /** * determines whether supports greater/less than comparison family * @param actual actual value * @param expected expected value * @return true if comparison can be handled */ default boolean handleGreaterLessEqual(Object actual, Object expected) { return false; } /** * determines whether handler can handle nulls. usually left unimplemented * @return true if handler can match nulls */ default boolean handleNulls() { return false; } /** * implementation logic of equality only * @param comparator comparator to delegate comparison to * @param actualPath path to use for reporting * @param actual actual value * @param expected expected value */ void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected); /** * implementation logic of greater/less than family * @param comparator comparator to delegate comparison to * @param actualPath path to use for reporting * @param actual actual value * @param expected expected value */ default void compareGreaterLessEqual(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) { throw new UnsupportedOperationException(&quot;greater-less comparison is not implemented&quot;); } } Example Implementation Below is an existing implementation of handler to deal with Java Bean as actual and Map as expected public class MapAndBeanCompareToHandler extends MapAsExpectedCompareToHandlerBase { @Override protected boolean handleEquality(Object actual) { return !(actual instanceof Iterable || actual instanceof Map); } @Override public Object convertedActual(Object actual, Object expected) { if (actual instanceof ObjectProperties) { return ((ObjectProperties) actual).getTopLevelProperties(); } return JavaBeanUtils.convertBeanToMap(actual); } } Registration WebTau uses https://docs.oracle.com/javase/8/docs/api/java/util/ServiceLoader.html Service Loaders to discover implementations of handlers. To register an additional handler you need to create a file under resources META-INF/services/org.testingisdocumenting.webtau.expectation.equality.CompareToHandler with the content file containing a line per implementing class org.testingisdocumenting.webtau.expectation.equality.handlers.MapAndBeanCompareToHandler</p>
+</article>
+
+<article>
+<header><h1>Custom Complex Domain Data</h1></header>
+<p>Another example to use custom handler is to provide better mismatch details. Imagine you have some CustomComplexData class that contains important data from you domain.This class also has equals defined, and you can use it to check if two values are the same. But when it comes to use it during testing, you find that failure report is hard to comprehend: default assertion only prints toString representation leaving you to eyeball the rest. CustomComplexData calculated = new CustomComplexData(&quot;cA&quot;, &quot;cB&quot;); calculated.addRow(1, 2); calculated.addRow(3, 4); CustomComplexData expected = new CustomComplexData(&quot;cA&quot;, &quot;cB&quot;); expected.addRow(1, 2); expected.addRow(3, 5); Assert.assertEquals(expected, calculated); expected:&lt;CustomComplexData{columnNames=[cA, cB], values=[[1, 2], [3, 5]]}&gt; but was:&lt;CustomComplexData{columnNames=[cA, cB], values=[[1, 2], [3, 4]]}&gt; To improve the situation, we will define CustomComplexData : package org.example.domain; import org.testingisdocumenting.webtau.data.ValuePath; import org.testingisdocumenting.webtau.data.table.TableData; import org.testingisdocumenting.webtau.data.table.header.TableDataHeader; import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator; import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler; public class CustomComplexDataCompareToHandler implements CompareToHandler { @Override public boolean handleEquality(Object actual, Object expected) { return actual instanceof CustomComplexData &amp;&amp; ( // handler for actual as your data expected instanceof CustomComplexData || // and expected as either your data or TableData expected instanceof TableData); } @Override public Object convertedActual(Object actual, Object expected) { return createTableDataFromCustomData((CustomComplexData) actual); } @Override public Object convertedExpected(Object actual, Object expected) { if (expected instanceof TableData) { return expected; } return createTableDataFromCustomData((CustomComplexData) expected); } @Override public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) { comparator.compareUsingEqualOnly(actualPath, actual, expected); // delegate back to WebTau to compare using converted types } private TableData createTableDataFromCustomData(CustomComplexData actual) { TableData tableData = new TableData(new TableDataHeader(actual.getColumnNames().stream())); actual.forEach(tableData::addRow); // create TableData from complex domain data return tableData; } } Once handler is registered, additional information will be printed during mismatch: org.example.domain.CustomComplexDataCompareToHandler CustomComplexData calculated = new CustomComplexData(&quot;cA&quot;, &quot;cB&quot;); calculated.addRow(1, 2); calculated.addRow(3, 4); CustomComplexData expected = new CustomComplexData(&quot;cA&quot;, &quot;cB&quot;); expected.addRow(1, 2); expected.addRow(3, 5); actual(calculated).should(equal(expected)); X failed expecting [value] to equal cA │ cB 1 │ 2 3 │ 5: [value][1].cB: actual: 4 &lt;java.lang.Integer&gt; expected: 5 &lt;java.lang.Integer&gt; (0ms) cA │ cB 1 │ 2 3 │ **4**</p>
 </article>
 </section>
 </div>
@@ -127,18 +132,42 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Adding new equality and greater/less rules is done by creating and registering new ",
+          "text" : "A lot of times you need to check if two things are equal.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Instead of creating multiple matchers like ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "arraysEqual",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "pathsEqual",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "myDataEqual",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", you define additional equality rule.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Adding a new equality and greater/less rules is done by creating and registering new ",
           "type" : "SimpleText"
         }, {
           "code" : "CompareToHandler",
           "type" : "InlinedCode"
         }, {
           "text" : ".",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "Creating new matchers is not required in this case.",
           "type" : "SimpleText"
         } ]
       } ]
@@ -257,12 +286,131 @@ ReactDOM.render(React.createElement(Documentation, {
         "anchorId" : "comparetohandler-registration-src-main-resources-meta-inf-services-org-testingisdocumenting-webtau-expectation-equality-comparetohandler",
         "type" : "Snippet"
       } ]
+    }, {
+      "id" : "custom-complex-domain-data",
+      "title" : "Custom Complex Domain Data",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Another example to use custom handler is to provide better mismatch details.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "Imagine you have some ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "CustomComplexData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " class that contains important data from you domain.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "This class also has ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "equals",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " defined, and you can use it to check if two values are the same.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "But when it comes to use it during testing, you find that failure report is hard to comprehend: default assertion",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "only prints ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "toString",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " representation leaving you to eyeball the rest.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "CustomComplexData calculated = new CustomComplexData(\"cA\", \"cB\");\ncalculated.addRow(1, 2);\ncalculated.addRow(3, 4);\n\nCustomComplexData expected = new CustomComplexData(\"cA\", \"cB\");\nexpected.addRow(1, 2);\nexpected.addRow(3, 5);\n\nAssert.assertEquals(expected, calculated);",
+        "title" : "default assertion example",
+        "surroundedBy" : [ "complex-data-fail-preparation", "default-assertion" ],
+        "surroundedBySeparator" : "",
+        "anchorId" : "custom-complex-domain-data-default-assertion-example",
+        "type" : "Snippet"
+      }, {
+        "title" : "console output",
+        "lines" : [ "expected:<CustomComplexData{columnNames=[cA, cB], values=[[1, 2], [3, 5]]}> but was:<CustomComplexData{columnNames=[cA, cB], values=[[1, 2], [3, 4]]}>" ],
+        "anchorId" : "custom-complex-domain-data-console-output",
+        "type" : "CliOutput"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To improve the situation, we will define ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "CustomComplexData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "CompareToHandler",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ":",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "java",
+        "snippet" : "package org.example.domain;\n\nimport org.testingisdocumenting.webtau.data.ValuePath;\nimport org.testingisdocumenting.webtau.data.table.TableData;\nimport org.testingisdocumenting.webtau.data.table.header.TableDataHeader;\nimport org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;\nimport org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;\n\npublic class CustomComplexDataCompareToHandler implements CompareToHandler {\n    @Override\n    public boolean handleEquality(Object actual, Object expected) {\n        return actual instanceof CustomComplexData && ( // handler for actual as your data\n                expected instanceof CustomComplexData || // and expected as either your data or TableData\n                        expected instanceof TableData);\n    }\n\n    @Override\n    public Object convertedActual(Object actual, Object expected) {\n        return createTableDataFromCustomData((CustomComplexData) actual);\n    }\n\n    @Override\n    public Object convertedExpected(Object actual, Object expected) {\n        if (expected instanceof TableData) {\n            return expected;\n        }\n\n        return createTableDataFromCustomData((CustomComplexData) expected);\n    }\n\n    @Override\n    public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {\n        comparator.compareUsingEqualOnly(actualPath, actual, expected); // delegate back to WebTau to compare using converted types\n    }\n\n    private TableData createTableDataFromCustomData(CustomComplexData actual) {\n        TableData tableData = new TableData(new TableDataHeader(actual.getColumnNames().stream()));\n        actual.forEach(tableData::addRow); // create TableData from complex domain data\n\n        return tableData;\n    }\n}",
+        "autoTitle" : true,
+        "startLine" : "package",
+        "commentsType" : "inline",
+        "title" : "org/example/domain/CustomComplexDataCompareToHandler.java",
+        "anchorId" : "custom-complex-domain-data-org-example-domain-customcomplexdatacomparetohandler-java",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Once handler is registered, additional information will be printed during mismatch:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "CompareToHandler",
+        "snippet" : "org.example.domain.CustomComplexDataCompareToHandler",
+        "autoTitle" : true,
+        "includeRegexp" : "CustomComplex",
+        "title" : "src/test/resources/META-INF/services/org.testingisdocumenting.webtau.expectation.equality.CompareToHandler",
+        "anchorId" : "custom-complex-domain-data-src-test-resources-meta-inf-services-org-testingisdocumenting-webtau-expectation-equality-comparetohandler",
+        "type" : "Snippet"
+      }, {
+        "lang" : "java",
+        "snippet" : "CustomComplexData calculated = new CustomComplexData(\"cA\", \"cB\");\ncalculated.addRow(1, 2);\ncalculated.addRow(3, 4);\n\nCustomComplexData expected = new CustomComplexData(\"cA\", \"cB\");\nexpected.addRow(1, 2);\nexpected.addRow(3, 5);\n\nactual(calculated).should(equal(expected));",
+        "title" : "webtau assertion example",
+        "surroundedBy" : [ "complex-data-fail-preparation", "webtau-assertion" ],
+        "surroundedBySeparator" : "",
+        "anchorId" : "custom-complex-domain-data-webtau-assertion-example",
+        "type" : "Snippet"
+      }, {
+        "title" : "console output",
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[34mto equal \u001B[35mcA\u001B[33m │ \u001B[35mcB", "                                     \u001B[34m1\u001B[33m │  \u001B[34m2", "                                     \u001B[34m3\u001B[33m │  \u001B[34m5\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value][1].cB\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m4\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m              \u001B[36mexpected\u001B[0m: \u001B[34m5\u001B[0m \u001B[33m<java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[35mcA\u001B[33m │ \u001B[35mcB   \u001B[0m", "   \u001B[34m1\u001B[33m │     \u001B[34m2\u001B[0m", "   \u001B[34m3\u001B[33m │ \u001B[31m**4**\u001B[0m" ],
+        "anchorId" : "custom-complex-domain-data-console-output-2",
+        "type" : "CliOutput"
+      } ]
     } ],
-    "lastModifiedTime" : 1677186557938,
+    "lastModifiedTime" : 1681825041904,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Custom Compare To Handler",
-      "pageMeta" : { },
+      "pageMeta" : {
+        "identifier" : [ "{validationPath: \"org/testingisdocumenting/webtau/expectation/equality/CompareToHandler.java\"}`" ]
+      },
       "dirName" : "matchers",
       "fileName" : "custom-compare-to-handler",
       "viewOnRelativePath" : null,
@@ -273,6 +421,9 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "CompareToHandler",
         "id" : "comparetohandler",
         "style" : "api"
+      }, {
+        "title" : "Custom Complex Domain Data",
+        "id" : "custom-complex-domain-data"
       } ]
     }
   }

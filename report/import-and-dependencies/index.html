@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Core Only Import</h1></header>
-<p>When you use multiple WebTau features you can single static import to have all core features available for autocomplete. It also requires a single dependency to bring all the WebTau modules. Groovy import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.51&lt;/version&gt; &lt;/dependency&gt; Java import static org.testingisdocumenting.webtau.WebTauDsl.*; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.51&lt;/version&gt; &lt;/dependency&gt; Alternatively, you can only import WebTauCore for methods like step , trace , warning : Groovy import static org.testingisdocumenting.webtau.WebTauCore.* &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-core-groovy&lt;/artifactId&gt; &lt;version&gt;1.51&lt;/version&gt; &lt;/dependency&gt; Java import static org.testingisdocumenting.webtau.WebTauCore.*; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-core&lt;/artifactId&gt; &lt;version&gt;1.51&lt;/version&gt; &lt;/dependency&gt;</p>
+<p>When you use multiple WebTau features you can single static import to have all core features available for autocomplete. It also requires a single dependency to bring all the WebTau modules. Groovy import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.51&lt;/version&gt; &lt;/dependency&gt; If you use groovy-standalone-runner/introduction Groovy Runner then all the dependencies are already present. Java import static org.testingisdocumenting.webtau.WebTauDsl.*; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.51&lt;/version&gt; &lt;/dependency&gt; Alternatively, you can only import WebTauCore for methods like step , trace , warning : Groovy import static org.testingisdocumenting.webtau.WebTauCore.* &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-core-groovy&lt;/artifactId&gt; &lt;version&gt;1.51&lt;/version&gt; &lt;/dependency&gt; Java import static org.testingisdocumenting.webtau.WebTauCore.*; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-core&lt;/artifactId&gt; &lt;version&gt;1.51&lt;/version&gt; &lt;/dependency&gt;</p>
 </article>
 </section>
 </div>
@@ -146,6 +146,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "maven dependency",
             "anchorId" : "single-dsl-import-maven-dependency",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "If you use ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/groovy-standalone-runner/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Groovy Runner",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " then all the dependencies are already present.",
+              "type" : "SimpleText"
+            } ]
           } ]
         }, {
           "name" : "Java",
@@ -237,7 +254,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1677186557950,
+    "lastModifiedTime" : 1681825041908,
     "tocItem" : {
       "chapterTitle" : "Report",
       "pageTitle" : "Import And Dependencies",

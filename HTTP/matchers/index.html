@@ -84,13 +84,8 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Imports to use</h1></header>
-<p>import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*</p>
-</article>
-
-<article>
 <header><h1>Response Mapping</h1></header>
-<p>Identifiers inside validation closure are automatically mapped to a response body. Groovy http.get(&quot;/end-point-simple-object&quot;) { k1.should == &quot;v1&quot; } Java http.get(&quot;/end-point-simple-object&quot;, (header, body) -&gt; { body.get(&quot;k1&quot;).should(equal(&quot;v1&quot;)); }); List responses are handled by using index chain Groovy http.get(&quot;/end-point-simple-list&quot;) { body[0].k1.should == &quot;v1&quot; } Note: Groovy API implicitly assumes body , but if you need to deal with array response you need to access values using body explicitly. Java http.get(&quot;/end-point-simple-list&quot;, (header, body) -&gt; { body.get(0).get(&quot;k1&quot;).should(equal(&quot;v1&quot;)); });</p>
+<p>Check HTTP/import-and-dependencies Import And Dependencies for prerequisites. Identifiers inside validation closure are automatically mapped to a response body. Groovy http.get(&quot;/end-point-simple-object&quot;) { k1.should == &quot;v1&quot; } Java http.get(&quot;/end-point-simple-object&quot;, (header, body) -&gt; { body.get(&quot;k1&quot;).should(equal(&quot;v1&quot;)); }); List responses are handled by using index chain Groovy http.get(&quot;/end-point-simple-list&quot;) { body[0].k1.should == &quot;v1&quot; } Note: Groovy API implicitly assumes body , but if you need to deal with array response you need to access values using body explicitly. Java http.get(&quot;/end-point-simple-list&quot;, (header, body) -&gt; { body.get(0).get(&quot;k1&quot;).should(equal(&quot;v1&quot;)); });</p>
 </article>
 
 <article>
@@ -111,6 +106,11 @@
 <article>
 <header><h1>Contain</h1></header>
 <p>Use contain when you cannot rely on order of values in a response. Groovy http.get(&quot;/end-point-list&quot;) { body.should contain([k1: &quot;v1&quot;, k2: &quot;v2&quot;]) body[1].k2.shouldNot contain(22) } Java http.get(&quot;/end-point-list&quot;, (header, body) -&gt; { body.should(contain(map( &quot;k1&quot;, &quot;v1&quot;, &quot;k2&quot;, &quot;v2&quot;))); body.get(1).get(&quot;k2&quot;).shouldNot(contain(22)); });</p>
+</article>
+
+<article>
+<header><h1>Contain Table</h1></header>
+<p>Use contain and TableData to assert that a list contains multiple entries of interest Groovy http.get(&quot;/end-point-large-list&quot;) { body.should contain([&quot;id&quot; | &quot;k1&quot; | &quot;k2&quot;] { ________________________ &quot;id1&quot; | &quot;v11&quot; | &quot;v12&quot; &quot;id3&quot; | &quot;v31&quot; | &quot;v32&quot; }) } Java http.get(&quot;/end-point-large-list&quot;, (header, body) -&gt; { body.should(contain(table(&quot;id&quot;, &quot;k1&quot; , &quot;k2&quot;, ______________________, &quot;id1&quot;, &quot;v11&quot;, &quot;v12&quot;, &quot;id3&quot;, &quot;v31&quot;, &quot;v32&quot; ))); });</p>
 </article>
 
 <article>
@@ -161,16 +161,21 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "id" : "imports-to-use",
-      "title" : "Imports to use",
-      "type" : "Section",
+      "type" : "Paragraph",
       "content" : [ {
-        "lang" : "groovy",
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
-        "includeRegexp" : "import.*Dsl",
-        "title" : "Single import to use",
-        "anchorId" : "imports-to-use-single-import-to-use",
-        "type" : "Snippet"
+        "text" : "Check ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/webtau/HTTP/import-and-dependencies",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "Import And Dependencies",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "text" : " for prerequisites.",
+        "type" : "SimpleText"
       } ]
     }, {
       "id" : "response-mapping",
@@ -626,6 +631,82 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     }, {
+      "id" : "contain-table",
+      "title" : "Contain Table",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "contain",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "TableData",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to assert that a list contains multiple entries of interest",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "meta" : {
+          "rightSide" : true
+        },
+        "type" : "EmptyBlock"
+      }, {
+        "title" : "response",
+        "pathsFile" : "doc-artifacts/end-point-object-contain-all-table-matchers/paths.json",
+        "data" : [ {
+          "id" : "id1",
+          "k1" : "v11",
+          "k2" : "v12"
+        }, {
+          "id" : "id2",
+          "k1" : "v21",
+          "k2" : "v22"
+        }, {
+          "id" : "id3",
+          "k1" : "v31",
+          "k2" : "v32"
+        }, {
+          "id" : "id4",
+          "k1" : "v41",
+          "k2" : "v42"
+        } ],
+        "paths" : [ "root[0].id", "root[0].k1", "root[0].k2", "root[2].id", "root[2].k1", "root[2].k2" ],
+        "anchorId" : "contain-table-response",
+        "type" : "Json"
+      }, {
+        "meta" : {
+          "rightSide" : true
+        },
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "http.get(\"/end-point-large-list\") {\n    body.should contain([\"id\" | \"k1\"  | \"k2\"] {\n                        ________________________\n                         \"id1\" | \"v11\" | \"v12\"\n                         \"id3\" | \"v31\" | \"v32\" })\n}",
+            "entry" : "contain table matcher",
+            "bodyOnly" : true,
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "http.get(\"/end-point-large-list\", (header, body) -> {\n    body.should(contain(table(\"id\", \"k1\" , \"k2\",\n                              ______________________,\n                              \"id1\", \"v11\", \"v12\",\n                              \"id3\", \"v31\", \"v32\" )));\n});",
+            "entry" : "containTableMatcher",
+            "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
       "id" : "contain-all",
       "title" : "Contain All",
       "type" : "Section",
@@ -906,7 +987,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1677186557934,
+    "lastModifiedTime" : 1681825041900,
     "tocItem" : {
       "chapterTitle" : "HTTP",
       "pageTitle" : "Matchers",
@@ -917,9 +998,6 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "matchers",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Imports to use",
-        "id" : "imports-to-use"
-      }, {
         "title" : "Response Mapping",
         "id" : "response-mapping"
       }, {
@@ -934,6 +1012,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Contain",
         "id" : "contain"
+      }, {
+        "title" : "Contain Table",
+        "id" : "contain-table"
       }, {
         "title" : "Contain All",
         "id" : "contain-all"

@@ -24,20 +24,38 @@ toc = [ {
       "title" : "WebTau",
       "id" : "webtau"
     }, {
-      "title" : "Rest API Example",
-      "id" : "rest-api-example"
+      "title" : "Rest API",
+      "id" : "rest-api"
     }, {
-      "title" : "GraphQL API Example",
-      "id" : "graphql-api-example"
+      "title" : "WebSocket",
+      "id" : "websocket"
     }, {
-      "title" : "Browser Example",
-      "id" : "browser-example"
+      "title" : "GraphQL API",
+      "id" : "graphql-api"
     }, {
-      "title" : "DB Example",
-      "id" : "db-example"
+      "title" : "Persona",
+      "id" : "persona"
     }, {
-      "title" : "CLI Example",
-      "id" : "cli-example"
+      "title" : "Browser",
+      "id" : "browser"
+    }, {
+      "title" : "Database",
+      "id" : "database"
+    }, {
+      "title" : "CLI",
+      "id" : "cli"
+    }, {
+      "title" : "Business Logic (JVM)",
+      "id" : "business-logic-jvm"
+    }, {
+      "title" : "REPL",
+      "id" : "repl"
+    }, {
+      "title" : "Reporting",
+      "id" : "reporting"
+    }, {
+      "title" : "Documentation Assistance",
+      "id" : "documentation-assistance"
     } ]
   }, {
     "chapterTitle" : "Getting Started",
@@ -116,31 +134,23 @@ toc = [ {
     "pageSectionIdTitles" : [ ]
   }, {
     "chapterTitle" : "HTTP",
-    "pageTitle" : "CRUD",
+    "pageTitle" : "CRUD Example",
     "pageMeta" : { },
     "dirName" : "HTTP",
-    "fileName" : "CRUD",
+    "fileName" : "CRUD-example",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "Example",
-      "id" : "example"
+      "title" : "Single Test Method",
+      "id" : "single-test-method"
     }, {
-      "title" : "Report",
-      "id" : "report"
-    } ]
-  }, {
-    "chapterTitle" : "HTTP",
-    "pageTitle" : "CRUD Separated",
-    "pageMeta" : { },
-    "dirName" : "HTTP",
-    "fileName" : "CRUD-separated",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "HTTP Calls Separation",
-      "id" : "http-calls-separation"
+      "title" : "Generated Report",
+      "id" : "generated-report"
     }, {
-      "title" : "Report",
-      "id" : "report"
+      "title" : "Separate Test Methods",
+      "id" : "separate-test-methods"
+    }, {
+      "title" : "Separate Methods Report",
+      "id" : "separate-methods-report"
     } ]
   }, {
     "chapterTitle" : "HTTP",
@@ -179,6 +189,34 @@ toc = [ {
     }, {
       "title" : "Combine",
       "id" : "combine"
+    } ]
+  }, {
+    "chapterTitle" : "HTTP",
+    "pageTitle" : "HTTP Resource",
+    "pageMeta" : {
+      "identifier" : [ "{validationPath: \"org/testingisdocumenting/webtau/http/HttpResourceJavaTest.java\"}" ]
+    },
+    "dirName" : "HTTP",
+    "fileName" : "HTTP-resource",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Response Lazy Value",
+      "id" : "response-lazy-value"
+    }, {
+      "title" : "Full Body",
+      "id" : "full-body"
+    }, {
+      "title" : "Complex Value Path",
+      "id" : "complex-value-path"
+    }, {
+      "title" : "Multiple URL Parameters",
+      "id" : "multiple-url-parameters"
+    }, {
+      "title" : "Full Text Response",
+      "id" : "full-text-response"
+    }, {
+      "title" : "HTTP Header",
+      "id" : "http-header"
     } ]
   }, {
     "chapterTitle" : "HTTP",
@@ -389,9 +427,6 @@ toc = [ {
     "fileName" : "matchers",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "Imports to use",
-      "id" : "imports-to-use"
-    }, {
       "title" : "Response Mapping",
       "id" : "response-mapping"
     }, {
@@ -406,6 +441,9 @@ toc = [ {
     }, {
       "title" : "Contain",
       "id" : "contain"
+    }, {
+      "title" : "Contain Table",
+      "id" : "contain-table"
     }, {
       "title" : "Contain All",
       "id" : "contain-all"
@@ -434,6 +472,20 @@ toc = [ {
       "title" : "Proxy",
       "id" : "proxy",
       "style" : "api"
+    } ]
+  }, {
+    "chapterTitle" : "HTTP",
+    "pageTitle" : "Import And Dependencies",
+    "pageMeta" : { },
+    "dirName" : "HTTP",
+    "fileName" : "import-and-dependencies",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Single DSL Import",
+      "id" : "single-dsl-import"
+    }, {
+      "title" : "HTTP Specific Import",
+      "id" : "http-specific-import"
     } ]
   } ]
 }, {
@@ -482,6 +534,66 @@ toc = [ {
     "pageSectionIdTitles" : [ {
       "title" : "Additional Reports",
       "id" : "additional-reports"
+    } ]
+  } ]
+}, {
+  "chapterTitle" : "Web Socket",
+  "dirName" : "web-socket",
+  "items" : [ {
+    "chapterTitle" : "Web Socket",
+    "pageTitle" : "Introduction",
+    "pageMeta" : { },
+    "dirName" : "web-socket",
+    "fileName" : "introduction",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ ]
+  }, {
+    "chapterTitle" : "Web Socket",
+    "pageTitle" : "Received Messages",
+    "pageMeta" : {
+      "identifier" : [ "{validationPath: [\"com/example/tests/junit5/WebSocketSpringBootTest.java\", \"org/testingisdocumenting/webtau/websocket/WebSocketConfig.java\"]}" ]
+    },
+    "dirName" : "web-socket",
+    "fileName" : "received-messages",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Asynchronous To Synchronous",
+      "id" : "asynchronous-to-synchronous"
+    }, {
+      "title" : "Wait For A Specific Message",
+      "id" : "wait-for-a-specific-message"
+    }, {
+      "title" : "Wait For A Specific Message Using Value Path",
+      "id" : "wait-for-a-specific-message-using-value-path"
+    }, {
+      "title" : "Poll Message As Text",
+      "id" : "poll-message-as-text"
+    }, {
+      "title" : "Poll Message As Object",
+      "id" : "poll-message-as-object"
+    }, {
+      "title" : "Max Number Of Messages",
+      "id" : "max-number-of-messages"
+    }, {
+      "title" : "Number Of Received Messages",
+      "id" : "number-of-received-messages"
+    }, {
+      "title" : "Discard Messages",
+      "id" : "discard-messages"
+    } ]
+  }, {
+    "chapterTitle" : "Web Socket",
+    "pageTitle" : "Import And Dependencies",
+    "pageMeta" : { },
+    "dirName" : "web-socket",
+    "fileName" : "import-and-dependencies",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Single DSL Import",
+      "id" : "single-dsl-import"
+    }, {
+      "title" : "WebSocket Specific Import",
+      "id" : "websocket-specific-import"
     } ]
   } ]
 }, {
@@ -1144,6 +1256,9 @@ toc = [ {
       "title" : "Summary",
       "id" : "summary"
     }, {
+      "title" : "Continuous Integration",
+      "id" : "continuous-integration"
+    }, {
       "title" : "Test Summary",
       "id" : "test-summary"
     }, {
@@ -1530,14 +1645,40 @@ toc = [ {
     "fileName" : "java-bean",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "Java Bean And Maps",
-      "id" : "java-bean-and-maps"
+      "title" : "Java Bean Equals Map",
+      "id" : "java-bean-equals-map"
     }, {
-      "title" : "Collection of Java Beans And Table Data",
-      "id" : "collection-of-java-beans-and-table-data"
+      "title" : "Java Beans Contain Map",
+      "id" : "java-beans-contain-map"
+    }, {
+      "title" : "Java Beans Equal Table Data",
+      "id" : "java-beans-equal-table-data"
+    }, {
+      "title" : "Java Beans Contain Table Data",
+      "id" : "java-beans-contain-table-data"
     }, {
       "title" : "Static Import",
       "id" : "static-import"
+    } ]
+  }, {
+    "chapterTitle" : "Matchers",
+    "pageTitle" : "String",
+    "pageMeta" : { },
+    "dirName" : "matchers",
+    "fileName" : "string",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Mismatch Pinpoint Single Line Text",
+      "id" : "mismatch-pinpoint-single-line-text"
+    }, {
+      "title" : "Mismatch Pinpoint Multi Line Text",
+      "id" : "mismatch-pinpoint-multi-line-text"
+    }, {
+      "title" : "Line Ending Detection",
+      "id" : "line-ending-detection"
+    }, {
+      "title" : "Different Number Of Empty Lines",
+      "id" : "different-number-of-empty-lines"
     } ]
   }, {
     "chapterTitle" : "Matchers",
@@ -1559,7 +1700,9 @@ toc = [ {
   }, {
     "chapterTitle" : "Matchers",
     "pageTitle" : "Custom Compare To Handler",
-    "pageMeta" : { },
+    "pageMeta" : {
+      "identifier" : [ "{validationPath: \"org/testingisdocumenting/webtau/expectation/equality/CompareToHandler.java\"}`" ]
+    },
     "dirName" : "matchers",
     "fileName" : "custom-compare-to-handler",
     "viewOnRelativePath" : null,
@@ -1570,6 +1713,9 @@ toc = [ {
       "title" : "CompareToHandler",
       "id" : "comparetohandler",
       "style" : "api"
+    }, {
+      "title" : "Custom Complex Domain Data",
+      "id" : "custom-complex-domain-data"
     } ]
   } ]
 }, {
@@ -1698,6 +1844,20 @@ toc = [ {
     }, {
       "title" : "Scenario discovery",
       "id" : "scenario-discovery"
+    } ]
+  }, {
+    "chapterTitle" : "Groovy Standalone Runner",
+    "pageTitle" : "IDE Setup",
+    "pageMeta" : { },
+    "dirName" : "groovy-standalone-runner",
+    "fileName" : "IDE-setup",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Autocompletion Dependency",
+      "id" : "autocompletion-dependency"
+    }, {
+      "title" : "Intellij IDEA",
+      "id" : "intellij-idea"
     } ]
   } ]
 }, {
@@ -1852,6 +2012,21 @@ toc = [ {
     } ]
   } ]
 }, {
+  "chapterTitle" : "Continuous Integration",
+  "dirName" : "continuous-integration",
+  "items" : [ {
+    "chapterTitle" : "Continuous Integration",
+    "pageTitle" : "GitHub",
+    "pageMeta" : { },
+    "dirName" : "continuous-integration",
+    "fileName" : "GitHub",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Uploading Reports",
+      "id" : "uploading-reports"
+    } ]
+  } ]
+}, {
   "chapterTitle" : "Reference",
   "dirName" : "reference",
   "items" : [ {
@@ -1909,6 +2084,9 @@ toc = [ {
     "fileName" : "2023",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
+      "title" : "1.52",
+      "id" : "1-52"
+    }, {
       "title" : "1.51",
       "id" : "1-51"
     } ]

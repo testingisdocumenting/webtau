@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Universal Set Value</h1></header>
-<p>Use setValue on a declared page element to set its value. It will work on all the standard input types out of the box.Define all the input fields inside a page object. In combination with universal setValue it will make your tests robust.Given a html snippet &lt;html&gt; &lt;body&gt; &lt;div id=&quot;form&quot;&gt; &lt;input id=&quot;name&quot; /&gt; &lt;input id=&quot;startDate&quot; type=&quot;date&quot; /&gt; &lt;input id=&quot;confirmation&quot; type=&quot;checkbox&quot; /&gt; &lt;div id=&quot;choice-group&quot; class=&quot;radio-group&quot;&gt; &lt;div&gt; &lt;input type=&quot;radio&quot; id=&quot;one&quot; name=&quot;choice&quot; value=&quot;value-one&quot;/&gt; &lt;label for=&quot;one&quot;&gt;one&lt;/label&gt; &lt;/div&gt; &lt;div&gt; &lt;input type=&quot;radio&quot; id=&quot;two&quot; name=&quot;choice&quot; value=&quot;value-two&quot;/&gt; &lt;label for=&quot;two&quot;&gt;two&lt;/label&gt; &lt;/div&gt; &lt;div&gt; &lt;input type=&quot;radio&quot; id=&quot;three&quot; name=&quot;choice&quot; value=&quot;value-three&quot;/&gt; &lt;label for=&quot;three&quot;&gt;three&lt;/label&gt; &lt;/div&gt; &lt;/div&gt; &lt;select id=&quot;rank&quot;&gt; &lt;option /&gt; &lt;option value=&quot;A&quot;&gt;A&lt;/option&gt; &lt;option value=&quot;B&quot;&gt;B&lt;/option&gt; &lt;option value=&quot;C&quot;&gt;C&lt;/option&gt; &lt;option value=&quot;D&quot;&gt;D&lt;/option&gt; &lt;option value=&quot;E&quot;&gt;E&lt;/option&gt; &lt;/select&gt; &lt;/div&gt; &lt;/body&gt; &lt;/html&gt; Page object can be defined as package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class FormPage { def name = $('#name') def rank = $('#rank') def confirmation = $('#confirmation') def choice = $('[name=&quot;choice&quot;]') def startDate = $('#startDate') }</p>
+<p>Use setValue on a declared page element to set its value. It will work on all the standard input types out of the box.Define all the input fields inside a page object. In combination with universal setValue it will make your tests robust.Given a html snippet &lt;html&gt; &lt;body&gt; &lt;div id=&quot;form&quot;&gt; &lt;input id=&quot;name&quot; /&gt; &lt;input id=&quot;startDate&quot; type=&quot;date&quot; /&gt; &lt;input id=&quot;confirmation&quot; type=&quot;checkbox&quot; /&gt; &lt;div id=&quot;choice-group&quot; class=&quot;radio-group&quot;&gt; &lt;div&gt; &lt;input type=&quot;radio&quot; id=&quot;one&quot; name=&quot;choice&quot; value=&quot;value-one&quot;/&gt; &lt;label for=&quot;one&quot;&gt;one&lt;/label&gt; &lt;/div&gt; &lt;div&gt; &lt;input type=&quot;radio&quot; id=&quot;two&quot; name=&quot;choice&quot; value=&quot;value-two&quot;/&gt; &lt;label for=&quot;two&quot;&gt;two&lt;/label&gt; &lt;/div&gt; &lt;div&gt; &lt;input type=&quot;radio&quot; id=&quot;three&quot; name=&quot;choice&quot; value=&quot;value-three&quot;/&gt; &lt;label for=&quot;three&quot;&gt;three&lt;/label&gt; &lt;/div&gt; &lt;/div&gt; &lt;select id=&quot;rank&quot;&gt; &lt;option /&gt; &lt;option value=&quot;A&quot;&gt;Full A&lt;/option&gt; &lt;option value=&quot;B&quot;&gt;Full B&lt;/option&gt; &lt;option value=&quot;C&quot;&gt;Full C&lt;/option&gt; &lt;option value=&quot;D&quot;&gt;Full D&lt;/option&gt; &lt;option value=&quot;E&quot;&gt;Full E&lt;/option&gt; &lt;/select&gt; &lt;/div&gt; &lt;/body&gt; &lt;/html&gt; Page object can be defined as package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class FormPage { def name = $('#name') def rank = $('#rank') def confirmation = $('#confirmation') def choice = $('[name=&quot;choice&quot;]') def startDate = $('#startDate') }</p>
 </article>
 
 <article>
@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Select</h1></header>
-<p>form.rank.setValue('B')</p>
+<p>form.rank.setValue('B') form.rank.setValue('Full B')</p>
 </article>
 
 <article>
@@ -115,7 +115,7 @@
 
 <article>
 <header><h1>Universal Assert</h1></header>
-<p>Form element value can be asserted the same way as any regular element. Underlying value will be extracted based on the element type form.name.should == 'Full Automation' form.rank.should == 'B' form.confirmation.should == true form.choice.should == 'value-two' form.startDate.should == '2016-06-21'</p>
+<p>Form element value can be asserted the same way as any regular element. Underlying value will be extracted based on the element type form.name.should == 'Full Automation' form.rank.should == 'Full B' form.confirmation.should == true form.choice.should == 'value-two' form.startDate.should == '2016-06-21'</p>
 </article>
 
 <article>
@@ -191,7 +191,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "html",
-        "snippet" : "<html>\n<body>\n<div id=\"form\">\n  <input id=\"name\" />\n  <input id=\"startDate\" type=\"date\" />\n  <input id=\"confirmation\" type=\"checkbox\" />\n  <div id=\"choice-group\" class=\"radio-group\">\n    <div>\n      <input type=\"radio\" id=\"one\" name=\"choice\" value=\"value-one\"/>\n      <label for=\"one\">one</label>\n    </div>\n    <div>\n      <input type=\"radio\" id=\"two\" name=\"choice\" value=\"value-two\"/>\n      <label for=\"two\">two</label>\n    </div>\n    <div>\n      <input type=\"radio\" id=\"three\" name=\"choice\" value=\"value-three\"/>\n      <label for=\"three\">three</label>\n    </div>\n  </div>\n  <select id=\"rank\">\n    <option />\n    <option value=\"A\">A</option>\n    <option value=\"B\">B</option>\n    <option value=\"C\">C</option>\n    <option value=\"D\">D</option>\n    <option value=\"E\">E</option>\n  </select>\n</div>\n</body>\n</html>",
+        "snippet" : "<html>\n<body>\n<div id=\"form\">\n  <input id=\"name\" />\n  <input id=\"startDate\" type=\"date\" />\n  <input id=\"confirmation\" type=\"checkbox\" />\n  <div id=\"choice-group\" class=\"radio-group\">\n    <div>\n      <input type=\"radio\" id=\"one\" name=\"choice\" value=\"value-one\"/>\n      <label for=\"one\">one</label>\n    </div>\n    <div>\n      <input type=\"radio\" id=\"two\" name=\"choice\" value=\"value-two\"/>\n      <label for=\"two\">two</label>\n    </div>\n    <div>\n      <input type=\"radio\" id=\"three\" name=\"choice\" value=\"value-three\"/>\n      <label for=\"three\">three</label>\n    </div>\n  </div>\n  <select id=\"rank\">\n    <option />\n    <option value=\"A\">Full A</option>\n    <option value=\"B\">Full B</option>\n    <option value=\"C\">Full C</option>\n    <option value=\"D\">Full D</option>\n    <option value=\"E\">Full E</option>\n  </select>\n</div>\n</body>\n</html>",
         "title" : "HTML form",
         "anchorId" : "universal-set-value-html-form",
         "type" : "Snippet"
@@ -237,8 +237,14 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "lang" : "groovy",
         "snippet" : "form.rank.setValue('B')",
-        "title" : "set value to select",
-        "anchorId" : "select-set-value-to-select",
+        "title" : "set value to select by value",
+        "anchorId" : "select-set-value-to-select-by-value",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "form.rank.setValue('Full B')",
+        "title" : "set value to select by visible text",
+        "anchorId" : "select-set-value-to-select-by-visible-text",
         "type" : "Snippet"
       } ]
     }, {
@@ -280,7 +286,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "form.name.should == 'Full Automation'\nform.rank.should == 'B'\nform.confirmation.should == true\nform.choice.should == 'value-two'\nform.startDate.should == '2016-06-21'",
+        "snippet" : "form.name.should == 'Full Automation'\nform.rank.should == 'Full B'\nform.confirmation.should == true\nform.choice.should == 'value-two'\nform.startDate.should == '2016-06-21'",
         "title" : "universal assert",
         "anchorId" : "universal-assert-universal-assert",
         "type" : "Snippet"
@@ -367,7 +373,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1677186557934,
+    "lastModifiedTime" : 1681825041900,
     "tocItem" : {
       "chapterTitle" : "Browser",
       "pageTitle" : "Forms",

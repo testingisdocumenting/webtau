@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: GitHub</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Uploading Reports</h1></header>
+<p>WebTau generates report/introduction HTML Reports. To make reports accessible after your build run, use this step: - name: Upload all reports uses: actions/upload-artifact@v2 if: failure() with: name: all-webtau-reports path: &quot;*/**/webtau.report.html&quot; retention-days: 1 To only upload failed reports, configure report/configuration#failed-report-path failed report name and update the step: - name: Upload failed test reports uses: actions/upload-artifact@v2 if: failure() with: name: failed-webtau-reports path: &quot;*/**/*-failed*.html&quot; retention-days: 2</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "uploading-reports",
+      "title" : "Uploading Reports",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau generates ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/report/introduction",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "HTML Reports",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "To make reports accessible after your build run, use this step:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "yaml",
+        "snippet" : "- name: Upload all reports\n  uses: actions/upload-artifact@v2\n  if: failure()\n  with:\n    name: all-webtau-reports\n    path: \"*/**/webtau.report.html\"\n    retention-days: 1",
+        "title" : "step to upload all reports",
+        "startLine" : "Upload all reports",
+        "endLine" : "retention-days",
+        "replace" : [ "\\*webtau-", "webtau." ],
+        "anchorId" : "uploading-reports-step-to-upload-all-reports",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To only upload failed reports, configure ",
+          "type" : "SimpleText"
+        }, {
+          "url" : "/webtau/report/configuration#failed-report-path",
+          "isFile" : false,
+          "type" : "Link",
+          "content" : [ {
+            "text" : "failed report name",
+            "type" : "SimpleText"
+          } ]
+        }, {
+          "text" : " and update the step:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "yaml",
+        "snippet" : "- name: Upload failed test reports\n  uses: actions/upload-artifact@v2\n  if: failure()\n  with:\n    name: failed-webtau-reports\n    path: \"*/**/*-failed*.html\"\n    retention-days: 2",
+        "title" : "step to upload only failed test reports",
+        "startLine" : "Upload failed test reports",
+        "endLine" : "retention-days",
+        "anchorId" : "uploading-reports-step-to-upload-only-failed-test-reports",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1681825041900,
+    "tocItem" : {
+      "chapterTitle" : "Continuous Integration",
+      "pageTitle" : "GitHub",
+      "pageMeta" : { },
+      "dirName" : "continuous-integration",
+      "fileName" : "GitHub",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Uploading Reports",
+        "id" : "uploading-reports"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

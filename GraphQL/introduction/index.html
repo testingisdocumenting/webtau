@@ -84,7 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>WebTau graphql. module lets you exercise and validate a GraphQL API. It provides a simplified way to access the JSON response of an end-point and provides a DSL to execute queries and mutations. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauDsl.graphql @RunWith(WebTauRunner.class) class GraphQLWeatherGroovyIT { @Test void checkWeather() { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } } Java package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class GraphQLWeatherJavaIT { @Test public void checkWeather() { String query = &quot;{ weather { temperature } }&quot;; graphql.execute(query, (header, body) -&gt; { body.get(&quot;data.weather.temperature&quot;).shouldBe(lessThan(100)); }); } } Before diving further into writing tests for your GraphQL server, please read through the HTTP testing documentation starting with the HTTP/data-node Data node page as much of the same core principles apply to GraphQL also.The main GraphQL specific features are covered in the subsequent pages: GraphQL/queries-and-mutations Queries and Mutations GraphQL/customized-graphql-urls Customized GraphQL URLs GraphQL/report Report</p>
+<p>WebTau graphql module lets you exercise and validate a GraphQL API. It provides a simplified way to access the JSON response of an end-point and provides a DSL to execute queries and mutations. Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } package com.example.tests.junit4 import org.junit.Test import org.junit.runner.RunWith import org.testingisdocumenting.webtau.junit4.WebTauRunner import static org.testingisdocumenting.webtau.WebTauDsl.graphql @RunWith(WebTauRunner.class) class GraphQLWeatherGroovyIT { @Test void checkWeather() { def query = &quot;{ weather { temperature } }&quot;; graphql.execute(query) { weather.temperature.shouldBe &lt; 100 } } } Java package com.example.tests.junit4; import org.junit.Test; import org.junit.runner.RunWith; import org.testingisdocumenting.webtau.junit4.WebTauRunner; import static org.testingisdocumenting.webtau.WebTauDsl.*; @RunWith(WebTauRunner.class) public class GraphQLWeatherJavaIT { @Test public void checkWeather() { String query = &quot;{ weather { temperature } }&quot;; graphql.execute(query, (header, body) -&gt; { body.get(&quot;data.weather.temperature&quot;).shouldBe(lessThan(100)); }); } }</p>
 </article>
 </section>
 </div>
@@ -120,7 +120,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "text" : "WebTau ",
         "type" : "SimpleText"
       }, {
-        "code" : "graphql.",
+        "code" : "graphql",
         "type" : "InlinedCode"
       }, {
         "text" : " module lets you exercise and validate a GraphQL API.",
@@ -198,83 +198,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ],
       "type" : "Tabs"
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "Before diving further into writing tests for your GraphQL server, please read through the HTTP testing documentation",
-        "type" : "SimpleText"
-      }, {
-        "type" : "SoftLineBreak"
-      }, {
-        "text" : "starting with the ",
-        "type" : "SimpleText"
-      }, {
-        "url" : "/webtau/HTTP/data-node",
-        "isFile" : false,
-        "type" : "Link",
-        "content" : [ {
-          "text" : "Data node page",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "text" : " as much of the same core principles apply to GraphQL also.",
-        "type" : "SimpleText"
-      } ]
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "The main GraphQL specific features are covered in the subsequent pages:",
-        "type" : "SimpleText"
-      } ]
-    }, {
-      "bulletMarker" : "*",
-      "tight" : true,
-      "type" : "BulletList",
-      "content" : [ {
-        "type" : "ListItem",
-        "content" : [ {
-          "type" : "Paragraph",
-          "content" : [ {
-            "url" : "/webtau/GraphQL/queries-and-mutations",
-            "isFile" : false,
-            "type" : "Link",
-            "content" : [ {
-              "text" : "Queries and Mutations",
-              "type" : "SimpleText"
-            } ]
-          } ]
-        } ]
-      }, {
-        "type" : "ListItem",
-        "content" : [ {
-          "type" : "Paragraph",
-          "content" : [ {
-            "url" : "/webtau/GraphQL/customized-graphql-urls",
-            "isFile" : false,
-            "type" : "Link",
-            "content" : [ {
-              "text" : "Customized GraphQL URLs",
-              "type" : "SimpleText"
-            } ]
-          } ]
-        } ]
-      }, {
-        "type" : "ListItem",
-        "content" : [ {
-          "type" : "Paragraph",
-          "content" : [ {
-            "url" : "/webtau/GraphQL/report",
-            "isFile" : false,
-            "type" : "Link",
-            "content" : [ {
-              "text" : "Report",
-              "type" : "SimpleText"
-            } ]
-          } ]
-        } ]
-      } ]
     } ],
-    "lastModifiedTime" : 1677186557934,
+    "lastModifiedTime" : 1681825041900,
     "tocItem" : {
       "chapterTitle" : "GraphQL",
       "pageTitle" : "Introduction",

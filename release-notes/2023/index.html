@@ -84,8 +84,13 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>1.52</h1></header>
+<p>Fix: notEqual matchers/introduction Matcher now properly delegates to nested matcher such as anyOf Fix: containsAll matchers/introduction Matcher now properly renders java bean details when compared against multiple maps Fix: anyOf matchers/introduction Matcher now properly renders java bean details when compared against multiple maps Fix: matchers/introduction Matchers contain messages to use not in details report in case of shouldNot Fix: HTTP/introduction HTTP java module now automatically handles config file, without requiring larger WebTau dependency Fix: matchers Web Report mis-alignment fix Fix: chrome driver init workaround for origin to work with new chrome Doc: groovy-standalone-runner/IDE-setup IDE Setup for auto-completion Doc: redo getting-started/what-is-this WebTau intro and include HTTP Resource and Web Socket section Doc: HTTP/import-and-dependencies HTTP imports, and sprinkle links to the page from various HTTP pages Doc: Combined HTTP CRUD and CRUD separated pages into HTTP/CRUD-example CRUD Example Doc: continuous-integration/GitHub GitHub CI reports upload Doc: matchers/string string matcher Add: matchers/custom-compare-to-handler#custom-complex-domain-data CompareToHandler convertedExpected . It now participates in matching step output and uses converted values for failed and matched messaging. Add: report/steps Steps reporter prints error details on a next line as long as there is additional pretty printed details present (even if one liner) Add: reference/table-data TableData Record is pretty printable Add: List Of Beans And Map matchers/java-bean#java-beans-contain-map contain Add: List Of Beans And Table matchers/java-bean#java-beans-contain-table-data contain Add: HTTP/introduction HTTP body HTTP/matchers#contain-table contain TableData Add: configuration/options#waitTick waitTick globally configurable value Add: HTTP/HTTP-resource HTTP Resource to define lazy values to be waited or asserted on later Add: DataNode is now part of core instead of http module Add: web-socket/introduction WebSocket support Add: browser handle set select form value browser/forms#select by text Add: add browser.element as alias to $ Add: string matcher matchers/string#different-number-of-empty-lines extra new lines check Add: always render HTTP/introduction HTTP JSON request/response as multiline even when the content is small enough to fit a single line Add: Path pretty printable with different colors for file and extension Add: pretty print reference/table-data TableData inside maps as a block to maintain indentation Add: code matchers (e.g. should throw exception) is now a step and use tokenized colored messages</p>
+</article>
+
+<article>
 <header><h1>1.51</h1></header>
-<p>Fix: JUnit5 correctly registers failed matcher step Fix: HTML report long test names replaced with ellipsis Fix: Console output of failed steps and their output order at the end of tests run Fix: GraphQL/introduction GraphQL won't make schema calls for report when no GraphQL calls were performed during test Fix: matchers/introduction#waitto waitTo label fix preposition messaging Fix: remove extra spacing before delimiters when render report/steps Web Report Steps Doc: move report/tracing trace and report/warnings warning to their own documentation pages and document import prerequisites Doc: data/json#write-table-data data.json.write TableData add missing report output Doc: move junit5/getting-started JUnit5 to its own section Doc: JUnit5 junit5/dynamic-tests Dynamic Tests Java examples Add: Java config is handled when only webtau-core dependency is present. No need for junit specific dependency. Add: trace report/tracing#object-properties complex objects like list of java beans with nested beans Add: pretty print string in a special way when newline symbol is present Add: highlight elements inside lists that match criteria when shouldn't (when using shouldNot contain ) Add: initial pretty printer of class instances Add: use colored messages for matchers/introduction#failure-output failed assertion details Add: Display actual value with markers on Web Report in case of a failure Add: Pretty Print for Regexp Pattern instance with displaying flags Add: report/tracing tracing pretty prints complex values like maps and reference/table-data TableData Add: database/data-setup#cleaning-tables databaseTable.clear shortcut to delete from tables Add: reference/table-data#create-from-existing-rows TableData.fromRowsByKeys Add: Empty reference/table-data TableData pretty print explicitly states &quot;empty&quot; for empty tables Add: report/steps Steps input info additional indentation when printed to console Add: matchers/introduction Matchers only print minimal details in case of match, extra details in case of failure Add: matchers/introduction Matchers only print first 5 lines of expected for in progress message to reduce data duplication Add: Failed Test report/introduction#failed-test-summary Summary auto expands failed step and removed duplicated error message from parent step during rendering Add: matchers/introduction Matchers won't print failed matching details twice. Now it only prints during step rendering, and actual assertion message asks to check info above Add: reference/table-data TableData findByKey validation for keys presence and composite key size match Merge: database/introduction Database DatabaseFacade and Database to have consistent import of DB module only Add: database/introduction Database comparison and inserts automatically convert from camelCase to UNDER_SCORE Doc: database/introduction Database Spring Boot database/spring-boot-example Example Add: database/introduction Database pretty print query results in case of failure Add: database/introduction Database instance creation from explicit jdbc url Add: browser/introduction browser implicit browser/test-containers Test Containers support Add: browser/basic-configuration#access-to-base-url browser.getBaseUrlPort Add: matchers/java-bean#collection-of-java-beans-and-table-data Beans And Table comparison pretty prints beans as table Add: matchers/java-bean#java-bean-and-maps Bean And Map comparison pretty prints actual bean data in case of mismatch Add: reference/table-data TableData new comparison report with colors and better failure highlight Fix: properly render Arrays as actual instead of reference hash Add: list companion to map Add: data/json#parse-map data.json.mapFromString, data/json#parse-list data.json.listFromString, data/json#parse-tabledata data.json.tableFromString, data/json#parse-object data.json.objectFromString Add: renamed aMapOf to map and deprecated former Add: matchers/introduction waitTo on LiveValue support for greaterThan, lessThan kind of comparisons Add: pretty print output of actual value with failure markers in case of a matchers/introduction#failure-output Failed Matcher Add: matchers/introduction waitTo support for supplier Add: limit number of failed/errored tests printed at the end of run Add: configuration/options#consoleOutputCaptureDir consoleOutputCaptureDir for groovy-standalone-runner/introduction Groovy Standalone Runner Add: HTTP/body#form-url-encoded-data http.formDataUrlEncoded Add: data/base64 data.base64 to encode and decode strings Add: report/introduction Report shows first failed step in test summary instead of an exception message Add: Report shows warning icon next to tests with warnings Add: report/steps Steps, Trace, Warnings Java examples</p>
+<p>Fix: JUnit5 correctly registers failed matcher step Fix: HTML report long test names replaced with ellipsis Fix: Console output of failed steps and their output order at the end of tests run Fix: GraphQL/introduction GraphQL won't make schema calls for report when no GraphQL calls were performed during test Fix: matchers/introduction#waitto waitTo label fix preposition messaging Fix: remove extra spacing before delimiters when render report/steps Web Report Steps Doc: move report/tracing trace and report/warnings warning to their own documentation pages and document import prerequisites Doc: data/json#write-table-data data.json.write TableData add missing report output Doc: move junit5/getting-started JUnit5 to its own section Doc: JUnit5 junit5/dynamic-tests Dynamic Tests Java examples Add: Java config is handled when only webtau-core dependency is present. No need for junit specific dependency. Add: trace report/tracing#object-properties complex objects like list of java beans with nested beans Add: pretty print string in a special way when newline symbol is present Add: highlight elements inside lists that match criteria when shouldn't (when using shouldNot contain ) Add: initial pretty printer of class instances Add: use colored messages for matchers/introduction#failure-output failed assertion details Add: Display actual value with markers on Web Report in case of a failure Add: Pretty Print for Regexp Pattern instance with displaying flags Add: report/tracing tracing pretty prints complex values like maps and reference/table-data TableData Add: database/data-setup#cleaning-tables databaseTable.clear shortcut to delete from tables Add: reference/table-data#create-from-existing-rows TableData.fromRowsByKeys Add: Empty reference/table-data TableData pretty print explicitly states &quot;empty&quot; for empty tables Add: report/steps Steps input info additional indentation when printed to console Add: matchers/introduction Matchers only print minimal details in case of match, extra details in case of failure Add: matchers/introduction Matchers only print first 5 lines of expected for in progress message to reduce data duplication Add: Failed Test report/introduction#failed-test-summary Summary auto expands failed step and removed duplicated error message from parent step during rendering Add: matchers/introduction Matchers won't print failed matching details twice. Now it only prints during step rendering, and actual assertion message asks to check info above Add: reference/table-data TableData findByKey validation for keys presence and composite key size match Merge: database/introduction Database DatabaseFacade and Database to have consistent import of DB module only Add: database/introduction Database comparison and inserts automatically convert from camelCase to UNDER_SCORE Doc: database/introduction Database Spring Boot database/spring-boot-example Example Add: database/introduction Database pretty print query results in case of failure Add: database/introduction Database instance creation from explicit jdbc url Add: browser/introduction browser implicit browser/test-containers Test Containers support Add: browser/basic-configuration#access-to-base-url browser.getBaseUrlPort Add: matchers/java-bean#java-beans-equal-table-data Beans And Table comparison pretty prints beans as table Add: matchers/java-bean#java-bean-equals-map Bean And Map comparison pretty prints actual bean data in case of mismatch Add: reference/table-data TableData new comparison report with colors and better failure highlight Fix: properly render Arrays as actual instead of reference hash Add: list companion to map Add: data/json#parse-map data.json.mapFromString, data/json#parse-list data.json.listFromString, data/json#parse-tabledata data.json.tableFromString, data/json#parse-object data.json.objectFromString Add: renamed aMapOf to map and deprecated former Add: matchers/introduction waitTo on LiveValue support for greaterThan, lessThan kind of comparisons Add: pretty print output of actual value with failure markers in case of a matchers/introduction#failure-output Failed Matcher Add: matchers/introduction waitTo support for supplier Add: limit number of failed/errored tests printed at the end of run Add: configuration/options#consoleOutputCaptureDir consoleOutputCaptureDir for groovy-standalone-runner/introduction Groovy Standalone Runner Add: HTTP/body#form-url-encoded-data http.formDataUrlEncoded Add: data/base64 data.base64 to encode and decode strings Add: report/introduction Report shows first failed step in test summary instead of an exception message Add: Report shows warning icon next to tests with warnings Add: report/steps Steps, Trace, Warnings Java examples</p>
 </article>
 </section>
 </div>
@@ -116,6 +121,743 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
+      "id" : "1-52",
+      "title" : "1.52",
+      "type" : "Section",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "notEqual",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Matcher",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " now properly delegates to nested matcher such as ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "anyOf",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "containsAll",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Matcher",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " now properly renders java bean details when compared against multiple maps",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "anyOf",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Matcher",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " now properly renders java bean details when compared against multiple maps",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Matchers",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " contain messages to use ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "not",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " in details report in case of ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "shouldNot",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "HTTP",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " java module now automatically handles config file, without requiring larger WebTau dependency",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: matchers Web Report mis-alignment fix",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: chrome driver init workaround for origin to work with new chrome",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/groovy-standalone-runner/IDE-setup",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "IDE Setup",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for auto-completion",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: redo ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/getting-started/what-is-this",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "WebTau intro",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " and include HTTP Resource and Web Socket section",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "HTTP imports",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ", and sprinkle links to the page from various HTTP pages",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: Combined HTTP CRUD and CRUD separated pages into ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/CRUD-example",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "CRUD Example",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/continuous-integration/GitHub",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "GitHub CI",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " reports upload",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/string",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "string matcher",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/custom-compare-to-handler#custom-complex-domain-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "CompareToHandler",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "convertedExpected",
+              "type" : "InlinedCode"
+            }, {
+              "text" : ". It now participates in matching step output and",
+              "type" : "SimpleText"
+            }, {
+              "type" : "SoftLineBreak"
+            }, {
+              "text" : "uses converted values for failed and matched messaging.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/steps",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Steps",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " reporter prints error details on a next line as long as there is additional pretty printed details present (even if one liner)",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " Record is pretty printable",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: List Of Beans And Map ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/java-bean#java-beans-contain-map",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "contain",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: List Of Beans And Table ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/java-bean#java-beans-contain-table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "contain",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "HTTP",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " body ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/matchers#contain-table",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "contain TableData",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/configuration/options#waitTick",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "waitTick",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " globally configurable value",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/HTTP-resource",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "HTTP Resource",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " to define lazy values to be waited or asserted on later",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "DataNode",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " is now part of core instead of ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "http",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " module",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/web-socket/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "WebSocket",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " support",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: browser handle set select form value ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/forms#select",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "by text",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: add ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "browser.element",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " as alias to ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "$",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: string matcher ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/string#different-number-of-empty-lines",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "extra new lines check",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: always render ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "HTTP",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " JSON request/response as multiline even when the content is small enough to fit a single line",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "Path",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " pretty printable with different colors for file and extension",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: pretty print ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " inside maps as a block to maintain indentation",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: code matchers (e.g. should throw exception) is now a step and use tokenized colored messages",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
       "id" : "1-51",
       "title" : "1.51",
       "type" : "Section",
@@ -982,7 +1724,7 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Add: ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/matchers/java-bean#collection-of-java-beans-and-table-data",
+              "url" : "/webtau/matchers/java-bean#java-beans-equal-table-data",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
@@ -1007,7 +1749,7 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Add: ",
               "type" : "SimpleText"
             }, {
-              "url" : "/webtau/matchers/java-bean#java-bean-and-maps",
+              "url" : "/webtau/matchers/java-bean#java-bean-equals-map",
               "isFile" : false,
               "type" : "Link",
               "content" : [ {
@@ -1403,7 +2145,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1677186557950,
+    "lastModifiedTime" : 1681825041908,
     "tocItem" : {
       "chapterTitle" : "Release Notes",
       "pageTitle" : "2023 Releases",
@@ -1414,6 +2156,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "2023",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "1.52",
+        "id" : "1-52"
+      }, {
         "title" : "1.51",
         "id" : "1-51"
       } ]
