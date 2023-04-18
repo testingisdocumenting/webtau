@@ -232,4 +232,12 @@ public class HttpResourceJavaTest extends HttpTestBase {
         actual(responseAsText, "response").should(equal("{\"price\": 100}"));
         // full-text-response
     }
+
+    @Test
+    public void header() {
+        // pass-header
+        HttpLazyResponseValue responseValue = http.resource("/full-echo", http.header("x-prop", "x-value")).get("x-prop");
+        // pass-header
+        responseValue.should(equal("x-value"));
+    }
 }

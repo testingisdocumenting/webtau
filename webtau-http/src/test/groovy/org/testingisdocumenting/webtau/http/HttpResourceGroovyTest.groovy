@@ -91,4 +91,12 @@ class HttpResourceGroovyTest extends HttpTestBase {
         responseAsText.should == "{\"price\": 100}"
         // full-text-response
     }
+
+    @Test
+    void "header"() {
+        // pass-header
+        def responseValue = http.resource("/full-echo", http.header("x-prop", "x-value")).get("x-prop")
+        // pass-header
+        responseValue.should(equal("x-value"))
+    }
 }
