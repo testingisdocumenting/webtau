@@ -84,7 +84,7 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<p>WebTau server. module lets you create and control static, fake and proxy servers:Static servers to quickly host HTML, JSON, and similar content Fake servers to control response based request Proxy servers to simulate outages and record interactions for failures investigation def myServer = server.serve(&quot;my-server&quot;, &quot;data/staticcontent&quot;) // router-example // router-example def proxyServer = server.proxy(&quot;test-proxy-server&quot;, targetServer.baseUrl) You can apply overrides to any created server. You can also put servers into a &quot;bad&quot; state. proxyServer.markUnresponsive() def router = server.router() .get(&quot;/hello/:name&quot;) {request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } myServer.addOverride(router)</p>
+<p>WebTau server module lets you create and control static, fake and proxy servers:Static servers to quickly host HTML, JSON, and similar content Fake servers to control response based request Proxy servers to simulate outages and record interactions for failures investigation def myServer = server.serve(&quot;my-server&quot;, &quot;data/staticcontent&quot;) def router = server.router() .get(&quot;/hello/:name&quot;) { request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } .get(&quot;/bye/:name&quot;) { request -&gt; server.response([message: &quot;bye ${request.param(&quot;name&quot;)}&quot;]) } def proxyServer = server.proxy(&quot;test-proxy-server&quot;, targetServer.baseUrl) You can apply overrides to any created server. You can also put servers into a &quot;bad&quot; state. proxyServer.markUnresponsive() def router = server.router() .get(&quot;/hello/:name&quot;) {request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } myServer.addOverride(router)</p>
 </article>
 </section>
 </div>
@@ -120,7 +120,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "text" : "WebTau ",
         "type" : "SimpleText"
       }, {
-        "code" : "server.",
+        "code" : "server",
         "type" : "InlinedCode"
       }, {
         "text" : " module lets you create and control static, fake and proxy servers:",
@@ -167,10 +167,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "type" : "Snippet"
     }, {
       "lang" : "groovy",
-      "snippet" : "// router-example\n// router-example",
+      "snippet" : "def router = server.router()\n        .get(\"/hello/:name\") { request -> server.response([message: \"hello ${request.param(\"name\")}\"]) }\n        .get(\"/bye/:name\") { request -> server.response([message: \"bye ${request.param(\"name\")}\"]) }",
       "title" : "fake server creation example",
-      "includeRegexp" : "router-example",
-      "commentsType" : "remove",
+      "surroundedBy" : "router-example",
       "anchorId" : "fake-server-creation-example",
       "type" : "Snippet"
     }, {
@@ -201,7 +200,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "anchorId" : "content-override",
       "type" : "Snippet"
     } ],
-    "lastModifiedTime" : 1681825041912,
+    "lastModifiedTime" : 1681830947314,
     "tocItem" : {
       "chapterTitle" : "Servers",
       "pageTitle" : "Introduction",
