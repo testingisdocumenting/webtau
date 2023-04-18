@@ -17,8 +17,11 @@
 package org.testingisdocumenting.webtau.expectation.contain
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.Account
+import org.testingisdocumenting.webtau.Address
 
 import static org.testingisdocumenting.webtau.Matchers.*
+import static org.testingisdocumenting.webtau.WebTauCore.map
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class ContainAllMatcherTest {
@@ -59,5 +62,42 @@ class ContainAllMatcherTest {
     @Test
     void "containing all alias"() {
         actual([['a'], ['b'], ['c', 'd', 'e']]).should(contain(containingAll('d', 'e')))
+    }
+
+    @Test
+    void "list of beans contain all maps prints converted beans"() {
+        def address = new Address("city", "zipcode")
+        def ac1 = new Account("id1", "name1", "d1", address)
+        def ac2 = new Account("id2", "name2", "d2", address)
+        def ac3 = new Account("id3", "name3", "d3", address)
+        def beans = [ac1, ac2, ac3]
+
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain all [{"id": "id1", "name": "name2"}, {"id": "id2", "name": "name2"}]:\n' +
+                '    no matches found for: [{"id": "id1", "name": "name2"}] (Xms)\n' +
+                '  \n' +
+                '  [\n' +
+                '    {\n' +
+                '      "address": org.testingisdocumenting.webtau.Address@<ref>,\n' +
+                '      "description": "d1",\n' +
+                '      "id": "id1",\n' +
+                '      "name": "name1"\n' +
+                '    },\n' +
+                '    {\n' +
+                '      "address": org.testingisdocumenting.webtau.Address@<ref>,\n' +
+                '      "description": "d2",\n' +
+                '      "id": "id2",\n' +
+                '      "name": "name2"\n' +
+                '    },\n' +
+                '    {\n' +
+                '      "address": org.testingisdocumenting.webtau.Address@<ref>,\n' +
+                '      "description": "d3",\n' +
+                '      "id": "id3",\n' +
+                '      "name": "name3"\n' +
+                '    }\n' +
+                '  ]') {
+            actual(beans).should(containAll(
+                    map("id", "id1", "name", "name2"),
+                    map("id", "id2", "name", "name2")))
+        }
     }
 }
