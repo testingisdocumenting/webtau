@@ -13,17 +13,17 @@ Web Test Automation [User Guide](https://testingisdocumenting.org/webtau/)
 WebTau (**Web** **T**est **au**tomation) - concise and expressive way to write end-to-end and unit tests.
 
 Test your application across multiple layers and use unique features:
-* [REST API with Data Coverage](https://testingisdocumenting.org/webtau/getting-started/what-is-this#rest-api)
-* [Web Socket](https://testingisdocumenting.org/webtau/getting-started/what-is-this#websocket)
-* [GraphQL API](https://testingisdocumenting.org/webtau/getting-started/what-is-this#graphql-api)
-* [Browser](https://testingisdocumenting.org/webtau/getting-started/what-is-this#browser)
-* [Fake, Static And Proxy Servers](https://testingisdocumenting.org/webtau/getting-started/what-is-this#fake-static-and-proxy-servers)
-* [Database](https://testingisdocumenting.org/webtau/getting-started/what-is-this#database)
-* [CLI](https://testingisdocumenting.org/webtau/getting-started/what-is-this#cli)
-* [Business Logic (JVM only)](https://testingisdocumenting.org/webtau/getting-started/what-is-this#business-logic-jvm)
-* [REPL](https://testingisdocumenting.org/webtau/getting-started/what-is-this#repl)
-* [Reporting](https://testingisdocumenting.org/webtau/getting-started/what-is-this#reporting)
-* [Documentation Assistance](https://testingisdocumenting.org/webtau/getting-started/what-is-this#documentation-assistance)
+* [REST API with Data Coverage](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#rest-api)
+* [Web Socket](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#websocket)
+* [GraphQL API](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#graphql-api)
+* [Browser](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#browser)
+* [Fake, Static And Proxy Servers](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#fake-static-and-proxy-servers)
+* [Database](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#database)
+* [CLI](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#cli)
+* [Business Logic (JVM only)](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#business-logic-jvm)
+* [REPL](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#repl)
+* [Reporting](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#reporting)
+* [Documentation Assistance](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#documentation-assistance)
 
 There are many modules, but you can use any module you need independently, or use all the modules at once with convenient single imports.
 
