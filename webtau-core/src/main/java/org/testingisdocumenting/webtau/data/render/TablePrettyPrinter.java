@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.data.render;
 
 import org.apache.commons.lang3.StringUtils;
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.table.Record;
@@ -30,7 +31,7 @@ import java.util.stream.Collectors;
 public class TablePrettyPrinter {
     private static final Color COLUMN_NAME_KEY_INDICATOR_COLOR = Color.YELLOW;
     private static final Color COLUMN_NAME_COLOR = Color.PURPLE;
-    private static final String COLUMNS_DELIMITER = " │ ";
+    private static final String COLUMNS_DELIMITER = WebTauConfig.getCfg().getTableVerticalSeparator();
 
     private final TableData tableData;
 

@@ -55,6 +55,9 @@ public class WebTauConfig implements PrettyPrintable {
             "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
     private final ConfigValue fullStackTrace = declare("fullStackTrace", "print full stack trace to console",
             () -> false);
+    private final ConfigValue disableConsoleOverallReport = declare("disableConsoleOverallReport", "do not print failed tests, overall summary and path to the generated report at the end", () -> false);
+
+    private final ConfigValue tableVerticalSeparator = declare("tableVerticalSeparator", "string to use as a vertical separator when print TableData", () -> " \u2502 ");
 
     private final ConfigValue consolePayloadOutputLimit = declare("consolePayloadOutputLimit",
             "max number of lines to display in console for outputs (e.g. http response)", () -> 500);
@@ -162,6 +165,14 @@ public class WebTauConfig implements PrettyPrintable {
 
     public int getConsolePayloadOutputLimit() {
         return consolePayloadOutputLimit.getAsInt();
+    }
+
+    public boolean isConsoleOverallReportDisabled() {
+        return disableConsoleOverallReport.getAsBoolean();
+    }
+
+    public String getTableVerticalSeparator() {
+        return tableVerticalSeparator.getAsString();
     }
 
     public void acceptConfigValues(String source, Map<String, ?> values) {
@@ -447,6 +458,8 @@ public class WebTauConfig implements PrettyPrintable {
                 httpProxy,
                 verbosityLevel,
                 fullStackTrace,
+                disableConsoleOverallReport,
+                tableVerticalSeparator,
                 workingDir,
                 waitTick,
                 waitTimeout,
