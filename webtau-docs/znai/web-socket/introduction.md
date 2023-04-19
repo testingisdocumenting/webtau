@@ -16,5 +16,5 @@ Java:
 
 :include-cli-output: doc-artifacts/com.example.tests.junit5.WebSocketSpringBootTest-console-output.txt {
   title: "console output",
-  surroundedBy: "waitUntilReceiveMessage"
+  surroundedBy: "waitUntilReceiveMessageNoPath"
 }
