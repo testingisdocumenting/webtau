@@ -84,6 +84,11 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>1.52.1</h1></header>
+<p>Add: tableVerticalSeparator option to override what vertical separator to use when printing TableData Add: disableConsoleOverallReport option to disable printing of overall test summary and report link</p>
+</article>
+
+<article>
 <header><h1>1.52</h1></header>
 <p>Fix: notEqual matchers/introduction Matcher now properly delegates to nested matcher such as anyOf Fix: containsAll matchers/introduction Matcher now properly renders java bean details when compared against multiple maps Fix: anyOf matchers/introduction Matcher now properly renders java bean details when compared against multiple maps Fix: matchers/introduction Matchers contain messages to use not in details report in case of shouldNot Fix: HTTP/introduction HTTP java module now automatically handles config file, without requiring larger WebTau dependency Fix: matchers Web Report mis-alignment fix Fix: chrome driver init workaround for origin to work with new chrome Doc: groovy-standalone-runner/IDE-setup IDE Setup for auto-completion Doc: redo getting-started/what-is-this WebTau intro and include HTTP Resource and Web Socket section Doc: HTTP/import-and-dependencies HTTP imports, and sprinkle links to the page from various HTTP pages Doc: Combined HTTP CRUD and CRUD separated pages into HTTP/CRUD-example CRUD Example Doc: continuous-integration/GitHub GitHub CI reports upload Doc: matchers/string string matcher Add: matchers/custom-compare-to-handler#custom-complex-domain-data CompareToHandler convertedExpected . It now participates in matching step output and uses converted values for failed and matched messaging. Add: report/steps Steps reporter prints error details on a next line as long as there is additional pretty printed details present (even if one liner) Add: reference/table-data TableData Record is pretty printable Add: List Of Beans And Map matchers/java-bean#java-beans-contain-map contain Add: List Of Beans And Table matchers/java-bean#java-beans-contain-table-data contain Add: HTTP/introduction HTTP body HTTP/matchers#contain-table contain TableData Add: configuration/options#waitTick waitTick globally configurable value Add: HTTP/HTTP-resource HTTP Resource to define lazy values to be waited or asserted on later Add: DataNode is now part of core instead of http module Add: web-socket/introduction WebSocket support Add: browser handle set select form value browser/forms#select by text Add: add browser.element as alias to $ Add: string matcher matchers/string#different-number-of-empty-lines extra new lines check Add: always render HTTP/introduction HTTP JSON request/response as multiline even when the content is small enough to fit a single line Add: Path pretty printable with different colors for file and extension Add: pretty print reference/table-data TableData inside maps as a block to maintain indentation Add: code matchers (e.g. should throw exception) is now a step and use tokenized colored messages</p>
 </article>
@@ -121,6 +126,54 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
+      "id" : "1-52-1",
+      "title" : "1.52.1",
+      "type" : "Section",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "tableVerticalSeparator",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " option to override what vertical separator to use when printing ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "TableData",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "disableConsoleOverallReport",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " option to disable printing of overall test summary and report link",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
       "id" : "1-52",
       "title" : "1.52",
       "type" : "Section",
@@ -2145,7 +2198,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1681830947314,
+    "lastModifiedTime" : 1681864119073,
     "tocItem" : {
       "chapterTitle" : "Release Notes",
       "pageTitle" : "2023 Releases",
@@ -2156,6 +2209,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "2023",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "1.52.1",
+        "id" : "1-52-1"
+      }, {
         "title" : "1.52",
         "id" : "1-52"
       }, {

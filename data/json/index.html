@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Read List</h1></header>
-<p>Use data.json.list to read data as java.util.List from JSON file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.json.list(&quot;data/flat-list.json&quot;) list[0].name.should == &quot;hello&quot; list[1].payload.should == [info: ~/id2 payload/] Check data/import-and-dependencies Import And Dependencies for prerequisites. Java List&lt;Map&lt;String, ?&gt;&gt; list = data.json.list(&quot;data/flat-list.json&quot;); actual(list.get(0).get(&quot;name&quot;)).should(equal(&quot;hello&quot;)); actual(list.get(1).get(&quot;payload&quot;)).should( equal(map(&quot;info&quot;, Pattern.compile(&quot;id2 payload&quot;)))); Check data/import-and-dependencies Import And Dependencies for prerequisites. read methods produce additional report to help with tests investigation &gt; reading json from file or resource data/flat-list.json . read 16 lines of json from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/flat-list.json (0ms)</p>
+<p>Use data.json.list to read data as java.util.List from JSON file. Passed path is either relative based on working dir or absolute file path. Or it can be a resource class path. Groovy def list = data.json.list(&quot;data/flat-list.json&quot;) list[0].name.should == &quot;hello&quot; list[1].payload.should == [info: ~/id2 payload/] Check data/import-and-dependencies Import And Dependencies for prerequisites. Java List&lt;Map&lt;String, ?&gt;&gt; list = data.json.list(&quot;data/flat-list.json&quot;); actual(list.get(0).get(&quot;name&quot;)).should(equal(&quot;hello&quot;)); actual(list.get(1).get(&quot;payload&quot;)).should( equal(map(&quot;info&quot;, Pattern.compile(&quot;id2 payload&quot;)))); Check data/import-and-dependencies Import And Dependencies for prerequisites. read methods produce additional report to help with tests investigation &gt; reading json from file or resource data/flat-list.json . read 16 lines of json from file /home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/flat-list.json (1ms)</p>
 </article>
 
 <article>
@@ -280,7 +280,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[33m> \u001B[34mreading \u001B[36mjson \u001B[33mfrom \u001B[36mfile or resource \u001B[35mdata/flat-list.json\u001B[0m", "\u001B[32m. \u001B[34mread \u001B[34m16 \u001B[36mlines of json \u001B[33mfrom \u001B[36mfile \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/flat-list.json\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mreading \u001B[36mjson \u001B[33mfrom \u001B[36mfile or resource \u001B[35mdata/flat-list.json\u001B[0m", "\u001B[32m. \u001B[34mread \u001B[34m16 \u001B[36mlines of json \u001B[33mfrom \u001B[36mfile \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/data/flat-list.json\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "read-list-console-output",
         "type" : "CliOutput"
       } ]
@@ -859,7 +859,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1681830947306,
+    "lastModifiedTime" : 1681864119065,
     "tocItem" : {
       "chapterTitle" : "Data",
       "pageTitle" : "Json",
