@@ -5,7 +5,7 @@
   "waitUntilReceiveMessageUsingPath()" : {
     "numberOfSuccessful" : 6
   },
-  "waitUntilReceiveMessage()" : {
+  "waitUntilReceiveMessageNoPath()" : {
     "numberOfSuccessful" : 6
   },
   "discardMessages()" : {

@@ -28,7 +28,7 @@ import static org.testingisdocumenting.webtau.websocket.WebSocket.websocket;
 @WebTau
 public class WebSocketSpringBootTest {
     @Test
-    public void waitUntilReceiveMessage() {
+    public void waitUntilReceiveMessageNoPath() {
         // connect-send-wait
         WebSocketSession wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "IBM"));
