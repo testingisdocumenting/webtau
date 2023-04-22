@@ -7,7 +7,7 @@ WebTau leverages [Selenium WebDriver](https://www.selenium.dev) to do the heavy 
 ```tabs
 Groovy:
 
-:include-file: scenarios/ui/searchWithPagesWaitTo.groovy {title: "Browser test (Groovy runner)"}
+:include-file: scenarios/ui/searchWithPagesWaitTo.groovy {title: "browser test (groovy script)"}
 :include-groovy: pages/SearchPage.groovy {title: "SearchPage.groovy"}
 
 :include-file: pages/Pages.groovy {
@@ -17,7 +17,7 @@ Groovy:
 
 Java:
 
-:include-file: com/example/tests/junit5/WebSearchJavaTest.java {title: "Browser test (JUnit 5)"}
+:include-file: com/example/tests/junit5/WebSearchJavaTest.java {title: "browser test (JUnit 5)"}
 :include-file: com/example/tests/junit5/pages/SearchPage.java {title: "SearchPage.java"}
 
 :include-file: com/example/tests/junit5/pages/Pages.java {

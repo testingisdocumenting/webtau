@@ -1,0 +1,1 @@
+* Doc: [mention scripting](getting-started/what-is-this#scripting-and-junit) in the docs intro page
