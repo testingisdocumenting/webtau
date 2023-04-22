@@ -21,7 +21,23 @@ Test your application across multiple layers and use unique features:
 
 There are many modules, but you can use any module you need independently, or use all the modules at once with convenient single imports.
 
-Note: Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
+# Scripting And JUnit
+
+Tests can be written and [executed as scripts](groovy-standalone-runner/introduction) via command line or using [JUnit integration](junit5/getting-started) and build systems.
+
+`````tabs
+Groovy:
+
+:include-file: scenarios/ui/searchWithPagesWaitTo.groovy {title: "browser test (groovy script)", startLine: "search by specific"}
+
+```cli
+webtau testscript.groovy
+```
+
+Java:
+
+:include-file: com/example/tests/junit5/WebSearchJavaTest.java {title: "browser test (JUnit 5)", startLine: "class"}
+`````
 
 # Rest API 
 

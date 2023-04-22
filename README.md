@@ -27,11 +27,32 @@ Test your application across multiple layers and use unique features:
 
 There are many modules, but you can use any module you need independently, or use all the modules at once with convenient single imports.
 
-**Note:** Tests can be written in any JVM language. Language specific syntactic sugar is available for `Groovy`.
-
 Unique console output keeps you informed at all times:
 
 ![image of http resource code and its output](webtau-docs/readme/live-price-http.png)
+
+**Note**: Tests can be written and [executed as scripts](https://testingisdocumenting.org/webtau/groovy-standalone-runner/introduction) via command line or using [JUnit integration](https://testingisdocumenting.org/webtau/junit5/getting-started) and build systems.
+
+*browser testing example using scripting*
+```groovy
+scenario("search by specific query") {
+    search.submit("search this")
+    search.numberOfResults.waitToBe > 1
+}
+
+$ webtau testscript.groovy
+```
+
+*browser testing example using JUnit*
+```java
+public class WebSearchJavaTest {
+    @Test
+    public void searchByQuery() {
+        search.submit("search this");
+        search.numberOfResults.waitToBe(greaterThan(1));
+    }
+}
+```
 
 Leverage out of the box rich reporting to speed up investigation and persist testing evidences:
 
