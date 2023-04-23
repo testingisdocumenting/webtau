@@ -28,9 +28,11 @@ import org.openqa.selenium.html5.LocalStorage;
 import org.openqa.selenium.html5.SessionStorage;
 import org.openqa.selenium.html5.WebStorage;
 import org.openqa.selenium.interactions.*;
+import org.testingisdocumenting.webtau.browser.BrowserConfig;
 import org.testingisdocumenting.webtau.persona.Persona;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class CurrentWebDriver implements
         WebDriver,
@@ -42,9 +44,12 @@ public class CurrentWebDriver implements
     public static final CurrentWebDriver INSTANCE = new CurrentWebDriver();
 
     private final ThreadLocal<Map<String, WebDriver>> local;
+    private final Map<String, WebDriver> global;
 
     private CurrentWebDriver() {
         local = ThreadLocal.withInitial(HashMap::new);
+        global = new ConcurrentHashMap<>();
+
         WebDriverCreatorListeners.add(this);
     }
 
@@ -174,7 +179,9 @@ public class CurrentWebDriver implements
     }
 
     private WebDriver getDriver() {
-        Map<String, WebDriver> driverByPersonaId = local.get();
+        Map<String, WebDriver> driverByPersonaId = BrowserConfig.isSameDriverInThreads() ?
+                global:
+                local.get();
 
         Persona currentPersona = Persona.getCurrentPersona();
         WebDriver webDriver = driverByPersonaId.get(currentPersona.getId());
@@ -188,5 +195,4 @@ public class CurrentWebDriver implements
 
         return newDriver;
     }
-
 }

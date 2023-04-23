@@ -1,0 +1,1 @@
+* Add: [browserSameDriverInThreads](configuration/options#browserSameDriverInThreads) option to force the same browser instance when running code from Notebook cells

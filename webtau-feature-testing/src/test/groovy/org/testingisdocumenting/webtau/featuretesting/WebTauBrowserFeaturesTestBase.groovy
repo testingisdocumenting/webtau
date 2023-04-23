@@ -92,6 +92,11 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
+    void "same driver different threads"() {
+        runCli("sameDriverDiffThreads.groovy", "webtau.samedriver.cfg.groovy")
+    }
+
+    @Test
     void "drag and drop"() {
         runCli("dragAndDrop.groovy", "webtau.cfg.groovy")
     }
