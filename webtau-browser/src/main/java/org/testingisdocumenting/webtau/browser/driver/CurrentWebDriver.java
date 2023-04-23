@@ -41,6 +41,8 @@ public class CurrentWebDriver implements
         WebStorage,
         Interactive,
         WebDriverCreatorListener {
+    public static final CurrentWebDriver INSTANCE = new CurrentWebDriver();
+
     private final ThreadLocal<Map<String, WebDriver>> local;
     private final Map<String, WebDriver> global;
 
