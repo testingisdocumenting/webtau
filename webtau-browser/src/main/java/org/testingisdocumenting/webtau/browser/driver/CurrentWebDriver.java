@@ -17,13 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.driver;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.OutputType;
-import org.openqa.selenium.TakesScreenshot;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebDriverException;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.html5.LocalStorage;
 import org.openqa.selenium.html5.SessionStorage;
 import org.openqa.selenium.html5.WebStorage;
@@ -33,6 +27,7 @@ import org.testingisdocumenting.webtau.persona.Persona;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.function.Function;
 
 public class CurrentWebDriver implements
         WebDriver,
@@ -55,32 +50,35 @@ public class CurrentWebDriver implements
 
     @Override
     public void get(String url) {
-        getDriver().get(url);
+        withDriverHandlingRecreation(driver -> {
+            driver.get(url);
+            return null;
+        });
     }
 
     @Override
     public String getCurrentUrl() {
-        return getDriver().getCurrentUrl();
+        return withDriverHandlingRecreation(WebDriver::getCurrentUrl);
     }
 
     @Override
     public String getTitle() {
-        return getDriver().getTitle();
+        return withDriverHandlingRecreation(WebDriver::getTitle);
     }
 
     @Override
     public List<WebElement> findElements(By by) {
-        return getDriver().findElements(by);
+        return withDriverHandlingRecreation(driver -> driver.findElements(by));
     }
 
     @Override
     public WebElement findElement(By by) {
-        return getDriver().findElement(by);
+        return withDriverHandlingRecreation(driver -> driver.findElement(by));
     }
 
     @Override
     public String getPageSource() {
-        return getDriver().getPageSource();
+        return withDriverHandlingRecreation(WebDriver::getPageSource);
     }
 
     @Override
@@ -95,52 +93,52 @@ public class CurrentWebDriver implements
 
     @Override
     public Set<String> getWindowHandles() {
-        return getDriver().getWindowHandles();
+        return withDriverHandlingRecreation(WebDriver::getWindowHandles);
     }
 
     @Override
     public String getWindowHandle() {
-        return getDriver().getWindowHandle();
+        return withDriverHandlingRecreation(WebDriver::getWindowHandle);
     }
 
     @Override
     public TargetLocator switchTo() {
-        return getDriver().switchTo();
+        return withDriverHandlingRecreation(WebDriver::switchTo);
     }
 
     @Override
     public Navigation navigate() {
-        return getDriver().navigate();
+        return withDriverHandlingRecreation(WebDriver::navigate);
     }
 
     @Override
     public Options manage() {
-        return getDriver().manage();
+        return withDriverHandlingRecreation(WebDriver::manage);
     }
 
     @Override
     public <X> X getScreenshotAs(OutputType<X> outputType) throws WebDriverException {
-        return ((TakesScreenshot) getDriver()).getScreenshotAs(outputType);
+        return withDriverHandlingRecreation(driver -> ((TakesScreenshot) driver).getScreenshotAs(outputType));
     }
 
     @Override
     public Object executeScript(String script, Object... args) {
-        return ((JavascriptExecutor) getDriver()).executeScript(script, args);
+        return withDriverHandlingRecreation(driver -> ((JavascriptExecutor) driver).executeScript(script, args));
     }
 
     @Override
     public Object executeAsyncScript(String script, Object... args) {
-        return ((JavascriptExecutor) getDriver()).executeAsyncScript(script, args);
+        return withDriverHandlingRecreation(driver -> ((JavascriptExecutor) driver).executeAsyncScript(script, args));
     }
 
     @Override
     public LocalStorage getLocalStorage() {
-        return ((WebStorage)getDriver()).getLocalStorage();
+        return withDriverHandlingRecreation(driver -> ((WebStorage) driver).getLocalStorage());
     }
 
     @Override
     public SessionStorage getSessionStorage() {
-        return ((WebStorage)getDriver()).getSessionStorage();
+        return withDriverHandlingRecreation(driver -> ((WebStorage) driver).getSessionStorage());
     }
 
     @Override
@@ -163,12 +161,18 @@ public class CurrentWebDriver implements
 
     @Override
     public void perform(Collection<Sequence> actions) {
-        ((Interactive)getDriver()).perform(actions);
+        withDriverHandlingRecreation(driver -> {
+            ((Interactive) driver).perform(actions);
+            return null;
+        });
     }
 
     @Override
     public void resetInputState() {
-        ((Interactive)getDriver()).resetInputState();
+        withDriverHandlingRecreation(driver -> {
+            ((Interactive) driver).resetInputState();
+            return null;
+        });
     }
 
     public void setDriver(WebDriver driver) {
@@ -192,6 +196,16 @@ public class CurrentWebDriver implements
         driverByPersonaId.put(currentPersona.getId(), newDriver);
 
         return newDriver;
+    }
+
+    private <R> R withDriverHandlingRecreation(Function<WebDriver, R> func) {
+        WebDriver driver = getDriver();
+        try {
+            return func.apply(driver);
+        } catch (NoSuchWindowException e) {
+            afterDriverQuit(driver);
+            return func.apply(getDriver());
+        }
     }
 
     private Map<String, WebDriver> getPersonaDrivers() {
