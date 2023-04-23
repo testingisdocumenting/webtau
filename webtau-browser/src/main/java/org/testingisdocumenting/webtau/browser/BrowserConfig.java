@@ -45,6 +45,9 @@ public class BrowserConfig implements WebTauConfigHandler {
     private static final ConfigValue browserVersion = declare("browserVersion", "browser version for automatic driver download", () -> "");
     private static final ConfigValue browserRemoteDriverUrl = declare("browserRemoteDriverUrl", "browser remote driver url", () -> "");
 
+    private static final ConfigValue browserSameDriverInThreads = declare("browserSameDriverInThreads", "set to true if you want only a single browser across multiple threads. Use case is notebook like apps." +
+                    "Personas will still have their own drivers", () -> false);
+
     private static final ConfigValue disableExtensions = declare("browserDisableExtensions", "run browser without extensions", () -> false);
 
     private static final ConfigValue staleElementRetry = declare("browserStaleElementRetry", "number of times to automatically retry for browser stale element actions", () -> 5);
@@ -126,6 +129,14 @@ public class BrowserConfig implements WebTauConfigHandler {
         return !getRemoteDriverUrl().isEmpty();
     }
 
+    public static boolean isSameDriverInThreads() {
+        return browserSameDriverInThreads.getAsBoolean();
+    }
+
+    public static void setBrowserSameDriverInThreads(boolean isSame) {
+        browserSameDriverInThreads.set("manual", isSame);
+    }
+
     public static String getRemoteDriverUrl() {
         return browserRemoteDriverUrl.getAsString();
     }
@@ -164,6 +175,7 @@ public class BrowserConfig implements WebTauConfigHandler {
                 browserWidth,
                 browserHeight,
                 browserHeadless,
+                browserSameDriverInThreads,
                 staleElementRetry,
                 staleElementRetryWait,
                 disableExtensions,
