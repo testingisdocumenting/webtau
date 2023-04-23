@@ -41,8 +41,6 @@ public class CurrentWebDriver implements
         WebStorage,
         Interactive,
         WebDriverCreatorListener {
-    public static final CurrentWebDriver INSTANCE = new CurrentWebDriver();
-
     private final ThreadLocal<Map<String, WebDriver>> local;
     private final Map<String, WebDriver> global;
 
@@ -157,7 +155,7 @@ public class CurrentWebDriver implements
 
     @Override
     public void afterDriverQuit(WebDriver webDriver) {
-        Map<String, WebDriver> driverByPersona = local.get();
+        Map<String, WebDriver> driverByPersona = getPersonaDrivers();
         driverByPersona.values().removeIf(driver -> driver == webDriver);
     }
 
@@ -172,16 +170,14 @@ public class CurrentWebDriver implements
     }
 
     public void setDriver(WebDriver driver) {
-        Map<String, WebDriver> driverByPersonaId = local.get();
+        Map<String, WebDriver> driverByPersonaId = getPersonaDrivers();
 
         Persona currentPersona = Persona.getCurrentPersona();
         driverByPersonaId.put(currentPersona.getId(), driver);
     }
 
     private WebDriver getDriver() {
-        Map<String, WebDriver> driverByPersonaId = BrowserConfig.isSameDriverInThreads() ?
-                global:
-                local.get();
+        Map<String, WebDriver> driverByPersonaId = getPersonaDrivers();
 
         Persona currentPersona = Persona.getCurrentPersona();
         WebDriver webDriver = driverByPersonaId.get(currentPersona.getId());
@@ -194,5 +190,11 @@ public class CurrentWebDriver implements
         driverByPersonaId.put(currentPersona.getId(), newDriver);
 
         return newDriver;
+    }
+
+    private Map<String, WebDriver> getPersonaDrivers() {
+        return BrowserConfig.isSameDriverInThreads() ?
+                global:
+                local.get();
     }
 }
