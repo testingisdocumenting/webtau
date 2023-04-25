@@ -16,6 +16,7 @@ Test your application across multiple layers and use unique features:
 * [REST API with Data Coverage](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#rest-api)
 * [Web Socket](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#websocket)
 * [GraphQL API](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#graphql-api)
+* [Authorization Personas](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#persona)
 * [Browser](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#browser)
 * [Fake, Static And Proxy Servers](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#fake-static-and-proxy-servers)
 * [Database](https://testingisdocumenting.org/webtau/getting-started/what-is-this/#database)
