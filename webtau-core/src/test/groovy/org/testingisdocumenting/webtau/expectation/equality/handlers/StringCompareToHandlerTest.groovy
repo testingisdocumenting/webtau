@@ -127,7 +127,7 @@ class StringCompareToHandlerTest {
                 '                                 \n' +
                 '                                 \n' +
                 '                                 \n' +
-                '                                 ...:\n' +
+                '                                 ___________:\n' +
                 '    first mismatch at line idx 0:\n' +
                 '      actual: "single line"\n' +
                 '    expected: "single lone"\n' +
