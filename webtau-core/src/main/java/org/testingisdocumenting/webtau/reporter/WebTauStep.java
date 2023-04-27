@@ -619,12 +619,23 @@ public class WebTauStep {
         stackTrace = renderStackTrace(t);
 
         completionMessage = new TokenizedMessage();
-        completionMessage.add("error", "failed").add(inProgressMessage);
+        completionMessage.add("error", "failed").add(replaceValuesFirstLinesOnlyWithFull(inProgressMessage));
 
         if (t instanceof AssertionTokenizedError) {
             exceptionTokenizedMessage = ((AssertionTokenizedError) t).getTokenizedMessage();
         } else {
             exceptionTokenizedMessage = tokenizedMessage().error(t.getMessage());
         }
+    }
+
+    private TokenizedMessage replaceValuesFirstLinesOnlyWithFull(TokenizedMessage message) {
+        TokenizedMessage copy = new TokenizedMessage();
+        for (MessageToken messageToken : message) {
+            copy.add(messageToken.getType().equals(TokenizedMessage.TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType()) ?
+                    new MessageToken(TokenizedMessage.TokenTypes.PRETTY_PRINT_VALUE.getType(), messageToken.getValue()):
+                    messageToken);
+        }
+
+        return copy;
     }
 }
