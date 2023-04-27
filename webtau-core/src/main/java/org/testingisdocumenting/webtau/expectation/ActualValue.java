@@ -275,6 +275,8 @@ public class ActualValue implements ActualValueExpectations {
         }
 
         step.setStepOutputFunc((matched) -> {
+            System.out.println("@@ 0 inside");
+
             ValueConverter valueConverter = step.getValueConverter();
             Object convertedActual = valueConverter.convertValue(actualPath, actualExtracted);
 
@@ -296,6 +298,8 @@ public class ActualValue implements ActualValueExpectations {
 
                 return WebTauStepOutput.EMPTY;
             }
+
+            System.out.println("@@ 3 outside");
 
             Set<ValuePath> pathsToDecorate = isNegative ?
                     valueMatcher.matchedPaths() :

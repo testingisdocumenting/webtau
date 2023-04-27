@@ -203,6 +203,7 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
     }
 
     public void printObject(ValuePath valuePath, Object o) {
+        System.out.println("@@ printObject");
         Object effectiveObject = valueConverter != null ?
                 valueConverter.convertValue(valuePath, o) :
                 o;
