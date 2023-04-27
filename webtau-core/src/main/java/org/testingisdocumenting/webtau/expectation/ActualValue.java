@@ -283,10 +283,17 @@ public class ActualValue implements ActualValueExpectations {
             if (assertionTokenizedMessage.tokensStream()
                     .filter(MessageToken::isPrettyPrintValue)
                     .anyMatch(token -> token.getValue() == actualExtracted || token.getValue() == convertedActual)) {
+                System.out.println("@@ 1");
                 return WebTauStepOutput.EMPTY;
             }
 
             if (Boolean.TRUE.equals(matched) || !PrettyPrinter.isPrettyPrintable(convertedActual) || step.hasParentWithDisabledMatcherOutputActualValue()) {
+                System.out.println("@@ 2");
+                System.out.println("actualExtracted: " + actualExtracted);
+                System.out.println("convertedActual: " + convertedActual);
+                System.out.println("isPrettyPrintable " + PrettyPrinter.isPrettyPrintable(convertedActual));
+                System.out.println("hasParentWithDisabledMatcherOutputActualValue " + step.hasParentWithDisabledMatcherOutputActualValue());
+
                 return WebTauStepOutput.EMPTY;
             }
 
