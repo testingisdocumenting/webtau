@@ -18,6 +18,8 @@
 package org.testingisdocumenting.webtau.browser.page
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
+import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.utils.ResourceUtils
 
 import static org.testingisdocumenting.webtau.Matchers.*
@@ -73,6 +75,8 @@ class PageUrlTest {
     void "should provide context of the failure in case of failed should statement"() {
         println "#####################"
 
+        ConsoleOutputs.add(ConsoleOutputs.defaultOutput);
+        StepReporters.add(StepReporters.defaultStepReporter);
 //        runExpectExceptionAndValidateOutput(AssertionError, "> expecting page url query of browser to equal \"wrong-value\"\n" +
 //                "X failed expecting page url query of browser to equal \"wrong-value\":\n" +
 //                "    page url query:  actual: \"type=full&debug=true\" <java.lang.String>\n" +
@@ -80,8 +84,15 @@ class PageUrlTest {
 //                "                              ^ (Xms)\n" +
 //                "  \n" +
 //                "  browser page url query: \"type=full&debug=true\"") {
+        try {
+
             browser.url.query.should == 'wrong-value'
+        } finally {
+            StepReporters.remove(StepReporters.defaultStepReporter);
+            ConsoleOutputs.remove(ConsoleOutputs.defaultOutput);
+        }
 //        }
+
     }
 
 //    @Test
