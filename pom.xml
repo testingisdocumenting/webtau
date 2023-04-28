@@ -157,7 +157,7 @@
         <tomcat.version>9.0.45</tomcat.version>
         <junit5.version>5.8.2</junit5.version>
         <graphql.version>16.2</graphql.version>
-        <jacoco.version>0.8.5</jacoco.version>
+        <jacoco.version>0.8.10</jacoco.version>
         <swagger.version>1.6.1</swagger.version>
         <jetty.version>9.4.44.v20210927</jetty.version>
         <testcontainers.version>1.17.6</testcontainers.version>
