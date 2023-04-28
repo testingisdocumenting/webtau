@@ -1,0 +1,1 @@
+* Fix: WebTau won't attempt to reopen browser at the end of tests if there is a failed test with [PageElement](browser/page-element-and-value) related assertions

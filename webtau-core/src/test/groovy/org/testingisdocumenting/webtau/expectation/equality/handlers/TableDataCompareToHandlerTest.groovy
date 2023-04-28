@@ -46,7 +46,7 @@ class TableDataCompareToHandlerTest {
                 '                                        100 │     200\n' +
                 '                                         10 │      20\n' +
                 '                                         30 │      40\n' +
-                '                                    ...:\n' +
+                '                                        130 │     150:\n' +
                 '    [value][0].colA:  actual: "hello" <java.lang.String>\n' +
                 '                    expected: "hellp" <java.lang.String>\n' +
                 '                                   ^\n' +
