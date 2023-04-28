@@ -67,7 +67,7 @@ class WebTauEndToEndTestRunner implements ReportGenerator, ConsoleOutput {
     void runCliWithWorkingDir(String testFileName, String workingDir, String configFileName, String... additionalArgs) {
         def testPath = Paths.get(testFileName)
 
-        def args = ['--workingDir=' + workingDir, '--verbosity=1000']
+        def args = ['--workingDir=' + workingDir]
 
         if (!configFileName.isEmpty()) {
             args.add('--config=' + configFileName)
