@@ -92,9 +92,13 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     public void printStepOutput(WebTauStep step) {
+        System.out.println("%% printStepOutput");
+
         if (skipRenderInputOutput()) {
             return;
         }
+
+        System.out.println("%% printStepOutput - after if");
 
         PrettyPrinter printer = createInputOutputPrettyPrinter(step);
         step.getOutput().prettyPrint(printer);

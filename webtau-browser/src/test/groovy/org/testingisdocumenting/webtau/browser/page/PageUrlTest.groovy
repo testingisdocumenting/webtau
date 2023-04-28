@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.browser.page
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.utils.ResourceUtils
@@ -85,6 +86,7 @@ class PageUrlTest {
 //                "  \n" +
 //                "  browser page url query: \"type=full&debug=true\"") {
         try {
+            WebTauConfig.getCfg().setVerbosityLevel(1000)
 
             browser.url.query.should == 'wrong-value'
         } finally {

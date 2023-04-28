@@ -42,7 +42,7 @@ public class ValueMatcherStepOutput implements WebTauStepOutput {
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
-        System.out.println("@@ ValueMatcherStepOutput");
+        System.out.println("@@ ValueMatcherStepOutput.prettyPrint");
 
         printer.printLine();
         printer.setPathsDecoration(new PrettyPrinterDecorationToken("**", Color.RED), valuePathsToHighlight);
