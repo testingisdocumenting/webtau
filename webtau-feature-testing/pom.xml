@@ -167,7 +167,6 @@
                 <version>3.0.0</version>
                 <configuration>
                     <reportFormat>plain</reportFormat>
-                    <forkCount>0</forkCount>
                     <consoleOutputReporter>
                         <disable>false</disable>
                     </consoleOutputReporter>
