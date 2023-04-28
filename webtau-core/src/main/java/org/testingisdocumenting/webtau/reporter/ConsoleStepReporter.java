@@ -101,7 +101,11 @@ public class ConsoleStepReporter implements StepReporter {
         System.out.println("%% printStepOutput - after if");
 
         PrettyPrinter printer = createInputOutputPrettyPrinter(step);
+        System.out.println("%% step output instance: " + step.getOutput().getClass());
         step.getOutput().prettyPrint(printer);
+
+        int numberOfLines = printer.getNumberOfLines();
+        System.out.println("%% number of lines: " + numberOfLines);
         printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput());
     }
 
