@@ -213,10 +213,4 @@ public class CurrentWebDriver implements
                 global:
                 local.get();
     }
-
-    // TODO remove
-    public void reset() {
-        local.get().clear();
-        global.clear();
-    }
 }

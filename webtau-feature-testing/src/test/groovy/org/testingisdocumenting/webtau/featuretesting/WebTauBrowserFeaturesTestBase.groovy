@@ -21,7 +21,6 @@ import org.junit.AfterClass
 import org.junit.Before
 import org.junit.BeforeClass
 import org.junit.Test
-import org.testingisdocumenting.webtau.browser.driver.CurrentWebDriver
 import org.testingisdocumenting.webtau.cfg.GroovyConfigBasedBrowserPageNavigationHandler
 import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts
@@ -59,7 +58,6 @@ class WebTauBrowserFeaturesTestBase {
     @Before
     void cleanBeforeTest() {
         GroovyConfigBasedBrowserPageNavigationHandler.handler = null
-        CurrentWebDriver.INSTANCE.reset()
         testRunner.setClassifier(browser)
     }
 
