@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
+import org.testingisdocumenting.webtau.browser.Browser;
 import org.testingisdocumenting.webtau.browser.page.path.PageElementsFinder;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
@@ -173,6 +174,11 @@ public interface PageElement extends
 
     @Override
     default void prettyPrint(PrettyPrinter printer) {
+        // to avoid browser recreation if it was already closed
+        if (!Browser.browser.hasActiveBrowsers()) {
+            return;
+        }
+
         TokenizedMessageToAnsiConverter toAnsiConverter = TokenizedMessageToAnsiConverter.DEFAULT;
 
         if (!isPresent()) {

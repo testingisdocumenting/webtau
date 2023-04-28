@@ -82,6 +82,8 @@ class StringCompareToHandlerTest {
 
     @Test
     void "renders multiline strings in blocks"() {
+        actual("a", "text").should(equal('a'))
+        actual("a", "text").should(equal('a'))
         runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal _________________\n' +
                 '                                 hello world world\n' +
                 '                                 hi again\n' +
@@ -125,7 +127,7 @@ class StringCompareToHandlerTest {
                 '                                 \n' +
                 '                                 \n' +
                 '                                 \n' +
-                '                                 ...:\n' +
+                '                                 ___________:\n' +
                 '    first mismatch at line idx 0:\n' +
                 '      actual: "single line"\n' +
                 '    expected: "single lone"\n' +
@@ -161,6 +163,50 @@ class StringCompareToHandlerTest {
                 '    hello again\n' +
                 '    _________________') {
             actual('some\nhello world world\nhello again', 'text').should(equal('hello world world\nhi again'))
+        }
+    }
+
+    @Test
+    void "reports different number of lines only"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal _________________\n' +
+                '                                 hello world world\n' +
+                '                                 hello again\n' +
+                '                                 test\n' +
+                '                                 _________________:\n' +
+                '    different number of lines:\n' +
+                '      actual: 2\n' +
+                '    expected: 3 (Xms)\n' +
+                '  \n' +
+                '  **_________________**\n' +
+                '    hello world world\n' +
+                '    hello again\n' +
+                '  **_________________**') {
+            actual('hello world world\nhello again', 'text').should(equal('hello world world\nhello again\ntest'))
+        }
+    }
+
+    @Test
+    void "report full expected value without limit in case of failure"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting text to equal _____\n' +
+                '                                 line1\n' +
+                '                                 line2\n' +
+                '                                 ine3\n' +
+                '                                 line4\n' +
+                '                                 line5\n' +
+                '                                 line6\n' +
+                '                                 line7\n' +
+                '                                 _____:\n' +
+                '    different number of lines:\n' +
+                '      actual: 4\n' +
+                '    expected: 7 (Xms)\n' +
+                '  \n' +
+                '  **_____**\n' +
+                '    line1\n' +
+                '    line2\n' +
+                '    ine3\n' +
+                '    line4\n' +
+                '  **_____**') {
+            actual('line1\nline2\nine3\nline4', 'text').should(equal('line1\nline2\nine3\nline4\nline5\nline6\nline7'))
         }
     }
 

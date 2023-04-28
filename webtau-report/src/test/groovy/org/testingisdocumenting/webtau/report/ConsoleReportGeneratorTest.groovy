@@ -180,11 +180,11 @@ class ConsoleReportGeneratorTest implements ConsoleOutput {
                                                 throw exception
                                             })
 
-                    nestedStep.setOutput(WebTauStepOutputKeyValue.stepOutput(["nestedKey": "value1"]))
+                    nestedStep.addOutput(WebTauStepOutputKeyValue.stepOutput(["nestedKey": "value1"]))
                     nestedStep.execute(StepReportOptions.REPORT_ALL)
                 })
 
-        stepOuter.setOutput(WebTauStepOutputKeyValue.stepOutput("outerKey", "value1"))
+        stepOuter.addOutput(WebTauStepOutputKeyValue.stepOutput("outerKey", "value1"))
 
         try {
             stepOuter.execute(StepReportOptions.REPORT_ALL)

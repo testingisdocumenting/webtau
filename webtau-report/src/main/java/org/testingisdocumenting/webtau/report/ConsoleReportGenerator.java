@@ -94,7 +94,7 @@ public class ConsoleReportGenerator implements ReportGenerator {
     private static void printFailedStep(WebTauStep step) {
         consoleStepReporter.printStepFailureWithoutOutput(step, false);
         step.findFailedChildStep().ifPresent(ConsoleReportGenerator::printFailedStep);
-        consoleStepReporter.printStepOutput(step);
+        consoleStepReporter.printStepOutputs(step);
     }
 
     private void printWarnings(WebTauReport report) {
