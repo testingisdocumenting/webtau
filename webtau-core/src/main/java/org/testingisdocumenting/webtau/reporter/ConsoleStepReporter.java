@@ -78,7 +78,7 @@ public class ConsoleStepReporter implements StepReporter {
 
     public void printStepFailureFailedStepMessageFirst(WebTauStep step, boolean forceFailureDisplay) {
         printStepFailureWithoutOutput(step, forceFailureDisplay);
-        printStepOutput(step);
+        printStepOutputs(step);
     }
 
     public void printStepFailureWithoutOutput(WebTauStep step, boolean forceFailureDisplay) {
@@ -91,21 +91,13 @@ public class ConsoleStepReporter implements StepReporter {
                 timeTakenTokenStream(step)).toArray());
     }
 
-    public void printStepOutput(WebTauStep step) {
-        System.out.println("%% printStepOutput");
-
+    public void printStepOutputs(WebTauStep step) {
         if (skipRenderInputOutput()) {
             return;
         }
 
-        System.out.println("%% printStepOutput - after if");
-
         PrettyPrinter printer = createInputOutputPrettyPrinter(step);
-        System.out.println("%% step output instance: " + step.getOutput().getClass());
-        step.getOutput().prettyPrint(printer);
-
-        int numberOfLines = printer.getNumberOfLines();
-        System.out.println("%% number of lines: " + numberOfLines);
+        step.getOutputsStream().forEach(output -> output.prettyPrint(printer));
         printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput());
     }
 
@@ -134,7 +126,7 @@ public class ConsoleStepReporter implements StepReporter {
                         .add(reAlignText(step.getNumberOfParents() + 2, completionMessage.getLastToken())) :
                 completionMessage;
 
-        printStepOutput(step);
+        printStepOutputs(step);
 
         List<Object> messagePrefix = Stream.concat(stepSuccessBeginningStream(step), personaStream(step))
                 .collect(Collectors.toList());
@@ -150,7 +142,7 @@ public class ConsoleStepReporter implements StepReporter {
         if (step.getClassifier().equals(WebTauStepClassifiers.MATCHER)) {
             printStepFailureFailedStepMessageFirst(step, forceFailureDisplay);
         } else {
-            printStepOutput(step);
+            printStepOutputs(step);
             printStepFailureWithoutOutput(step, forceFailureDisplay);
         }
     }

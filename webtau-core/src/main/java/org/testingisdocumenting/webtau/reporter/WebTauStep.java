@@ -54,7 +54,7 @@ public class WebTauStep {
     private String stackTrace;
 
     private WebTauStepInput input = WebTauStepInput.EMPTY;
-    private WebTauStepOutput output = WebTauStepOutput.EMPTY;
+    private final List<WebTauStepOutput> outputs = new ArrayList<>();
 
     private Function<Object, WebTauStepOutput> stepOutputFunc = null;
 
@@ -239,12 +239,12 @@ public class WebTauStep {
         this.stepOutputFunc = stepOutputFunc;
     }
 
-    public void setOutput(WebTauStepOutput output) {
-        this.output = output;
+    public void addOutput(WebTauStepOutput output) {
+        this.outputs.add(output);
     }
 
-    public WebTauStepOutput getOutput() {
-        return output;
+    public Stream<WebTauStepOutput> getOutputsStream() {
+        return outputs.stream();
     }
 
     public void setClassifier(String classifier) {
@@ -304,10 +304,7 @@ public class WebTauStep {
     }
 
     public Stream<WebTauStepOutput> collectOutputs() {
-        Stream<WebTauStepOutput> result = output.isEmpty() ? Stream.empty() : Stream.of(output);
-        Stream<WebTauStepOutput> childrenOutputs = children.stream().flatMap(WebTauStep::collectOutputs);
-
-        return Stream.concat(result, childrenOutputs);
+        return Stream.concat(outputs.stream(), children.stream().flatMap(WebTauStep::collectOutputs));
     }
 
     @SuppressWarnings("unchecked")
@@ -421,12 +418,8 @@ public class WebTauStep {
             complete(completionMessageFunc.apply(result));
             stopClock();
 
-            if (!output.isEmpty() && stepOutputFunc != null) {
-                throw new IllegalStateException("output and outputSupplier is provided before test is executed, only one is allowed");
-            }
-
             if (stepOutputFunc != null) {
-                output = stepOutputFunc.apply(result);
+                outputs.add(stepOutputFunc.apply(result));
             }
 
             if (stepReportOptions != StepReportOptions.SKIP_ALL) {
@@ -443,7 +436,7 @@ public class WebTauStep {
 
             fail(e);
             if (stepOutputFunc != null) {
-                output = stepOutputFunc.apply(null);
+                outputs.add(stepOutputFunc.apply(null));
             }
 
             if (onBeforeFailureReport != null) {
@@ -595,10 +588,11 @@ public class WebTauStep {
             result.put("input", inputMap);
         }
 
-        if (output != WebTauStepOutput.EMPTY) {
+        if (!outputs.isEmpty()) {
             Map<String, Object> outputMap = new LinkedHashMap<>();
-            outputMap.put("type", output.getClass().getSimpleName());
-            outputMap.put("data", output.toMap());
+            WebTauStepOutput first = outputs.get(0);
+            outputMap.put("type", first.getClass().getSimpleName());
+            outputMap.put("data", first.toMap());
             result.put("output", outputMap);
         }
 
