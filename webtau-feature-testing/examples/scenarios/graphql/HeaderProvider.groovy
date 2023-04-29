@@ -23,7 +23,7 @@ import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 class HeaderProvider {
     static provide(String fullUrl, String url, HttpHeader httpHeaders) {
-        String token = http.get("${getCfg().url}/auth") {
+        String token = http.get("${cfg.url}/auth") {
             statusCode.should == 200
             token.shouldNot == null
             return token
