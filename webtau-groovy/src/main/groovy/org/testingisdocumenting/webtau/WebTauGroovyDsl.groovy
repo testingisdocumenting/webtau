@@ -86,7 +86,7 @@ class WebTauGroovyDsl extends WebTauDsl {
 
     static void onlyForEnv(String env, Closure registrationCode) {
         onlyWhen("only for <$env> environment",
-                { -> getCfg().getEnv() == env },
+                { -> cfg.getEnv() == env },
                 registrationCode)
     }
 
@@ -101,7 +101,7 @@ class WebTauGroovyDsl extends WebTauDsl {
 
     static void skipForEnv(String env, Closure registrationCode) {
         onlyWhen("skip for <$env> environment",
-                { -> getCfg().getEnv() != env },
+                { -> cfg.getEnv() != env },
                 registrationCode)
     }
 

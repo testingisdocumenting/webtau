@@ -83,7 +83,7 @@ public class StaticServerJavaTest {
 
     @Test
     public void slowDown() {
-        getCfg().getHttpTimeoutValue().set("test", 500);
+        cfg.getHttpTimeoutValue().set("test", 500);
         // mark-unresponsive
         myServer.markUnresponsive();
 
