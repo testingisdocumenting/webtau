@@ -39,10 +39,10 @@ class FeaturesDocArtifactsExtractorTest {
     @Test
     void "extract html snippet by css"() {
         def html = extractHtml('finders-and-filters.html', '#menu')
-        assertEquals('<ul> \n' +
-                ' <li> <a href="/book">book</a> </li> \n' +
-                ' <li> <a href="/orders">orders</a> </li> \n' +
-                ' <li> <a href="/help">help</a> </li> \n' +
+        assertEquals('<ul>\n' +
+                ' <li><a href="/book">book</a></li>\n' +
+                ' <li><a href="/orders">orders</a></li>\n' +
+                ' <li><a href="/help">help</a></li>\n' +
                 '</ul>', html)
     }
 }
