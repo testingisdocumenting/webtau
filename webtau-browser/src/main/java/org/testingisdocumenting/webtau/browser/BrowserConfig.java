@@ -82,7 +82,7 @@ public class BrowserConfig implements WebTauConfigHandler {
     public static String getBaseUrl() {
         return !BrowserConfig.getBrowserUrl().isEmpty() ?
                 BrowserConfig.getBrowserUrl():
-                getCfg().getBaseUrl();
+                getCfg().getUrl();
     }
 
     public static String createFullUrl(String url) {
@@ -98,7 +98,7 @@ public class BrowserConfig implements WebTauConfigHandler {
             return extractPort(BrowserConfig.getBrowserUrl());
         }
 
-        return extractPort(getCfg().getBaseUrl());
+        return extractPort(getCfg().getUrl());
     }
 
     public static String getBrowserUrl() {

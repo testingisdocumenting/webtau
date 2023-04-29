@@ -37,7 +37,7 @@ public class DynamicPortBaseUrlConfig implements WebTauHttpConfiguration {
             return url;
         }
 
-        return UrlUtils.concat(WebTauConfig.getCfg().getBaseUrl(), url);
+        return UrlUtils.concat(WebTauConfig.getCfg().getUrl(), url);
     }
 
     @Override

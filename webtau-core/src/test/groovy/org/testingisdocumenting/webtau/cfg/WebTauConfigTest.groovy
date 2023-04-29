@@ -42,7 +42,7 @@ class WebTauConfigTest {
         System.setProperty('url', 'test-base-url')
         WebTauConfig cfg = new WebTauConfig()
 
-        actual(cfg.getBaseUrl()).should(equal('test-base-url'))
+        actual(cfg.getUrl()).should(equal('test-base-url'))
     }
 
     @Test
@@ -50,9 +50,9 @@ class WebTauConfigTest {
         System.setProperty('url', 'original-base-url')
 
         WebTauConfig cfg = new WebTauConfig()
-        cfg.setBaseUrl('new-url')
+        cfg.setUrl('new-url')
 
-        actual(cfg.getBaseUrl()).should(equal("new-url"))
+        actual(cfg.getUrl()).should(equal("new-url"))
 
         actual(cfg.baseUrlConfigValue.getSources()).should(equal(["manual", "system property"]))
     }
@@ -85,7 +85,7 @@ class WebTauConfigTest {
                 '    url: "http://test"\n' +
                 '. set url (Xms)') {
             WebTauConfig cfg = new WebTauConfig()
-            cfg.setBaseUrl("test-source", "http://test")
+            cfg.setUrl("test-source", "http://test")
         }
     }
 }

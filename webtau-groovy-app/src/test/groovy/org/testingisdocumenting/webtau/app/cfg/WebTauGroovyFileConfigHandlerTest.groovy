@@ -35,7 +35,7 @@ class WebTauGroovyFileConfigHandlerTest {
         def cfg = createConfig()
         handle(cfg)
 
-        cfg.baseUrl.should == 'http://localhost:8180'
+        cfg.url.should == 'http://localhost:8180'
     }
 
     @Test
@@ -46,7 +46,7 @@ class WebTauGroovyFileConfigHandlerTest {
         handle(cfg)
 
         cfg.list.should == []
-        cfg.baseUrl.should == 'http://dev.host:8080'
+        cfg.url.should == 'http://dev.host:8080'
     }
 
     @Test

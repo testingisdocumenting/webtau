@@ -27,7 +27,7 @@ class ServerAutoStartWhenRequiredListener implements TestListener {
             return
         }
 
-        cfg.baseUrl = startServerAndGetBaseUrl()
+        cfg.url = startServerAndGetBaseUrl()
     }
 
     static String startServerAndGetBaseUrl() {
