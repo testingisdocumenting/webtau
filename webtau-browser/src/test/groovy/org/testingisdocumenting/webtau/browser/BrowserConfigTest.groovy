@@ -24,13 +24,13 @@ import static org.testingisdocumenting.webtau.browser.Browser.browser
 class BrowserConfigTest {
     @Test
     void "base url port"() {
-        WebTauConfig.getCfg().setBaseUrl("http://localhost:8903")
+        WebTauConfig.getCfg().setUrl("http://localhost:8903")
         BrowserConfig.getBaseUrlPort().should == 8903
     }
 
     @Test
     void "shortcut through browser module"() {
-        WebTauConfig.getCfg().setBaseUrl("http://localhost:8903")
+        WebTauConfig.getCfg().setUrl("http://localhost:8903")
         // on separate lines for docs extraction
         // base-url
         browser.getBaseUrl()

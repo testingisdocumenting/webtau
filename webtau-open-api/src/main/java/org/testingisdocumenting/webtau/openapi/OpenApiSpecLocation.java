@@ -45,7 +45,7 @@ class OpenApiSpecLocation {
                 return OpenApiSpecLocation.fromFs(value, fullSpecPath);
             }
 
-            return OpenApiSpecLocation.fromUrl(value, UrlUtils.concat(getCfg().getBaseUrl(), value));
+            return OpenApiSpecLocation.fromUrl(value, UrlUtils.concat(getCfg().getUrl(), value));
         }
 
         if (UrlUtils.isFull(value)) {

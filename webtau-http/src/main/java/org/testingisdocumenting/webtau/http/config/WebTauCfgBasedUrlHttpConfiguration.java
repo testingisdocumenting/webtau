@@ -28,6 +28,6 @@ public class WebTauCfgBasedUrlHttpConfiguration implements WebTauHttpConfigurati
             return url;
         }
 
-        return UrlUtils.concat(getCfg().getBaseUrl(), url);
+        return UrlUtils.concat(getCfg().getUrl(), url);
     }
 }

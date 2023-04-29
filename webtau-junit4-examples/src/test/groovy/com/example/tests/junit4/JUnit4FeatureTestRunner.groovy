@@ -40,7 +40,7 @@ class JUnit4FeatureTestRunner extends RunListener implements StepReporter {
 
         cfg.reset()
         cfg.triggerConfigHandlers()
-        cfg.setBaseUrl(baseUrl)
+        cfg.setUrl(baseUrl)
 
         StepReporters.withAdditionalReporter(this) {
             junit.run(testClass)

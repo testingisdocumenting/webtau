@@ -57,7 +57,7 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, Co
 
         cfg.reset()
         cfg.triggerConfigHandlers()
-        cfg.setBaseUrl(baseUrl)
+        cfg.setUrl(baseUrl)
 
         if (!browserBaseUrl.isEmpty()) {
             browser.setBaseUrl(browserBaseUrl)
