@@ -79,9 +79,7 @@ public class WebTauDsl extends WebTauCore {
      */
     public static final ValueMatcher disabled = new DisabledValueMatcher();
 
-    public static WebTauConfig getCfg() {
-        return WebTauConfig.getCfg();
-    }
+    public static WebTauConfig cfg = WebTauConfig.getCfg();
 
     /**
      * @deprecated use data.pdf from webtau-data module or through WebTauDsl
