@@ -40,7 +40,7 @@ class JavaResourceConfigHandlerTest {
 
         handler.onAfterCreate(cfg)
 
-        actual(cfg.baseUrl).should(equal('http://server.qa:8080'))
+        actual(cfg.url).should(equal('http://server.qa:8080'))
     }
 
     @Test
@@ -48,6 +48,6 @@ class JavaResourceConfigHandlerTest {
         System.setProperty("webtau.properties", "webtau.override.properties")
         cfg.triggerConfigHandlers()
 
-        actual(cfg.baseUrl).should(equal("http://local-override"))
+        actual(cfg.url).should(equal("http://local-override"))
     }
 }

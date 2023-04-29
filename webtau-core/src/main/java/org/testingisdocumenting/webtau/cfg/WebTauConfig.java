@@ -186,19 +186,37 @@ public class WebTauConfig implements PrettyPrintable {
         freeFormCfgValues.forEach(v -> v.accept(source, personaId, values));
     }
 
-    // for REPL convenience
+    /**
+     * set base url
+     * @param url new url
+     */
     public void setUrl(String url) {
-        setBaseUrl(url);
+        setUrl(SOURCE_MANUAL, url);
     }
 
-    public void setBaseUrl(String url) {
-        setBaseUrl(SOURCE_MANUAL, url);
-    }
-
-    public void setBaseUrl(String source, String url) {
+    /**
+     * set base url with specified source
+     * @param source source for logging
+     * @param url new url
+     */
+    public void setUrl(String source, String url) {
         this.url.setAndReport(source, url);
     }
 
+    /**
+     * base url
+     * @return base url
+     */
+    public String getUrl() {
+        return url.getAsString();
+    }
+
+    /**
+     * use {@link #getUrl}
+     * @deprecated
+     * @return base url
+     */
+    @Deprecated
     public String getBaseUrl() {
         return url.getAsString();
     }

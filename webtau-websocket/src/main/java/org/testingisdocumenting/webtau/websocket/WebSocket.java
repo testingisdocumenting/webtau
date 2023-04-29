@@ -72,7 +72,7 @@ public class WebSocket {
     }
 
     private static String buildFullUrl(String relativeUrl) {
-        String baseUrl = WebTauConfig.getCfg().getBaseUrl();
+        String baseUrl = WebTauConfig.getCfg().getUrl();
         if (baseUrl.isEmpty()) {
             throw new IllegalArgumentException("base url is not set, either use full url or set base url via config");
         }

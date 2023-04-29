@@ -38,11 +38,11 @@ class WebTauGroovyCliArgsConfigHandlerTest {
         cfg.env.should == 'dev'
         cfg.workingDir.asList()*.toString().should == ['root', 'a']
         cfg.configFileNameValue.asString.should == 'mycfg.groovy'
-        cfg.baseUrl.should == ""
+        cfg.url.should == ""
 
         handler.onAfterCreate(cfg)
 
-        cfg.baseUrl.should == 'http://localhost:3434'
+        cfg.url.should == 'http://localhost:3434'
     }
 
     @Test
