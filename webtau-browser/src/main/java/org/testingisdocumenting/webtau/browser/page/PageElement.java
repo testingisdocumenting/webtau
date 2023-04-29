@@ -174,11 +174,6 @@ public interface PageElement extends
 
     @Override
     default void prettyPrint(PrettyPrinter printer) {
-        // to avoid browser recreation if it was already closed
-        if (!Browser.browser.hasActiveBrowsers()) {
-            return;
-        }
-
         TokenizedMessageToAnsiConverter toAnsiConverter = TokenizedMessageToAnsiConverter.DEFAULT;
 
         if (!isPresent()) {
