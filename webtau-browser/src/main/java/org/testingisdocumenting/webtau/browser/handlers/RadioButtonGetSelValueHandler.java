@@ -76,6 +76,6 @@ public class RadioButtonGetSelValueHandler implements PageElementGetSetValueHand
     }
 
     private boolean isRadioButton(HtmlNode htmlNode) {
-        return htmlNode.getType().equalsIgnoreCase("radio");
+        return htmlNode.getTypeAttribute().equalsIgnoreCase("radio");
     }
 }

@@ -394,6 +394,17 @@ public class GenericPageElement implements PageElement {
                         "arguments[0].scrollTo(arguments[1], arguments[2]);", x, y));
     }
 
+    @Override
+    public List<HtmlNode> extractHtmlNodes() {
+        return extractHtmlNodes(findElements());
+    }
+
+    private List<HtmlNode> extractHtmlNodes(List<WebElement> elements) {
+        return getValueForStaleElement(
+                () -> additionalBrowserInteractions.extractHtmlNodes(elements),
+                Collections.emptyList());
+    }
+
     private void clickWithKey(String label, CharSequence key) {
         execute(tokenizedMessage().action(label + " clicking").add(pathDescription),
                 () -> tokenizedMessage().action(label + " clicked").add(pathDescription),
@@ -522,19 +533,17 @@ public class GenericPageElement implements PageElement {
     }
 
     private HtmlNodeAndWebElementList findHtmlNodesAndWebElements() {
-        List<WebElement> elements = path.find(driver);
+        List<WebElement> elements = findElements();
 
         if (elements.isEmpty()) {
             return HtmlNodeAndWebElementList.empty();
         }
 
-        List<Map<String, ?>> elementsMeta = getValueForStaleElement(
-                () -> additionalBrowserInteractions.extractElementsMeta(elements),
-                Collections.emptyList());
+        List<HtmlNode> htmlNodes = extractHtmlNodes(elements);
 
         List<HtmlNodeAndWebElement> htmlNodeAndWebElements =
-                IntStream.range(0, Math.min(elements.size(), elementsMeta.size()))
-                        .mapToObj((idx) -> new HtmlNodeAndWebElement(new HtmlNode(elementsMeta.get(idx)), elements.get(idx)))
+                IntStream.range(0, Math.min(elements.size(), htmlNodes.size()))
+                        .mapToObj((idx) -> new HtmlNodeAndWebElement(htmlNodes.get(idx), elements.get(idx)))
                         .collect(Collectors.toList());
 
         return new HtmlNodeAndWebElementList(htmlNodeAndWebElements);

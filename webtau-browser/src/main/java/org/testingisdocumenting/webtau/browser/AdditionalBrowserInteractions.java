@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,14 +18,14 @@
 package org.testingisdocumenting.webtau.browser;
 
 import org.openqa.selenium.WebElement;
+import org.testingisdocumenting.webtau.browser.page.HtmlNode;
 
 import java.util.List;
-import java.util.Map;
 
 public interface AdditionalBrowserInteractions {
     void flashWebElements(List<WebElement> webElements);
 
-    List<Map<String, ?>> extractElementsMeta(List<WebElement> webElements);
+    List<HtmlNode> extractHtmlNodes(List<WebElement> webElements);
 
     List<WebElement> filterByText(List<WebElement> webElements, String text);
 

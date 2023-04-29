@@ -26,7 +26,7 @@ public class CheckBoxGetSelValueHandler implements PageElementGetSetValueHandler
     @Override
     public boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {
         HtmlNode htmlNode = htmlNodeAndWebElements.firstHtmlNode();
-        return htmlNode.getType().equalsIgnoreCase("checkbox");
+        return htmlNode.getTypeAttribute().equalsIgnoreCase("checkbox");
     }
 
     @Override

@@ -17,12 +17,15 @@
 
 package org.testingisdocumenting.webtau.browser;
 
+import org.testingisdocumenting.webtau.browser.page.HtmlNode;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class BrowserInjectedJavaScript implements AdditionalBrowserInteractions {
     private final String injectionScript = ResourceUtils.textContent("browser/injection.js");
@@ -41,10 +44,20 @@ public class BrowserInjectedJavaScript implements AdditionalBrowserInteractions 
 
     @Override
     @SuppressWarnings("unchecked")
-    public List<Map<String, ?>> extractElementsMeta(List<WebElement> webElements) {
+    public List<HtmlNode> extractHtmlNodes(List<WebElement> webElements) {
         injectScript();
-        Object result = javascriptExecutor.executeScript(returnOneArgFunc("elementsMeta"), webElements);
-        return (List<Map<String, ?>>) result;
+        Object result = javascriptExecutor.executeScript(returnOneArgFunc("elementsDetails"), webElements);
+        List<Map<String, ?>> asListOfMaps = (List<Map<String, ?>>) result;
+
+        return asListOfMaps.stream()
+                .map(e -> new HtmlNode(
+                        Objects.toString(e.get("tagName")),
+                        Objects.toString(e.get("innerHtml")),
+                        Objects.toString(e.get("outerHtml")),
+                        Objects.toString(e.get("innerText")),
+                        Objects.toString(e.get("value")),
+                        (Map<String, String>) e.get("attributes")))
+                .collect(Collectors.toList());
     }
 
     @Override

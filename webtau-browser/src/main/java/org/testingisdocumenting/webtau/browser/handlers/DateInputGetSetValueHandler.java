@@ -34,7 +34,7 @@ public class DateInputGetSetValueHandler implements PageElementGetSetValueHandle
     public boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {
         HtmlNode htmlNode = htmlNodeAndWebElements.firstHtmlNode();
         return htmlNode.getTagName().equalsIgnoreCase("input") &&
-                htmlNode.getType().equalsIgnoreCase("date");
+                htmlNode.getTypeAttribute().equalsIgnoreCase("date");
     }
 
     @Override

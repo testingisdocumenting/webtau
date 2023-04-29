@@ -15,154 +15,163 @@
  * limitations under the License.
  */
 
-window._webtau = window._webtau || function () {
-    function elementsMeta(webElements) {
-        var idx = 0
-        var len = webElements.length
-        var result = []
+window._webtau =
+  window._webtau ||
+  (function () {
+    function elementsDetails(webElements) {
+      var idx = 0;
+      var len = webElements.length;
+      var result = [];
 
-        for (; idx < len; idx++) {
-            result.push(extractMeta(webElements[idx]))
-        }
+      for (; idx < len; idx++) {
+        result.push(extractMeta(webElements[idx]));
+      }
 
-        return result
+      return result;
 
-        function extractMeta(webElement) {
-            return {
-                tagName: webElement.tagName.toLowerCase(),
-                innerHtml: webElement.innerHTML,
-                innerText: webElement.innerText,
-                value: webElement.value,
-                attributes: extractAttributes(webElement)
-            }
-        }
+      function extractMeta(webElement) {
+        return {
+          tagName: webElement.tagName.toLowerCase(),
+          innerHtml: webElement.innerHTML,
+          outerHtml: webElement.outerHtml,
+          innerText: webElement.innerText,
+          value: webElement.value,
+          attributes: extractAttributes(webElement),
+        };
+      }
 
-        function extractAttributes(webElement) {
-            var result = {}
+      function extractAttributes(webElement) {
+        var result = {};
 
-            var attrs = webElement.attributes
-            var idx = 0
-            var len = attrs.length
-
-            for (; idx < len; idx++) {
-                result[attrs[idx].name] = attrs[idx].value
-            }
-
-            return result
-        }
-    }
-
-    function filterByText(webElements, text) {
-        return filterBy(webElements, function(textValue) {
-            return textValue === text;
-        });
-    }
-
-    function filterByRegexp(webElements, regexpText) {
-        var regexp = new RegExp(regexpText);
-
-        return filterBy(webElements, function(textValue) {
-            return regexp.test(textValue);
-        });
-    }
-
-    function filterBy(webElements, predicate) {
-        var metas = elementsMeta(webElements)
-        var result = [];
+        var attrs = webElement.attributes;
         var idx = 0;
-        var len = metas.length;
+        var len = attrs.length;
 
         for (; idx < len; idx++) {
-            var meta = metas[idx];
-            if (predicate(textValueToUse(meta))) {
-                result.push(webElements[idx]);
-            }
+          result[attrs[idx].name] = attrs[idx].value;
         }
 
         return result;
+      }
+    }
+
+    function filterByText(webElements, text) {
+      return filterBy(webElements, function (textValue) {
+        return textValue === text;
+      });
+    }
+
+    function filterByRegexp(webElements, regexpText) {
+      var regexp = new RegExp(regexpText);
+
+      return filterBy(webElements, function (textValue) {
+        return regexp.test(textValue);
+      });
+    }
+
+    function filterBy(webElements, predicate) {
+      var metas = elementsDetails(webElements);
+      var result = [];
+      var idx = 0;
+      var len = metas.length;
+
+      for (; idx < len; idx++) {
+        var meta = metas[idx];
+        if (predicate(textValueToUse(meta))) {
+          result.push(webElements[idx]);
+        }
+      }
+
+      return result;
     }
 
     function textValueToUse(meta) {
-        if (meta.tagName === 'input' || meta.tagName === 'textarea') {
-            return meta.value
-        }
+      if (meta.tagName === "input" || meta.tagName === "textarea") {
+        return meta.value;
+      }
 
-        return trimmedInnerText();
+      return trimmedInnerText();
 
-        function trimmedInnerText() {
-            return meta.innerText ? meta.innerText.trim() : meta.innerText;
-        }
+      function trimmedInnerText() {
+        return meta.innerText ? meta.innerText.trim() : meta.innerText;
+      }
     }
 
     function flashElements(webElements) {
-        var svg = createSvg(webElements)
+      var svg = createSvg(webElements);
 
-        document.body.appendChild(svg)
+      document.body.appendChild(svg);
 
-        flashElement(svg, 3, 200, function () {
-            document.body.removeChild(svg)
-        })
+      flashElement(svg, 3, 200, function () {
+        document.body.removeChild(svg);
+      });
 
-        function createSvg(elements) {
-            var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            svg.style.position = 'fixed';
-            svg.style.top = '0';
-            svg.style.right = '0';
-            svg.style.bottom = '0';
-            svg.style.left = '0';
-            svg.zIndex = 9999;
+      function createSvg(elements) {
+        var svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        svg.style.position = "fixed";
+        svg.style.top = "0";
+        svg.style.right = "0";
+        svg.style.bottom = "0";
+        svg.style.left = "0";
+        svg.zIndex = 9999;
 
-            svg.setAttribute('width', window.innerWidth);
-            svg.setAttribute('height', window.innerHeight);
-            svg.setAttribute('viewport', '0 0 ' + window.innerWidth + ' ' + window.innerHeight);
+        svg.setAttribute("width", window.innerWidth);
+        svg.setAttribute("height", window.innerHeight);
+        svg.setAttribute(
+          "viewport",
+          "0 0 " + window.innerWidth + " " + window.innerHeight
+        );
 
-            var len = Math.min(elements.length, 100);
-            for (var idx = 0; idx < len; idx++) {
-                svg.appendChild(createSvgRect(elements[idx]));
-            }
-
-            return svg;
+        var len = Math.min(elements.length, 100);
+        for (var idx = 0; idx < len; idx++) {
+          svg.appendChild(createSvgRect(elements[idx]));
         }
 
-        function createSvgRect(element) {
-            var rect = element.getBoundingClientRect()
+        return svg;
+      }
 
-            var overlay = document.createElementNS('http://www.w3.org/2000/svg', 'rect')
-            overlay.setAttribute('x', rect.x)
-            overlay.setAttribute('y', rect.y)
-            overlay.setAttribute('width', rect.width)
-            overlay.setAttribute('height', rect.height)
-            overlay.setAttribute('fill', 'red')
-            overlay.style.fill = '#2c91ea'
+      function createSvgRect(element) {
+        var rect = element.getBoundingClientRect();
 
-            return overlay
+        var overlay = document.createElementNS(
+          "http://www.w3.org/2000/svg",
+          "rect"
+        );
+        overlay.setAttribute("x", rect.x);
+        overlay.setAttribute("y", rect.y);
+        overlay.setAttribute("width", rect.width);
+        overlay.setAttribute("height", rect.height);
+        overlay.setAttribute("fill", "red");
+        overlay.style.fill = "#2c91ea";
+
+        return overlay;
+      }
+
+      function flashElement(el, numberOfTimes, delay, onComplete) {
+        flashOnce(0);
+
+        function flashOnce(initialShowDelay) {
+          setTimeout(function () {
+            el.style.display = "block";
+            setTimeout(function () {
+              el.style.display = "none";
+              numberOfTimes--;
+
+              if (numberOfTimes > 0) {
+                flashOnce(delay);
+              } else {
+                onComplete();
+              }
+            }, delay);
+          }, initialShowDelay);
         }
-
-        function flashElement(el, numberOfTimes, delay, onComplete) {
-            flashOnce(0)
-
-            function flashOnce(initialShowDelay) {
-                setTimeout(function () {
-                    el.style.display = 'block';
-                    setTimeout(function () {
-                        el.style.display = 'none';
-                        numberOfTimes--;
-
-                        if (numberOfTimes > 0) {
-                            flashOnce(delay);
-                        } else {
-                            onComplete();
-                        }
-                    }, delay);
-                }, initialShowDelay);
-            }
-        }
+      }
     }
 
     return {
-        elementsMeta: elementsMeta,
-        filterByText: filterByText,
-        filterByRegexp: filterByRegexp,
-        flashElements: flashElements
-    }
-}()
+      elementsDetails: elementsDetails,
+      filterByText: filterByText,
+      filterByRegexp: filterByRegexp,
+      flashElements: flashElements,
+    };
+  })();
