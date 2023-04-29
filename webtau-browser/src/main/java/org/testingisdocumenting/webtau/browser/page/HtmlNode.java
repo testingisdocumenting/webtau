@@ -21,54 +21,59 @@ import java.util.Map;
 
 public class HtmlNode {
     private final String tagName;
-    private final String value;
-    private final String type;
-    private final Map<String, String> attributes;
     private final String innerHtml;
+    private final String outerHtml;
+    private final String innerText;
+    private final String value;
+    private final Map<String, String> attributes;
 
-    @SuppressWarnings("unchecked")
-    public HtmlNode(Map<String, ?> meta) {
-        tagName = (String) meta.get("tagName");
-        attributes = (Map<String, String>) meta.get("attributes");
-        innerHtml = (String) meta.get("innerHtml");
+    public HtmlNode(String tagName, String innerHtml, String outerHtml, String innerText, String value, Map<String, String> attributes) {
+        this.tagName = tagName;
+        this.innerHtml = innerHtml;
+        this.outerHtml = outerHtml;
+        this.innerText = innerText;
+        this.value = value;
 
-        value = extractValue(meta);
-        type = attributes.getOrDefault("type", "");
+        this.attributes = attributes;
     }
 
     public String getTagName() {
         return tagName;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public Map<String, String> getAttributes() {
-        return attributes;
-    }
-
     public String getInnerHtml() {
         return innerHtml;
+    }
+
+    public String getOuterHtml() {
+        return outerHtml;
+    }
+
+    public String getInnerText() {
+        return innerText;
     }
 
     public String getValue() {
         return value;
     }
 
+    public Map<String, String> getAttributes() {
+        return attributes;
+    }
+
+    public String getTypeAttribute() {
+        return attributes.getOrDefault("type", "");
+    }
+
     @Override
     public String toString() {
         return "HtmlNode{" +
                 "tagName='" + tagName + '\'' +
-                ", value='" + value + '\'' +
-                ", type='" + type + '\'' +
-                ", attributes=" + attributes +
                 ", innerHtml='" + innerHtml + '\'' +
+                ", outerHtml='" + outerHtml + '\'' +
+                ", innerText='" + innerText + '\'' +
+                ", value='" + value + '\'' +
+                ", attributes=" + attributes +
                 '}';
-    }
-
-    private String extractValue(Map<String, ?> meta) {
-        Object metaValue = meta.getOrDefault("value", null);
-        return metaValue != null ? metaValue.toString() : null;
     }
 }

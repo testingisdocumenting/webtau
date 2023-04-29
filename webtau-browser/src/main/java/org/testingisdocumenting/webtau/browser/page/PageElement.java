@@ -45,6 +45,8 @@ public interface PageElement extends
     PageElementValue<Object> elementValue();
     PageElementValue<List<Object>> elementValues();
 
+    List<HtmlNode> extractHtmlNodes();
+
     /**
      * mark this element as to be treated as list of elements when otherwise it will be ambiguous,
      * e.g.
@@ -76,7 +78,7 @@ public interface PageElement extends
     void dragAndDropBy(int offsetX, int offsetY);
 
     /**
-     * uses command on mac os x, and control on other OSes
+     * uses command on Mac OS X, and control on other OSes
      */
     default void commandOrControlClick() {
         if (BrowserConditions.isMac()) {

@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,13 +17,12 @@
 
 package org.testingisdocumenting.webtau;
 
-import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
 import org.openqa.selenium.WebElement;
+import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
+import org.testingisdocumenting.webtau.browser.page.HtmlNode;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class FakeAdditionalBrowserInteractions implements AdditionalBrowserInteractions {
@@ -31,16 +31,15 @@ public class FakeAdditionalBrowserInteractions implements AdditionalBrowserInter
     }
 
     @Override
-    public List<Map<String, ?>> extractElementsMeta(List<WebElement> webElements) {
+    public List<HtmlNode> extractHtmlNodes(List<WebElement> webElements) {
         return webElements.stream()
-                .map(webElement -> {
-                    Map<String, Object> meta = new HashMap<>();
-                    meta.put("tagName", webElement.getTagName());
-                    meta.put("value", webElement.getText());
-                    meta.put("attributes", Collections.emptyMap());
-
-                    return meta;
-                })
+                .map(webElement -> new HtmlNode(
+                        webElement.getTagName(),
+                        "",
+                        "",
+                        webElement.getText(),
+                        "",
+                        Collections.emptyMap()))
                 .collect(Collectors.toList());
     }
 
