@@ -21,11 +21,10 @@ import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinterDecorationToken;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinterLine;
 import org.testingisdocumenting.webtau.reporter.WebTauStepOutput;
 
-import java.util.Collections;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class ValueMatcherStepOutput implements WebTauStepOutput {
     private final ValuePath root;
@@ -33,21 +32,45 @@ public class ValueMatcherStepOutput implements WebTauStepOutput {
     private final Set<ValuePath> valuePathsToHighlight;
     private final ValueConverter valueConverter;
 
+    // we cache pretty print as sometimes actual values pretty print involves things like browser or other interactions
+    // we print failed tests and their steps one more time at the end of tests runs
+    // by that time browsers and other heavy resources are already closed
+    // so instead of reprinting we will use cached printed result
+    private final List<PrettyPrinterLine> cachedPrettyPrintOutput;
+
     public ValueMatcherStepOutput(ValuePath root, Object actual, ValueConverter valueConverter, Set<ValuePath> valuePathsToHighlight) {
         this.root = root;
         this.actual = actual;
         this.valueConverter = valueConverter;
         this.valuePathsToHighlight = valuePathsToHighlight;
+        this.cachedPrettyPrintOutput = new ArrayList<>();
     }
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
+        if (!cachedPrettyPrintOutput.isEmpty()) {
+            rePrintCached(printer);
+        } else {
+            printStepOutput(printer);
+            cacheOutput(printer);
+        }
+    }
+
+    private void rePrintCached(PrettyPrinter printer) {
+        cachedPrettyPrintOutput.forEach(printer::addLine);
+    }
+
+    private void printStepOutput(PrettyPrinter printer) {
         printer.printLine();
         printer.setPathsDecoration(new PrettyPrinterDecorationToken("**", Color.RED), valuePathsToHighlight);
         printer.setValueConverter(valueConverter);
 
         printer.printObject(root, actual);
         printer.flushCurrentLine();
+    }
+
+    private void cacheOutput(PrettyPrinter printer) {
+        printer.getLinesStream().forEach(cachedPrettyPrintOutput::add);
     }
 
     @Override

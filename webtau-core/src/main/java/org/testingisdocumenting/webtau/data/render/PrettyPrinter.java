@@ -25,6 +25,7 @@ import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.StringUtils;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * prints values using pretty ANSI colors, maintains indentation
@@ -150,6 +151,10 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
         return lines.get(lineIdx);
     }
 
+    public Stream<PrettyPrinterLine> getLinesStream() {
+        return lines.stream();
+    }
+
     @Override
     public Iterator<PrettyPrinterLine> iterator() {
         return lines.listIterator();
@@ -187,6 +192,10 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
     public void printLine(Object... styleOrValues) {
         appendToCurrentLine(styleOrValues);
         flushCurrentLine();
+    }
+
+    public void addLine(PrettyPrinterLine line) {
+        lines.add(line);
     }
 
     public void flushCurrentLine() {

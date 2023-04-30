@@ -81,11 +81,6 @@ public class PageElementValue<E> implements ActualValueExpectations, ActualPathA
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
-        // to avoid browser recreation if it was already closed
-        if (!Browser.browser.hasActiveBrowsers()) {
-            return;
-        }
-
         printer.printLine(
                 Stream.concat(parentPrettyPrint(),
                         Stream.of(Color.PURPLE, name, ":", Color.GREEN, " ", DataRenderers.render(get()))).toArray());
