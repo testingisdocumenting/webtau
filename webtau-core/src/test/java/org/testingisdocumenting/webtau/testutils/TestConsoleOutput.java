@@ -64,12 +64,22 @@ public class TestConsoleOutput implements ConsoleOutput {
         return runExpectExceptionAndValidateOutput(null, expectedOutput, code);
     }
 
+    public static void withConsoleReporters(Runnable code) {
+        ConsoleOutputs.add(ConsoleOutputs.defaultOutput);
+        StepReporters.add(StepReporters.defaultStepReporter);
+
+        try {
+            code.run();
+        } finally {
+            StepReporters.remove(StepReporters.defaultStepReporter);
+            ConsoleOutputs.remove(ConsoleOutputs.defaultOutput);
+        }
+    }
+
     public static TestConsoleOutput runExpectExceptionAndValidateOutput(Class<?> expectedException, Object expectedOutput, Runnable code) {
         TestConsoleOutput testOutput = new TestConsoleOutput();
 
-        ConsoleOutputs.add(ConsoleOutputs.defaultOutput);
-        StepReporters.add(StepReporters.defaultStepReporter);
-        try {
+        withConsoleReporters(() -> {
             OutputAndCaughtException outputAndCaughtException = ConsoleOutputs.withAdditionalOutput(testOutput, () -> {
                 Throwable caughtException = null;
                 try {
@@ -84,17 +94,14 @@ public class TestConsoleOutput implements ConsoleOutput {
 
             if (expectedException != null) {
                 actual(outputAndCaughtException.caughtException != null ?
-                        outputAndCaughtException.caughtException.getClass() : null,
+                                outputAndCaughtException.caughtException.getClass() : null,
                         "caught exception").should(equal(expectedException));
             } else if (outputAndCaughtException.caughtException != null) {
                 throw new AssertionError("expected no exception, but caught: " + outputAndCaughtException.caughtException);
             }
 
             actual(outputAndCaughtException.output, "output").should(equal(expectedOutput));
-        } finally {
-            StepReporters.remove(StepReporters.defaultStepReporter);
-            ConsoleOutputs.remove(ConsoleOutputs.defaultOutput);
-        }
+        });
 
         return testOutput;
     }

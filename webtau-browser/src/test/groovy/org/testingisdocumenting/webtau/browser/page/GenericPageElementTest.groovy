@@ -25,9 +25,14 @@ import org.testingisdocumenting.webtau.FakeWebDriver
 import org.testingisdocumenting.webtau.FakeWebElement
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath
 import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.WebTauStep
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
+
+import static org.testingisdocumenting.webtau.Matchers.actual
+import static org.testingisdocumenting.webtau.Matchers.equal
 
 class GenericPageElementTest implements StepReporter {
     static PageElementPath elementPath
@@ -36,15 +41,15 @@ class GenericPageElementTest implements StepReporter {
 
     @BeforeClass
     static void setupDriver() {
-        driver = new FakeWebDriver()
-        driver.registerFakeElement(".element", new FakeWebElement("div", "abc" , [:]))
-
         elementPath = new PageElementPath()
         elementPath.addFinder(new ByCssFinderPage(".element"))
     }
 
     @Before
     void setupReporter() {
+        driver = new FakeWebDriver()
+        driver.registerFakeElement(".element", new FakeWebElement("div", "abc" , [:]))
+
         stepMessages.clear()
         StepReporters.add(this)
     }
@@ -96,6 +101,45 @@ class GenericPageElementTest implements StepReporter {
                                 "set value another password to by css .element"]
     }
 
+    @Test
+    void "pretty print html content of single element"() {
+        def el1 = FakeWebElement.tagTextValueAndOuterHtml("div", "abc", "", "<div class=\"button\"></div>");
+        expectPrettyPrinted(Arrays.asList(el1), 'found single element using by css my-divs\n' +
+                '  innerText: abc\n' +
+                '  <div class="button"/>')
+    }
+
+    @Test
+    void "pretty print html content of multiple elements"() {
+        def el1 = FakeWebElement.tagTextValueAndOuterHtml("div", "abc", "", "<div class=\"button\"></div>")
+        def el2 = FakeWebElement.tagTextValueAndOuterHtml("div", "xyz", "", "<div class=\"attention\"></div>")
+        expectPrettyPrinted(Arrays.asList(el1, el2), 'found 2 elements using by css my-divs\n' +
+                'element #1\n' +
+                '  innerText: abc\n' +
+                '  <div class="button"/>\n' +
+                '\n' +
+                'element #2\n' +
+                '  innerText: xyz\n' +
+                '  <div class="attention"/>')
+    }
+
+    @Test
+    void "pretty print html content of more elements than fit"() {
+        def el1 = FakeWebElement.tagTextValueAndOuterHtml("div", "abc", "", "<div class=\"button\"></div>")
+        def el2 = FakeWebElement.tagTextValueAndOuterHtml("div", "xyz", "", "<div class=\"attention\"></div>")
+        def el3 = FakeWebElement.tagTextValueAndOuterHtml("p", "123", "", "<p class=\"hello\"></p>")
+        expectPrettyPrinted(Arrays.asList(el1, el2, el3), 'found 3 elements using by css my-divs\n' +
+                'element #1\n' +
+                '  innerText: abc\n' +
+                '  <div class="button"/>\n' +
+                '\n' +
+                'element #2\n' +
+                '  innerText: xyz\n' +
+                '  <div class="attention"/>\n' +
+                '\n' +
+                '...1 more', 2)
+    }
+
     @Override
     void onStepStart(WebTauStep step) {
         stepMessages.add(step.inProgressMessage.toString())
@@ -109,5 +153,25 @@ class GenericPageElementTest implements StepReporter {
     @Override
     void onStepFailure(WebTauStep step) {
 
+    }
+
+    private static void expectPrettyPrinted(List<FakeWebElement> elements, String expectedOutput, int maxElementsToPrint = 5) {
+        driver.registerFakeElements("my-divs", elements)
+
+        def elementPath = new PageElementPath()
+        elementPath.addFinder(new ByCssFinderPage("my-divs"))
+
+        def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), elementPath, false)
+
+        def console = new TestConsoleOutput()
+        def printer = new PrettyPrinter(0)
+
+        new PageElementPrettyPrinter(pageElement, maxElementsToPrint).prettyPrint(printer)
+        printer.renderToConsole(console)
+
+        println console.colorOutput
+        TestConsoleOutput.withConsoleReporters {
+            actual(console.noColorOutput, "prettyPrinted").should(equal(expectedOutput))
+        }
     }
 }

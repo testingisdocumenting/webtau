@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +27,8 @@ public class FakeWebElement implements WebElement {
     private final String tagName;
     private final String text;
     private final Map<String, String> attrs;
+    private String value;
+    private String outerHtml;
 
     public FakeWebElement(String tagName, String text, Map<String, String> attrs) {
         this.tagName = tagName;
@@ -33,8 +36,32 @@ public class FakeWebElement implements WebElement {
         this.attrs = attrs;
     }
 
+    public static FakeWebElement tagTextValueAndOuterHtml(String tagName, String text, String value, String outerHtml) {
+        FakeWebElement fakeWebElement = new FakeWebElement(tagName, text, Collections.emptyMap());
+        fakeWebElement.setValue(value);
+        fakeWebElement.setOuterHtml(outerHtml);
+
+        return fakeWebElement;
+    }
+
     public static FakeWebElement tagAndText(String tagName, String text) {
         return new FakeWebElement(tagName, text, Collections.emptyMap());
+    }
+
+    public String getValue() {
+        return value;
+    }
+
+    public void setValue(String value) {
+        this.value = value;
+    }
+
+    public String getOuterHtml() {
+        return outerHtml;
+    }
+
+    public void setOuterHtml(String outerHtml) {
+        this.outerHtml = outerHtml;
     }
 
     @Override
