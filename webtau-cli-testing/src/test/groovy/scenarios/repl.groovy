@@ -96,7 +96,7 @@ scenario('browser context') {
     repl.with {
         clearOutput()
         send('$("p")\n')
-        output.waitTo contain('element is found')
+        output.waitTo contain('found single element')
     }
 
     cli.doc.capture('browser-repl-select')

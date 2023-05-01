@@ -30,6 +30,10 @@ public class FakeWebDriver implements WebDriver {
         fakesByCss.computeIfAbsent(css, (key) -> new ArrayList<>()).add(webElement);
     }
 
+    public void registerFakeElements(String css, List<WebElement> webElements) {
+        fakesByCss.computeIfAbsent(css, (key) -> new ArrayList<>()).addAll(webElements);
+    }
+
     @Override
     public void get(String url) {
     }

@@ -36,7 +36,7 @@ public class FakeAdditionalBrowserInteractions implements AdditionalBrowserInter
                 .map(webElement -> new HtmlNode(
                         webElement.getTagName(),
                         "",
-                        "",
+                        ((FakeWebElement)webElement).getOuterHtml(),
                         webElement.getText(),
                         "",
                         Collections.emptyMap()))

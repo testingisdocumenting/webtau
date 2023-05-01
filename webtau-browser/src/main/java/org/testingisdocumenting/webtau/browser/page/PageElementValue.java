@@ -17,7 +17,6 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
-import org.testingisdocumenting.webtau.browser.Browser;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
