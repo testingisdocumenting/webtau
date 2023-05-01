@@ -33,7 +33,7 @@ window._webtau =
         return {
           tagName: webElement.tagName.toLowerCase(),
           innerHtml: webElement.innerHTML,
-          outerHtml: webElement.outerHtml,
+          outerHtml: webElement.outerHTML,
           innerText: webElement.innerText,
           value: webElement.value,
           attributes: extractAttributes(webElement),
