@@ -16,12 +16,15 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.xml.XmlPrettyPrinter;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -98,12 +101,28 @@ class PageElementPrettyPrinter {
     private static void printElementDetails(PrettyPrinter printer, HtmlNode htmlNode) {
         printer.printLine(Color.PURPLE, "innerText: ", Color.GREEN, htmlNode.getInnerText());
         if (htmlNode.getTagName().equals("input")) {
-            printer.printLine(Color.PURPLE, "value: ", Color.GREEN, htmlNode.getValue());
+            boolean isValueEmpty = htmlNode.getValue().isEmpty();
+            printer.printLine(Color.PURPLE, "value: ", isValueEmpty ? Color.YELLOW : Color.GREEN,
+                    isValueEmpty ? "<empty>" : htmlNode.getValue());
         }
 
         if (!htmlNode.getOuterHtml().isEmpty()) {
-            new XmlPrettyPrinter(htmlNode.getOuterHtml()).prettyPrint(printer);
+            String xml = normalizeHtml(htmlNode.getOuterHtml());
+            new XmlPrettyPrinter(xml).prettyPrint(printer);
+
             printer.flushCurrentLine();
         }
+    }
+
+    private static String normalizeHtml(String html) {
+        Document.OutputSettings outputSettings = new Document.OutputSettings()
+                .syntax(Document.OutputSettings.Syntax.xml)
+                .charset(StandardCharsets.UTF_8)
+                .prettyPrint(false);
+
+        return Jsoup.parse(html)
+                .outputSettings(outputSettings)
+                .select("body")
+                .html();
     }
 }
