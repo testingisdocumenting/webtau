@@ -85,7 +85,6 @@ class PageElementPrettyPrinter {
             boolean isLastElement = nodeIdx == count - 1;
             if (printSeparators && !isLastElement) {
                 printer.printLine();
-                printer.printLine();
             }
 
             nodeIdx++;
@@ -102,6 +101,9 @@ class PageElementPrettyPrinter {
             printer.printLine(Color.PURPLE, "value: ", Color.GREEN, htmlNode.getValue());
         }
 
-        new XmlPrettyPrinter(htmlNode.getOuterHtml()).prettyPrint(printer);
+        if (!htmlNode.getOuterHtml().isEmpty()) {
+            new XmlPrettyPrinter(htmlNode.getOuterHtml()).prettyPrint(printer);
+            printer.flushCurrentLine();
+        }
     }
 }

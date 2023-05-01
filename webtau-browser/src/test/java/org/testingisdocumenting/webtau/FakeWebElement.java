@@ -34,6 +34,7 @@ public class FakeWebElement implements WebElement {
         this.tagName = tagName;
         this.text = text;
         this.attrs = attrs;
+        this.outerHtml = "";
     }
 
     public static FakeWebElement tagTextValueAndOuterHtml(String tagName, String text, String value, String outerHtml) {
