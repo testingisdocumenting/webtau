@@ -26,8 +26,8 @@ public class TermUiTestListener implements TestListener {
 
     @Override
     public void beforeFirstTest() {
-        if (!TermUiConfig.isTermUiEnabled()) {
-            System.setProperty("java.awt.headless", "true");
+        if (TermUiConfig.isTermUiEnabled()) {
+            System.setProperty("java.awt.headless", "false");
         }
     }
 

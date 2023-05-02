@@ -72,6 +72,8 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     }
 
     static void main(String[] args) {
+        System.setProperty("java.awt.headless", "true")
+
         def cliApp = new WebTauCliApp(args)
 
         if (WebTauCliArgsConfig.isReplMode(args)) {

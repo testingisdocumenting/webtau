@@ -1,0 +1,1 @@
+* Fix: [Standalone Runner](groovy-standalone-runner/introduction) headless mode by default is back: no more java app popup
