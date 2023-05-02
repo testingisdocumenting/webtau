@@ -34,6 +34,7 @@ import java.nio.file.Paths
 class WebTauCliArgsConfig {
     private static final String REPL = "repl"
     private static final String REPL_EXPERIMENTAL = "replexp"
+    private static final String REPL_OLD = "replold"
 
     private static final String CLI_SOURCE = "command line argument"
 
@@ -41,7 +42,7 @@ class WebTauCliArgsConfig {
     private static final String VERSION_KEY = "version"
     private static final String EXAMPLE_KEY = "example"
 
-    private static final Set<String> COMMANDS = [REPL, REPL_EXPERIMENTAL]
+    private static final Set<String> COMMANDS = [REPL, REPL_EXPERIMENTAL, REPL_OLD]
 
     private final WebTauConfig cfg
 
@@ -68,6 +69,10 @@ class WebTauCliArgsConfig {
 
     static boolean isExperimentalReplMode(String[] args) {
         return args.any { it == REPL_EXPERIMENTAL }
+    }
+
+    static boolean isOldReplMode(String[] args) {
+        return args.any { it == REPL_OLD }
     }
 
     void setConfigFileRelatedCfgIfPresent() {
