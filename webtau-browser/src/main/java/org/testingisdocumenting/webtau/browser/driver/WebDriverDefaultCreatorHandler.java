@@ -108,6 +108,10 @@ public class WebDriverDefaultCreatorHandler implements WebDriverCreatorHandler {
             options.addArguments("--disable-gpu");
         }
 
+        if (BrowserConfig.useFakeMedia()) {
+            options.addArguments("--use-fake-ui-for-media-stream=1");
+        }
+
         if (BrowserConfig.areExtensionsDisabled()) {
             options.addArguments("--disable-extensions");
             options.setExperimentalOption("useAutomationExtension", false);
@@ -140,6 +144,10 @@ public class WebDriverDefaultCreatorHandler implements WebDriverCreatorHandler {
 
         if (BrowserConfig.isHeadless()) {
             options.setHeadless(true);
+        }
+
+        if (BrowserConfig.useFakeMedia()) {
+            options.addPreference("media.navigator.streams.fake", true);
         }
 
         return options;

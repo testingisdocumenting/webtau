@@ -1,0 +1,1 @@
+* Add: [browserUseFakeMedia](configuration/options#browserUseFakeMedia) to bypass permission asking for microphone/camera
