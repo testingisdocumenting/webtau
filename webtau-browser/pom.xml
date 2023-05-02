@@ -56,6 +56,11 @@
             <artifactId>webdrivermanager</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>org.jsoup</groupId>
+            <artifactId>jsoup</artifactId>
+        </dependency>
+
         <!--forcing correct version to avoid selenium clash-->
         <dependency>
             <groupId>com.google.guava</groupId>

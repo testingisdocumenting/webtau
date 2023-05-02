@@ -103,7 +103,7 @@ class GenericPageElementTest implements StepReporter {
 
     @Test
     void "pretty print html content of single element"() {
-        def el1 = FakeWebElement.tagTextValueAndOuterHtml("div", "abc", "", "<div class=\"button\"></div>");
+        def el1 = FakeWebElement.tagTextValueAndOuterHtml("div", "abc", "", "<div class=\"button\"></div>")
         expectPrettyPrinted(Arrays.asList(el1), 'found single element using by css my-divs\n' +
                 '  innerText: abc\n' +
                 '  <div class="button"/>')
@@ -138,6 +138,15 @@ class GenericPageElementTest implements StepReporter {
                 '  <div class="attention"/>\n' +
                 '\n' +
                 '...1 more', 2)
+    }
+
+    @Test
+    void "pretty print incomplete html"() {
+        def el1 = FakeWebElement.tagTextValueAndOuterHtml("input", "abc", "", "<input class=\"button\" type=\"ty1\">")
+        expectPrettyPrinted(Arrays.asList(el1), 'found single element using by css my-divs\n' +
+                '  innerText: abc\n' +
+                '  value: <empty>\n' +
+                '  <input class="button" type="ty1"/>')
     }
 
     @Override
