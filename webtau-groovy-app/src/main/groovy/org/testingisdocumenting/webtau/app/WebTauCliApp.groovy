@@ -77,10 +77,13 @@ class WebTauCliApp implements TestListener, ReportGenerator {
         def cliApp = new WebTauCliApp(args)
 
         if (WebTauCliArgsConfig.isReplMode(args)) {
-            cliApp.startRepl()
+            cliApp.startReplExperimental()
             System.exit(0)
         } else if(WebTauCliArgsConfig.isExperimentalReplMode(args)) {
             cliApp.startReplExperimental()
+            System.exit(0)
+        } else if(WebTauCliArgsConfig.isOldReplMode(args)) {
+            cliApp.startRepl()
             System.exit(0)
         } else {
             cliApp.start { exitCode ->
