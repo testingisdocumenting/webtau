@@ -49,6 +49,7 @@ public class BrowserConfig implements WebTauConfigHandler {
                     "Personas will still have their own drivers", () -> false);
 
     private static final ConfigValue disableExtensions = declare("browserDisableExtensions", "run browser without extensions", () -> false);
+    private static final ConfigValue useFakeMedia = declareBoolean("browserUseFakeMedia", "use fake microphone/camera to avoid asking for permission on browser/OS level", false);
 
     private static final ConfigValue staleElementRetry = declare("browserStaleElementRetry", "number of times to automatically retry for browser stale element actions", () -> 5);
     private static final ConfigValue staleElementRetryWait = declare("browserStaleElementRetryWait", "wait time in between browser stale element retries", () -> 100);
@@ -145,6 +146,10 @@ public class BrowserConfig implements WebTauConfigHandler {
         return disableExtensions.getAsBoolean();
     }
 
+    public static boolean useFakeMedia() {
+        return useFakeMedia.getAsBoolean();
+    }
+
     public static void setHeadless(boolean isHeadless) {
         browserHeadless.set("manual", isHeadless);
     }
@@ -179,6 +184,7 @@ public class BrowserConfig implements WebTauConfigHandler {
                 staleElementRetry,
                 staleElementRetryWait,
                 disableExtensions,
+                useFakeMedia,
                 chromeDriverPath,
                 chromeBinPath,
                 firefoxDriverPath,
