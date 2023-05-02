@@ -147,6 +147,7 @@ public class WebDriverDefaultCreatorHandler implements WebDriverCreatorHandler {
         }
 
         if (BrowserConfig.useFakeMedia()) {
+            options.addPreference("media.navigator.permission.disabled", true);
             options.addPreference("media.navigator.streams.fake", true);
         }
 
