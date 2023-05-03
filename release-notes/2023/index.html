@@ -84,6 +84,11 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>1.53</h1></header>
+<p>Fix: groovy-standalone-runner/introduction Standalone Runner headless mode by default is back: no more java app popup Fix: WebTau won't attempt to reopen browser at the end of tests if there is a failed test with browser/page-element-and-value PageElement related assertions Doc: getting-started/what-is-this#scripting-and-junit mention scripting in the docs intro page Add: configuration/options#browserUseFakeMedia browserUseFakeMedia to bypass permission asking for microphone/camera Add: browser/page-element-and-value PageElement pretty print for REPL/notebooks now includes HTML representation and prints first ten elements Add: Expose browser/page-element-and-value PageElement extract html nodes Add: Browser browser/page-element-and-value Page Element highlight when run in https://github.com/Kotlin/kotlin-jupyter Kotlin Notebook Add: Print complete expected value in case of matcher failure, and not just first 5 lines Add: Expose cfg instead of getCfg through WebTauDsl for Kotlin Notebooks Add: shortcut to set base url from Kotlin Notebook Add: PrettyPrintableToHtmlConverter to use in https://github.com/Kotlin/kotlin-jupyter Kotlin Notebook Add: automatically recreate browser/introduction browser driver when user manually close it during REPL or Notebook experience Add: configuration/options#browserSameDriverInThreads browserSameDriverInThreads option to force the same browser instance when running code from Notebook cells</p>
+</article>
+
+<article>
 <header><h1>1.52.1</h1></header>
 <p>Add: tableVerticalSeparator option to override what vertical separator to use when printing TableData Add: disableConsoleOverallReport option to disable printing of overall test summary and report link</p>
 </article>
@@ -126,6 +131,332 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
+      "id" : "1-53",
+      "title" : "1.53",
+      "type" : "Section",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/groovy-standalone-runner/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Standalone Runner",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " headless mode by default is back: no more java app popup",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: WebTau won't attempt to reopen browser at the end of tests if there is a failed test with ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/page-element-and-value",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "PageElement",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " related assertions",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/getting-started/what-is-this#scripting-and-junit",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "mention scripting",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " in the docs intro page",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/configuration/options#browserUseFakeMedia",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "browserUseFakeMedia",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " to bypass permission asking for microphone/camera",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/page-element-and-value",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "PageElement",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " pretty print for REPL/notebooks now includes HTML representation and prints first ten elements",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Expose ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/page-element-and-value",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "PageElement",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " extract html nodes",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Browser ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/page-element-and-value",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Page Element",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " highlight when run in ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "https://github.com/Kotlin/kotlin-jupyter",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Kotlin Notebook",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Print complete expected value in case of matcher failure, and not just first 5 lines",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Expose ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "cfg",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " instead of ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "getCfg",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " through ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "WebTauDsl",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " for Kotlin Notebooks",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: shortcut to set base url from Kotlin Notebook",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "PrettyPrintableToHtmlConverter",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to use in ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "https://github.com/Kotlin/kotlin-jupyter",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Kotlin Notebook",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: automatically recreate ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "browser",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " driver when user manually close it during REPL or Notebook experience",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/configuration/options#browserSameDriverInThreads",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "browserSameDriverInThreads",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " option to force the same browser instance when running code from Notebook cells",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
       "id" : "1-52-1",
       "title" : "1.52.1",
       "type" : "Section",
@@ -2198,7 +2529,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1682189775674,
+    "lastModifiedTime" : 1683079830088,
     "tocItem" : {
       "chapterTitle" : "Release Notes",
       "pageTitle" : "2023 Releases",
@@ -2209,6 +2540,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "2023",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "1.53",
+        "id" : "1-53"
+      }, {
         "title" : "1.52.1",
         "id" : "1-52-1"
       }, {
