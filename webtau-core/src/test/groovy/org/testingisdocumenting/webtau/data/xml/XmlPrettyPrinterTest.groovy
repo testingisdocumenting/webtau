@@ -48,6 +48,11 @@ class XmlPrettyPrinterTest extends PrettyPrintableTestBase {
                 "</ul>")
     }
 
+    @Test
+    void "print original when can't parse"() {
+        printAndExpect("<body test", "<body test")
+    }
+
     void printAndExpect(String xml, String expected) {
         new XmlPrettyPrinter(xml).prettyPrint(printer)
         expectOutput(expected)
