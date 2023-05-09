@@ -23,14 +23,19 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import java.util.List;
 
 public class XmlPrettyPrinter {
-    private final XmlNode node;
+    private final String xml;
 
     public XmlPrettyPrinter(String xml) {
-        node = XmlParser.parse(xml);
+        this.xml = xml;
     }
 
     public void prettyPrint(PrettyPrinter printer) {
-        printNode(printer, node);
+        try {
+            XmlNode node = XmlParser.parse(xml);
+            printNode(printer, node);
+        } catch (Throwable ignored) {
+            printer.printLine(Color.RESET, xml);
+        }
     }
 
     private void printNode(PrettyPrinter printer, XmlNode node) {
