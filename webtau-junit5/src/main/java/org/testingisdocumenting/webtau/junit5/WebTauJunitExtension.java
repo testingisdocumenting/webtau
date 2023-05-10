@@ -20,7 +20,6 @@ import org.testingisdocumenting.webtau.TestListeners;
 import org.testingisdocumenting.webtau.cleanup.DeferredCallsRegistration;
 import org.testingisdocumenting.webtau.javarunner.report.JavaBasedTest;
 import org.testingisdocumenting.webtau.javarunner.report.JavaReport;
-import org.testingisdocumenting.webtau.javarunner.report.JavaShutdownHook;
 import org.testingisdocumenting.webtau.report.ConsoleReportGenerator;
 import org.testingisdocumenting.webtau.report.HtmlReportGenerator;
 import org.testingisdocumenting.webtau.report.ReportGenerators;
@@ -134,7 +133,6 @@ public class WebTauJunitExtension implements
         TestResultPayloadExtractors.extract(webTauTest.getSteps().stream())
                 .forEach(webTauTest::addTestResultPayload);
 
-        JavaShutdownHook.INSTANCE.noOp();
         TestListeners.afterTestRun(javaBasedTest.getTest());
     }
 
@@ -159,7 +157,6 @@ public class WebTauJunitExtension implements
             throw e;
         } finally {
             stopTest(extensionContext, javaBasedTest);
-            JavaShutdownHook.INSTANCE.noOp();
         }
     }
 
