@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.data.table
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.TestListeners
 
 import java.time.LocalDate
 
@@ -165,6 +166,16 @@ class TableDataGroovyTest {
         } should throwException("duplicate entry found with key: [N, T]\n" +
                 "{id=id1, Name=N, Type=T}\n" +
                 "{id=id3, Name=N, Type=T}")
+    }
+
+    @Test
+    void "to string should use pretty printed version without colors"() {
+        def tableData = createTableWithKeyColumn()
+
+        tableData.toString().should == '*id   │ Name │ Type\n' +
+                '"id1" │ "N"  │ "T" \n' +
+                '"id2" │ "N2" │ "T2"\n' +
+                '"id3" │ "N"  │ "T" '
     }
 
     private static TableData replaceValue(TableData tableData) {

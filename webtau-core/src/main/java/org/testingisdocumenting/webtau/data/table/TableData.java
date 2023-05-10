@@ -20,7 +20,6 @@ package org.testingisdocumenting.webtau.data.table;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
-import org.testingisdocumenting.webtau.data.render.TableDataRenderer;
 import org.testingisdocumenting.webtau.data.render.TablePrettyPrinter;
 import org.testingisdocumenting.webtau.data.table.header.CompositeKey;
 import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
@@ -290,7 +289,7 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
 
     @Override
     public String toString() {
-        return TableDataRenderer.renderTable(this);
+        return PrettyPrinter.renderAsTextWithoutColors(this);
     }
 
     private static List<String> extractColumnNames(Stream<?> columnNameAndValues) {
