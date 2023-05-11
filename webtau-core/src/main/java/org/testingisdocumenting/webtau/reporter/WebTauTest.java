@@ -189,7 +189,7 @@ public class WebTauTest {
     }
 
     public boolean isSkipped() {
-        return ! isRan;
+        return !isRan;
     }
 
     public boolean isFailed() {

@@ -21,25 +21,27 @@ import org.junit.platform.launcher.Launcher
 import org.junit.platform.launcher.LauncherDiscoveryRequest
 import org.junit.platform.launcher.TestExecutionListener
 import org.junit.platform.launcher.TestIdentifier
+import org.junit.platform.launcher.TestPlan
 import org.junit.platform.launcher.core.LauncherDiscoveryRequestBuilder
 import org.junit.platform.launcher.core.LauncherFactory
+import org.testingisdocumenting.webtau.TestListener
 import org.testingisdocumenting.webtau.TestListeners
 import org.testingisdocumenting.webtau.console.ConsoleOutput
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.console.ansi.AutoResetAnsiString
 import org.testingisdocumenting.webtau.featuretesting.WebTauEndToEndTestValidator
 import org.testingisdocumenting.webtau.javarunner.report.JavaReport
-import org.testingisdocumenting.webtau.report.ReportGenerators
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
 import org.testingisdocumenting.webtau.reporter.WebTauStep
+import org.testingisdocumenting.webtau.reporter.WebTauTest
 
 import static org.junit.platform.engine.discovery.DiscoverySelectors.*
 import static org.testingisdocumenting.webtau.WebTauCore.doc
 import static org.testingisdocumenting.webtau.browser.Browser.browser
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
 
-class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, ConsoleOutput {
+class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, TestListener, ConsoleOutput {
     private final List<String> consoleOutputLines = []
 
     private Map<String, Object> scenariosDetails
@@ -58,33 +60,49 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, Co
         cfg.reset()
         cfg.triggerConfigHandlers()
         cfg.setUrl(baseUrl)
+        cfg.reportPath = cfg.fullPath("webtau-reports/" + testClass.canonicalName + ".html")
 
         if (!browserBaseUrl.isEmpty()) {
             browser.setBaseUrl(browserBaseUrl)
         }
 
         consoleOutputLines.clear()
-        ConsoleOutputs.add(ConsoleOutputs.defaultOutput)
-        ConsoleOutputs.add(this)
 
         JavaReport.INSTANCE.clear()
 
         StepReporters.withAdditionalReporter(this) {
-            launcher.execute(request, this)
+            try {
+                ConsoleOutputs.add(ConsoleOutputs.defaultOutput)
+                ConsoleOutputs.add(this)
+
+                TestListeners.add(this)
+
+                launcher.execute(request, this)
+            } finally {
+                TestListeners.remove(this)
+
+                ConsoleOutputs.remove(this)
+                ConsoleOutputs.remove(ConsoleOutputs.defaultOutput)
+            }
         }
 
-        TestListeners.afterAllTests()
-        generateReport(testClass)
-
-        ConsoleOutputs.remove(this)
-        ConsoleOutputs.remove(ConsoleOutputs.defaultOutput)
 
         saveConsoleOutput(testClass)
         WebTauEndToEndTestValidator.validateAndSaveTestDetails(testClass.simpleName, scenariosDetails)
 
+        cfg.reportPath = cfg.fullPath("webtau-reports/webtau.report.html")
+
         // next line is a hack, needs to be reconsidered after a better lifecycle event
         // or when the junit feature tests runner will be excluded from reports
         cfg.triggerConfigHandlers() // trigger handlers again to clean up any data as there will be shutdown handler that will call reports generation again
+    }
+
+    @Override
+    void testPlanExecutionStarted(TestPlan testPlan) {
+    }
+
+    @Override
+    void testPlanExecutionFinished(TestPlan testPlan) {
     }
 
     @Override
@@ -106,8 +124,18 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, Co
     }
 
     @Override
-    void onStepStart(WebTauStep step) {
+    void beforeTestRun(WebTauTest test) {
+        if (isAfterAllWebTauTests(test)) {
+            capturedStepsSummary = [:].withDefault { 0 }
+        }
+    }
 
+    @Override
+    void afterTestRun(WebTauTest test) {
+    }
+
+    @Override
+    void onStepStart(WebTauStep step) {
     }
 
     @Override
@@ -138,18 +166,11 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, Co
 
     }
 
-    static void generateReport(Class<?> testClass) {
-        cfg.reportPath = cfg.fullPath("webtau-reports/" + testClass.canonicalName + ".html")
-
-        JavaReport.INSTANCE.stopTimer()
-        ReportGenerators.generate(JavaReport.INSTANCE.create())
-
-        cfg.reportPath = cfg.fullPath("webtau-reports/webtau.report.html")
-
-        JavaReport.INSTANCE.clear()
-    }
-
     void saveConsoleOutput(Class<?> testClass) {
        doc.captureText(testClass.canonicalName + "-console-output", String.join("\n", consoleOutputLines))
+    }
+
+    private static boolean isAfterAllWebTauTests(WebTauTest test) {
+        return test.id == "webtau-after-all-tests"
     }
 }
