@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.data.render;
 import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.AnsiAsStylesValuesListConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.Color;
+import org.testingisdocumenting.webtau.console.ansi.IgnoreAnsiString;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
@@ -134,6 +135,29 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
         for (PrettyPrinterLine line : lines) {
             consoleOutput.out(line.getStyleAndValues().toArray());
         }
+    }
+
+    public static String renderAsTextWithoutColors(Object value) {
+        PrettyPrinter printer = new PrettyPrinter(0);
+        printer.printObject(value);
+
+        return printer.renderAsTextWithoutColors();
+    }
+
+    public String renderAsTextWithoutColors() {
+        List<String> lines = new ArrayList<>();
+        renderToConsole(new ConsoleOutput() {
+            @Override
+            public void out(Object... styleOrValues) {
+                lines.add(new IgnoreAnsiString(styleOrValues).toString());
+            }
+
+            @Override
+            public void err(Object... styleOrValues) {
+            }
+        });
+
+        return String.join("\n", lines);
     }
 
     public int calcMaxWidth() {
