@@ -213,7 +213,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
 
     @Override
     void generate(WebTauReport report) {
-        problemCount = (int) (report.failed + report.errored)
+        problemCount = (int) (report.getFailed() + report.getErrored())
     }
 
     private static void setupAnsi() {

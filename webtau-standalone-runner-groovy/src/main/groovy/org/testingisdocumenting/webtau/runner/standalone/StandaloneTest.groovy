@@ -47,7 +47,11 @@ class StandaloneTest implements StepReporter {
         this.test.setShortContainerId(shortContainerId)
 
         this.workingDir = workingDir
-        this.code = code
+
+        Closure codeToUse = code.clone() as Closure
+        codeToUse.resolveStrategy = Closure.OWNER_FIRST
+
+        this.code = codeToUse
     }
 
     StandaloneTest asSynthetic() {

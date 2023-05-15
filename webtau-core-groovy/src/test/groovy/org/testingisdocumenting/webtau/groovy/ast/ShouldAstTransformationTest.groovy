@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.groovy.ast
 
+import groovy.test.GroovyTestCase
 import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers

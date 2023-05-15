@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,9 +17,6 @@
 
 package org.testingisdocumenting.webtau.groovy.ast
 
-import org.testingisdocumenting.webtau.WebTauCore
-import groovy.transform.CompileStatic
-import groovy.transform.PackageScope
 import org.codehaus.groovy.ast.ClassCodeExpressionTransformer
 import org.codehaus.groovy.ast.ClassNode
 import org.codehaus.groovy.ast.expr.ArgumentListExpression
@@ -29,6 +27,9 @@ import org.codehaus.groovy.ast.expr.MethodCallExpression
 import org.codehaus.groovy.ast.expr.PropertyExpression
 import org.codehaus.groovy.ast.expr.StaticMethodCallExpression
 import org.codehaus.groovy.control.SourceUnit
+import org.testingisdocumenting.webtau.WebTauCore
+import groovy.transform.CompileStatic
+import groovy.transform.PackageScope
 
 @PackageScope
 @CompileStatic

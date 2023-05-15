@@ -42,17 +42,17 @@
                 </exclusion>
 
                 <exclusion>
-                    <groupId>org.codehaus.groovy</groupId>
+                    <groupId>org.apache.groovy</groupId>
                     <artifactId>groovy</artifactId>
                 </exclusion>
 
                 <exclusion>
-                    <groupId>org.codehaus.groovy</groupId>
+                    <groupId>org.apache.groovy</groupId>
                     <artifactId>groovy-nio</artifactId>
                 </exclusion>
 
                 <exclusion>
-                    <groupId>org.codehaus.groovy</groupId>
+                    <groupId>org.apache.groovy</groupId>
                     <artifactId>groovy-groovysh</artifactId>
                 </exclusion>
             </exclusions>
