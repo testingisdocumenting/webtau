@@ -1346,8 +1346,8 @@ public class Http {
                 throw new IllegalArgumentException("expect host:port format for proxy, given: " + hostPort);
             }
 
-            host = parts[0];
-            port = Integer.parseInt(parts[1]);
+            host = parts[0].trim();
+            port = Integer.parseInt(parts[1].trim());
         }
     }
 

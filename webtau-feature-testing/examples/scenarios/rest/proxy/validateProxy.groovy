@@ -22,10 +22,10 @@ scenario("use proxy value") {
     code {
         http.get("http://localhost:8080/hello.html") {
         }
-    } should throwException(~/Caused by: java.net.UnknownHostException: my_proxy_server_to_use.com/)
+    } should throwException(~/Caused by: java.nio.channels.UnresolvedAddressException/)
 
     code {
         http.get("https://localhost:8080/hello.html") {
         }
-    } should throwException(~/Caused by: java.net.UnknownHostException: my_proxy_server_to_use.com/)
+    } should throwException(~/Caused by: java.nio.channels.UnresolvedAddressException/)
 }
