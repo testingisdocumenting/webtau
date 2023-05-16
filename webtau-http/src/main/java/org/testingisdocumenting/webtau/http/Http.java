@@ -17,16 +17,11 @@
 
 package org.testingisdocumenting.webtau.http;
 
-import static org.testingisdocumenting.webtau.WebTauCore.equal;
-import static org.testingisdocumenting.webtau.cfg.WebTauConfig.getCfg;
-import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
-import static java.nio.charset.StandardCharsets.UTF_8;
-import static java.util.stream.Collectors.toList;
-
+import org.apache.commons.io.IOUtils;
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.datanode.*;
 import org.testingisdocumenting.webtau.data.traceable.CheckLevel;
 import org.testingisdocumenting.webtau.data.traceable.TraceableValue;
-import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.AssertionTokenizedError;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
@@ -41,11 +36,7 @@ import org.testingisdocumenting.webtau.http.multipart.MultiPartFile;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFormData;
 import org.testingisdocumenting.webtau.http.multipart.MultiPartFormField;
 import org.testingisdocumenting.webtau.http.operationid.HttpOperationIdProviders;
-import org.testingisdocumenting.webtau.http.request.EmptyRequestBody;
-import org.testingisdocumenting.webtau.http.request.HttpApplicationMime;
-import org.testingisdocumenting.webtau.http.request.HttpQueryParams;
-import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
-import org.testingisdocumenting.webtau.http.request.HttpTextMime;
+import org.testingisdocumenting.webtau.http.request.*;
 import org.testingisdocumenting.webtau.http.resource.HttpResource;
 import org.testingisdocumenting.webtau.http.text.TextRequestBody;
 import org.testingisdocumenting.webtau.http.validation.*;
@@ -58,20 +49,27 @@ import org.testingisdocumenting.webtau.time.Time;
 import org.testingisdocumenting.webtau.utils.CollectionUtils;
 import org.testingisdocumenting.webtau.utils.JsonParseException;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
+import org.testingisdocumenting.webtau.utils.UrlUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UncheckedIOException;
-import java.lang.reflect.Field;
-import java.net.*;
+import java.net.InetSocketAddress;
+import java.net.ProxySelector;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
+import java.time.Duration;
 import java.util.*;
 import java.util.function.Supplier;
 import java.util.zip.GZIPInputStream;
-import javax.net.ssl.HttpsURLConnection;
-import org.apache.commons.io.IOUtils;
-import org.testingisdocumenting.webtau.utils.UrlUtils;
-import sun.net.www.protocol.https.HttpsURLConnectionImpl;
+
+import static java.util.stream.Collectors.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*;
 
 public class Http {
     private static final HttpResponseValidatorWithReturn EMPTY_RESPONSE_VALIDATOR = (header, body) -> null;
@@ -1196,29 +1194,29 @@ public class Http {
         }
 
         try {
-            HttpURLConnection connection = createConnection(fullUrl);
-            connection.setInstanceFollowRedirects(false);
-            setRequestMethod(method, connection);
-            connection.setConnectTimeout(getCfg().getHttpTimeout());
-            connection.setReadTimeout(getCfg().getHttpTimeout());
-            connection.setRequestProperty("Content-Type", requestBody.type());
-            connection.setRequestProperty("Accept", requestBody.type());
-            connection.setRequestProperty("User-Agent", getCfg().getUserAgent());
-            requestHeader.forEachProperty(connection::setRequestProperty);
+            HttpClient.Builder clientBuilder = HttpClient.newBuilder()
+                    .connectTimeout(Duration.ofMillis(getCfg().getHttpTimeout()))
+                    .followRedirects(HttpClient.Redirect.NEVER);
 
-            if (! (requestBody instanceof EmptyRequestBody)) {
-                validateRequestContent(requestBody);
-                connection.setDoOutput(true);
-
-                if (requestBody.isBinary()) {
-                    connection.getOutputStream().write(requestBody.asBytes());
-                } else {
-                    IOUtils.write(requestBody.asString(), connection.getOutputStream(), UTF_8);
-                }
+            if (getCfg().isHttpProxySet()) {
+                HostPort hostPort = new HostPort(getCfg().getHttpProxyConfigValue().getAsString());
+                clientBuilder.proxy(ProxySelector.of(new InetSocketAddress(hostPort.host, hostPort.port)));
             }
 
-            return extractHttpResponse(connection);
-        } catch (IOException e) {
+            HttpClient httpClient = clientBuilder.build();
+
+            HttpRequest.Builder httpRequestBuilder = HttpRequest.newBuilder()
+                    .uri(new URI(fullUrl))
+                    .header("Content-Type", requestBody.type())
+                    .header("Accept", requestBody.type())
+                    .header("User-Agent", getCfg().getUserAgent())
+                    .timeout(Duration.ofMillis(getCfg().getHttpTimeout()));
+            requestHeader.forEachProperty(httpRequestBuilder::header);
+
+            httpRequestBuilder = setRequestMethod(httpRequestBuilder, method, requestBody);
+
+            return sendAndExtractHttpResponse(httpClient, httpRequestBuilder.build());
+        } catch (IOException|InterruptedException|URISyntaxException e) {
             throw new RuntimeException("couldn't " + method + ": " + fullUrl, e);
         }
     }
@@ -1233,81 +1231,78 @@ public class Http {
         JsonUtils.deserialize(json);
     }
 
-    private HttpURLConnection createConnection(String fullUrl) {
-        try {
-            if (getCfg().isHttpProxySet()) {
-                HostPort hostPort = new HostPort(getCfg().getHttpProxyConfigValue().getAsString());
-
-                return (HttpURLConnection) new URL(fullUrl).openConnection(new Proxy(Proxy.Type.HTTP,
-                        new InetSocketAddress(hostPort.host, hostPort.port)));
-            }
-
-            return (HttpURLConnection) new URL(fullUrl).openConnection();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
+    private HttpRequest.Builder setRequestMethod(HttpRequest.Builder builder, String method, HttpRequestBody requestBody) {
+        switch (method) {
+            case "POST":
+                 return builder.POST(bodyPublisherFromRequestBody(requestBody));
+            case "PUT":
+                return builder.PUT(bodyPublisherFromRequestBody(requestBody));
+            case "GET":
+                return builder.GET();
+            case "DELETE":
+                return builder.DELETE();
+            case "PATCH":
+                return builder.method("PATCH",bodyPublisherFromRequestBody(requestBody));
+            default:
+                throw new IllegalArgumentException("unrecognized request method <" + method + ">");
         }
     }
 
-    private void setRequestMethod(String method, HttpURLConnection connection) throws ProtocolException {
-        if (method.equals("PATCH")) {
-            // Http(s)UrlConnection does not recognize PATCH, unfortunately, nor will it be added, see
-            // https://bugs.openjdk.java.net/browse/JDK-8207840 .
-            // The Oracle-recommended solution requires JDK 11's new java.net.http package.
-            try {
-                Object connectionTarget = connection;
-                if (connection instanceof HttpsURLConnection) {
-                    final Field delegateField = HttpsURLConnectionImpl.class.getDeclaredField("delegate");
-                    delegateField.setAccessible(true);
-                    connectionTarget = delegateField.get(connection);
-                }
-                final Field f = HttpURLConnection.class.getDeclaredField("method");
-                f.setAccessible(true);
-                f.set(connectionTarget, "PATCH");
-            } catch (IllegalAccessException | NoSuchFieldException e) {
-                throw new RuntimeException("Failed to enable PATCH on HttpUrlConnection", e);
-            }
+    private HttpRequest.BodyPublisher bodyPublisherFromRequestBody(HttpRequestBody requestBody) {
+        if (requestBody instanceof EmptyRequestBody) {
+            return HttpRequest.BodyPublishers.noBody();
+        }
+
+        validateRequestContent(requestBody);
+
+        if (requestBody.isBinary()) {
+            return HttpRequest.BodyPublishers.ofByteArray(requestBody.asBytes());
+        }
+
+        return HttpRequest.BodyPublishers.ofString(requestBody.asString());
+    }
+
+    private HttpResponse sendAndExtractHttpResponse(HttpClient client, HttpRequest httpRequest) throws IOException, InterruptedException {
+        HttpResponse webTauResponse = new HttpResponse();
+
+        java.net.http.HttpResponse<InputStream> javaResponse = client.send(httpRequest, BodyHandlers.ofInputStream());
+
+        webTauResponse.setContentType(javaResponse.headers().firstValue("content-type").orElse(""));
+
+        InputStream inputStream = getInputStream(javaResponse);
+        if (webTauResponse.isBinary()) {
+            webTauResponse.setBinaryContent(inputStream != null ? IOUtils.toByteArray(inputStream) : new byte[0]);
         } else {
-            connection.setRequestMethod(method);
-        }
-    }
-
-    private HttpResponse extractHttpResponse(HttpURLConnection connection) throws IOException {
-        HttpResponse httpResponse = new HttpResponse();
-        populateResponseHeader(httpResponse, connection);
-
-        InputStream inputStream = getInputStream(connection);
-        httpResponse.setStatusCode(connection.getResponseCode());
-        httpResponse.setContentType(connection.getContentType() != null ? connection.getContentType() : "");
-
-        if (!httpResponse.isBinary()) {
-            httpResponse.setTextContent(inputStream != null ? IOUtils.toString(inputStream, StandardCharsets.UTF_8) : "");
-        } else {
-            httpResponse.setBinaryContent(inputStream != null ? IOUtils.toByteArray(inputStream) : new byte[0]);
+            webTauResponse.setTextContent(inputStream != null ? IOUtils.toString(inputStream, StandardCharsets.UTF_8) : "");
         }
 
-        return httpResponse;
+        webTauResponse.setStatusCode(javaResponse.statusCode());
+        populateResponseHeader(webTauResponse, javaResponse);
+
+        return webTauResponse;
     }
 
-    private InputStream getInputStream(HttpURLConnection connection) throws IOException {
-        InputStream inputStream = connection.getResponseCode() < 400 ? connection.getInputStream() : connection.getErrorStream();
+    private InputStream getInputStream(java.net.http.HttpResponse<InputStream> javaResponse) throws IOException {
+        String contentEncoding = javaResponse.headers().firstValue("content-encoding").orElse("");
+        InputStream inputStream = javaResponse.body();
 
-        if ("gzip".equals(connection.getContentEncoding())) {
+        if ("gzip".equals(contentEncoding)) {
             inputStream = new GZIPInputStream(inputStream);
         }
 
         return inputStream;
     }
 
-    private void populateResponseHeader(HttpResponse httpResponse, HttpURLConnection connection) {
+    private void populateResponseHeader(HttpResponse webTauResponse, java.net.http.HttpResponse<InputStream> javaResponse) {
         Map<CharSequence, CharSequence> header = new LinkedHashMap<>();
 
-        connection.getHeaderFields().forEach((key, values) -> {
+        javaResponse.headers().map().forEach((key, values) -> {
             if (!values.isEmpty()) {
                 header.put(key, values.get(0));
             }
         });
 
-        httpResponse.addHeader(header);
+        webTauResponse.addHeader(header);
     }
 
     /**
