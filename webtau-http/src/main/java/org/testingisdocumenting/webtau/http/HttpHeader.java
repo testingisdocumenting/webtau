@@ -37,6 +37,7 @@ import java.util.stream.Stream;
 
 public class HttpHeader {
     private static final Set<String> KEYS_TO_REDACT = new HashSet<>(Arrays.asList("authorization", "cookie", "set-cookie"));
+    private static final Set<String> RESTRICTED_REQUEST_PROPERTIES = new HashSet<>(Arrays.asList("host", "connection", "content-length", "upgrade"));
 
     public static final HttpHeader EMPTY = new HttpHeader(Collections.emptyMap());
 
@@ -52,6 +53,12 @@ public class HttpHeader {
 
     public void forEachProperty(BiConsumer<String, String> consumer) {
         header.forEach((k, v) -> consumer.accept(toStringOrNull(k), toStringOrNull(v)));
+    }
+
+    public void forEachNonRestrictedRequestProperty(BiConsumer<String, String> consumer) {
+        header.entrySet().stream()
+                .filter(e -> (!RESTRICTED_REQUEST_PROPERTIES.contains(e.getKey().toLowerCase())))
+                .forEach(e -> consumer.accept(toStringOrNull(e.getKey()), toStringOrNull(e.getValue())));
     }
 
     public <T> Stream<T> mapProperties(BiFunction<String, String, T> mapper) {

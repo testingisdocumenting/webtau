@@ -50,7 +50,7 @@ scenario("slow down") {
         http.get("${myServer.baseUrl}/hello/person") {
             message.should == "hello person"
         }
-    } should throwException(~/Read timed out/)
+    } should throwException(~/request timed out/)
     // mark-unresponsive
 
     myServer.fix()

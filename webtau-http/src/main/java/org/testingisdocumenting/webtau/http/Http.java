@@ -1211,7 +1211,7 @@ public class Http {
                     .header("Accept", requestBody.type())
                     .header("User-Agent", getCfg().getUserAgent())
                     .timeout(Duration.ofMillis(getCfg().getHttpTimeout()));
-            requestHeader.forEachProperty(httpRequestBuilder::header);
+            requestHeader.forEachNonRestrictedRequestProperty(httpRequestBuilder::header);
 
             httpRequestBuilder = setRequestMethod(httpRequestBuilder, method, requestBody);
 
