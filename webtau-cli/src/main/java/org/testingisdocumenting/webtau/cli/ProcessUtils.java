@@ -52,7 +52,7 @@ class ProcessUtils {
         }
     }
 
-    static void kill(int pid) {
+    static void kill(long pid) {
         try {
             run("pkill -TERM -P " + pid, CliProcessConfig.createEmpty());
             run("kill " + pid, CliProcessConfig.SILENT);

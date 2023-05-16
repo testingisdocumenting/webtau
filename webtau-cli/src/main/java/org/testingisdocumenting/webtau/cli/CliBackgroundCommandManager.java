@@ -29,20 +29,20 @@ import java.util.stream.Collectors;
 
 public class CliBackgroundCommandManager implements TestListener {
     // holds all the commands for all the tests
-    private static final Map<Integer, CliBackgroundCommand> runningCommands = new ConcurrentHashMap<>();
+    private static final Map<Long, CliBackgroundCommand> runningCommands = new ConcurrentHashMap<>();
 
     // only commands that were running or started during a test
     // need to track for reporting
     // list won't be cleared as soon as the commands exits
     // and will remain for a test run
-    private static final ThreadLocal<Map<Integer, CliBackgroundCommand>> localRunningCommands =
+    private static final ThreadLocal<Map<Long, CliBackgroundCommand>> localRunningCommands =
             ThreadLocal.withInitial(LinkedHashMap::new);
 
     static void register(CliBackgroundCommand backgroundCommand) {
         LazyCleanupRegistration.INSTANCE.noOp();
 
         validateProcessActive(backgroundCommand);
-        int pid = backgroundCommand.getBackgroundProcess().getPid();
+        long pid = backgroundCommand.getBackgroundProcess().getPid();
         runningCommands.put(pid, backgroundCommand);
         localRunningCommands.get().put(pid, backgroundCommand);
     }
@@ -62,7 +62,7 @@ public class CliBackgroundCommandManager implements TestListener {
 
     @Override
     public void afterTestRun(WebTauTest test) {
-        Map<Integer, CliBackgroundCommand> combinedCommands = new LinkedHashMap<>(runningCommands);
+        Map<Long, CliBackgroundCommand> combinedCommands = new LinkedHashMap<>(runningCommands);
         combinedCommands.putAll(localRunningCommands.get());
 
         List<Map<String, ?>> backgroundCommands = combinedCommands.values()
