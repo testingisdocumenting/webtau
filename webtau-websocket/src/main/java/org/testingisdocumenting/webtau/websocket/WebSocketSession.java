@@ -40,6 +40,8 @@ public class WebSocketSession {
     public final WebSocketMessages received;
     private final WebSocketMessageListener messageListener;
 
+    private boolean isCloseSend;
+
     public WebSocketSession(WebSocket httpWebSocket, String destination, WebSocketMessageListener messageListener) {
         this.httpWebSocket = httpWebSocket;
         this.destination = destination;
@@ -52,7 +54,7 @@ public class WebSocketSession {
     }
 
     public boolean isOpen() {
-        return !messageListener.isClosed();
+        return !isCloseSend || !messageListener.isClosed();
     }
 
     public void close() {
@@ -89,6 +91,7 @@ public class WebSocketSession {
 
     private void closeImpl() {
         httpWebSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok").join();
+        isCloseSend = true;
     }
 
     private static String convertToText(Object payload) {
