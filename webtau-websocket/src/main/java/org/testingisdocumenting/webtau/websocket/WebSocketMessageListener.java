@@ -16,30 +16,50 @@
 
 package org.testingisdocumenting.webtau.websocket;
 
-import javax.websocket.ClientEndpoint;
-import javax.websocket.OnMessage;
-import javax.websocket.Session;
+import java.net.http.WebSocket;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.CompletionStage;
+import java.util.concurrent.atomic.AtomicBoolean;
 
-@ClientEndpoint
-public class WebSocketMessageListener {
+public class WebSocketMessageListener implements WebSocket.Listener {
     private final BlockingQueue<String> messages;
+    private final StringBuilder partialMessage;
+    private final AtomicBoolean isClosed = new AtomicBoolean(false);
 
     public WebSocketMessageListener() {
         messages = new ArrayBlockingQueue<>(WebSocketConfig.getWebSocketMaxMessages());
+        partialMessage = new StringBuilder();
+    }
+
+    public boolean isClosed() {
+        return isClosed.get();
     }
 
     public BlockingQueue<String> getMessages() {
         return messages;
     }
 
-    @OnMessage
-    public void onMessage(String message, Session session) {
+    @Override
+    public CompletionStage<?> onText(WebSocket webSocket, CharSequence data, boolean last) {
+        partialMessage.append(data);
+        if (!last) {
+            return WebSocket.Listener.super.onText(webSocket, data, last);
+        }
+
         if (messages.size() == WebSocketConfig.getWebSocketMaxMessages()) {
             messages.remove();
         }
 
-        messages.add(message);
+        messages.add(partialMessage.toString());
+        partialMessage.setLength(0);
+
+        return WebSocket.Listener.super.onText(webSocket, data, last);
+    }
+
+    @Override
+    public CompletionStage<?> onClose(WebSocket webSocket, int statusCode, String reason) {
+        isClosed.set(true);
+        return WebSocket.Listener.super.onClose(webSocket, statusCode, reason);
     }
 }
