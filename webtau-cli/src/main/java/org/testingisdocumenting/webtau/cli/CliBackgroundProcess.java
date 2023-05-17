@@ -18,7 +18,6 @@ package org.testingisdocumenting.webtau.cli;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -28,7 +27,7 @@ class CliBackgroundProcess {
     private final StreamGobbler outputGobbler;
     private final StreamGobbler errorGobbler;
 
-    private final int pid;
+    private final long pid;
 
     private final Thread consumeErrorThread;
     private final Thread consumeOutThread;
@@ -45,7 +44,7 @@ class CliBackgroundProcess {
                                 Thread consumeErrorThread,
                                 Thread consumeOutThread) {
         this.process = process;
-        this.pid = extractPid(process);
+        this.pid = process.pid();
         this.command = command;
         this.outputGobbler = outputGobbler;
         this.errorGobbler = errorGobbler;
@@ -60,7 +59,7 @@ class CliBackgroundProcess {
         return process;
     }
 
-    public int getPid() {
+    public long getPid() {
         return pid;
     }
 
@@ -138,21 +137,5 @@ class CliBackgroundProcess {
 
     List<String> getErrorStartingAtIdx(int idx) {
         return error.copyLinesStartingAtIdx(idx);
-    }
-
-    /**
-     * we need to support java 8, pid() is added in java 9
-     * so using hacks to get to pid value
-     * @param process process
-     * @return pid
-     */
-    private static int extractPid(Process process) {
-        try {
-            Field pidField = process.getClass().getDeclaredField("pid");
-            pidField.setAccessible(true);
-            return (int) pidField.get(process);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

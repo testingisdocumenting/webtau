@@ -64,7 +64,7 @@ scenario("slow down") {
 
     code {
         http.get("/hello.html")
-    } should throwException(~/Read timed out/)
+    } should throwException(~/request timed out/)
     // mark-unresponsive
 
     myServer.fix()

@@ -75,6 +75,7 @@ public class FixedResponsesHandler extends AbstractHandler {
             response.setContentType(testServerResponse.responseType(request));
 
             if (responseBody != null) {
+                response.setContentLength(responseBody.length);
                 response.getOutputStream().write(responseBody);
             }
         }

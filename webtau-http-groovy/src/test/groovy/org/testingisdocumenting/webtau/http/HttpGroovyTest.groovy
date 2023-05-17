@@ -1168,7 +1168,7 @@ class HttpGroovyTest extends HttpTestBase {
         def validationResult = http.lastValidationResult
         validationResult.startTime.should == httpCallForcedStartTime
         validationResult.elapsedTime.should == httpElapsedTime
-        validationResult.errorMessage.should == ~/java.lang.ClassCastException: .*HttpURLConnection/
+        validationResult.errorMessage.should == ~/invalid URI scheme mailto/
     }
 
     @Test
