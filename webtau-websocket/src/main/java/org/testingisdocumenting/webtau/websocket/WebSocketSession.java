@@ -54,7 +54,7 @@ public class WebSocketSession {
     }
 
     public boolean isOpen() {
-        return !isCloseSend || !messageListener.isClosed();
+        return !isCloseSend && !messageListener.isClosed();
     }
 
     public void close() {
