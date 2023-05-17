@@ -22,13 +22,11 @@ import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 
-import javax.websocket.ContainerProvider;
-import javax.websocket.DeploymentException;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +46,7 @@ public class WebSocket {
                 () -> {
                     try {
                         return connectImpl(destination);
-                    } catch (DeploymentException | IOException | URISyntaxException e) {
+                    } catch (IOException | URISyntaxException e) {
                         throw new RuntimeException(e);
                     }
                 });
@@ -56,14 +54,18 @@ public class WebSocket {
         return step.execute(StepReportOptions.REPORT_ALL);
     }
 
-    private WebSocketSession connectImpl(String destination) throws DeploymentException, IOException, URISyntaxException {
+    private WebSocketSession connectImpl(String destination) throws IOException, URISyntaxException {
         String fullUrl = UrlUtils.isFull(destination) ? destination : buildFullUrl(destination);
 
-        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
         WebSocketMessageListener messageListener = new WebSocketMessageListener();
-        Session session = container.connectToServer(messageListener, new URI(fullUrl));
 
-        WebSocketSession webSocketSession = new WebSocketSession(session, fullUrl, messageListener);
+        HttpClient httpClient = HttpClient.newBuilder().build();
+        java.net.http.WebSocket httpWebSocket = httpClient.newWebSocketBuilder()
+                .connectTimeout(Duration.ofMillis(WebTauConfig.getCfg().getHttpTimeout()))
+                .buildAsync(new URI(fullUrl), messageListener)
+                .join();
+
+        WebSocketSession webSocketSession = new WebSocketSession(httpWebSocket, fullUrl, messageListener);
         createdSessions.add(webSocketSession);
 
         LazyCleanupRegistration.INSTANCE.noOp();
