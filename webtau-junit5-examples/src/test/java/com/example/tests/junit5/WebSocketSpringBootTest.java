@@ -136,4 +136,19 @@ public class WebSocketSpringBootTest {
 
         wsSession.close();
     }
+
+    @Test
+    public void header() {
+        // connect-header
+        WebSocketSession wsSession = websocket.connect("/prices",
+                websocket.header("x-extra", "1"));
+        // connect-header
+        wsSession.send(map("symbol", "IBM"));
+
+        wsSession.received.waitTo(equal(map(
+                "price", greaterThan(100),
+                "symbol", "IBM",
+                "extraData", 200)));
+        wsSession.close();
+    }
 }
