@@ -121,3 +121,17 @@ scenario("special names to check no clash with groovy dsl") {
 
     wsSession.close()
 }
+
+scenario("header during connect") {
+    // connect-header
+    def wsSession = websocket.connect("/prices",
+            websocket.header(["x-extra": "1"]))
+    // connect-header
+    wsSession.send([symbol: "IBM"])
+
+    wsSession.received.waitTo == [
+            price: greaterThan(77),
+            symbol: "IBM",
+            extraData: 200]
+    wsSession.close()
+}

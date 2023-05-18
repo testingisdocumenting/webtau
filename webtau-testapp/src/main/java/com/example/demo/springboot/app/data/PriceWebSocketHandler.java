@@ -26,12 +26,17 @@ import org.testingisdocumenting.webtau.utils.JsonUtils;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 @Component
 public class PriceWebSocketHandler extends TextWebSocketHandler {
+    private boolean displayExtra;
+
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
+        List<String> extras = session.getHandshakeHeaders().get("x-extra");
+        displayExtra = extras != null && !extras.isEmpty();
     }
 
     @Override
@@ -75,11 +80,15 @@ public class PriceWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
-    private static void sendIbm(WebSocketSession session, Map<String, ?> request) throws IOException, InterruptedException {
+    private void sendIbm(WebSocketSession session, Map<String, ?> request) throws IOException, InterruptedException {
         for (int price = 77; price < 130; price++) {
             Map<String, Object> response = new LinkedHashMap<>();
             response.put("symbol", request.get("symbol"));
             response.put("price", price);
+
+            if (displayExtra) {
+                response.put("extraData", 200);
+            }
 
             session.sendMessage(new TextMessage(JsonUtils.serialize(response)));
             if (price < 100) {

@@ -27,6 +27,7 @@ GraphQL
 web-socket
     introduction
     received-messages
+    header
     import-and-dependencies
 browser
     introduction
