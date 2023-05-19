@@ -1,7 +1,6 @@
 package formHandlers
 
 import org.openqa.selenium.Keys
-import org.testingisdocumenting.webtau.browser.page.HtmlNode
 import org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList
 import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor

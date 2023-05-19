@@ -1,6 +1,5 @@
 /*
- * Copyright 2021 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
+ * Copyright 2020 webtau maintainers
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,18 +14,24 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page;
+package scenarios.ui
 
-import java.util.Map;
+import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-public record HtmlNode(String tagName,
-                       String innerHtml,
-                       String outerHtml,
-                       String innerText,
-                       String value,
-                       Map<String, String> attributes) {
+scenario("check page element value") {
+    def header = $("#header")
+    browser.open("/search")
 
-    public String getTypeAttribute() {
-        return attributes.getOrDefault("type", "");
-    }
+    // text-validation
+    header.should(equal("super search"))
+    // text-validation
+}
+
+scenario("check attribute class value") {
+    def pageElement = $("#table-wrapper")
+    browser.open("/element-actions")
+
+    // attribute-validation
+    pageElement.attribute("class").waitTo(equal(~/\bfancy\b/))
+    // attribute-validation
 }

@@ -92,6 +92,11 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
+    void "page element values"() {
+        runCli("pageElementValues.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
     void "same driver different threads"() {
         runCli("sameDriverDiffThreads.groovy", "webtau.samedriver.cfg.groovy")
     }

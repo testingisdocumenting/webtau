@@ -44,6 +44,8 @@ public interface PageElement extends
 
     List<HtmlNode> extractHtmlNodes();
 
+    PageElementValue<String> attribute(String name);
+
     /**
      * mark this element as to be treated as list of elements when otherwise it will be ambiguous,
      * e.g.

@@ -99,15 +99,15 @@ class PageElementPrettyPrinter {
     }
 
     private static void printElementDetails(PrettyPrinter printer, HtmlNode htmlNode) {
-        printer.printLine(Color.PURPLE, "innerText: ", Color.GREEN, htmlNode.getInnerText());
-        if (htmlNode.getTagName().equals("input")) {
-            boolean isValueEmpty = htmlNode.getValue().isEmpty();
+        printer.printLine(Color.PURPLE, "innerText: ", Color.GREEN, htmlNode.innerText());
+        if (htmlNode.tagName().equals("input")) {
+            boolean isValueEmpty = htmlNode.value().isEmpty();
             printer.printLine(Color.PURPLE, "value: ", isValueEmpty ? Color.YELLOW : Color.GREEN,
-                    isValueEmpty ? "<empty>" : htmlNode.getValue());
+                    isValueEmpty ? "<empty>" : htmlNode.value());
         }
 
-        if (!htmlNode.getOuterHtml().isEmpty()) {
-            String xml = normalizeHtml(htmlNode.getOuterHtml());
+        if (!htmlNode.outerHtml().isEmpty()) {
+            String xml = normalizeHtml(htmlNode.outerHtml());
             new XmlPrettyPrinter(xml).prettyPrint(printer);
 
             printer.flushCurrentLine();

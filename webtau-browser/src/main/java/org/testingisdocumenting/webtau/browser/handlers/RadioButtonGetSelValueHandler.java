@@ -46,7 +46,7 @@ public class RadioButtonGetSelValueHandler implements PageElementGetSetValueHand
                 () -> tokenizedMessage().action("set radio button value to").string(value).add(pathDescription),
                 () -> {
                     List<String> values = htmlNodeAndWebElements.nodesStream()
-                            .map(HtmlNode::getValue)
+                            .map(HtmlNode::value)
                             .collect(Collectors.toList());
 
                     int idx = values.indexOf(value.toString());
@@ -69,7 +69,7 @@ public class RadioButtonGetSelValueHandler implements PageElementGetSetValueHand
 
         if (isRadioButton(htmlNodeAndWebElement.getHtmlNode()) &&
                 htmlNodeAndWebElement.getWebElement().isSelected()) {
-            return htmlNodeAndWebElement.getHtmlNode().getValue();
+            return htmlNodeAndWebElement.getHtmlNode().value();
         }
 
         return PageElementGetSkipValue.INSTANCE;
