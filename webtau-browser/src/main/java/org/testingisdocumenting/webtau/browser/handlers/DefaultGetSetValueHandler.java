@@ -47,8 +47,8 @@ public class DefaultGetSetValueHandler implements PageElementGetSetValueHandler 
     @Override
     public Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {
         HtmlNode htmlNode = htmlNodeAndWebElements.firstHtmlNode();
-        return htmlNode.getTagName().equalsIgnoreCase("input") || htmlNode.getTagName().equalsIgnoreCase("textarea") ?
-                htmlNode.getValue():
+        return htmlNode.tagName().equalsIgnoreCase("input") || htmlNode.tagName().equalsIgnoreCase("textarea") ?
+                htmlNode.value():
                 pageElement.getText();
     }
 }

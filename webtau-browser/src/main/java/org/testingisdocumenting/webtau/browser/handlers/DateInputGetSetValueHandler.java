@@ -33,7 +33,7 @@ public class DateInputGetSetValueHandler implements PageElementGetSetValueHandle
     @Override
     public boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {
         HtmlNode htmlNode = htmlNodeAndWebElements.firstHtmlNode();
-        return htmlNode.getTagName().equalsIgnoreCase("input") &&
+        return htmlNode.tagName().equalsIgnoreCase("input") &&
                 htmlNode.getTypeAttribute().equalsIgnoreCase("date");
     }
 
@@ -61,7 +61,7 @@ public class DateInputGetSetValueHandler implements PageElementGetSetValueHandle
     @Override
     public Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {
         HtmlNode htmlNode = htmlNodeAndWebElements.firstHtmlNode();
-        return htmlNode.getValue();
+        return htmlNode.value();
     }
 
     private void setForChrome(PageElement pageElement, LocalDate localDate) {

@@ -1,1 +1,1 @@
-* Check element presence before [scroll](browser/element-actions#scrolling) to provide better error message
+* Check element presence before [scroll](browser/element-actions-reference#scrolling) to provide better error message

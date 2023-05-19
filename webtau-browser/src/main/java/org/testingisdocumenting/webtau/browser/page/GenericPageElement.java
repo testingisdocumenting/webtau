@@ -132,6 +132,18 @@ public class GenericPageElement implements PageElement {
     }
 
     @Override
+    public PageElementValue<String> attribute(String name) {
+        return new PageElementValue<>(this, "attribute \"" + name + "\"", () -> {
+            List<HtmlNode> htmlNodes = extractHtmlNodes();
+            if (htmlNodes.isEmpty()) {
+                return null;
+            }
+
+            return htmlNodes.get(0).attributes().get(name);
+        });
+    }
+
+    @Override
     public ValuePath actualPath() {
         return createActualPath("pageElement");
     }
@@ -416,14 +428,6 @@ public class GenericPageElement implements PageElement {
                         .perform());
     }
 
-    private String getTagName() {
-        return findElement().getTagName();
-    }
-
-    private String getAttribute(String name) {
-        return findElement().getAttribute(name);
-    }
-
     private List<Object> extractValues() {
         HtmlNodeAndWebElementList htmlNodeAndWebElements = findHtmlNodesAndWebElements();
 
@@ -470,8 +474,7 @@ public class GenericPageElement implements PageElement {
 
         Object value = ((JavascriptExecutor) driver).executeScript(
                 "return arguments[0]." + prop + ";", elements.get(0));
-        if (value instanceof Long) {
-            Long scrollTop = (Long) value;
+        if (value instanceof Long scrollTop) {
             return Math.toIntExact(scrollTop);
         }
 
