@@ -24,5 +24,5 @@ All the code below you can freely swap between `should` and `waitTo`.
 :include-cli-output: doc-artifacts/pageElementValues.groovy-console-output.txt {
   title: "console output",
   surroundedBy: "check attribute class value",
-  startLine: "expecting"
+  startLine: "waiting"
 }
