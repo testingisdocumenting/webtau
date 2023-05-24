@@ -28,6 +28,8 @@ public class BrowserKeysRenderer {
     public static String renderKeys(CharSequence sequence) {
         return sequence.toString()
                 .replace(keys.enter, "<enter>")
+                .replace(keys.tab, "<tab>")
+                .replace(keys.backSpace, "<backspace>")
                 .replace(keys.shift, "<shift>")
                 .replace(keys.escape, "<escape>")
                 .replace(keys.end, "<end>")
