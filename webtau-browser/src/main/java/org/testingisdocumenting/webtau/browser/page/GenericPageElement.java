@@ -237,8 +237,9 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public void setValue(Object value) {
-        execute(tokenizedMessage().action("setting value").string(value).to().add(pathDescription),
-                () -> tokenizedMessage().action("set value").string(value).to().add(pathDescription),
+        String renderedKeys = BrowserKeysRenderer.renderKeys(value.toString());
+        execute(tokenizedMessage().action("setting value").string(renderedKeys).to().add(pathDescription),
+                () -> tokenizedMessage().action("set value").string(renderedKeys).to().add(pathDescription),
                 () -> setValueBasedOnType(value, false));
     }
 

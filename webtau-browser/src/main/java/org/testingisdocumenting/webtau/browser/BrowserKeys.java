@@ -84,7 +84,6 @@ public class BrowserKeys {
     public final CharSequence f12 = Keys.F12;
     public final CharSequence meta = Keys.META;
     public final CharSequence command = Keys.COMMAND;
-    public final CharSequence zenkakuHankaku = Keys.ZENKAKU_HANKAKU;
 
     public String chord(CharSequence... value) {
         return Keys.chord(Arrays.asList(value));
