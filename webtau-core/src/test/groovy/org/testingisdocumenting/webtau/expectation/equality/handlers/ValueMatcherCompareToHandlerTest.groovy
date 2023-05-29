@@ -21,6 +21,7 @@ import org.testingisdocumenting.webtau.expectation.ValueMatcher
 import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
 import org.junit.Test
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.junit.Assert.assertEquals
@@ -102,18 +103,18 @@ class ValueMatcherCompareToHandlerTest {
         }
 
         @Override
-        String matchingMessage() {
-            return "matchingMessage"
+        TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
+            return tokenizedMessage().action("matchingMessage")
         }
 
         @Override
-        String matchedMessage(ValuePath actualPath, Object actual) {
-            return "matchedMessage"
+        TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
+            return tokenizedMessage().action("matchedMessage")
         }
 
         @Override
-        String mismatchedMessage(ValuePath actualPath, Object actual) {
-            return "mismatchedMessage"
+        TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+            return tokenizedMessage().action("mismatchedMessage")
         }
 
         @Override
@@ -122,18 +123,18 @@ class ValueMatcherCompareToHandlerTest {
         }
 
         @Override
-        String negativeMatchingMessage() {
-            return "negativeMatchingMessage"
+        TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
+            return tokenizedMessage().action("negativeMatchingMessage")
         }
 
         @Override
-        String negativeMatchedMessage(ValuePath actualPath, Object actual) {
-            return "negativeMatchedMessage"
+        TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+            return tokenizedMessage().action("negativeMatchedMessage")
         }
 
         @Override
-        String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-            return "negativeMismatchedMessage"
+        TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+            return tokenizedMessage().action("negativeMismatchedMessage")
         }
 
         @Override

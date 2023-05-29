@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,21 +20,24 @@ package org.testingisdocumenting.webtau.browser.expectation;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class HiddenValueMatcher implements ValueMatcher {
     @Override
-    public String matchingMessage() {
-        return "to be hidden";
+    public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("to be hidden");
     }
 
     @Override
-    public String matchedMessage(ValuePath actualPath, Object actual) {
-        return "is hidden";
+    public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("is hidden");
     }
 
     @Override
-    public String mismatchedMessage(ValuePath actualPath, Object actual) {
-        return "is visible";
+    public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("is visible");
     }
 
     @Override
@@ -43,18 +47,18 @@ public class HiddenValueMatcher implements ValueMatcher {
     }
 
     @Override
-    public String negativeMatchingMessage() {
-        return "to be visible";
+    public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("to be visible");
     }
 
     @Override
-    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
-        return "is visible";
+    public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("is visible");
     }
 
     @Override
-    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-        return "is hidden";
+    public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("is hidden");
     }
 
     @Override

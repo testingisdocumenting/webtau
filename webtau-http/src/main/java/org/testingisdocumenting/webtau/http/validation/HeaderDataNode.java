@@ -158,14 +158,6 @@ public class HeaderDataNode implements DataNode {
         return dataNode.toString();
     }
 
-    /**
-     * @deprecated see {@link HeaderDataNode#statusCode}
-     * @return status code data node
-     */
-    public DataNode statusCode() {
-        return dataNode.get("statusCode");
-    }
-
     private Optional<String> findMatchingCaseInsensitiveKey(String name) {
         return findMatchingCaseInsensitiveKey(name,
                 dataNode.children().stream()

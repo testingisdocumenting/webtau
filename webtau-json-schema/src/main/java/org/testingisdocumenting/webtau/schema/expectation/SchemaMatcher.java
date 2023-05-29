@@ -26,6 +26,7 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.data.datanode.DataNodeToMapOfValuesConverter;
 import org.testingisdocumenting.webtau.data.datanode.DataNode;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.schema.JsonSchemaConfig;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
@@ -34,6 +35,8 @@ import java.nio.file.Path;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class SchemaMatcher implements ValueMatcher {
     private final String schemaFileName;
@@ -60,24 +63,52 @@ public class SchemaMatcher implements ValueMatcher {
     }
 
     @Override
-    public String matchingMessage() {
-        return "to comply with schema " + schemaFileName;
+    public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
+       return tokenizedMessage().matcher("to comply with").classifier("schema").url(schemaFileName);
     }
 
     @Override
-    public String matchedMessage(ValuePath actualPath, Object actual) {
-        return "complies with schema " + schemaFileName;
+    public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("complies with").classifier("schema").url(schemaFileName);
     }
 
     @Override
-    public String mismatchedMessage(ValuePath actualPath, Object actual) {
-        return actualPath + " expected to comply with schema " + schemaFileName + "\n" +
-                validationsErrors(actual);
+    public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        String errors = validationErrorsAsText(actual);
+        if (errors.isEmpty()) {
+            return tokenizedMessage();
+        }
+
+        return tokenizedMessage().error(errors);
     }
 
     @Override
     public boolean matches(ValuePath actualPath, Object actual) {
         return validationsErrors(actual).isEmpty();
+    }
+
+    @Override
+    public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("to not comply with").classifier("schema").url(schemaFileName);
+    }
+
+    @Override
+    public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("does not comply with").classifier("schema").url(schemaFileName);
+    }
+
+    @Override
+    public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        String errors = validationErrorsAsText(actual);
+        if (errors.isEmpty()) {
+            return tokenizedMessage();
+        }
+
+        return tokenizedMessage().error(errors);
+    }
+
+    private String validationErrorsAsText(Object actual) {
+        return String.join("\n", validationsErrors(actual));
     }
 
     private List<String> validationsErrors(Object actual) {
@@ -92,22 +123,6 @@ public class SchemaMatcher implements ValueMatcher {
         JsonNode actualJsonObject = JsonUtils.convertToTree(actualObj);
         Set<ValidationMessage> validationMessages = schema.validate(actualJsonObject);
         return validationMessages.stream().map(ValidationMessage::toString).collect(Collectors.toList());
-    }
-
-    @Override
-    public String negativeMatchingMessage() {
-        return "to not comply with schema " + schemaFileName;
-    }
-
-    @Override
-    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
-        return "does not comply with schema " + schemaFileName;
-    }
-
-    @Override
-    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-        return actualPath + " expected to not comply with schema " + schemaFileName + "\n" +
-                validationsErrors(actual);
     }
 
     @Override
