@@ -20,21 +20,24 @@ package org.testingisdocumenting.webtau.browser.expectation;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class VisibleValueMatcher implements ValueMatcher {
     @Override
-    public String matchingMessage() {
-        return "to be visible";
+    public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().action("to be visible");
     }
 
     @Override
-    public String matchedMessage(ValuePath actualPath, Object actual) {
-        return "is visible";
+    public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().action("is visible");
     }
 
     @Override
-    public String mismatchedMessage(ValuePath actualPath, Object actual) {
-        return "is hidden";
+    public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().action("is hidden");
     }
 
     @Override
@@ -44,18 +47,18 @@ public class VisibleValueMatcher implements ValueMatcher {
     }
 
     @Override
-    public String negativeMatchingMessage() {
-        return "to be hidden";
+    public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().action("to be hidden");
     }
 
     @Override
-    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
-        return "is hidden";
+    public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().action("is hidden");
     }
 
     @Override
-    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-        return "is visible";
+    public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().action("is visible");
     }
 
     @Override
