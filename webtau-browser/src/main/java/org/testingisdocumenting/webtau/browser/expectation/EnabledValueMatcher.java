@@ -27,17 +27,17 @@ import static org.testingisdocumenting.webtau.WebTauCore.*;
 public class EnabledValueMatcher implements ValueMatcher {
     @Override
     public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().action("to be enabled");
+        return tokenizedMessage().matcher("to be enabled");
     }
 
     @Override
     public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().action("is enabled");
+        return tokenizedMessage().matcher("is enabled");
     }
 
     @Override
     public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().action("is disabled");
+        return tokenizedMessage().matcher("is disabled");
     }
 
     @Override
@@ -48,17 +48,17 @@ public class EnabledValueMatcher implements ValueMatcher {
 
     @Override
     public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().action("to be disabled");
+        return tokenizedMessage().matcher("to be disabled");
     }
 
     @Override
     public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().action("is disabled");
+        return tokenizedMessage().matcher("is disabled");
     }
 
     @Override
     public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().action("is enabled");
+        return tokenizedMessage().matcher("is enabled");
     }
 
     @Override

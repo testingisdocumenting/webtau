@@ -27,17 +27,17 @@ import static org.testingisdocumenting.webtau.WebTauCore.*;
 public class VisibleValueMatcher implements ValueMatcher {
     @Override
     public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().action("to be visible");
+        return tokenizedMessage().matcher("to be visible");
     }
 
     @Override
     public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().action("is visible");
+        return tokenizedMessage().matcher("is visible");
     }
 
     @Override
     public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().action("is hidden");
+        return tokenizedMessage().matcher("is hidden");
     }
 
     @Override
@@ -48,17 +48,17 @@ public class VisibleValueMatcher implements ValueMatcher {
 
     @Override
     public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().action("to be hidden");
+        return tokenizedMessage().matcher("to be hidden");
     }
 
     @Override
     public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().action("is hidden");
+        return tokenizedMessage().matcher("is hidden");
     }
 
     @Override
     public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().action("is visible");
+        return tokenizedMessage().matcher("is visible");
     }
 
     @Override
