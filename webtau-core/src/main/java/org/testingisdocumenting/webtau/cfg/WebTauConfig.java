@@ -211,16 +211,6 @@ public class WebTauConfig implements PrettyPrintable {
         return url.getAsString();
     }
 
-    /**
-     * use {@link #getUrl}
-     * @deprecated
-     * @return base url
-     */
-    @Deprecated
-    public String getBaseUrl() {
-        return url.getAsString();
-    }
-
     public String getEnv() {
         return env.getAsString();
     }

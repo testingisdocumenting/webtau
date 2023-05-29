@@ -34,11 +34,11 @@ class CustomerCrudSeparatedKotlinTest {
     @Order(3)
     fun `delete customer`() {
        http.delete("/customers/$id") { header, _ ->
-           header.statusCode().should(equal(204))
+           header.statusCode.should(equal(204))
        }
 
         http.get("/customers/$id") { header, _ ->
-            header.statusCode().should(equal(404))
+            header.statusCode.should(equal(404))
         }
     }
 

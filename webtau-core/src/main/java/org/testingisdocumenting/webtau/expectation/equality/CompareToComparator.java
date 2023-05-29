@@ -247,36 +247,6 @@ public class CompareToComparator {
         extraMessages.clear();
     }
 
-    @Deprecated
-    public void reportEqual(CompareToHandler reporter, ValuePath actualPath, String message) {
-        reportEqual(reporter, actualPath, tokenizedMessage().none(message));
-    }
-
-    @Deprecated
-    public void reportNotEqual(CompareToHandler reporter, ValuePath actualPath, String message) {
-        reportNotEqual(reporter, actualPath, tokenizedMessage().none(message));
-    }
-
-    @Deprecated
-    public void reportGreater(CompareToHandler reporter, ValuePath actualPath, String message) {
-        reportGreater(reporter, actualPath, tokenizedMessage().none(message));
-    }
-
-    @Deprecated
-    public void reportLess(CompareToHandler reporter, ValuePath actualPath, String message) {
-        reportLess(reporter, actualPath, tokenizedMessage().none(message));
-    }
-
-    @Deprecated
-    public void reportEqualOrNotEqual(CompareToHandler reporter, boolean isEqual, ValuePath actualPath, String message) {
-        reportEqualOrNotEqual(reporter, isEqual, actualPath, tokenizedMessage().none(message));
-    }
-
-    @Deprecated
-    public void reportCompareToValue(CompareToHandler reporter, int compareTo, ValuePath actualPath, String message) {
-        reportCompareToValue(reporter, compareTo, actualPath, tokenizedMessage().none(message));
-    }
-
     public void reportMissing(CompareToHandler reporter, ValuePath actualPath, Object value) {
         missingMessages.add(new ActualPathMessage(actualPath, tokenizedMessage().value(value)));
     }
