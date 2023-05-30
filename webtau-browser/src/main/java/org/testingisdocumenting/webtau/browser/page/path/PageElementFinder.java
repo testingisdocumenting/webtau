@@ -23,7 +23,7 @@ import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
-public interface PageElementsFinder {
+public interface PageElementFinder {
     List<WebElement> find(SearchContext parent);
 
     /**

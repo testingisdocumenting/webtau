@@ -24,12 +24,13 @@ import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSkipValue;
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath;
 import org.testingisdocumenting.webtau.browser.page.path.PageElementsFilter;
-import org.testingisdocumenting.webtau.browser.page.path.PageElementsFinder;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementFinder;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberPageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpPageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextPageElementsFilter;
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage;
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssPageElementFinder;
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandlers;
+import org.testingisdocumenting.webtau.browser.page.path.finder.ParentPageElementFinder;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.reporter.*;
 
@@ -289,12 +290,17 @@ public class GenericPageElement implements PageElement {
 
     @Override
     public PageElement find(String css) {
-        return find(new ByCssFinderPage(css));
+        return find(new ByCssPageElementFinder(css));
     }
 
     @Override
-    public PageElement find(PageElementsFinder finder) {
+    public PageElement find(PageElementFinder finder) {
         return withFinder(finder);
+    }
+
+    @Override
+    public PageElement parent() {
+        return withFinder(new ParentPageElementFinder());
     }
 
     @Override
@@ -529,7 +535,7 @@ public class GenericPageElement implements PageElement {
         return new GenericPageElement(driver, additionalBrowserInteractions, newPath, false);
     }
 
-    private PageElement withFinder(PageElementsFinder finder) {
+    private PageElement withFinder(PageElementFinder finder) {
         PageElementPath newPath = path.copy();
         newPath.addFinder(finder);
 

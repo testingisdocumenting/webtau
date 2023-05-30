@@ -24,7 +24,7 @@ import org.testingisdocumenting.webtau.FakeAdditionalBrowserInteractions
 import org.testingisdocumenting.webtau.FakeWebDriver
 import org.testingisdocumenting.webtau.FakeWebElement
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssPageElementFinder
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
@@ -42,7 +42,7 @@ class GenericPageElementTest implements StepReporter {
     @BeforeClass
     static void setupDriver() {
         elementPath = new PageElementPath()
-        elementPath.addFinder(new ByCssFinderPage(".element"))
+        elementPath.addFinder(new ByCssPageElementFinder(".element"))
     }
 
     @Before
@@ -168,7 +168,7 @@ class GenericPageElementTest implements StepReporter {
         driver.registerFakeElements("my-divs", elements)
 
         def elementPath = new PageElementPath()
-        elementPath.addFinder(new ByCssFinderPage("my-divs"))
+        elementPath.addFinder(new ByCssPageElementFinder("my-divs"))
 
         def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), elementPath, false)
 
