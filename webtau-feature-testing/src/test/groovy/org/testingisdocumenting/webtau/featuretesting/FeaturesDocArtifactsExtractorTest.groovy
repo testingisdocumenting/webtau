@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -28,21 +29,21 @@ import static org.junit.Assert.assertEquals
 class FeaturesDocArtifactsExtractorTest {
     @Test
     void "extract script for documentation"() {
-        def testPath = Paths.get('examples/scenarios/ui/findersFilters.groovy')
+        def testPath = Paths.get("examples/scenarios/ui/findersFilters.groovy")
         def script = FileUtils.fileTextContent(testPath)
 
-        String scope = extractScenarioBody(script, 'by css id')
-        assertEquals('def welcomeMessage = $(\'#welcome\')\n' +
-                'welcomeMessage.should == \'hello\'', scope)
+        String scope = extractScenarioBody(script, "by css id")
+        scope.should == 'def welcomeMessage = $("#welcome")\n' +
+                'welcomeMessage.should == "hello"'
     }
 
     @Test
     void "extract html snippet by css"() {
-        def html = extractHtml('finders-and-filters.html', '#menu')
-        assertEquals('<ul>\n' +
+        def html = extractHtml("finders-and-filters.html", "#menu")
+        html.should == '<ul>\n' +
                 ' <li><a href="/book">book</a></li>\n' +
                 ' <li><a href="/orders">orders</a></li>\n' +
                 ' <li><a href="/help">help</a></li>\n' +
-                '</ul>', html)
+                '</ul>'
     }
 }
