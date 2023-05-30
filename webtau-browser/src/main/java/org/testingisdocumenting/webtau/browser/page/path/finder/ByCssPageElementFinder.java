@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser.page.path.finder;
 
-import org.testingisdocumenting.webtau.browser.page.path.PageElementsFinder;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementFinder;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.SearchContext;
@@ -27,10 +27,10 @@ import java.util.List;
 
 import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
-public class ByCssFinderPage implements PageElementsFinder {
+public class ByCssPageElementFinder implements PageElementFinder {
     private final String css;
 
-    public ByCssFinderPage(String css) {
+    public ByCssPageElementFinder(String css) {
         this.css = css;
     }
 

@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.browser.page;
 
 import org.openqa.selenium.WebElement;
-import org.testingisdocumenting.webtau.browser.page.path.PageElementsFinder;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementFinder;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
@@ -88,7 +88,8 @@ public interface PageElement extends
     }
 
     PageElement find(String css);
-    PageElement find(PageElementsFinder finder);
+    PageElement find(PageElementFinder finder);
+    PageElement parent();
     PageElement get(String text);
     PageElement get(int number);
     PageElement get(Pattern regexp);

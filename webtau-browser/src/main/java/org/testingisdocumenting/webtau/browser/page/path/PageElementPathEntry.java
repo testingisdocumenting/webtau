@@ -25,10 +25,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 class PageElementPathEntry {
-    private final PageElementsFinder finder;
+    private final PageElementFinder finder;
     private List<PageElementsFilter> filters;
 
-    PageElementPathEntry(PageElementsFinder finder) {
+    PageElementPathEntry(PageElementFinder finder) {
         this.finder = finder;
         this.filters = new ArrayList<>();
     }
