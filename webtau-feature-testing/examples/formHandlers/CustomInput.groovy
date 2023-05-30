@@ -1,17 +1,18 @@
 package formHandlers
 
-import org.openqa.selenium.Keys
 import org.testingisdocumenting.webtau.browser.page.HtmlNodeAndWebElementList
 import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.browser.page.PageElementStepExecutor
 import org.testingisdocumenting.webtau.browser.handlers.PageElementGetSetValueHandler
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 
+import static org.testingisdocumenting.webtau.WebTauDsl.browser
+
 class CustomInput implements PageElementGetSetValueHandler {
     @Override
     boolean handles(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement) {
         def htmlNode = htmlNodeAndWebElements.firstHtmlNode()
-        return htmlNode.attributes.class =~ /special-selector/
+        return htmlNode.attributes().class =~ /special-selector/
     }
 
     @Override
@@ -22,7 +23,7 @@ class CustomInput implements PageElementGetSetValueHandler {
                   Object value,
                   boolean noLog) {
         pageElement.click()
-        pageElement.find('input').sendKeys("${value}" + Keys.TAB)
+        pageElement.find('input').sendKeys("${value}" + browser.keys.tab)
     }
 
     @Override
