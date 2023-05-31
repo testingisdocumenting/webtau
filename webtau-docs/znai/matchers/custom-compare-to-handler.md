@@ -24,11 +24,11 @@ To add a new handler you need to
 
 ## Example Implementation
 
-Below is an existing implementation of handler to deal with Java Bean as actual and Map as expected
+Below is an existing implementation of handler to deal with Java Beans and Java Records as actual and Map as expected
 
-:include-java: org/testingisdocumenting/webtau/expectation/equality/handlers/MapAndBeanCompareToHandler.java {
-    title: "map and bean comparison handler",
-    entry: "MapAndBeanCompareToHandler",
+:include-java: org/testingisdocumenting/webtau/expectation/equality/handlers/MapAndJavaBeanOrRecordCompareToHandler.java {
+    title: "map and bean/record comparison handler",
+    entry: "MapAndJavaBeanOrRecordCompareToHandler",
     commentsType: "inline"
 }
 
@@ -45,7 +45,7 @@ with the content file containing a line per implementing class
 
 :include-file: src/main/resources/META-INF/services/org.testingisdocumenting.webtau.expectation.equality.CompareToHandler {
     autoTitle: true,
-    includeRegexp: "MapAndBeanCompareToHandler" }
+    includeRegexp: "MapAndJavaBeanOrRecordCompareToHandler" }
 
 # Custom Complex Domain Data
 

@@ -91,6 +91,35 @@ class MatchersGroovyTest {
     }
 
     @Test
+    void "java record and map equality example"() {
+        runExpectExceptionAndValidateOutput(AssertionError, ~/expected: "tea sets"/) {
+            // java-record-map-example
+            def wishListItem = new WishLitItem("id1", "tea set", true,
+                    [new WishLitItem("id-nested", "tea", true, [])])
+            wishListItem.should == [
+                    id: "id1",
+                    description: "tea sets",
+                    favorite: true,
+                    related: [
+                            [id: "id-nested",
+                             description: "juice"]]] // only specified properties will be compared
+            // java-record-map-example
+        }
+    }
+
+    @Test
+    void "java records and table data equality"() {
+        def wishListItem1 = new WishLitItem("id1", "tea set", true, [])
+        def wishListItem2 = new WishLitItem("id2", "book set", false, [])
+        def wishList = [wishListItem1, wishListItem2]
+
+        wishList.should == ["id"  | "favorite"] {
+                           ______________________
+                            "id1" | true
+                            "id2" | false }
+    }
+
+    @Test
     void "bean and map contains example"() {
         runExpectExceptionAndValidateOutput(AssertionError, ~/expected: not "ac2"/) {
             // bean-map-contains-example

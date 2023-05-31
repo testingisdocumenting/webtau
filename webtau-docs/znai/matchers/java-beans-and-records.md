@@ -1,4 +1,4 @@
-WebTau provides [universal comparison](matchers/universal-compare) handlers to streamline Java Bean assertions.
+WebTau provides [universal comparison](matchers/universal-compare) handlers to streamline Java Beans and Java Records assertions.
 
 # Java Bean Equals Map
 
@@ -23,7 +23,7 @@ left: :include-file: org/testingisdocumenting/webtau/Account.java { surroundedBy
 right: :include-file: org/testingisdocumenting/webtau/Address.java { surroundedBy: "address", title: "Address Java Bean" }
 ```
 
-:include-cli-output: doc-artifacts/bean-map-compare-output.txt {title: "bean mismatches highlighted"}
+:include-cli-output: doc-artifacts/bean-map-compare-output.txt {title: "console output highlights bean mismatches"}
 
 # Java Beans Contain Map
 
@@ -42,6 +42,8 @@ Java:
     commentsType: "inline"
 } 
 ``` 
+
+:include-file: org/testingisdocumenting/webtau/Account.java { surroundedBy: "account", title: "Account Java Bean" }
 
 :include-cli-output: doc-artifacts/list-of-beans-map-contain.txt {title: "list of beans should not contain output"}
 
@@ -88,3 +90,26 @@ Java:
 :include-cli-output: doc-artifacts/beans-table-contain-output.txt {title: "contain handler output"}
 
 :include-markdown: static-import.md
+
+# Java Records 
+
+WebTau compares Java Records with maps and tables in the same way as Java Beans.
+
+:include-file: org/testingisdocumenting/webtau/WishLitItem.java { surroundedBy: "record-definition", title: "WishListItem record" }
+
+```tabs
+Groovy: 
+:include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
+    surroundedBy: "java-record-map-example",
+    commentsType: "inline"
+}
+
+Java: 
+:include-file: org/testingisdocumenting/webtau/MatchersTest.java {
+    surroundedBy: "java-record-map-example",
+    commentsType: "inline"
+} 
+```  
+
+:include-cli-output: doc-artifacts/record-and-map-compare-output.txt {title: "console output highlights record mismatches"}
+

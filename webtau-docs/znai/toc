@@ -91,8 +91,8 @@ utilities
 matchers
     introduction
     universal-compare
-    java-bean
-    string
+    java-beans-and-records
+    strings
     any-of
     custom-compare-to-handler
 groovy-standalone-runner

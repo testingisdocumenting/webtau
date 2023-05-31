@@ -33,6 +33,7 @@ public class ToMapConverters {
         List<ToMapConverter> discovered = ServiceLoaderUtils.load(ToMapConverter.class);
         discovered.add(new MapToMapConverter());
         discovered.add(new ToMapConvertableConverter());
+        discovered.add(new JavaRecordToMapConverter());
         discovered.add(new BeanToMapConverter());
 
         return discovered;
