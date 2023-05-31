@@ -19,17 +19,17 @@ package org.testingisdocumenting.webtau.browser.page.path
 
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberPageElementsFilter
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextPageElementsFilter
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssPageElementFinder
 import org.junit.Test
 
 class PageElementPathTest {
     @Test
     void "should render full path description"() {
         def path = new PageElementPath()
-        path.addFinder(new ByCssFinderPage("#cssid"))
+        path.addFinder(new ByCssPageElementFinder("#cssid"))
         path.addFilter(new ByTextPageElementsFilter(null, "about"))
         path.addFilter(new ByNumberPageElementsFilter(2))
-        path.addFinder(new ByCssFinderPage(".child"))
+        path.addFinder(new ByCssPageElementFinder(".child"))
 
         path.toString().should == 'by css #cssid, element(s) with text "about", element number 2, nested find by css .child'
     }
@@ -37,7 +37,7 @@ class PageElementPathTest {
     @Test
     void "should create a copy to be modified later"() {
         def path = new PageElementPath()
-        path.addFinder(new ByCssFinderPage("#cssid"))
+        path.addFinder(new ByCssPageElementFinder("#cssid"))
 
         def copy = path.copy()
         copy.addFilter(new ByNumberPageElementsFilter(2))

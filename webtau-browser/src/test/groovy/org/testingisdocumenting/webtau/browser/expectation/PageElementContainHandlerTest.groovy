@@ -22,12 +22,11 @@ import org.testingisdocumenting.webtau.FakeWebDriver
 import org.testingisdocumenting.webtau.FakeWebElement
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath
 import org.testingisdocumenting.webtau.browser.page.GenericPageElement
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssPageElementFinder
 import org.junit.Before
 import org.junit.Test
 
 import static org.testingisdocumenting.webtau.Matchers.*
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class PageElementContainHandlerTest {
@@ -52,7 +51,7 @@ class PageElementContainHandlerTest {
     @Test
     void "delegates to contain handler of first element value of page element by default"() {
         def path = new PageElementPath()
-        path.addFinder(new ByCssFinderPage(".element"))
+        path.addFinder(new ByCssPageElementFinder(".element"))
 
         driver.registerFakeElement(".element", new FakeWebElement("div", "abcdefgh" , [:]))
         driver.registerFakeElement(".element", new FakeWebElement("div", "test" , [:]))
@@ -71,7 +70,7 @@ class PageElementContainHandlerTest {
     @Test
     void "delegates to contain handler of array of page element values when element marked as all"() {
         def path = new PageElementPath()
-        path.addFinder(new ByCssFinderPage(".element"))
+        path.addFinder(new ByCssPageElementFinder(".element"))
 
         driver.registerFakeElement(".element", new FakeWebElement("div", "abc" , [:]))
         driver.registerFakeElement(".element", new FakeWebElement("div", "test" , [:]))
