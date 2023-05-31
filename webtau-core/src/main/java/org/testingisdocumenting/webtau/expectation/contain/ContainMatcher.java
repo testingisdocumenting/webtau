@@ -18,8 +18,8 @@
 package org.testingisdocumenting.webtau.expectation.contain;
 
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -108,7 +108,7 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware {
 
     @Override
     public String toString() {
-        String renderedExpected = DataRenderers.render(expected);
+        String renderedExpected = PrettyPrinter.renderAsTextWithoutColors(expected);
         return "<contain " + renderedExpected + ">";
     }
 

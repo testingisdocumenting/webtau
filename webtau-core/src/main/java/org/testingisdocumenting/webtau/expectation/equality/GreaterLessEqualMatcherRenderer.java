@@ -16,22 +16,26 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
 class GreaterLessEqualMatcherRenderer {
     static String render(ValueMatcher valueMatcher, CompareToComparator.AssertionMode assertionMode, Object expected) {
-        String renderedExpected = DataRenderers.render(expected);
+        String renderedExpected = PrettyPrinter.renderAsTextWithoutColors(expected);
 
         switch (assertionMode) {
-            case GREATER_THAN:
+            case GREATER_THAN -> {
                 return "<greater than " + renderedExpected + ">";
-            case GREATER_THAN_OR_EQUAL:
+            }
+            case GREATER_THAN_OR_EQUAL -> {
                 return "<greater than or equal " + renderedExpected + ">";
-            case LESS_THAN:
+            }
+            case LESS_THAN -> {
                 return "<less than " + renderedExpected + ">";
-            case LESS_THAN_OR_EQUAL:
+            }
+            case LESS_THAN_OR_EQUAL -> {
                 return "<less than or equal " + renderedExpected + ">";
+            }
         }
 
         throw new IllegalStateException("unexpected assertion mode: " + assertionMode);

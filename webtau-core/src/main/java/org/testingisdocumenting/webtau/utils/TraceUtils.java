@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,14 +17,15 @@
 
 package org.testingisdocumenting.webtau.utils;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
+
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 
 public class TraceUtils {
     private TraceUtils() {
     }
 
     public static String renderValueAndType(Object v) {
-        return DataRenderers.render(v) + " " + renderType(v);
+        return PrettyPrinter.renderAsTextWithoutColors(v) + " " + renderType(v);
     }
 
     public static String renderType(Object v) {

@@ -20,7 +20,6 @@ package org.testingisdocumenting.webtau.browser.page;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
@@ -82,7 +81,7 @@ public class PageElementValue<E> implements ActualValueExpectations, ActualPathA
     public void prettyPrint(PrettyPrinter printer) {
         printer.printLine(
                 Stream.concat(parentPrettyPrint(),
-                        Stream.of(Color.PURPLE, name, ":", Color.GREEN, " ", DataRenderers.render(get()))).toArray());
+                        Stream.of(Color.PURPLE, name, ":", Color.GREEN, " ", get())).toArray());
     }
 
     private Stream<Object> parentPrettyPrint() {

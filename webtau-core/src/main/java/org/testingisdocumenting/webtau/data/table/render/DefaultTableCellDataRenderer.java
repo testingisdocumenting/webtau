@@ -16,13 +16,13 @@
 
 package org.testingisdocumenting.webtau.data.table.render;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 
 public class DefaultTableCellDataRenderer implements TableCellDataRenderer {
     public static final TableCellDataRenderer INSTANCE = new DefaultTableCellDataRenderer();
 
     @Override
     public String renderCell(Object value) {
-        return DataRenderers.render(value);
+        return PrettyPrinter.renderAsTextWithoutColors(value);
     }
 }

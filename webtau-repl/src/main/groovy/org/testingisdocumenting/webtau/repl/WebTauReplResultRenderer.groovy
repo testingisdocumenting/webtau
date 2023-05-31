@@ -17,12 +17,9 @@
 package org.testingisdocumenting.webtau.repl
 
 import org.testingisdocumenting.webtau.browser.page.PageElement
-import org.testingisdocumenting.webtau.data.render.DataRenderers
-import org.testingisdocumenting.webtau.data.render.PrettyPrintable
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter
 import org.testingisdocumenting.webtau.db.DbQuery
 import org.testingisdocumenting.webtau.fs.FileTextContent
-import org.testingisdocumenting.webtau.repl.tabledata.ReplTableRenderer
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.*
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
@@ -35,14 +32,17 @@ class WebTauReplResultRenderer {
             renderDbQueryResult(result)
         } else if (result instanceof FileTextContent) {
             renderTextLimitingSize(result.data)
-        } else if (result instanceof PrettyPrintable) {
-            def printer = createPrettyPrinter()
-            result.prettyPrint(printer)
-            printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput())
-        } else if (result != null) {
-            ConsoleOutputs.out(DataRenderers.render(result))
+        } else {
+            prettyPrint(result)
         }
     }
+
+    private static void prettyPrint(Object value) {
+        def printer = createPrettyPrinter()
+        printer.printObject(value)
+        printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput())
+    }
+
 
     private static void renderTextLimitingSize(String text) {
         ConsoleOutputs.outLinesWithLimit(
@@ -51,7 +51,7 @@ class WebTauReplResultRenderer {
     }
 
     private static void renderDbQueryResult(DbQuery queryResult) {
-        ConsoleOutputs.out(ReplTableRenderer.render(queryResult.tableData()))
+        prettyPrint(queryResult.tableData())
     }
 
     private static void renderPageElementAndHighlight(PageElement pageElement) {

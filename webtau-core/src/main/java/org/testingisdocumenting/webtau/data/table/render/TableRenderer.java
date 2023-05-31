@@ -17,20 +17,17 @@
 
 package org.testingisdocumenting.webtau.data.table.render;
 
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
+import org.testingisdocumenting.webtau.data.table.Record;
+import org.testingisdocumenting.webtau.data.table.TableData;
+
 import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
-import org.apache.commons.lang3.StringUtils;
-
-import org.testingisdocumenting.webtau.data.table.Record;
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
-import org.testingisdocumenting.webtau.data.table.TableData;
-
-import static java.util.stream.Collectors.joining;
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 public class TableRenderer {
     private final TableData data;
@@ -43,7 +40,7 @@ public class TableRenderer {
     private List<Integer> heightPerRowIdx;
 
     public static String render(TableData tableData) {
-        return render(tableData, DataRenderers::render, new DefaultTableRenderStyle());
+        return render(tableData, PrettyPrinter::renderAsTextWithoutColors, new DefaultTableRenderStyle());
     }
 
     public static String render(TableData tableData, TableCellDataRenderer tableCellDataRenderer) {

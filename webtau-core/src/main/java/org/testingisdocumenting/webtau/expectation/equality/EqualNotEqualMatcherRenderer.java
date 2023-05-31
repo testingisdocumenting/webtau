@@ -16,22 +16,24 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
 class EqualNotEqualMatcherRenderer {
     static String render(ValueMatcher valueMatcher, CompareToComparator comparator, Object expected) {
-        String renderedExpected = DataRenderers.render(expected);
+        String renderedExpected = PrettyPrinter.renderAsTextWithoutColors(expected);
 
         if (comparator == null) {
             return valueMatcher.getClass().getCanonicalName() + " " + renderedExpected;
         }
 
         switch (comparator.getAssertionMode()) {
-            case EQUAL:
+            case EQUAL -> {
                 return "<equal " + renderedExpected + ">";
-            case NOT_EQUAL:
+            }
+            case NOT_EQUAL -> {
                 return "<not equal " + renderedExpected + ">";
+            }
         }
 
         throw new IllegalStateException("unexpected assertion mode: " + comparator.getAssertionMode());
