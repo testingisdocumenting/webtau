@@ -18,7 +18,6 @@ package com.example.tests.junit5;
 
 import org.junit.jupiter.api.Test;
 import org.testingisdocumenting.webtau.junit5.WebTau;
-import org.testingisdocumenting.webtau.websocket.WebSocketSession;
 
 import java.util.Map;
 
@@ -30,7 +29,7 @@ public class WebSocketSpringBootTest {
     @Test
     public void waitUntilReceiveMessageNoPath() {
         // connect-send-wait
-        WebSocketSession wsSession = websocket.connect("/prices");
+        var wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "IBM"));
 
         wsSession.received.waitTo(equal(map(
@@ -42,7 +41,7 @@ public class WebSocketSpringBootTest {
 
     @Test
     public void waitUntilReceiveMessageUsingPath() {
-        WebSocketSession wsSession = websocket.connect("/prices");
+        var wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "IBM"));
 
         // received-get
@@ -53,7 +52,7 @@ public class WebSocketSpringBootTest {
 
     @Test
     public void waitUntilReceiveMessageUsingPathList() {
-        WebSocketSession wsSession = websocket.connect("/prices");
+        var wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "LIST"));
 
         // received-list
@@ -64,7 +63,7 @@ public class WebSocketSpringBootTest {
 
     @Test
     public void pollMessageAfterWait() {
-        WebSocketSession wsSession = websocket.connect("/prices");
+        var wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "IBM"));
 
         wsSession.received.waitTo(equal(map(
@@ -84,7 +83,7 @@ public class WebSocketSpringBootTest {
 
     @Test
     public void pollAsMap() {
-        WebSocketSession wsSession = websocket.connect("/prices");
+        var wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "IBM"));
 
         // poll-as-map
@@ -97,7 +96,7 @@ public class WebSocketSpringBootTest {
 
     @Test
     public void pollDummyMessage() {
-        WebSocketSession wsSession = websocket.connect("/prices");
+        var wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "DUMMY"));
 
         String messageOne = wsSession.received.pollAsText();
@@ -111,7 +110,7 @@ public class WebSocketSpringBootTest {
 
     @Test
     public void waitMessageSecondTimeShouldNotUseCachedValue() {
-        WebSocketSession wsSession = websocket.connect("/prices");
+        var wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "DUMMY"));
 
         wsSession.received.waitTo(equal(map("symbol", "DUMMY", "price", 0)));
@@ -122,7 +121,7 @@ public class WebSocketSpringBootTest {
 
     @Test
     public void discardMessages() {
-        WebSocketSession wsSession = websocket.connect("/prices");
+        var wsSession = websocket.connect("/prices");
         wsSession.send(map("symbol", "IBM"));
 
         wsSession.received.count.waitTo(equal(53));
@@ -140,7 +139,7 @@ public class WebSocketSpringBootTest {
     @Test
     public void header() {
         // connect-header
-        WebSocketSession wsSession = websocket.connect("/prices",
+        var wsSession = websocket.connect("/prices",
                 websocket.header("x-extra", "1"));
         // connect-header
         wsSession.send(map("symbol", "IBM"));

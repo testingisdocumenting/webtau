@@ -1,7 +1,6 @@
 package com.example.tests.junit5;
 
 import org.junit.jupiter.api.Test;
-import org.testingisdocumenting.webtau.http.request.HttpRequestBody;
 import org.testingisdocumenting.webtau.junit5.WebTau;
 
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
@@ -10,7 +9,7 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*;
 public class CustomerCrudJavaTest {
     @Test
     public void crud() {
-        HttpRequestBody customerPayload = http.json( // new customer data
+        var customerPayload = http.json( // new customer data
                 "firstName", "FN",
                 "lastName", "LN");
 
@@ -23,7 +22,7 @@ public class CustomerCrudJavaTest {
         }));
 
         String changedLastName = "NLN";
-        HttpRequestBody changedCustomerPayload = http.json(
+        var changedCustomerPayload = http.json(
                 "firstName", "FN",
                 "lastName", "NLN");
 
