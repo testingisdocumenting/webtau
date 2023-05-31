@@ -36,6 +36,11 @@ public class PageElementValueCompareToHandler implements CompareToHandler {
     }
 
     @Override
+    public boolean handleNulls() {
+        return true;
+    }
+
+    @Override
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         PageElementValue<?> actualElementValue = (PageElementValue<?>) actual;
         comparator.compareUsingEqualOnly(creataPath(actualElementValue), extractActualValue(actualElementValue), expected);

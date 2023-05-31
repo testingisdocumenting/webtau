@@ -44,6 +44,7 @@ browser
     local-storage
     cookies
     navigation
+    alerts
     page-open-handlers
     finders-and-filters
     matchers
