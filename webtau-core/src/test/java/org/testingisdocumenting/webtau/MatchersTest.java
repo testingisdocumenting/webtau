@@ -97,20 +97,21 @@ public class MatchersTest {
 
     @Test
     public void beanAndMapEqualityExample() {
-        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "bean-map-compare-output", "X failed expecting [value] to equal {\"id\": \"ac1\", \"name\": \"My Second Account\", \"address\": {\"zipCode\": \"7777777\"}}:\n" +
-                "    [value].name:  actual: \"My Account\" <java.lang.String>\n" +
-                "                 expected: \"My Second Account\" <java.lang.String>\n" +
-                "                               ^\n" +
-                "    [value].address.zipCode:  actual: \"88888888\" <java.lang.String>\n" +
-                "                            expected: \"7777777\" <java.lang.String>\n" +
-                "                                       ^ (Xms)\n" +
-                "  \n" +
-                "  {\n" +
-                "    \"address\": {\"city\": \"TestingCity\", \"zipCode\": **\"88888888\"**},\n" +
-                "    \"description\": \"test account\",\n" +
-                "    \"id\": \"ac1\",\n" +
-                "    \"name\": **\"My Account\"**\n" +
-                "  }", () -> {
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "bean-map-compare-output", """
+                X failed expecting [value] to equal {"id": "ac1", "name": "My Second Account", "address": {"zipCode": "7777777"}}:
+                    [value].name:  actual: "My Account" <java.lang.String>
+                                 expected: "My Second Account" <java.lang.String>
+                                               ^
+                    [value].address.zipCode:  actual: "88888888" <java.lang.String>
+                                            expected: "7777777" <java.lang.String>
+                                                       ^ (Xms)
+                 \s
+                  {
+                    "address": {"city": "TestingCity", "zipCode": **"88888888"**},
+                    "description": "test account",
+                    "id": "ac1",
+                    "name": **"My Account"**
+                  }""", () -> {
             // bean-map-example
             Address address = new Address("TestingCity", "88888888");
             Account account = new Account("ac1", "My Account", "test account", address);
@@ -123,33 +124,73 @@ public class MatchersTest {
     }
 
     @Test
+    public void javaRecordAndMapEqualityExample() {
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "record-and-map-compare-output",
+                """
+                        X failed expecting [value] to equal {
+                                                              "id": "id1",
+                                                              "description": "tea sets",
+                                                              "favorite": true,
+                                                              "related": [{"id": "id-nested", "description": "juice"}]
+                                                            }:
+                            [value].description:  actual: "tea set" <java.lang.String>
+                                                expected: "tea sets" <java.lang.String>
+                                                                  ^
+                            [value].related[0].description:  actual: "tea" <java.lang.String>
+                                                           expected: "juice" <java.lang.String>
+                                                                      ^ (Xms)
+                         \s
+                          {
+                            "id": "id1",
+                            "description": **"tea set"**,
+                            "favorite": true,
+                            "related": [{"id": "id-nested", "description": **"tea"**, "favorite": true, "related": []}]
+                          }""", () -> {
+                    // java-record-map-example
+                    var wishListItem = new WishLitItem("id1", "tea set", true,
+                            list(new WishLitItem("id-nested", "tea", true, list())));
+
+                    actual(wishListItem).should(equal(map(
+                            "id", "id1",
+                            "description", "tea sets",
+                            "favorite", true,
+                            "related", list(map(
+                                    "id", "id-nested",
+                                    "description", "juice"))))); // only specified properties will be compared
+                    // java-record-map-example
+                });
+    }
+
+    @Test
     public void beanAndMapContainsExample() {
-        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "list-of-beans-map-contain", "X failed expecting [value] to not contain {\"id\": \"ac2\", \"name\": \"Work\"}:\n" +
-                "    [value][1].id:  actual:     \"ac2\" <java.lang.String>\n" +
-                "                  expected: not \"ac2\" <java.lang.String>\n" +
-                "    [value][1].name:  actual:     \"Work\" <java.lang.String>\n" +
-                "                    expected: not \"Work\" <java.lang.String> (Xms)\n" +
-                "  \n" +
-                "  [\n" +
-                "    {\n" +
-                "      \"address\": org.testingisdocumenting.webtau.Address@<ref>,\n" +
-                "      \"description\": \"test account\",\n" +
-                "      \"id\": \"ac1\",\n" +
-                "      \"name\": \"Home\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"address\": org.testingisdocumenting.webtau.Address@<ref>,\n" +
-                "      \"description\": \"test account\",\n" +
-                "      \"id\": **\"ac2\"**,\n" +
-                "      \"name\": **\"Work\"**\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"address\": org.testingisdocumenting.webtau.Address@<ref>,\n" +
-                "      \"description\": \"test account\",\n" +
-                "      \"id\": \"ac3\",\n" +
-                "      \"name\": \"My Account\"\n" +
-                "    }\n" +
-                "  ]", () -> {
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "list-of-beans-map-contain",
+                """
+                        X failed expecting [value] to not contain {"id": "ac2", "name": "Work"}:
+                            [value][1].id:  actual:     "ac2" <java.lang.String>
+                                          expected: not "ac2" <java.lang.String>
+                            [value][1].name:  actual:     "Work" <java.lang.String>
+                                            expected: not "Work" <java.lang.String> (Xms)
+                         \s
+                          [
+                            {
+                              "address": org.testingisdocumenting.webtau.Address@<ref>,
+                              "description": "test account",
+                              "id": "ac1",
+                              "name": "Home"
+                            },
+                            {
+                              "address": org.testingisdocumenting.webtau.Address@<ref>,
+                              "description": "test account",
+                              "id": **"ac2"**,
+                              "name": **"Work"**
+                            },
+                            {
+                              "address": org.testingisdocumenting.webtau.Address@<ref>,
+                              "description": "test account",
+                              "id": "ac3",
+                              "name": "My Account"
+                            }
+                          ]""", () -> {
             // bean-map-contains-example
             List<Account> accounts = fetchAccounts();
             actual(accounts).shouldNot(contain(map("id", "ac2", "name", "Work"))); // only check specified properties
@@ -159,21 +200,22 @@ public class MatchersTest {
 
     @Test
     public void listOfBeansAndTableEqualityExample() {
-        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "beans-table-compare-output", "X failed expecting [value] to equal *id   │ name         │ address            \n" +
-                "                                    \"ac2\" │ \"Works\"      │ {\"zipCode\": \"zip2\"}\n" +
-                "                                    \"ac1\" │ \"Home\"       │ {\"zipCode\": \"zip1\"}\n" +
-                "                                    \"ac3\" │ \"My Account\" │ {\"zipCode\": \"zip8\"}:\n" +
-                "    [value][2].address.zipCode:  actual: \"zip3\" <java.lang.String>\n" +
-                "                               expected: \"zip8\" <java.lang.String>\n" +
-                "                                             ^\n" +
-                "    [value][1].name:  actual: \"Work\" <java.lang.String>\n" +
-                "                    expected: \"Works\" <java.lang.String>\n" +
-                "                                   ^ (Xms)\n" +
-                "  \n" +
-                "  address                                │ description    │ id    │ name        \n" +
-                "  {\"city\": \"TC1\", \"zipCode\": \"zip1\"}     │ \"test account\" │ \"ac1\" │ \"Home\"      \n" +
-                "  {\"city\": \"TC2\", \"zipCode\": \"zip2\"}     │ \"test account\" │ \"ac2\" │ **\"Work\"**  \n" +
-                "  {\"city\": \"TC3\", \"zipCode\": **\"zip3\"**} │ \"test account\" │ \"ac3\" │ \"My Account\"", () -> {
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "beans-table-compare-output", """
+                X failed expecting [value] to equal *id   │ name         │ address           \s
+                                                    "ac2" │ "Works"      │ {"zipCode": "zip2"}
+                                                    "ac1" │ "Home"       │ {"zipCode": "zip1"}
+                                                    "ac3" │ "My Account" │ {"zipCode": "zip8"}:
+                    [value][2].address.zipCode:  actual: "zip3" <java.lang.String>
+                                               expected: "zip8" <java.lang.String>
+                                                             ^
+                    [value][1].name:  actual: "Work" <java.lang.String>
+                                    expected: "Works" <java.lang.String>
+                                                   ^ (Xms)
+                 \s
+                  address                                │ description    │ id    │ name       \s
+                  {"city": "TC1", "zipCode": "zip1"}     │ "test account" │ "ac1" │ "Home"     \s
+                  {"city": "TC2", "zipCode": "zip2"}     │ "test account" │ "ac2" │ **"Work"** \s
+                  {"city": "TC3", "zipCode": **"zip3"**} │ "test account" │ "ac3" │ "My Account\"""", () -> {
             // beans-table-example
             List<Account> accounts = fetchAccounts();
             TableData expected = table("*id",       "name", "address",  // id is a key column
@@ -189,31 +231,32 @@ public class MatchersTest {
 
     @Test
     public void listOfBeansAndTableContainExample() {
-        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "beans-table-contain-output", "X failed expecting [value] to contain id    │ name    │ address            \n" +
-                "                                      \"ac2\" │ \"Works\" │ {\"zipCode\": \"zip2\"}\n" +
-                "                                      \"ac1\" │ \"Home\"  │ {\"zipCode\": \"zip1\"}:\n" +
-                "    no matches found for: [{\"id\": \"ac2\", \"name\": \"Works\", \"address\": {\"zipCode\": \"zip2\"}}] (Xms)\n" +
-                "  \n" +
-                "  [\n" +
-                "    {\n" +
-                "      \"address\": {\"city\": \"TC1\", \"zipCode\": \"zip1\"},\n" +
-                "      \"description\": \"test account\",\n" +
-                "      \"id\": \"ac1\",\n" +
-                "      \"name\": \"Home\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"address\": {\"city\": \"TC2\", \"zipCode\": \"zip2\"},\n" +
-                "      \"description\": \"test account\",\n" +
-                "      \"id\": \"ac2\",\n" +
-                "      \"name\": \"Work\"\n" +
-                "    },\n" +
-                "    {\n" +
-                "      \"address\": {\"city\": \"TC3\", \"zipCode\": \"zip3\"},\n" +
-                "      \"description\": \"test account\",\n" +
-                "      \"id\": \"ac3\",\n" +
-                "      \"name\": \"My Account\"\n" +
-                "    }\n" +
-                "  ]", () -> {
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "beans-table-contain-output", """
+                X failed expecting [value] to contain id    │ name    │ address           \s
+                                                      "ac2" │ "Works" │ {"zipCode": "zip2"}
+                                                      "ac1" │ "Home"  │ {"zipCode": "zip1"}:
+                    no matches found for: [{"id": "ac2", "name": "Works", "address": {"zipCode": "zip2"}}] (Xms)
+                 \s
+                  [
+                    {
+                      "address": {"city": "TC1", "zipCode": "zip1"},
+                      "description": "test account",
+                      "id": "ac1",
+                      "name": "Home"
+                    },
+                    {
+                      "address": {"city": "TC2", "zipCode": "zip2"},
+                      "description": "test account",
+                      "id": "ac2",
+                      "name": "Work"
+                    },
+                    {
+                      "address": {"city": "TC3", "zipCode": "zip3"},
+                      "description": "test account",
+                      "id": "ac3",
+                      "name": "My Account"
+                    }
+                  ]""", () -> {
             // beans-table-contain-example
             List<Account> accounts = fetchAccounts();
             TableData expected = table("id",  "name", "address",

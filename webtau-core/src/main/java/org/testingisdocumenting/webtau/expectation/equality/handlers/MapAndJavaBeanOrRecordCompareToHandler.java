@@ -19,10 +19,11 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.testingisdocumenting.webtau.data.converters.ObjectProperties;
 import org.testingisdocumenting.webtau.utils.JavaBeanUtils;
+import org.testingisdocumenting.webtau.utils.JavaRecordUtils;
 
 import java.util.Map;
 
-public class MapAndBeanCompareToHandler extends MapAsExpectedCompareToHandlerBase {
+public class MapAndJavaBeanOrRecordCompareToHandler extends MapAsExpectedCompareToHandlerBase {
     @Override
     protected boolean handleEquality(Object actual) {
         return !(actual instanceof Iterable || actual instanceof Map);
@@ -32,6 +33,10 @@ public class MapAndBeanCompareToHandler extends MapAsExpectedCompareToHandlerBas
     public Object convertedActual(Object actual, Object expected) {
         if (actual instanceof ObjectProperties) {
             return ((ObjectProperties) actual).getTopLevelProperties();
+        }
+
+        if (JavaRecordUtils.isRecord(actual)) {
+            return JavaRecordUtils.convertRecordToMap(actual);
         }
 
         return JavaBeanUtils.convertBeanToMap(actual);
