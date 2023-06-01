@@ -57,8 +57,8 @@ public class PageElementCompareToHandler implements CompareToHandler {
     private PageElementValue<?> extractElementValue(Object actual, Object expected) {
         PageElement actualPageElement = (PageElement) actual;
         return expected instanceof List ?
-                actualPageElement.elementValues():
-                actualPageElement.elementValue();
+                actualPageElement.valuesList :
+                actualPageElement.value;
     }
 
     private boolean handles(Object actual) {

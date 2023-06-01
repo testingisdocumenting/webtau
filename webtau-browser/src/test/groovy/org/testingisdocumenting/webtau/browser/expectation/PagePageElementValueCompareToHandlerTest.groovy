@@ -18,12 +18,12 @@
 package org.testingisdocumenting.webtau.browser.expectation
 
 import org.testingisdocumenting.webtau.browser.page.PageElementValue
-import org.testingisdocumenting.webtau.browser.page.GenericPageElement
+import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.junit.Test
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath
 
 class PagePageElementValueCompareToHandlerTest {
-    def pageElement = new GenericPageElement(null, null, PageElementPath.css("#id"), false)
+    def pageElement = new PageElement(null, null, PageElementPath.css("#id"), false)
 
     @Test
     void "automatically converts text to a number if the expected value is a number"() {

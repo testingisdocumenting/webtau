@@ -21,7 +21,7 @@ import org.testingisdocumenting.webtau.FakeAdditionalBrowserInteractions
 import org.testingisdocumenting.webtau.FakeWebDriver
 import org.testingisdocumenting.webtau.FakeWebElement
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath
-import org.testingisdocumenting.webtau.browser.page.GenericPageElement
+import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssPageElementFinder
 import org.junit.Before
 import org.junit.Test
@@ -40,7 +40,7 @@ class PageElementContainHandlerTest {
 
     @Test
     void "handles page element and any other value"() {
-        def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), new PageElementPath(), false)
+        def pageElement = new PageElement(driver, new FakeAdditionalBrowserInteractions(), new PageElementPath(), false)
 
         handler.handleEquality(pageElement, "hello").should == true
         handler.handleEquality(pageElement, 100).should == true
@@ -56,7 +56,7 @@ class PageElementContainHandlerTest {
         driver.registerFakeElement(".element", new FakeWebElement("div", "abcdefgh" , [:]))
         driver.registerFakeElement(".element", new FakeWebElement("div", "test" , [:]))
 
-        def pageElement = new GenericPageElement(driver,
+        def pageElement = new PageElement(driver,
                 new FakeAdditionalBrowserInteractions(), path, false)
 
         pageElement.should contain("cde")
@@ -75,7 +75,7 @@ class PageElementContainHandlerTest {
         driver.registerFakeElement(".element", new FakeWebElement("div", "abc" , [:]))
         driver.registerFakeElement(".element", new FakeWebElement("div", "test" , [:]))
 
-        def pageElement = new GenericPageElement(driver,
+        def pageElement = new PageElement(driver,
                 new FakeAdditionalBrowserInteractions(), path, false).all()
 
         pageElement.should contain("test")

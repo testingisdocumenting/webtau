@@ -56,7 +56,7 @@ class PageElementPrettyPrinter {
     }
 
     private void printFoundSummary(PrettyPrinter printer) {
-        Integer count = pageElement.getCount().get();
+        Integer count = pageElement.count.get();
         String countLabel = count > 1 ? count.toString() : "single";
         String elementsLabel = count > 1 ? "elements" : "element";
         printer.printLine(Stream.concat(
