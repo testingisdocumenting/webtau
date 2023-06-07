@@ -18,6 +18,8 @@
 package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -27,7 +29,7 @@ import java.util.stream.Stream;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.AssertionMode.*;
 
-public class LessThanMatcher implements ValueMatcher, ExpectedValuesAware {
+public class LessThanMatcher implements ValueMatcher, ExpectedValuesAware, PrettyPrintable {
     private CompareToComparator compareToComparator;
     private final Object expected;
 
@@ -78,12 +80,17 @@ public class LessThanMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String toString() {
-        return GreaterLessEqualMatcherRenderer.render(this, LESS_THAN, expected);
+    public Stream<Object> expectedValues() {
+        return Stream.of(expected);
     }
 
     @Override
-    public Stream<Object> expectedValues() {
-        return Stream.of(expected);
+    public void prettyPrint(PrettyPrinter printer) {
+        GreaterLessEqualMatcherPrinter.prettyPrint(printer, this, LESS_THAN, expected);
+    }
+
+    @Override
+    public String toString() {
+        return PrettyPrinter.renderAsTextWithoutColors(this);
     }
 }

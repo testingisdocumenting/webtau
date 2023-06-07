@@ -25,6 +25,7 @@ import org.testingisdocumenting.webtau.reporter.TokenizedMessage
 
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.junit.Assert.assertEquals
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class ValueMatcherCompareToHandlerTest {
@@ -92,6 +93,20 @@ class ValueMatcherCompareToHandlerTest {
                 '  \n' +
                 '  ["hello", "world", **"of matchers"**]') {
             actual(["hello", "world", "of matchers"]).shouldNot(contain(containing("of")))
+        }
+    }
+
+    @Test
+    void "contain notEqual combination"() {
+        runAndValidateOutput(". [value] contains <not equal 3> (Xms)") {
+            actual([10, 20, 30]).should(contain(notEqual(3)))
+        }
+    }
+
+    @Test
+    void "contain greaterThan combination"() {
+        runAndValidateOutput(". [value] contains <greater than 23> (Xms)") {
+            actual([10, 20, 30]).should(contain(greaterThan(23)))
         }
     }
 
