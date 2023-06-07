@@ -34,6 +34,11 @@ public class PageElementValueCompareToHandler implements CompareToHandler {
     }
 
     @Override
+    public Object convertedActual(Object actual, Object expected) {
+        return ((PageElementValue<?>)actual).get();
+    }
+
+    @Override
     public boolean handleNulls() {
         return true;
     }
