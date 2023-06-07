@@ -94,19 +94,6 @@ public class MultilineString implements PrettyPrintable {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-
-        if (obj instanceof CharSequence) {
-            return text.contentEquals((CharSequence) obj);
-        }
-
-        return false;
-    }
-
-    @Override
     public boolean handlesDecoration() {
         return true;
     }

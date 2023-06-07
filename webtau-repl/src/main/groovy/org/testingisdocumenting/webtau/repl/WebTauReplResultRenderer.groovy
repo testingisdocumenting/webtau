@@ -43,7 +43,6 @@ class WebTauReplResultRenderer {
         printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput())
     }
 
-
     private static void renderTextLimitingSize(String text) {
         ConsoleOutputs.outLinesWithLimit(
                 Arrays.asList(text.split("\n")),
