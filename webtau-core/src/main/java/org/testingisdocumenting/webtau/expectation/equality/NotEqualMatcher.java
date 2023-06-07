@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -27,7 +29,7 @@ import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
-public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware {
+public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware, PrettyPrintable {
     private CompareToComparator comparator;
 
     private final Object expected;
@@ -122,12 +124,17 @@ public class NotEqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String toString() {
-        return EqualNotEqualMatcherRenderer.render(this, comparator, expected);
+    public Stream<Object> expectedValues() {
+        return Stream.of(expected);
     }
 
     @Override
-    public Stream<Object> expectedValues() {
-        return Stream.of(expected);
+    public void prettyPrint(PrettyPrinter printer) {
+        GreaterLessEqualMatcherPrinter.prettyPrint(printer, this, CompareToComparator.AssertionMode.NOT_EQUAL, expected);
+    }
+
+    @Override
+    public String toString() {
+        return PrettyPrinter.renderAsTextWithoutColors(this);
     }
 }

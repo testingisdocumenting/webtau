@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,25 +20,21 @@ package org.testingisdocumenting.webtau.expectation.equality;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 
-class GreaterLessEqualMatcherRenderer {
-    static String render(ValueMatcher valueMatcher, CompareToComparator.AssertionMode assertionMode, Object expected) {
-        String renderedExpected = PrettyPrinter.renderAsTextWithoutColors(expected);
+class GreaterLessEqualMatcherPrinter {
+    static void prettyPrint(PrettyPrinter printer, ValueMatcher valueMatcher, CompareToComparator.AssertionMode assertionMode, Object expected) {
+        printer.printDelimiter("<");
 
         switch (assertionMode) {
-            case GREATER_THAN -> {
-                return "<greater than " + renderedExpected + ">";
-            }
-            case GREATER_THAN_OR_EQUAL -> {
-                return "<greater than or equal " + renderedExpected + ">";
-            }
-            case LESS_THAN -> {
-                return "<less than " + renderedExpected + ">";
-            }
-            case LESS_THAN_OR_EQUAL -> {
-                return "<less than or equal " + renderedExpected + ">";
-            }
+            case EQUAL -> printer.printClassifier("equal");
+            case NOT_EQUAL -> printer.printClassifier("not equal");
+            case GREATER_THAN -> printer.printClassifier("greater than");
+            case GREATER_THAN_OR_EQUAL -> printer.printClassifier("greater than or equal");
+            case LESS_THAN -> printer.printClassifier("less than");
+            case LESS_THAN_OR_EQUAL -> printer.printClassifier("less than or equal");
         }
 
-        throw new IllegalStateException("unexpected assertion mode: " + assertionMode);
+        printer.print(" ");
+        printer.printObject(expected);
+        printer.printDelimiter(">");
     }
 }

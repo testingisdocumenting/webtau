@@ -39,6 +39,7 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
     public static final Color STRING_COLOR = Color.GREEN;
     public static final Color NUMBER_COLOR = Color.BLUE;
     public static final Color KEY_COLOR = Color.PURPLE;
+    public static final Color CLASSIFIER_COLOR = Color.CYAN;
     public static final Color UNKNOWN_COLOR = Color.CYAN;
 
     private static final int INDENTATION_STEP = 2;
@@ -207,6 +208,10 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
 
     public void print(Object... styleOrValues) {
         appendToCurrentLine(styleOrValues);
+    }
+
+    public void printClassifier(String c) {
+        print(CLASSIFIER_COLOR, c);
     }
 
     public void printDelimiter(String d) {
