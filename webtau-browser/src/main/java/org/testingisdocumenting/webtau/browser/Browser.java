@@ -46,6 +46,7 @@ public class Browser {
     public final BrowserCookies cookies = new BrowserCookies(driver);
     public final BrowserLocalStorage localStorage = new BrowserLocalStorage(driver);
     public final BrowserNavigation navigation = new BrowserNavigation(driver);
+    public final BrowserAlert alert = new BrowserAlert(driver);
     public final BrowserDocumentation doc = new BrowserDocumentation(driver);
 
     public final PageUrl url = new PageUrl(driver::getCurrentUrl);
