@@ -27,7 +27,7 @@ import static org.testingisdocumenting.webtau.WebTauDsl.*;
 public class BrowserLocalDriverJavaTest {
     private final PageElement box = $("#search-box");
     private final PageElement results = $("#results .result");
-    private final PageElementValue<Integer> numberOfResults = results.getCount();
+    private final PageElementValue<Integer> numberOfResults = results.count;
 
     @Test
     public void search() {

@@ -28,6 +28,6 @@ class CustomInput implements PageElementGetSetValueHandler {
 
     @Override
     Object getValue(HtmlNodeAndWebElementList htmlNodeAndWebElements, PageElement pageElement, int idx) {
-        return pageElement.find('.current-value').getUnderlyingValue()
+        return pageElement.find('.current-value').extractSingleValue()
     }
 }
