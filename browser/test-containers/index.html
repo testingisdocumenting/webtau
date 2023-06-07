@@ -90,17 +90,17 @@
 
 <article>
 <header><h1>Explicit Selenium Test Containers</h1></header>
-<p>To support https://www.testcontainers.org Test Containers explicitly, WebTau expose browser.setDriver to force a specific driver to use: @WebTau public class BrowserTestContainerJavaTest { private final PageElement box = $(&quot;#search-box&quot;); private final PageElement results = $(&quot;#results .result&quot;); private final PageElementValue&lt;Integer&gt; numberOfResults = results.getCount(); private static BrowserWebDriverContainer&lt;?&gt; seleniumContainer; @BeforeAll public static void setupDriverUsingTestContainer() { step(&quot;preparing selenium test container&quot;, () -&gt; { Testcontainers.exposeHostPorts(browser.getBaseUrlPort()); FirefoxOptions firefox = new FirefoxOptions(); seleniumContainer = new BrowserWebDriverContainer&lt;&gt;() .withCapabilities(firefox); seleniumContainer.start(); browser.setDriver(new RemoteWebDriver(seleniumContainer.getSeleniumAddress(), firefox)); }); } @AfterAll public static void shutdownContainer() { seleniumContainer.stop(); } @Test public void search() { browser.open(&quot;/search&quot;); box.setValue(&quot;search this&quot;); box.sendKeys(browser.keys.enter); numberOfResults.waitToBe(greaterThan(1)); } }</p>
+<p>To support https://www.testcontainers.org Test Containers explicitly, WebTau expose browser.setDriver to force a specific driver to use: @WebTau public class BrowserTestContainerJavaTest { private final PageElement box = $(&quot;#search-box&quot;); private final PageElement results = $(&quot;#results .result&quot;); private final PageElementValue&lt;Integer&gt; numberOfResults = results.count; private static BrowserWebDriverContainer&lt;?&gt; seleniumContainer; @BeforeAll public static void setupDriverUsingTestContainer() { step(&quot;preparing selenium test container&quot;, () -&gt; { Testcontainers.exposeHostPorts(browser.getBaseUrlPort()); FirefoxOptions firefox = new FirefoxOptions(); seleniumContainer = new BrowserWebDriverContainer&lt;&gt;() .withCapabilities(firefox); seleniumContainer.start(); browser.setDriver(new RemoteWebDriver(seleniumContainer.getSeleniumAddress(), firefox)); }); } @AfterAll public static void shutdownContainer() { seleniumContainer.stop(); } @Test public void search() { browser.open(&quot;/search&quot;); box.setValue(&quot;search this&quot;); box.sendKeys(browser.keys.enter); numberOfResults.waitToBe(greaterThan(1)); } }</p>
 </article>
 
 <article>
 <header><h1>Implicit Selenium Test Container</h1></header>
-<p>WebTau provides an option to simplify running tests using both local and https://www.testcontainers.org Test Containers based browser: browserId=firefox browserUrl=http://host.testcontainers.internal:8080 browserTestcontainersEnabled=true @WebTau public class BrowserImplicitTestContainerJavaTest { private final PageElement box = $(&quot;#search-box&quot;); private final PageElement results = $(&quot;#results .result&quot;); private final PageElementValue&lt;Integer&gt; numberOfResults = results.getCount(); @Test public void search() { browser.open(&quot;/search&quot;); box.setValue(&quot;search this&quot;); box.sendKeys(browser.keys.enter); numberOfResults.waitToBe(greaterThan(1)); } } Read getting-started/configuration Configuration page to learn about how to override config values using different environments, system properties or environment variables.</p>
+<p>WebTau provides an option to simplify running tests using both local and https://www.testcontainers.org Test Containers based browser: browserId=firefox browserUrl=http://host.testcontainers.internal:8080 browserTestcontainersEnabled=true @WebTau public class BrowserImplicitTestContainerJavaTest { private final PageElement box = $(&quot;#search-box&quot;); private final PageElement results = $(&quot;#results .result&quot;); private final PageElementValue&lt;Integer&gt; numberOfResults = results.count; @Test public void search() { browser.open(&quot;/search&quot;); box.setValue(&quot;search this&quot;); box.sendKeys(browser.keys.enter); numberOfResults.waitToBe(greaterThan(1)); } } Read getting-started/configuration Configuration page to learn about how to override config values using different environments, system properties or environment variables.</p>
 </article>
 
 <article>
 <header><h1>Dependency</h1></header>
-<p>By default, WebTau includes https://www.testcontainers.org Test Containers into groovy-standalone-runner/introduction Groovy Runner and into single catch-all dependency Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.52.1&lt;/version&gt; &lt;/dependency&gt; Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.52.1&lt;/version&gt; &lt;/dependency&gt; If you cherry-pick WebTau dependencies, then you need to add this to your list: &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-browser-testcontainers&lt;/artifactId&gt; &lt;version&gt;1.52.1&lt;/version&gt; &lt;/dependency&gt;</p>
+<p>By default, WebTau includes https://www.testcontainers.org Test Containers into groovy-standalone-runner/introduction Groovy Runner and into single catch-all dependency Groovy &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;1.53&lt;/version&gt; &lt;/dependency&gt; Java &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;1.53&lt;/version&gt; &lt;/dependency&gt; If you cherry-pick WebTau dependencies, then you need to add this to your list: &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-browser-testcontainers&lt;/artifactId&gt; &lt;version&gt;1.53&lt;/version&gt; &lt;/dependency&gt;</p>
 </article>
 </section>
 </div>
@@ -209,7 +209,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "java",
-        "snippet" : "@WebTau\npublic class BrowserTestContainerJavaTest {\n    private final PageElement box = $(\"#search-box\");\n    private final PageElement results = $(\"#results .result\");\n    private final PageElementValue<Integer> numberOfResults = results.getCount();\n\n    private static BrowserWebDriverContainer<?> seleniumContainer;\n\n    @BeforeAll\n    public static void setupDriverUsingTestContainer() {\n        step(\"preparing selenium test container\", () -> {\n            Testcontainers.exposeHostPorts(browser.getBaseUrlPort());\n            FirefoxOptions firefox = new FirefoxOptions();\n            seleniumContainer = new BrowserWebDriverContainer<>()\n                    .withCapabilities(firefox);\n\n            seleniumContainer.start();\n            browser.setDriver(new RemoteWebDriver(seleniumContainer.getSeleniumAddress(), firefox));\n        });\n    }\n\n    @AfterAll\n    public static void shutdownContainer() {\n        seleniumContainer.stop();\n    }\n\n    @Test\n    public void search() {\n        browser.open(\"/search\");\n\n        box.setValue(\"search this\");\n        box.sendKeys(browser.keys.enter);\n\n        numberOfResults.waitToBe(greaterThan(1));\n    }\n}",
+        "snippet" : "@WebTau\npublic class BrowserTestContainerJavaTest {\n    private final PageElement box = $(\"#search-box\");\n    private final PageElement results = $(\"#results .result\");\n    private final PageElementValue<Integer> numberOfResults = results.count;\n\n    private static BrowserWebDriverContainer<?> seleniumContainer;\n\n    @BeforeAll\n    public static void setupDriverUsingTestContainer() {\n        step(\"preparing selenium test container\", () -> {\n            Testcontainers.exposeHostPorts(browser.getBaseUrlPort());\n            FirefoxOptions firefox = new FirefoxOptions();\n            seleniumContainer = new BrowserWebDriverContainer<>()\n                    .withCapabilities(firefox);\n\n            seleniumContainer.start();\n            browser.setDriver(new RemoteWebDriver(seleniumContainer.getSeleniumAddress(), firefox));\n        });\n    }\n\n    @AfterAll\n    public static void shutdownContainer() {\n        seleniumContainer.stop();\n    }\n\n    @Test\n    public void search() {\n        browser.open(\"/search\");\n\n        box.setValue(\"search this\");\n        box.sendKeys(browser.keys.enter);\n\n        numberOfResults.waitToBe(greaterThan(1));\n    }\n}",
         "title" : "manually start selenium test container",
         "entry" : "BrowserTestContainerJavaTest",
         "highlight" : [ 17 ],
@@ -246,7 +246,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "java",
-        "snippet" : "@WebTau\npublic class BrowserImplicitTestContainerJavaTest {\n    private final PageElement box = $(\"#search-box\");\n    private final PageElement results = $(\"#results .result\");\n    private final PageElementValue<Integer> numberOfResults = results.getCount();\n\n    @Test\n    public void search() {\n        browser.open(\"/search\");\n\n        box.setValue(\"search this\");\n        box.sendKeys(browser.keys.enter);\n\n        numberOfResults.waitToBe(greaterThan(1));\n    }\n}",
+        "snippet" : "@WebTau\npublic class BrowserImplicitTestContainerJavaTest {\n    private final PageElement box = $(\"#search-box\");\n    private final PageElement results = $(\"#results .result\");\n    private final PageElementValue<Integer> numberOfResults = results.count;\n\n    @Test\n    public void search() {\n        browser.open(\"/search\");\n\n        box.setValue(\"search this\");\n        box.sendKeys(browser.keys.enter);\n\n        numberOfResults.waitToBe(greaterThan(1));\n    }\n}",
         "title" : "implicitly start selenium test container",
         "entry" : "BrowserImplicitTestContainerJavaTest",
         "anchorId" : "implicit-selenium-test-container-implicitly-start-selenium-test-container",
@@ -306,7 +306,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "xml",
-            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.52.1</version>\n</dependency>",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>1.53</version>\n</dependency>",
             "title" : "catch-all Groovy dependecy",
             "anchorId" : "dependency-catch-all-groovy-dependecy",
             "type" : "Snippet"
@@ -315,7 +315,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "xml",
-            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.52.1</version>\n</dependency>",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>1.53</version>\n</dependency>",
             "title" : "catch-all Java dependency",
             "anchorId" : "dependency-catch-all-java-dependency",
             "type" : "Snippet"
@@ -330,13 +330,13 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "xml",
-        "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-browser-testcontainers</artifactId>\n    <version>1.52.1</version>\n</dependency>",
+        "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-browser-testcontainers</artifactId>\n    <version>1.53</version>\n</dependency>",
         "title" : "maven dependency",
         "anchorId" : "dependency-maven-dependency",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1683079830080,
+    "lastModifiedTime" : 1686176411212,
     "tocItem" : {
       "chapterTitle" : "Browser",
       "pageTitle" : "Test Containers",

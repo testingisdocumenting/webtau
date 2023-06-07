@@ -589,6 +589,19 @@ toc = [ {
     } ]
   }, {
     "chapterTitle" : "Web Socket",
+    "pageTitle" : "Header",
+    "pageMeta" : {
+      "identifier" : [ "{validationPath: [\"com/example/tests/junit5/WebSocketSpringBootTest.java\", \"org/testingisdocumenting/webtau/websocket/WebSocketConfig.java\"]}" ]
+    },
+    "dirName" : "web-socket",
+    "fileName" : "header",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Connection Header",
+      "id" : "connection-header"
+    } ]
+  }, {
+    "chapterTitle" : "Web Socket",
     "pageTitle" : "Import And Dependencies",
     "pageMeta" : { },
     "dirName" : "web-socket",
@@ -641,8 +654,8 @@ toc = [ {
     "fileName" : "page-element-and-value",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
-      "title" : "Element Selection",
-      "id" : "element-selection"
+      "title" : "Page Element Declaration",
+      "id" : "page-element-declaration"
     }, {
       "title" : "Lazy Element",
       "id" : "lazy-element"
@@ -669,10 +682,10 @@ toc = [ {
     } ]
   }, {
     "chapterTitle" : "Browser",
-    "pageTitle" : "Element Actions",
+    "pageTitle" : "Element Actions Reference",
     "pageMeta" : { },
     "dirName" : "browser",
-    "fileName" : "element-actions",
+    "fileName" : "element-actions-reference",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
       "title" : "Clicks",
@@ -692,6 +705,23 @@ toc = [ {
     }, {
       "title" : "Scrolling",
       "id" : "scrolling"
+    } ]
+  }, {
+    "chapterTitle" : "Browser",
+    "pageTitle" : "Element Values Reference",
+    "pageMeta" : { },
+    "dirName" : "browser",
+    "fileName" : "element-values-reference",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Wait And Should",
+      "id" : "wait-and-should"
+    }, {
+      "title" : "Text Value",
+      "id" : "text-value"
+    }, {
+      "title" : "Attribute Value",
+      "id" : "attribute-value"
     } ]
   }, {
     "chapterTitle" : "Browser",
@@ -873,6 +903,23 @@ toc = [ {
     } ]
   }, {
     "chapterTitle" : "Browser",
+    "pageTitle" : "Alerts",
+    "pageMeta" : { },
+    "dirName" : "browser",
+    "fileName" : "alerts",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Dismiss Alert",
+      "id" : "dismiss-alert"
+    }, {
+      "title" : "Accept Alert",
+      "id" : "accept-alert"
+    }, {
+      "title" : "Alert Text",
+      "id" : "alert-text"
+    } ]
+  }, {
+    "chapterTitle" : "Browser",
     "pageTitle" : "Page Open Handlers",
     "pageMeta" : { },
     "dirName" : "browser",
@@ -906,6 +953,9 @@ toc = [ {
     }, {
       "title" : "Chaining",
       "id" : "chaining"
+    }, {
+      "title" : "Parent Finder",
+      "id" : "parent-finder"
     } ]
   }, {
     "chapterTitle" : "Browser",
@@ -1645,10 +1695,10 @@ toc = [ {
     } ]
   }, {
     "chapterTitle" : "Matchers",
-    "pageTitle" : "Java Bean",
+    "pageTitle" : "Java Beans And Records",
     "pageMeta" : { },
     "dirName" : "matchers",
-    "fileName" : "java-bean",
+    "fileName" : "java-beans-and-records",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
       "title" : "Java Bean Equals Map",
@@ -1665,13 +1715,16 @@ toc = [ {
     }, {
       "title" : "Static Import",
       "id" : "static-import"
+    }, {
+      "title" : "Java Records",
+      "id" : "java-records"
     } ]
   }, {
     "chapterTitle" : "Matchers",
-    "pageTitle" : "String",
+    "pageTitle" : "Strings",
     "pageMeta" : { },
     "dirName" : "matchers",
-    "fileName" : "string",
+    "fileName" : "strings",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
       "title" : "Mismatch Pinpoint Single Line Text",
@@ -2090,6 +2143,9 @@ toc = [ {
     "fileName" : "2023",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
+      "title" : "2.0",
+      "id" : "2-0"
+    }, {
       "title" : "1.53",
       "id" : "1-53"
     }, {

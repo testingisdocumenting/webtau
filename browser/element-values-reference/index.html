@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Element Values Reference</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Wait And Should</h1></header>
+<p>Use waitTo to wait on a condition, and should to assert right away. All the code below you can freely swap between should and waitTo .</p>
+</article>
+
+<article>
+<header><h1>Text Value</h1></header>
+<p>header.should(equal(&quot;super search&quot;)) &gt; expecting by css #header to equal &quot;super search&quot; . by css #header equals &quot;super search&quot; (72ms)</p>
+</article>
+
+<article>
+<header><h1>Attribute Value</h1></header>
+<p>pageElement.attribute(&quot;class&quot;).waitTo(equal(~/\bfancy\b/)) &gt; waiting for attribute &quot;class&quot; of by css #table-wrapper to equal ~/\bfancy\b/ . attribute &quot;class&quot; of by css #table-wrapper equals ~/\bfancy\b/ (28ms)</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "wait-and-should",
+      "title" : "Wait And Should",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "waitTo",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to wait on a condition, and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "should",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to assert right away.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "All the code below you can freely swap between ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "should",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "waitTo",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ".",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
+      "id" : "text-value",
+      "title" : "Text Value",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "header.should(equal(\"super search\"))",
+        "surroundedBy" : "text-validation",
+        "type" : "Snippet"
+      }, {
+        "title" : "console output",
+        "surroundedBy" : "check page element value",
+        "startLine" : "expecting",
+        "lines" : [ "\u001B[33m> \u001B[34mexpecting \u001B[35mby css \u001B[1m\u001B[35m#header \u001B[0m\u001B[0m\u001B[34mto equal \u001B[32m\"super search\"\u001B[0m", "\u001B[32m. \u001B[35mby css \u001B[1m\u001B[35m#header \u001B[0m\u001B[0m\u001B[34mequals \u001B[32m\"super search\"\u001B[33m (\u001B[32m72ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "text-value-console-output",
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "id" : "attribute-value",
+      "title" : "Attribute Value",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "pageElement.attribute(\"class\").waitTo(equal(~/\\bfancy\\b/))",
+        "surroundedBy" : "attribute-validation",
+        "type" : "Snippet"
+      }, {
+        "title" : "console output",
+        "surroundedBy" : "check attribute class value",
+        "startLine" : "waiting",
+        "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[36mattribute \"class\" \u001B[33mof \u001B[35mby css \u001B[1m\u001B[35m#table-wrapper \u001B[0m\u001B[0m\u001B[34mto equal \u001B[33m~/\u001B[32m\\bfancy\\b\u001B[33m/\u001B[0m", "\u001B[32m. \u001B[36mattribute \"class\" \u001B[33mof \u001B[35mby css \u001B[1m\u001B[35m#table-wrapper \u001B[0m\u001B[0m\u001B[34mequals \u001B[33m~/\u001B[32m\\bfancy\\b\u001B[33m/\u001B[33m (\u001B[32m28ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "attribute-value-console-output",
+        "type" : "CliOutput"
+      } ]
+    } ],
+    "lastModifiedTime" : 1686176411212,
+    "tocItem" : {
+      "chapterTitle" : "Browser",
+      "pageTitle" : "Element Values Reference",
+      "pageMeta" : { },
+      "dirName" : "browser",
+      "fileName" : "element-values-reference",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Wait And Should",
+        "id" : "wait-and-should"
+      }, {
+        "title" : "Text Value",
+        "id" : "text-value"
+      }, {
+        "title" : "Attribute Value",
+        "id" : "attribute-value"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

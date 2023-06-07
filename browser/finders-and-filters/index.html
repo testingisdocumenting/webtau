@@ -90,17 +90,22 @@
 
 <article>
 <header><h1>CSS Finder</h1></header>
-<p>Use $ or browser.element to select an element by a given css selector ( https://www.w3schools.com/cssref/css_selectors.asp Read W3Schools CSS selectors to learn all kind of CSS selection techniques). def welcomeMessage = $('#welcome') welcomeMessage.should == 'hello' If more than one element is matched, the first one will be used for actions and assertions. def menu = $('ul li a') menu.should == 'book' While click and sendKeys will always work on a first element only, the matchers can work with a list of things. def menu = $('ul li a') menu.should == ['book', 'orders', 'help'] Note: declaring element this way will not trigger element search right away.</p>
+<p>Use $ or browser.element to select an element by a given css selector ( https://www.w3schools.com/cssref/css_selectors.asp Read W3Schools CSS selectors to learn all kind of CSS selection techniques). def welcomeMessage = $(&quot;#welcome&quot;) welcomeMessage.should == &quot;hello&quot; If more than one element is matched, the first one will be used for actions and assertions. def menu = $(&quot;ul li a&quot;) menu.should == &quot;book&quot; While click and sendKeys will always work on a first element only, the matchers can work with a list of things. def menu = $(&quot;ul li a&quot;) menu.should == [&quot;book&quot;, &quot;orders&quot;, &quot;help&quot;] Note: declaring element this way will not trigger element search right away.</p>
 </article>
 
 <article>
 <header><h1>Filters</h1></header>
-<p>You can use filters to narrow down elements selected by finders.Filter comes in a way of get method. Parameter is one of the followingElement number Element text Element regexp def ordersMenu = $('ul li a').get(2) ordersMenu.should == 'orders' def ordersMenu = $('ul li a').get('orders') ordersMenu.should == 'orders' def ordersMenu = $('ul li a').get(~/ord/) ordersMenu.should == 'orders'</p>
+<p>You can use filters to narrow down elements selected by finders.Filter comes in a way of get method. Parameter is one of the followingElement number Element text Element regexp def ordersMenu = $(&quot;ul li a&quot;).get(2) ordersMenu.should == &quot;orders&quot; def ordersMenu = $(&quot;ul li a&quot;).get(&quot;orders&quot;) ordersMenu.should == &quot;orders&quot; def ordersMenu = $(&quot;ul li a&quot;).get(~/ord/) ordersMenu.should == &quot;orders&quot;</p>
 </article>
 
 <article>
 <header><h1>Chaining</h1></header>
-<p>After you filtered, you can use finders again to find nested elements. def ordersMenu = $('ul li').get(2).find('a') ordersMenu.should == 'orders'</p>
+<p>After you filtered, you can use finders again to find nested elements. def ordersMenu = $(&quot;ul li&quot;).get(2).find(&quot;a&quot;) ordersMenu.should == &quot;orders&quot;</p>
+</article>
+
+<article>
+<header><h1>Parent Finder</h1></header>
+<p>Use element.parent() to select immediate parent def welcomeMessage = $(&quot;#welcome&quot;) def wrapper = welcomeMessage.parent() wrapper.attribute(&quot;class&quot;).should == &quot;wrapper-class&quot;</p>
 </article>
 </section>
 </div>
@@ -182,7 +187,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "def welcomeMessage = $('#welcome')\nwelcomeMessage.should == 'hello'",
+        "snippet" : "def welcomeMessage = $(\"#welcome\")\nwelcomeMessage.should == \"hello\"",
         "title" : "example of selecting by id",
         "anchorId" : "css-finder-example-of-selecting-by-id",
         "type" : "Snippet"
@@ -194,7 +199,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "def menu = $('ul li a')\nmenu.should == 'book'",
+        "snippet" : "def menu = $(\"ul li a\")\nmenu.should == \"book\"",
         "title" : "example of selecting by nested tags",
         "anchorId" : "css-finder-example-of-selecting-by-nested-tags",
         "type" : "Snippet"
@@ -218,7 +223,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "def menu = $('ul li a')\nmenu.should == ['book', 'orders', 'help']",
+        "snippet" : "def menu = $(\"ul li a\")\nmenu.should == [\"book\", \"orders\", \"help\"]",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -402,19 +407,19 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "def ordersMenu = $('ul li a').get(2)\nordersMenu.should == 'orders'",
+        "snippet" : "def ordersMenu = $(\"ul li a\").get(2)\nordersMenu.should == \"orders\"",
         "title" : "Number",
         "anchorId" : "filters-number",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "def ordersMenu = $('ul li a').get('orders')\nordersMenu.should == 'orders'",
+        "snippet" : "def ordersMenu = $(\"ul li a\").get(\"orders\")\nordersMenu.should == \"orders\"",
         "title" : "Text",
         "anchorId" : "filters-text",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "def ordersMenu = $('ul li a').get(~/ord/)\nordersMenu.should == 'orders'",
+        "snippet" : "def ordersMenu = $(\"ul li a\").get(~/ord/)\nordersMenu.should == \"orders\"",
         "title" : "Regexp",
         "anchorId" : "filters-regexp",
         "type" : "Snippet"
@@ -484,7 +489,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "def ordersMenu = $('ul li').get(2).find('a')\nordersMenu.should == 'orders'",
+        "snippet" : "def ordersMenu = $(\"ul li\").get(2).find(\"a\")\nordersMenu.should == \"orders\"",
         "title" : "Nested css selector",
         "anchorId" : "chaining-nested-css-selector",
         "type" : "Snippet"
@@ -542,8 +547,58 @@ ReactDOM.render(React.createElement(Documentation, {
         },
         "type" : "Xml"
       } ]
+    }, {
+      "id" : "parent-finder",
+      "title" : "Parent Finder",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "element.parent()",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to select immediate parent",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def welcomeMessage = $(\"#welcome\")\ndef wrapper = welcomeMessage.parent()\nwrapper.attribute(\"class\").should == \"wrapper-class\"",
+        "title" : "select immediate parent",
+        "anchorId" : "parent-finder-select-immediate-parent",
+        "type" : "Snippet"
+      }, {
+        "rightSide" : true,
+        "type" : "Meta"
+      }, {
+        "xmlAsJson" : {
+          "tagName" : "div",
+          "attributes" : [ {
+            "name" : "id",
+            "value" : "\"welcome-wrapper\""
+          }, {
+            "name" : "class",
+            "value" : "\"wrapper-class\""
+          } ],
+          "children" : [ {
+            "tagName" : "div",
+            "attributes" : [ {
+              "name" : "id",
+              "value" : "\"welcome\""
+            } ],
+            "children" : [ {
+              "tagName" : "",
+              "text" : "hello"
+            } ]
+          } ]
+        },
+        "paths" : [ ],
+        "type" : "Xml"
+      } ]
     } ],
-    "lastModifiedTime" : 1683079830080,
+    "lastModifiedTime" : 1686176411212,
     "tocItem" : {
       "chapterTitle" : "Browser",
       "pageTitle" : "Finders And Filters",
@@ -565,6 +620,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Chaining",
         "id" : "chaining"
+      }, {
+        "title" : "Parent Finder",
+        "id" : "parent-finder"
       } ]
     }
   }

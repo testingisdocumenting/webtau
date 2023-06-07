@@ -105,7 +105,7 @@
 
 <article>
 <header><h1>Server Slowdown</h1></header>
-<p>Use to mark server as unresponsive Groovy myServer.markUnresponsive() code { http.get(&quot;/hello.html&quot;) } should throwException(~/Read timed out/) Java myServer.markUnresponsive(); code(() -&gt; { http.get(&quot;/hello.html&quot;); }).should(throwException(Pattern.compile(&quot;Read timed out&quot;)));</p>
+<p>Use to mark server as unresponsive Groovy myServer.markUnresponsive() code { http.get(&quot;/hello.html&quot;) } should throwException(~/request timed out/) Java myServer.markUnresponsive(); code(() -&gt; { http.get(&quot;/hello.html&quot;); }).should(throwException(Pattern.compile(&quot;request timed out&quot;)));</p>
 </article>
 
 <article>
@@ -362,7 +362,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "myServer.markUnresponsive()\n\ncode {\n    http.get(\"/hello.html\")\n} should throwException(~/Read timed out/)",
+            "snippet" : "myServer.markUnresponsive()\n\ncode {\n    http.get(\"/hello.html\")\n} should throwException(~/request timed out/)",
             "title" : "mark as unresponsive",
             "surroundedBy" : "mark-unresponsive",
             "anchorId" : "server-slowdown-mark-as-unresponsive",
@@ -372,7 +372,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "myServer.markUnresponsive();\n\ncode(() -> {\n    http.get(\"/hello.html\");\n}).should(throwException(Pattern.compile(\"Read timed out\")));",
+            "snippet" : "myServer.markUnresponsive();\n\ncode(() -> {\n    http.get(\"/hello.html\");\n}).should(throwException(Pattern.compile(\"request timed out\")));",
             "title" : "mark as unresponsive",
             "surroundedBy" : "mark-unresponsive",
             "anchorId" : "server-slowdown-mark-as-unresponsive-2",
@@ -446,7 +446,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1683079830092,
+    "lastModifiedTime" : 1686176411224,
     "tocItem" : {
       "chapterTitle" : "Servers",
       "pageTitle" : "Static Server",

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Alerts</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Dismiss Alert</h1></header>
+<p>Use browser.alert to manipulate browser alerts.To dismiss alert use: browser.alert.dismiss() &gt; dismissing alert dismissed alert text: _____ hello alert _____ . dismissed alert (13ms)</p>
+</article>
+
+<article>
+<header><h1>Accept Alert</h1></header>
+<p>To accept alert use: browser.alert.accept() &gt; accepting alert accepted alert text: _______ hello confirm _______ . accepted alert (10ms)</p>
+</article>
+
+<article>
+<header><h1>Alert Text</h1></header>
+<p>To wait on or validate alert text use: browser.alert.text.waitTo == &quot;hello delayed\nalert&quot; browser.alert.accept() &gt; waiting for text of browser alert to equal _____________ hello delayed alert _____________ . text of browser alert equals _____________ hello delayed alert _____________ (213ms)</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Use ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "browser.alert",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to manipulate browser alerts.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "id" : "dismiss-alert",
+      "title" : "Dismiss Alert",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To dismiss alert use:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.alert.dismiss()",
+        "surroundedBy" : "dismiss-alert",
+        "type" : "Snippet"
+      }, {
+        "title" : "console output",
+        "surroundedBy" : "dismiss alert",
+        "startLine" : "dismissing",
+        "endLine" : ".",
+        "lines" : [ "\u001B[33m> \u001B[34mdismissing \u001B[36malert\u001B[0m", "    \u001B[35mdismissed alert text\u001B[33m: \u001B[0m_____\u001B[0m", "                          \u001B[32mhello\u001B[0m", "                          \u001B[32malert\u001B[0m", "                          \u001B[0m_____\u001B[0m", "\u001B[32m. \u001B[34mdismissed \u001B[36malert\u001B[33m (\u001B[32m13ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "dismiss-alert-console-output",
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "id" : "accept-alert",
+      "title" : "Accept Alert",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To accept alert use:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.alert.accept()",
+        "surroundedBy" : "accept-alert",
+        "type" : "Snippet"
+      }, {
+        "title" : "console output",
+        "surroundedBy" : "accept alert",
+        "startLine" : "accepting",
+        "endLine" : ".",
+        "lines" : [ "\u001B[33m> \u001B[34maccepting \u001B[36malert\u001B[0m", "    \u001B[35maccepted alert text\u001B[33m: \u001B[0m_______\u001B[0m", "                         \u001B[32mhello\u001B[0m", "                         \u001B[32mconfirm\u001B[0m", "                         \u001B[0m_______\u001B[0m", "\u001B[32m. \u001B[34maccepted \u001B[36malert\u001B[33m (\u001B[32m10ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "accept-alert-console-output",
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "id" : "alert-text",
+      "title" : "Alert Text",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To wait on or validate alert text use:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "browser.alert.text.waitTo == \"hello delayed\\nalert\"\nbrowser.alert.accept()",
+        "surroundedBy" : "wait-alert-text",
+        "type" : "Snippet"
+      }, {
+        "title" : "console output",
+        "surroundedBy" : "wait on alert text",
+        "startLine" : "waiting",
+        "endLine" : "accepting",
+        "excludeEnd" : true,
+        "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[36mtext \u001B[33mof \u001B[1mbrowser alert \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m_____________", "                                             \u001B[32mhello delayed", "                                             \u001B[32malert", "                                             \u001B[0m_____________\u001B[0m", "\u001B[32m. \u001B[36mtext \u001B[33mof \u001B[1mbrowser alert \u001B[0m\u001B[0m\u001B[34mequals \u001B[0m_____________", "                               \u001B[32mhello delayed", "                               \u001B[32malert", "                               \u001B[0m_____________\u001B[33m (\u001B[32m213ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "alert-text-console-output",
+        "type" : "CliOutput"
+      } ]
+    } ],
+    "lastModifiedTime" : 1686176411212,
+    "tocItem" : {
+      "chapterTitle" : "Browser",
+      "pageTitle" : "Alerts",
+      "pageMeta" : { },
+      "dirName" : "browser",
+      "fileName" : "alerts",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Dismiss Alert",
+        "id" : "dismiss-alert"
+      }, {
+        "title" : "Accept Alert",
+        "id" : "accept-alert"
+      }, {
+        "title" : "Alert Text",
+        "id" : "alert-text"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

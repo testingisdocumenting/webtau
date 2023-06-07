@@ -84,18 +84,18 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Element Selection</h1></header>
-<p>Use $('css-selector') to select a page element. groovy $('#element-id') groovy $('.label') groovy $('[data-test-id=&quot;my-id&quot;]') browser/finders-and-filters Read Finders And Filters to learn how to select elements using more advanced techniques. https://www.w3schools.com/cssref/css_selectors.asp Read W3Schools CSS selectors to learn all kind of CSS selection techniques.</p>
+<header><h1>Page Element Declaration</h1></header>
+<p>Use $(&quot;css-selector&quot;) or browser.element(&quot;css-selector&quot;) to lazily declare a page element: groovy $(&quot;#element-id&quot;) groovy $(&quot;.label&quot;) groovy $(&quot;[data-test-id='my-id']&quot;) browser/finders-and-filters Read Finders And Filters to learn how to select elements using more advanced techniques. https://www.w3schools.com/cssref/css_selectors.asp Read W3Schools CSS selectors to learn all kind of CSS selection techniques.</p>
 </article>
 
 <article>
 <header><h1>Lazy Element</h1></header>
-<p>When you use $('css-selector') you create an instance of PageElement . PageElement represent an element that is present or will be present on a web page. It is safe to declare an element before you open a browser or navigate to the page you need to test. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def welcomeMessage = $('#welcome') scenario('simple open') { browser.open(&quot;/search&quot;) welcomeMessage.should == 'welcome to super search' }</p>
+<p>When you use $(&quot;css-selector&quot;) you create an instance of PageElement . PageElement encapsulates actions that can be performed on a web page. It also represents values on a page. It is safe to declare PageElement before element is actually present on a page.WebTau will try to locate element only when you query or action on it: package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def welcomeMessage = $(&quot;#welcome&quot;) scenario(&quot;simple open&quot;) { browser.open(&quot;/search&quot;) welcomeMessage.should == &quot;welcome to super search&quot; }</p>
 </article>
 
 <article>
 <header><h1>Lazy Value</h1></header>
-<p>Consider a simple search page. Enter value, hit enter, see results.Here is simple test. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('search by specific query') { browser.open('/search') $('#search-box').setValue('search this') $('#search-box').sendKeys(&quot;\n&quot;) $('#results .result').count.shouldBe &gt; 1 } In the example $('#results .result').count represents the number of elements matching the css selector. Let's extract it. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def searchBox = $('#search-box') def numberOfResults = searchBox.count scenario('search by specific query') { browser.open('/search') searchBox.setValue('search this') searchBox.sendKeys(&quot;\n&quot;) numberOfResults.shouldBe &gt; 1 }</p>
+<p>Consider a simple search page. Enter value, hit enter, see results: package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('search by specific query') { browser.open('/search') $('#search-box').setValue('search this') $('#search-box').sendKeys(&quot;\n&quot;) $('#results .result').count.shouldBe &gt; 1 } In the example $(&quot;#results .result&quot;).count represents the number of elements matching the css selector. Let's extract it. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def searchBox = $(&quot;#search-box&quot;) def numberOfResults = searchBox.count scenario(&quot;search by specific query&quot;) { browser.open(&quot;/search&quot;) searchBox.setValue(&quot;search this&quot;) searchBox.sendKeys(&quot;\n&quot;) numberOfResults.shouldBe &gt; 1 }</p>
 </article>
 </section>
 </div>
@@ -126,8 +126,8 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "id" : "element-selection",
-      "title" : "Element Selection",
+      "id" : "page-element-declaration",
+      "title" : "Page Element Declaration",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
@@ -135,27 +135,33 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Use ",
           "type" : "SimpleText"
         }, {
-          "code" : "$('css-selector')",
+          "code" : "$(\"css-selector\")",
           "type" : "InlinedCode"
         }, {
-          "text" : " to select a page element.",
+          "text" : " or ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "browser.element(\"css-selector\")",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to lazily declare a page element:",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "$('#element-id')\n",
+        "snippet" : "$(\"#element-id\")\n",
         "lineNumber" : "",
         "title" : "select by id",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "$('.label')\n",
+        "snippet" : "$(\".label\")\n",
         "lineNumber" : "",
         "title" : "select by class",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "$('[data-test-id=\"my-id\"]')\n",
+        "snippet" : "$(\"[data-test-id='my-id']\")\n",
         "lineNumber" : "",
         "title" : "select by attribute",
         "type" : "Snippet"
@@ -198,7 +204,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "When you use ",
           "type" : "SimpleText"
         }, {
-          "code" : "$('css-selector')",
+          "code" : "$(\"css-selector\")",
           "type" : "InlinedCode"
         }, {
           "text" : " you create an instance of ",
@@ -216,26 +222,29 @@ ReactDOM.render(React.createElement(Documentation, {
           "code" : "PageElement",
           "type" : "InlinedCode"
         }, {
-          "text" : " represent an element that is present or ",
-          "type" : "SimpleText"
-        }, {
-          "type" : "Emphasis",
-          "content" : [ {
-            "text" : "will be present",
-            "type" : "SimpleText"
-          } ]
-        }, {
-          "text" : " on a web page. It is safe to declare an element",
+          "text" : " encapsulates actions that can be performed on a web page. It also represents values on a page.",
           "type" : "SimpleText"
         }, {
           "type" : "SoftLineBreak"
         }, {
-          "text" : "before you open a browser or navigate to the page you need to test.",
+          "text" : "It is safe to declare ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "PageElement",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " before element is actually present on a page.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "WebTau will try to locate element only when you query or action on it:",
           "type" : "SimpleText"
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef welcomeMessage = $('#welcome')\n\nscenario('simple open') {\n    browser.open(\"/search\")\n    welcomeMessage.should == 'welcome to super search'\n}",
+        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef welcomeMessage = $(\"#welcome\")\n\nscenario(\"simple open\") {\n    browser.open(\"/search\")\n    welcomeMessage.should == \"welcome to super search\"\n}",
         "type" : "Snippet"
       } ]
     }, {
@@ -245,13 +254,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Consider a simple search page. Enter value, hit enter, see results.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Here is simple test.",
+          "text" : "Consider a simple search page. Enter value, hit enter, see results:",
           "type" : "SimpleText"
         } ]
       }, {
@@ -264,7 +267,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "In the example ",
           "type" : "SimpleText"
         }, {
-          "code" : "$('#results .result').count",
+          "code" : "$(\"#results .result\").count",
           "type" : "InlinedCode"
         }, {
           "text" : " represents the number of elements matching the css selector.",
@@ -277,11 +280,11 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef searchBox = $('#search-box')\ndef numberOfResults = searchBox.count\n\nscenario('search by specific query') {\n    browser.open('/search')\n\n    searchBox.setValue('search this')\n    searchBox.sendKeys(\"\\n\")\n\n    numberOfResults.shouldBe > 1\n}",
+        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef searchBox = $(\"#search-box\")\ndef numberOfResults = searchBox.count\n\nscenario(\"search by specific query\") {\n    browser.open(\"/search\")\n\n    searchBox.setValue(\"search this\")\n    searchBox.sendKeys(\"\\n\")\n\n    numberOfResults.shouldBe > 1\n}",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1683079830080,
+    "lastModifiedTime" : 1686176411212,
     "tocItem" : {
       "chapterTitle" : "Browser",
       "pageTitle" : "Page Element And Value",
@@ -290,8 +293,8 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "page-element-and-value",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Element Selection",
-        "id" : "element-selection"
+        "title" : "Page Element Declaration",
+        "id" : "page-element-declaration"
       }, {
         "title" : "Lazy Element",
         "id" : "lazy-element"

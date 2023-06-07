@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>Server Slowdown</h1></header>
-<p>Use to mark server as unresponsive proxyServer.markUnresponsive() code { http.get(&quot;${proxyServer.baseUrl}/another/hello&quot;) { body.should == [anotherId: &quot;hello&quot;] } } should throwException(~/Read timed out/)</p>
+<p>Use to mark server as unresponsive proxyServer.markUnresponsive() code { http.get(&quot;${proxyServer.baseUrl}/another/hello&quot;) { body.should == [anotherId: &quot;hello&quot;] } } should throwException(~/request timed out/)</p>
 </article>
 
 <article>
@@ -265,7 +265,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
-        "snippet" : "code {\n    http.get(\"${proxyServer.baseUrl}/another/hello\") {\n        body.should == [anotherId: \"hello\"]\n    }\n} should throwException(~/Read timed out/)",
+        "snippet" : "code {\n    http.get(\"${proxyServer.baseUrl}/another/hello\") {\n        body.should == [anotherId: \"hello\"]\n    }\n} should throwException(~/request timed out/)",
         "title" : "unresponsive timeout",
         "surroundedBy" : "unresponsive-time-out-throw",
         "anchorId" : "server-slowdown-unresponsive-timeout",
@@ -344,7 +344,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1683079830092,
+    "lastModifiedTime" : 1686176411224,
     "tocItem" : {
       "chapterTitle" : "Servers",
       "pageTitle" : "Proxy Server",
