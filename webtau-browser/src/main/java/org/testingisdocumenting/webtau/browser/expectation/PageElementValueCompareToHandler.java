@@ -44,11 +44,6 @@ public class PageElementValueCompareToHandler implements CompareToHandler {
     }
 
     @Override
-    public Object convertedActual(Object actual, Object expected) {
-        return ((PageElementValue<?>)actual).get();
-    }
-
-    @Override
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         comparator.compareUsingEqualOnly(actualPath, actual, expected);
     }
