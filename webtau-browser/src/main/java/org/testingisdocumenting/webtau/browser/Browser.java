@@ -23,7 +23,6 @@ import org.testingisdocumenting.webtau.browser.documentation.BrowserDocumentatio
 import org.testingisdocumenting.webtau.browser.driver.CurrentWebDriver;
 import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator;
 import org.testingisdocumenting.webtau.browser.navigation.BrowserPageNavigation;
-import org.testingisdocumenting.webtau.browser.page.GenericPageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElementValue;
 import org.testingisdocumenting.webtau.browser.page.PageUrl;
@@ -167,7 +166,7 @@ public class Browser {
     }
 
     public PageElement element(String css) {
-        return new GenericPageElement(driver, additionalBrowserInteractions, PageElementPath.css(css), false);
+        return new PageElement(driver, additionalBrowserInteractions, PageElementPath.css(css), false);
     }
 
     public PageElement $(String css) {
