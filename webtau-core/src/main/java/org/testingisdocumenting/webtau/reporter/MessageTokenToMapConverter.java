@@ -34,16 +34,16 @@ class MessageTokenToMapConverter {
     }
 
     static Map<String, Object> convert(MessageToken token) {
-        if (token.getType().equals(PRETTY_PRINT_VALUE.getType()) || token.getType().equals(PRETTY_PRINT_VALUE_FIRST_LINES.getType())) {
+        if (token.type().equals(PRETTY_PRINT_VALUE.getType()) || token.type().equals(PRETTY_PRINT_VALUE_FIRST_LINES.getType())) {
             return convertPrettyPrintToMap(token);
         } else {
-            return CollectionUtils.map("type", token.getType(), "value", token.getValue());
+            return CollectionUtils.map("type", token.type(), "value", token.value());
         }
     }
 
     private static Map<String, Object> convertPrettyPrintToMap(MessageToken token) {
         PrettyPrinter printer = new PrettyPrinter(0);
-        printer.printObject(token.getValue());
+        printer.printObject(token.value());
         printer.flushCurrentLine();
 
         AnsiAsStylesValuesListConsoleOutput ansiStylesConsoleOutput = new AnsiAsStylesValuesListConsoleOutput();

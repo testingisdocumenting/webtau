@@ -255,18 +255,18 @@ public class ConsoleStepReporter implements StepReporter {
     }
 
     private MessageToken reAlignText(int indentLevel, MessageToken token) {
-        if (token.getValue() == null) {
+        if (token.value() == null) {
             return token;
         }
 
-        String text = token.getValue().toString();
+        String text = token.value().toString();
 
-        return new MessageToken(token.getType(),
+        return new MessageToken(token.type(),
                 StringUtils.indentAllLinesButFirst(createIndentation(indentLevel), text));
     }
 
     private boolean isLastTokenMatcher(TokenizedMessage completionMessage) {
-        return completionMessage.getLastToken().getType().equals(TokenizedMessage.TokenTypes.MATCHER.getType());
+        return completionMessage.getLastToken().type().equals(TokenizedMessage.TokenTypes.MATCHER.getType());
     }
 
     private String createIndentation(int indentLevel) {

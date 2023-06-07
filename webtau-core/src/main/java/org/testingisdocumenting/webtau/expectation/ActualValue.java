@@ -282,7 +282,7 @@ public class ActualValue implements ActualValueExpectations {
             TokenizedMessage assertionTokenizedMessage = step.getExceptionTokenizedMessage();
             if (assertionTokenizedMessage.tokensStream()
                     .filter(MessageToken::isPrettyPrintValue)
-                    .anyMatch(token -> token.getValue() == actualExtracted || token.getValue() == convertedActual)) {
+                    .anyMatch(token -> token.value() == actualExtracted || token.value() == convertedActual)) {
                 return WebTauStepOutput.EMPTY;
             }
 
