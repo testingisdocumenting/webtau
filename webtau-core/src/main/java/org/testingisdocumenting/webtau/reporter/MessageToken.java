@@ -19,23 +19,7 @@ package org.testingisdocumenting.webtau.reporter;
 
 import java.util.Map;
 
-public class MessageToken {
-    private final String type;
-    private final Object value;
-
-    public MessageToken(String type, Object value) {
-        this.type = type;
-        this.value = value;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public Object getValue() {
-        return value;
-    }
-
+public record MessageToken(String type, Object value) {
     public Map<String, ?> toMap() {
         return MessageTokenToMapConverter.convert(this);
     }
@@ -51,13 +35,5 @@ public class MessageToken {
 
     public boolean isError() {
         return type.equals(TokenizedMessage.TokenTypes.ERROR.getType());
-    }
-
-    @Override
-    public String toString() {
-        return "MessageToken{" +
-                "type='" + type + '\'' +
-                ", value=" + value +
-                '}';
     }
 }
