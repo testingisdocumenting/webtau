@@ -282,7 +282,7 @@ public class ActualValue implements ActualValueExpectations {
             TokenizedMessage assertionTokenizedMessage = step.getExceptionTokenizedMessage();
             if (assertionTokenizedMessage.tokensStream()
                     .filter(MessageToken::isPrettyPrintValue)
-                    .anyMatch(token -> token.getValue() == actualExtracted || token.getValue() == convertedActual)) {
+                    .anyMatch(token -> matchAsPartOfMessage(convertedActual, token.getValue()))) {
                 return WebTauStepOutput.EMPTY;
             }
 
@@ -305,6 +305,18 @@ public class ActualValue implements ActualValueExpectations {
         });
 
         return step;
+    }
+
+    private boolean matchAsPartOfMessage(Object convertedActual, Object value) {
+        if (value == actualExtracted || value == convertedActual) {
+            return true;
+        }
+
+        if (value instanceof CharSequence) {
+            return convertedActual.equals(value) || actualExtracted.equals(value);
+        }
+
+        return false;
     }
 
     private static boolean keepRootActualPathDecorated(Object actual) {

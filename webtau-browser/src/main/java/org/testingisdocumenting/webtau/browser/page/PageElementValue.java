@@ -17,7 +17,6 @@
 
 package org.testingisdocumenting.webtau.browser.page;
 
-import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
@@ -28,7 +27,7 @@ import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessageToAnsiConverter;
 
-import java.util.stream.Stream;
+import java.util.List;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
@@ -79,16 +78,13 @@ public class PageElementValue<E> implements ActualValueExpectations, ActualPathA
 
     @Override
     public void prettyPrint(PrettyPrinter printer) {
-        printer.printLine(
-                Stream.concat(parentPrettyPrint(),
-                        Stream.of(Color.PURPLE, name, ":", Color.GREEN, " ", get())).toArray());
+        TokenizedMessage message = tokenizedMessage().add(describe()).colon().value(get());
+        List<Object> valuesAndColors = TokenizedMessageToAnsiConverter.DEFAULT.convert(ValueConverter.EMPTY, message, 0);
+        printer.printLine(valuesAndColors.toArray());
     }
 
-    private Stream<Object> parentPrettyPrint() {
-        if (parent == null) {
-            return Stream.empty();
-        }
-
-        return Stream.concat(TokenizedMessageToAnsiConverter.DEFAULT.convert(ValueConverter.EMPTY, parent.describe(), 0).stream(), Stream.of(" "));
+    @Override
+    public String toString() {
+        return PrettyPrinter.renderAsTextWithoutColors(this);
     }
 }
