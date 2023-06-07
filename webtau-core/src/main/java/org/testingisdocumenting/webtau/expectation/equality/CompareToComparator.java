@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.equality.handlers.AnyCompareToHandler;
 import org.testingisdocumenting.webtau.expectation.equality.handlers.NullCompareToHandler;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -475,8 +475,8 @@ public class CompareToComparator {
     private static RuntimeException noHandlerFound(Object actual, Object expected) {
         return new RuntimeException(
             "no compareUsingCompareTo handler found for" +
-                    "\nactual: " + DataRenderers.render(actual) + " " + TraceUtils.renderType(actual) +
-                    "\nexpected: " + DataRenderers.render(expected) + " " + TraceUtils.renderType(expected));
+                    "\nactual: " + PrettyPrinter.renderAsTextWithoutColors(actual) + " " + TraceUtils.renderType(actual) +
+                    "\nexpected: " + PrettyPrinter.renderAsTextWithoutColors(expected) + " " + TraceUtils.renderType(expected));
     }
 
     private Set<ValuePath> extractActualPaths(List<ActualPathMessage> messages) {

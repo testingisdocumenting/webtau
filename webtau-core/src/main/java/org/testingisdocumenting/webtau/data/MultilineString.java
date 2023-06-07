@@ -89,6 +89,11 @@ public class MultilineString implements PrettyPrintable {
     }
 
     @Override
+    public String toString() {
+        return PrettyPrinter.renderAsTextWithoutColors(this);
+    }
+
+    @Override
     public boolean handlesDecoration() {
         return true;
     }
@@ -160,12 +165,7 @@ public class MultilineString implements PrettyPrintable {
             maxLength = Math.max(maxLength, line.length());
         }
 
-        StringBuilder result = new StringBuilder();
-        for (int idx = 0; idx < maxLength; idx++) {
-            result.append('_');
-        }
-
-        return result.toString();
+        return "_".repeat(maxLength);
     }
 
     private String quoteString(Object text) {
