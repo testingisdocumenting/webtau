@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -28,7 +30,7 @@ import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
-public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
+public class EqualMatcher implements ValueMatcher, ExpectedValuesAware, PrettyPrintable {
     private CompareToComparator comparator;
     private final Object expected;
     private final ValueMatcher expectedMatcher;
@@ -141,20 +143,21 @@ public class EqualMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
-    public String toString() {
-        if (expectedMatcher != null) {
-            return expectedMatcher.toString();
-        }
-
-        return EqualNotEqualMatcherRenderer.render(this, comparator, expected);
-    }
-
-    @Override
     public Stream<Object> expectedValues() {
         if (expectedMatcher instanceof ExpectedValuesAware) {
             return ((ExpectedValuesAware) expectedMatcher).expectedValues();
         }
 
         return Stream.of(expected);
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter printer) {
+        GreaterLessEqualMatcherPrinter.prettyPrint(printer, this, CompareToComparator.AssertionMode.EQUAL, expected);
+    }
+
+    @Override
+    public String toString() {
+        return PrettyPrinter.renderAsTextWithoutColors(this);
     }
 }
