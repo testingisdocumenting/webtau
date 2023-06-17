@@ -157,7 +157,7 @@ scenario("proxy override response and make original call") {
     def proxyServer = server.proxy("with-original-call", serverToProxy.baseUrl)
     // override-with-original-call
     def router = server.router().post("/hello", { request ->
-        def message = http.post(http.concatUrl(proxyServer.urlToProxy, request.uri),
+        def message = http.post(http.concatUrl(proxyServer.urlToProxy, request.path),
                 http.header(request.header), request.contentAsMap) {
             return body.message
         }

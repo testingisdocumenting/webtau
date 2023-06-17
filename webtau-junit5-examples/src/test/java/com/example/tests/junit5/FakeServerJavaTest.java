@@ -22,6 +22,8 @@ import org.junit.jupiter.api.Test;
 import org.testingisdocumenting.webtau.server.WebTauServer;
 import org.testingisdocumenting.webtau.server.route.WebTauRouter;
 
+import java.util.regex.Pattern;
+
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 public class FakeServerJavaTest {
@@ -50,10 +52,32 @@ public class FakeServerJavaTest {
             body.get("message").should(equal("hello person"));
         }));
 
-        http.get(myServer.getBaseUrl() + "/bye/person", ((header, body) -> {
+        http.get(myServer.getBaseUrl() + "/bye/person?politeFactor=2", ((header, body) -> {
             body.get("message").should(equal("bye person"));
         }));
         // fake-response-check
+    }
+
+    @Test
+    public void requestProperties() {
+        WebTauRouter router = server.router()
+                .get("/test/:name", (request) -> server.response(map(
+                        "method", request.getMethod(),
+                        "path", request.getPath(),
+                        "query", request.getQuery(),
+                        "fullUrl", request.getFullUrl(),
+                        "pathWithQuery", request.getPathWithQuery())));
+
+        WebTauServer fake = server.fake("local-fake", router);
+
+        http.get(fake.getBaseUrl() + "/test/hello?qp1=one&qp2=two", ((header, body) -> {
+            body.get("method").should(equal("GET"));
+            body.get("path").should(equal("/test/hello"));
+            body.get("query").should(equal("qp1=one&qp2=two"));
+            body.get("fullUrl").should(equal(Pattern.compile("http://\\d+\\.\\d+\\.\\d+\\.\\d+:\\d+/test/hello\\?qp1=one&qp2=two")));
+        }));
+
+        fake.stop();
     }
 
     static WebTauRouter createRouter() {
