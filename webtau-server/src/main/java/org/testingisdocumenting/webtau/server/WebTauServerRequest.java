@@ -30,8 +30,10 @@ import java.util.List;
 import java.util.Map;
 
 public class WebTauServerRequest {
-    private final String uri;
     private final String method;
+    private final String path;
+    private final String query;
+    private final String pathWithQuery;
     private final RouteParams routeParams;
     private final String contentType;
     private final String textContent;
@@ -41,10 +43,12 @@ public class WebTauServerRequest {
 
     public static WebTauServerRequest create(RouteParamsParser routeParamsParser, HttpServletRequest request) {
         try {
+            String queryString = request.getQueryString();
             return new WebTauServerRequest(routeParamsParser.parse(request.getRequestURI()),
                     request.getMethod(),
-                    request.getRequestURL().toString(),
                     request.getRequestURI(),
+                    queryString,
+                    request.getRequestURL().toString(),
                     request.getContentType(),
                     IOUtils.toByteArray(request.getInputStream()),
                     headerFromRequest(request));
@@ -55,14 +59,17 @@ public class WebTauServerRequest {
 
     public WebTauServerRequest(RouteParams routeParams,
                                String method,
-                               String fullUrl,
-                               String uri,
+                               String path,
+                               String query,
+                               String fullUrlWithoutQuery,
                                String contentType, byte[] bytesContent,
                                Map<String, CharSequence> header) {
         this.routeParams = routeParams;
         this.method = method;
-        this.fullUrl = fullUrl;
-        this.uri = uri;
+        this.path = path;
+        this.query = query == null ? "" : query;
+        this.pathWithQuery = path + (this.query.isEmpty() ? "" : "?" + this.query);
+        this.fullUrl = fullUrlWithoutQuery + (this.query.isEmpty() ? "" : "?" + this.query);
         this.contentType = contentType;
         this.bytesContent = bytesContent;
         this.textContent = new String(bytesContent);
@@ -73,8 +80,25 @@ public class WebTauServerRequest {
         return fullUrl;
     }
 
+    /**
+     * @deprecated use {@link #getPath()}
+     * @return request path
+     */
+    @Deprecated
     public String getUri() {
-        return uri;
+        return path;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public String getPathWithQuery() {
+        return pathWithQuery;
     }
 
     public String getMethod() {

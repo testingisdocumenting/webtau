@@ -1,5 +1,8 @@
 {
   "validateFakeResponses()" : {
-    "numberOfSuccessful" : 7
+    "numberOfSuccessful" : 6
+  },
+  "requestProperties()" : {
+    "numberOfSuccessful" : 9
   }
 }
