@@ -39,7 +39,7 @@ public class WebTauServerFacade {
      *
      * @see WebTauServerFacade#response
      * @see WebTauServerResponseBuilder#text
-     * @param body body to serialzie as response
+     * @param body body to serialize as response
      * @return response instance
      */
     public WebTauServerResponse response(Object body) {
