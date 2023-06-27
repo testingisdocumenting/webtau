@@ -18,6 +18,8 @@ package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -27,7 +29,7 @@ import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
-public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
+public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware, PrettyPrintable {
     private final Collection<Object> expectedList;
     private CompareToComparator comparator;
 
@@ -99,5 +101,18 @@ public class AnyOfMatcher implements ValueMatcher, ExpectedValuesAware {
         }
 
         return result;
+    }
+
+    @Override
+    public void prettyPrint(PrettyPrinter printer) {
+        printer.printDelimiter("<");
+        printer.print(PrettyPrinter.CLASSIFIER_COLOR, "any of ");
+        printer.printObject(expectedList);
+        printer.printDelimiter(">");
+    }
+
+    @Override
+    public String toString() {
+        return PrettyPrinter.renderAsTextWithoutColors(this);
     }
 }
