@@ -31,7 +31,7 @@ public class RouterPropertiesJavaTest {
 
     @BeforeAll
     static void createFakeServer() {
-        myServer = server.fake("my-rest-server", router);
+        myServer = server.fake("my-rest-properties-server", router);
         myServer.setAsBaseUrl();
     }
 
