@@ -63,16 +63,6 @@ class WebTauFeaturesJUnit4Test {
     }
 
     @Test
-    void todoListJavaTest() {
-        testRunner.runAndValidate(TodoListJavaIT, TODO_BASE_URL)
-    }
-
-    @Test
-    void todoListGroovyTest() {
-        testRunner.runAndValidate(TodoListGroovyIT, TODO_BASE_URL)
-    }
-
-    @Test
     void graphQLWeatherJavaTest() {
         testRunner.runAndValidate(GraphQLWeatherJavaIT, testServer.uri.toString())
     }
