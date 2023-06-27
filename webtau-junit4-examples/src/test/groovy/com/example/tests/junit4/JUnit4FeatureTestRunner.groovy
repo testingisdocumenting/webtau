@@ -41,6 +41,8 @@ class JUnit4FeatureTestRunner extends RunListener implements StepReporter {
         cfg.reset()
         cfg.triggerConfigHandlers()
         cfg.setUrl(baseUrl)
+        cfg.setUserAgent("Safari/537.36")
+        cfg.setRemoveWebTauFromUserAgent(true)
 
         StepReporters.withAdditionalReporter(this) {
             junit.run(testClass)
