@@ -40,6 +40,5 @@ class TokenizedMessageToAnsiConverterTest {
 
         def ansiSequence = new AutoResetAnsiString(valuesAndStyles.stream()).toString()
         actual(ansiSequence).should(equal("\u001B[1m\u001B[36mhello \u001B[0m\u001B[34mworld \u001B[1m\u001B[33mworld\u001B[0m"))
-
     }
 }
