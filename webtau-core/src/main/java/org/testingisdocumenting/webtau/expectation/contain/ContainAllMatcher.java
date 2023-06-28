@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.expectation.contain;
 
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
@@ -31,7 +32,7 @@ import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
-public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
+public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware, PrettyPrintable {
     private ContainAnalyzer containAnalyzer;
     private final Collection<Object> expectedList;
     private List<Object> expectedThatFailContains;
@@ -115,9 +116,16 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware {
     }
 
     @Override
+    public void prettyPrint(PrettyPrinter printer) {
+        printer.printDelimiter("<");
+        printer.print(PrettyPrinter.CLASSIFIER_COLOR, "contain all ");
+        printer.printObject(expectedList);
+        printer.printDelimiter(">");
+    }
+
+    @Override
     public String toString() {
-        String renderedExpected = PrettyPrinter.renderAsTextWithoutColors(expectedList);
-        return "<contain all " + renderedExpected + ">";
+        return PrettyPrinter.renderAsTextWithoutColors(this);
     }
 
     @Override
