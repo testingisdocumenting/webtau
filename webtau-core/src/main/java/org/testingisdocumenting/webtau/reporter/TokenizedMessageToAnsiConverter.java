@@ -142,7 +142,7 @@ public class TokenizedMessageToAnsiConverter {
         associate(TokenTypes.ACTION.getType(), Color.BLUE);
         associate(TokenTypes.ERROR.getType(), Color.RED);
         associate(TokenTypes.WARNING.getType(), Color.YELLOW);
-        associate(TokenTypes.ID.getType(), FontStyle.BOLD);
+        associate(TokenTypes.ID.getType(), FontStyle.RESET, FontStyle.BOLD);
         associate(TokenTypes.CLASSIFIER.getType(), Color.CYAN);
         associate(TokenTypes.MATCHER.getType(), Color.RESET, Color.BLUE);
         associate(TokenTypes.STRING_VALUE.getType(), Color.GREEN);
