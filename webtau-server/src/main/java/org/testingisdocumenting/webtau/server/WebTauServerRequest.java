@@ -24,15 +24,13 @@ import org.testingisdocumenting.webtau.utils.JsonUtils;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 import java.io.UncheckedIOException;
-import java.util.Enumeration;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class WebTauServerRequest {
     private final String method;
     private final String path;
     private final String query;
+    private final Map<String, List<String>> parsedQuery;
     private final String pathWithQuery;
     private final RouteParams routeParams;
     private final String contentType;
@@ -68,6 +66,7 @@ public class WebTauServerRequest {
         this.method = method;
         this.path = path;
         this.query = query == null ? "" : query;
+        this.parsedQuery = QueryParamsParser.parse(this.query);
         this.pathWithQuery = path + (this.query.isEmpty() ? "" : "?" + this.query);
         this.fullUrl = fullUrlWithoutQuery + (this.query.isEmpty() ? "" : "?" + this.query);
         this.contentType = contentType;
@@ -140,7 +139,7 @@ public class WebTauServerRequest {
     }
 
     /**
-     * get value of route param by name
+     * get value of a route param by name
      *
      * @param routerParamName param name
      * @return router param value
@@ -151,6 +150,28 @@ public class WebTauServerRequest {
 
     public RouteParams getRouteParams() {
         return routeParams;
+    }
+
+    /**
+     * get value of a query param by name
+     *
+     * @param name param name
+     * @return query param value
+     */
+    public String queryParam(String name) {
+        List<String> values = parsedQuery.getOrDefault(name, Collections.emptyList());
+        return values.isEmpty() ? null : values.get(values.size() - 1);
+    }
+
+    /**
+     * get values of a query param by name
+     *
+     * @param name param name
+     * @return query param value
+     */
+    public List<String> queryParamList(String name) {
+        List<String> values = parsedQuery.getOrDefault(name, Collections.emptyList());
+        return values.isEmpty() ? Collections.emptyList() : Collections.unmodifiableList(values);
     }
 
     private static Map<String, CharSequence> headerFromRequest(HttpServletRequest request) {

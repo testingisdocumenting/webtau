@@ -53,6 +53,7 @@ servers
     static-server
     proxy-server
     fake-server
+    server-router
 cli
     introduction
     foreground-command

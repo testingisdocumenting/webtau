@@ -184,6 +184,11 @@ class WebTauFeaturesJUnit5Test {
         testRunner.runAndValidate(FakeServerJavaTest, "")
     }
 
+    @Test
+    void routerProperties() {
+        testRunner.runAndValidate(RouterPropertiesJavaTest, "")
+    }
+
     private static void runWithConfigFile(String configFile, Runnable code) {
         System.setProperty("webtau.properties", configFile)
         try {
