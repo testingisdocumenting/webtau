@@ -29,7 +29,7 @@ scenario("wait for element to be hidden") {
     calculation.input.setValue('abc')
     calculation.calculate()
 
-    calculation.error.waitTo visible
+    calculation.error.waitToBe visible
     calculation.dismissError()
     calculation.error.waitToBe hidden
 }

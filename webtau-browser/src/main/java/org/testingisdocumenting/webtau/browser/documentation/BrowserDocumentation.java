@@ -18,7 +18,7 @@
 package org.testingisdocumenting.webtau.browser.documentation;
 
 import org.openqa.selenium.*;
-import org.testingisdocumenting.webtau.browser.expectation.VisibleValueMatcher;
+import org.testingisdocumenting.webtau.expectation.state.VisibleValueMatcher;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.documentation.DocumentationArtifacts;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;

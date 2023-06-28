@@ -20,8 +20,6 @@ package org.testingisdocumenting.webtau;
 import org.testingisdocumenting.webtau.browser.Browser;
 import org.testingisdocumenting.webtau.browser.expectation.DisabledValueMatcher;
 import org.testingisdocumenting.webtau.browser.expectation.EnabledValueMatcher;
-import org.testingisdocumenting.webtau.browser.expectation.HiddenValueMatcher;
-import org.testingisdocumenting.webtau.browser.expectation.VisibleValueMatcher;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.cache.Cache;
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
@@ -51,18 +49,6 @@ public class WebTauDsl extends WebTauCore {
     public static final Database db = Database.db;
     public static final GraphQL graphql = GraphQL.graphql;
     public static final WebTauServerFacade server = WebTauServerFacade.server;
-
-    /**
-     * visible matcher to check if UI element is visible
-     * @see #hidden
-     */
-    public static final ValueMatcher visible = new VisibleValueMatcher();
-
-    /**
-     * hidden matcher to check if UI element is hidden
-     * @see #visible
-     */
-    public static final ValueMatcher hidden = new HiddenValueMatcher();
 
     /**
      * enabled matcher to check if UI element is enabled

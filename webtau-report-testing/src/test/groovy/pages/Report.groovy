@@ -76,7 +76,7 @@ class Report {
 
     def selectTest(String testName) {
         def navEntry = $('.navigation-entry .label').get(testName)
-        navEntry.waitTo visible
+        navEntry.waitToBe visible
         navEntry.click()
     }
 
@@ -117,17 +117,17 @@ class Report {
     }
 
     def expandHttpCall(callNumber) {
-        httpCalls.waitTo visible
+        httpCalls.waitToBe visible
         httpCalls.get(callNumber).find(".collapse-toggle").click()
     }
 
     def expandCliCall(callNumber) {
-        cliCalls.waitTo visible
+        cliCalls.waitToBe visible
         cliCalls.get(callNumber).find(".collapse-toggle").click()
     }
 
     private static def openReportFile(String fileName) {
         browser.open(fileName)
-        $(".status-filter-area").waitTo visible
+        $(".status-filter-area").waitToBe visible
     }
 }
