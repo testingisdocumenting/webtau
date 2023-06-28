@@ -16,6 +16,7 @@
 
 package scenarios
 
+import org.testingisdocumenting.webtau.server.WebTauServer
 import withlisteners.SampleTestListener
 
 import java.nio.file.Files
@@ -59,10 +60,22 @@ scenario('simple groovy repl') {
     repl.output.waitTo contain("stop line!")
 }
 
+WebTauServer fakeServer
+scenario('start fake server') {
+    fakeServer = server.fake("fake-server-for-repl", server.router()
+            .get("/todos/1") { request ->
+                return server.response([
+                        id: 1,
+                        title: "my todo item",
+                        completed: false
+                ])
+            })
+}
+
 scenario('http call') {
     repl.with {
         clearOutput()
-        send('http.get("https://jsonplaceholder.typicode.com/todos/1")\n')
+        send('http.get("' + fakeServer.baseUrl + '/todos/1")\n')
         output.waitTo contain('executed')
     }
 
@@ -74,7 +87,7 @@ scenario('http call') {
 scenario('set config value') {
     repl.with {
         clearOutput()
-        send('cfg.url = "https://jsonplaceholder.typicode.com"\n')
+        send('cfg.url = "' + fakeServer.baseUrl + '"\n')
         send('http.get("/todos/1")\n')
         output.waitTo contain('executed')
     }

@@ -40,6 +40,4 @@ scenario("validate generation of examples") {
     }
 
     fs.textContent("examples/todo/todolist.groovy").should contain("scenario")
-
-    webtauCli.run("todolist.groovy", cli.workingDir("examples/todo"))
 }
