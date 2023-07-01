@@ -26,7 +26,7 @@ scenario('open grid') {
 }
 
 scenario('multi select with shift') {
-    rows.waitTo visible
+    rows.waitToBe visible
     rows.click()
     rows.get(3).shiftClick()
 
@@ -36,7 +36,7 @@ scenario('multi select with shift') {
 
 scenario('multi select with control or meta') {
     browser.refresh()
-    rows.waitTo visible
+    rows.waitToBe visible
 
     rows.click()
     rows.get(3).commandOrControlClick()

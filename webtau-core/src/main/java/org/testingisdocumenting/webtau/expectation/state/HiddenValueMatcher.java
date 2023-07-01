@@ -15,9 +15,8 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.expectation;
+package org.testingisdocumenting.webtau.expectation.state;
 
-import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -42,8 +41,11 @@ public class HiddenValueMatcher implements ValueMatcher {
 
     @Override
     public boolean matches(ValuePath actualPath, Object actual) {
-        PageElement pageElement = (PageElement) actual;
-        return !pageElement.isVisible();
+        if (!(actual instanceof VisibleStateAware element)) {
+            throw new IllegalArgumentException(actualPath + " needs to implement VisibleStateAware interface");
+        }
+
+        return !element.isVisible();
     }
 
     @Override

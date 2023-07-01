@@ -22,7 +22,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 class WebTauServerGlobalOverrides {
-
     private static final Map<String, WebTauServerOverride> contentOverrides = new ConcurrentHashMap<>();
     private static final Map<String, WebTauServerOverride> stateOverrides = new ConcurrentHashMap<>();
 

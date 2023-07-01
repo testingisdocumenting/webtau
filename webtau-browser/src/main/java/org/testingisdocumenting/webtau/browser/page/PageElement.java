@@ -39,6 +39,7 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
+import org.testingisdocumenting.webtau.expectation.state.VisibleStateAware;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.WebTauStepInput;
@@ -58,7 +59,8 @@ import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
 public class PageElement implements
         ActualValueExpectations,
         PrettyPrintable,
-        ActualPathAndDescriptionAware {
+        ActualPathAndDescriptionAware,
+        VisibleStateAware {
     private final static TokenizedMessage HIDDEN_MESSAGE_STRING_VALUE = tokenizedMessage().string("*****");
 
     public final PageElementValue<Object> value;
@@ -262,6 +264,7 @@ public class PageElement implements
         return withFilter(new ByRegexpPageElementsFilter(additionalBrowserInteractions, regexp));
     }
 
+    @Override
     public boolean isVisible() {
         return getValueForStaleElement(() -> findElement().isDisplayed(), false);
     }

@@ -23,6 +23,8 @@ import org.testingisdocumenting.webtau.expectation.code.ThrowExceptionMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAllMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainMatcher;
 import org.testingisdocumenting.webtau.expectation.equality.*;
+import org.testingisdocumenting.webtau.expectation.state.HiddenValueMatcher;
+import org.testingisdocumenting.webtau.expectation.state.VisibleValueMatcher;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,6 +35,18 @@ import java.util.regex.Pattern;
  * Convenient place to discover all the available matchers
  */
 public class Matchers {
+    /**
+     * visible matcher to check if UI element is visible
+     * @see #hidden
+     */
+    public static final ValueMatcher visible = new VisibleValueMatcher();
+
+    /**
+     * hidden matcher to check if UI element is hidden
+     * @see #visible
+     */
+    public static final ValueMatcher hidden = new HiddenValueMatcher();
+
     /**
      * Starting point of a value matcher
      * <pre>
