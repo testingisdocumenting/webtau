@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser;
 
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.testingisdocumenting.webtau.browser.page.HtmlNode;
 
@@ -30,4 +31,6 @@ public interface AdditionalBrowserInteractions {
     List<WebElement> filterByText(List<WebElement> webElements, String text);
 
     List<WebElement> filterByRegexp(List<WebElement> webElements, String regexp);
+
+    WebElement parentByCss(SearchContext element, String css);
 }

@@ -97,6 +97,16 @@ window._webtau =
       }
     }
 
+    function findByParentCss(webElement, css) {
+      if (!webElement || !webElement.parentElement) {
+        console.log("@@inside");
+        return undefined;
+      }
+
+      console.log("@@outside");
+      return webElement.parentElement.closest(css);
+    }
+
     function flashElements(webElements) {
       var svg = createSvg(webElements);
 
@@ -172,6 +182,7 @@ window._webtau =
       elementsDetails: elementsDetails,
       filterByText: filterByText,
       filterByRegexp: filterByRegexp,
+      findByParentCss: findByParentCss,
       flashElements: flashElements,
     };
   })();
