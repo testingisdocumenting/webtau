@@ -26,7 +26,7 @@
 
     <properties>
         <spring.boot.version>2.4.5</spring.boot.version>
-        <h2.version>1.4.200</h2.version>
+        <h2.version>2.2.220</h2.version>
         <jaxb.version>2.3.0</jaxb.version>
         <enforcer.skip>true</enforcer.skip>
     </properties>
