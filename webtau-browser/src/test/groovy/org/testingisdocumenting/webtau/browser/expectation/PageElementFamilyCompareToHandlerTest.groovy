@@ -23,9 +23,9 @@ import org.junit.Before
 import org.junit.Test
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath
 
-class PageElementCompareToHandlerTest {
+class PageElementFamilyCompareToHandlerTest {
     FakeWebDriver driver
-    def handler = new PageElementCompareToHandler()
+    def handler = new PageElementFamilyCompareToHandler()
 
     @Before
     void init() {

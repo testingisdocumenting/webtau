@@ -1,5 +1,5 @@
 #
-# Copyright 2020 webtau maintainers
+# Copyright 2023 webtau maintainers
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,6 +14,4 @@
 # limitations under the License.
 #
 
-org.testingisdocumenting.webtau.browser.expectation.PageElementValueCompareToHandler
-org.testingisdocumenting.webtau.browser.expectation.PageElementFamilyCompareToHandler
-org.testingisdocumenting.webtau.browser.expectation.PageUrlCompareToHandler
+org.testingisdocumenting.webtau.browser.table.BrowserTableParserStandardTableHandler
