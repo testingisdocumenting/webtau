@@ -31,7 +31,7 @@ import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExp
 
 class PageElementContainHandlerTest {
     FakeWebDriver driver
-    def handler = new PageElementCompareToHandler()
+    def handler = new PageElementFamilyCompareToHandler()
 
     @Before
     void init() {

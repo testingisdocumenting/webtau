@@ -160,6 +160,11 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
+    void "tables parsing"() {
+        runCli("tables.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
     void "alerts"() {
         runCli("alerts.groovy", "webtau.cfg.groovy")
     }
