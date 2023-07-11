@@ -57,11 +57,20 @@ After you filtered, you can use finders again to find nested elements.
 
 # Parent Finder
 
-Use `element.parent()` to select immediate parent
-
-:include-file: doc-artifacts/snippets/finders-filters/byParent.groovy {title: "select immediate parent"}
+:include-file: doc-artifacts/snippets/finders-filters/byParent.groovy {title: "select immediate parent", highlight: "parent"}
 
 :include-meta: {rightSide: true}
 
+:include-empty-block:
+
 :include-xml: doc-artifacts/snippets/finders-filters/welcome-wrapper.html 
 
+# Parent Finder By CSS
+
+:include-file: doc-artifacts/snippets/finders-filters/byParentCss.groovy {title: "select parent by css", highlight: "parent"}
+
+:include-meta: {rightSide: true}
+
+:include-empty-block:
+
+:include-xml: doc-artifacts/snippets/finders-filters/welcome-wrapper-wrapper.html 

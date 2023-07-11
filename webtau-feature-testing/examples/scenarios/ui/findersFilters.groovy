@@ -2,7 +2,7 @@ package scenarios.ui
 
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
-sscenario("open browser") {
+scenario("open browser") {
     browser.open("/finders-and-filters")
 }
 
@@ -49,14 +49,20 @@ scenario("by buttons css and filter by text") {
 scenario("immediate parent") {
     def welcomeMessage = $("#welcome")
     def wrapper = welcomeMessage.parent()
+
     wrapper.attribute("class").should == "wrapper-class"
 }
 
-sscenario("parent by css") {
+scenario("parent by css") {
     def welcomeMessage = $("#welcome")
     def mainWrapper = welcomeMessage.parent(".top-section")
 
-    println mainWrapper.findElement()
-//    mainWrapper.should == "hello"
     mainWrapper.attribute("class").should == "top-section"
+}
+
+scenario("parent by css can't find") {
+    def welcomeMessage = $("#welcome")
+    def mainWrapper = welcomeMessage.parent(".top-section-wrong-name")
+
+    mainWrapper.attribute("class").should == null
 }
