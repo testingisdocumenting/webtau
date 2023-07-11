@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.browser.documentation.BrowserDocumentatio
 import org.testingisdocumenting.webtau.browser.driver.CurrentWebDriver;
 import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator;
 import org.testingisdocumenting.webtau.browser.navigation.BrowserPageNavigation;
+import org.testingisdocumenting.webtau.browser.page.TablePageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.browser.page.PageElementValue;
 import org.testingisdocumenting.webtau.browser.page.PageUrl;
@@ -171,6 +172,14 @@ public class Browser {
 
     public PageElement $(String css) {
         return element(css);
+    }
+
+    public TablePageElement table(String css) {
+        return new TablePageElement(element(css));
+    }
+
+    public TablePageElement table(PageElement pageElement) {
+        return new TablePageElement(pageElement);
     }
 
     public boolean hasActiveBrowsers() {

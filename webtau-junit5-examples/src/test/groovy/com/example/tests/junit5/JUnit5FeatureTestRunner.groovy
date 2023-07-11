@@ -88,7 +88,6 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, Te
             }
         }
 
-
         saveConsoleOutput(testClass)
         WebTauEndToEndTestValidator.validateAndSaveTestDetails(testClass.simpleName, scenariosDetails)
 

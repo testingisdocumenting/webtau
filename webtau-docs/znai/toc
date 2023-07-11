@@ -37,6 +37,7 @@ browser
     element-actions-reference
     element-values-reference
     forms
+    tables
     asynchronous-page
     documentation-artifacts
     advanced-configuration

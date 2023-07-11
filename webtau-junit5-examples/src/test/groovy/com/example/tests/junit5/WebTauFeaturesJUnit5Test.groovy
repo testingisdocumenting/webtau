@@ -78,6 +78,11 @@ class WebTauFeaturesJUnit5Test {
     }
 
     @Test
+    void browserTables() {
+        testRunner.runAndValidate(BrowserTablesJavaTest, testServer.uri.toString())
+    }
+
+    @Test
     void browserTestContainer() {
         testRunner.runAndValidate(BrowserTestContainerJavaTest, "http://host.testcontainers.internal:" + testServer.uri.port)
         Browser.browser.setDriver(null) // clean test container manually set driver

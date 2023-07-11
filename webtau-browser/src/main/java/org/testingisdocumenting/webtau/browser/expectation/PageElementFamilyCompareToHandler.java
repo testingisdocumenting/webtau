@@ -19,6 +19,7 @@ package org.testingisdocumenting.webtau.browser.expectation;
 
 import org.testingisdocumenting.webtau.browser.page.PageElementValue;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
+import org.testingisdocumenting.webtau.browser.page.TablePageElement;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
@@ -27,15 +28,15 @@ import java.util.List;
 
 import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
 
-public class PageElementCompareToHandler implements CompareToHandler {
+public class PageElementFamilyCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
-        return handles(actual);
+        return actual instanceof PageElement || actual instanceof TablePageElement;
     }
 
     @Override
     public boolean handleGreaterLessEqual(Object actual, Object expected) {
-        return handles(actual);
+        return actual instanceof PageElement;
     }
 
     @Override
@@ -55,13 +56,14 @@ public class PageElementCompareToHandler implements CompareToHandler {
     }
 
     private PageElementValue<?> extractElementValue(Object actual, Object expected) {
-        PageElement actualPageElement = (PageElement) actual;
-        return expected instanceof List ?
-                actualPageElement.valuesList :
-                actualPageElement.value;
-    }
-
-    private boolean handles(Object actual) {
-        return actual instanceof PageElement;
+        if (actual instanceof PageElement actualPageElement) {
+            return expected instanceof List ?
+                    actualPageElement.valuesList :
+                    actualPageElement.value;
+        } else if (actual instanceof TablePageElement actualTablePageElement) {
+           return actualTablePageElement.value;
+        } else {
+            throw new IllegalArgumentException("unhandled case for actual: " + actual);
+        }
     }
 }
