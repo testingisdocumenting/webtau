@@ -49,5 +49,20 @@ scenario("by buttons css and filter by text") {
 scenario("immediate parent") {
     def welcomeMessage = $("#welcome")
     def wrapper = welcomeMessage.parent()
+
     wrapper.attribute("class").should == "wrapper-class"
+}
+
+scenario("parent by css") {
+    def welcomeMessage = $("#welcome")
+    def mainWrapper = welcomeMessage.parent(".top-section")
+
+    mainWrapper.attribute("class").should == "top-section"
+}
+
+scenario("parent by css can't find") {
+    def welcomeMessage = $("#welcome")
+    def mainWrapper = welcomeMessage.parent(".top-section-wrong-name")
+
+    mainWrapper.attribute("class").should == null
 }

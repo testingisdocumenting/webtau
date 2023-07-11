@@ -33,6 +33,7 @@ import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberPageElem
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpPageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextPageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssPageElementFinder;
+import org.testingisdocumenting.webtau.browser.page.path.finder.ParentByCssPageElementFinder;
 import org.testingisdocumenting.webtau.browser.page.path.finder.ParentPageElementFinder;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
@@ -250,6 +251,10 @@ public class PageElement implements
 
     public PageElement parent() {
         return withFinder(new ParentPageElementFinder());
+    }
+
+    public PageElement parent(String css) {
+        return withFinder(new ParentByCssPageElementFinder(additionalBrowserInteractions, css));
     }
 
     public PageElement get(String text) {
