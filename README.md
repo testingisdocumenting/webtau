@@ -28,11 +28,51 @@ Test your application across multiple layers and use unique features:
 
 There are many modules, but you can use any module you need independently, or use all the modules at once with convenient single imports.
 
-Unique console output keeps you informed at all times:
+# Unique Console Output 
+
+WebTau console output keeps you informed at all times:
 
 ![image of http resource code and its output](webtau-docs/readme/live-price-http.png)
 
-**Note**: Tests can be written and [executed as scripts](https://testingisdocumenting.org/webtau/groovy-standalone-runner/introduction) via command line or using [JUnit integration](https://testingisdocumenting.org/webtau/junit5/getting-started) and build systems.
+[Data Coverage](https://testingisdocumenting.org/webtau/HTTP/data-coverage) output example:
+
+![image of http data coverage](webtau-docs/readme/http-data-coverage.png)
+
+# Testing Command Line Tools 
+
+Testing command lines tools never been easier:
+
+```groovy
+def helloWorld = cli.runInBackground("scripts/hello-world")
+helloWorld.output.waitTo contain("enter your name")
+
+helloWorld.send("webtau\n")
+helloWorld.output.waitTo contain("hello webtau")
+
+helloWorld.stop()
+```
+
+[Learn More](https://testingisdocumenting.org/webtau/cli/foreground-command)
+
+# WebSockets
+
+Unbelievably simple way to wait and validate WebSocket messages:
+
+![image of websocket test code](webtau-docs/readme/websocket-output.png)
+
+[Learn more](https://testingisdocumenting.org/webtau/web-socket/received-messages)
+ 
+# Personas
+
+[Personas concept](https://testingisdocumenting.org/webtau/persona/introduction) lets you simplify Authorization Testing scenarios:
+
+![image of http persona groovy](webtau-docs/readme/http-persona-groovy.png)
+
+![image of http persona java](webtau-docs/readme/http-persona-java.png)
+
+# Java, Kotlin, Groovy Scripts
+
+Tests can be written and [executed as scripts](https://testingisdocumenting.org/webtau/groovy-standalone-runner/introduction) via command line or using [JUnit integration](https://testingisdocumenting.org/webtau/junit5/getting-started) and build systems.
 
 *browser testing example using scripting*
 ```groovy
@@ -54,6 +94,8 @@ public class WebSearchJavaTest {
     }
 }
 ```
+
+# Rich Reporting
 
 Leverage out of the box rich reporting to speed up investigation and persist testing evidences:
 
