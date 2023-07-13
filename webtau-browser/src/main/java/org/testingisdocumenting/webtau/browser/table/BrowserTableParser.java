@@ -33,7 +33,8 @@ public class BrowserTableParser {
         PARSING_BODY
     }
 
-    private static final List<BrowserTableParserHandler> parserHandlers = ServiceLoaderUtils.load(BrowserTableParserHandler.class);
+    private static final List<BrowserTableParserHandler> parserHandlers = discoverHandlers();
+
     private final BrowserTableParserHandler handler;
     private final String html;
     private final BrowserTableNode tableNode;
@@ -99,5 +100,14 @@ public class BrowserTableParser {
         } else {
             element.children().forEach(this::handleElement);
         }
+    }
+
+    private static List<BrowserTableParserHandler> discoverHandlers() {
+        ArrayList<BrowserTableParserHandler> result = new ArrayList<>();
+        result.add(new BrowserTableParserStandardTableHandler());
+        result.add(new BrowserTableParserAGGridTableHandler());
+        result.addAll(ServiceLoaderUtils.load(BrowserTableParserHandler.class));
+
+        return result;
     }
 }

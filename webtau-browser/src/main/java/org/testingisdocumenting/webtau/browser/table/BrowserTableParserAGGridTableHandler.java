@@ -16,31 +16,19 @@
 
 package org.testingisdocumenting.webtau.browser.table;
 
-import org.jsoup.nodes.Element;
-
-public class BrowserTableNode {
-    private Element element;
-
-    BrowserTableNode() {
+public class BrowserTableParserAGGridTableHandler implements BrowserTableParserHandler {
+    @Override
+    public boolean handles(String html) {
+        return html.contains("ag-cell-value");
     }
 
-    void setElement(Element element) {
-        this.element = element;
+    @Override
+    public boolean isHeaderValue(BrowserTableNode node) {
+        return node.attribute("class").contains("ag-header-cell-text");
     }
 
-    public String tagName() {
-        return element.tagName();
-    }
-
-    public String attribute(String name) {
-        return element.attributes().get(name);
-    }
-
-    public String html() {
-        return element.html();
-    }
-
-    public String text() {
-        return element.text();
+    @Override
+    public boolean isBodyValue(BrowserTableNode node) {
+        return node.attribute("class").contains("ag-cell-value");
     }
 }

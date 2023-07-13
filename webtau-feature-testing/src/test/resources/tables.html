@@ -14,6 +14,11 @@
   ~ limitations under the License.
   -->
 
+<head>
+  <title>Tables</title>
+  <script src="https://unpkg.com/ag-grid-community/dist/ag-grid-community.min.js"></script>
+</head>
+
 <body>
 <table id='summary'>
   <thead>
@@ -37,4 +42,30 @@
   </tr>
   </tbody>
 </table>
+<div id="ag-grid-simple" style="height: 200px; width:800px;" class="ag-theme-alpine"></div>
+<script>
+  var columnDefs = [
+    {headerName: "column A", field: "columnA"},
+    {headerName: "column B", field: "columnB"},
+    {headerName: "column C", field: "columnC"}
+  ];
+
+  var rowData = [
+    {columnA: "A1", columnB: "B1", columnC: "C1"},
+    {columnA: "A2", columnB: "B2", columnC: "C2"},
+    {columnA: "A3", columnB: "B3", columnC: "C3"}
+  ];
+
+  // let the grid know which columns and what data to use
+  var gridOptions = {
+    columnDefs: columnDefs,
+    rowData: rowData,
+  };
+
+  // setup the grid after the page has finished loading
+  document.addEventListener('DOMContentLoaded', function() {
+    var gridDiv = document.querySelector('#ag-grid-simple');
+    new agGrid.Grid(gridDiv, gridOptions);
+  });
+</script>
 </body>
