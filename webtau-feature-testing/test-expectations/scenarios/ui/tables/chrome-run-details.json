@@ -12,7 +12,13 @@
       "numberOfSuccessful" : 2
     }
   }, {
-    "scenario" : "table equality",
+    "scenario" : "standard table equality",
+    "shortContainerId" : "tables.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "simple ag grid equality",
     "shortContainerId" : "tables.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 1

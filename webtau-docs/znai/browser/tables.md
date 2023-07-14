@@ -20,3 +20,9 @@ Java:
   surroundedBy: "table-data-validation"
 }
 ```
+
+# Supported Tables Flavor
+
+WebTau supports standard HTML tables and [AG Grid](https://www.ag-grid.com).
+
+There is a mechanism to register new parsers. If you are interested in contributing a parser or learn how to do it, please [create a ticket](https://github.com/testingisdocumenting/webtau/issues)
