@@ -85,6 +85,10 @@ public class BrowserTableParser {
     private void handleElement(Element element) {
         tableNode.setElement(element);
 
+        if (handler.ignore(tableNode)) {
+            return;
+        }
+
         if (handler.isHeaderValue(tableNode)) {
             if (parsingState == State.PARSING_BODY) {
                 throw new IllegalStateException("was already parsing body when encountered header");

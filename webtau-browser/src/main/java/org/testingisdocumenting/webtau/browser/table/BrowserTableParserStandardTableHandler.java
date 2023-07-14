@@ -19,7 +19,17 @@ package org.testingisdocumenting.webtau.browser.table;
 public class BrowserTableParserStandardTableHandler implements BrowserTableParserHandler {
     @Override
     public boolean handles(String html) {
-        return html.contains("<thead") && html.contains("<th");
+        return (html.contains("<thead") || html.contains("<tbody")) && html.contains("<th");
+    }
+
+    @Override
+    public boolean ignore(BrowserTableNode node) {
+        String colspan = node.attribute("colspan");
+        if (colspan == null || colspan.isEmpty()) {
+            return false;
+        }
+
+        return !colspan.equals("1");
     }
 
     @Override

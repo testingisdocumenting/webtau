@@ -32,4 +32,20 @@ class BrowserTableParserTest {
                                "A1" |       "B1"
                                "A2" |       "B2" }
     }
+
+    @Test
+    void "with ignored col spans"() {
+        def html = ResourceUtils.textContent("table/tax.html")
+        def table = BrowserTableParser.parse(html)
+
+        table.columnNames.should == [
+                "At least",
+                "But less than",
+                "Single or Married filing separately",
+                "Married filing jointly*",
+                "Head of a household" ]
+
+        table.row(0).values.should == ['$0', '$13', '$0', '$0', '$0']
+        table.row(3).values.should == ['50', '100', '3', '3', '3']
+    }
 }
