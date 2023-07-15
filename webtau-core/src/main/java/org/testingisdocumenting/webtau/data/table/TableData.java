@@ -72,6 +72,14 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
         return header;
     }
 
+    /**
+     * creates a list of column names
+     * @return new list of column names
+     */
+    public List<String> getColumnNames() {
+        return header.getNamesStream().collect(toList());
+    }
+
     public boolean isEmpty() {
         return rows.isEmpty();
     }

@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.browser.table;
 public interface BrowserTableParserHandler {
     boolean handles(String html);
 
+    boolean ignore(BrowserTableNode node);
+
     boolean isHeaderValue(BrowserTableNode node);
 
     boolean isBodyValue(BrowserTableNode node);

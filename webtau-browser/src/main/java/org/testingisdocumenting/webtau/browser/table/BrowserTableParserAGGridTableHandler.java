@@ -23,6 +23,11 @@ public class BrowserTableParserAGGridTableHandler implements BrowserTableParserH
     }
 
     @Override
+    public boolean ignore(BrowserTableNode node) {
+        return false;
+    }
+
+    @Override
     public boolean isHeaderValue(BrowserTableNode node) {
         return node.attribute("class").contains("ag-header-cell-text");
     }
