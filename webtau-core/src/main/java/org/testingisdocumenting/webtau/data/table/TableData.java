@@ -191,6 +191,22 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
         return find(key);
     }
 
+    public void addRowsExistingColumnsOnly(TableData tableData) {
+        List<String> existingNames = getColumnNames();
+
+        for (Record targetRow : tableData.rows) {
+            List<Object> newRowData = new ArrayList<>();
+
+            for (String existingColumnName : existingNames) {
+                int idx = tableData.header.findColumnIdxByName(existingColumnName);
+
+                newRowData.add(idx == -1 ? null : targetRow.get(idx));
+            }
+
+            addRow(new Record(header, newRowData));
+        }
+    }
+
     public void addRow(List<?> values) {
         addRow(values.stream());
     }
