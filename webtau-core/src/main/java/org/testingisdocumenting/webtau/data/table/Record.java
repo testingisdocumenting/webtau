@@ -26,28 +26,33 @@ import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Record implements PrettyPrintable {
     private final TableDataHeader header;
-    private final List<Object> values;
+    private final List<?> values;
     private final CompositeKey key;
 
     private final boolean hasMultiValues;
     private final boolean hasValueGenerators;
 
     public Record(TableDataHeader header, Stream<?> values) {
-        this.header = header;
-        RecordFromStream recordFromStream = new RecordFromStream(values);
+        this(header, values.collect(Collectors.toList()));
+    }
 
-        if (recordFromStream.values.size() != header.size()) {
+    public Record(TableDataHeader header, List<?> values) {
+        this.header = header;
+        RecordFromList recordFromList = new RecordFromList(values);
+
+        if (recordFromList.values.size() != header.size()) {
             throw new IllegalArgumentException("header size is " + header.size() +
-                    ", but received " + recordFromStream.values.size() + " value(s)");
+                    ", but received " + recordFromList.values.size() + " value(s)");
         }
 
-        hasMultiValues = recordFromStream.hasMultiValues;
-        hasValueGenerators = recordFromStream.hasValueGenerators;
-        this.values = recordFromStream.values;
+        hasMultiValues = recordFromList.hasMultiValues;
+        hasValueGenerators = recordFromList.hasValueGenerators;
+        this.values = recordFromList.values;
 
         this.key = header.hasKeyColumns() ?
                 new CompositeKey(header.getKeyIdxStream().map(this::get)) : null;
@@ -87,11 +92,11 @@ public class Record implements PrettyPrintable {
         return (E) values.get(idx);
     }
 
-    public Stream<Object> valuesStream() {
+    public Stream<?> valuesStream() {
         return values.stream();
     }
 
-    public List<Object> getValues() {
+    public List<?> getValues() {
         return values;
     }
 
@@ -182,15 +187,14 @@ public class Record implements PrettyPrintable {
         }
     }
 
-    private static class RecordFromStream {
+    private static class RecordFromList {
         private boolean hasMultiValues;
         private boolean hasValueGenerators;
-        private final List<Object> values;
+        private final List<?> values;
 
-        public RecordFromStream(Stream<?> valuesStream) {
-            values = new ArrayList<>();
-
-            valuesStream.forEach(v -> {
+        public RecordFromList(List<?> valuesList) {
+            values = valuesList;
+            for (Object v : valuesList) {
                 if (v instanceof MultiValue) {
                     hasMultiValues = true;
                 }
@@ -198,9 +202,7 @@ public class Record implements PrettyPrintable {
                 if (v instanceof TableDataCellValueGenerator) {
                     hasValueGenerators = true;
                 }
-
-                values.add(v);
-            });
+            }
         }
     }
 }

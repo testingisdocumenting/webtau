@@ -42,7 +42,7 @@ public class TableDataHeader {
         names.forEach(name -> add(name, keyNamesAsSet.contains(name)));
     }
 
-    public Record createRecord(Stream<Object> values) {
+    public Record createRecord(Stream<?> values) {
         return new Record(this, values);
     }
 

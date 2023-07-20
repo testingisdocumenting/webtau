@@ -123,7 +123,7 @@ public class DatabaseTable {
     private void insertMultipleRowsStep(Supplier<Boolean> isEmpty,
                                         Supplier<Integer> size,
                                         Supplier<Stream<String>> header,
-                                        Function<Integer, Stream<Object>> valuesByRowIdx) {
+                                        Function<Integer, Stream<?>> valuesByRowIdx) {
         if (isEmpty.get()) {
             return;
         }

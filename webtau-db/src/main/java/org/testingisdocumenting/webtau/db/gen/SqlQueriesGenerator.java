@@ -34,7 +34,7 @@ public class SqlQueriesGenerator {
         return insert(tableName, row.keySet().stream(), row.values().stream());
     }
 
-    public static String insert(String tableName, Stream<String> columnNamesStream, Stream<Object> valuesStream) {
+    public static String insert(String tableName, Stream<String> columnNamesStream, Stream<?> valuesStream) {
         String enumeratedColumnNames = columnNamesStream.collect(Collectors.joining(", "));
         String questionMarks = valuesStream.map(v -> "?").collect(Collectors.joining(", "));
 
