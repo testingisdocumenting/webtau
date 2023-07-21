@@ -1,5 +1,11 @@
 {
   "standardTable()" : {
     "numberOfSuccessful" : 3
+  },
+  "extractSingleTable()" : {
+    "numberOfSuccessful" : 5
+  },
+  "extractFromAllTables()" : {
+    "numberOfSuccessful" : 4
   }
 }
