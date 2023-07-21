@@ -47,6 +47,7 @@ import org.testingisdocumenting.webtau.reporter.WebTauStepInput;
 import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
 
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
@@ -125,6 +126,13 @@ public class PageElement implements
 
     public TokenizedMessage describe() {
         return pathDescription;
+    }
+
+    public void forEach(Consumer<PageElement> consumer) {
+        Integer count = extractNumberOfElements();
+        for (int idx = 0; idx < count; idx++) {
+            consumer.accept(get(idx));
+        }
     }
 
     public void highlight() {
@@ -410,7 +418,7 @@ public class PageElement implements
         return result;
     }
 
-    private Integer extractNumberOfElements() {
+    Integer extractNumberOfElements() {
         return getValueForStaleElement(() -> {
             List<WebElement> webElements = path.find(driver);
             return webElements.size();
