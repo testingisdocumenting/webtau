@@ -27,6 +27,7 @@ import org.testingisdocumenting.webtau.expectation.state.VisibleStateAware;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
@@ -60,6 +61,17 @@ public class TablePageElement implements
         return root.isVisible();
     }
 
+    public void forEach(Consumer<TablePageElement> consumer) {
+        Integer count = root.extractNumberOfElements();
+        for (int idx = 0; idx < count; idx++) {
+            consumer.accept(new TablePageElement(root.get(idx)));
+        }
+    }
+
+    /**
+     * extracts table data from first matching browser table
+     * @return extracted TableData
+     */
     public TableData extractTableData() {
         List<HtmlNode> htmlNodes = root.extractHtmlNodes();
         if (htmlNodes.isEmpty()) {
@@ -67,6 +79,23 @@ public class TablePageElement implements
         }
 
         return BrowserTableParser.parse(htmlNodes.stream().findFirst().get().outerHtml());
+    }
+
+    /**
+     * extracts and combines TableData from all tables matching selector
+     * @return extracted TableData
+     */
+    public TableData extractAndMergeTableData() {
+        TableData result = extractTableData();
+
+        Integer count = root.extractNumberOfElements();
+        for (int idx = 1; idx < count; idx++) {
+            TablePageElement tablePageElement = new TablePageElement(root.get(idx + 1));
+            TableData extracted = tablePageElement.extractTableData();
+            result.addRowsExistingColumnsOnly(extracted);
+        }
+
+        return result;
     }
 
     @Override

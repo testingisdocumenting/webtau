@@ -21,6 +21,42 @@ Java:
 }
 ```
 
+# Extracting Table Data
+
+Use `:identifier: extractTableData` to extract `TableData` for further processing, e.g. saving to a disk:
+
+```tabs
+Groovy: 
+:include-file: examples/scenarios/ui/tables.groovy {
+  title: "table data extraction",
+  surroundedBy: "extract-single-table-data"
+}
+
+Java:
+:include-file: com/example/tests/junit5/BrowserTablesJavaTest.java {
+  title: "table data extraction",
+  surroundedBy: "extract-single-table-data"
+}
+```
+
+Use `:identifier: extractAndMergeTableData` to extract `TableData` from multiple tables matching the selector:
+
+```tabs
+Groovy: 
+:include-file: examples/scenarios/ui/tables.groovy {
+  title: "multiple tables data extraction",
+  surroundedBy: "extract-all-table-data"
+}
+
+Java:
+:include-file: com/example/tests/junit5/BrowserTablesJavaTest.java {
+  title: "multiple tables data extraction",
+  surroundedBy: "extract-all-table-data"
+}
+```
+
+Note: Only first table columns will be used
+
 # Supported Tables Flavor
 
 WebTau supports standard HTML tables and [AG Grid](https://www.ag-grid.com).

@@ -19,6 +19,7 @@ package com.example.tests.junit5;
 import org.junit.jupiter.api.Test;
 import org.testingisdocumenting.webtau.junit5.WebTau;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.WebTauDsl.*;
 
 @WebTau
@@ -30,10 +31,36 @@ public class BrowserTablesJavaTest {
         // table-data-validation
         var summaryTable = browser.table("#summary");
 
-        summaryTable.should(equal(table("column A", "column B",
-                                       ___________________________,
-                                             "A1" ,       "B1",
-                                             "A2" ,       "B2" )));
+        summaryTable.should(equal(table("column A", "column B", "column C",
+                                       ____________________________________,
+                                            "A-1" ,      "B-1", "C-1",
+                                            "A-2" ,      "B-2", "C-2" )));
         // table-data-validation
+    }
+
+    @Test
+    public void extractSingleTable() {
+        browser.open("/tables");
+
+        // extract-single-table-data
+        var summaryTable = browser.table("#summary");
+        var tableData = summaryTable.extractTableData();
+
+        data.csv.write("table-data.csv", tableData);
+        // extract-single-table-data
+
+        defer(() -> fs.delete("table-data.csv"));
+    }
+
+    @Test
+    public void extractFromAllTables() {
+        // extract-all-table-data
+        var tablesList = browser.table("table");
+        var combinedTableData = tablesList.extractAndMergeTableData();
+
+        data.csv.write("combined-table-data.csv", combinedTableData);
+        // extract-all-table-data
+
+        defer(() -> fs.delete("combined-table-data.csv"));
     }
 }
