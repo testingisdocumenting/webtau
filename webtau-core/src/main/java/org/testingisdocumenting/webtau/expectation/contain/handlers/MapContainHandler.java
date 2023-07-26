@@ -51,47 +51,29 @@ public class MapContainHandler implements ContainHandler {
             Object expectedKey = expectedEntry.getKey();
 
             ValuePath propertyPath = actualPath.property(expectedKey.toString());
-
-            if (isNegative) {
-                analyzeNegative(containAnalyzer, actualMap, propertyPath, expectedEntry);
-            } else {
-                analyzePositive(containAnalyzer, actualMap, propertyPath, expectedEntry);
-            }
+            analyzePositiveNegative(containAnalyzer, actualMap, propertyPath, expectedEntry, isNegative);
         }
     }
 
-    private void analyzePositive(ContainAnalyzer containAnalyzer,
-                                 Map<?, ?> actualMap,
-                                 ValuePath propertyPath,
-                                 Map.Entry<?, ?> expectedEntry) {
+    private void analyzePositiveNegative(ContainAnalyzer containAnalyzer,
+                                         Map<?, ?> actualMap,
+                                         ValuePath propertyPath,
+                                         Map.Entry<?, ?> expectedEntry,
+                                         boolean isNegative) {
         if (!actualMap.containsKey(expectedEntry.getKey())) {
             containAnalyzer.reportMismatch(this, propertyPath, tokenizedMessage().matcher("is missing"));
         } else {
             CompareToComparator comparator = CompareToComparator.comparator();
 
             Object actualValue = actualMap.get(expectedEntry.getKey());
-            boolean actualValueEqual = comparator.compareIsEqual(propertyPath,
-                    actualValue, expectedEntry.getValue());
+            boolean actualValueEqual = isNegative ?
+                    !comparator.compareIsNotEqual(propertyPath, actualValue, expectedEntry.getValue()):
+                    comparator.compareIsEqual(propertyPath, actualValue, expectedEntry.getValue());
 
             if (!actualValueEqual) {
                 containAnalyzer.reportMismatch(this, propertyPath, comparator.generateEqualMismatchReport());
-            }
-        }
-    }
-
-    private void analyzeNegative(ContainAnalyzer containAnalyzer,
-                                 Map<?, ?> actualMap,
-                                 ValuePath propertyPath,
-                                 Map.Entry<?, ?> expectedEntry) {
-        if (actualMap.containsKey(expectedEntry.getKey())) {
-            CompareToComparator comparator = CompareToComparator.comparator();
-
-            Object actualValue = actualMap.get(expectedEntry.getKey());
-            boolean actualValueNotEqual = comparator.compareIsNotEqual(propertyPath,
-                    actualValue, expectedEntry.getValue());
-
-            if (!actualValueNotEqual) {
-                containAnalyzer.reportMatch(this, propertyPath, comparator.generateNotEqualMismatchReport());
+            } else {
+                containAnalyzer.reportMatch(this, propertyPath, comparator.generateEqualMatchReport());
             }
         }
     }
