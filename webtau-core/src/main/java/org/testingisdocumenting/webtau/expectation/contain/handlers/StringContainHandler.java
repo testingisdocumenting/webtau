@@ -31,15 +31,15 @@ public class StringContainHandler implements ContainHandler {
 
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
-        analyze(containAnalyzer, actualPath, actual, expected, false);
+        analyze(containAnalyzer, actualPath, actual, expected);
     }
 
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
-        analyze(containAnalyzer, actualPath, actual, expected, true);
+        analyze(containAnalyzer, actualPath, actual, expected);
     }
 
-    private void analyze(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected, boolean isNegative) {
+    private void analyze(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
         CharSequence actualText = (CharSequence) actual;
         CharSequence expectedText = (CharSequence) expected;
 
