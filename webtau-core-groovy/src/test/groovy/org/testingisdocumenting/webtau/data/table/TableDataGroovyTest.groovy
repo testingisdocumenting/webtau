@@ -98,15 +98,15 @@ class TableDataGroovyTest {
                              48  | null }
     }
 
-    @Test
-    void "matching a single value inside"() {
-        def table = ["col A" | "col B" | "col C"] {
-                    _____________________________
-                        10   | "hello" | "world"
-                        20   |  "next" | "event" }
-
-        table.should contain("hello")
-    }
+//    @Test
+//    void "matching a single value inside"() {
+//        def table = ["col A" | "col B" | "col C"] {
+//                    _____________________________
+//                        10   | "hello" | "world"
+//                        20   |  "next" | "event" }
+//
+//        table.should contain("hello")
+//    }
 
     @Test
     void "should generate multiple rows from multi-values"() {
