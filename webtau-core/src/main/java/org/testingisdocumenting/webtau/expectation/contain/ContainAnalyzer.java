@@ -165,7 +165,6 @@ public class ContainAnalyzer {
         List<ContainHandler> result = new ArrayList<>();
         result.add(new NullContainHandler());
         result.addAll(ServiceLoaderUtils.load(ContainHandler.class));
-        result.add(new TableDataMapContainHandler());
         result.add(new IterableAndTableContainHandler());
         result.add(new IterableAndSingleValueContainHandler());
 
