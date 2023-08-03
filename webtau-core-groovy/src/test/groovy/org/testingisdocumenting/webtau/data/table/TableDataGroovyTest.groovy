@@ -18,7 +18,6 @@
 package org.testingisdocumenting.webtau.data.table
 
 import org.junit.Test
-import org.testingisdocumenting.webtau.TestListeners
 
 import java.time.LocalDate
 
@@ -97,6 +96,16 @@ class TableDataGroovyTest {
                              54  | 88
                              24  | null
                              48  | null }
+    }
+
+    @Test
+    void "matching a single value inside"() {
+        def table = ["col A" | "col B" | "col C"] {
+                    _____________________________
+                        10   | "hello" | "world"
+                        20   |  "next" | "event" }
+
+        table.should contain("hello")
     }
 
     @Test

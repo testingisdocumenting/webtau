@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
+import org.testingisdocumenting.webtau.data.MapWithTrackedMissingKeys;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
@@ -32,18 +33,23 @@ public class MapContainHandler implements ContainHandler {
     }
 
     @Override
+    public Object convertedActual(Object actual, Object expected) {
+        return new MapWithTrackedMissingKeys((Map<?, ?>) actual);
+    }
+
+    @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
-        analyze(containAnalyzer, actualPath, actual, expected, false);
+        analyzeMapAndMap(containAnalyzer, actualPath, actual, expected, false);
     }
 
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
-        analyze(containAnalyzer, actualPath, actual, expected, true);
+        analyzeMapAndMap(containAnalyzer, actualPath, actual, expected, true);
     }
 
-    private void analyze(ContainAnalyzer containAnalyzer, ValuePath actualPath,
-                         Object actual, Object expected,
-                         boolean isNegative) {
+    private void analyzeMapAndMap(ContainAnalyzer containAnalyzer, ValuePath actualPath,
+                                  Object actual, Object expected,
+                                  boolean isNegative) {
         Map<?, ?> actualMap = (Map<?, ?>) actual;
         Map<?, ?> expectedMap = (Map<?, ?>) expected;
 
@@ -51,15 +57,15 @@ public class MapContainHandler implements ContainHandler {
             Object expectedKey = expectedEntry.getKey();
 
             ValuePath propertyPath = actualPath.property(expectedKey.toString());
-            analyzePositiveNegative(containAnalyzer, actualMap, propertyPath, expectedEntry, isNegative);
+            analyzeMapAndMapSingleExpectedEntry(containAnalyzer, actualMap, propertyPath, expectedEntry, isNegative);
         }
     }
 
-    private void analyzePositiveNegative(ContainAnalyzer containAnalyzer,
-                                         Map<?, ?> actualMap,
-                                         ValuePath propertyPath,
-                                         Map.Entry<?, ?> expectedEntry,
-                                         boolean isNegative) {
+    private void analyzeMapAndMapSingleExpectedEntry(ContainAnalyzer containAnalyzer,
+                                                     Map<?, ?> actualMap,
+                                                     ValuePath propertyPath,
+                                                     Map.Entry<?, ?> expectedEntry,
+                                                     boolean isNegative) {
         if (!actualMap.containsKey(expectedEntry.getKey())) {
             containAnalyzer.reportMismatch(this, propertyPath, tokenizedMessage().matcher("is missing"));
         } else {
@@ -70,6 +76,7 @@ public class MapContainHandler implements ContainHandler {
                     !comparator.compareIsNotEqual(propertyPath, actualValue, expectedEntry.getValue()):
                     comparator.compareIsEqual(propertyPath, actualValue, expectedEntry.getValue());
 
+            containAnalyzer.registerConvertedActualByPath(comparator.getConvertedActualByPath());
             if (!actualValueEqual) {
                 containAnalyzer.reportMismatch(this, propertyPath, comparator.generateEqualMismatchReport());
             } else {

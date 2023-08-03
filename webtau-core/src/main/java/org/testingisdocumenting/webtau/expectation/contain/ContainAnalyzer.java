@@ -23,13 +23,13 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableAndTableContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableAndSingleValueContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.NullContainHandler;
+import org.testingisdocumenting.webtau.expectation.contain.handlers.TableDataMapContainHandler;
 import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.TraceUtils;
 
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
@@ -57,15 +57,16 @@ public class ContainAnalyzer {
     public boolean contains(ValuePath actualPath, Object actual, Object expected) {
         updateTopLevelActualPath(actualPath);
 
-        return contains(actual, expected, false,
-                (handler) -> handler.analyzeContain(this, actualPath, actual, expected));
+        return contains(actualPath, actual, expected, false,
+                (handler, convertedActual, convertedExpected) -> handler.analyzeContain(this, actualPath, convertedActual, convertedExpected));
     }
 
     public boolean notContains(ValuePath actualPath, Object actual, Object expected) {
         updateTopLevelActualPath(actualPath);
 
-        return contains(actual, expected, true,
-                (handler) -> handler.analyzeNotContain(this, actualPath, actual, expected));
+        return contains(actualPath, actual, expected, true,
+                (handler, convertedActual, convertedExpected) ->
+                        handler.analyzeNotContain(this, actualPath, convertedActual, convertedExpected));
     }
 
     public ValueConverter createValueConverter() {
@@ -130,13 +131,18 @@ public class ContainAnalyzer {
         this.mismatchedExpectedValues = new ArrayList<>();
     }
 
-    private boolean contains(Object actual, Object expected, boolean isNegative, Consumer<ContainHandler> handle) {
+    private boolean contains(ValuePath actualPath, Object actual, Object expected, boolean isNegative, ContainsLogic containsLogic) {
         ContainHandler handler = handlers.stream().
                 filter(h -> h.handle(actual, expected)).findFirst().
                 orElseThrow(() -> noHandlerFound(actual, expected));
 
+        Object convertedActual = handler.convertedActual(actual, expected);
+        recordConvertedActual(actualPath, actual, convertedActual);
+
+        Object convertedExpected = handler.convertedExpected(actual, expected);
+
         int before = isNegative ? matches.size() :mismatches.size();
-        handle.accept(handler);
+        containsLogic.execute(handler, convertedActual, convertedExpected);
         int after = isNegative ? matches.size() : mismatches.size();
 
         return after == before;
@@ -159,15 +165,28 @@ public class ContainAnalyzer {
         List<ContainHandler> result = new ArrayList<>();
         result.add(new NullContainHandler());
         result.addAll(ServiceLoaderUtils.load(ContainHandler.class));
+        result.add(new TableDataMapContainHandler());
         result.add(new IterableAndTableContainHandler());
         result.add(new IterableAndSingleValueContainHandler());
 
         return result;
     }
 
+    private void recordConvertedActual(ValuePath actualPath, Object actual, Object convertedActual) {
+        if (actual == convertedActual) {
+            return;
+        }
+
+        convertedActualByPath.put(actualPath, convertedActual);
+    }
+
     private RuntimeException noHandlerFound(Object actual, Object expected) {
         return new RuntimeException(
                 "no contains handler found for\nactual: " + PrettyPrinter.renderAsTextWithoutColors(actual) + " " + TraceUtils.renderType(actual) +
                         "\nexpected: " + PrettyPrinter.renderAsTextWithoutColors(expected) + " " + TraceUtils.renderType(expected));
+    }
+
+    interface ContainsLogic {
+        void execute(ContainHandler handler, Object convertedActual, Object convertedExpected);
     }
 }
