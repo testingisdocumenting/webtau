@@ -1,1 +1,1 @@
-* Add: [Map Comparison](matchers/maps) displays missing keys inlined
+* Add: [Map Equal](matchers/maps#equality-comparison) displays missing keys inlined

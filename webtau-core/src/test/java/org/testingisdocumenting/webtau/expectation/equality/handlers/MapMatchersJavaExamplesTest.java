@@ -56,6 +56,25 @@ public class MapMatchersJavaExamplesTest {
         });
     }
 
+    @Test
+    public void containMismatch() {
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "maps-contain-console-output", """
+                X failed expecting [value] to contain {"firstName": "G-FN", "lastName": "G-LN", "middleName": "G-MD"}: no match found (Xms)
+                 \s
+                  {
+                    "firstName": "G-FN",
+                    "lastName": "G-LN",
+                    "address": {"street": "generated-street", "city": "GenSity"},
+                    "middleName": **<missing>**
+                  }""", () -> {
+            // maps-contain-mismatch
+            Map<String, ?> generated = generate();
+            actual(generated).should(contain(
+                    map("firstName", "G-FN", "lastName", "G-LN", "middleName", "G-MD")));
+            // maps-contain-mismatch
+        });
+    }
+
     private static Map<String, ?> generate() {
         return map("firstName", "G-FN", "lastName", "G-LN",
                 "address", map("street", "generated-street", "city", "GenSity"));

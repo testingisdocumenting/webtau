@@ -33,6 +33,16 @@ class MapMatchersGroovyExamplesTest {
         } should throwException(AssertionError)
     }
 
+    @Test
+    void containsMismatch() {
+        code {
+            // maps-contain-mismatch
+            Map<String, ?> generated = generate()
+            generated.should contain(firstName: "G-FN", lastName: "G-LN", middleName: "G-MN")
+            // maps-contain-mismatch
+        } should throwException(AssertionError)
+    }
+
     private static Map<String, ?> generate() {
         return map("firstName", "G-FN", "lastName", "G-LN",
                 "address", map("street", "generated-street", "city", "GenSity"))
