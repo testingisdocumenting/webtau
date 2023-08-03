@@ -23,7 +23,6 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableAndTableContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableAndSingleValueContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.NullContainHandler;
-import org.testingisdocumenting.webtau.expectation.contain.handlers.TableDataMapContainHandler;
 import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
