@@ -23,4 +23,28 @@ public interface ContainHandler {
 
     void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected);
     void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected);
+
+    /**
+     * value optionally can be converted to another value to be passed down comparison chain.
+     * exposed as outside method for more precise reporting of actual values in case of a failure.
+     *
+     * @param actual original actual
+     * @param expected expected value
+     * @return optionally converted actual
+     */
+    default Object convertedActual(Object actual, Object expected) {
+        return actual;
+    }
+
+    /**
+     * value optionally can be converted to another value to be passed down comparison chain.
+     * exposed as outside method for more precise reporting of expected values for reporting
+     *
+     * @param actual original actual
+     * @param expected original expected
+     * @return optionally converted expected
+     */
+    default Object convertedExpected(Object actual, Object expected) {
+        return expected;
+    }
 }

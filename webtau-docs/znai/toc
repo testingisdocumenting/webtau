@@ -96,6 +96,7 @@ matchers
     universal-compare
     java-beans-and-records
     strings
+    maps
     any-of
     custom-compare-to-handler
 groovy-standalone-runner

@@ -40,6 +40,7 @@ public class PrettyPrinter implements Iterable<PrettyPrinterLine> {
     public static final Color NUMBER_COLOR = Color.BLUE;
     public static final Color KEY_COLOR = Color.PURPLE;
     public static final Color CLASSIFIER_COLOR = Color.CYAN;
+    public static final Color DANGER_COLOR = Color.RED;
     public static final Color UNKNOWN_COLOR = Color.CYAN;
 
     private static final int INDENTATION_STEP = 2;

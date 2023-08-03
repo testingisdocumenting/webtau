@@ -64,7 +64,7 @@ class MapsCompareToHandlerTest {
                 '    map.k2.k23: "v23"\n' +
                 '    map.k6: "v1" (Xms)\n' +
                 '  \n' +
-                '  {"k6": **"v1"**, "k2": {"k21": **"v21"**, "k23": **"v23"**}, "k3": **"v3"**}') {
+                '  {"k6": **"v1"**, "k2": {"k21": **"v21"**, "k23": **"v23"**, "k22": <missing>, "k24": <missing>}, "k3": **"v3"**, "k1": <missing>}') {
             actual([k6: 'v1', k2: [k21: 'v21', k23: 'v23'], k3: 'v3'], 'map').should(
                     equal([k1: 'v1', k2: [k22: 'v21', k24: 'v24'], k3: 'v3-']))
         }
