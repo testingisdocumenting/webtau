@@ -38,6 +38,10 @@ WebTau console output keeps you informed at all times:
 
 ![image of http data coverage](webtau-docs/readme/http-data-coverage.png)
 
+# Supercharged Unit Testing Capabilities
+
+![image of map comparison](webtau-docs/readme/map-comparison-missing.png)
+
 # Testing Command Line Tools 
 
 Testing command lines tools never been easier:
