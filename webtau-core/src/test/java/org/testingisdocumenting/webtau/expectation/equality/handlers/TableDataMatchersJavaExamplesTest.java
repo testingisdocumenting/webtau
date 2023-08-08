@@ -53,7 +53,7 @@ public class TableDataMatchersJavaExamplesTest {
     @Test
     public void containsMismatch() {
         runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "table-contain-console-output", """
-                X failed expecting [value] to contain {"ColumnA": 20, "Columnb": <greater than 15>}: no match found (Xms)
+                X failed expecting [value] to contain {"ColumnA": 20, "ColumnB": <greater than 15>}: no match found (Xms)
                  \s
                   ColumnA │ ColumnB
                        10 │      20
