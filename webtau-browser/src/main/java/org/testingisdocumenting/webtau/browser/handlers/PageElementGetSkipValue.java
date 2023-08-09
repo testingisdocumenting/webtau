@@ -21,12 +21,11 @@ import org.testingisdocumenting.webtau.browser.page.path.PageElementPath;
 
 /**
  * get value handler receives all the element that match the PageElement {@link PageElementPath}
- * usually we associate each element associated with a path and its values. e.g. `$("ul li")` could match N elements
- * and {@link PageElement#elementValues()} will return N values
- *
+ * usually we each element is associated with a path and its values. e.g. `$("ul li")` could match N elements
+ * and {@link PageElement#valuesList} will return N values
+ * <p>
  * but there are elements like Radio Button, that has N elements to denote a single value, so when we call
- * {@link PageElement#elementValues()} on it we should only get one with the selected value.
- *
+ * {@link PageElement#valuesList} on it we should only get one with the selected value.
  * this is a marker class
  */
 public class PageElementGetSkipValue {

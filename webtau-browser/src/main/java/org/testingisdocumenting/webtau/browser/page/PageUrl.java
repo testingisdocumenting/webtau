@@ -87,10 +87,7 @@ public class PageUrl implements PrettyPrintable, ActualValueExpectations, Actual
 
     @Override
     public String toString() {
-        return "full: " + full +
-                ", path: " + path +
-                ", query: " + query +
-                ", ref: " + ref;
+        return PrettyPrinter.renderAsTextWithoutColors(this);
     }
 
     @Override

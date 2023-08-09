@@ -89,7 +89,7 @@ public class StaticServerJavaTest {
 
         code(() -> {
             http.get("/hello.html");
-        }).should(throwException(Pattern.compile("Read timed out")));
+        }).should(throwException(Pattern.compile("request timed out")));
         // mark-unresponsive
 
         myServer.fix();

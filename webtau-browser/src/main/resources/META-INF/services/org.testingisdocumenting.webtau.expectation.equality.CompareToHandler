@@ -15,5 +15,5 @@
 #
 
 org.testingisdocumenting.webtau.browser.expectation.PageElementValueCompareToHandler
-org.testingisdocumenting.webtau.browser.expectation.PageElementCompareToHandler
+org.testingisdocumenting.webtau.browser.expectation.PageElementFamilyCompareToHandler
 org.testingisdocumenting.webtau.browser.expectation.PageUrlCompareToHandler

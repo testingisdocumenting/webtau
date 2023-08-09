@@ -18,7 +18,6 @@
 package org.testingisdocumenting.webtau.data.table
 
 import org.junit.Test
-import org.testingisdocumenting.webtau.TestListeners
 
 import java.time.LocalDate
 
@@ -79,6 +78,24 @@ class TableDataGroovyTest {
                              _____________________________________
                              "id11" | "id21" | "description one"
                              "id31" | "id32" | "description three" }
+    }
+
+    @Test
+    void "should merge in another table using only matching column names"() {
+        def table = ["hello" | "world"] {
+                         12  | 46
+                         54  | 88  }
+
+        def incoming = ["extra" | "hello"] {
+                         700    | 24
+                         800    | 48 }
+
+        table.addRowsExistingColumnsOnly(incoming)
+        table.should == ["hello" | "world"] {
+                             12  | 46
+                             54  | 88
+                             24  | null
+                             48  | null }
     }
 
     @Test

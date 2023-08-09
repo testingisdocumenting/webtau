@@ -19,14 +19,11 @@ package org.testingisdocumenting.webtau.repl
 import org.apache.groovy.groovysh.Groovysh
 import org.testingisdocumenting.webtau.browser.page.PageElement
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter
-import org.testingisdocumenting.webtau.repl.tabledata.ReplTableRenderer
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
-import org.testingisdocumenting.webtau.data.render.PrettyPrintable
 import org.testingisdocumenting.webtau.db.DbQuery
 import org.testingisdocumenting.webtau.fs.FileTextContent
 
 import static org.testingisdocumenting.webtau.cfg.WebTauConfig.cfg
-import static org.testingisdocumenting.webtau.console.ConsoleOutputs.out
 
 class ReplResultRenderer {
     private final Groovysh groovysh
@@ -42,13 +39,17 @@ class ReplResultRenderer {
             renderDbQueryResult(result)
         } else if (result instanceof FileTextContent) {
             renderTextLimitingSize(result.data)
-        } else if (result instanceof PrettyPrintable) {
-            def printer = createPrettyPrinter()
-            result.prettyPrint(printer)
-            printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput())
+        } else if (PrettyPrinter.isPrettyPrintable(result)) {
+            prettyPrint(result)
         } else {
             groovysh.defaultResultHook(result)
         }
+    }
+
+    private static void prettyPrint(Object value) {
+        def printer = createPrettyPrinter()
+        printer.printObject(value)
+        printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput())
     }
 
     private static void renderTextLimitingSize(String text) {
@@ -58,7 +59,7 @@ class ReplResultRenderer {
     }
 
     private static void renderDbQueryResult(DbQuery queryResult) {
-        out(ReplTableRenderer.render(queryResult.tableData()))
+        prettyPrint(queryResult.tableData())
     }
 
     private static void renderPageElementAndHighlight(PageElement pageElement) {

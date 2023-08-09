@@ -42,6 +42,11 @@ class WebTauServerFeaturesTest {
         runCli('fakeRest.groovy', 'webtau-fake-server.cfg.groovy')
     }
 
+    @Test
+    void "router"() {
+        runCli('router.groovy', 'webtau.router.cfg.groovy')
+    }
+
     private static void runCli(String testName, String configFileName, String... additionalArgs) {
         testRunner.runCliWithWorkingDir("scenarios/server/$testName",
                 "examples",

@@ -22,8 +22,6 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
-import static org.testingisdocumenting.webtau.WebTauCore.createActualPath;
-
 public class PageElementValueCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
@@ -36,23 +34,23 @@ public class PageElementValueCompareToHandler implements CompareToHandler {
     }
 
     @Override
+    public Object convertedActual(Object actual, Object expected) {
+        return ((PageElementValue<?>)actual).get();
+    }
+
+    @Override
+    public boolean handleNulls() {
+        return true;
+    }
+
+    @Override
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
-        PageElementValue<?> actualElementValue = (PageElementValue<?>) actual;
-        comparator.compareUsingEqualOnly(creataPath(actualElementValue), extractActualValue(actualElementValue), expected);
+        comparator.compareUsingEqualOnly(actualPath, actual, expected);
     }
 
     @Override
     public void compareGreaterLessEqual(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
-        PageElementValue<?> actualElementValue = (PageElementValue<?>) actual;
-        comparator.compareUsingCompareTo(creataPath(actualElementValue), extractActualValue(actualElementValue), expected);
-    }
-
-    private Object extractActualValue(PageElementValue<?> actualElementValue) {
-        return actualElementValue.get();
-    }
-
-    private ValuePath creataPath(PageElementValue<?> elementValue) {
-        return createActualPath(elementValue.getName());
+        comparator.compareUsingCompareTo(actualPath, actual, expected);
     }
 
     private boolean handles(Object actual) {

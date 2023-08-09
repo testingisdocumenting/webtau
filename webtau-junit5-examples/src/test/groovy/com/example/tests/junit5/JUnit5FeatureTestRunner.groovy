@@ -60,6 +60,8 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, Te
         cfg.reset()
         cfg.triggerConfigHandlers()
         cfg.setUrl(baseUrl)
+        cfg.setUserAgent("Safari/537.36")
+        cfg.setRemoveWebTauFromUserAgent(true)
         cfg.reportPath = cfg.fullPath("webtau-reports/" + testClass.canonicalName + ".html")
 
         if (!browserBaseUrl.isEmpty()) {
@@ -85,7 +87,6 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, Te
                 ConsoleOutputs.remove(ConsoleOutputs.defaultOutput)
             }
         }
-
 
         saveConsoleOutput(testClass)
         WebTauEndToEndTestValidator.validateAndSaveTestDetails(testClass.simpleName, scenariosDetails)

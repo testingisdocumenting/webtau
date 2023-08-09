@@ -25,10 +25,11 @@ public class StringMatchersJavaExamplesTest {
     @Test
     public void singleLine() {
         runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "single-line-string-compare-output",
-                "X failed expecting [value] to equal \"hello world\":\n" +
-                        "      actual: \"hallo world\" <java.lang.String>\n" +
-                        "    expected: \"hello world\" <java.lang.String>\n" +
-                        "                ^ (Xms)", () -> {
+                """
+                        X failed expecting [value] to equal "hello world":
+                              actual: "hallo world" <java.lang.String>
+                            expected: "hello world" <java.lang.String>
+                                        ^ (Xms)""", () -> {
                     // single-line-compare
                     String output = "hallo world";
                     actual(output).should(equal("hello world"));

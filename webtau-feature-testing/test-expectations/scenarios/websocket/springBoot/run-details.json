@@ -47,6 +47,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 8
     }
+  }, {
+    "scenario" : "header during connect",
+    "shortContainerId" : "springBoot.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 6
+    }
   } ],
   "exitCode" : 0
 }

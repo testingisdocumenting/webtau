@@ -1,1 +1,1 @@
-* Add browser [drag and drop by](browser/element-actions#drag-and-drop)
+* Add browser [drag and drop by](browser/element-actions-reference#drag-and-drop)

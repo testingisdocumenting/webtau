@@ -1,0 +1,40 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "open browser",
+    "shortContainerId" : "tables.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
+    "scenario" : "standard table equality",
+    "shortContainerId" : "tables.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "extract single table",
+    "shortContainerId" : "tables.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
+    }
+  }, {
+    "scenario" : "extract from each table",
+    "shortContainerId" : "tables.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
+    }
+  }, {
+    "scenario" : "simple ag grid equality",
+    "shortContainerId" : "tables.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  } ],
+  "exitCode" : 0
+}

@@ -22,15 +22,14 @@ import org.testingisdocumenting.webtau.reporter.StepReportOptions;
 import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.utils.UrlUtils;
 
-import javax.websocket.ContainerProvider;
-import javax.websocket.DeploymentException;
-import javax.websocket.Session;
-import javax.websocket.WebSocketContainer;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.http.HttpClient;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
@@ -42,13 +41,17 @@ public class WebSocket {
     }
 
     public WebSocketSession connect(String destination) {
+        return connect(destination, WebSocketHeader.EMPTY);
+    }
+
+    public WebSocketSession connect(String destination, WebSocketHeader header) {
         WebTauStep step = WebTauStep.createStep(tokenizedMessage().action("connecting").to().classifier("websocket").url(destination),
                 (session) -> tokenizedMessage().action("connected").to().classifier("websocket")
                         .url(((WebSocketSession) session).getDestination()),
                 () -> {
                     try {
-                        return connectImpl(destination);
-                    } catch (DeploymentException | IOException | URISyntaxException e) {
+                        return connectImpl(destination, header);
+                    } catch (IOException | URISyntaxException e) {
                         throw new RuntimeException(e);
                     }
                 });
@@ -56,14 +59,30 @@ public class WebSocket {
         return step.execute(StepReportOptions.REPORT_ALL);
     }
 
-    private WebSocketSession connectImpl(String destination) throws DeploymentException, IOException, URISyntaxException {
+    public WebSocketHeader header(CharSequence firstKey, CharSequence firstValue, CharSequence... restKv) {
+        return new WebSocketHeader().with(firstKey, firstValue, restKv);
+    }
+
+    public WebSocketHeader header(Map<CharSequence, CharSequence> properties) {
+        return new WebSocketHeader().with(properties);
+    }
+
+    private WebSocketSession connectImpl(String destination, WebSocketHeader header) throws IOException, URISyntaxException {
         String fullUrl = UrlUtils.isFull(destination) ? destination : buildFullUrl(destination);
 
-        WebSocketContainer container = ContainerProvider.getWebSocketContainer();
         WebSocketMessageListener messageListener = new WebSocketMessageListener();
-        Session session = container.connectToServer(messageListener, new URI(fullUrl));
 
-        WebSocketSession webSocketSession = new WebSocketSession(session, fullUrl, messageListener);
+        HttpClient httpClient = HttpClient.newBuilder().build();
+
+        java.net.http.WebSocket.Builder socketBuilder = httpClient.newWebSocketBuilder()
+                .connectTimeout(Duration.ofMillis(WebTauConfig.getCfg().getHttpTimeout()));
+        header.forEachProperty(socketBuilder::header);
+
+        java.net.http.WebSocket httpWebSocket = socketBuilder
+                .buildAsync(new URI(fullUrl), messageListener)
+                .join();
+
+        WebSocketSession webSocketSession = new WebSocketSession(httpWebSocket, fullUrl, messageListener);
         createdSessions.add(webSocketSession);
 
         LazyCleanupRegistration.INSTANCE.noOp();

@@ -20,8 +20,6 @@ package org.testingisdocumenting.webtau;
 import org.testingisdocumenting.webtau.browser.Browser;
 import org.testingisdocumenting.webtau.browser.expectation.DisabledValueMatcher;
 import org.testingisdocumenting.webtau.browser.expectation.EnabledValueMatcher;
-import org.testingisdocumenting.webtau.browser.expectation.HiddenValueMatcher;
-import org.testingisdocumenting.webtau.browser.expectation.VisibleValueMatcher;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.cache.Cache;
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
@@ -32,8 +30,6 @@ import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.fs.FileSystem;
 import org.testingisdocumenting.webtau.graphql.GraphQL;
 import org.testingisdocumenting.webtau.http.Http;
-import org.testingisdocumenting.webtau.data.datanode.DataNode;
-import org.testingisdocumenting.webtau.pdf.Pdf;
 import org.testingisdocumenting.webtau.schema.expectation.SchemaMatcher;
 import org.testingisdocumenting.webtau.server.WebTauServerFacade;
 import org.testingisdocumenting.webtau.websocket.WebSocket;
@@ -55,19 +51,6 @@ public class WebTauDsl extends WebTauCore {
     public static final WebTauServerFacade server = WebTauServerFacade.server;
 
     /**
-     * visible matcher to check if UI element is visible
-     * @see #hidden
-     */
-    public static final ValueMatcher visible = new VisibleValueMatcher();
-
-
-    /**
-     * hidden matcher to check if UI element is hidden
-     * @see #visible
-     */
-    public static final ValueMatcher hidden = new HiddenValueMatcher();
-
-    /**
      * enabled matcher to check if UI element is enabled
      * @see #disabled
      */
@@ -81,61 +64,8 @@ public class WebTauDsl extends WebTauCore {
 
     public static WebTauConfig cfg = WebTauConfig.getCfg();
 
-    /**
-     * @deprecated use data.pdf from webtau-data module or through WebTauDsl
-     * @param node data node to read binary content from
-     * @return parsed pdf to assert on the content
-     */
-    @Deprecated
-    public static Pdf pdf(DataNode node) {
-        return Pdf.pdf(node);
-    }
-
     public static PageElement $(String css) {
         return browser.$(css);
-    }
-
-
-    /**
-     * @deprecated use {@link #visible}
-     * @return visible value matcher
-     */
-    @Deprecated
-    public static ValueMatcher beVisible() {
-        return visible;
-    }
-
-    /**
-     * @deprecated use {@link #hidden}
-     * @return hidden value matcher
-     */
-    @Deprecated
-    public static ValueMatcher beHidden() {
-        return hidden;
-    }
-
-    /**
-     * @deprecated use {@link #enabled}
-     * @return enabled value matcher
-     */
-    public static ValueMatcher beEnabled() {
-        return enabled;
-    }
-
-    /**
-     * @deprecated use {@link #disabled}
-     * @return disabled value matcher
-     */
-    public static ValueMatcher beDisabled() {
-        return disabled;
-    }
-
-    /**
-     * @deprecated use {@link #visible}
-     * @return visible value matcher
-     */
-    public static ValueMatcher getBeVisible() {
-        return visible;
     }
 
     /**
@@ -145,15 +75,5 @@ public class WebTauDsl extends WebTauCore {
      */
     public static SchemaMatcher complyWithSchema(String schemaFileName) {
         return new SchemaMatcher(schemaFileName);
-    }
-
-    /**
-     * @deprecated use {@link #complyWithSchema(String)} ()}
-     * @param schemaFileName schema file name
-     * @return schema matcher
-     */
-    @Deprecated
-    public static SchemaMatcher beCompliantWithSchema(String schemaFileName) {
-        return complyWithSchema(schemaFileName);
     }
 }

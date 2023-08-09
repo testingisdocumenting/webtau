@@ -17,7 +17,6 @@
 package org.testingisdocumenting.webtau.expectation.contain.handlers
 
 import org.junit.Test
-import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
@@ -40,13 +39,25 @@ class MapContainHandlerTest {
     }
 
     @Test
-    void "should detect missing keys"() {
+    void "should display value mismatch"() {
         def actualMap = [hello: 1, world: 2]
-        def expectedMap = [hello: 1, world: 3, test: 5]
+        def expectedMap = [hello: 1, world: 3]
 
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"hello": 1, "world": 3, "test": 5}: no match found (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"hello": 1, "world": 3}: no match found (Xms)\n' +
                 '  \n' +
                 '  {"hello": 1, "world": **2**}') {
+            actual(actualMap).should(contain(expectedMap))
+        }
+    }
+
+    @Test
+    void "should detect missing key"() {
+        def actualMap = [hello: 1, world: 2, nested: [test: "value"]]
+        def expectedMap = [hello: 1, world: 2, extra: 3, nested: [test: "value", another: "a-value"]]
+
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"hello": 1, "world": 2, "extra": 3, "nested": {"test": "value", "another": "a-value"}}: no match found (Xms)\n' +
+                '  \n' +
+                '  {"hello": 1, "world": 2, "nested": **{"test": "value", "another": <missing>}**, "extra": **<missing>**}') {
             actual(actualMap).should(contain(expectedMap))
         }
     }

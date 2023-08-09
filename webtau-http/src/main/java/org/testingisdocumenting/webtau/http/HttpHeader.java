@@ -37,6 +37,7 @@ import java.util.stream.Stream;
 
 public class HttpHeader {
     private static final Set<String> KEYS_TO_REDACT = new HashSet<>(Arrays.asList("authorization", "cookie", "set-cookie"));
+    private static final Set<String> RESTRICTED_REQUEST_PROPERTIES = new HashSet<>(Arrays.asList("host", "connection", "content-length", "upgrade"));
 
     public static final HttpHeader EMPTY = new HttpHeader(Collections.emptyMap());
 
@@ -54,22 +55,15 @@ public class HttpHeader {
         header.forEach((k, v) -> consumer.accept(toStringOrNull(k), toStringOrNull(v)));
     }
 
+    public void forEachNonRestrictedRequestProperty(BiConsumer<String, String> consumer) {
+        header.entrySet().stream()
+                .filter(e -> (!RESTRICTED_REQUEST_PROPERTIES.contains(e.getKey().toLowerCase())))
+                .forEach(e -> consumer.accept(toStringOrNull(e.getKey()), toStringOrNull(e.getValue())));
+    }
+
     public <T> Stream<T> mapProperties(BiFunction<String, String, T> mapper) {
         return header.entrySet().stream().map(e -> mapper.apply(toStringOrNull(e.getKey()),
                 toStringOrNull(e.getValue())));
-    }
-
-    /**
-     * This method is now deprecated use {@link HttpHeader#with(Map)} instead
-     * @deprecated
-     * @param properties properties to merge with
-     * @return new instance of header with merged properties
-     */
-    public HttpHeader merge(Map<CharSequence, CharSequence> properties) {
-        Map<String, String> copy = new LinkedHashMap<>(this.header);
-        properties.forEach((k, v) -> copy.put(toStringOrNull(k), toStringOrNull(v)));
-
-        return new HttpHeader(copy);
     }
 
     public boolean containsKey(String key) {
@@ -86,23 +80,6 @@ public class HttpHeader {
                 .findFirst()
                 .map(Map.Entry::getValue)
                 .orElse(null);
-    }
-
-    /**
-     * Adds an addition header to this HttpHeader object.  This function
-     * may throw UnsupportedOperationException depending on how HttpHeader
-     * was constructed.
-     * <p>
-     * For that reason, this method is deprecated and you should use either
-     * <code>with("MY_HEADER", "my_value")</code> or one of the <code>merge</code>
-     * methods which are non-mutating.
-     *
-     * @deprecated use <code>with</code>
-     *             or <code>merge</code>
-     */
-    @Deprecated
-    public void add(String key, String value) {
-        header.put(key, value);
     }
 
     /**
@@ -131,16 +108,6 @@ public class HttpHeader {
         additionalValues.forEach((k, v) -> copy.put(toStringOrNull(k), toStringOrNull(v)));
 
         return new HttpHeader(copy);
-    }
-
-    /**
-     * Creates a new header from the current one with an additional key values copied from a given header
-     * @deprecated use {@link HttpHeader#with(HttpHeader)}
-     * @param otherHeader other header to take values from
-     * @return new header with combined values
-     */
-    public HttpHeader merge(HttpHeader otherHeader) {
-        return with(otherHeader);
     }
 
     /**

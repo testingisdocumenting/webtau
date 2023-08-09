@@ -19,61 +19,14 @@ package org.testingisdocumenting.webtau.browser.page;
 
 import java.util.Map;
 
-public class HtmlNode {
-    private final String tagName;
-    private final String innerHtml;
-    private final String outerHtml;
-    private final String innerText;
-    private final String value;
-    private final Map<String, String> attributes;
-
-    public HtmlNode(String tagName, String innerHtml, String outerHtml, String innerText, String value, Map<String, String> attributes) {
-        this.tagName = tagName;
-        this.innerHtml = innerHtml;
-        this.outerHtml = outerHtml;
-        this.innerText = innerText;
-        this.value = value;
-
-        this.attributes = attributes;
-    }
-
-    public String getTagName() {
-        return tagName;
-    }
-
-    public String getInnerHtml() {
-        return innerHtml;
-    }
-
-    public String getOuterHtml() {
-        return outerHtml;
-    }
-
-    public String getInnerText() {
-        return innerText;
-    }
-
-    public String getValue() {
-        return value;
-    }
-
-    public Map<String, String> getAttributes() {
-        return attributes;
-    }
+public record HtmlNode(String tagName,
+                       String innerHtml,
+                       String outerHtml,
+                       String innerText,
+                       String value,
+                       Map<String, String> attributes) {
 
     public String getTypeAttribute() {
         return attributes.getOrDefault("type", "");
-    }
-
-    @Override
-    public String toString() {
-        return "HtmlNode{" +
-                "tagName='" + tagName + '\'' +
-                ", innerHtml='" + innerHtml + '\'' +
-                ", outerHtml='" + outerHtml + '\'' +
-                ", innerText='" + innerText + '\'' +
-                ", value='" + value + '\'' +
-                ", attributes=" + attributes +
-                '}';
     }
 }

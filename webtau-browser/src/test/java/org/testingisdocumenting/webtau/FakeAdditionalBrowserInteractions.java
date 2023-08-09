@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau;
 
+import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
 import org.testingisdocumenting.webtau.browser.page.HtmlNode;
@@ -51,5 +52,10 @@ public class FakeAdditionalBrowserInteractions implements AdditionalBrowserInter
     @Override
     public List<WebElement> filterByRegexp(List<WebElement> webElements, String regexp) {
         return Collections.emptyList();
+    }
+
+    @Override
+    public WebElement parentByCss(SearchContext element, String css) {
+        return null;
     }
 }

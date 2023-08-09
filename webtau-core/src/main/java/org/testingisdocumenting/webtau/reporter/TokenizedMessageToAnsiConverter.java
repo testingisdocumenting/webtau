@@ -51,10 +51,11 @@ public class TokenizedMessageToAnsiConverter {
         this.firstLinePrefixWidth = firstLinePrefixWidth;
         PrettyPrinterLine line = new PrettyPrinterLine();
 
+        TokenRenderDetails previousTokenRenderDetails = null;
         int len = tokenizedMessage.getNumberOfTokens();
         for (int idx = 0; idx < len; idx++) {
             MessageToken messageToken = tokenizedMessage.getTokenAtIdx(idx);
-            TokenRenderDetails renderDetails = this.tokenRenderDetails.get(messageToken.getType());
+            TokenRenderDetails renderDetails = this.tokenRenderDetails.get(messageToken.type());
 
             if (renderDetails == null) {
                 throw new RuntimeException("no render details found for token: " + messageToken);
@@ -69,24 +70,30 @@ public class TokenizedMessageToAnsiConverter {
                 ansiSequence = Stream.concat(ansiSequence, Stream.of(" "));
             }
 
+            if (previousTokenRenderDetails != null && previousTokenRenderDetails.hasBold() && !renderDetails.startsWithBold()) {
+                ansiSequence = Stream.concat(Stream.of(FontStyle.RESET), ansiSequence);
+            }
+
             line.appendStream(ansiSequence);
+
+            previousTokenRenderDetails = renderDetails;
         }
 
         return line.getStyleAndValues();
     }
 
     private boolean isDelimiterNoAutoSpacing(MessageToken token) {
-        return token.getType().equals(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType());
+        return token.type().equals(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType());
     }
 
     private Stream<?> convertToAnsiSequence(ValueConverter valueConverter, PrettyPrinterLine currentLine, TokenRenderDetails renderDetails, MessageToken messageToken) {
-        boolean usePrettyPrintFirstLinesOnly = messageToken.getType().equals(TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType());
-        boolean usePrettyPrint = messageToken.getType().equals(TokenTypes.PRETTY_PRINT_VALUE.getType());
+        boolean usePrettyPrintFirstLinesOnly = messageToken.type().equals(TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType());
+        boolean usePrettyPrint = messageToken.type().equals(TokenTypes.PRETTY_PRINT_VALUE.getType());
         if (usePrettyPrint || usePrettyPrintFirstLinesOnly) {
-            return ansiSequenceFromPrettyPrinter(valueConverter, currentLine, messageToken.getValue(), usePrettyPrintFirstLinesOnly);
+            return ansiSequenceFromPrettyPrinter(valueConverter, currentLine, messageToken.value(), usePrettyPrintFirstLinesOnly);
         }
 
-        Stream<Object> valueStream = Stream.of(messageToken.getValue());
+        Stream<Object> valueStream = Stream.of(messageToken.value());
         return Stream.concat(renderDetails.ansiSequence.stream(), valueStream);
     }
 
@@ -135,7 +142,7 @@ public class TokenizedMessageToAnsiConverter {
         associate(TokenTypes.ACTION.getType(), Color.BLUE);
         associate(TokenTypes.ERROR.getType(), Color.RED);
         associate(TokenTypes.WARNING.getType(), Color.YELLOW);
-        associate(TokenTypes.ID.getType(), Color.RESET, FontStyle.BOLD);
+        associate(TokenTypes.ID.getType(), FontStyle.RESET, FontStyle.BOLD);
         associate(TokenTypes.CLASSIFIER.getType(), Color.CYAN);
         associate(TokenTypes.MATCHER.getType(), Color.RESET, Color.BLUE);
         associate(TokenTypes.STRING_VALUE.getType(), Color.GREEN);
@@ -153,11 +160,13 @@ public class TokenizedMessageToAnsiConverter {
         associate(TokenTypes.NONE.getType(), Color.RESET);
     }
 
-    private static class TokenRenderDetails {
-        private final List<Object> ansiSequence;
+    private record TokenRenderDetails(List<Object> ansiSequence) {
+        boolean hasBold() {
+            return ansiSequence.stream().anyMatch(v -> v.equals(FontStyle.BOLD));
+        }
 
-        public TokenRenderDetails(List<Object> ansiSequence) {
-            this.ansiSequence = ansiSequence;
+        boolean startsWithBold() {
+            return ansiSequence.stream().limit(1).anyMatch(v -> v.equals(FontStyle.BOLD));
         }
     }
 }

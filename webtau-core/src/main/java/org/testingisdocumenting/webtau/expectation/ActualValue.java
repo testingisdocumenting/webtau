@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import org.testingisdocumenting.webtau.data.MultilineString;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
@@ -282,7 +283,7 @@ public class ActualValue implements ActualValueExpectations {
             TokenizedMessage assertionTokenizedMessage = step.getExceptionTokenizedMessage();
             if (assertionTokenizedMessage.tokensStream()
                     .filter(MessageToken::isPrettyPrintValue)
-                    .anyMatch(token -> token.getValue() == actualExtracted || token.getValue() == convertedActual)) {
+                    .anyMatch(token -> matchAsPartOfMessage(convertedActual, token.value()))) {
                 return WebTauStepOutput.EMPTY;
             }
 
@@ -305,6 +306,22 @@ public class ActualValue implements ActualValueExpectations {
         });
 
         return step;
+    }
+
+    private boolean matchAsPartOfMessage(Object convertedActual, Object value) {
+        if (value == actualExtracted || value == convertedActual) {
+            return true;
+        }
+
+        if (value instanceof CharSequence valueCs && convertedActual instanceof MultilineString multilineString) {
+            return multilineString.getText().contentEquals(valueCs);
+        }
+
+        if (value instanceof CharSequence valueCs && actualExtracted instanceof MultilineString multilineString) {
+            return multilineString.getText().contentEquals(valueCs);
+        }
+
+        return false;
     }
 
     private static boolean keepRootActualPathDecorated(Object actual) {

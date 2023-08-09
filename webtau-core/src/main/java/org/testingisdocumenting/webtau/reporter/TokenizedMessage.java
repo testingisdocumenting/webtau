@@ -92,12 +92,12 @@ public class TokenizedMessage implements Iterable<MessageToken> {
     }
 
     public TokenizedMessage add(MessageToken... tokens) {
-        this.tokens.addAll(Arrays.stream(tokens).flatMap(this::splitTokenNewLines).collect(toList()));
+        this.tokens.addAll(Arrays.stream(tokens).flatMap(this::splitTokenNewLines).toList());
         return this;
     }
 
     public TokenizedMessage addInFront(MessageToken... tokens) {
-        this.tokens.addAll(0, Arrays.stream(tokens).flatMap(this::splitTokenNewLines).collect(toList()));
+        this.tokens.addAll(0, Arrays.stream(tokens).flatMap(this::splitTokenNewLines).toList());
         return this;
     }
 
@@ -121,7 +121,7 @@ public class TokenizedMessage implements Iterable<MessageToken> {
 
     public TokenizedMessage addWithIndentation(TokenizedMessage tokenizedMessage) {
         int currentWidth = toString().length(); // only works if currently holds a single line
-        if (!tokenizedMessage.isEmpty() && !tokenizedMessage.getFirstToken().getType().equals(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType())) {
+        if (!tokenizedMessage.isEmpty() && !tokenizedMessage.getFirstToken().type().equals(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType())) {
             currentWidth += 1;
         }
 
@@ -136,7 +136,7 @@ public class TokenizedMessage implements Iterable<MessageToken> {
 
             add(tokenToAdd);
 
-            if (!tokenToAdd.isPrettyPrintValue() && tokenToAdd.getValue().equals("\n")) {
+            if (!tokenToAdd.isPrettyPrintValue() && tokenToAdd.value().equals("\n")) {
                 if (!isLastToken) {
                     add(new MessageToken(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType(), indentation));
                 }
@@ -292,11 +292,11 @@ public class TokenizedMessage implements Iterable<MessageToken> {
     }
 
     public boolean hasNewLineToken() {
-        return tokens.stream().anyMatch(token -> "\n".equals(token.getValue()));
+        return tokens.stream().anyMatch(token -> "\n".equals(token.value()));
     }
 
     public boolean onlyErrorTokens() {
-        return tokens.stream().allMatch(token -> TokenTypes.ERROR.getType().equals(token.getType()));
+        return tokens.stream().allMatch(token -> TokenTypes.ERROR.getType().equals(token.type()));
     }
 
     public int getNumberOfTokens() {
@@ -342,11 +342,11 @@ public class TokenizedMessage implements Iterable<MessageToken> {
             return Stream.of(token);
         }
 
-        if (token.getValue() == null) {
+        if (token.value() == null) {
             return Stream.of(token);
         }
 
-        String text = token.getValue().toString();
+        String text = token.value().toString();
         if (!StringUtils.hasNewLineSeparator(text)) {
             return Stream.of(token);
         }
@@ -357,7 +357,7 @@ public class TokenizedMessage implements Iterable<MessageToken> {
             if (part.equals("\n")) {
                 result.add(new MessageToken(TokenTypes.DELIMITER_NO_AUTO_SPACING.getType(), part));
             } else {
-                result.add(new MessageToken(token.getType(), part));
+                result.add(new MessageToken(token.type(), part));
             }
         }
 

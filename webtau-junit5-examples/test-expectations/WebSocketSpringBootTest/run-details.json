@@ -5,7 +5,7 @@
   "waitUntilReceiveMessageUsingPath()" : {
     "numberOfSuccessful" : 6
   },
-  "waitUntilReceiveMessageNoPath()" : {
+  "header()" : {
     "numberOfSuccessful" : 6
   },
   "discardMessages()" : {
@@ -16,6 +16,9 @@
   },
   "pollAsMap()" : {
     "numberOfSuccessful" : 5
+  },
+  "waitUntilReceiveMessageNoPath()" : {
+    "numberOfSuccessful" : 6
   },
   "pollMessageAfterWait()" : {
     "numberOfSuccessful" : 10

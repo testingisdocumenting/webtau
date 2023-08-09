@@ -27,14 +27,17 @@ GraphQL
 web-socket
     introduction
     received-messages
+    header
     import-and-dependencies
 browser
     introduction
     basic-configuration
     page-element-and-value
     page-object
-    element-actions
+    element-actions-reference
+    element-values-reference
     forms
+    tables
     asynchronous-page
     documentation-artifacts
     advanced-configuration
@@ -42,6 +45,7 @@ browser
     local-storage
     cookies
     navigation
+    alerts
     page-open-handlers
     finders-and-filters
     matchers
@@ -50,6 +54,7 @@ servers
     static-server
     proxy-server
     fake-server
+    server-router
 cli
     introduction
     foreground-command
@@ -89,8 +94,10 @@ utilities
 matchers
     introduction
     universal-compare
-    java-bean
-    string
+    java-beans-and-records
+    strings
+    maps
+    tables
     any-of
     custom-compare-to-handler
 groovy-standalone-runner

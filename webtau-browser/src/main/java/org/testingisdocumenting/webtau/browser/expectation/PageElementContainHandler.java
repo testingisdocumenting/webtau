@@ -42,7 +42,7 @@ public class PageElementContainHandler implements ContainHandler {
 
     public static Object extractActualValue(PageElement pageElement) {
         return pageElement.isMarkedAsAll() ?
-                pageElement.elementValues().get() :
-                pageElement.elementValue();
+                pageElement.valuesList.get() :
+                pageElement.value.get();
     }
 }

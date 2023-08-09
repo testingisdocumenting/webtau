@@ -92,6 +92,11 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
+    void "page element values"() {
+        runCli("pageElementValues.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
     void "same driver different threads"() {
         runCli("sameDriverDiffThreads.groovy", "webtau.samedriver.cfg.groovy")
     }
@@ -142,12 +147,26 @@ class WebTauBrowserFeaturesTestBase {
                 "byCssAndFilterByText.groovy": "by css and filter by text",
                 "byCssAndFilterByRegexp.groovy": "by css and filter by regexp",
                 "byCssAndFilterByNumberNestedFind.groovy": "by css and filter by number and nested css",
+                "byParent.groovy": "immediate parent",
+                "byParentCss.groovy": "parent by css",
         ])
 
         extractHtmlSnippets(root, "finders-and-filters.html", [
                 "welcome.html": "#welcome-wrapper",
+                "welcome-wrapper.html": "#welcome-top-wrapper",
+                "welcome-wrapper-wrapper.html": "#welcome-top-wrapper-wrapper",
                 "flat-menu.html": "#menu"
         ])
+    }
+
+    @Test
+    void "browser tables"() {
+        runCli("tables.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
+    void "alerts"() {
+        runCli("alerts.groovy", "webtau.cfg.groovy")
     }
 
     @Test

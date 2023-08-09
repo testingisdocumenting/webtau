@@ -23,6 +23,8 @@ import org.testingisdocumenting.webtau.expectation.code.ThrowExceptionMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAllMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainMatcher;
 import org.testingisdocumenting.webtau.expectation.equality.*;
+import org.testingisdocumenting.webtau.expectation.state.HiddenValueMatcher;
+import org.testingisdocumenting.webtau.expectation.state.VisibleValueMatcher;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -33,6 +35,18 @@ import java.util.regex.Pattern;
  * Convenient place to discover all the available matchers
  */
 public class Matchers {
+    /**
+     * visible matcher to check if UI element is visible
+     * @see #hidden
+     */
+    public static final ValueMatcher visible = new VisibleValueMatcher();
+
+    /**
+     * hidden matcher to check if UI element is hidden
+     * @see #visible
+     */
+    public static final ValueMatcher hidden = new HiddenValueMatcher();
+
     /**
      * Starting point of a value matcher
      * <pre>
@@ -338,65 +352,5 @@ public class Matchers {
      */
     public static ThrowExceptionMatcher throwException(Class<?> expectedClass, String expectedMessage) {
         return new ThrowExceptionMatcher(expectedClass, expectedMessage);
-    }
-
-    /**
-     * @deprecated due to introduction of <code>should[Not]Be</code>, <code>waitTo[Not]</code> variants,
-     * use {@link #greaterThan(Object)} instead
-     * <pre>
-     * actual(value).shouldBe(greaterThan(10));
-     * </pre>
-     * @param expected value to be greater than
-     * @return matcher instance
-     * @see #greaterThan(Object)
-     */
-    @Deprecated
-    public static GreaterThanMatcher beGreaterThan(Object expected) {
-        return greaterThan(expected);
-    }
-
-    /**
-     * @deprecated due to introduction of <code>should[Not]Be</code>, <code>waitTo[Not]</code> variants,
-     * use {@link #greaterThanOrEqual(Object)} instead
-     * <pre>
-     * actual(value).shouldBe(greaterThanOrEqual(10));
-     * </pre>
-     * @param expected value to be greater than or equal
-     * @return matcher instance
-     * @see #greaterThanOrEqual(Object)
-     */
-    @Deprecated
-    public static GreaterThanOrEqualMatcher beGreaterThanOrEqual(Object expected) {
-        return greaterThanOrEqual(expected);
-    }
-
-    /**
-     * @deprecated due to introduction of <code>should[Not]Be</code>, <code>waitTo[Not]</code> variants,
-     * use {@link #lessThan(Object)} instead
-     * <pre>
-     * actual(value).shouldBe(lessThan(10));
-     * </pre>
-     * @param expected value to be less than
-     * @return matcher instance
-     * @see #lessThan(Object)
-     */
-    @Deprecated
-    public static LessThanMatcher beLessThan(Object expected) {
-        return lessThan(expected);
-    }
-
-    /**
-     * @deprecated due to introduction of <code>should[Not]Be</code>, <code>waitTo[Not]</code> variants,
-     * use {@link #lessThanOrEqual(Object)} instead
-     * <pre>
-     * actual(value).shouldBe(lessThanOrEqual(10));
-     * </pre>
-     * @param expected value to be less than
-     * @return matcher instance
-     * @see #lessThanOrEqual(Object)
-     */
-    @Deprecated
-    public static LessThanOrEqualMatcher beLessThanOrEqual(Object expected) {
-        return lessThanOrEqual(expected);
     }
 }

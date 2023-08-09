@@ -22,9 +22,7 @@ import org.testingisdocumenting.webtau.reporter.WebTauStep;
 import org.testingisdocumenting.webtau.reporter.WebTauStepInputPrettyPrint;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 
-import javax.websocket.Session;
-import java.io.IOException;
-import java.io.UncheckedIOException;
+import java.net.http.WebSocket;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +30,7 @@ import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.websocket.WebSocketUtils.*;
 
 public class WebSocketSession {
-    private final Session session;
+    private final WebSocket httpWebSocket;
     private final String destination;
 
     /**
@@ -40,10 +38,14 @@ public class WebSocketSession {
      * Messages are exposed via <code>session.received</code> special value. You can validate, wait on or poll from in a synchronous manner.
      */
     public final WebSocketMessages received;
+    private final WebSocketMessageListener messageListener;
 
-    public WebSocketSession(Session session, String destination, WebSocketMessageListener messageListener) {
-        this.session = session;
+    private boolean isCloseSend;
+
+    public WebSocketSession(WebSocket httpWebSocket, String destination, WebSocketMessageListener messageListener) {
+        this.httpWebSocket = httpWebSocket;
         this.destination = destination;
+        this.messageListener = messageListener;
         this.received = new WebSocketMessages("received", destination, new DataNodeId(), messageListener);
     }
 
@@ -52,7 +54,7 @@ public class WebSocketSession {
     }
 
     public boolean isOpen() {
-        return session.isOpen();
+        return !isCloseSend && !messageListener.isClosed();
     }
 
     public void close() {
@@ -80,11 +82,7 @@ public class WebSocketSession {
                 tokenizedMessage().action("sending").classifier("text").action("message").to().url(destination),
                 () -> tokenizedMessage().action("sent").classifier("text").action("message").to().url(destination),
                 () -> {
-                    try {
-                        session.getBasicRemote().sendText(convertToText(value));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    }
+                    httpWebSocket.sendText(convertToText(value), true).join();
                 });
 
         step.setInput(new WebTauStepInputPrettyPrint(convertForPrettyPrint(value)));
@@ -92,11 +90,8 @@ public class WebSocketSession {
     }
 
     private void closeImpl() {
-        try {
-            session.close();
-        } catch (IOException e) {
-            throw new UncheckedIOException(e);
-        }
+        httpWebSocket.sendClose(WebSocket.NORMAL_CLOSURE, "ok").join();
+        isCloseSend = true;
     }
 
     private static String convertToText(Object payload) {

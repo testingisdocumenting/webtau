@@ -72,6 +72,14 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
         return header;
     }
 
+    /**
+     * creates a list of column names
+     * @return new list of column names
+     */
+    public List<String> getColumnNames() {
+        return header.getNamesStream().collect(toList());
+    }
+
     public boolean isEmpty() {
         return rows.isEmpty();
     }
@@ -181,6 +189,22 @@ public class TableData implements Iterable<Record>, PrettyPrintable {
         }
 
         return find(key);
+    }
+
+    public void addRowsExistingColumnsOnly(TableData tableData) {
+        List<String> existingNames = getColumnNames();
+
+        for (Record targetRow : tableData.rows) {
+            List<Object> newRowData = new ArrayList<>();
+
+            for (String existingColumnName : existingNames) {
+                int idx = tableData.header.findColumnIdxByName(existingColumnName);
+
+                newRowData.add(idx == -1 ? null : targetRow.get(idx));
+            }
+
+            addRow(new Record(header, newRowData));
+        }
     }
 
     public void addRow(List<?> values) {

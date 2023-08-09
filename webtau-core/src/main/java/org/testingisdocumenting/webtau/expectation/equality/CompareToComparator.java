@@ -19,7 +19,7 @@ package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.equality.handlers.AnyCompareToHandler;
 import org.testingisdocumenting.webtau.expectation.equality.handlers.NullCompareToHandler;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -245,36 +245,6 @@ public class CompareToComparator {
         lessMessages.clear();
         missingMessages.clear();
         extraMessages.clear();
-    }
-
-    @Deprecated
-    public void reportEqual(CompareToHandler reporter, ValuePath actualPath, String message) {
-        reportEqual(reporter, actualPath, tokenizedMessage().none(message));
-    }
-
-    @Deprecated
-    public void reportNotEqual(CompareToHandler reporter, ValuePath actualPath, String message) {
-        reportNotEqual(reporter, actualPath, tokenizedMessage().none(message));
-    }
-
-    @Deprecated
-    public void reportGreater(CompareToHandler reporter, ValuePath actualPath, String message) {
-        reportGreater(reporter, actualPath, tokenizedMessage().none(message));
-    }
-
-    @Deprecated
-    public void reportLess(CompareToHandler reporter, ValuePath actualPath, String message) {
-        reportLess(reporter, actualPath, tokenizedMessage().none(message));
-    }
-
-    @Deprecated
-    public void reportEqualOrNotEqual(CompareToHandler reporter, boolean isEqual, ValuePath actualPath, String message) {
-        reportEqualOrNotEqual(reporter, isEqual, actualPath, tokenizedMessage().none(message));
-    }
-
-    @Deprecated
-    public void reportCompareToValue(CompareToHandler reporter, int compareTo, ValuePath actualPath, String message) {
-        reportCompareToValue(reporter, compareTo, actualPath, tokenizedMessage().none(message));
     }
 
     public void reportMissing(CompareToHandler reporter, ValuePath actualPath, Object value) {
@@ -505,8 +475,8 @@ public class CompareToComparator {
     private static RuntimeException noHandlerFound(Object actual, Object expected) {
         return new RuntimeException(
             "no compareUsingCompareTo handler found for" +
-                    "\nactual: " + DataRenderers.render(actual) + " " + TraceUtils.renderType(actual) +
-                    "\nexpected: " + DataRenderers.render(expected) + " " + TraceUtils.renderType(expected));
+                    "\nactual: " + PrettyPrinter.renderAsTextWithoutColors(actual) + " " + TraceUtils.renderType(actual) +
+                    "\nexpected: " + PrettyPrinter.renderAsTextWithoutColors(expected) + " " + TraceUtils.renderType(expected));
     }
 
     private Set<ValuePath> extractActualPaths(List<ActualPathMessage> messages) {

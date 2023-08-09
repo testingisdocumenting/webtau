@@ -625,8 +625,8 @@ public class WebTauStep {
     private TokenizedMessage replaceValuesFirstLinesOnlyWithFull(TokenizedMessage message) {
         TokenizedMessage copy = new TokenizedMessage();
         for (MessageToken messageToken : message) {
-            copy.add(messageToken.getType().equals(TokenizedMessage.TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType()) ?
-                    new MessageToken(TokenizedMessage.TokenTypes.PRETTY_PRINT_VALUE.getType(), messageToken.getValue()):
+            copy.add(messageToken.type().equals(TokenizedMessage.TokenTypes.PRETTY_PRINT_VALUE_FIRST_LINES.getType()) ?
+                    new MessageToken(TokenizedMessage.TokenTypes.PRETTY_PRINT_VALUE.getType(), messageToken.value()):
                     messageToken);
         }
 

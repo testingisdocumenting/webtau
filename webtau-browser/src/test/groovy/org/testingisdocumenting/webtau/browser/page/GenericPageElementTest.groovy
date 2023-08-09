@@ -24,7 +24,7 @@ import org.testingisdocumenting.webtau.FakeAdditionalBrowserInteractions
 import org.testingisdocumenting.webtau.FakeWebDriver
 import org.testingisdocumenting.webtau.FakeWebElement
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssFinderPage
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssPageElementFinder
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
@@ -34,7 +34,7 @@ import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 import static org.testingisdocumenting.webtau.Matchers.actual
 import static org.testingisdocumenting.webtau.Matchers.equal
 
-class GenericPageElementTest implements StepReporter {
+class PageElementTest implements StepReporter {
     static PageElementPath elementPath
     static FakeWebDriver driver
     List<String> stepMessages = []
@@ -42,7 +42,7 @@ class GenericPageElementTest implements StepReporter {
     @BeforeClass
     static void setupDriver() {
         elementPath = new PageElementPath()
-        elementPath.addFinder(new ByCssFinderPage(".element"))
+        elementPath.addFinder(new ByCssPageElementFinder(".element"))
     }
 
     @Before
@@ -61,7 +61,7 @@ class GenericPageElementTest implements StepReporter {
 
     @Test
     void "should hide sent keys when using no log method"() {
-        def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), elementPath, false)
+        def pageElement = new PageElement(driver, new FakeAdditionalBrowserInteractions(), elementPath, false)
         pageElement.sendKeysNoLog("secret password")
 
         stepMessages.should == ["sending keys ***** to by css .element", "sent keys ***** to by css .element"]
@@ -69,7 +69,7 @@ class GenericPageElementTest implements StepReporter {
 
     @Test
     void "should show sent keys when using regular method"() {
-        def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), elementPath, false)
+        def pageElement = new PageElement(driver, new FakeAdditionalBrowserInteractions(), elementPath, false)
         pageElement.sendKeys("secret password")
 
         stepMessages.should == ["sending keys secret password to by css .element", "sent keys secret password to by css .element"]
@@ -77,7 +77,7 @@ class GenericPageElementTest implements StepReporter {
 
     @Test
     void "should hide set value when using no log method"() {
-        def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), elementPath, false)
+        def pageElement = new PageElement(driver, new FakeAdditionalBrowserInteractions(), elementPath, false)
         pageElement.setValueNoLog("another password")
 
         stepMessages.should == ["setting value ***** to by css .element",
@@ -90,7 +90,7 @@ class GenericPageElementTest implements StepReporter {
 
     @Test
     void "should show set value when using regular method"() {
-        def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), elementPath, false)
+        def pageElement = new PageElement(driver, new FakeAdditionalBrowserInteractions(), elementPath, false)
         pageElement.setValue("another password")
 
         stepMessages.should == ["setting value another password to by css .element",
@@ -168,9 +168,9 @@ class GenericPageElementTest implements StepReporter {
         driver.registerFakeElements("my-divs", elements)
 
         def elementPath = new PageElementPath()
-        elementPath.addFinder(new ByCssFinderPage("my-divs"))
+        elementPath.addFinder(new ByCssPageElementFinder("my-divs"))
 
-        def pageElement = new GenericPageElement(driver, new FakeAdditionalBrowserInteractions(), elementPath, false)
+        def pageElement = new PageElement(driver, new FakeAdditionalBrowserInteractions(), elementPath, false)
 
         def console = new TestConsoleOutput()
         def printer = new PrettyPrinter(0)

@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
+import org.testingisdocumenting.webtau.data.MapWithTrackedMissingKeys;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
@@ -29,6 +30,11 @@ public class MapsCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
         return actual instanceof Map && expected instanceof Map;
+    }
+
+    @Override
+    public Object convertedActual(Object actual, Object expected) {
+        return new MapWithTrackedMissingKeys((Map<?, ?>) actual);
     }
 
     @Override
@@ -64,9 +70,9 @@ public class MapsCompareToHandler implements CompareToHandler {
         private void handleKey(Object key) {
             ValuePath propertyPath = actualPath.property(key.toString());
 
-            if (! actualMap.containsKey(key)) {
+            if (!actualMap.containsKey(key)) {
                 compareToComparator.reportMissing(MapsCompareToHandler.this, propertyPath, expectedMap.get(key));
-            } else if (! expectedMap.containsKey(key)) {
+            } else if (!expectedMap.containsKey(key)) {
                 compareToComparator.reportExtra(MapsCompareToHandler.this, propertyPath, actualMap.get(key));
             } else {
                 compareToComparator.compareUsingEqualOnly(propertyPath, actualMap.get(key), expectedMap.get(key));

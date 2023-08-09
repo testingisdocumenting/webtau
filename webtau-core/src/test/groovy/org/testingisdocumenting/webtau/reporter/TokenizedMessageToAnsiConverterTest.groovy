@@ -23,18 +23,22 @@ import org.testingisdocumenting.webtau.console.ansi.FontStyle
 import org.junit.Test
 import org.testingisdocumenting.webtau.data.converters.ValueConverter
 
+import static org.testingisdocumenting.webtau.Matchers.*
+
 class TokenizedMessageToAnsiConverterTest {
     @Test
     void "should convert to ansi string based on registered tokens"() {
         def converter = new TokenizedMessageToAnsiConverter()
         converter.associate("keyword", FontStyle.BOLD, Color.CYAN)
         converter.associate("id", Color.BLUE)
-        converter.associate("id2", FontStyle.BOLD, Color.BLUE)
+        converter.associate("id2", FontStyle.BOLD, Color.YELLOW)
 
         def message = new TokenizedMessage()
         message.add("keyword", "hello").add("id", "world").add("id2", "world")
 
         def valuesAndStyles = converter.convert(ValueConverter.EMPTY, message, 0)
-        assert new AutoResetAnsiString(valuesAndStyles.stream()).toString() == "\u001B[1m\u001B[36mhello \u001B[34mworld \u001B[1m\u001B[34mworld\u001B[0m"
+
+        def ansiSequence = new AutoResetAnsiString(valuesAndStyles.stream()).toString()
+        actual(ansiSequence).should(equal("\u001B[1m\u001B[36mhello \u001B[0m\u001B[34mworld \u001B[1m\u001B[33mworld\u001B[0m"))
     }
 }

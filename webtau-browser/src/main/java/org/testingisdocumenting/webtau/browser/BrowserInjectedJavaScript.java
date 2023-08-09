@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.browser;
 
+import org.openqa.selenium.SearchContext;
 import org.testingisdocumenting.webtau.browser.page.HtmlNode;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
 import org.openqa.selenium.JavascriptExecutor;
@@ -74,6 +75,15 @@ public class BrowserInjectedJavaScript implements AdditionalBrowserInteractions 
         injectScript();
         return (List<WebElement>) javascriptExecutor.executeScript(returnTwoArgFunc("filterByRegexp"),
                 webElements, regexp);
+    }
+
+    @Override
+    public WebElement parentByCss(SearchContext element, String css) {
+        injectScript();
+        Object result = javascriptExecutor.executeScript(returnTwoArgFunc("findByParentCss"),
+                element, css);
+
+        return result == null ? null : (WebElement) result;
     }
 
     private static String oneArgFunc(String name) {

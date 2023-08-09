@@ -57,7 +57,7 @@ scenario("slowed down proxy") {
         http.get("${proxyServer.baseUrl}/hello.html") {
             body.should == expectedHtml
         }
-    } should throwException(~/Read timed out/)
+    } should throwException(~/request timed out/)
 
     proxyServer.fix()
 
@@ -126,7 +126,7 @@ scenario("proxy override and slow down") {
         http.get("${proxyServer.baseUrl}/another/hello") {
             body.should == [anotherId: "hello"]
         }
-    } should throwException(~/Read timed out/)
+    } should throwException(~/request timed out/)
     // unresponsive-time-out-throw
 
     // mark-fix
@@ -157,7 +157,7 @@ scenario("proxy override response and make original call") {
     def proxyServer = server.proxy("with-original-call", serverToProxy.baseUrl)
     // override-with-original-call
     def router = server.router().post("/hello", { request ->
-        def message = http.post(http.concatUrl(proxyServer.urlToProxy, request.uri),
+        def message = http.post(http.concatUrl(proxyServer.urlToProxy, request.path),
                 http.header(request.header), request.contentAsMap) {
             return body.message
         }

@@ -1,1 +1,1 @@
-httpProxy = 'my_proxy_server_to_use.com:3873'
+httpProxy = 'my-proxy-server-to-use.com:3873'

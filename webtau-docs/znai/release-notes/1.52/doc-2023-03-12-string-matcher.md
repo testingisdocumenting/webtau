@@ -1,1 +1,1 @@
-* Doc: [string matcher](matchers/string)
+* Doc: [string matcher](matchers/strings)

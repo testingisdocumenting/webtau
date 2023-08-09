@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.db;
 
-import org.testingisdocumenting.webtau.data.render.DataRenderers;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.data.table.TableData;
 import org.testingisdocumenting.webtau.data.table.header.TableDataHeader;
 import org.testingisdocumenting.webtau.data.ValuePath;
@@ -103,7 +103,7 @@ public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptio
     <E> E querySingleValueNoStep() {
         TableData table = queryTableDataNoStep();
         if (!isSingleValue(table)) {
-            throw new RuntimeException(query + " result is not a single value:\n" + DataRenderers.render(table));
+            throw new RuntimeException(query + " result is not a single value:\n" + PrettyPrinter.renderAsTextWithoutColors(table));
         }
 
         return getUnderlyingSingleValue(table);
@@ -139,7 +139,7 @@ public class DbQuery implements ActualValueExpectations, ActualPathAndDescriptio
 
         List<String> columns = result.get(0).keySet().stream()
                 .map(headerConverter)
-                .collect(Collectors.toList());
+                .toList();
 
         TableDataHeader header = new TableDataHeader(columns.stream());
         TableData tableData = new TableData(header);

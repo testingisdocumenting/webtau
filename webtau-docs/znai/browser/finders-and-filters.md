@@ -54,3 +54,23 @@ After you filtered, you can use finders again to find nested elements.
 :include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByNumberNestedFind.groovy { title: "Nested css selector" }
 
 :include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {rightSide: true, paths: ["ul.li[1].a"]}
+
+# Parent Finder
+
+:include-file: doc-artifacts/snippets/finders-filters/byParent.groovy {title: "select immediate parent", highlight: "parent"}
+
+:include-meta: {rightSide: true}
+
+:include-empty-block:
+
+:include-xml: doc-artifacts/snippets/finders-filters/welcome-wrapper.html 
+
+# Parent Finder By CSS
+
+:include-file: doc-artifacts/snippets/finders-filters/byParentCss.groovy {title: "select parent by css", highlight: "parent"}
+
+:include-meta: {rightSide: true}
+
+:include-empty-block:
+
+:include-xml: doc-artifacts/snippets/finders-filters/welcome-wrapper-wrapper.html 

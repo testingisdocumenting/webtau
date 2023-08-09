@@ -30,7 +30,7 @@ scenario('visible') {
     browser.reopen('/flicking-element')
 
     10.times {
-        flickingText.waitTo visible
+        flickingText.waitToBe visible
     }
 }
 

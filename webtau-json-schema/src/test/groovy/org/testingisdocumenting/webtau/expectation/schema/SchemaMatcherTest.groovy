@@ -25,15 +25,18 @@ class SchemaMatcherTest {
 
     @Test
     void "should throw exception when object does not match schema"() {
-        runExpectExceptionAndValidateOutput(AssertionError, contain("[\$.val: is missing but it is required]")) {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to comply with schema test-schema-default-version.json: $.val: is missing but it is required (Xms)\n' +
+                '  \n' +
+                '  {"name": "test"}') {
             actual([name: "test"]).should(complyWithSchema(TEST_SCHEMA))
         }
     }
 
     @Test
     void "should throw exception when object has incorrect types"() {
-        runExpectExceptionAndValidateOutput(AssertionError, containAll("[value] expected to comply with schema test-schema-default-version.json",
-                "[\$.val: string found, integer expected]")) {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to comply with schema test-schema-default-version.json: $.val: string found, integer expected (Xms)\n' +
+                '  \n' +
+                '  {"name": "test", "val": "foo"}') {
             actual([name: "test", val: "foo"]).should(complyWithSchema(TEST_SCHEMA))
         }
     }
@@ -45,8 +48,9 @@ class SchemaMatcherTest {
 
     @Test
     void "should throw exception when object matches schema but should not"() {
-        runExpectExceptionAndValidateOutput(AssertionError, containAll(
-                "[value] expected to not comply with schema test-schema-default-version.json", "[]")) {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not comply with schema test-schema-default-version.json (Xms)\n' +
+                '  \n' +
+                '  {"name": "test", "val": 123}') {
             actual([name: "test", val: 123]).shouldNot(complyWithSchema(TEST_SCHEMA))
         }
     }

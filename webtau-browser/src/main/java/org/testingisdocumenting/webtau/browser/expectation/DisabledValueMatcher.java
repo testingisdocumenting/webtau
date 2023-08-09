@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,42 +20,45 @@ package org.testingisdocumenting.webtau.browser.expectation;
 import org.testingisdocumenting.webtau.browser.page.PageElement;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class DisabledValueMatcher implements ValueMatcher {
     @Override
-    public String matchingMessage() {
-        return "to be disabled";
+    public TokenizedMessage matchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("to be disabled");
     }
 
     @Override
-    public String matchedMessage(ValuePath actualPath, Object actual) {
-        return "is disabled";
+    public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("is disabled");
     }
 
     @Override
-    public String mismatchedMessage(ValuePath actualPath, Object actual) {
-        return "is enabled";
+    public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("is enabled");
     }
 
     @Override
     public boolean matches(ValuePath actualPath, Object actual) {
         PageElement pageElement = (PageElement) actual;
-        return ! pageElement.isEnabled();
+        return !pageElement.isEnabled();
     }
 
     @Override
-    public String negativeMatchingMessage() {
-        return "to be enabled";
+    public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("to be enabled");
     }
 
     @Override
-    public String negativeMatchedMessage(ValuePath actualPath, Object actual) {
-        return "is enabled";
+    public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("is enabled");
     }
 
     @Override
-    public String negativeMismatchedMessage(ValuePath actualPath, Object actual) {
-        return "is disabled";
+    public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
+        return tokenizedMessage().matcher("is disabled");
     }
 
     @Override

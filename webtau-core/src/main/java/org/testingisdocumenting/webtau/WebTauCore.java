@@ -344,22 +344,6 @@ public class WebTauCore extends Matchers {
         throw new AssertionError();
     }
 
-    /**
-     * @deprecated use {@link #map} instead
-     */
-    @Deprecated
-    public static <K> Map<K, Object> aMapOf(K firstKey, Object firstValue, Object... rest) {
-        return map(firstKey, firstValue, rest);
-    }
-
-    /**
-     * @deprecated use {@link #map} instead
-     */
-    @Deprecated
-    public static <K> Map<K, Object> aMapOf(Map<K, ?> original, K firstKey, Object firstValue, Object... restKv) {
-        return map(original, firstKey, firstValue, restKv);
-    }
-
     private static void trace(String label, WebTauStepInput stepInput) {
         WebTauStep step = WebTauStep.createStep(
                 tokenizedMessage().action(label),
