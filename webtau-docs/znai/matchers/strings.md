@@ -66,3 +66,45 @@ Java:
   title: "console output"
 }
 
+# Contains
+
+Use `contains` matcher to check a presence of a substring:
+
+```tabs
+Groovy:
+:include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/StringMatchersGroovyExamplesTest.groovy {
+  surroundedBy: "multi-line-contains"
+}
+
+Java:
+:include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/StringMatchersJavaExamplesTest.java {
+  surroundedBy: "multi-line-contains"
+}
+```
+
+:include-cli-output: doc-artifacts/string-contains-output.txt {
+  title: "console output"
+}
+
+# Regexp
+
+Use `equal` matcher to match against a regular expression:
+
+```tabs
+Groovy:
+:include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/StringMatchersGroovyExamplesTest.groovy {
+  surroundedBy: "single-line-regexp"
+}
+
+Java:
+:include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/StringMatchersJavaExamplesTest.java {
+  surroundedBy: "single-line-regexp"
+}
+```
+
+:include-cli-output: doc-artifacts/string-regexp-output.txt {
+  title: "console output"
+}
+
+
+
