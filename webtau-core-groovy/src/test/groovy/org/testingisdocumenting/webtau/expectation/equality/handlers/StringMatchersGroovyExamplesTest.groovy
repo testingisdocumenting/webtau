@@ -18,11 +18,7 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers
 
 import org.junit.Test
 
-import java.util.regex.Pattern
-
-import static org.testingisdocumenting.webtau.WebTauCore.*
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runCaptureAndValidateOutput
-import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionCaptureAndValidateOutput
+import static org.testingisdocumenting.webtau.Matchers.*
 
 class StringMatchersGroovyExamplesTest {
     @Test
