@@ -18,6 +18,8 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.junit.Test;
 
+import java.util.regex.Pattern;
+
 import static org.testingisdocumenting.webtau.Matchers.*;
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;
 
@@ -57,6 +59,33 @@ public class StringMatchersJavaExamplesTest {
                     actual(output).should(equal("line one\nline two\nline three\n"));
                     // extra-empty-line-compare
                 });
+    }
+
+    @Test
+    public void regexp() {
+        runCaptureAndValidateOutput("string-regexp-output", ". [value] equals ~/final price: \\$\\d+/ (Xms)",  () -> {
+            // single-line-regexp
+            String output = "final price: $8998";
+            actual(output).should(equal(Pattern.compile("final price: \\$\\d+")));
+            // single-line-regexp
+        });
+    }
+
+    @Test
+    public void contains() {
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "string-contains-output", """
+                X failed expecting [value] to contain "four": no match found (Xms)
+                 \s
+                  **__________**
+                    line one
+                    line two
+                    line three
+                  **__________**""", () -> {
+            // multi-line-contains
+            String output = buildOutput();
+            actual(output).should(contain("four"));
+            // multi-line-contains
+        });
     }
 
     private static String buildOutput() {

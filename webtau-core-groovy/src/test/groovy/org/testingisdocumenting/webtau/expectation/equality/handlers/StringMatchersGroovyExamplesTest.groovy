@@ -17,7 +17,12 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers
 
 import org.junit.Test
+
+import java.util.regex.Pattern
+
 import static org.testingisdocumenting.webtau.WebTauCore.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runCaptureAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionCaptureAndValidateOutput
 
 class StringMatchersGroovyExamplesTest {
     @Test
@@ -31,7 +36,7 @@ class StringMatchersGroovyExamplesTest {
     }
 
     @Test
-    void multLine() {
+    void multiLine() {
         code {
             // multi-line-compare
             String output = buildOutput()
@@ -47,6 +52,24 @@ class StringMatchersGroovyExamplesTest {
             String output = buildOutput()
             output.should == "line one\nline two\nline three\n"
             // extra-empty-line-compare
+        } should throwException(AssertionError)
+    }
+
+    @Test
+    void regexp() {
+        // single-line-regexp
+        String output = 'final price: $8998'
+        output.should == ~/final price: \$\d+/
+        // single-line-regexp
+    }
+
+    @Test
+    void contains() {
+        code {
+            // multi-line-contains
+            String output = buildOutput()
+            output.should contain("four")
+            // multi-line-contains
         } should throwException(AssertionError)
     }
 
