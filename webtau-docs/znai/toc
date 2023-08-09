@@ -97,6 +97,7 @@ matchers
     java-beans-and-records
     strings
     maps
+    tables
     any-of
     custom-compare-to-handler
 groovy-standalone-runner

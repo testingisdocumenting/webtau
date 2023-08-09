@@ -21,6 +21,8 @@ Java:
 }
 ```
 
+More details in [Matchers](matchers/tables)
+
 # Extracting Table Data
 
 Use `:identifier: extractTableData` to extract `TableData` for further processing, e.g. saving to a disk:
