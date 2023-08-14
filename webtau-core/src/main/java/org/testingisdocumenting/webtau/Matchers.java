@@ -36,6 +36,11 @@ import java.util.regex.Pattern;
  */
 public class Matchers {
     /**
+     * any value matcher. use it in places like table or complex structures where you want to ignore a value
+     */
+    public static final ValueMatcher anyValue = new AnyValueMatcher();
+
+    /**
      * visible matcher to check if UI element is visible
      * @see #hidden
      */

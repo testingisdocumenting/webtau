@@ -99,6 +99,7 @@ matchers
     maps
     tables
     any-of
+    any-value
     custom-compare-to-handler
 groovy-standalone-runner
     introduction
