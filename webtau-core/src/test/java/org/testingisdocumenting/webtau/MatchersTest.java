@@ -292,6 +292,29 @@ public class MatchersTest {
     }
 
     @Test
+    public void anyValueTableMatcherExample() {
+        runCaptureAndValidateOutput("any-value-table-output", """
+                . [value] equals ColumnA │ ColumnB   \s
+                                      10 │ <any value>
+                                      30 │          40 (Xms)""", () -> {
+            // any-value-table-example
+            TableData summaryTable = loadFromCsv("summary.csv");
+            actual(summaryTable).should(equal(table("ColumnA", "ColumnB",
+                                                   ____________________,
+                                                           10, anyValue,
+                                                           30, 40)));
+            // any-value-table-example
+        });
+    }
+
+    private static TableData loadFromCsv(String fileName) {
+        return table("ColumnA", "ColumnB",
+                     ____________________,
+                            10, 20,
+                            30, 40);
+    }
+
+    @Test
     public void listFailureExample() {
         doc.console.capture("list-failure", () -> {
             code(() -> {

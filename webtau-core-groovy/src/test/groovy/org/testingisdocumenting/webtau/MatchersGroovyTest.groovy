@@ -108,6 +108,17 @@ class MatchersGroovyTest {
     }
 
     @Test
+    void "any value table matcher example"() {
+        // any-value-table-example
+        TableData summaryTable = loadFromCsv("summary.csv")
+        summaryTable.should == ["ColumnA" | "ColumnB" ] {
+                                _________________________
+                                        10| anyValue
+                                        30| 40 }
+        // any-value-table-example
+    }
+
+    @Test
     void "java records and table data equality"() {
         def wishListItem1 = new WishLitItem("id1", "tea set", true, [])
         def wishListItem2 = new WishLitItem("id2", "book set", false, [])
@@ -202,6 +213,13 @@ class MatchersGroovyTest {
 
     private static double calculatePrice() {
         return 10.5
+    }
+
+    private static TableData loadFromCsv(String fileName) {
+        return ["ColumnA" | "ColumnB" ] {
+              _________________________
+                        10| 20
+                        30| 40 }
     }
 
     private int countRecords() {
