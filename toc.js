@@ -757,6 +757,25 @@ toc = [ {
     } ]
   }, {
     "chapterTitle" : "Browser",
+    "pageTitle" : "Tables",
+    "pageMeta" : {
+      "identifier" : [ "{validationPath: \"examples/scenarios/ui/tables.groovy\"}" ]
+    },
+    "dirName" : "browser",
+    "fileName" : "tables",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Validating Table Data",
+      "id" : "validating-table-data"
+    }, {
+      "title" : "Extracting Table Data",
+      "id" : "extracting-table-data"
+    }, {
+      "title" : "Supported Tables Flavor",
+      "id" : "supported-tables-flavor"
+    } ]
+  }, {
+    "chapterTitle" : "Browser",
     "pageTitle" : "Asynchronous Page",
     "pageMeta" : { },
     "dirName" : "browser",
@@ -956,6 +975,9 @@ toc = [ {
     }, {
       "title" : "Parent Finder",
       "id" : "parent-finder"
+    }, {
+      "title" : "Parent Finder By CSS",
+      "id" : "parent-finder-by-css"
     } ]
   }, {
     "chapterTitle" : "Browser",
@@ -1059,6 +1081,24 @@ toc = [ {
     }, {
       "title" : "Fake Server Creation",
       "id" : "fake-server-creation"
+    } ]
+  }, {
+    "chapterTitle" : "Servers",
+    "pageTitle" : "Server Router",
+    "pageMeta" : {
+      "identifier" : [ "{validationPath: \"scenarios/server/router.groovy\"}" ]
+    },
+    "dirName" : "servers",
+    "fileName" : "server-router",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Router Creation",
+      "id" : "router-creation",
+      "style" : "api"
+    }, {
+      "title" : "Request Properties",
+      "id" : "request-properties",
+      "style" : "api"
     } ]
   } ]
 }, {
@@ -1738,6 +1778,40 @@ toc = [ {
     }, {
       "title" : "Different Number Of Empty Lines",
       "id" : "different-number-of-empty-lines"
+    }, {
+      "title" : "Contains",
+      "id" : "contains"
+    }, {
+      "title" : "Regexp",
+      "id" : "regexp"
+    } ]
+  }, {
+    "chapterTitle" : "Matchers",
+    "pageTitle" : "Maps",
+    "pageMeta" : { },
+    "dirName" : "matchers",
+    "fileName" : "maps",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Equality Comparison",
+      "id" : "equality-comparison"
+    }, {
+      "title" : "Contain",
+      "id" : "contain"
+    } ]
+  }, {
+    "chapterTitle" : "Matchers",
+    "pageTitle" : "Tables",
+    "pageMeta" : { },
+    "dirName" : "matchers",
+    "fileName" : "tables",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Equality Comparison",
+      "id" : "equality-comparison"
+    }, {
+      "title" : "Contain",
+      "id" : "contain"
     } ]
   }, {
     "chapterTitle" : "Matchers",
@@ -1752,6 +1826,20 @@ toc = [ {
     }, {
       "title" : "Mixing Values And Matchers",
       "id" : "mixing-values-and-matchers"
+    }, {
+      "title" : "Static Import",
+      "id" : "static-import"
+    } ]
+  }, {
+    "chapterTitle" : "Matchers",
+    "pageTitle" : "Any Value",
+    "pageMeta" : { },
+    "dirName" : "matchers",
+    "fileName" : "any-value",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Match Every Value",
+      "id" : "match-every-value"
     }, {
       "title" : "Static Import",
       "id" : "static-import"
@@ -2143,6 +2231,9 @@ toc = [ {
     "fileName" : "2023",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
+      "title" : "2.1",
+      "id" : "2-1"
+    }, {
       "title" : "2.0",
       "id" : "2-0"
     }, {

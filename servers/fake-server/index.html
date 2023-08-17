@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Fake Server Creation</h1></header>
-<p>Use and a router to create a server with controlled responses Groovy def myServer = server.fake(&quot;my-rest-server&quot;, router) http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { message.should == &quot;hello person&quot; } http.get(&quot;${myServer.baseUrl}/bye/person&quot;) { message.should == &quot;bye person&quot; } Java myServer = server.fake(&quot;my-rest-server&quot;, router); http.get(myServer.getBaseUrl() + &quot;/hello/person&quot;, ((header, body) -&gt; { body.get(&quot;message&quot;).should(equal(&quot;hello person&quot;)); })); http.get(myServer.getBaseUrl() + &quot;/bye/person&quot;, ((header, body) -&gt; { body.get(&quot;message&quot;).should(equal(&quot;bye person&quot;)); }));</p>
+<p>Use and a router to create a server with controlled responses Groovy def myServer = server.fake(&quot;my-rest-server&quot;, router) http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { message.should == &quot;hello person&quot; } http.get(&quot;${myServer.baseUrl}/bye/person&quot;) { message.should == &quot;bye person&quot; } Java myServer = server.fake(&quot;my-rest-server&quot;, router); http.get(myServer.getBaseUrl() + &quot;/hello/person&quot;, ((header, body) -&gt; { body.get(&quot;message&quot;).should(equal(&quot;hello person&quot;)); })); http.get(myServer.getBaseUrl() + &quot;/bye/person?politeFactor=2&quot;, ((header, body) -&gt; { body.get(&quot;message&quot;).should(equal(&quot;bye person&quot;)); }));</p>
 </article>
 </section>
 </div>
@@ -192,7 +192,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "myServer = server.fake(\"my-rest-server\", router);\n\nhttp.get(myServer.getBaseUrl() + \"/hello/person\", ((header, body) -> {\n    body.get(\"message\").should(equal(\"hello person\"));\n}));\n\nhttp.get(myServer.getBaseUrl() + \"/bye/person\", ((header, body) -> {\n    body.get(\"message\").should(equal(\"bye person\"));\n}));",
+            "snippet" : "myServer = server.fake(\"my-rest-server\", router);\n\nhttp.get(myServer.getBaseUrl() + \"/hello/person\", ((header, body) -> {\n    body.get(\"message\").should(equal(\"hello person\"));\n}));\n\nhttp.get(myServer.getBaseUrl() + \"/bye/person?politeFactor=2\", ((header, body) -> {\n    body.get(\"message\").should(equal(\"bye person\"));\n}));",
             "title" : "fake server creation example",
             "surroundedBy" : [ "server-create-example", "fake-response-check" ],
             "surroundedBySeparator" : "",
@@ -203,7 +203,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1686176411224,
+    "lastModifiedTime" : 1692271721162,
     "tocItem" : {
       "chapterTitle" : "Servers",
       "pageTitle" : "Fake Server",

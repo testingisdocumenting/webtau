@@ -84,6 +84,11 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>2.1</h1></header>
+<p>Add: browser browser/finders-and-filters#parent-finder-by-css element.parent(css) Fix: actual value path is now printed with default terminal color and not with the previous token color Fix: servers/introduction Servers fullUrl now includes queryString Doc: matchers/strings#contains string contain Doc: matchers/strings#regexp string regexp Doc: matchers/tables TableData Matcher Add: matchers/any-value any value matcher Add: matchers/maps#contain Map Contain displays missing keys inlined Add: matchers/maps#equality-comparison Map Equal displays missing keys inlined Add: browser/tables#extracting-table-data Browser tableEl.extratTableData to get table data from a page Add: reference/table-data TableData .addRowsExistingColumnsOnly(otherTable) to merge other tables into Add: reference/table-data TableData .getColumnNames() shortcut Add: browser/tables browser.table to validate and scrap page data in tabular format Add: browser/tables#supported-tables-flavor browser.table AG Grid flavor Add: browser/introduction Browser visible matcher is now part of core matchers and not browser specific Add: anyOf and containAll matchers toString is pretty printable Add: servers/introduction Servers shortcut to access servers/server-router#request-properties queryParam Add: servers/introduction Servers request object now exposes query and pathWithQuery</p>
+</article>
+
+<article>
 <header><h1>2.0</h1></header>
 <p>Warning: Java 17+ JRE is required for version 2.0Warning: All deprecated methods from 1.x are now removed Fix: pretty printing tokenized messages properly resets bold font on tokens that should not use bold Add: Leverage junit5/getting-started JUnit5 listeners to generate report at the end of plan execution instead of shutdown hook Fix: Browser browser/page-element-and-value Page Element pretty print method falls back to a regular printing when can't parse HTML properly Doc: Simplified browser/page-element-and-value Browser Page Element Declaration Doc: use Java var in examples where it makes sense Doc: use browser.keys in browser/forms#custom-form-elements custom form element Breaking: remove DataRenderers in favor of PrettyPrinter Breaking: remove all deprecated methods Breaking: minimum Java requirement is 17 to build and to run Add: Do not print actual string values in case of failure when they have already been printed as part of mismatch details Add: Nested matchers/introduction Matchers are pretty printable Breaking: Browser browser/page-element-and-value Page Element is now a concrete class Breaking: Browser browser/page-element-and-value Page Element .getCount() and company replaced with .count Add: browser/alerts Browser Alert shortcuts Add: matchers/java-beans-and-records#java-records Java Records And Map/Table comparison Add: Browser browser/finders-and-filters#parent-finder el.parent Add: Report for browser/forms Browser Page Element setValue uses &lt;enter&gt; , &lt;f1&gt; etc for special symbols Add: Expose Browser browser/element-values-reference#attribute-value attribute value for streamlined assertion/waiting Add: web-socket/introduction WebSocket module is now using java.net.http module as implementation and not embedded tomcat Add: web-socket/header WebSocket Header Add: HTTP/introduction HTTP module is now using java.net.http module as implementation and not HttpURLConnection Add: reference/table-data TableData toString() uses pretty printed version without colors</p>
 </article>
@@ -136,6 +141,481 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
+      "id" : "2-1",
+      "title" : "2.1",
+      "type" : "Section",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: browser ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/finders-and-filters#parent-finder-by-css",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "element.parent(css)",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: actual value path is now printed with default terminal color and not with the previous token color",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/servers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Servers",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "fullUrl",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " now includes ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "queryString",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/strings#contains",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "string contain",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/strings#regexp",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "string regexp",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/tables",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData Matcher",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/any-value",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "any value matcher",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/maps#contain",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Map Contain",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " displays missing keys inlined",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/maps#equality-comparison",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Map Equal",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " displays missing keys inlined",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/tables#extracting-table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Browser tableEl.extratTableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " to get table data from a page",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : ".addRowsExistingColumnsOnly(otherTable)",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to merge other tables into",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/reference/table-data",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "TableData",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : ".getColumnNames()",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " shortcut",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/tables",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "browser.table",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " to validate and scrap page data in tabular format",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/tables#supported-tables-flavor",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "browser.table AG Grid",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " flavor",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Browser",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "visible",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " matcher is now part of core matchers and not browser specific",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "anyOf",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "containAll",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " matchers toString is pretty printable",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/servers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Servers",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " shortcut to access ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/servers/server-router#request-properties",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "queryParam",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/servers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Servers",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "request",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " object now exposes ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "query",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "pathWithQuery",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
       "id" : "2-0",
       "title" : "2.0",
       "type" : "Section",
@@ -3081,7 +3561,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1686176411224,
+    "lastModifiedTime" : 1692271721162,
     "tocItem" : {
       "chapterTitle" : "Release Notes",
       "pageTitle" : "2023 Releases",
@@ -3092,6 +3572,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "2023",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "2.1",
+        "id" : "2-1"
+      }, {
         "title" : "2.0",
         "id" : "2-0"
       }, {

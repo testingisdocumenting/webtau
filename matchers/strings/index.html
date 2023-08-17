@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Mismatch Pinpoint Multi Line Text</h1></header>
-<p>In case of a multiline text, WebTau highlights a first mismatched line: Groovy String output = buildOutput() output.should == &quot;line one\nline 2&quot; Java String output = buildOutput(); actual(output).should(equal(&quot;line one\nline 2&quot;)); X failed expecting [value] to equal ________ line one line 2 ________: different number of lines: actual: 3 expected: 2 first mismatch at line idx 1: actual: &quot;line two&quot; expected: &quot;line 2&quot; ^ (0ms) __________ line one **line two** line three __________</p>
+<p>In case of a multiline text, WebTau highlights a first mismatched line: Groovy String output = buildOutput() output.should == &quot;line one\nline 2&quot; Java String output = buildOutput(); actual(output).should(equal(&quot;line one\nline 2&quot;)); X failed expecting [value] to equal ________ line one line 2 ________: different number of lines: actual: 3 expected: 2 first mismatch at line idx 1: actual: &quot;line two&quot; expected: &quot;line 2&quot; ^ (2ms) __________ line one **line two** line three __________</p>
 </article>
 
 <article>
@@ -100,7 +100,17 @@
 
 <article>
 <header><h1>Different Number Of Empty Lines</h1></header>
-<p>WebTau separately checks extra empty lines to help with missing/extra \n : Groovy String output = buildOutput() output.should == &quot;line one\nline two\nline three\n&quot; Java String output = buildOutput(); actual(output).should(equal(&quot;line one\nline two\nline three\n&quot;)); X failed expecting [value] to equal __________ line one line two line three __________: different number of lines: actual: 3 expected: 4 different number of empty lines at the end actual: 0 expected: 1 (0ms) **__________** line one line two line three **__________**</p>
+<p>WebTau separately checks extra empty lines to help with missing/extra \n : Groovy String output = buildOutput() output.should == &quot;line one\nline two\nline three\n&quot; Java String output = buildOutput(); actual(output).should(equal(&quot;line one\nline two\nline three\n&quot;)); X failed expecting [value] to equal __________ line one line two line three __________: different number of lines: actual: 3 expected: 4 different number of empty lines at the end actual: 0 expected: 1 (1ms) **__________** line one line two line three **__________**</p>
+</article>
+
+<article>
+<header><h1>Contains</h1></header>
+<p>Use contains matcher to check a presence of a substring: Groovy String output = buildOutput() output.should contain(&quot;four&quot;) Java String output = buildOutput(); actual(output).should(contain(&quot;four&quot;)); X failed expecting [value] to contain &quot;four&quot;: no match found (0ms) **__________** line one line two line three **__________**</p>
+</article>
+
+<article>
+<header><h1>Regexp</h1></header>
+<p>Use equal matcher to match against a regular expression: Groovy String output = 'final price: $8998' output.should == ~/final price: \$\d+/ Java String output = &quot;final price: $8998&quot;; actual(output).should(equal(Pattern.compile(&quot;final price: \\$\\d+&quot;))); . [value] equals ~/final price: \$\d+/ (0ms)</p>
 </article>
 </section>
 </div>
@@ -161,7 +171,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[32m\"hello world\"\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"hallo world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"hello world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m            ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[32m\"hello world\"\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"hallo world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"hello world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m            ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "mismatch-pinpoint-single-line-text-console-output",
         "type" : "CliOutput"
       } ]
@@ -196,7 +206,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m________", "                                    \u001B[32mline one", "                                    \u001B[32mline 2", "                                    \u001B[0m________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m2\u001B[0m", "\u001B[0m    \u001B[31mfirst mismatch at line idx \u001B[34m1\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[32m\"line two\"\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"line 2\"\u001B[0m", "\u001B[0m    \u001B[0m                ^\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[0m  __________\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[31m**line two**\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[0m  __________\u001B[0m" ],
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m________", "                                    \u001B[32mline one", "                                    \u001B[32mline 2", "                                    \u001B[0m________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m2\u001B[0m", "\u001B[0m    \u001B[31mfirst mismatch at line idx \u001B[34m1\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[32m\"line two\"\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"line 2\"\u001B[0m", "\u001B[0m    \u001B[0m                ^\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[0m  __________\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[31m**line two**\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[0m  __________\u001B[0m" ],
         "anchorId" : "mismatch-pinpoint-multi-line-text-console-output",
         "type" : "CliOutput"
       } ]
@@ -218,7 +228,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[1mtext \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m_________________", "                                 \u001B[32mhello world world", "                                 \u001B[32mhello again", "                                 \u001B[0m_________________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent line endings\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[31mcontains\u001B[0m \\r\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[31mdoesn't contain\u001B[0m \\r\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**_________________**\u001B[0m", "  \u001B[32m  hello world world\u001B[0m", "  \u001B[32m  hello again\u001B[0m", "  \u001B[31m**_________________**\u001B[0m" ],
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mtext \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m_________________", "                                 \u001B[32mhello world world", "                                 \u001B[32mhello again", "                                 \u001B[0m_________________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent line endings\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[31mcontains\u001B[0m \\r\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[31mdoesn't contain\u001B[0m \\r\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**_________________**\u001B[0m", "  \u001B[32m  hello world world\u001B[0m", "  \u001B[32m  hello again\u001B[0m", "  \u001B[31m**_________________**\u001B[0m" ],
         "anchorId" : "line-ending-detection-console-output",
         "type" : "CliOutput"
       } ]
@@ -259,12 +269,94 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m__________", "                                    \u001B[32mline one", "                                    \u001B[32mline two", "                                    \u001B[32mline three", "                                    \u001B[32m", "                                    \u001B[0m__________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m4\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mempty lines \u001B[33mat \u001B[36mthe end\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m0\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m1\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**__________**\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[32m  line two\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[31m**__________**\u001B[0m" ],
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m__________", "                                    \u001B[32mline one", "                                    \u001B[32mline two", "                                    \u001B[32mline three", "                                    \u001B[32m", "                                    \u001B[0m__________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m4\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mempty lines \u001B[33mat \u001B[36mthe end\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m0\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m1\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**__________**\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[32m  line two\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[31m**__________**\u001B[0m" ],
         "anchorId" : "different-number-of-empty-lines-console-output",
         "type" : "CliOutput"
       } ]
+    }, {
+      "id" : "contains",
+      "title" : "Contains",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "contains",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " matcher to check a presence of a substring:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "String output = buildOutput()\noutput.should contain(\"four\")",
+            "surroundedBy" : "multi-line-contains",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "String output = buildOutput();\nactual(output).should(contain(\"four\"));",
+            "surroundedBy" : "multi-line-contains",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "title" : "console output",
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto contain \u001B[32m\"four\"\u001B[0m: \u001B[31mno match found\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**__________**\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[32m  line two\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[31m**__________**\u001B[0m" ],
+        "anchorId" : "contains-console-output",
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "id" : "regexp",
+      "title" : "Regexp",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "equal",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " matcher to match against a regular expression:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "String output = 'final price: $8998'\noutput.should == ~/final price: \\$\\d+/",
+            "surroundedBy" : "single-line-regexp",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "String output = \"final price: $8998\";\nactual(output).should(equal(Pattern.compile(\"final price: \\\\$\\\\d+\")));",
+            "surroundedBy" : "single-line-regexp",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "title" : "console output",
+        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[33m~/\u001B[32mfinal price: \\$\\d+\u001B[33m/\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "anchorId" : "regexp-console-output",
+        "type" : "CliOutput"
+      } ]
     } ],
-    "lastModifiedTime" : 1686176411216,
+    "lastModifiedTime" : 1692271721154,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Strings",
@@ -284,6 +376,12 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Different Number Of Empty Lines",
         "id" : "different-number-of-empty-lines"
+      }, {
+        "title" : "Contains",
+        "id" : "contains"
+      }, {
+        "title" : "Regexp",
+        "id" : "regexp"
       } ]
     }
   }

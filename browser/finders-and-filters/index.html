@@ -105,7 +105,12 @@
 
 <article>
 <header><h1>Parent Finder</h1></header>
-<p>Use element.parent() to select immediate parent def welcomeMessage = $(&quot;#welcome&quot;) def wrapper = welcomeMessage.parent() wrapper.attribute(&quot;class&quot;).should == &quot;wrapper-class&quot;</p>
+<p>def welcomeMessage = $(&quot;#welcome&quot;) def wrapper = welcomeMessage.parent() wrapper.attribute(&quot;class&quot;).should == &quot;wrapper-class&quot;</p>
+</article>
+
+<article>
+<header><h1>Parent Finder By CSS</h1></header>
+<p>def welcomeMessage = $(&quot;#welcome&quot;) def mainWrapper = welcomeMessage.parent(&quot;.top-section&quot;) mainWrapper.attribute(&quot;class&quot;).should == &quot;top-section&quot;</p>
 </article>
 </section>
 </div>
@@ -552,26 +557,17 @@ ReactDOM.render(React.createElement(Documentation, {
       "title" : "Parent Finder",
       "type" : "Section",
       "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Use ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "element.parent()",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " to select immediate parent",
-          "type" : "SimpleText"
-        } ]
-      }, {
         "lang" : "groovy",
-        "snippet" : "def welcomeMessage = $(\"#welcome\")\ndef wrapper = welcomeMessage.parent()\nwrapper.attribute(\"class\").should == \"wrapper-class\"",
+        "snippet" : "def welcomeMessage = $(\"#welcome\")\ndef wrapper = welcomeMessage.parent()\n\nwrapper.attribute(\"class\").should == \"wrapper-class\"",
         "title" : "select immediate parent",
+        "highlight" : [ 1 ],
         "anchorId" : "parent-finder-select-immediate-parent",
         "type" : "Snippet"
       }, {
         "rightSide" : true,
         "type" : "Meta"
+      }, {
+        "type" : "EmptyBlock"
       }, {
         "xmlAsJson" : {
           "tagName" : "div",
@@ -597,8 +593,59 @@ ReactDOM.render(React.createElement(Documentation, {
         "paths" : [ ],
         "type" : "Xml"
       } ]
+    }, {
+      "id" : "parent-finder-by-css",
+      "title" : "Parent Finder By CSS",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def welcomeMessage = $(\"#welcome\")\ndef mainWrapper = welcomeMessage.parent(\".top-section\")\n\nmainWrapper.attribute(\"class\").should == \"top-section\"",
+        "title" : "select parent by css",
+        "highlight" : [ 1 ],
+        "anchorId" : "parent-finder-by-css-select-parent-by-css",
+        "type" : "Snippet"
+      }, {
+        "rightSide" : true,
+        "type" : "Meta"
+      }, {
+        "type" : "EmptyBlock"
+      }, {
+        "xmlAsJson" : {
+          "tagName" : "div",
+          "attributes" : [ {
+            "name" : "id",
+            "value" : "\"welcome-top-wrapper\""
+          }, {
+            "name" : "class",
+            "value" : "\"top-section\""
+          } ],
+          "children" : [ {
+            "tagName" : "div",
+            "attributes" : [ {
+              "name" : "id",
+              "value" : "\"welcome-wrapper\""
+            }, {
+              "name" : "class",
+              "value" : "\"wrapper-class\""
+            } ],
+            "children" : [ {
+              "tagName" : "div",
+              "attributes" : [ {
+                "name" : "id",
+                "value" : "\"welcome\""
+              } ],
+              "children" : [ {
+                "tagName" : "",
+                "text" : "hello"
+              } ]
+            } ]
+          } ]
+        },
+        "paths" : [ ],
+        "type" : "Xml"
+      } ]
     } ],
-    "lastModifiedTime" : 1686176411212,
+    "lastModifiedTime" : 1692271721150,
     "tocItem" : {
       "chapterTitle" : "Browser",
       "pageTitle" : "Finders And Filters",
@@ -623,6 +670,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Parent Finder",
         "id" : "parent-finder"
+      }, {
+        "title" : "Parent Finder By CSS",
+        "id" : "parent-finder-by-css"
       } ]
     }
   }

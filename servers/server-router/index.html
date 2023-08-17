@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Server Router</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Router Creation</h1></header>
+<p>Use to defined or override end-point responses for servers. Groovy def router = server.router() .get(&quot;/hello/:name&quot;) { request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } .get(&quot;/bye/:name&quot;) { request -&gt; server.response([message: &quot;bye ${request.param(&quot;name&quot;)}&quot;]) } Java WebTauRouter router = server.router() .get(&quot;/hello/:name&quot;, (request) -&gt; server.response(map(&quot;message&quot;, &quot;hello &quot; + request.param(&quot;name&quot;)))) .get(&quot;/bye/:name&quot;, (request) -&gt; server.response(map(&quot;message&quot;, &quot;bye &quot; + request.param(&quot;name&quot;))));</p>
+</article>
+
+<article>
+<header><h1>Request Properties</h1></header>
+<p>Path Parameters Use to access a path parameter value Groovy .get(&quot;/hello/:name&quot;) { request -&gt; server.response([message: &quot;hello &quot; + request.param(&quot;name&quot;)]) } Java .get(&quot;/hello/:name&quot;, (request) -&gt; server.response(map(&quot;message&quot;, &quot;hello &quot; + request.param(&quot;name&quot;)))) Query Parameters Use to access a path parameter value Groovy .get(&quot;/bye/:name&quot;) { request -&gt; server.response([message: &quot;bye &quot; + request.queryParam(&quot;title&quot;) + &quot; &quot; + request.param(&quot;name&quot;)]) } Java .get(&quot;/bye/:name&quot;, (request) -&gt; server.response(map(&quot;message&quot;, &quot;bye &quot; + request.queryParam(&quot;title&quot;) + &quot; &quot; + request.param(&quot;name&quot;))));</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "style" : "api",
+      "id" : "router-creation",
+      "title" : "Router Creation",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "server.router",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to defined or override end-point responses for servers.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def router = server.router()\n        .get(\"/hello/:name\") { request -> server.response([message: \"hello ${request.param(\"name\")}\"]) }\n        .get(\"/bye/:name\") { request -> server.response([message: \"bye ${request.param(\"name\")}\"]) }",
+            "title" : "router creation example",
+            "surroundedBy" : "router-example",
+            "anchorId" : "router-creation-router-creation-example",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "WebTauRouter router = server.router()\n        .get(\"/hello/:name\", (request) -> server.response(map(\"message\", \"hello \" + request.param(\"name\"))))\n        .get(\"/bye/:name\", (request) -> server.response(map(\"message\", \"bye \" + request.param(\"name\"))));",
+            "title" : "router creation example",
+            "surroundedBy" : "router-example",
+            "anchorId" : "router-creation-router-creation-example-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "style" : "api",
+      "id" : "request-properties",
+      "title" : "Request Properties",
+      "type" : "Section",
+      "content" : [ {
+        "style" : "api",
+        "id" : "request-properties-path-parameters",
+        "level" : 2,
+        "title" : "Path Parameters",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "request.param",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to access a path parameter value",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : ".get(\"/hello/:name\") { request ->\n    server.response([message: \"hello \" +\n            request.param(\"name\")])\n}",
+            "title" : "path param access",
+            "surroundedBy" : "path-param-example",
+            "highlight" : [ 2 ],
+            "anchorId" : "request-properties-path-parameters-path-param-access",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : ".get(\"/hello/:name\", (request) ->\n        server.response(map(\"message\", \"hello \" +\n                request.param(\"name\"))))",
+            "title" : "path param access",
+            "surroundedBy" : "path-param-example",
+            "highlight" : [ 2 ],
+            "anchorId" : "request-properties-path-parameters-path-param-access-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "style" : "api",
+        "id" : "request-properties-query-parameters",
+        "level" : 2,
+        "title" : "Query Parameters",
+        "type" : "SubHeading"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "request.queryParam",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to access a path parameter value",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : ".get(\"/bye/:name\") { request ->\n    server.response([message: \"bye \" +\n            request.queryParam(\"title\") +\n            \" \" + request.param(\"name\")])\n}",
+            "title" : "path param access",
+            "surroundedBy" : "query-param-example",
+            "highlight" : [ 2 ],
+            "anchorId" : "request-properties-query-parameters-path-param-access",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : ".get(\"/bye/:name\", (request) ->\n        server.response(map(\"message\", \"bye \" +\n                request.queryParam(\"title\") +\n                \" \" + request.param(\"name\"))));",
+            "title" : "path param access",
+            "surroundedBy" : "query-param-example",
+            "highlight" : [ 2 ],
+            "anchorId" : "request-properties-query-parameters-path-param-access-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    } ],
+    "lastModifiedTime" : 1692271721162,
+    "tocItem" : {
+      "chapterTitle" : "Servers",
+      "pageTitle" : "Server Router",
+      "pageMeta" : {
+        "identifier" : [ "{validationPath: \"scenarios/server/router.groovy\"}" ]
+      },
+      "dirName" : "servers",
+      "fileName" : "server-router",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Router Creation",
+        "id" : "router-creation",
+        "style" : "api"
+      }, {
+        "title" : "Request Properties",
+        "id" : "request-properties",
+        "style" : "api"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

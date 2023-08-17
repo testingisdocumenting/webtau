@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Maps</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Equality Comparison</h1></header>
+<p>When two maps are not equal, WebTau generates all the required info to investigate: Groovy Map&lt;String, ?&gt; generated = generate() generated.should == [firstName: &quot;G-FN&quot;, lastName: &quot;G-LN&quot;, address: [street: &quot;generated-street&quot;, city: &quot;GenCity&quot;, zipCode: &quot;12345&quot;]] Java Map&lt;String, ?&gt; generated = generate(); actual(generated).should(equal(map(&quot;firstName&quot;, &quot;G-FN&quot;, &quot;lastName&quot;, &quot;G-LN&quot;, &quot;address&quot;, map(&quot;street&quot;, &quot;generated-street&quot;, &quot;city&quot;, &quot;GenCity&quot;, &quot;zipCode&quot;, &quot;12345&quot;)))); X failed expecting [value] to equal { &quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;address&quot;: {&quot;street&quot;: &quot;generated-street&quot;, &quot;city&quot;: &quot;GenCity&quot;, &quot;zipCode&quot;: &quot;12345&quot;} }: mismatches: [value].address.city: actual: &quot;GenSity&quot; &lt;java.lang.String&gt; expected: &quot;GenCity&quot; &lt;java.lang.String&gt; ^ missing, but expected values: [value].address.zipCode: &quot;12345&quot; (1ms) { &quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;address&quot;: {&quot;street&quot;: &quot;generated-street&quot;, &quot;city&quot;: **&quot;GenSity&quot;**, &quot;zipCode&quot;: &lt;missing&gt;} }</p>
+</article>
+
+<article>
+<header><h1>Contain</h1></header>
+<p>Use contain matcher to check if one map is a subset of another: Groovy Map&lt;String, ?&gt; generated = generate() generated.should contain(firstName: &quot;G-FN&quot;, lastName: &quot;G-LN&quot;, middleName: &quot;G-MN&quot;) Java Map&lt;String, ?&gt; generated = generate(); actual(generated).should(contain( map(&quot;firstName&quot;, &quot;G-FN&quot;, &quot;lastName&quot;, &quot;G-LN&quot;, &quot;middleName&quot;, &quot;G-MD&quot;))); X failed expecting [value] to contain {&quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;middleName&quot;: &quot;G-MD&quot;}: no match found (1ms) { &quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;address&quot;: {&quot;street&quot;: &quot;generated-street&quot;, &quot;city&quot;: &quot;GenSity&quot;}, &quot;middleName&quot;: **&lt;missing&gt;** }</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "equality-comparison",
+      "title" : "Equality Comparison",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "When two maps are not equal, WebTau generates all the required info to investigate:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "Map<String, ?> generated = generate()\ngenerated.should == [firstName: \"G-FN\", lastName: \"G-LN\",\n        address: [street: \"generated-street\", city: \"GenCity\", zipCode: \"12345\"]]",
+            "surroundedBy" : "maps-equal-mismatch",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "Map<String, ?> generated = generate();\nactual(generated).should(equal(map(\"firstName\", \"G-FN\", \"lastName\", \"G-LN\",\n        \"address\", map(\"street\", \"generated-street\", \"city\", \"GenCity\", \"zipCode\", \"12345\"))));",
+            "surroundedBy" : "maps-equal-mismatch",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "title" : "console output",
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[33m{", "                                      \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m,", "                                      \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m,", "                                      \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"street\"\u001B[33m: \u001B[32m\"generated-street\"\u001B[33m, \u001B[35m\"city\"\u001B[33m: \u001B[32m\"GenCity\"\u001B[33m, \u001B[35m\"zipCode\"\u001B[33m: \u001B[32m\"12345\"\u001B[33m}", "                                    \u001B[33m}\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mmismatches\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value].address.city\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"GenSity\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[36mexpected\u001B[0m: \u001B[32m\"GenCity\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[0m              ^\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[31mmissing, but expected values\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value].address.zipCode\u001B[0m\u001B[0m: \u001B[32m\"12345\"\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"street\"\u001B[33m: \u001B[32m\"generated-street\"\u001B[33m, \u001B[35m\"city\"\u001B[33m: \u001B[31m**\"GenSity\"**\u001B[33m, \u001B[35m\"zipCode\"\u001B[33m: \u001B[31m<missing>\u001B[33m}\u001B[0m", "  \u001B[33m}\u001B[0m" ],
+        "anchorId" : "equality-comparison-console-output",
+        "type" : "CliOutput"
+      } ]
+    }, {
+      "id" : "contain",
+      "title" : "Contain",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "contain",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " matcher to check if one map is a subset of another:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "Map<String, ?> generated = generate()\ngenerated.should contain(firstName: \"G-FN\", lastName: \"G-LN\", middleName: \"G-MN\")",
+            "surroundedBy" : "maps-contain-mismatch",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "Map<String, ?> generated = generate();\nactual(generated).should(contain(\n        map(\"firstName\", \"G-FN\", \"lastName\", \"G-LN\", \"middleName\", \"G-MD\")));",
+            "surroundedBy" : "maps-contain-mismatch",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "title" : "console output",
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto contain \u001B[33m{\u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m, \u001B[35m\"middleName\"\u001B[33m: \u001B[32m\"G-MD\"\u001B[33m}\u001B[0m: \u001B[31mno match found\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"street\"\u001B[33m: \u001B[32m\"generated-street\"\u001B[33m, \u001B[35m\"city\"\u001B[33m: \u001B[32m\"GenSity\"\u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[35m\"middleName\"\u001B[33m: \u001B[31m**\u001B[31m<missing>\u001B[31m**\u001B[0m", "  \u001B[33m}\u001B[0m" ],
+        "anchorId" : "contain-console-output",
+        "type" : "CliOutput"
+      } ]
+    } ],
+    "lastModifiedTime" : 1692271721154,
+    "tocItem" : {
+      "chapterTitle" : "Matchers",
+      "pageTitle" : "Maps",
+      "pageMeta" : { },
+      "dirName" : "matchers",
+      "fileName" : "maps",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Equality Comparison",
+        "id" : "equality-comparison"
+      }, {
+        "title" : "Contain",
+        "id" : "contain"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

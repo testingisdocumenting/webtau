@@ -95,7 +95,7 @@
 
 <article>
 <header><h1>Preserve Original Call</h1></header>
-<p>Use HTTP/introduction HTTP Module to issue a call to a destination server with a possibility to change a request and provide a modified response.Example of a proxy server that makes original call, but returns an error def router = server.router().post(&quot;/hello&quot;, { request -&gt; def message = http.post(http.concatUrl(proxyServer.urlToProxy, request.uri), http.header(request.header), request.contentAsMap) { return body.message } // optional logic with original response return server.statusCode(500) }) proxyServer.addOverride(router)</p>
+<p>Use HTTP/introduction HTTP Module to issue a call to a destination server with a possibility to change a request and provide a modified response.Example of a proxy server that makes original call, but returns an error def router = server.router().post(&quot;/hello&quot;, { request -&gt; def message = http.post(http.concatUrl(proxyServer.urlToProxy, request.path), http.header(request.header), request.contentAsMap) { return body.message } // optional logic with original response return server.statusCode(500) }) proxyServer.addOverride(router)</p>
 </article>
 
 <article>
@@ -233,7 +233,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "def router = server.router().post(\"/hello\", { request ->\n    def message = http.post(http.concatUrl(proxyServer.urlToProxy, request.uri),\n            http.header(request.header), request.contentAsMap) {\n        return body.message\n    }\n\n    // optional logic with original response\n\n    return server.statusCode(500)\n})\n\nproxyServer.addOverride(router)",
+        "snippet" : "def router = server.router().post(\"/hello\", { request ->\n    def message = http.post(http.concatUrl(proxyServer.urlToProxy, request.path),\n            http.header(request.header), request.contentAsMap) {\n        return body.message\n    }\n\n    // optional logic with original response\n\n    return server.statusCode(500)\n})\n\nproxyServer.addOverride(router)",
         "title" : "original call and faked error response",
         "surroundedBy" : "override-with-original-call",
         "excludeRegexp" : "capturedMessages",
@@ -344,7 +344,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1686176411224,
+    "lastModifiedTime" : 1692271721162,
     "tocItem" : {
       "chapterTitle" : "Servers",
       "pageTitle" : "Proxy Server",
