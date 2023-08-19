@@ -9,12 +9,14 @@ Groovy:
   title: "create and start server",
   surroundedBy: "static-server-create",
 }
+:include-markdown: import-ref.md
 
 Java:
 :include-file: com/example/tests/junit5/StaticServerJavaTest.java {
   title: "create and start server",
   surroundedBy: "static-server-create"
 }
+:include-markdown: import-ref.md
 ```
 
 :include-file: data/staticcontent/data.json {autoTitle: true}

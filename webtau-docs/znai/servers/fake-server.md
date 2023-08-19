@@ -8,12 +8,14 @@ Groovy:
   title: "fake server creation example",
   surroundedBy: "router-example"
 }
+:include-markdown: import-ref.md
 
 Java:
 :include-file: com/example/tests/junit5/FakeServerJavaTest.java {
   title: "fake server creation example",
   surroundedBy: "router-example"
 }
+:include-markdown: import-ref.md
 ```
 
 # Fake Server Creation
