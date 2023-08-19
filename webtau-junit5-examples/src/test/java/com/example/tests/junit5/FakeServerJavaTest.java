@@ -24,7 +24,9 @@ import org.testingisdocumenting.webtau.server.route.WebTauRouter;
 
 import java.util.regex.Pattern;
 
-import static org.testingisdocumenting.webtau.WebTauDsl.*;
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.http.Http.*;
+import static org.testingisdocumenting.webtau.server.WebTauServerFacade.server;
 
 public class FakeServerJavaTest {
     private static WebTauServer myServer;
