@@ -20,11 +20,13 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers
 import org.junit.Test
 import org.testingisdocumenting.webtau.data.ValuePath
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator
+import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
 import static org.junit.Assert.*
 import static org.testingisdocumenting.webtau.Matchers.*
 import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.expectation.equality.CompareToComparator.*
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class IterableCompareToHandlerTest {
     private static final ValuePath actualPath = createActualPath("value")
@@ -57,34 +59,39 @@ class IterableCompareToHandlerTest {
 
     @Test
     void "should report mismatched elements"() {
-        CompareToComparator comparator = comparator(AssertionMode.EQUAL)
-        comparator.compareUsingEqualOnly(actualPath, [1, 2, 5], [3, 2, 4])
-
-        assertEquals(
-            "value[0]:  actual: 1 <java.lang.Integer>\n" +
-            "         expected: 3 <java.lang.Integer>\n" +
-            "value[2]:  actual: 5 <java.lang.Integer>\n" +
-            "         expected: 4 <java.lang.Integer>", comparator.generateEqualMismatchReport().toString())
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting list to equal [3, 2, 4]:\n" +
+                "    list[0]:  actual: 1 <java.lang.Integer>\n" +
+                "            expected: 3 <java.lang.Integer>\n" +
+                "    list[2]:  actual: 5 <java.lang.Integer>\n" +
+                "            expected: 4 <java.lang.Integer> (Xms)\n" +
+                "  \n" +
+                "  [**1**, 2, **5**]") {
+            actual([1, 2, 5], "list").should(equal([3, 2, 4]))
+        }
     }
 
     @Test
     void "should report missing elements"() {
-        CompareToComparator comparator = comparator(AssertionMode.EQUAL)
-        comparator.compareUsingEqualOnly(actualPath, [1, 2], [1, 2, 3])
-
-        assertEquals("missing, but expected values:\n" +
-            "\n" +
-            "value[2]: 3", comparator.generateEqualMismatchReport().toString())
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting list to equal [1, 2, 4, 6, 8, 10, 12, 43, 1, 5]:\n" +
+                "    missing, but expected values:\n" +
+                "    \n" +
+                "    [4, 6, 8, 10, 12, 43, 1, 5] (Xms)\n" +
+                "  \n" +
+                "  [1, 2]") {
+            actual([1, 2], "list").should(equal([1, 2, 4, 6, 8, 10, 12, 43, 1, 5]))
+        }
     }
 
     @Test
     void "should report extra elements"() {
-        CompareToComparator comparator = comparator(AssertionMode.EQUAL)
-        comparator.compareUsingEqualOnly(actualPath, [1, 2, 3], [1, 2])
-
-        assertEquals("unexpected values:\n" +
-            "\n" +
-            "value[2]: 3", comparator.generateEqualMismatchReport().toString())
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting list to equal [1, 2]:\n" +
+                "    unexpected values:\n" +
+                "    \n" +
+                "    [3, 4, 12, 43, 23] (Xms)\n" +
+                "  \n" +
+                "  [1, 2, 3, 4, 12, 43, 23]") {
+            actual([1, 2, 3, 4, 12, 43, 23], "list").should(equal([1, 2]))
+        }
     }
 
     @Test
