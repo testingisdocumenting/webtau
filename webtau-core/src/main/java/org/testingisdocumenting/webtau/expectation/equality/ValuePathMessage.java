@@ -22,12 +22,12 @@ import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
-public class ActualPathMessage {
+public class ValuePathMessage {
     private final ValuePath actualPath;
     private final TokenizedMessage message;
     private final TokenizedMessage fullMessage;
 
-    public ActualPathMessage(ValuePath actualPath, TokenizedMessage message) {
+    public ValuePathMessage(ValuePath actualPath, TokenizedMessage message) {
         this.actualPath = actualPath;
         this.message = message;
         this.fullMessage = tokenizedMessage().id(actualPath.getPath()).colon().addWithIndentation(message);

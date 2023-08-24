@@ -68,7 +68,7 @@ class IterableAndSingleValueContainHandlerTest {
                 '  [\n' +
                 '    {"firstName": "FN1", "lastName": "LN1"},\n' +
                 '    {"firstName": "FN2", "lastName": "LN2"},\n' +
-                '    {"firstName": "FN3", "lastName": "LN3"}\n' +
+                '    {"firstName": **"FN3"**, "lastName": "LN3"}\n' +
                 '  ]') {
             actual([
                     [firstName: 'FN1', lastName: 'LN1'],

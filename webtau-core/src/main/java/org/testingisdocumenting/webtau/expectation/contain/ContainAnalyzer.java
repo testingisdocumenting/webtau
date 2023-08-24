@@ -23,7 +23,7 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableAndTableContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableAndSingleValueContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.NullContainHandler;
-import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
+import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.TraceUtils;
@@ -36,8 +36,9 @@ import static org.testingisdocumenting.webtau.WebTauCore.*;
 public class ContainAnalyzer {
     private static final List<ContainHandler> handlers = discoverHandlers();
 
-    private final List<ActualPathMessage> matches;
-    private final List<ActualPathMessage> mismatches;
+    private final List<ValuePathMessage> matches;
+    private final List<ValuePathMessage> mismatches;
+    private final Set<ValuePath> extraMismatchPaths;
 
     private final List<Object> mismatchedExpectedValues;
 
@@ -73,7 +74,7 @@ public class ContainAnalyzer {
     }
 
     public void reportMismatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch) {
-        mismatches.add(new ActualPathMessage(actualPath, mismatch));
+        mismatches.add(new ValuePathMessage(actualPath, mismatch));
     }
 
     public void reportMismatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch, Object oneOfExpectedValues) {
@@ -82,7 +83,7 @@ public class ContainAnalyzer {
     }
 
     public void reportMatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch) {
-        matches.add(new ActualPathMessage(actualPath, mismatch));
+        matches.add(new ValuePathMessage(actualPath, mismatch));
     }
 
     public Set<ValuePath> generateMatchPaths() {
@@ -90,7 +91,10 @@ public class ContainAnalyzer {
     }
 
     public Set<ValuePath> generateMismatchPaths() {
-        return extractActualPaths(mismatches);
+        HashSet<ValuePath> result = new HashSet<>(extraMismatchPaths);
+        result.addAll(extractActualPaths(mismatches));
+
+        return result;
     }
 
     public TokenizedMessage generateMatchReport() {
@@ -118,16 +122,22 @@ public class ContainAnalyzer {
         this.convertedActualByPath.putAll(convertedActualByPath);
     }
 
+    public void registerExtraMismatchPaths(List<ValuePath> extraMismatchPaths) {
+        this.extraMismatchPaths.addAll(extraMismatchPaths);
+    }
+
     public void resetReportData() {
         mismatches.clear();
         matches.clear();
         mismatchedExpectedValues.clear();
+        extraMismatchPaths.clear();
     }
 
     private ContainAnalyzer() {
         this.matches = new ArrayList<>();
         this.mismatches = new ArrayList<>();
         this.mismatchedExpectedValues = new ArrayList<>();
+        this.extraMismatchPaths = new HashSet<>();
     }
 
     private boolean contains(ValuePath actualPath, Object actual, Object expected, boolean isNegative, ContainsLogic containsLogic) {
@@ -147,10 +157,10 @@ public class ContainAnalyzer {
         return after == before;
     }
 
-    private Set<ValuePath> extractActualPaths(List<ActualPathMessage> notEqualMessages) {
+    private Set<ValuePath> extractActualPaths(List<ValuePathMessage> notEqualMessages) {
         return notEqualMessages
                 .stream()
-                .map(ActualPathMessage::getActualPath)
+                .map(ValuePathMessage::getActualPath)
                 .collect(Collectors.toSet());
     }
 
