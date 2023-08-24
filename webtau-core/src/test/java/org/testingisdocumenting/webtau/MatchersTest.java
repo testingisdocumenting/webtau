@@ -248,7 +248,7 @@ public class MatchersTest {
                       "address": {"city": "TC2", "zipCode": "zip2"},
                       "description": "test account",
                       "id": "ac2",
-                      "name": "Work"
+                      "name": **"Work"**
                     },
                     {
                       "address": {"city": "TC3", "zipCode": "zip3"},

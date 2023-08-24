@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CompareToResult {
-    private List<ActualPathMessage> equalMessages = new ArrayList<>();
-    private List<ActualPathMessage> notEqualMessages = new ArrayList<>();
-    private List<ActualPathMessage> greaterMessages = new ArrayList<>();
-    private List<ActualPathMessage> lessMessages = new ArrayList<>();
-    private List<ActualPathMessage> missingMessages = new ArrayList<>();
-    private List<ActualPathMessage> extraMessages = new ArrayList<>();
+    private List<ValuePathMessage> equalMessages = new ArrayList<>();
+    private List<ValuePathMessage> notEqualMessages = new ArrayList<>();
+    private List<ValuePathMessage> greaterMessages = new ArrayList<>();
+    private List<ValuePathMessage> lessMessages = new ArrayList<>();
+    private List<ValuePathMessage> missingMessages = new ArrayList<>();
+    private List<ValuePathMessage> extraMessages = new ArrayList<>();
 
     public boolean isEqual() {
         return notEqualMessages.isEmpty() && hasNoExtraAndNoMissing();
@@ -51,39 +51,39 @@ public class CompareToResult {
         return greaterMessages.isEmpty() && hasNoExtraAndNoMissing();
     }
 
-    public List<ActualPathMessage> getEqualMessages() {
+    public List<ValuePathMessage> getEqualMessages() {
         return equalMessages;
     }
 
-    void setEqualMessages(List<ActualPathMessage> equalMessages) {
+    void setEqualMessages(List<ValuePathMessage> equalMessages) {
         this.equalMessages = equalMessages;
     }
 
-    public List<ActualPathMessage> getNotEqualMessages() {
+    public List<ValuePathMessage> getNotEqualMessages() {
         return notEqualMessages;
     }
 
-    void setNotEqualMessages(List<ActualPathMessage> notEqualMessages) {
+    void setNotEqualMessages(List<ValuePathMessage> notEqualMessages) {
         this.notEqualMessages = notEqualMessages;
     }
 
-    public List<ActualPathMessage> getGreaterMessages() {
+    public List<ValuePathMessage> getGreaterMessages() {
         return greaterMessages;
     }
 
-    void setGreaterMessages(List<ActualPathMessage> greaterMessages) {
+    void setGreaterMessages(List<ValuePathMessage> greaterMessages) {
         this.greaterMessages = greaterMessages;
     }
 
-    public List<ActualPathMessage> getLessMessages() {
+    public List<ValuePathMessage> getLessMessages() {
         return lessMessages;
     }
 
-    void setLessMessages(List<ActualPathMessage> lessMessages) {
+    void setLessMessages(List<ValuePathMessage> lessMessages) {
         this.lessMessages = lessMessages;
     }
 
-    public List<ActualPathMessage> getMissingMessages() {
+    public List<ValuePathMessage> getMissingMessages() {
         return missingMessages;
     }
 
@@ -95,15 +95,15 @@ public class CompareToResult {
         return !extraMessages.isEmpty() || !missingMessages.isEmpty();
     }
 
-    void setMissingMessages(List<ActualPathMessage> missingMessages) {
+    void setMissingMessages(List<ValuePathMessage> missingMessages) {
         this.missingMessages = missingMessages;
     }
 
-    public List<ActualPathMessage> getExtraMessages() {
+    public List<ValuePathMessage> getExtraMessages() {
         return extraMessages;
     }
 
-    void setExtraMessages(List<ActualPathMessage> extraMessages) {
+    void setExtraMessages(List<ValuePathMessage> extraMessages) {
         this.extraMessages = extraMessages;
     }
 }

@@ -59,7 +59,7 @@ class IterableAndTableContainHandlerTest {
                 '                                      "a3" │ "b4":\n' +
                 '    no matches found for: [{"a": "a2", "b": "b3"}, {"a": "a3", "b": "b4"}] (Xms)\n' +
                 '  \n' +
-                '  [{"a": "a1", "b": "b1"}, {"a": "a2", "b": "b2"}, {"a": "a3", "b": "b3"}, {"a": "a4", "b": "b4"}]') {
+                '  [{"a": "a1", "b": "b1"}, {"a": "a2", "b": **"b2"**}, {"a": **"a3"**, "b": **"b3"**}, {"a": **"a4"**, "b": "b4"}]') {
             actual(maps).should(contain(table))
         }
     }

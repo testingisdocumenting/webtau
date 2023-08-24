@@ -20,8 +20,10 @@ package org.testingisdocumenting.webtau.expectation.contain.handlers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
+import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class IterableAndSingleValueContainHandler implements ContainHandler {
     @Override
@@ -37,6 +39,20 @@ public class IterableAndSingleValueContainHandler implements ContainHandler {
         if (indexedValues.isEmpty()) {
             containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
                     .generateEqualMismatchReport(), expected);
+        }
+
+        // we want to highlight the closest matches in actual output. So among all the iterable values we pick the ones with the least mismatches
+        // and assume they are the closest match
+        List<List<ValuePathMessage>> mismatchMessagesPerIdx = analyzer.getMismatchMessagesPerIdx();
+        int minMismatches = mismatchMessagesPerIdx.stream().map(List::size).min(Integer::compareTo).orElse(0);
+
+        long numberOfEntriesWithMinMismatches = mismatchMessagesPerIdx.stream()
+                .filter(v -> v.size() == minMismatches).count();
+
+        if (numberOfEntriesWithMinMismatches != mismatchMessagesPerIdx.size()) {
+            mismatchMessagesPerIdx.stream()
+                    .filter(v -> v.size() == minMismatches)
+                    .forEach(v -> containAnalyzer.registerExtraMismatchPaths(v.stream().map(ValuePathMessage::getActualPath).collect(Collectors.toList())));
         }
 
         containAnalyzer.registerConvertedActualByPath(analyzer.getComparator().getConvertedActualByPath());

@@ -57,12 +57,12 @@ public class CompareToComparator {
 
     private static final List<CompareToHandler> handlers = discoverHandlers();
 
-    private final List<ActualPathMessage> equalMessages = new ArrayList<>();
-    private final List<ActualPathMessage> notEqualMessages = new ArrayList<>();
-    private final List<ActualPathMessage> greaterMessages = new ArrayList<>();
-    private final List<ActualPathMessage> lessMessages = new ArrayList<>();
-    private final List<ActualPathMessage> missingMessages = new ArrayList<>();
-    private final List<ActualPathMessage> extraMessages = new ArrayList<>();
+    private final List<ValuePathMessage> equalMessages = new ArrayList<>();
+    private final List<ValuePathMessage> notEqualMessages = new ArrayList<>();
+    private final List<ValuePathMessage> greaterMessages = new ArrayList<>();
+    private final List<ValuePathMessage> lessMessages = new ArrayList<>();
+    private final List<ValuePathMessage> missingMessages = new ArrayList<>();
+    private final List<ValuePathMessage> extraMessages = new ArrayList<>();
 
     // when actual value was converted for comparison, e.g. bean to Map, it will go into this map
     private final Map<ValuePath, Object> convertedActualByPath = new HashMap<>();
@@ -187,7 +187,7 @@ public class CompareToComparator {
                 generateReportPart(tokenizedMessage().error("unexpected values"), Collections.singletonList(extraMessages)));
     }
 
-    public List<ActualPathMessage> getNotEqualMessages() {
+    public List<ValuePathMessage> getNotEqualMessages() {
         return notEqualMessages;
     }
 
@@ -234,7 +234,7 @@ public class CompareToComparator {
         return extractActualPaths(equalMessages);
     }
 
-    public List<ActualPathMessage> getEqualMessages() {
+    public List<ValuePathMessage> getEqualMessages() {
         return equalMessages;
     }
 
@@ -248,27 +248,27 @@ public class CompareToComparator {
     }
 
     public void reportMissing(CompareToHandler reporter, ValuePath actualPath, Object value) {
-        missingMessages.add(new ActualPathMessage(actualPath, tokenizedMessage().value(value)));
+        missingMessages.add(new ValuePathMessage(actualPath, tokenizedMessage().value(value)));
     }
 
     public void reportExtra(CompareToHandler reporter, ValuePath actualPath, Object value) {
-        extraMessages.add(new ActualPathMessage(actualPath, tokenizedMessage().value(value)));
+        extraMessages.add(new ValuePathMessage(actualPath, tokenizedMessage().value(value)));
     }
 
     public void reportEqual(CompareToHandler reporter, ValuePath actualPath, TokenizedMessage message) {
-        equalMessages.add(new ActualPathMessage(actualPath, message));
+        equalMessages.add(new ValuePathMessage(actualPath, message));
     }
 
     public void reportNotEqual(CompareToHandler reporter, ValuePath actualPath, TokenizedMessage message) {
-        notEqualMessages.add(new ActualPathMessage(actualPath, message));
+        notEqualMessages.add(new ValuePathMessage(actualPath, message));
     }
 
     public void reportGreater(CompareToHandler reporter, ValuePath actualPath, TokenizedMessage message) {
-        greaterMessages.add(new ActualPathMessage(actualPath, message));
+        greaterMessages.add(new ValuePathMessage(actualPath, message));
     }
 
     public void reportLess(CompareToHandler reporter, ValuePath actualPath, TokenizedMessage message) {
-        lessMessages.add(new ActualPathMessage(actualPath, message));
+        lessMessages.add(new ValuePathMessage(actualPath, message));
     }
 
     public void reportEqualOrNotEqual(CompareToHandler reporter, boolean isEqual, ValuePath actualPath, TokenizedMessage message) {
@@ -390,7 +390,7 @@ public class CompareToComparator {
         convertedActualByPath.putAll(comparator.convertedActualByPath);
     }
 
-    private TokenizedMessage generateReportPart(TokenizedMessage label, List<List<ActualPathMessage>> messagesGroups) {
+    private TokenizedMessage generateReportPart(TokenizedMessage label, List<List<ValuePathMessage>> messagesGroups) {
         if (messagesGroups.stream().allMatch(List::isEmpty)) {
             return tokenizedMessage();
         }
@@ -398,17 +398,17 @@ public class CompareToComparator {
         return tokenizedMessage().add(label).colon().doubleNewLine().add(generateReportPartWithoutLabel(messagesGroups.stream()));
     }
 
-    private TokenizedMessage generateReportPartWithoutLabel(Stream<List<ActualPathMessage>> messagesGroupsStream) {
-        List<List<ActualPathMessage>> messagesGroups = messagesGroupsStream.filter(group -> !group.isEmpty()).collect(Collectors.toList());
+    private TokenizedMessage generateReportPartWithoutLabel(Stream<List<ValuePathMessage>> messagesGroupsStream) {
+        List<List<ValuePathMessage>> messagesGroups = messagesGroupsStream.filter(group -> !group.isEmpty()).toList();
         if (messagesGroups.isEmpty()) {
             return tokenizedMessage();
         }
 
         TokenizedMessage result = tokenizedMessage();
         int groupIdx = 0;
-        for (List<ActualPathMessage> group : messagesGroups) {
+        for (List<ValuePathMessage> group : messagesGroups) {
             int messageIdx = 0;
-            for (ActualPathMessage message : group) {
+            for (ValuePathMessage message : group) {
                 boolean useFullMessage = !message.getActualPath().equals(topLevelActualPath);
                 result.add(useFullMessage ? message.getFullMessage() : message.getMessage());
 
@@ -435,7 +435,7 @@ public class CompareToComparator {
 
         List<TokenizedMessage> nonEmpty = Arrays.stream(parts)
                 .filter(part -> !part.isEmpty())
-                .collect(Collectors.toList());
+                .toList();
 
         int idx = 0;
         for (TokenizedMessage message : nonEmpty) {
@@ -479,10 +479,10 @@ public class CompareToComparator {
                     "\nexpected: " + PrettyPrinter.renderAsTextWithoutColors(expected) + " " + TraceUtils.renderType(expected));
     }
 
-    private Set<ValuePath> extractActualPaths(List<ActualPathMessage> messages) {
+    private Set<ValuePath> extractActualPaths(List<ValuePathMessage> messages) {
         return messages
                 .stream()
-                .map(ActualPathMessage::getActualPath)
+                .map(ValuePathMessage::getActualPath)
                 .collect(Collectors.toSet());
     }
 }

@@ -80,12 +80,12 @@ class ContainAllMatcherTest {
                 '      "address": org.testingisdocumenting.webtau.Address@<ref>,\n' +
                 '      "description": "d1",\n' +
                 '      "id": "id1",\n' +
-                '      "name": "name1"\n' +
+                '      "name": **"name1"**\n' +
                 '    },\n' +
                 '    {\n' +
                 '      "address": org.testingisdocumenting.webtau.Address@<ref>,\n' +
                 '      "description": "d2",\n' +
-                '      "id": "id2",\n' +
+                '      "id": **"id2"**,\n' +
                 '      "name": "name2"\n' +
                 '    },\n' +
                 '    {\n' +

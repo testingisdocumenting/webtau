@@ -47,7 +47,7 @@ public class CliOutputContainHandler implements ContainHandler {
                     .generateEqualMismatchReport(), expected);
         }
 
-        indexedValues.forEach(iv -> cliOutput.registerMatchedLine(iv.getIdx()));
+        indexedValues.forEach(iv -> cliOutput.registerMatchedLine(iv.idx()));
     }
 
     @Override
@@ -59,8 +59,8 @@ public class CliOutputContainHandler implements ContainHandler {
         List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         indexedValues.forEach(indexedValue ->
-                containAnalyzer.reportMatch(this, actualPath.index(indexedValue.getIdx()),
-                        tokenizedMessage().matcher("equals").value(indexedValue.getValue())
+                containAnalyzer.reportMatch(this, actualPath.index(indexedValue.idx()),
+                        tokenizedMessage().matcher("equals").value(indexedValue.value())
                 ));
     }
 
