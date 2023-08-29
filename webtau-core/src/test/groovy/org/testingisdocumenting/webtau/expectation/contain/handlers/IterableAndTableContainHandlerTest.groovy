@@ -57,7 +57,19 @@ class IterableAndTableContainHandlerTest {
                 '                                      "a1" │ "b1"\n' +
                 '                                      "a2" │ "b3"\n' +
                 '                                      "a3" │ "b4":\n' +
-                '    no matches found for: [{"a": "a2", "b": "b3"}, {"a": "a3", "b": "b4"}] (Xms)\n' +
+                '    no matches found for: [{"a": "a2", "b": "b3"}, {"a": "a3", "b": "b4"}]\n' +
+                '    [value][1].b:  actual: "b2" <java.lang.String>\n' +
+                '                 expected: "b3" <java.lang.String>\n' +
+                '                             ^\n' +
+                '    [value][2].a:  actual: "a3" <java.lang.String>\n' +
+                '                 expected: "a2" <java.lang.String>\n' +
+                '                             ^\n' +
+                '    [value][2].b:  actual: "b3" <java.lang.String>\n' +
+                '                 expected: "b4" <java.lang.String>\n' +
+                '                             ^\n' +
+                '    [value][3].a:  actual: "a4" <java.lang.String>\n' +
+                '                 expected: "a3" <java.lang.String>\n' +
+                '                             ^ (Xms)\n' +
                 '  \n' +
                 '  [{"a": "a1", "b": "b1"}, {"a": "a2", "b": **"b2"**}, {"a": **"a3"**, "b": **"b3"**}, {"a": **"a4"**, "b": "b4"}]') {
             actual(maps).should(contain(table))

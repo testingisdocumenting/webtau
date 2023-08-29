@@ -43,7 +43,9 @@ class MapContainHandlerTest {
         def actualMap = [hello: 1, world: 2]
         def expectedMap = [hello: 1, world: 3]
 
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"hello": 1, "world": 3}: no match found (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"hello": 1, "world": 3}:\n' +
+                '    [value].world:  actual: 2 <java.lang.Integer>\n' +
+                '                  expected: 3 <java.lang.Integer> (Xms)\n' +
                 '  \n' +
                 '  {"hello": 1, "world": **2**}') {
             actual(actualMap).should(contain(expectedMap))
@@ -52,12 +54,49 @@ class MapContainHandlerTest {
 
     @Test
     void "should detect missing key"() {
-        def actualMap = [hello: 1, world: 2, nested: [test: "value"]]
-        def expectedMap = [hello: 1, world: 2, extra: 3, nested: [test: "value", another: "a-value"]]
+        def actualMap = [hello: 1, world: 2, nested: [test: "value"], anotherExtra: [gold: "fish"]]
+        def expectedMap = [hello: 1, world: 2, extra: 3, nested: [test: "value", another: "a-value"], anotherExtra: [nestedInExtra: 100]]
 
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"hello": 1, "world": 2, "extra": 3, "nested": {"test": "value", "another": "a-value"}}: no match found (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {\n' +
+                '                                        "hello": 1,\n' +
+                '                                        "world": 2,\n' +
+                '                                        "extra": 3,\n' +
+                '                                        "nested": {"test": "value", "another": "a-value"},\n' +
+                '                                        "anotherExtra": {"nestedInExtra": 100}\n' +
+                '                                      }:\n' +
+                '    missing values:\n' +
+                '    \n' +
+                '    [value].extra: 3\n' +
+                '    [value].nested.another: "a-value"\n' +
+                '    [value].anotherExtra.nestedInExtra: 100 (Xms)\n' +
                 '  \n' +
-                '  {"hello": 1, "world": 2, "nested": **{"test": "value", "another": <missing>}**, "extra": **<missing>**}') {
+                '  {\n' +
+                '    "hello": 1,\n' +
+                '    "world": 2,\n' +
+                '    "nested": {"test": "value", "another": **<missing>**},\n' +
+                '    "anotherExtra": {"gold": "fish", "nestedInExtra": **<missing>**},\n' +
+                '    "extra": **<missing>**\n' +
+                '  }') {
+            actual(actualMap).should(contain(expectedMap))
+        }
+    }
+
+    @Test
+    void "should display both missing and mismatched"() {
+        def actualMap = [hello: 1, world: 2]
+        def expectedMap = [hello: 2, another: 3]
+
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"hello": 2, "another": 3}:\n' +
+                '    mismatches:\n' +
+                '    \n' +
+                '    [value].hello:  actual: 1 <java.lang.Integer>\n' +
+                '                  expected: 2 <java.lang.Integer>\n' +
+                '    \n' +
+                '    missing values:\n' +
+                '    \n' +
+                '    [value].another: 3 (Xms)\n' +
+                '  \n' +
+                '  {"hello": **1**, "world": 2, "another": **<missing>**}') {
             actual(actualMap).should(contain(expectedMap))
         }
     }

@@ -42,7 +42,11 @@ class ContainAllMatcherTest {
 
     @Test
     void "negative matcher fails only when all the values are present "() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain all ["b", "a"] (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain all ["b", "a"]:\n' +
+                '    [value][1]:  actual:     "b" <java.lang.String>\n' +
+                '               expected: not "b" <java.lang.String>\n' +
+                '    [value][0]:  actual:     "a" <java.lang.String>\n' +
+                '               expected: not "a" <java.lang.String> (Xms)\n' +
                 '  \n' +
                 '  [**"a"**, **"b"**, "d"]') {
             actual(['a', 'b', 'd']).shouldNot(containAll('b', 'a'))

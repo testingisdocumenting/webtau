@@ -100,7 +100,7 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware, Pre
 
     @Override
     public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return containAnalyzer.generateMismatchReport();
+        return containAnalyzer.generateMatchReport();
     }
 
     @Override

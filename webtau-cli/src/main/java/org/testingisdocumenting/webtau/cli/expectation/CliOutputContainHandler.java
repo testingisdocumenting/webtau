@@ -43,8 +43,7 @@ public class CliOutputContainHandler implements ContainHandler {
         List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         if (indexedValues.isEmpty()) {
-            containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
-                    .generateEqualMismatchReport(), expected);
+            containAnalyzer.reportMismatchedValue(expected);
         }
 
         indexedValues.forEach(iv -> cliOutput.registerMatchedLine(iv.idx()));

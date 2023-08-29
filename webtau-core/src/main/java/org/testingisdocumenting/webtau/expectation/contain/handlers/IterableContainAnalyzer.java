@@ -20,7 +20,6 @@ package org.testingisdocumenting.webtau.expectation.contain.handlers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
-import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
 
 import java.util.*;
 
@@ -29,13 +28,13 @@ public class IterableContainAnalyzer {
     private final Object actual;
     private final Object expected;
     private final CompareToComparator comparator;
-    private final List<List<ValuePathMessage>> mismatchMessagesPerIdx;
+    private final List<CombinedMismatchAndMissing> mismatchAndMissing;
 
     public IterableContainAnalyzer(ValuePath actualPath, Object actual, Object expected, boolean isNegative) {
         this.actualPath = actualPath;
         this.actual = actual;
         this.expected = expected;
-        this.mismatchMessagesPerIdx = new ArrayList<>();
+        this.mismatchAndMissing = new ArrayList<>();
         this.comparator = CompareToComparator.comparator(isNegative ? CompareToComparator.AssertionMode.NOT_EQUAL : CompareToComparator.AssertionMode.EQUAL);
     }
 
@@ -55,7 +54,7 @@ public class IterableContainAnalyzer {
             if (isEqual) {
                 matchedIndexes.add(new IndexedValue(idx, actualValue));
             } else {
-                mismatchMessagesPerIdx.add(compareToResult.getNotEqualMessages());
+                mismatchAndMissing.add(new CombinedMismatchAndMissing(compareToResult.getNotEqualMessages(), compareToResult.getMissingMessages()));
             }
 
             idx++;
@@ -64,8 +63,8 @@ public class IterableContainAnalyzer {
         return matchedIndexes;
     }
 
-    public List<List<ValuePathMessage>> getMismatchMessagesPerIdx() {
-        return mismatchMessagesPerIdx;
+    public List<CombinedMismatchAndMissing> getMismatchAndMissing() {
+        return mismatchAndMissing;
     }
 
     public CompareToComparator getComparator() {

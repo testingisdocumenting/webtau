@@ -20,10 +20,8 @@ package org.testingisdocumenting.webtau.expectation.contain.handlers;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
-import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class IterableAndSingleValueContainHandler implements ContainHandler {
     @Override
@@ -37,22 +35,26 @@ public class IterableAndSingleValueContainHandler implements ContainHandler {
         List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         if (indexedValues.isEmpty()) {
-            containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
-                    .generateEqualMismatchReport(), expected);
+            containAnalyzer.reportMismatchedValue(expected);
         }
 
         // we want to highlight the closest matches in actual output. So among all the iterable values we pick the ones with the least mismatches
         // and assume they are the closest match
-        List<List<ValuePathMessage>> mismatchMessagesPerIdx = analyzer.getMismatchMessagesPerIdx();
-        int minMismatches = mismatchMessagesPerIdx.stream().map(List::size).min(Integer::compareTo).orElse(0);
+        List<CombinedMismatchAndMissing> failureMessagesPerIdx = analyzer.getMismatchAndMissing();
+        int minFailures = failureMessagesPerIdx.stream().map(CombinedMismatchAndMissing::size).min(Integer::compareTo).orElse(0);
 
-        long numberOfEntriesWithMinMismatches = mismatchMessagesPerIdx.stream()
-                .filter(v -> v.size() == minMismatches).count();
+        long numberOfEntriesWithMinMismatches = failureMessagesPerIdx.stream()
+                .filter(v -> v.size() == minFailures).count();
 
-        if (numberOfEntriesWithMinMismatches != mismatchMessagesPerIdx.size()) {
-            mismatchMessagesPerIdx.stream()
-                    .filter(v -> v.size() == minMismatches)
-                    .forEach(v -> containAnalyzer.registerExtraMismatchPaths(v.stream().map(ValuePathMessage::getActualPath).collect(Collectors.toList())));
+        if (numberOfEntriesWithMinMismatches != failureMessagesPerIdx.size()) {
+            List<CombinedMismatchAndMissing> suspects = failureMessagesPerIdx.stream()
+                    .filter(v -> v.size() == minFailures)
+                    .toList();
+            suspects.forEach(list -> containAnalyzer.registerExtraMismatchPaths(list.extractPaths()));
+            suspects.forEach(list -> {
+                containAnalyzer.reportMismatches(this, list.mismatchMessages());
+                containAnalyzer.reportMissing(this, list.missingMessage());
+            });
         }
 
         containAnalyzer.registerConvertedActualByPath(analyzer.getComparator().getConvertedActualByPath());

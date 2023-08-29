@@ -50,8 +50,7 @@ public class DataNodeListAndValueContainHandler implements ContainHandler {
         CompareToComparator comparator = comparator(AssertionMode.EQUAL);
 
         if (indexedValues.isEmpty()) {
-            containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
-                    .generateEqualMismatchReport(), expected);
+            containAnalyzer.reportMismatchedValue(expected);
 
             dataNodes.forEach(n -> comparator.compareUsingEqualOnly(actualPath, n, expected));
         } else {
