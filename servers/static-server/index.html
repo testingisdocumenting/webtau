@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Serve Static Content</h1></header>
-<p>Use to start a server on random port that will host static content from the specified directory. Groovy def myServer = server.serve(&quot;my-server&quot;, &quot;data/staticcontent&quot;) Java WebTauServer myServer = server.serve(&quot;my-server&quot;, &quot;src/test/resources/staticcontent&quot;); { &quot;id&quot;: &quot;user-one&quot;, &quot;type&quot;: &quot;person&quot; } Groovy http.get(&quot;${myServer.baseUrl}/data.json&quot;) { body.type == &quot;person&quot; } Java http.get(myServer.getBaseUrl() + &quot;/data.json&quot;, ((header, body) -&gt; { body.get(&quot;type&quot;).should(equal(&quot;person&quot;)); }));</p>
+<p>Use to start a server on random port that will host static content from the specified directory. Groovy def myServer = server.serve(&quot;my-server&quot;, &quot;data/staticcontent&quot;) Check servers/import-and-dependencies Import And Dependencies for prerequisites. Java WebTauServer myServer = server.serve(&quot;my-server&quot;, &quot;src/test/resources/staticcontent&quot;); Check servers/import-and-dependencies Import And Dependencies for prerequisites. { &quot;id&quot;: &quot;user-one&quot;, &quot;type&quot;: &quot;person&quot; } Groovy http.get(&quot;${myServer.baseUrl}/data.json&quot;) { body.type == &quot;person&quot; } Java http.get(myServer.getBaseUrl() + &quot;/data.json&quot;, ((header, body) -&gt; { body.get(&quot;type&quot;).should(equal(&quot;person&quot;)); }));</p>
 </article>
 
 <article>
@@ -176,6 +176,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "surroundedBy" : "static-server-create",
             "anchorId" : "serve-static-content-create-and-start-server",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/servers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         }, {
           "name" : "Java",
@@ -186,6 +203,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "surroundedBy" : "static-server-create",
             "anchorId" : "serve-static-content-create-and-start-server-2",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/servers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         } ],
         "type" : "Tabs"
@@ -446,7 +480,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1692271721162,
+    "lastModifiedTime" : 1693436397770,
     "tocItem" : {
       "chapterTitle" : "Servers",
       "pageTitle" : "Static Server",

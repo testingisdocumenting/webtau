@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Equality Comparison</h1></header>
-<p>When two tables are not equal, WebTau generates all the required info to investigate: Groovy def summary = loadFromCsv(&quot;summary.csv&quot;) def expected = [ &quot;ColumnA&quot; | &quot;ColumnB&quot; ] { ____________________________ 10 | greaterThan(15) anyOf(20, 22) | 40 } summary.should == expected Java var summary = loadFromCsv(&quot;summary.csv&quot;); TableData expected = table(&quot;ColumnA&quot;, &quot;ColumnB&quot;, _________________________, 10, greaterThan(15), anyOf(20, 22), 40); actual(summary).should(equal(expected)); X failed expecting [value] to equal ColumnA │ ColumnB 10 │ &lt;greater than 15&gt; &lt;any of [20, 22]&gt; │ 40: [value][1].ColumnA: actual: 30 &lt;java.lang.Integer&gt; expected: 20 &lt;java.lang.Integer&gt; actual: 30 &lt;java.lang.Integer&gt; expected: 22 &lt;java.lang.Integer&gt; (1ms) ColumnA │ ColumnB 10 │ 20 **30** │ 40</p>
+<p>When two tables are not equal, WebTau generates all the required info to investigate: Groovy def summary = loadFromCsv(&quot;summary.csv&quot;) def expected = [ &quot;ColumnA&quot; | &quot;ColumnB&quot; ] { ____________________________ 10 | greaterThan(15) anyOf(20, 22) | 40 } summary.should == expected Java var summary = loadFromCsv(&quot;summary.csv&quot;); TableData expected = table(&quot;ColumnA&quot;, &quot;ColumnB&quot;, _________________________, 10, greaterThan(15), anyOf(20, 22), 40); actual(summary).should(equal(expected)); X failed expecting [value] to equal ColumnA │ ColumnB 10 │ &lt;greater than 15&gt; &lt;any of [20, 22]&gt; │ 40: [value][1].ColumnA: actual: 30 &lt;java.lang.Integer&gt; expected: 20 &lt;java.lang.Integer&gt; actual: 30 &lt;java.lang.Integer&gt; expected: 22 &lt;java.lang.Integer&gt; (2ms) ColumnA │ ColumnB 10 │ 20 **30** │ 40</p>
 </article>
 
 <article>
 <header><h1>Contain</h1></header>
-<p>Use contain matcher to check if one map is a subset of another: Groovy def summary = loadFromCsv(&quot;summary.csv&quot;) summary.should contain([&quot;ColumnA&quot;: 20, &quot;ColumnB&quot;: greaterThan(15)]) Java var summary = loadFromCsv(&quot;summary.csv&quot;); actual(summary).should(contain(map(&quot;ColumnA&quot;, 20, &quot;ColumnB&quot;, greaterThan(15)))); X failed expecting [value] to contain {&quot;ColumnA&quot;: 20, &quot;ColumnB&quot;: &lt;greater than 15&gt;}: no match found (1ms) ColumnA │ ColumnB 10 │ 20 30 │ 40</p>
+<p>Use contain matcher to check if one map is a subset of another: Groovy def summary = loadFromCsv(&quot;summary.csv&quot;) summary.should contain([&quot;ColumnA&quot;: 20, &quot;ColumnB&quot;: greaterThan(15)]) Java var summary = loadFromCsv(&quot;summary.csv&quot;); actual(summary).should(contain(map(&quot;ColumnA&quot;, 20, &quot;ColumnB&quot;, greaterThan(15)))); X failed expecting [value] to contain {&quot;ColumnA&quot;: 20, &quot;ColumnB&quot;: &lt;greater than 15&gt;}: no match found (2ms) ColumnA │ ColumnB 10 │ 20 30 │ 40</p>
 </article>
 </section>
 </div>
@@ -151,7 +151,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[35mColumnA          \u001B[33m │ \u001B[35mColumnB          ", "                                                   \u001B[34m10\u001B[33m │ \u001B[33m<\u001B[36mgreater than \u001B[34m15\u001B[33m>", "                                    \u001B[33m<\u001B[36many of \u001B[33m[\u001B[34m20\u001B[33m, \u001B[34m22\u001B[33m]\u001B[33m>\u001B[33m │                \u001B[34m40\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value][1].ColumnA\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m30\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m                   \u001B[36mexpected\u001B[0m: \u001B[34m20\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m                   \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m30\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m                   \u001B[36mexpected\u001B[0m: \u001B[34m22\u001B[0m \u001B[33m<java.lang.Integer>\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB\u001B[0m", "       \u001B[34m10\u001B[33m │      \u001B[34m20\u001B[0m", "   \u001B[31m**30**\u001B[33m │      \u001B[34m40\u001B[0m" ],
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[35mColumnA          \u001B[33m │ \u001B[35mColumnB          ", "                                                   \u001B[34m10\u001B[33m │ \u001B[33m<\u001B[36mgreater than \u001B[34m15\u001B[33m>", "                                    \u001B[33m<\u001B[36many of \u001B[33m[\u001B[34m20\u001B[33m, \u001B[34m22\u001B[33m]\u001B[33m>\u001B[33m │                \u001B[34m40\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value][1].ColumnA\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m30\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m                   \u001B[36mexpected\u001B[0m: \u001B[34m20\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m                   \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m30\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m                   \u001B[36mexpected\u001B[0m: \u001B[34m22\u001B[0m \u001B[33m<java.lang.Integer>\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB\u001B[0m", "       \u001B[34m10\u001B[33m │      \u001B[34m20\u001B[0m", "   \u001B[31m**30**\u001B[33m │      \u001B[34m40\u001B[0m" ],
         "anchorId" : "equality-comparison-console-output",
         "type" : "CliOutput"
       } ]
@@ -192,12 +192,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto contain \u001B[33m{\u001B[35m\"ColumnA\"\u001B[33m: \u001B[34m20\u001B[33m, \u001B[35m\"ColumnB\"\u001B[33m: \u001B[33m<\u001B[36mgreater than \u001B[34m15\u001B[33m>\u001B[33m}\u001B[0m: \u001B[31mno match found\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB\u001B[0m", "       \u001B[34m10\u001B[33m │      \u001B[34m20\u001B[0m", "       \u001B[34m30\u001B[33m │      \u001B[34m40\u001B[0m" ],
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto contain \u001B[33m{\u001B[35m\"ColumnA\"\u001B[33m: \u001B[34m20\u001B[33m, \u001B[35m\"ColumnB\"\u001B[33m: \u001B[33m<\u001B[36mgreater than \u001B[34m15\u001B[33m>\u001B[33m}\u001B[0m: \u001B[31mno match found\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB\u001B[0m", "       \u001B[34m10\u001B[33m │      \u001B[34m20\u001B[0m", "       \u001B[34m30\u001B[33m │      \u001B[34m40\u001B[0m" ],
         "anchorId" : "contain-console-output",
         "type" : "CliOutput"
       } ]
     } ],
-    "lastModifiedTime" : 1692271721154,
+    "lastModifiedTime" : 1693436397758,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Tables",

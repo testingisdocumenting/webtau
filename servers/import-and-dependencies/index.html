@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Configuration</title>
+<title>WebTau: Import And Dependencies</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,13 +84,8 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Base URL</h1></header>
-<p>Here we cover essential configuration for HTTP testing.To learn basics about configuration, head over to getting-started/configuration Configuration Getting Started. To learn about all configuration capabilities, head over to configuration/groovy-config-file Configuration page.Use url to set base url for your tests. Groovy url = &quot;http://localhost:8080&quot; Note: WebTau treats groovy config file as code Java When you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, WebTau expects file named webtau.properties to be present in test classpath, e.g. test resources: url = http://localhost:8080 To set base url using environment variables use export WEBTAU_URL=http://another-server</p>
-</article>
-
-<article>
-<header><h1>Proxy</h1></header>
-<p>Use httpProxy to set proxy for the HTTP calls performed through http.get , http.post , etc Groovy httpProxy = 'my-proxy-server-to-use.com:3873' Java java httpProxy = my_proxy_server_to_use.com:3873</p>
+<header><h1>Server Specific Import</h1></header>
+<p>When you use multiple WebTau features you can single static import to have all core features available for autocomplete. It also requires a single dependency to bring all the WebTau modules. Groovy import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;2.1&lt;/version&gt; &lt;/dependency&gt; If you use groovy-standalone-runner/introduction Groovy Runner then all the dependencies are already present. Java import static org.testingisdocumenting.webtau.WebTauDsl.*; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;2.1&lt;/version&gt; &lt;/dependency&gt; To only import server module use Groovy import static org.testingisdocumenting.webtau.server.WebTauServerFacade.server &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-server&lt;/artifactId&gt; &lt;version&gt;2.1&lt;/version&gt; &lt;/dependency&gt; Java import static org.testingisdocumenting.webtau.server.WebTauServerFacade.server; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-server&lt;/artifactId&gt; &lt;version&gt;2.1&lt;/version&gt; &lt;/dependency&gt;</p>
 </article>
 </section>
 </div>
@@ -121,61 +116,18 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "Here we cover essential configuration for HTTP testing.",
-        "type" : "SimpleText"
-      } ]
-    }, {
-      "type" : "Paragraph",
-      "content" : [ {
-        "text" : "To learn basics about configuration, head over to ",
-        "type" : "SimpleText"
-      }, {
-        "url" : "/webtau/getting-started/configuration",
-        "isFile" : false,
-        "type" : "Link",
-        "content" : [ {
-          "text" : "Configuration Getting Started",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "text" : ".",
-        "type" : "SimpleText"
-      }, {
-        "type" : "SoftLineBreak"
-      }, {
-        "type" : "HardLineBreak"
-      }, {
-        "text" : "To learn about all configuration capabilities, head over to ",
-        "type" : "SimpleText"
-      }, {
-        "url" : "/webtau/configuration/groovy-config-file",
-        "isFile" : false,
-        "type" : "Link",
-        "content" : [ {
-          "text" : "Configuration page",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "text" : ".",
-        "type" : "SimpleText"
-      } ]
-    }, {
-      "style" : "api",
-      "id" : "base-url",
-      "title" : "Base URL",
+      "id" : "single-dsl-import",
+      "title" : "Single DSL Import",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Use ",
+          "text" : "When you use multiple WebTau features you can single static import to have all core features available for autocomplete.",
           "type" : "SimpleText"
         }, {
-          "code" : "url",
-          "type" : "InlinedCode"
+          "type" : "SoftLineBreak"
         }, {
-          "text" : " to set base url for your tests.",
+          "text" : "It also requires a single dependency to bring all the WebTau modules.",
           "type" : "SimpleText"
         } ]
       }, {
@@ -183,135 +135,122 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "url = \"http://localhost:8080\"",
-            "title" : "webtau.cfg.groovy",
-            "includeRegexp" : "localhost",
-            "anchorId" : "base-url-webtau-cfg-groovy",
+            "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
+            "title" : "core import",
+            "includeRegexp" : "WebTauGroovyDsl",
+            "anchorId" : "single-dsl-import-core-import",
+            "type" : "Snippet"
+          }, {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>2.1</version>\n</dependency>",
+            "title" : "maven dependency",
+            "anchorId" : "single-dsl-import-maven-dependency",
             "type" : "Snippet"
           }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "Note: WebTau treats groovy config file as code",
+              "text" : "If you use ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/groovy-standalone-runner/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Groovy Runner",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " then all the dependencies are already present.",
               "type" : "SimpleText"
             } ]
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "When you use JUnit like runners, e.g. ",
-              "type" : "SimpleText"
-            }, {
-              "url" : "/webtau/getting-started/installation#junit5",
-              "isFile" : false,
-              "type" : "Link",
-              "content" : [ {
-                "text" : "JUnit5",
-                "type" : "SimpleText"
-              } ]
-            }, {
-              "text" : ", WebTau expects file named",
-              "type" : "SimpleText"
-            }, {
-              "type" : "SoftLineBreak"
-            }, {
-              "code" : "webtau.properties",
-              "type" : "InlinedCode"
-            }, {
-              "text" : " to be present in test classpath, e.g. test resources:",
-              "type" : "SimpleText"
-            } ]
+            "lang" : "java",
+            "snippet" : "import static org.testingisdocumenting.webtau.WebTauDsl.*;",
+            "title" : "core import",
+            "includeRegexp" : "WebTauDsl",
+            "anchorId" : "single-dsl-import-core-import-2",
+            "type" : "Snippet"
           }, {
-            "lang" : "properties",
-            "snippet" : "url = http://localhost:8080",
-            "title" : "src/test/resources/webtau.properties",
-            "includeRegexp" : "localhost",
-            "anchorId" : "base-url-src-test-resources-webtau-properties",
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>2.1</version>\n</dependency>",
+            "title" : "maven dependency",
+            "anchorId" : "single-dsl-import-maven-dependency-2",
             "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "To set base url using environment variables use",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "",
-        "snippet" : "export WEBTAU_URL=http://another-server\n",
-        "lineNumber" : "",
-        "type" : "Snippet"
       } ]
     }, {
-      "style" : "api",
-      "id" : "proxy",
-      "title" : "Proxy",
+      "id" : "server-specific-import",
+      "title" : "Server Specific Import",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Use ",
+          "text" : "To only import ",
           "type" : "SimpleText"
         }, {
-          "code" : "httpProxy",
+          "code" : "server",
           "type" : "InlinedCode"
         }, {
-          "text" : " to set proxy for the HTTP calls performed through ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "http.get",
-          "type" : "InlinedCode"
-        }, {
-          "text" : ", ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "http.post",
-          "type" : "InlinedCode"
-        }, {
-          "text" : ", etc",
+          "text" : " module use",
           "type" : "SimpleText"
         } ]
       }, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
-            "lang" : "groovy",
-            "snippet" : "httpProxy = 'my-proxy-server-to-use.com:3873'",
-            "title" : "webtau.cfg.groovy",
-            "anchorId" : "proxy-webtau-cfg-groovy",
+            "lang" : "java",
+            "snippet" : "import static org.testingisdocumenting.webtau.server.WebTauServerFacade.server",
+            "title" : "server import",
+            "include" : "WebTauServerFacade.server",
+            "replace" : [ ";", "" ],
+            "anchorId" : "server-specific-import-server-import",
+            "type" : "Snippet"
+          }, {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-server</artifactId>\n    <version>2.1</version>\n</dependency>",
+            "title" : "maven dependency",
+            "anchorId" : "server-specific-import-maven-dependency",
             "type" : "Snippet"
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
             "lang" : "java",
-            "snippet" : "httpProxy = my_proxy_server_to_use.com:3873\n",
-            "lineNumber" : "",
-            "title" : "src/test/resources/webtau.properties",
+            "snippet" : "import static org.testingisdocumenting.webtau.server.WebTauServerFacade.server;",
+            "title" : "server import",
+            "include" : "WebTauServerFacade.server",
+            "anchorId" : "server-specific-import-server-import-2",
+            "type" : "Snippet"
+          }, {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-server</artifactId>\n    <version>2.1</version>\n</dependency>",
+            "title" : "maven dependency",
+            "anchorId" : "server-specific-import-maven-dependency-2",
             "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1693436397750,
+    "lastModifiedTime" : 1693436397770,
     "tocItem" : {
-      "chapterTitle" : "HTTP",
-      "pageTitle" : "Configuration",
+      "chapterTitle" : "Servers",
+      "pageTitle" : "Import And Dependencies",
       "pageMeta" : { },
-      "dirName" : "HTTP",
-      "fileName" : "configuration",
+      "dirName" : "servers",
+      "fileName" : "import-and-dependencies",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Base URL",
-        "id" : "base-url",
-        "style" : "api"
+        "title" : "Single DSL Import",
+        "id" : "single-dsl-import"
       }, {
-        "title" : "Proxy",
-        "id" : "proxy",
-        "style" : "api"
+        "title" : "Server Specific Import",
+        "id" : "server-specific-import"
       } ]
     }
   }

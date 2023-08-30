@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Contain</h1></header>
-<p>Use contain matcher to check if one map is a subset of another: Groovy Map&lt;String, ?&gt; generated = generate() generated.should contain(firstName: &quot;G-FN&quot;, lastName: &quot;G-LN&quot;, middleName: &quot;G-MN&quot;) Java Map&lt;String, ?&gt; generated = generate(); actual(generated).should(contain( map(&quot;firstName&quot;, &quot;G-FN&quot;, &quot;lastName&quot;, &quot;G-LN&quot;, &quot;middleName&quot;, &quot;G-MD&quot;))); X failed expecting [value] to contain {&quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;middleName&quot;: &quot;G-MD&quot;}: no match found (1ms) { &quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;address&quot;: {&quot;street&quot;: &quot;generated-street&quot;, &quot;city&quot;: &quot;GenSity&quot;}, &quot;middleName&quot;: **&lt;missing&gt;** }</p>
+<p>Use contain matcher to check if one map is a subset of another: Groovy Map&lt;String, ?&gt; generated = generate() generated.should contain(firstName: &quot;G-FN&quot;, lastName: &quot;G-LN&quot;, middleName: &quot;G-MN&quot;) Java Map&lt;String, ?&gt; generated = generate(); actual(generated).should(contain( map(&quot;firstName&quot;, &quot;G-FN&quot;, &quot;lastName&quot;, &quot;G-LN&quot;, &quot;middleName&quot;, &quot;G-MD&quot;))); X failed expecting [value] to contain {&quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;middleName&quot;: &quot;G-MD&quot;}: missing values: [value].middleName: &quot;G-MD&quot; (1ms) { &quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;address&quot;: {&quot;street&quot;: &quot;generated-street&quot;, &quot;city&quot;: &quot;GenSity&quot;}, &quot;middleName&quot;: **&lt;missing&gt;** }</p>
 </article>
 </section>
 </div>
@@ -192,12 +192,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto contain \u001B[33m{\u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m, \u001B[35m\"middleName\"\u001B[33m: \u001B[32m\"G-MD\"\u001B[33m}\u001B[0m: \u001B[31mno match found\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"street\"\u001B[33m: \u001B[32m\"generated-street\"\u001B[33m, \u001B[35m\"city\"\u001B[33m: \u001B[32m\"GenSity\"\u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[35m\"middleName\"\u001B[33m: \u001B[31m**\u001B[31m<missing>\u001B[31m**\u001B[0m", "  \u001B[33m}\u001B[0m" ],
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto contain \u001B[33m{\u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m, \u001B[35m\"middleName\"\u001B[33m: \u001B[32m\"G-MD\"\u001B[33m}\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[34mmissing values\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value].middleName\u001B[0m\u001B[0m: \u001B[32m\"G-MD\"\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"street\"\u001B[33m: \u001B[32m\"generated-street\"\u001B[33m, \u001B[35m\"city\"\u001B[33m: \u001B[32m\"GenSity\"\u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[35m\"middleName\"\u001B[33m: \u001B[31m**\u001B[31m<missing>\u001B[31m**\u001B[0m", "  \u001B[33m}\u001B[0m" ],
         "anchorId" : "contain-console-output",
         "type" : "CliOutput"
       } ]
     } ],
-    "lastModifiedTime" : 1692271721154,
+    "lastModifiedTime" : 1693436397758,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Maps",

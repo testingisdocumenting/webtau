@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Router Creation</h1></header>
-<p>Use to defined end points responses. Groovy def router = server.router() .get(&quot;/hello/:name&quot;) { request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } .get(&quot;/bye/:name&quot;) { request -&gt; server.response([message: &quot;bye ${request.param(&quot;name&quot;)}&quot;]) } Java WebTauRouter router = server.router() .get(&quot;/hello/:name&quot;, (request) -&gt; server.response(map(&quot;message&quot;, &quot;hello &quot; + request.param(&quot;name&quot;)))) .get(&quot;/bye/:name&quot;, (request) -&gt; server.response(map(&quot;message&quot;, &quot;bye &quot; + request.param(&quot;name&quot;))));</p>
+<p>Use to defined end points responses. Groovy def router = server.router() .get(&quot;/hello/:name&quot;) { request -&gt; server.response([message: &quot;hello ${request.param(&quot;name&quot;)}&quot;]) } .get(&quot;/bye/:name&quot;) { request -&gt; server.response([message: &quot;bye ${request.param(&quot;name&quot;)}&quot;]) } Check servers/import-and-dependencies Import And Dependencies for prerequisites. Java WebTauRouter router = server.router() .get(&quot;/hello/:name&quot;, (request) -&gt; server.response(map(&quot;message&quot;, &quot;hello &quot; + request.param(&quot;name&quot;)))) .get(&quot;/bye/:name&quot;, (request) -&gt; server.response(map(&quot;message&quot;, &quot;bye &quot; + request.param(&quot;name&quot;)))); Check servers/import-and-dependencies Import And Dependencies for prerequisites.</p>
 </article>
 
 <article>
@@ -146,6 +146,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "surroundedBy" : "router-example",
             "anchorId" : "router-creation-fake-server-creation-example",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/servers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         }, {
           "name" : "Java",
@@ -156,6 +173,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "surroundedBy" : "router-example",
             "anchorId" : "router-creation-fake-server-creation-example-2",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/servers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         } ],
         "type" : "Tabs"
@@ -203,7 +237,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1692271721162,
+    "lastModifiedTime" : 1693436397770,
     "tocItem" : {
       "chapterTitle" : "Servers",
       "pageTitle" : "Fake Server",
