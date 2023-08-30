@@ -232,10 +232,13 @@ public class MatchersTest {
     @Test
     public void listOfBeansAndTableContainExample() {
         runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "beans-table-contain-output", """
-                X failed expecting [value] to contain id    │ name    │ address           \s
-                                                      "ac2" │ "Works" │ {"zipCode": "zip2"}
-                                                      "ac1" │ "Home"  │ {"zipCode": "zip1"}:
-                    no matches found for: [{"id": "ac2", "name": "Works", "address": {"zipCode": "zip2"}}] (Xms)
+                X failed expecting accounts to contain id    │ name    │ address           \s
+                                                       "ac2" │ "Works" │ {"zipCode": "zip2"}
+                                                       "ac1" │ "Home"  │ {"zipCode": "zip1"}:
+                    no matches found for: [{"id": "ac2", "name": "Works", "address": {"zipCode": "zip2"}}]
+                    accounts[1].name:  actual: "Work" <java.lang.String>
+                                     expected: "Works" <java.lang.String>
+                                                    ^ (Xms)
                  \s
                   [
                     {
@@ -258,13 +261,17 @@ public class MatchersTest {
                     }
                   ]""", () -> {
             // beans-table-contain-example
+
+
             List<Account> accounts = fetchAccounts();
             TableData expected = table("id",  "name", "address",
                                        _______________________________________,
                                        "ac2", "Works", map("zipCode", "zip2"),
                                        "ac1",  "Home", map("zipCode", "zip1"));
 
-            actual(accounts).should(contain(expected));
+            actual(accounts, "accounts").should(contain(expected));
+
+
             // beans-table-contain-example
         });
     }
