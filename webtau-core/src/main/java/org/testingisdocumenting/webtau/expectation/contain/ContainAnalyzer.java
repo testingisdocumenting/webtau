@@ -131,7 +131,7 @@ public class ContainAnalyzer {
     public TokenizedMessage generateMismatchReport() {
         TokenizedMessage reportDetails = generateMismatchReportDetails(mismatchedExpectedValues.isEmpty());
 
-        return reportDetails.isEmpty() ?
+        return reportDetails.isEmpty() && mismatchedExpectedValues.isEmpty() ?
                 tokenizedMessage().error("no match found") :
                 reportDetails;
     }
