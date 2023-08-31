@@ -1,0 +1,1 @@
+* Add: [Equal Matcher](matchers/maps) adds asterisks around missing values in the actual output
