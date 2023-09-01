@@ -46,7 +46,7 @@ public class MapMatchersJavaExamplesTest {
                   {
                     "firstName": "G-FN",
                     "lastName": "G-LN",
-                    "address": {"street": "generated-street", "city": **"GenSity"**, "zipCode": <missing>}
+                    "address": {"street": "generated-street", "city": **"GenSity"**, "zipCode": **<missing>**}
                   }""", () -> {
             // maps-equal-mismatch
             Map<String, ?> generated = generate();
