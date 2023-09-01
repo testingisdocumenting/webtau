@@ -59,6 +59,8 @@ public class WebTauConfig implements PrettyPrintable {
 
     private final ConfigValue tableVerticalSeparator = declare("tableVerticalSeparator", "string to use as a vertical separator when print TableData", () -> " \u2502 ");
 
+    private final ConfigValue matchersReportEntriesLimit = declare("matchersReportEntriesLimit",
+            "max number of entries for <mismatches>/<missing> to display when matcher fails", () -> 10);
     private final ConfigValue consolePayloadOutputLimit = declare("consolePayloadOutputLimit",
             "max number of lines to display in console for outputs (e.g. http response)", () -> 500);
 
@@ -161,6 +163,10 @@ public class WebTauConfig implements PrettyPrintable {
 
     public boolean getFullStackTrace() {
         return fullStackTrace.getAsBoolean();
+    }
+
+    public int getMatchersReportEntriesLimit() {
+        return matchersReportEntriesLimit.getAsInt();
     }
 
     public int getConsolePayloadOutputLimit() {

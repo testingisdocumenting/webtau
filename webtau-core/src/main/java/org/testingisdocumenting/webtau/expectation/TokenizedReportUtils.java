@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -61,7 +62,14 @@ public class TokenizedReportUtils {
         return result;
     }
 
-    public static TokenizedMessage generateReportPartWithoutLabel(ValuePath topLevelActualPath, Stream<List<ValuePathMessage>> messagesGroupsStream) {
+    public static TokenizedMessage generateReportPartWithoutLabel(ValuePath topLevelActualPath,
+                                                                  Stream<List<ValuePathMessage>> messagesGroupsStream) {
+        return generateReportPartWithoutLabel(topLevelActualPath, messagesGroupsStream, WebTauConfig.getCfg().getMatchersReportEntriesLimit());
+    }
+
+    public static TokenizedMessage generateReportPartWithoutLabel(ValuePath topLevelActualPath,
+                                                                  Stream<List<ValuePathMessage>> messagesGroupsStream,
+                                                                  int maxNumberOfEntries) {
         List<List<ValuePathMessage>> messagesGroups = messagesGroupsStream.filter(group -> !group.isEmpty()).toList();
         if (messagesGroups.isEmpty()) {
             return tokenizedMessage();
@@ -70,7 +78,7 @@ public class TokenizedReportUtils {
         TokenizedMessage result = tokenizedMessage();
         int groupIdx = 0;
         for (List<ValuePathMessage> group : messagesGroups) {
-            TokenizedReportUtils.appendToReport(result, topLevelActualPath, group);
+            TokenizedReportUtils.appendToReport(result, topLevelActualPath, group, maxNumberOfEntries);
 
             boolean isLastGroup = groupIdx == messagesGroups.size() - 1;
             if (!isLastGroup) {
@@ -83,9 +91,19 @@ public class TokenizedReportUtils {
         return result;
     }
 
-    public static TokenizedMessage appendToReport(TokenizedMessage report, ValuePath topLevelActualPath, List<ValuePathMessage> messages) {
+    private static void appendToReport(TokenizedMessage report,
+                                       ValuePath topLevelActualPath,
+                                       List<ValuePathMessage> messages,
+                                       int maxNumberOfEntries) {
+        boolean needToLimit = messages.size() > maxNumberOfEntries;
         int messageIdx = 0;
         for (ValuePathMessage message : messages) {
+            boolean reachedLimit = needToLimit && messageIdx == maxNumberOfEntries;
+            if (reachedLimit) {
+                report.delimiter("...");
+                return;
+            }
+
             boolean useFullMessage = !message.getActualPath().equals(topLevelActualPath);
             report.add(useFullMessage ? message.getFullMessage() : message.getMessage());
 
@@ -95,7 +113,5 @@ public class TokenizedReportUtils {
             }
             messageIdx++;
         }
-
-        return report;
     }
 }
