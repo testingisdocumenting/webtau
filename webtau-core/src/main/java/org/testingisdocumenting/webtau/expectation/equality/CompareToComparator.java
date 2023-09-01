@@ -200,6 +200,7 @@ public class CompareToComparator {
         Set<ValuePath> result = new HashSet<>();
         result.addAll(extractActualPaths(notEqualMessages));
         result.addAll(extractActualPaths(extraMessages));
+        result.addAll(extractActualPaths(missingMessages));
 
         return result;
     }
