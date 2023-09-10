@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>2.2</h1></header>
-<p>Doc: servers/import-and-dependencies servers import Add: matchers/java-beans-and-records#java-beans-contain-table-data Contain Matcher for iterable highlight the closest matches Add: matchers/java-beans-and-records#java-beans-contain-table-data Contain Matcher now prints potential mismatch details to look for Add: Map contains Map explicitly prints missing keys Add: list comparison prints missing and extra elements in a more compact way</p>
+<p>Doc: servers/import-and-dependencies servers import Add: Limit matchers/introduction Matchers number of mismatch details printed by default via config matchersReportEntriesLimit Add: matchers/maps Equal Matcher adds asterisks around missing values in the actual output Add: matchers/java-beans-and-records#java-beans-contain-table-data Contain Matcher for iterable highlight the closest matches Add: matchers/java-beans-and-records#java-beans-contain-table-data Contain Matcher now prints potential mismatch details to look for Add: Map contains Map explicitly prints missing keys Add: list comparison prints missing and extra elements in a more compact way</p>
 </article>
 
 <article>
@@ -168,6 +168,59 @@ ReactDOM.render(React.createElement(Documentation, {
                 "text" : "servers import",
                 "type" : "SimpleText"
               } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Limit ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Matchers",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " number of mismatch details printed by default via config ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "matchersReportEntriesLimit ",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/maps",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Equal Matcher",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " adds asterisks around missing values in the actual output",
+              "type" : "SimpleText"
             } ]
           } ]
         } ]
@@ -3684,7 +3737,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1693436397770,
+    "lastModifiedTime" : 1694377652681,
     "tocItem" : {
       "chapterTitle" : "Release Notes",
       "pageTitle" : "2023 Releases",
