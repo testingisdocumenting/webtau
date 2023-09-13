@@ -60,8 +60,6 @@ class JUnit5FeatureTestRunner implements StepReporter, TestExecutionListener, Te
         cfg.reset()
         cfg.triggerConfigHandlers()
         cfg.setUrl(baseUrl)
-        cfg.setUserAgent("Safari/537.36")
-        cfg.setRemoveWebTauFromUserAgent(true)
         cfg.reportPath = cfg.fullPath("webtau-reports/" + testClass.canonicalName + ".html")
 
         if (!browserBaseUrl.isEmpty()) {
