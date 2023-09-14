@@ -1,4 +1,4 @@
 #!/bin/bash
-WEBTAU_SCRIPT_DIR=`dirname "$0"`
-CURRENT_DIR=`pwd`
-java -Djava.system.class.loader=groovy.lang.GroovyClassLoader -Dgroovy.grape.report.downloads=true -cp "$WEBTAU_SCRIPT_DIR/lib/*:$WEBTAU_CP:$CURRENT_DIR/lib/*" org.testingisdocumenting.webtau.app.WebTauCliApp $*
+WEBTAU_SCRIPT_DIR=$(dirname "$0")
+CURRENT_DIR=$(pwd)
+java -Dgroovy.grape.report.downloads=true -cp "$WEBTAU_SCRIPT_DIR/lib/*:$WEBTAU_CP:$CURRENT_DIR/lib/*" org.testingisdocumenting.webtau.app.WebTauCliApp "$*"
