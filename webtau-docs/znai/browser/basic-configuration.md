@@ -1,15 +1,6 @@
 # Base URL
 
-WebTau provides configuration option to set base url for your browser `open` commands. 
-This way you can run your tests in different environments without modifying code base.
-
-:include-groovy: scenarios/ui/basic.groovy
-
-Define base URL either inside a `webtau.cfg.groovy` file
-
-:include-file: scenarios/ui/webtau.cfg.groovy
-
-or pass as a command line argument `--url=http://...`
+:include-markdown: configuration/common/base-url.md
 
 # Browser Only Base URL
 
@@ -19,10 +10,23 @@ Use `browserUrl` to specify `UI` only base url. This can be handy when your back
 
 # Browser Id
 
-Use `browserId` via command line, or a config file parameter to specify which browser to use.
+Use `browserId` via command line, system property, env variable or config file parameter to specify which browser to use.
 
+`````tabs
+Groovy:
 :include-cli-command: webtau --browserId=firefox
 
+```cli
+export WEBTAU_BROWSER_ID=firefox
+```
+Java:
+```cli
+... -DbrowserId=firefox
+```
+```cli
+export WEBTAU_BROWSER_ID=firefox
+```
+`````
 Note: Default `browserId` is `chrome`
 
 # Access To Base Url
