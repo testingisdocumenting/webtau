@@ -56,20 +56,34 @@ window._webtau =
     }
 
     function filterByText(webElements, text) {
-      return filterBy(webElements, function (textValue) {
+      return filterByTextVaue(webElements, function (textValue) {
         return textValue === text;
       });
+    }
+
+    function filterByNearby(webElements, target) {
+      var result = [];
+      var idx = 0;
+      var len = webElements.length;
+
+      for (; idx < len; idx++) {
+        if (isNearby(webElements[idx], target, 50)) {
+          result.push(webElements[idx]);
+        }
+      }
+
+      return result;
     }
 
     function filterByRegexp(webElements, regexpText) {
       var regexp = new RegExp(regexpText);
 
-      return filterBy(webElements, function (textValue) {
+      return filterByTextVaue(webElements, function (textValue) {
         return regexp.test(textValue);
       });
     }
 
-    function filterBy(webElements, predicate) {
+    function filterByTextVaue(webElements, predicate) {
       var metas = elementsDetails(webElements);
       var result = [];
       var idx = 0;
@@ -97,13 +111,47 @@ window._webtau =
       }
     }
 
+    function isNearby(elA, elB, maxDistance) {
+      var a = elA.getBoundingClientRect();
+      var b = elB.getBoundingClientRect();
+
+      var cornersA = [
+        [a.x, a.y],
+        [a.x + a.width, a.y],
+        [a.x, a.y + a.height],
+        [a.x + a.width, a.y + a.height],
+      ];
+
+      var cornersB = [
+        [b.x, b.y],
+        [b.x + b.width, b.y],
+        [b.x, b.y + b.height],
+        [b.x + b.width, b.y + b.height],
+      ];
+
+      var minDistance = 10000 + maxDistance;
+      for (var i = 0; i < cornersA.length; i++)
+        for (var j = 0; j < cornersB.length; j++) {
+          var cornerA = cornersA[i];
+          var cornerB = cornersB[j];
+          const distance = Math.sqrt(
+            Math.pow(cornerB[0] - cornerA[0], 2) +
+              Math.pow(cornerB[1] - cornerA[1], 2)
+          );
+
+          if (distance < minDistance) {
+            minDistance = distance;
+          }
+        }
+
+      return minDistance <= maxDistance;
+    }
+
     function findByParentCss(webElement, css) {
       if (!webElement || !webElement.parentElement) {
-        console.log("@@inside");
         return undefined;
       }
 
-      console.log("@@outside");
       return webElement.parentElement.closest(css);
     }
 
@@ -184,5 +232,6 @@ window._webtau =
       filterByRegexp: filterByRegexp,
       findByParentCss: findByParentCss,
       flashElements: flashElements,
+      filterByNearby: filterByNearby,
     };
   })();

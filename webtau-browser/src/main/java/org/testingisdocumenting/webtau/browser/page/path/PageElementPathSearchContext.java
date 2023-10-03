@@ -1,6 +1,5 @@
 /*
  * Copyright 2023 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,24 +14,17 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser;
+package org.testingisdocumenting.webtau.browser.page.path;
 
 import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
-import org.testingisdocumenting.webtau.browser.page.HtmlNode;
 
-import java.util.List;
+public record PageElementPathSearchContext(SearchContext searchContext, WebElement parent) {
+    static PageElementPathSearchContext fromElement(WebElement element) {
+        return new PageElementPathSearchContext(element, element);
+    }
 
-public interface AdditionalBrowserInteractions {
-    void flashWebElements(List<WebElement> webElements);
-
-    List<HtmlNode> extractHtmlNodes(List<WebElement> webElements);
-
-    List<WebElement> filterByText(List<WebElement> webElements, String text);
-
-    List<WebElement> filterByRegexp(List<WebElement> webElements, String regexp);
-
-    List<WebElement> filterByNearby(List<WebElement> webElements, WebElement target);
-
-    WebElement parentByCss(SearchContext element, String css);
+    public boolean hasParent() {
+        return parent != null;
+    }
 }

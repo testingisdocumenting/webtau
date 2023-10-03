@@ -147,6 +147,7 @@ class WebTauBrowserFeaturesTestBase {
                 "byCssAndFilterByText.groovy": "by css and filter by text",
                 "byCssAndFilterByRegexp.groovy": "by css and filter by regexp",
                 "byCssAndFilterByNumberNestedFind.groovy": "by css and filter by number and nested css",
+                "byGeometry.groovy": "filter by geometry",
                 "byParent.groovy": "immediate parent",
                 "byParentCss.groovy": "parent by css",
         ])
@@ -154,6 +155,7 @@ class WebTauBrowserFeaturesTestBase {
         extractHtmlSnippets(root, "finders-and-filters.html", [
                 "welcome.html": "#welcome-wrapper",
                 "welcome-wrapper.html": "#welcome-top-wrapper",
+                "relative-selections.html": "#relative-selections",
                 "welcome-wrapper-wrapper.html": "#welcome-top-wrapper-wrapper",
                 "flat-menu.html": "#menu"
         ])

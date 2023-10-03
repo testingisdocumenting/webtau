@@ -55,6 +55,11 @@ public class FakeAdditionalBrowserInteractions implements AdditionalBrowserInter
     }
 
     @Override
+    public List<WebElement> filterByNearby(List<WebElement> webElements, WebElement target) {
+        return Collections.emptyList();
+    }
+
+    @Override
     public WebElement parentByCss(SearchContext element, String css) {
         return null;
     }
