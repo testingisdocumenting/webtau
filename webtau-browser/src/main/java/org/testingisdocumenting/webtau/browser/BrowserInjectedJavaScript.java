@@ -78,6 +78,14 @@ public class BrowserInjectedJavaScript implements AdditionalBrowserInteractions 
     }
 
     @Override
+    @SuppressWarnings("unchecked")
+    public List<WebElement> filterByNearby(List<WebElement> webElements, WebElement target) {
+        injectScript();
+        return (List<WebElement>) javascriptExecutor.executeScript(returnTwoArgFunc("filterByNearby"),
+                webElements, target);
+    }
+
+    @Override
     public WebElement parentByCss(SearchContext element, String css) {
         injectScript();
         Object result = javascriptExecutor.executeScript(returnTwoArgFunc("findByParentCss"),

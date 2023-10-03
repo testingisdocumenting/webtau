@@ -32,9 +32,8 @@ import org.testingisdocumenting.webtau.browser.page.path.PageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberPageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpPageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextPageElementsFilter;
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssPageElementFinder;
-import org.testingisdocumenting.webtau.browser.page.path.finder.ParentByCssPageElementFinder;
-import org.testingisdocumenting.webtau.browser.page.path.finder.ParentPageElementFinder;
+import org.testingisdocumenting.webtau.browser.page.path.filter.NearbyPageElementFilter;
+import org.testingisdocumenting.webtau.browser.page.path.finder.*;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
@@ -263,6 +262,10 @@ public class PageElement implements
 
     public PageElement parent(String css) {
         return withFinder(new ParentByCssPageElementFinder(additionalBrowserInteractions, css));
+    }
+
+    public PageElement nearby(PageElement target) {
+        return withFilter(new NearbyPageElementFilter(additionalBrowserInteractions, target));
     }
 
     public PageElement get(String text) {

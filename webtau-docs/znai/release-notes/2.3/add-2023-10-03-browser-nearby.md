@@ -1,0 +1,1 @@
+* Add: [Nearby](browser/finders-and-filters#filter-by-distance) browser filter 

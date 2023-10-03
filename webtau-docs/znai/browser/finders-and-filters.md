@@ -32,26 +32,31 @@ Note: declaring element this way will not trigger element search right away.
 
 :include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {paths: ["ul.li[0].a", "ul.li[1].a", "ul.li[2].a"]}
 
-# Filters
+# Basic Filters
 
 You can use filters to narrow down elements selected by finders.
 
-Filter comes in a way of `get` method. Parameter is one of the following 
+Use `get` method to filter found elements by
 * Element number
 * Element text
 * Element regexp 
 
-:include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByNumber.groovy { title: "Number" }
-:include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByText.groovy { title: "Text" }
-:include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByRegexp.groovy { title: "Regexp" }
+:include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByNumber.groovy { title: "number" }
+:include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByText.groovy { title: "text" }
+:include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByRegexp.groovy { title: "regexp" }
 
 :include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {rightSide: true, paths: ["ul.li[1].a"]}
+
+# Filter By Distance
+
+:include-file: doc-artifacts/snippets/finders-filters/byGeometry.groovy { title: "nearby filter", surroundedBy: "nearby-example" }
+:include-xml: doc-artifacts/snippets/finders-filters/relative-selections.html {rightSide: true, paths: ["div.button[2]"]}
 
 # Chaining
 
 After you filtered, you can use finders again to find nested elements.
 
-:include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByNumberNestedFind.groovy { title: "Nested css selector" }
+:include-file: doc-artifacts/snippets/finders-filters/byCssAndFilterByNumberNestedFind.groovy { title: "nested css selector" }
 
 :include-xml: doc-artifacts/snippets/finders-filters/flat-menu.html {rightSide: true, paths: ["ul.li[1].a"]}
 

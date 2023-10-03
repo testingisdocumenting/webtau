@@ -66,3 +66,15 @@ scenario("parent by css can't find") {
 
     mainWrapper.attribute("class").should == null
 }
+
+scenario("filter by geometry") {
+    // nearby-example
+    def button = $("button")
+    def helloMessage = $("#hello-message")
+
+    button.nearby(helloMessage).should == "World2"
+    // nearby-example
+    // nearby-chain-example
+    button.get(~/World/).nearby(helloMessage).should == "World2"
+    // nearby-chain-example
+}
