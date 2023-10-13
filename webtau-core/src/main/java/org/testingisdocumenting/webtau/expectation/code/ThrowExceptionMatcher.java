@@ -17,10 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.code;
 
-import org.testingisdocumenting.webtau.expectation.ActualValueAware;
-import org.testingisdocumenting.webtau.expectation.CodeBlock;
-import org.testingisdocumenting.webtau.expectation.CodeMatcher;
-import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
+import org.testingisdocumenting.webtau.expectation.*;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
@@ -34,8 +31,7 @@ import java.util.stream.Stream;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, ActualValueAware {
-    private String expectedMessage;
-    private Pattern expectedMessageRegexp;
+    private Object expectedMessageMatcherOrValue;
     private Class<?> expectedClass;
     private String thrownMessage;
     private Class<?> thrownClass;
@@ -43,11 +39,15 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
     private String thrownExceptionStackTrace;
 
     public ThrowExceptionMatcher(String expectedMessage) {
-        this.expectedMessage = expectedMessage;
+        this.expectedMessageMatcherOrValue = expectedMessage;
+    }
+
+    public ThrowExceptionMatcher(ValueMatcher expectedMessageMatcher) {
+        this.expectedMessageMatcherOrValue = expectedMessageMatcher;
     }
 
     public ThrowExceptionMatcher(Pattern expectedMessageRegexp) {
-        this.expectedMessageRegexp = expectedMessageRegexp;
+        this.expectedMessageMatcherOrValue = expectedMessageRegexp;
     }
 
     public ThrowExceptionMatcher(Class<?> expectedClass) {
@@ -56,12 +56,12 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
 
     public ThrowExceptionMatcher(Class<?> expectedClass, Pattern expectedMessageRegexp) {
         this.expectedClass = expectedClass;
-        this.expectedMessageRegexp = expectedMessageRegexp;
+        this.expectedMessageMatcherOrValue = expectedMessageRegexp;
     }
 
     public ThrowExceptionMatcher(Class<?> expectedClass, String expectedMessage) {
         this.expectedClass = expectedClass;
-        this.expectedMessage = expectedMessage;
+        this.expectedMessageMatcherOrValue = expectedMessage;
     }
 
     @Override
@@ -90,19 +90,15 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
 
     @Override
     public Stream<Object> expectedValues() {
-        if (expectedMessage != null && expectedClass != null) {
-            return Stream.of(expectedClass, expectedMessage);
+        if (expectedMessageMatcherOrValue != null && expectedClass != null) {
+            return Stream.of(expectedClass, expectedMessageMatcherOrValue);
         }
 
         if (expectedClass != null) {
             return Stream.of(expectedClass);
         }
 
-        if (expectedMessage != null) {
-            return Stream.of(expectedMessage);
-        }
-
-        return Stream.empty();
+        return Stream.ofNullable(expectedMessageMatcherOrValue);
     }
 
     @Override
@@ -128,7 +124,7 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
 
     private Map<String, Object> buildThrownToUseForCompare() {
         Map<String, Object> result = new HashMap<>();
-        if (expectedMessage != null || expectedMessageRegexp != null) {
+        if (expectedMessageMatcherOrValue != null) {
             result.put("message", thrownMessage);
         }
 
@@ -141,12 +137,8 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
 
     private Map<String, Object> buildExpectedMapToUseForCompare() {
         Map<String, Object> result = new HashMap<>();
-        if (expectedMessage != null) {
-            result.put("message", expectedMessage);
-        }
-
-        if (expectedMessageRegexp != null) {
-            result.put("message", expectedMessageRegexp);
+        if (expectedMessageMatcherOrValue != null) {
+            result.put("message", expectedMessageMatcherOrValue);
         }
 
         if (expectedClass != null) {

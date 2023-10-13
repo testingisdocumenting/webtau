@@ -49,6 +49,27 @@ class ThrowExceptionMatcherGroovyTest {
     }
 
     @Test
+    void "should validate exception using contain matcher mismatch case"() {
+        runExpectExceptionAndValidateOutput(AssertionError, contain('> expecting code to throw exception <contain "message1">\n' +
+                'X failed expecting code to throw exception <contain "message1">:\n' +
+                '    exception.message: no match found')) {
+            code {
+                throw new RuntimeException('error message')
+            } should throwException(contain('message1'))
+        }
+    }
+
+    @Test
+    void "should validate exception using contain matcher match case"() {
+        runAndValidateOutput('> expecting code to throw exception <contain "message">\n' +
+                '. code thrown <contain "message"> (Xms)') {
+            code {
+                throw new RuntimeException('error message')
+            } should throwException(contain('message'))
+        }
+    }
+
+    @Test
     void "should validate exception class"() {
         runExpectExceptionAndValidateOutput(AssertionError, contain('X failed expecting code to throw exception java.lang.UnsupportedOperationException:\n' +
                 '    exception.class:  actual: java.lang.IllegalArgumentException <java.lang.Class>\n' +
