@@ -15,19 +15,20 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page.path;
+package org.testingisdocumenting.webtau.browser.page.path.finder;
 
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.locators.RelativeLocator;
+import org.testingisdocumenting.webtau.browser.page.PageElement;
 
-import java.util.List;
+import java.util.function.Function;
 
-public interface PageElementFinder {
-    List<WebElement> find(PageElementPathSearchContext parent);
+public class ByRelativeAbovePageElementFinder extends ByRelativePageElementFinder {
+    public ByRelativeAbovePageElementFinder(PageElement target) {
+        super(target, "above");
+    }
 
-    /**
-     * @param isFirst isFirst is this the first entry in the path
-     * @return tokenized message
-     */
-    TokenizedMessage description(boolean isFirst);
+    protected Function<WebElement, RelativeLocator.RelativeBy> direction(RelativeLocator.RelativeBy chainStart) {
+        return chainStart::above;
+    }
 }

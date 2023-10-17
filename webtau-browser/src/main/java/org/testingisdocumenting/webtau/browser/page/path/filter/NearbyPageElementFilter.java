@@ -14,12 +14,13 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.browser.page.path.finder;
+package org.testingisdocumenting.webtau.browser.page.path.filter;
 
 import org.openqa.selenium.WebElement;
 import org.testingisdocumenting.webtau.browser.AdditionalBrowserInteractions;
-import org.testingisdocumenting.webtau.browser.page.path.PageElementFinder;
-import org.testingisdocumenting.webtau.browser.page.path.PageElementPathSearchContext;
+import org.testingisdocumenting.webtau.browser.page.NullWebElement;
+import org.testingisdocumenting.webtau.browser.page.PageElement;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementsFilter;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.Collections;
@@ -27,23 +28,27 @@ import java.util.List;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
-public class ParentByCssPageElementFinder implements PageElementFinder {
+public class NearbyPageElementFilter implements PageElementsFilter {
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
-    private final String css;
+    private final PageElement target;
 
-    public ParentByCssPageElementFinder(AdditionalBrowserInteractions additionalBrowserInteractions, String css) {
+    public NearbyPageElementFilter(AdditionalBrowserInteractions additionalBrowserInteractions, PageElement target) {
         this.additionalBrowserInteractions = additionalBrowserInteractions;
-        this.css = css;
+        this.target = target;
     }
 
     @Override
-    public List<WebElement> find(PageElementPathSearchContext parent) {
-        WebElement webElement = additionalBrowserInteractions.parentByCss(parent.searchContext(), css);
-        return webElement == null ? Collections.emptyList() : Collections.singletonList(webElement);
+    public List<WebElement> filter(List<WebElement> original) {
+        WebElement targetElement = target.findElement();
+        if (targetElement instanceof NullWebElement) {
+            return Collections.emptyList();
+        }
+
+        return additionalBrowserInteractions.filterByNearby(original, targetElement);
     }
 
     @Override
-    public TokenizedMessage description(boolean isFirst) {
-        return tokenizedMessage().selectorType("parent element by css").selectorValue(css);
+    public TokenizedMessage description() {
+        return tokenizedMessage().classifier("nearby").add(target.describe());
     }
 }
