@@ -297,6 +297,22 @@ public class Matchers {
      * Throw exception <code>code</code> matcher.
      * <pre>
      * code(() -&gt; {
+     *     businessLogic(-10);
+     * }).should(throwException(contain("negatives are not")));
+     * </pre>
+     * @see #code(CodeBlock)
+     *
+     * @param expectedMessageMatcher expected exception message ValueMatcher
+     * @return matcher instance
+     */
+    public static ThrowExceptionMatcher throwException(ValueMatcher expectedMessageMatcher) {
+        return new ThrowExceptionMatcher(expectedMessageMatcher);
+    }
+
+    /**
+     * Throw exception <code>code</code> matcher.
+     * <pre>
+     * code(() -&gt; {
      *      businessLogic(-10);
      * }).should(throwException(Pattern.compile("negative .* not allowed")));
      * </pre>
