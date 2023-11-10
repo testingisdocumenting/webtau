@@ -135,14 +135,14 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
         return createMap(expectedMessageMatcherOrValue, expectedClass);
     }
 
-    private Map<String, Object> createMap(Object message, Class<?> expectedClass) {
+    private Map<String, Object> createMap(Object message, Class<?> aClass) {
         Map<String, Object> result = new HashMap<>();
-        if (message != null) {
+        if (expectedMessageMatcherOrValue != null) {
             result.put("message", message);
         }
 
         if (expectedClass != null) {
-            result.put("class", expectedClass);
+            result.put("class", aClass);
         }
 
         return result;
