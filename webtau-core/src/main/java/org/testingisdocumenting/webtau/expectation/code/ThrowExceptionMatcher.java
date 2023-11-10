@@ -64,6 +64,11 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
         this.expectedMessageMatcherOrValue = expectedMessage;
     }
 
+    public ThrowExceptionMatcher(Class<?> expectedClass, ValueMatcher expectedMessageMatcher) {
+        this.expectedClass = expectedClass;
+        this.expectedMessageMatcherOrValue = expectedMessageMatcher;
+    }
+
     @Override
     public TokenizedMessage matchingTokenizedMessage() {
         return tokenizedMessage().matcher("to throw exception").value(buildExpectedValueForMessage());
@@ -123,22 +128,17 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
     }
 
     private Map<String, Object> buildThrownToUseForCompare() {
-        Map<String, Object> result = new HashMap<>();
-        if (expectedMessageMatcherOrValue != null) {
-            result.put("message", thrownMessage);
-        }
-
-        if (expectedClass != null) {
-            result.put("class", thrownClass);
-        }
-
-        return result;
+        return createMap(thrownMessage, thrownClass);
     }
 
     private Map<String, Object> buildExpectedMapToUseForCompare() {
+        return createMap(expectedMessageMatcherOrValue, expectedClass);
+    }
+
+    private Map<String, Object> createMap(Object message, Class<?> expectedClass) {
         Map<String, Object> result = new HashMap<>();
-        if (expectedMessageMatcherOrValue != null) {
-            result.put("message", expectedMessageMatcherOrValue);
+        if (message != null) {
+            result.put("message", message);
         }
 
         if (expectedClass != null) {
