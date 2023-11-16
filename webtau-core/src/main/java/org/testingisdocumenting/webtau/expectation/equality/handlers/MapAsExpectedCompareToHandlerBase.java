@@ -18,6 +18,7 @@
 package org.testingisdocumenting.webtau.expectation.equality.handlers;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ObjectProperties;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
@@ -33,6 +34,10 @@ public abstract class MapAsExpectedCompareToHandlerBase implements CompareToHand
 
     @SuppressWarnings("unchecked")
     private boolean isMapOfProps(Object o) {
+        if (o instanceof ObjectProperties) {
+            return true;
+        }
+
         if (!(o instanceof Map)) {
             return false;
         }
@@ -46,7 +51,7 @@ public abstract class MapAsExpectedCompareToHandlerBase implements CompareToHand
                                  ValuePath actualPath,
                                  Object actual,
                                  Object expected) {
-        Map<String, ?> expectedMap = (Map<String, ?>) expected;
+        Map<String, ?> expectedMap = extractExpected(expected);
         Map<String, ?> actualAsMap = (Map<String, ?>) actual;
 
         expectedMap.keySet().forEach(p -> { // going only through expected keys, ignoring all other bean properties
@@ -60,5 +65,14 @@ public abstract class MapAsExpectedCompareToHandlerBase implements CompareToHand
                 comparator.reportMissing(this, propertyPath, expectedMap.get(p));
             }
         });
+    }
+
+    @SuppressWarnings("unchecked")
+    private Map<String, ?> extractExpected(Object expected) {
+        if (expected instanceof Map) {
+            return (Map<String, ?>) expected;
+        }
+
+        return ((ObjectProperties) expected).getTopLevelProperties();
     }
 }

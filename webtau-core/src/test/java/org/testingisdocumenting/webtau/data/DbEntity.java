@@ -1,6 +1,5 @@
 /*
  * Copyright 2023 webtau maintainers
- * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,5 +16,32 @@
 
 package org.testingisdocumenting.webtau.data;
 
-public record Person(String id, int level, int monthsAtCompany) {
+public class DbEntity {
+    private String id;
+    private String description;
+    private Integer value;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getValue() {
+        return value;
+    }
+
+    public void setValue(Integer value) {
+        this.value = value;
+    }
 }

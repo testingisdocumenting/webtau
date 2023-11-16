@@ -32,7 +32,7 @@ public class CompareToResult {
     }
 
     public boolean isNotEqual() {
-        return equalMessages.isEmpty() || hasExtraOrMissing();
+        return !notEqualMessages.isEmpty() || hasExtraOrMissing();
     }
 
     public boolean isGreater() {

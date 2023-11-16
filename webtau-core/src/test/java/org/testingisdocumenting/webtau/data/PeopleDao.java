@@ -17,7 +17,6 @@
 package org.testingisdocumenting.webtau.data;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,7 +29,7 @@ public class PeopleDao {
 
     public List<Person> thisWeekJoiners() {
         return people.stream()
-                .filter(person -> person.getMonthsAtCompany() == 0)
+                .filter(person -> person.monthsAtCompany() == 0)
                 .collect(Collectors.toList());
     }
 }
