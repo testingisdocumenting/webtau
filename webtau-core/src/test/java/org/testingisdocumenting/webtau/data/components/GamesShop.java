@@ -26,12 +26,12 @@ public class GamesShop {
     }
 
     public void buyGame(Account account, Game game) {
-        int balance = paymentService.availableBalance(account.getWalletId());
+        int balance = paymentService.availableBalance(account.walletId());
         if (balance < game.getDiscountedPrice()) {
             throw new RuntimeException("Not enough crystals to buy game: " + game);
         }
 
-        paymentService.makePayment(account.getWalletId(), game.getDiscountedPrice());
-        deliveryService.deliver(game, account.getAddress());
+        paymentService.makePayment(account.walletId(), game.getDiscountedPrice());
+        deliveryService.deliver(game, account.address());
     }
 }
