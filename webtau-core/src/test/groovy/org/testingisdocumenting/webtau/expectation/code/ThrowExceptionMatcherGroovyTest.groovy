@@ -108,6 +108,16 @@ class ThrowExceptionMatcherGroovyTest {
     }
 
     @Test
+    void "should validate exception using class and contain matcher mismatch case"() {
+        runAndValidateOutput("> expecting code to throw exception {\"message\": <contain \"message\">, \"class\": java.lang.IllegalArgumentException}\n" +
+                ". code thrown {\"message\": <contain \"message\">, \"class\": java.lang.IllegalArgumentException} (Xms)") {
+            code {
+                throw new IllegalArgumentException('error message')
+            } should throwException(IllegalArgumentException.class, contain('message'))
+        }
+    }
+
+    @Test
     void "should add exception stack trace when mismatched"() {
         runExpectExceptionAndValidateOutput(AssertionError.class, contain("stack trace:\n" +
                 "    java.lang.RuntimeException: java.lang.IllegalArgumentException: negative not allowed")) {

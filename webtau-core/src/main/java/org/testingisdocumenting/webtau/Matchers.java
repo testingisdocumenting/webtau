@@ -378,6 +378,24 @@ public class Matchers {
         return new ThrowExceptionMatcher(expectedClass, expectedMessage);
     }
 
+
+    /**
+     * Throw exception <code>code</code> matcher.
+     * <pre>
+     * code(() -&gt; {
+     *     businessLogic(-10);
+     * }).should(throwException(IllegalArgumentException.class, contain("negatives are not")));
+     * </pre>
+     * @see #code(CodeBlock)
+     *
+     * @param expectedClass expected exception class
+     * @param expectedMessageMatcher expected exception message ValueMatcher
+     * @return matcher instance
+     */
+    public static ThrowExceptionMatcher throwException(Class<?> expectedClass, ValueMatcher expectedMessageMatcher) {
+        return new ThrowExceptionMatcher(expectedClass, expectedMessageMatcher);
+    }
+  
     /**
      * Value change <code>code</code> matcher
      * <pre>
