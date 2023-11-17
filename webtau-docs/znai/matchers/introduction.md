@@ -18,12 +18,15 @@ Groovy:
 
  Note: Groovy has a shortcut for `equal` matcher.
 
+:include-markdown: import-ref.md
+
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     title: "should example",
     surroundedBy: "string-string-example",
     commentsType: "remove"
 } 
+:include-markdown: import-ref.md
 ``` 
 
 :include-cli-output: doc-artifacts/string-string-comparison.txt {title: "should console output"}
