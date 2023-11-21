@@ -9,12 +9,14 @@ Groovy:
     surroundedBy: ["string-string-example", "string-number-example"], surroundedBySeparator: "",
     commentsType: "inline"
 }
+:include-markdown: import-ref.md
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     surroundedBy: ["string-string-example", "string-number-example"], surroundedBySeparator: "",
     commentsType: "inline"
 } 
+:include-markdown: import-ref.md
 ``` 
 
 # Reporting

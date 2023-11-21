@@ -12,12 +12,14 @@ Groovy:
   title: "single bean property example",
   surroundedBy: "change-single-property"
 }
+:include-markdown: import-ref.md
 
 Java:
 :include-file: org/testingisdocumenting/webtau/expectation/code/ChangeCodeMatcherJavaTest.java {
   title: "single bean property example",
   surroundedBy: "change-single-property"
 }
+:include-markdown: import-ref.md
 ```
 
 :include-cli-output: doc-artifacts/javabean-id-change-fail-output.txt { title: "console output" }

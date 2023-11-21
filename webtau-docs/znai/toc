@@ -103,6 +103,7 @@ matchers
     any-value
     custom-compare-to-handler
     value-change
+    import-and-dependencies
 groovy-standalone-runner
     introduction
     data-driven-scenarios

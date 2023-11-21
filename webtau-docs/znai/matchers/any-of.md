@@ -9,12 +9,14 @@ Groovy:
     entry: "any of matcher example",
     bodyOnly: true
 }
+:include-markdown: import-ref.md
 
 Java: 
 :include-java: org/testingisdocumenting/webtau/MatchersTest.java {
     entry: "anyOfMatcherExample",
     bodyOnly: true
 } 
+:include-markdown: import-ref.md
 ```
 
 # Mixing Values And Matchers

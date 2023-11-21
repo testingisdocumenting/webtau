@@ -7,10 +7,13 @@ Groovy:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/TableDataMatchersGroovyExamplesTest.groovy {
   surroundedBy: "table-equal-mismatch"
 }
+:include-markdown: import-ref.md
+
 Java:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/TableDataMatchersJavaExamplesTest.java {
   surroundedBy: "table-equal-mismatch"
 }
+:include-markdown: import-ref.md
 ```
 
 :include-cli-output: doc-artifacts/table-equal-console-output.txt {

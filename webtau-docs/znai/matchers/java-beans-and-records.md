@@ -10,12 +10,14 @@ Groovy:
     surroundedBy: "bean-map-example",
     commentsType: "inline"
 }
+:include-markdown: import-ref.md
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     surroundedBy: "bean-map-example",
     commentsType: "inline"
 } 
+:include-markdown: import-ref.md
 ``` 
 
 ```columns

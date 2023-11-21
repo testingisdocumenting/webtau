@@ -7,11 +7,13 @@ Groovy:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/StringMatchersGroovyExamplesTest.groovy {
   surroundedBy: "single-line-compare"
 }
+:include-markdown: import-ref.md
 
 Java:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/StringMatchersJavaExamplesTest.java {
   surroundedBy: "single-line-compare"
 }
+:include-markdown: import-ref.md
 ```
 
 :include-cli-output: doc-artifacts/single-line-string-compare-output.txt {

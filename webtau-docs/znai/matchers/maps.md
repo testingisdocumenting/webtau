@@ -7,10 +7,13 @@ Groovy:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/MapMatchersGroovyExamplesTest.groovy {
   surroundedBy: "maps-equal-mismatch"
 }
+:include-markdown: import-ref.md
+
 Java:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/MapMatchersJavaExamplesTest.java {
   surroundedBy: "maps-equal-mismatch"
 }
+:include-markdown: import-ref.md
 ```
 
 :include-cli-output: doc-artifacts/maps-equal-console-output.txt {
