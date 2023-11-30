@@ -22,7 +22,7 @@ import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
 import java.util.List;
 import java.util.stream.Stream;
 
-record CombinedMismatchAndMissing(List<ValuePathMessage> mismatchMessages, List<ValuePathMessage> missingMessage) {
+public record CombinedMismatchAndMissing(List<ValuePathMessage> mismatchMessages, List<ValuePathMessage> missingMessage) {
     int size() {
         return mismatchMessages.size() + missingMessage.size();
     }
