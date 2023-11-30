@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.expectation.*;
 import org.testingisdocumenting.webtau.expectation.code.ChangeCodeMatcher;
 import org.testingisdocumenting.webtau.expectation.code.ThrowExceptionMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAllMatcher;
+import org.testingisdocumenting.webtau.expectation.contain.ContainExactlyMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainMatcher;
 import org.testingisdocumenting.webtau.expectation.equality.*;
 import org.testingisdocumenting.webtau.expectation.state.HiddenValueMatcher;
@@ -206,6 +207,18 @@ public class Matchers {
      */
     public static ContainAllMatcher containingAll(Object... expected) {
         return new ContainAllMatcher(Arrays.asList(expected));
+    }
+
+    /**
+     * Contain exact matcher
+     * <pre>
+     * actual(collection).should(containExact(el1, el2, el3));
+     * </pre>
+     * @param expected list of values to check
+     * @return matcher instance
+     */
+    public static ContainExactlyMatcher containExactly(Object... expected) {
+        return new ContainExactlyMatcher(Arrays.asList(expected));
     }
 
     /**
