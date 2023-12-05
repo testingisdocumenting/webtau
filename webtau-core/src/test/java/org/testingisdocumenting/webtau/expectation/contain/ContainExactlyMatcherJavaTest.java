@@ -80,6 +80,104 @@ public class ContainExactlyMatcherJavaTest {
     }
 
     @Test
+    public void suspectCandidateValueRecordsAndMaps() {
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "possible-mismatches-output", """
+                X failed expecting [value] to contain exactly [
+                                                                {"id": "id2", "level": 4, "monthsAtCompany": 20},
+                                                                {"id": "id1", "level": 8, "monthsAtCompany": 10},
+                                                                {"id": "id1", "level": 7, "monthsAtCompany": 12}
+                                                              ]:
+                    no matches found for: [{"id": "id1", "level": 8, "monthsAtCompany": 10}, {"id": "id1", "level": 7, "monthsAtCompany": 12}]
+                    possible mismatches:
+                   \s
+                    [value][1].level:  actual: 4 <java.lang.Integer>
+                                     expected: 8 <java.lang.Integer>
+                    [value][0].level:  actual: 3 <java.lang.Integer>
+                                     expected: 7 <java.lang.Integer> (Xms)
+                 \s
+                  [
+                    {"id": "id1", "level": **3**, "monthsAtCompany": 12},
+                    {"id": "id1", "level": **4**, "monthsAtCompany": 10},
+                    {"id": "id2", "level": 4, "monthsAtCompany": 20}
+                  ]""", () -> {
+
+            // possible-mismatches-example
+            List<?> list = list(
+                    new Person("id1", 3, 12),
+                    new Person("id1", 4, 10),
+                    new Person("id2", 4, 20));
+
+            actual(list).should(containExactly(
+                    map("id", "id2", "level", 4, "monthsAtCompany", 20),
+                    map("id", "id1", "level", 8, "monthsAtCompany", 10),
+                    map("id", "id1", "level", 7, "monthsAtCompany", 12)));
+            // possible-mismatches-example
+        });
+    }
+
+    @Test
+    public void suspectCandidateWithMissing() {
+        runExpectExceptionAndValidateOutput(AssertionError.class, """
+                X failed expecting [value] to contain exactly [
+                                                                {"id": "id1", "level": 8, "monthsAtCompany": 10},
+                                                                {"id": "id1", "level": 7, "monthsAtCompany": 12},
+                                                                {"id": "id2", "level": 4, "monthsAtCompany": 20}
+                                                              ]:
+                    no matches found for: [{"id": "id1", "level": 8, "monthsAtCompany": 10}]
+                    unexpected elements: [{"id": "id1", "level": 5}]
+                    missing values:
+                   \s
+                    [value][0].monthsAtCompany: 10 (Xms)
+                 \s
+                  [
+                    {"id": "id1", "level": 5, "monthsAtCompany": **<missing>**},
+                    {"id": "id1", "level": 7, "monthsAtCompany": 12},
+                    {"id": "id2", "level": 4, "monthsAtCompany": 20}
+                  ]""", () -> {
+            List<?> list = list(
+                    map("id", "id1", "level", 5),
+                    map("id", "id1", "level", 7, "monthsAtCompany", 12),
+                    map("id", "id2", "level", 4, "monthsAtCompany", 20));
+
+            actual(list).should(containExactly(
+                    map("id", "id1", "level", 8, "monthsAtCompany", 10),
+                    map("id", "id1", "level", 7, "monthsAtCompany", 12),
+                    map("id", "id2", "level", 4, "monthsAtCompany", 20)));
+        });
+    }
+
+    @Test
+    public void suspectCandidateWithExtra() {
+        runExpectExceptionAndValidateOutput(AssertionError.class, """
+                X failed expecting [value] to contain exactly [
+                                                                {"id": "id1", "level": 8, "monthsAtCompany": 10},
+                                                                {"id": "id1", "level": 7, "monthsAtCompany": 12},
+                                                                {"id": "id2", "level": 4, "monthsAtCompany": 20}
+                                                              ]:
+                    no matches found for: [{"id": "id1", "level": 8, "monthsAtCompany": 10}]
+                    unexpected elements: [{"id": "id1", "level": 5, "monthsAtCompany": 14, "salary": "yes"}]
+                    extra values:
+                   \s
+                    [value][0].salary: "yes" (Xms)
+                 \s
+                  [
+                    {"id": "id1", "level": 5, "monthsAtCompany": 14, "salary": **"yes"**},
+                    {"id": "id1", "level": 7, "monthsAtCompany": 12},
+                    {"id": "id2", "level": 4, "monthsAtCompany": 20}
+                  ]""", () -> {
+            List<?> list = list(
+                    map("id", "id1", "level", 5, "monthsAtCompany", 14, "salary", "yes"),
+                    map("id", "id1", "level", 7, "monthsAtCompany", 12),
+                    map("id", "id2", "level", 4, "monthsAtCompany", 20));
+
+            actual(list).should(containExactly(
+                    map("id", "id1", "level", 8, "monthsAtCompany", 10),
+                    map("id", "id1", "level", 7, "monthsAtCompany", 12),
+                    map("id", "id2", "level", 4, "monthsAtCompany", 20)));
+        });
+    }
+
+    @Test
     public void mismatchValue() {
         runExpectExceptionAndValidateOutput(AssertionError.class, """
                 X failed expecting [value] to contain exactly ["of", "world", "hello", "sleeping"]:
