@@ -24,6 +24,8 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
+import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
+import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.*;
@@ -31,11 +33,17 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
+import static org.testingisdocumenting.webtau.expectation.TokenizedReportUtils.*;
 
 public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware, PrettyPrintable {
     private final Collection<Object> expectedList;
     private List<ValuePathWithValue<Object>> actualCopy;
     private List<ValuePathWithValue<Object>> expectedCopy;
+
+    private final Map<ValuePath, List<List<ValuePathMessage>>> notEqualMessagesByExpectedPath = new HashMap<>();
+    private final List<ValuePathMessage> notEqualCandidateMessages = new ArrayList<>();
+    private final List<ValuePathMessage> missingMessages = new ArrayList<>();
+    private final List<ValuePathMessage> extraMessages = new ArrayList<>();
 
     private CompareToComparator comparator;
 
@@ -55,7 +63,13 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
 
     @Override
     public Set<ValuePath> mismatchedPaths() {
-        return actualCopy.stream().map(ValuePathWithValue::getPath).collect(Collectors.toSet());
+        Set<ValuePath> potentialPaths = Stream.concat(missingMessages.stream().map(ValuePathMessage::getActualPath),
+                        Stream.concat(extraMessages.stream().map(ValuePathMessage::getActualPath),
+                                notEqualCandidateMessages.stream().map(ValuePathMessage::getActualPath)))
+                .collect(Collectors.toSet());
+        return potentialPaths.isEmpty() ?
+                actualCopy.stream().map(ValuePathWithValue::getPath).collect(Collectors.toSet()) :
+                potentialPaths;
     }
 
     @Override
@@ -77,7 +91,7 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
                     expectedCopy.stream().map(ValuePathWithValue::getValue).toList());
         }
 
-        if (!actualCopy.isEmpty()) {
+        if (!actualCopy.isEmpty() && notEqualCandidateMessages.isEmpty()) {
             if (!messageTokens.isEmpty()) {
                 messageTokens = messageTokens.newLine();
             }
@@ -85,12 +99,18 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
                     actualCopy.stream().map(ValuePathWithValue::getValue).toList());
         }
 
+        if (!notEqualCandidateMessages.isEmpty() || !missingMessages.isEmpty() || !extraMessages.isEmpty()) {
+            messageTokens = messageTokens.newLine().add(generatePossibleMismatchesReport(actualPath));
+        }
+
         return messageTokens;
     }
 
     @Override
     public boolean matches(ValuePath actualPath, Object actualIterable) {
-        return matches(comparator, actualPath, actualIterable);
+        boolean result = matches(comparator, actualPath, actualIterable, true);
+        notEqualCandidateMessages.addAll(extractPotentialNotEqualMessages());
+        return result;
     }
 
     @Override
@@ -111,7 +131,7 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
 
     @Override
     public boolean negativeMatches(ValuePath actualPath, Object actualIterable) {
-        return !matches(comparator, actualPath, actualIterable);
+        return !matches(comparator, actualPath, actualIterable, false);
     }
 
     @Override
@@ -128,7 +148,7 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
     }
 
     @SuppressWarnings("unchecked")
-    private boolean matches(CompareToComparator comparator, ValuePath actualPath, Object actualIterable) {
+    private boolean matches(CompareToComparator comparator, ValuePath actualPath, Object actualIterable, boolean collectSuspects) {
         if (!(actualIterable instanceof Iterable)) {
             return false;
         }
@@ -140,17 +160,84 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
         while (expectedIt.hasNext()) {
             ValuePathWithValue<Object> expected = expectedIt.next();
             Iterator<ValuePathWithValue<Object>> actualIt = actualCopy.iterator();
+
+            // collect mismatches for each remaining actual value
+            // find elements with the largest number of mismatches
+            // remember those elements as suspects per expected value
+            List<CompareToResult> compareToResults = new ArrayList<>();
+            boolean found = false;
             while (actualIt.hasNext()) {
                 ValuePathWithValue<Object> actual = actualIt.next();
-                boolean isEqual = comparator.compareIsEqual(actual.getPath(), actual.getValue(), expected.getValue());
-                if (isEqual) {
+                CompareToResult compareToResult = comparator.compareUsingEqualOnly(actual.getPath(), actual.getValue(), expected.getValue());
+                if (compareToResult.isEqual()) {
                     actualIt.remove();
                     expectedIt.remove();
+                    found = true;
                     break;
                 }
+
+                compareToResults.add(compareToResult);
+            }
+
+            if (!found && collectSuspects) {
+                notEqualMessagesByExpectedPath.put(expected.getPath(),
+                        compareToResults.stream().map(CompareToResult::getNotEqualMessages).toList());
+
+                compareToResults.forEach(r -> missingMessages.addAll(r.getMissingMessages()));
+                compareToResults.forEach(r -> extraMessages.addAll(r.getExtraMessages()));
             }
         }
 
         return actualCopy.isEmpty() && expectedCopy.isEmpty();
+    }
+
+    private List<ValuePathMessage> extractPotentialNotEqualMessages() {
+        List<ValuePath> actualPaths = actualCopy.stream().map(ValuePathWithValue::getPath).toList();
+        List<ValuePathMessage> notEqualCandidateMessages = new ArrayList<>();
+        for (ValuePathWithValue<Object> expectedWithPath : expectedCopy) {
+            List<List<ValuePathMessage>> notEqualMessageBatches = notEqualMessagesByExpectedPath.get(expectedWithPath.getPath());
+            if (notEqualMessageBatches == null) {
+                continue;
+            }
+
+            // remove all the messages that were matched against eventually matched actual values
+            notEqualMessageBatches = notEqualMessageBatches.stream()
+                    .filter(batch -> {
+                        if (batch.isEmpty()) {
+                            return false;
+                        }
+
+                        ValuePathMessage firstMessage = batch.get(0);
+                        return actualPaths.stream().anyMatch(path -> firstMessage.getActualPath().startsWith(path));
+                    })
+                    .toList();
+
+
+            // need to find a subset that has the least amount of mismatches
+            // it will be a potential mismatch detail to display,
+            //
+            int minNumberOMismatches = notEqualMessageBatches.stream()
+                    .map(List::size)
+                    .min(Integer::compareTo).orElse(0);
+
+            List<List<ValuePathMessage>> messagesWithMinFailures = notEqualMessageBatches.stream()
+                    .filter(v -> v.size() == minNumberOMismatches).toList();
+
+            if (notEqualMessageBatches.size() != messagesWithMinFailures.size()) {
+                messagesWithMinFailures.forEach(notEqualCandidateMessages::addAll);
+            }
+        }
+
+        return notEqualCandidateMessages;
+    }
+
+    private TokenizedMessage generatePossibleMismatchesReport(ValuePath topLevelActualPath) {
+        return combineReportParts(
+                generateReportPart(topLevelActualPath, tokenizedMessage().error("possible mismatches"),
+                        Collections.singletonList(notEqualCandidateMessages)),
+                generateReportPart(topLevelActualPath, tokenizedMessage().error("missing values"),
+                        Collections.singletonList(missingMessages)),
+                generateReportPart(topLevelActualPath, tokenizedMessage().error("extra values"),
+                        Collections.singletonList(extraMessages)));
     }
 }

@@ -32,6 +32,10 @@ public class ValuePath {
         this.path = path;
     }
 
+    public boolean startsWith(ValuePath valuePath) {
+        return path.startsWith(valuePath.path + ".") || path.startsWith(valuePath.path + "[");
+    }
+
     public ValuePath property(String propName) {
         return new ValuePath(isEmpty() ? propName : path + "." + propName);
     }

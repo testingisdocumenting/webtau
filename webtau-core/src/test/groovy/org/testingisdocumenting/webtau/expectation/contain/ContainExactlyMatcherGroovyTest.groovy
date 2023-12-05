@@ -24,15 +24,18 @@ import static org.testingisdocumenting.webtau.WebTauCore.*
 class ContainExactlyMatcherGroovyTest {
     @Test
     void matchRecordsAndMaps() {
-        // records-and-maps-example
-        def list = [new Person("id1", 3, 10),
-                    new Person("id2", 4, 20),
-                    new Person("id2", 4, 20)]
-
-        actual(list).should(containExactly(
-                [id: "id2", level: 4, monthsAtCompany: 20],
-                [id: "id1", level: 3, monthsAtCompany: 10],
-                [id: "id2", level: 4, monthsAtCompany: 20]))
-        // records-and-maps-example
+        code {
+            // possible-mismatches-example
+            def list = [
+                    new Person("id1", 3, 12),
+                    new Person("id1", 4, 10),
+                    new Person("id2", 4, 20)
+            ]
+            actual(list).should(containExactly(
+                    [id: "id2", level: 4, monthsAtCompany: 20],
+                    [id: "id1", level: 8, monthsAtCompany: 10],
+                    [id: "id1", level: 7, monthsAtCompany: 12]))
+            // possible-mismatches-example
+        } should throwException(AssertionError)
     }
 }

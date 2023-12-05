@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +27,12 @@ public class CompareToResult {
     private List<ValuePathMessage> lessMessages = new ArrayList<>();
     private List<ValuePathMessage> missingMessages = new ArrayList<>();
     private List<ValuePathMessage> extraMessages = new ArrayList<>();
+
+    public int numberOfMismatches() {
+        return notEqualMessages.size() +
+                greaterMessages.size() + lessMessages.size() +
+                missingMessages.size() + extraMessages.size();
+    }
 
     public boolean isEqual() {
         return notEqualMessages.isEmpty() && hasNoExtraAndNoMissing();
