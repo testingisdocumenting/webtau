@@ -294,6 +294,18 @@ public class Matchers {
     }
 
     /**
+     * Same instance
+     * <pre>
+     * actual(value).shouldBe(sameInstance(anotherValue));
+     * </pre>
+     * @param expected expected instance
+     * @return matcher instance
+     */
+    public static SameInstanceMatcher sameInstance(Object expected) {
+        return new SameInstanceMatcher(expected);
+    }
+
+    /**
      * Throw exception <code>code</code> matcher.
      * <pre>
      * code(() -&gt; {
