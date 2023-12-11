@@ -102,6 +102,7 @@ matchers
     any-of
     contain-exactly
     any-value
+    same-instance
     custom-compare-to-handler
     value-change
     import-and-dependencies
