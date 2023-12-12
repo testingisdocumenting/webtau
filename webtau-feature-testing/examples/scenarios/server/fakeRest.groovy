@@ -40,6 +40,13 @@ scenario("fake rest server") {
     // fake-response-check
 }
 
+scenario("auto generated server id") {
+    def myServer = server.fake(router)
+    http.get("${myServer.baseUrl}/hello/person") {
+        message.should == "hello person"
+    }
+}
+
 scenario("slow down") {
     def myServer = server.fake("my-rest-server-slowed-down", router)
 
