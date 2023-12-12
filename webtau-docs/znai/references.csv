@@ -17,3 +17,7 @@ should,matchers/introduction#should
 shouldBe,matchers/introduction#should
 waitTo,matchers/introduction#waitto
 waitToBe,matchers/introduction#waitto
+shouldNot,matchers/introduction#negative-matching
+shouldNotBe,matchers/introduction#negative-matching
+waitToNot,matchers/introduction#negative-matching
+waitToNotBe,matchers/introduction#negative-matching

@@ -91,8 +91,6 @@ Java:
 
 :include-cli-output: doc-artifacts/beans-table-contain-output.txt {title: "contain handler output"}
 
-:include-markdown: static-import.md
-
 # Java Records 
 
 WebTau compares Java Records with maps and tables in the same way as Java Beans.

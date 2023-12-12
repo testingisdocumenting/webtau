@@ -5,9 +5,8 @@ Use `anyOf` matcher to match an expected value against any of the provided value
 
 ```tabs
 Groovy: 
-:include-groovy: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
-    entry: "any of matcher example",
-    bodyOnly: true
+:include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
+    surroundedBy: "any-of-matcher-standalone"
 }
 :include-markdown: import-ref.md
 
@@ -25,9 +24,8 @@ You can mix values and other matchers passed to `anyOf`
 
 ```tabs
 Groovy: 
-:include-groovy: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
-    entry: "any of matcher with other matcher example",
-    bodyOnly: true
+:include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
+    surroundedBy: "any-of-matcher-combo"
 }
 
 Java: 
@@ -36,5 +34,3 @@ Java:
     bodyOnly: true
 } 
 ```
-
-:include-markdown: static-import.md

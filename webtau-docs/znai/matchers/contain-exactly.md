@@ -9,10 +9,12 @@ Groovy:
 :include-file: org/testingisdocumenting/webtau/expectation/contain/ContainExactlyMatcherGroovyTest.groovy {
   surroundedBy: "possible-mismatches-example"
 }
+:include-markdown: import-ref.md
 Java:
 :include-file: org/testingisdocumenting/webtau/expectation/contain/ContainExactlyMatcherJavaTest.java {
   surroundedBy: "possible-mismatches-example"
 }
+:include-markdown: import-ref.md
 ```
 
 Console output displays potential mismatches to help with investigation:

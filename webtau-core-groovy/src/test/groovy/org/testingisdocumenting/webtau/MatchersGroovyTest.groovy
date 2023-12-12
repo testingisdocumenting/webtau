@@ -44,16 +44,31 @@ class MatchersGroovyTest {
     }
 
     @Test
+    void "string negative comparison example"() {
+        // string-string-negative-example
+        def errorMessage = generateErrorMessage()
+        errorMessage.shouldNot == "completed"
+        // string-string-negative-example
+    }
+
+    @Test
     void "string wait example"() {
         // wait-consume-message
-        actual(liveValue(this.&consumeMessage)).waitTo == "message we wait for"
+        actual(liveValue(this::consumeMessage)).waitTo == "message we wait for"
         // wait-consume-message
+    }
+
+    @Test
+    void "string wait negative example"() {
+        // wait-negative-consume-message
+        actual(liveValue(this::consumeMessage)).waitToNot == "duplicate"
+        // wait-negative-consume-message
     }
 
     @Test
     void "number wait example"() {
         // wait-number-records
-        actual(liveValue(this.&countRecords)).waitToBe >= 5
+        actual(liveValue(this::countRecords)).waitToBe >= 5
         // wait-number-records
     }
 
@@ -179,17 +194,21 @@ class MatchersGroovyTest {
 
     @Test
     void "any of matcher example"() {
+        // any-of-matcher-standalone
         def dateAsText = "2018-06-10"
         dateAsText.should == anyOf("2018-06-11", LocalDate.of(2018, 6, 10))
+        // any-of-matcher-standalone
     }
 
     @Test
     void "any of matcher with other matcher example"() {
+        // any-of-matcher-combo
         def dateAsText = "2018-06-10"
         dateAsText.should == anyOf("2018-06-11", greaterThan(LocalDate.of(2018, 1, 1)))
 
         def message = "hello world"
         message.shouldNot == anyOf("hello", contain("super"))
+        // any-of-matcher-combo
     }
 
     @Test
