@@ -55,6 +55,13 @@ scenario("static content server") {
     // static-server-html
 }
 
+scenario("auto generated server id") {
+    def myServer = server.serve("data/staticcontent")
+    http.get("${myServer.baseUrl}/hello.html") {
+        body.should == expectedHtml
+    }
+}
+
 scenario("slow down") {
     def myServer = server.serve("my-server-slown-down", "data/staticcontent")
     myServer.setAsBaseUrl()

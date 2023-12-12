@@ -38,4 +38,6 @@ Java:
 }
 ```
 
+Note: If you omit `serverId` parameter, an auto generated one will be used instead. It affects what you see in the generated report
+
 
