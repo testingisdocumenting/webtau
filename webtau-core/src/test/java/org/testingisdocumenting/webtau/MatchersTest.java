@@ -53,11 +53,30 @@ public class MatchersTest {
     }
 
     @Test
+    public void stringNegativeComparisonExample() {
+        doc.console.capture("string-string-negative-comparison", () -> {
+            // string-string-negative-example
+            String errorMessage = generateErrorMessage();
+            actual(errorMessage).shouldNot(equal("completed"));
+            // string-string-negative-example
+        });
+    }
+
+    @Test
     public void stringWaitExample() {
         doc.console.capture("wait-message", () -> {
             // wait-consume-message
             actual(liveValue(this::consumeMessage)).waitTo(equal("message we wait for"));
             // wait-consume-message
+        });
+    }
+
+    @Test
+    public void stringWaitNegativeExample() {
+        doc.console.capture("wait-negative-message", () -> {
+            // wait-negative-consume-message
+            actual(liveValue(this::consumeMessage)).waitToNot(equal("duplicate"));
+            // wait-negative-consume-message
         });
     }
 

@@ -75,5 +75,3 @@ Java:
 }
  ``` 
 
-:include-markdown: static-import.md
-

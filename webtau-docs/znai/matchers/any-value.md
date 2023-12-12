@@ -20,5 +20,3 @@ Java:
 :include-cli-output: doc-artifacts/any-value-table-output.txt {
   title: "console output"
 }
-
-:include-markdown: static-import.md

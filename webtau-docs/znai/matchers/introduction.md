@@ -1,7 +1,7 @@
-WebTau provides two methods to assert values: `should` and `waitTo`. They work for business logic testing, HTTP, Browser, and other layers.
+WebTau provides two ways to assert values: `should` and `waitTo`. They work for business logic testing, HTTP, Browser, and other layers.
 Methods accept a matcher as a second parameter:
 
-WebTau provides console output of all the matches it does, regardless of whether it fails or passes.
+WebTau provides console output for all the matching it does, regardless of whether it fails or passes.
 
 # Should 
 
@@ -15,7 +15,6 @@ Groovy:
     surroundedBy: "string-string-example",
     commentsType: "remove"
 }
-
  Note: Groovy has a shortcut for `equal` matcher.
 
 :include-markdown: import-ref.md
@@ -85,6 +84,46 @@ Java:
 } 
 ``` 
 
+# Negative Matching
+
+Both `should` and `waitTo` have negative forms:
+
+```tabs
+Groovy: 
+:include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
+    title: "shouldNot example",
+    surroundedBy: "string-string-negative-example",
+    noGap: true
+}
+:include-cli-output: doc-artifacts/string-string-negative-comparison.txt 
+
+Java: 
+:include-file: org/testingisdocumenting/webtau/MatchersTest.java {
+    title: "shouldNot example",
+    surroundedBy: "string-string-negative-example",
+    noGap: true
+} 
+:include-cli-output: doc-artifacts/string-string-negative-comparison.txt 
+``` 
+
+```tabs
+Groovy: 
+:include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
+    title: "waitToNot example",
+    surroundedBy: "wait-negative-consume-message",
+    noGap: true
+}
+:include-cli-output: doc-artifacts/wait-negative-message.txt 
+
+Java: 
+:include-file: org/testingisdocumenting/webtau/MatchersTest.java {
+    title: "waitToNot example",
+    surroundedBy: "wait-negative-consume-message",
+    noGap: true
+} 
+:include-cli-output: doc-artifacts/wait-negative-message.txt 
+``` 
+
 # Failure Output
 
 Above you saw how WebTau outputs matched information.
@@ -95,16 +134,16 @@ In case of failed assertion WebTau outputs additional information about the actu
 Groovy: 
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
     title: "assertion",
-    surroundedBy: "failed-list"
+    surroundedBy: "failed-list",
+    noGap: true
 }
+:include-cli-output: doc-artifacts/list-failure.txt 
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     title: "assertion",
-    surroundedBy: "failed-list"
+    surroundedBy: "failed-list",
+    noGap: true
 } 
+:include-cli-output: doc-artifacts/list-failure.txt 
 ``` 
-
-:include-cli-output: doc-artifacts/list-failure.txt {title: "failed assertion console output"}
-
-:include-markdown: static-import.md
