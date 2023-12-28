@@ -16,6 +16,7 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 public interface CodeMatcher {
@@ -37,4 +38,31 @@ public interface CodeMatcher {
     TokenizedMessage mismatchedTokenizedMessage(CodeBlock codeBlock);
 
     boolean matches(CodeBlock codeBlock);
+
+    /**
+     * @return about to start negative matching (shouldNot/waitToNot case) message
+     */
+    TokenizedMessage negativeMatchingTokenizedMessage();
+
+    /**
+     * @param codeBlock matching code block
+     * @return negative match message (shouldNot/waitToNot case)
+     * @see ValuePath
+     */
+    TokenizedMessage negativeMatchedTokenizedMessage(CodeBlock codeBlock);
+
+    /**
+     * @param codeBlock matching code block
+     * @return negative mismatch message (shouldNot/waitToNot case)
+     * @see ValuePath
+     */
+    TokenizedMessage negativeMismatchedTokenizedMessage(CodeBlock codeBlock);
+
+    /**
+     * Evaluates matcher. Called only for shouldNot/waitToNot
+     * @param codeBlock matching code block
+     * @return true in case of a negative match
+     * @see ValuePath
+     */
+    boolean negativeMatches(CodeBlock codeBlock);
 }

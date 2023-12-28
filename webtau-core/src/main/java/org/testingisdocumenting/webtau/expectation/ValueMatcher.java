@@ -35,7 +35,7 @@ public interface ValueMatcher {
         return ValueConverter.EMPTY;
     }
 
-    // should
+    // positive matching
 
     /**
      * @return about to start matching message
@@ -76,7 +76,7 @@ public interface ValueMatcher {
     }
 
     /**
-     * Evaluates matcher. Called only for should
+     * Evaluates matcher. Called for should/wait
      * @param actualPath path to the value
      * @param actual actual value
      * @return true in case of a match
@@ -84,17 +84,17 @@ public interface ValueMatcher {
      */
     boolean matches(ValuePath actualPath, Object actual);
 
-    // shouldNot
+    // negative matching
 
     /**
-     * @return about to start negative matching (shouldNot case) message
+     * @return about to start negative matching (shouldNot/waitToNot case) message
      */
     TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual);
 
     /**
      * @param actualPath path to the value
      * @param actual actual value
-     * @return negative match message (shouldNot case)
+     * @return negative match message (shouldNot/waitToNot case)
      * @see ValuePath
      */
     TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual);
@@ -102,7 +102,7 @@ public interface ValueMatcher {
     /**
      * @param actualPath path to the value
      * @param actual actual value
-     * @return negative mismatch message (shouldNot case)
+     * @return negative mismatch message (shouldNot/waitToNot case)
      * @see ValuePath
      */
     TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual);
@@ -111,7 +111,7 @@ public interface ValueMatcher {
      * Evaluates matcher. Called only for shouldNot
      * @param actualPath path to the value
      * @param actual actual value
-     * @return true in case of a negative match (shouldNot case)
+     * @return true in case of a negative match (shouldNot/waitToNot case)
      * @see ValuePath
      */
     boolean negativeMatches(ValuePath actualPath, Object actual);

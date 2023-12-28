@@ -35,8 +35,17 @@ public class ActualCode implements ActualCodeExpectations {
     @Override
     public void should(CodeMatcher codeMatcher) {
         executeStep(codeMatcher,
+                false,
                 tokenizedMessage().action("expecting"),
                 () -> shouldStep(codeMatcher), StepReportOptions.REPORT_ALL);
+    }
+
+    @Override
+    public void shouldNot(CodeMatcher codeMatcher) {
+        executeStep(codeMatcher,
+                true,
+                tokenizedMessage().action("expecting"),
+                () -> shouldNotStep(codeMatcher), StepReportOptions.REPORT_ALL);
     }
 
     private void shouldStep(CodeMatcher codeMatcher) {
@@ -46,6 +55,16 @@ public class ActualCode implements ActualCodeExpectations {
             handleMatch(codeMatcher);
         } else {
             handleMismatch(codeMatcher, codeMatcher.mismatchedTokenizedMessage(actual));
+        }
+    }
+
+    private void shouldNotStep(CodeMatcher codeMatcher) {
+        boolean matches = codeMatcher.negativeMatches(actual);
+
+        if (matches) {
+            handleMatch(codeMatcher);
+        } else {
+            handleMismatch(codeMatcher, codeMatcher.negativeMismatchedTokenizedMessage(actual));
         }
     }
 
@@ -62,14 +81,16 @@ public class ActualCode implements ActualCodeExpectations {
     }
 
     private void executeStep(CodeMatcher codeMatcher,
+                             boolean isNegative,
                              TokenizedMessage messageStart,
                              Runnable expectationValidation,
                              StepReportOptions stepReportOptions) {
         TokenizedMessage codeDescription = tokenizedMessage().id("code");
         WebTauStep step = createStep(
-                messageStart.add(codeDescription).add(codeMatcher.matchingTokenizedMessage()),
+                messageStart.add(codeDescription).add(isNegative ?
+                        codeMatcher.negativeMatchingTokenizedMessage() : codeMatcher.matchingTokenizedMessage()),
                 () -> tokenizedMessage(codeDescription)
-                        .add(codeMatcher.matchedTokenizedMessage(actual)),
+                        .add(isNegative ? codeMatcher.negativeMatchedTokenizedMessage(actual) : codeMatcher.matchedTokenizedMessage(actual)),
                 expectationValidation);
         step.setClassifier(WebTauStepClassifiers.MATCHER);
 
