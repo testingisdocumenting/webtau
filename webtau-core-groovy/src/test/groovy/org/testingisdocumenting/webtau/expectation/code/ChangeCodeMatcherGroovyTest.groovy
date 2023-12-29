@@ -54,8 +54,29 @@ class ChangeCodeMatcherGroovyTest {
         } should throwException(AssertionError)
     }
 
+    @Test
+    void "fail not to change java bean properties"() {
+        def dbEntity = new DbEntity()
+        dbEntity.setId("id1")
+        dbEntity.setDescription("description1")
+        dbEntity.setValue(100)
+
+        code {
+            // change-not-full-property
+            code {
+                calculatePrice(dbEntity)
+            } shouldNot change("dbEntity", dbEntity)
+            // change-not-full-property
+        } should throwException(AssertionError)
+    }
+
     private static void updateDbEntity(DbEntity dbEntity) {
         dbEntity.setValue(140)
+        dbEntity.setDescription("description-changed")
+    }
+
+    private void calculatePrice(DbEntity dbEntity) {
+        dbEntity.setValue(110)
         dbEntity.setDescription("description-changed")
     }
 

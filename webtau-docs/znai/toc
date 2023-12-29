@@ -103,8 +103,8 @@ matchers
     contain-exactly
     any-value
     same-instance
-    custom-compare-to-handler
     value-change
+    custom-compare-to-handler
     import-and-dependencies
 groovy-standalone-runner
     introduction

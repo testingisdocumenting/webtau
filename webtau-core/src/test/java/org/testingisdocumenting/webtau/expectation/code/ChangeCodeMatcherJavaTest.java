@@ -36,6 +36,18 @@ public class ChangeCodeMatcherJavaTest {
     }
 
     @Test
+    public void shouldNotChangeJavaBeanSingleProperty() {
+        var dbEntity = new DbEntity();
+        dbEntity.setId("id1");
+        dbEntity.setDescription("description1");
+        dbEntity.setValue(100);
+
+        code(() -> {
+            changeFreeOperation(dbEntity);
+        }).shouldNot(change("dbEntity.value", dbEntity::getValue));
+    }
+
+    @Test
     public void failToChangeJavaBeanSingleProperty() {
         var dbEntity = new DbEntity();
         dbEntity.setId("id1");
@@ -52,6 +64,26 @@ public class ChangeCodeMatcherJavaTest {
                 updateDbEntity(dbEntity);
             }).should(change("dbEntity.id", dbEntity::getId));
             // change-single-property
+        });
+    }
+
+    @Test
+    public void failToNotChangeJavaBeanSingleProperty() {
+        var dbEntity = new DbEntity();
+        dbEntity.setId("id1");
+        dbEntity.setDescription("description1");
+        dbEntity.setValue(100);
+
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "javabean-value-not-change-fail-output", """
+                > expecting code to not change value of dbEntity.value
+                X failed expecting code to not change value of dbEntity.value:
+                      actual: 140 <java.lang.Integer>
+                    expected: 100 <java.lang.Integer> (Xms)""", () -> {
+            // change-not-single-property
+            code(() -> {
+                changeFreeBuggyOperation(dbEntity);
+            }).shouldNot(change("dbEntity.value", dbEntity::getValue));
+            // change-not-single-property
         });
     }
 
@@ -91,11 +123,47 @@ public class ChangeCodeMatcherJavaTest {
         });
     }
 
+    @Test
+    public void failNotToChangeJavaBeanProperties() {
+        var dbEntity = new DbEntity();
+        dbEntity.setId("id1");
+        dbEntity.setDescription("description1");
+        dbEntity.setValue(100);
+
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "javabean-fail-not-to-change-output", """
+                > expecting code to not change value of dbEntity
+                X failed expecting code to not change value of dbEntity:
+                    dbEntity.description:  actual: "description-changed" <java.lang.String>
+                                         expected: "description1" <java.lang.String>
+                                                               ^
+                    dbEntity.value:  actual: 110 <java.lang.Integer>
+                                   expected: 100 <java.lang.Integer> (Xms)""", () -> {
+            // change-not-full-property
+            code(() -> {
+                calculatePrice(dbEntity);
+            }).shouldNot(change("dbEntity", dbEntity));
+            // change-not-full-property
+        });
+    }
+
     private void updateDbEntity(DbEntity dbEntity) {
         dbEntity.setValue(140);
         dbEntity.setDescription("description-changed");
     }
 
+    private void calculatePrice(DbEntity dbEntity) {
+        dbEntity.setValue(110);
+        dbEntity.setDescription("description-changed");
+    }
+
     private void buggyOperation(DbEntity dbEntity) {
+    }
+
+    private void changeFreeOperation(DbEntity dbEntity) {
+    }
+
+    private void changeFreeBuggyOperation(DbEntity dbEntity) {
+        dbEntity.setValue(140);
+        dbEntity.setDescription("description-changed");
     }
 }

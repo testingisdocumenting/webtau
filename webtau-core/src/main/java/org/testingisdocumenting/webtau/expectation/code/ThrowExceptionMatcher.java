@@ -127,6 +127,26 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
         return comparator.compareIsEqual(createActualPath("exception"), actualThrownAsMap, expectedAsMap);
     }
 
+    @Override
+    public TokenizedMessage negativeMatchingTokenizedMessage() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public TokenizedMessage negativeMatchedTokenizedMessage(CodeBlock codeBlock) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public TokenizedMessage negativeMismatchedTokenizedMessage(CodeBlock codeBlock) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean negativeMatches(CodeBlock codeBlock) {
+        throw new UnsupportedOperationException();
+    }
+
     private Map<String, Object> buildThrownToUseForCompare() {
         return createMap(thrownMessage, thrownClass);
     }

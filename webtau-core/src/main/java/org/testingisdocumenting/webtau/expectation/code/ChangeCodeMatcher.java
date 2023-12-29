@@ -60,6 +60,33 @@ public class ChangeCodeMatcher implements CodeMatcher {
         codeBlock.execute();
         var after = valueSupplier.get();
 
-        return comparator.compareIsNotEqual(new ValuePath(label), before, after);
+        return comparator.compareIsNotEqual(new ValuePath(label), after, before);
+    }
+
+    @Override
+    public TokenizedMessage negativeMatchingTokenizedMessage() {
+        comparator = CompareToComparator.comparator(CompareToComparator.AssertionMode.NOT_EQUAL);
+        return tokenizedMessage().matcher("to not change value").of().id(label);
+    }
+
+    @Override
+    public TokenizedMessage negativeMatchedTokenizedMessage(CodeBlock codeBlock) {
+        return tokenizedMessage().matcher("didn't change value").of().id(label);
+    }
+
+    @Override
+    public TokenizedMessage negativeMismatchedTokenizedMessage(CodeBlock codeBlock) {
+        return comparator.generateNotEqualMatchReport();
+    }
+
+    @Override
+    public boolean negativeMatches(CodeBlock codeBlock) {
+        comparator.resetReportData();
+
+        var before = valueSupplier.get();
+        codeBlock.execute();
+        var after = valueSupplier.get();
+
+        return comparator.compareIsEqual(new ValuePath(label), after, before);
     }
 }
