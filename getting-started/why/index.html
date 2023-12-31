@@ -100,7 +100,7 @@
 
 <article>
 <header><h1>REPL</h1></header>
-<p>Writing end-to-end tests is hard and there are a lot of excuses not write one. End-to-end test feedback loop is usually long and slow. WebTau provides REPL/experiments REPL mode to help you experiment with API and write a test in incremental fashion. webtau:000&gt; http.get(&quot;https://jsonplaceholder.typicode.com/todos/1&quot;) &gt; executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 (7ms) response (application/json; charset=utf-8): { &quot;userId&quot;: 1, &quot;id&quot;: 1, &quot;title&quot;: &quot;delectus aut autem&quot;, &quot;completed&quot;: false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (492ms)</p>
+<p>Writing end-to-end tests is hard and there are a lot of excuses not write one. End-to-end test feedback loop is usually long and slow. WebTau provides REPL/experiments REPL mode to help you experiment with API and write a test in incremental fashion. webtau:000&gt; http.get(&quot;https://jsonplaceholder.typicode.com/todos/1&quot;) &gt; executing HTTP GET https://jsonplaceholder.typicode.com/todos/1 . header.statusCode equals 200 (6ms) response (application/json; charset=utf-8): { &quot;userId&quot;: 1, &quot;id&quot;: 1, &quot;title&quot;: &quot;delectus aut autem&quot;, &quot;completed&quot;: false } . executed HTTP GET https://jsonplaceholder.typicode.com/todos/1 (456ms)</p>
 </article>
 
 <article>
@@ -310,7 +310,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "exploring http.get",
-        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m http.get(\"https://jsonplaceholder.typicode.com/todos/1\")", "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m7ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json; charset=utf-8):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"userId\"\u001B[33m: \u001B[34m1\u001B[33m,\u001B[0m", "    \u001B[35m\"id\"\u001B[33m: \u001B[34m1\u001B[33m,\u001B[0m", "    \u001B[35m\"title\"\u001B[33m: \u001B[32m\"delectus aut autem\"\u001B[33m,\u001B[0m", "    \u001B[35m\"completed\"\u001B[33m: \u001B[34mfalse\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[33m (\u001B[32m492ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[1mwebtau:\u001B[m000\u001B[1m>\u001B[m http.get(\"https://jsonplaceholder.typicode.com/todos/1\")", "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m6ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json; charset=utf-8):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"userId\"\u001B[33m: \u001B[34m1\u001B[33m,\u001B[0m", "    \u001B[35m\"id\"\u001B[33m: \u001B[34m1\u001B[33m,\u001B[0m", "    \u001B[35m\"title\"\u001B[33m: \u001B[32m\"delectus aut autem\"\u001B[33m,\u001B[0m", "    \u001B[35m\"completed\"\u001B[33m: \u001B[34mfalse\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttps://jsonplaceholder.typicode.com/todos/1\u001B[33m (\u001B[32m456ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "repl-exploring-http-get",
         "type" : "CliOutput"
       } ]
@@ -391,18 +391,19 @@ ReactDOM.render(React.createElement(Documentation, {
               "firstName" : "FN",
               "lastName" : "LN"
             },
-            "paths" : [ ],
+            "highlightValues" : [ ],
+            "highlightKeys" : [ ],
             "anchorId" : "documentation-artifacts-captured-request-payload",
             "type" : "Json"
           } ]
         }, {
           "content" : [ {
             "title" : "captured response payload",
-            "pathsFile" : "doc-artifacts/employee-post/paths.json",
             "data" : {
               "id" : "id-generated-2"
             },
-            "paths" : [ "root.id" ],
+            "highlightValues" : [ "root.id" ],
+            "highlightKeys" : [ ],
             "anchorId" : "documentation-artifacts-captured-response-payload",
             "type" : "Json"
           } ]
@@ -438,29 +439,29 @@ ReactDOM.render(React.createElement(Documentation, {
         "annotate" : true,
         "title" : "automatically captured screenshot with annotations",
         "imageSrc" : "/webtau/doc-artifacts/search.png",
-        "timestamp" : 1694378233945,
+        "timestamp" : 1704063640125,
         "shapes" : [ {
           "type" : "badge",
           "text" : "1",
-          "x" : 104,
-          "y" : 76,
+          "x" : 111,
+          "y" : 78,
           "align" : "Center",
           "invertedColors" : false
         }, {
           "type" : "badge",
           "text" : "2",
-          "x" : 442,
-          "y" : 161,
+          "x" : 450,
+          "y" : 166,
           "align" : "Center",
           "invertedColors" : false
         } ],
         "width" : 900.0,
-        "height" : 318.0,
+        "height" : 355.0,
         "anchorId" : "documentation-artifacts-automatically-captured-screenshot-with-annotations",
         "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1694377652669,
+    "lastModifiedTime" : 1704063222503,
     "tocItem" : {
       "chapterTitle" : "Getting Started",
       "pageTitle" : "Why",

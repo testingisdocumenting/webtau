@@ -967,8 +967,11 @@ toc = [ {
       "title" : "CSS Finder",
       "id" : "css-finder"
     }, {
-      "title" : "Filters",
-      "id" : "filters"
+      "title" : "Basic Filters",
+      "id" : "basic-filters"
+    }, {
+      "title" : "Filter By Distance",
+      "id" : "filter-by-distance"
     }, {
       "title" : "Chaining",
       "id" : "chaining"
@@ -1721,11 +1724,11 @@ toc = [ {
       "title" : "WaitTo",
       "id" : "waitto"
     }, {
+      "title" : "Negative Matching",
+      "id" : "negative-matching"
+    }, {
       "title" : "Failure Output",
       "id" : "failure-output"
-    }, {
-      "title" : "Static Import",
-      "id" : "static-import"
     } ]
   }, {
     "chapterTitle" : "Matchers",
@@ -1743,9 +1746,6 @@ toc = [ {
     }, {
       "title" : "Dates",
       "id" : "dates"
-    }, {
-      "title" : "Static Import",
-      "id" : "static-import"
     } ]
   }, {
     "chapterTitle" : "Matchers",
@@ -1766,9 +1766,6 @@ toc = [ {
     }, {
       "title" : "Java Beans Contain Table Data",
       "id" : "java-beans-contain-table-data"
-    }, {
-      "title" : "Static Import",
-      "id" : "static-import"
     }, {
       "title" : "Java Records",
       "id" : "java-records"
@@ -1840,10 +1837,17 @@ toc = [ {
     }, {
       "title" : "Mixing Values And Matchers",
       "id" : "mixing-values-and-matchers"
-    }, {
-      "title" : "Static Import",
-      "id" : "static-import"
     } ]
+  }, {
+    "chapterTitle" : "Matchers",
+    "pageTitle" : "Contain Exactly",
+    "pageMeta" : {
+      "identifier" : [ "{validationPath: \"org/testingisdocumenting/webtau/expectation/contain/ContainExactlyMatcherJavaTest.java\"}" ]
+    },
+    "dirName" : "matchers",
+    "fileName" : "contain-exactly",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ ]
   }, {
     "chapterTitle" : "Matchers",
     "pageTitle" : "Any Value",
@@ -1854,9 +1858,29 @@ toc = [ {
     "pageSectionIdTitles" : [ {
       "title" : "Match Every Value",
       "id" : "match-every-value"
-    }, {
-      "title" : "Static Import",
-      "id" : "static-import"
+    } ]
+  }, {
+    "chapterTitle" : "Matchers",
+    "pageTitle" : "Same Instance",
+    "pageMeta" : {
+      "identifier" : [ "{validationPath: \"org/testingisdocumenting/webtau/expectation/equality/SameInstanceMatcherJavaTest.java\"}" ]
+    },
+    "dirName" : "matchers",
+    "fileName" : "same-instance",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ ]
+  }, {
+    "chapterTitle" : "Matchers",
+    "pageTitle" : "Value Change",
+    "pageMeta" : {
+      "identifier" : [ "{validationPath: \"org/testingisdocumenting/webtau/expectation/code/ChangeCodeMatcherJavaTest.java\"}" ]
+    },
+    "dirName" : "matchers",
+    "fileName" : "value-change",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Code Change Matcher",
+      "id" : "code-change-matcher"
     } ]
   }, {
     "chapterTitle" : "Matchers",
@@ -1877,6 +1901,23 @@ toc = [ {
     }, {
       "title" : "Custom Complex Domain Data",
       "id" : "custom-complex-domain-data"
+    } ]
+  }, {
+    "chapterTitle" : "Matchers",
+    "pageTitle" : "Import And Dependencies",
+    "pageMeta" : { },
+    "dirName" : "matchers",
+    "fileName" : "import-and-dependencies",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Single DSL Import",
+      "id" : "single-dsl-import"
+    }, {
+      "title" : "Matchers Specific Import",
+      "id" : "matchers-specific-import"
+    }, {
+      "title" : "Core Module Import",
+      "id" : "core-module-import"
     } ]
   } ]
 }, {
@@ -2245,6 +2286,9 @@ toc = [ {
     "fileName" : "2023",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
+      "title" : "2.3",
+      "id" : "2-3"
+    }, {
       "title" : "2.2",
       "id" : "2-2"
     }, {

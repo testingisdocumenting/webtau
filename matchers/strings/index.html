@@ -85,17 +85,17 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Mismatch Pinpoint Single Line Text</h1></header>
-<p>When comparing strings, WebTau highlights a specific point of failure: Groovy def output = &quot;hallo world&quot; output.should == &quot;hello world&quot; Java String output = &quot;hallo world&quot;; actual(output).should(equal(&quot;hello world&quot;)); X failed expecting [value] to equal &quot;hello world&quot;: actual: &quot;hallo world&quot; &lt;java.lang.String&gt; expected: &quot;hello world&quot; &lt;java.lang.String&gt; ^ (0ms)</p>
+<p>When comparing strings, WebTau highlights a specific point of failure: Groovy def output = &quot;hallo world&quot; output.should == &quot;hello world&quot; Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java String output = &quot;hallo world&quot;; actual(output).should(equal(&quot;hello world&quot;)); Check matchers/import-and-dependencies Import And Dependencies for prerequisites. X failed expecting [value] to equal &quot;hello world&quot;: actual: &quot;hallo world&quot; &lt;java.lang.String&gt; expected: &quot;hello world&quot; &lt;java.lang.String&gt; ^ (1ms)</p>
 </article>
 
 <article>
 <header><h1>Mismatch Pinpoint Multi Line Text</h1></header>
-<p>In case of a multiline text, WebTau highlights a first mismatched line: Groovy String output = buildOutput() output.should == &quot;line one\nline 2&quot; Java String output = buildOutput(); actual(output).should(equal(&quot;line one\nline 2&quot;)); X failed expecting [value] to equal ________ line one line 2 ________: different number of lines: actual: 3 expected: 2 first mismatch at line idx 1: actual: &quot;line two&quot; expected: &quot;line 2&quot; ^ (0ms) __________ line one **line two** line three __________</p>
+<p>In case of a multiline text, WebTau highlights a first mismatched line: Groovy String output = buildOutput() output.should == &quot;line one\nline 2&quot; Java String output = buildOutput(); actual(output).should(equal(&quot;line one\nline 2&quot;)); X failed expecting [value] to equal ________ line one line 2 ________: different number of lines: actual: 3 expected: 2 first mismatch at line idx 1: actual: &quot;line two&quot; expected: &quot;line 2&quot; ^ (1ms) __________ line one **line two** line three __________</p>
 </article>
 
 <article>
 <header><h1>Line Ending Detection</h1></header>
-<p>WebTau automatically checks line ending, e.g. presence of \r and will notify if there is a difference. X failed expecting text to equal _________________ hello world world hello again _________________: different line endings: actual: contains \r expected: doesn't contain \r (0ms) **_________________** hello world world hello again **_________________**</p>
+<p>WebTau automatically checks line ending, e.g. presence of \r and will notify if there is a difference. X failed expecting text to equal _________________ hello world world hello again _________________: different line endings: actual: contains \r expected: doesn't contain \r (1ms) **_________________** hello world world hello again **_________________**</p>
 </article>
 
 <article>
@@ -158,6 +158,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "def output = \"hallo world\"\noutput.should == \"hello world\"",
             "surroundedBy" : "single-line-compare",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         }, {
           "name" : "Java",
@@ -166,12 +183,29 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "String output = \"hallo world\";\nactual(output).should(equal(\"hello world\"));",
             "surroundedBy" : "single-line-compare",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         } ],
         "type" : "Tabs"
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[32m\"hello world\"\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"hallo world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"hello world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m            ^\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[32m\"hello world\"\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"hallo world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"hello world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m            ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "mismatch-pinpoint-single-line-text-console-output",
         "type" : "CliOutput"
       } ]
@@ -206,7 +240,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m________", "                                    \u001B[32mline one", "                                    \u001B[32mline 2", "                                    \u001B[0m________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m2\u001B[0m", "\u001B[0m    \u001B[31mfirst mismatch at line idx \u001B[34m1\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[32m\"line two\"\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"line 2\"\u001B[0m", "\u001B[0m    \u001B[0m                ^\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[0m  __________\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[31m**line two**\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[0m  __________\u001B[0m" ],
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m________", "                                    \u001B[32mline one", "                                    \u001B[32mline 2", "                                    \u001B[0m________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m2\u001B[0m", "\u001B[0m    \u001B[31mfirst mismatch at line idx \u001B[34m1\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[32m\"line two\"\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"line 2\"\u001B[0m", "\u001B[0m    \u001B[0m                ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[0m  __________\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[31m**line two**\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[0m  __________\u001B[0m" ],
         "anchorId" : "mismatch-pinpoint-multi-line-text-console-output",
         "type" : "CliOutput"
       } ]
@@ -228,7 +262,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mtext \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m_________________", "                                 \u001B[32mhello world world", "                                 \u001B[32mhello again", "                                 \u001B[0m_________________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent line endings\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[31mcontains\u001B[0m \\r\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[31mdoesn't contain\u001B[0m \\r\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**_________________**\u001B[0m", "  \u001B[32m  hello world world\u001B[0m", "  \u001B[32m  hello again\u001B[0m", "  \u001B[31m**_________________**\u001B[0m" ],
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mtext \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m_________________", "                                 \u001B[32mhello world world", "                                 \u001B[32mhello again", "                                 \u001B[0m_________________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent line endings\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[31mcontains\u001B[0m \\r\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[31mdoesn't contain\u001B[0m \\r\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**_________________**\u001B[0m", "  \u001B[32m  hello world world\u001B[0m", "  \u001B[32m  hello again\u001B[0m", "  \u001B[31m**_________________**\u001B[0m" ],
         "anchorId" : "line-ending-detection-console-output",
         "type" : "CliOutput"
       } ]
@@ -356,7 +390,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "CliOutput"
       } ]
     } ],
-    "lastModifiedTime" : 1694377652673,
+    "lastModifiedTime" : 1704063222503,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Strings",

@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Import And Dependencies</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Matchers Specific Import</h1></header>
+<p>When you use multiple WebTau features you can single static import to have all core features available for autocomplete. It also requires a single dependency to bring all the WebTau modules. Groovy import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-groovy&lt;/artifactId&gt; &lt;version&gt;2.2&lt;/version&gt; &lt;/dependency&gt; If you use groovy-standalone-runner/introduction Groovy Runner then all the dependencies are already present. Java import static org.testingisdocumenting.webtau.WebTauDsl.*; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau&lt;/artifactId&gt; &lt;version&gt;2.2&lt;/version&gt; &lt;/dependency&gt; To specifically import matchers only use: Groovy import static org.testingisdocumenting.webtau.Matchers.* &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-core&lt;/artifactId&gt; &lt;version&gt;2.2&lt;/version&gt; &lt;/dependency&gt; Java import static org.testingisdocumenting.webtau.Matchers.*; &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-core&lt;/artifactId&gt; &lt;version&gt;2.2&lt;/version&gt; &lt;/dependency&gt;</p>
+</article>
+
+<article>
+<header><h1>Core Module Import</h1></header>
+<p>To have one import for matchers and utilities like list , map , table use: Groovy import static org.testingisdocumenting.webtau.WebTauCore.* Java import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "single-dsl-import",
+      "title" : "Single DSL Import",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "When you use multiple WebTau features you can single static import to have all core features available for autocomplete.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "It also requires a single dependency to bring all the WebTau modules.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*",
+            "title" : "core import",
+            "includeRegexp" : "WebTauGroovyDsl",
+            "anchorId" : "single-dsl-import-core-import",
+            "type" : "Snippet"
+          }, {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-groovy</artifactId>\n    <version>2.2</version>\n</dependency>",
+            "title" : "maven dependency",
+            "anchorId" : "single-dsl-import-maven-dependency",
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "If you use ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/groovy-standalone-runner/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Groovy Runner",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " then all the dependencies are already present.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "import static org.testingisdocumenting.webtau.WebTauDsl.*;",
+            "title" : "core import",
+            "includeRegexp" : "WebTauDsl",
+            "anchorId" : "single-dsl-import-core-import-2",
+            "type" : "Snippet"
+          }, {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau</artifactId>\n    <version>2.2</version>\n</dependency>",
+            "title" : "maven dependency",
+            "anchorId" : "single-dsl-import-maven-dependency-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "matchers-specific-import",
+      "title" : "Matchers Specific Import",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To specifically import ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "matchers",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " only use:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "import static org.testingisdocumenting.webtau.Matchers.*",
+            "title" : "matchers import",
+            "include" : "Matchers.*",
+            "anchorId" : "matchers-specific-import-matchers-import",
+            "type" : "Snippet"
+          }, {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-core</artifactId>\n    <version>2.2</version>\n</dependency>",
+            "title" : "maven dependency",
+            "anchorId" : "matchers-specific-import-maven-dependency",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "import static org.testingisdocumenting.webtau.Matchers.*;",
+            "title" : "matchers import",
+            "include" : "Matchers.*",
+            "anchorId" : "matchers-specific-import-matchers-import-2",
+            "type" : "Snippet"
+          }, {
+            "lang" : "xml",
+            "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-core</artifactId>\n    <version>2.2</version>\n</dependency>",
+            "title" : "maven dependency",
+            "anchorId" : "matchers-specific-import-maven-dependency-2",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "core-module-import",
+      "title" : "Core Module Import",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "To have one import for ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "matchers",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and utilities like ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "list",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "map",
+          "type" : "InlinedCode"
+        }, {
+          "text" : ", ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "table",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " use:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*",
+            "include" : "WebTauCore.*",
+            "replace" : [ ";", "" ],
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
+            "include" : "WebTauCore.*",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    } ],
+    "lastModifiedTime" : 1704063222503,
+    "tocItem" : {
+      "chapterTitle" : "Matchers",
+      "pageTitle" : "Import And Dependencies",
+      "pageMeta" : { },
+      "dirName" : "matchers",
+      "fileName" : "import-and-dependencies",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Single DSL Import",
+        "id" : "single-dsl-import"
+      }, {
+        "title" : "Matchers Specific Import",
+        "id" : "matchers-specific-import"
+      }, {
+        "title" : "Core Module Import",
+        "id" : "core-module-import"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

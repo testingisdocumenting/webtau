@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Fake Server Creation</h1></header>
-<p>Use and a router to create a server with controlled responses Groovy def myServer = server.fake(&quot;my-rest-server&quot;, router) http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { message.should == &quot;hello person&quot; } http.get(&quot;${myServer.baseUrl}/bye/person&quot;) { message.should == &quot;bye person&quot; } Java myServer = server.fake(&quot;my-rest-server&quot;, router); http.get(myServer.getBaseUrl() + &quot;/hello/person&quot;, ((header, body) -&gt; { body.get(&quot;message&quot;).should(equal(&quot;hello person&quot;)); })); http.get(myServer.getBaseUrl() + &quot;/bye/person?politeFactor=2&quot;, ((header, body) -&gt; { body.get(&quot;message&quot;).should(equal(&quot;bye person&quot;)); }));</p>
+<p>Use and a router to create a server with controlled responses Groovy def myServer = server.fake(&quot;my-rest-server&quot;, router) http.get(&quot;${myServer.baseUrl}/hello/person&quot;) { message.should == &quot;hello person&quot; } http.get(&quot;${myServer.baseUrl}/bye/person&quot;) { message.should == &quot;bye person&quot; } Java myServer = server.fake(&quot;my-rest-server&quot;, router); http.get(myServer.getBaseUrl() + &quot;/hello/person&quot;, ((header, body) -&gt; { body.get(&quot;message&quot;).should(equal(&quot;hello person&quot;)); })); http.get(myServer.getBaseUrl() + &quot;/bye/person?politeFactor=2&quot;, ((header, body) -&gt; { body.get(&quot;message&quot;).should(equal(&quot;bye person&quot;)); })); Note: If you omit serverId parameter, an auto generated one will be used instead. It affects what you see in the generated report</p>
 </article>
 </section>
 </div>
@@ -235,9 +235,21 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         } ],
         "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: If you omit ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "serverId",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " parameter, an auto generated one will be used instead. It affects what you see in the generated report",
+          "type" : "SimpleText"
+        } ]
       } ]
     } ],
-    "lastModifiedTime" : 1694377652681,
+    "lastModifiedTime" : 1704063222515,
     "tocItem" : {
       "chapterTitle" : "Servers",
       "pageTitle" : "Fake Server",

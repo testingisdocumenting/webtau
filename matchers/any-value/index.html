@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Match Every Value</h1></header>
-<p>Use anyValue matcher to match every expected value. Use it in places of complex data expectations where you need to provide a value but your focus is on different data. Groovy TableData summaryTable = loadFromCsv(&quot;summary.csv&quot;) summaryTable.should == [&quot;ColumnA&quot; | &quot;ColumnB&quot; ] { _________________________ 10| anyValue 30| 40 } Java TableData summaryTable = loadFromCsv(&quot;summary.csv&quot;); actual(summaryTable).should(equal(table(&quot;ColumnA&quot;, &quot;ColumnB&quot;, ____________________, 10, anyValue, 30, 40))); . [value] equals ColumnA │ ColumnB 10 │ &lt;any value&gt; 30 │ 40 (0ms) Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
+<p>Use anyValue matcher to match every expected value. Use it in places of complex data expectations where you need to provide a value but your focus is on different data. Groovy TableData summaryTable = loadFromCsv(&quot;summary.csv&quot;) summaryTable.should == [&quot;ColumnA&quot; | &quot;ColumnB&quot; ] { _________________________ 10| anyValue 30| 40 } Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java TableData summaryTable = loadFromCsv(&quot;summary.csv&quot;); actual(summaryTable).should(equal(table(&quot;ColumnA&quot;, &quot;ColumnB&quot;, ____________________, 10, anyValue, 30, 40))); Check matchers/import-and-dependencies Import And Dependencies for prerequisites. . [value] equals ColumnA │ ColumnB 10 │ &lt;any value&gt; 30 │ 40 (1ms)</p>
 </article>
 </section>
 </div>
@@ -144,6 +144,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "TableData summaryTable = loadFromCsv(\"summary.csv\")\nsummaryTable.should == [\"ColumnA\" | \"ColumnB\" ] {\n                        _________________________\n                                10| anyValue\n                                30| 40 }",
             "surroundedBy" : "any-value-table-example",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         }, {
           "name" : "Java",
@@ -152,44 +169,34 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "TableData summaryTable = loadFromCsv(\"summary.csv\");\nactual(summaryTable).should(equal(table(\"ColumnA\", \"ColumnB\",\n                                       ____________________,\n                                               10, anyValue,\n                                               30, 40)));",
             "surroundedBy" : "any-value-table-example",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         } ],
         "type" : "Tabs"
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB    ", "                      \u001B[34m10\u001B[33m │ \u001B[33m<\u001B[36many value\u001B[33m>", "                      \u001B[34m30\u001B[33m │          \u001B[34m40\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB    ", "                      \u001B[34m10\u001B[33m │ \u001B[33m<\u001B[36many value\u001B[33m>", "                      \u001B[34m30\u001B[33m │          \u001B[34m40\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "match-every-value-console-output",
         "type" : "CliOutput"
       } ]
-    }, {
-      "id" : "static-import",
-      "title" : "Static Import",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Examples assume ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "WebTauCore",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " static import.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "The class contains useful utility methods and matchers.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "java",
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
-        "include" : "WebTauCore.*",
-        "type" : "Snippet"
-      } ]
     } ],
-    "lastModifiedTime" : 1694377652673,
+    "lastModifiedTime" : 1704063222503,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Any Value",
@@ -200,9 +207,6 @@ ReactDOM.render(React.createElement(Documentation, {
       "pageSectionIdTitles" : [ {
         "title" : "Match Every Value",
         "id" : "match-every-value"
-      }, {
-        "title" : "Static Import",
-        "id" : "static-import"
       } ]
     }
   }

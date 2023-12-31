@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Base URL</h1></header>
-<p>WebTau provides configuration option to set base url for your browser open commands. This way you can run your tests in different environments without modifying code base. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('simple open') { browser.open(&quot;/search&quot;) $('#welcome').should == 'welcome to super search' } Define base URL either inside a webtau.cfg.groovy file url = &quot;http://localhost:8180&quot; or pass as a command line argument --url=http://...</p>
+<p>Groovy url = &quot;http://localhost:8080&quot; Note: WebTau treats groovy config file as codeAlternatively pass url as a command line argument --url=http://... Java url = http://localhost:8080 When you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, WebTau expects file named webtau.properties to be present in test classpath, e.g. test resources:Alternatively pass url as a system property -Durl=http://... To set base url using environment variables use export WEBTAU_URL=http://another-server</p>
 </article>
 
 <article>
@@ -95,7 +95,7 @@
 
 <article>
 <header><h1>Browser Id</h1></header>
-<p>Use browserId via command line, or a config file parameter to specify which browser to use. webtau --browserId=firefox Note: Default browserId is chrome</p>
+<p>Use browserId via command line, system property, env variable or config file parameter to specify which browser to use. Groovy webtau --browserId=firefox export WEBTAU_BROWSER_ID=firefox Java ... -DbrowserId=firefox export WEBTAU_BROWSER_ID=firefox Note: Default browserId is chrome</p>
 </article>
 
 <article>
@@ -135,51 +135,100 @@ ReactDOM.render(React.createElement(Documentation, {
       "title" : "Base URL",
       "type" : "Section",
       "content" : [ {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "url = \"http://localhost:8080\"",
+            "title" : "webtau.cfg.groovy",
+            "include" : "localhost",
+            "anchorId" : "base-url-webtau-cfg-groovy",
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Note: WebTau treats groovy config file as code",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Alternatively pass ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "url",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " as a command line argument ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "--url=http://...",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "properties",
+            "snippet" : "url = http://localhost:8080",
+            "title" : "src/test/resources/webtau.properties",
+            "include" : "localhost",
+            "anchorId" : "base-url-src-test-resources-webtau-properties",
+            "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "When you use JUnit like runners, e.g. ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/getting-started/installation#junit5",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "JUnit5",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ", WebTau expects file named",
+              "type" : "SimpleText"
+            }, {
+              "type" : "SoftLineBreak"
+            }, {
+              "code" : "webtau.properties",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to be present in test classpath, e.g. test resources:",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Alternatively pass ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "url",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " as a system property ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "-Durl=http://...",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "WebTau provides configuration option to set base url for your browser ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "open",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " commands.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "This way you can run your tests in different environments without modifying code base.",
+          "text" : "To set base url using environment variables use",
           "type" : "SimpleText"
         } ]
       }, {
-        "lang" : "groovy",
-        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('simple open') {\n    browser.open(\"/search\")\n    $('#welcome').should == 'welcome to super search'\n}",
+        "lang" : "",
+        "snippet" : "export WEBTAU_URL=http://another-server\n",
+        "lineNumber" : "",
         "type" : "Snippet"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Define base URL either inside a ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "webtau.cfg.groovy",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " file",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "groovy",
-        "snippet" : "url = \"http://localhost:8180\"",
-        "type" : "Snippet"
-      }, {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "or pass as a command line argument ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "--url=http://...",
-          "type" : "InlinedCode"
-        } ]
       } ]
     }, {
       "id" : "browser-only-base-url",
@@ -241,13 +290,34 @@ ReactDOM.render(React.createElement(Documentation, {
           "code" : "browserId",
           "type" : "InlinedCode"
         }, {
-          "text" : " via command line, or a config file parameter to specify which browser to use.",
+          "text" : " via command line, system property, env variable or config file parameter to specify which browser to use.",
           "type" : "SimpleText"
         } ]
       }, {
-        "command" : "webtau --browserId=firefox",
-        "paramsToHighlight" : [ ],
-        "type" : "CliCommand"
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "command" : "webtau --browserId=firefox",
+            "paramsToHighlight" : [ ],
+            "type" : "CliCommand"
+          }, {
+            "command" : "export WEBTAU_BROWSER_ID=firefox",
+            "paramsToHighlight" : [ ],
+            "type" : "CliCommand"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "command" : "... -DbrowserId=firefox",
+            "paramsToHighlight" : [ ],
+            "type" : "CliCommand"
+          }, {
+            "command" : "export WEBTAU_BROWSER_ID=firefox",
+            "paramsToHighlight" : [ ],
+            "type" : "CliCommand"
+          } ]
+        } ],
+        "type" : "Tabs"
       }, {
         "type" : "Paragraph",
         "content" : [ {
@@ -281,7 +351,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1694377652669,
+    "lastModifiedTime" : 1704063222499,
     "tocItem" : {
       "chapterTitle" : "Browser",
       "pageTitle" : "Basic Configuration",

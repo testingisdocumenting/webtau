@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Match Any Provided Value</h1></header>
-<p>Use anyOf matcher to match an expected value against any of the provided values. matchers/universal-compare Universal Compare rule is applicable. Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.should == anyOf(&quot;2018-06-11&quot;, LocalDate.of(2018, 6, 10)) Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(anyOf(&quot;2018-06-11&quot;, LocalDate.of(2018, 6, 10)));</p>
+<p>Use anyOf matcher to match an expected value against any of the provided values. matchers/universal-compare Universal Compare rule is applicable. Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.should == anyOf(&quot;2018-06-11&quot;, LocalDate.of(2018, 6, 10)) Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(anyOf(&quot;2018-06-11&quot;, LocalDate.of(2018, 6, 10))); Check matchers/import-and-dependencies Import And Dependencies for prerequisites.</p>
 </article>
 
 <article>
 <header><h1>Mixing Values And Matchers</h1></header>
-<p>You can mix values and other matchers passed to anyOf Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.should == anyOf(&quot;2018-06-11&quot;, greaterThan(LocalDate.of(2018, 1, 1))) def message = &quot;hello world&quot; message.shouldNot == anyOf(&quot;hello&quot;, contain(&quot;super&quot;)) Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(anyOf(&quot;2018-06-11&quot;, greaterThan(LocalDate.of(2018, 1, 1)))); String message = &quot;hello world&quot;; actual(message).shouldNotBe(anyOf(&quot;hello&quot;, contain(&quot;super&quot;))); Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
+<p>You can mix values and other matchers passed to anyOf Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.should == anyOf(&quot;2018-06-11&quot;, greaterThan(LocalDate.of(2018, 1, 1))) def message = &quot;hello world&quot; message.shouldNot == anyOf(&quot;hello&quot;, contain(&quot;super&quot;)) Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(anyOf(&quot;2018-06-11&quot;, greaterThan(LocalDate.of(2018, 1, 1)))); String message = &quot;hello world&quot;; actual(message).shouldNotBe(anyOf(&quot;hello&quot;, contain(&quot;super&quot;)));</p>
 </article>
 </section>
 </div>
@@ -155,9 +155,25 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "lang" : "groovy",
             "snippet" : "def dateAsText = \"2018-06-10\"\ndateAsText.should == anyOf(\"2018-06-11\", LocalDate.of(2018, 6, 10))",
-            "entry" : "any of matcher example",
-            "bodyOnly" : true,
+            "surroundedBy" : "any-of-matcher-standalone",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         }, {
           "name" : "Java",
@@ -167,6 +183,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "entry" : "anyOfMatcherExample",
             "bodyOnly" : true,
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         } ],
         "type" : "Tabs"
@@ -190,8 +223,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "content" : [ {
             "lang" : "groovy",
             "snippet" : "def dateAsText = \"2018-06-10\"\ndateAsText.should == anyOf(\"2018-06-11\", greaterThan(LocalDate.of(2018, 1, 1)))\n\ndef message = \"hello world\"\nmessage.shouldNot == anyOf(\"hello\", contain(\"super\"))",
-            "entry" : "any of matcher with other matcher example",
-            "bodyOnly" : true,
+            "surroundedBy" : "any-of-matcher-combo",
             "type" : "Snippet"
           } ]
         }, {
@@ -206,35 +238,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ],
         "type" : "Tabs"
       } ]
-    }, {
-      "id" : "static-import",
-      "title" : "Static Import",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Examples assume ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "WebTauCore",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " static import.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "The class contains useful utility methods and matchers.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "java",
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
-        "include" : "WebTauCore.*",
-        "type" : "Snippet"
-      } ]
     } ],
-    "lastModifiedTime" : 1694377652673,
+    "lastModifiedTime" : 1704063222503,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Any Of",
@@ -248,9 +253,6 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Mixing Values And Matchers",
         "id" : "mixing-values-and-matchers"
-      }, {
-        "title" : "Static Import",
-        "id" : "static-import"
       } ]
     }
   }

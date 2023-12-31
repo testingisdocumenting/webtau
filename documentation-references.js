@@ -29,6 +29,9 @@ docReferences = {
   "http.json" : {
     "pageUrl" : "HTTP/body#json-request"
   },
+  "shouldNotBe" : {
+    "pageUrl" : "matchers/introduction#negative-matching"
+  },
   "java.util.List" : {
     "pageUrl" : "https://docs.oracle.com/javase/8/docs/api/java/util/List.html"
   },
@@ -38,11 +41,20 @@ docReferences = {
   "data.csv" : {
     "pageUrl" : "data/csv"
   },
+  "shouldNot" : {
+    "pageUrl" : "matchers/introduction#negative-matching"
+  },
   "DataNode" : {
     "pageUrl" : "HTTP/data-node"
   },
+  "waitToNot" : {
+    "pageUrl" : "matchers/introduction#negative-matching"
+  },
   "java.util.Map" : {
     "pageUrl" : "https://docs.oracle.com/javase/8/docs/api/java/util/Map.html"
+  },
+  "waitToNotBe" : {
+    "pageUrl" : "matchers/introduction#negative-matching"
   },
   "should" : {
     "pageUrl" : "matchers/introduction#should"

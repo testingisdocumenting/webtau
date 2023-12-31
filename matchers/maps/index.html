@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Equality Comparison</h1></header>
-<p>When two maps are not equal, WebTau generates all the required info to investigate: Groovy Map&lt;String, ?&gt; generated = generate() generated.should == [firstName: &quot;G-FN&quot;, lastName: &quot;G-LN&quot;, address: [street: &quot;generated-street&quot;, city: &quot;GenCity&quot;, zipCode: &quot;12345&quot;]] Java Map&lt;String, ?&gt; generated = generate(); actual(generated).should(equal(map(&quot;firstName&quot;, &quot;G-FN&quot;, &quot;lastName&quot;, &quot;G-LN&quot;, &quot;address&quot;, map(&quot;street&quot;, &quot;generated-street&quot;, &quot;city&quot;, &quot;GenCity&quot;, &quot;zipCode&quot;, &quot;12345&quot;)))); X failed expecting [value] to equal { &quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;address&quot;: {&quot;street&quot;: &quot;generated-street&quot;, &quot;city&quot;: &quot;GenCity&quot;, &quot;zipCode&quot;: &quot;12345&quot;} }: mismatches: [value].address.city: actual: &quot;GenSity&quot; &lt;java.lang.String&gt; expected: &quot;GenCity&quot; &lt;java.lang.String&gt; ^ missing, but expected values: [value].address.zipCode: &quot;12345&quot; (4ms) { &quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;address&quot;: {&quot;street&quot;: &quot;generated-street&quot;, &quot;city&quot;: **&quot;GenSity&quot;**, &quot;zipCode&quot;: **&lt;missing&gt;**} }</p>
+<p>When two maps are not equal, WebTau generates all the required info to investigate: Groovy Map&lt;String, ?&gt; generated = generate() generated.should == [firstName: &quot;G-FN&quot;, lastName: &quot;G-LN&quot;, address: [street: &quot;generated-street&quot;, city: &quot;GenCity&quot;, zipCode: &quot;12345&quot;]] Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java Map&lt;String, ?&gt; generated = generate(); actual(generated).should(equal(map(&quot;firstName&quot;, &quot;G-FN&quot;, &quot;lastName&quot;, &quot;G-LN&quot;, &quot;address&quot;, map(&quot;street&quot;, &quot;generated-street&quot;, &quot;city&quot;, &quot;GenCity&quot;, &quot;zipCode&quot;, &quot;12345&quot;)))); Check matchers/import-and-dependencies Import And Dependencies for prerequisites. X failed expecting [value] to equal { &quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;address&quot;: {&quot;street&quot;: &quot;generated-street&quot;, &quot;city&quot;: &quot;GenCity&quot;, &quot;zipCode&quot;: &quot;12345&quot;} }: mismatches: [value].address.city: actual: &quot;GenSity&quot; &lt;java.lang.String&gt; expected: &quot;GenCity&quot; &lt;java.lang.String&gt; ^ missing, but expected values: [value].address.zipCode: &quot;12345&quot; (3ms) { &quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;address&quot;: {&quot;street&quot;: &quot;generated-street&quot;, &quot;city&quot;: **&quot;GenSity&quot;**, &quot;zipCode&quot;: **&lt;missing&gt;**} }</p>
 </article>
 
 <article>
 <header><h1>Contain</h1></header>
-<p>Use contain matcher to check if one map is a subset of another: Groovy Map&lt;String, ?&gt; generated = generate() generated.should contain(firstName: &quot;G-FN&quot;, lastName: &quot;G-LN&quot;, middleName: &quot;G-MN&quot;) Java Map&lt;String, ?&gt; generated = generate(); actual(generated).should(contain( map(&quot;firstName&quot;, &quot;G-FN&quot;, &quot;lastName&quot;, &quot;G-LN&quot;, &quot;middleName&quot;, &quot;G-MD&quot;))); X failed expecting [value] to contain {&quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;middleName&quot;: &quot;G-MD&quot;}: missing values: [value].middleName: &quot;G-MD&quot; (1ms) { &quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;address&quot;: {&quot;street&quot;: &quot;generated-street&quot;, &quot;city&quot;: &quot;GenSity&quot;}, &quot;middleName&quot;: **&lt;missing&gt;** }</p>
+<p>Use contain matcher to check if one map is a subset of another: Groovy Map&lt;String, ?&gt; generated = generate() generated.should contain(firstName: &quot;G-FN&quot;, lastName: &quot;G-LN&quot;, middleName: &quot;G-MN&quot;) Java Map&lt;String, ?&gt; generated = generate(); actual(generated).should(contain( map(&quot;firstName&quot;, &quot;G-FN&quot;, &quot;lastName&quot;, &quot;G-LN&quot;, &quot;middleName&quot;, &quot;G-MD&quot;))); X failed expecting [value] to contain {&quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;middleName&quot;: &quot;G-MD&quot;}: missing values: [value].middleName: &quot;G-MD&quot; (4ms) { &quot;firstName&quot;: &quot;G-FN&quot;, &quot;lastName&quot;: &quot;G-LN&quot;, &quot;address&quot;: {&quot;street&quot;: &quot;generated-street&quot;, &quot;city&quot;: &quot;GenSity&quot;}, &quot;middleName&quot;: **&lt;missing&gt;** }</p>
 </article>
 </section>
 </div>
@@ -138,6 +138,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "Map<String, ?> generated = generate()\ngenerated.should == [firstName: \"G-FN\", lastName: \"G-LN\",\n        address: [street: \"generated-street\", city: \"GenCity\", zipCode: \"12345\"]]",
             "surroundedBy" : "maps-equal-mismatch",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         }, {
           "name" : "Java",
@@ -146,12 +163,29 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "Map<String, ?> generated = generate();\nactual(generated).should(equal(map(\"firstName\", \"G-FN\", \"lastName\", \"G-LN\",\n        \"address\", map(\"street\", \"generated-street\", \"city\", \"GenCity\", \"zipCode\", \"12345\"))));",
             "surroundedBy" : "maps-equal-mismatch",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         } ],
         "type" : "Tabs"
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[33m{", "                                      \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m,", "                                      \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m,", "                                      \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"street\"\u001B[33m: \u001B[32m\"generated-street\"\u001B[33m, \u001B[35m\"city\"\u001B[33m: \u001B[32m\"GenCity\"\u001B[33m, \u001B[35m\"zipCode\"\u001B[33m: \u001B[32m\"12345\"\u001B[33m}", "                                    \u001B[33m}\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mmismatches\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value].address.city\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"GenSity\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[36mexpected\u001B[0m: \u001B[32m\"GenCity\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[0m              ^\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[31mmissing, but expected values\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value].address.zipCode\u001B[0m\u001B[0m: \u001B[32m\"12345\"\u001B[33m (\u001B[32m4ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"street\"\u001B[33m: \u001B[32m\"generated-street\"\u001B[33m, \u001B[35m\"city\"\u001B[33m: \u001B[31m**\"GenSity\"**\u001B[33m, \u001B[35m\"zipCode\"\u001B[33m: \u001B[31m**\u001B[31m<missing>\u001B[31m**\u001B[33m}\u001B[0m", "  \u001B[33m}\u001B[0m" ],
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[33m{", "                                      \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m,", "                                      \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m,", "                                      \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"street\"\u001B[33m: \u001B[32m\"generated-street\"\u001B[33m, \u001B[35m\"city\"\u001B[33m: \u001B[32m\"GenCity\"\u001B[33m, \u001B[35m\"zipCode\"\u001B[33m: \u001B[32m\"12345\"\u001B[33m}", "                                    \u001B[33m}\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mmismatches\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value].address.city\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"GenSity\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[36mexpected\u001B[0m: \u001B[32m\"GenCity\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[0m              ^\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[31mmissing, but expected values\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value].address.zipCode\u001B[0m\u001B[0m: \u001B[32m\"12345\"\u001B[33m (\u001B[32m3ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"street\"\u001B[33m: \u001B[32m\"generated-street\"\u001B[33m, \u001B[35m\"city\"\u001B[33m: \u001B[31m**\"GenSity\"**\u001B[33m, \u001B[35m\"zipCode\"\u001B[33m: \u001B[31m**\u001B[31m<missing>\u001B[31m**\u001B[33m}\u001B[0m", "  \u001B[33m}\u001B[0m" ],
         "anchorId" : "equality-comparison-console-output",
         "type" : "CliOutput"
       } ]
@@ -192,12 +226,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto contain \u001B[33m{\u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m, \u001B[35m\"middleName\"\u001B[33m: \u001B[32m\"G-MD\"\u001B[33m}\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[34mmissing values\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value].middleName\u001B[0m\u001B[0m: \u001B[32m\"G-MD\"\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"street\"\u001B[33m: \u001B[32m\"generated-street\"\u001B[33m, \u001B[35m\"city\"\u001B[33m: \u001B[32m\"GenSity\"\u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[35m\"middleName\"\u001B[33m: \u001B[31m**\u001B[31m<missing>\u001B[31m**\u001B[0m", "  \u001B[33m}\u001B[0m" ],
+        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto contain \u001B[33m{\u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m, \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m, \u001B[35m\"middleName\"\u001B[33m: \u001B[32m\"G-MD\"\u001B[33m}\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[34mmissing values\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value].middleName\u001B[0m\u001B[0m: \u001B[32m\"G-MD\"\u001B[33m (\u001B[32m4ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"firstName\"\u001B[33m: \u001B[32m\"G-FN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"lastName\"\u001B[33m: \u001B[32m\"G-LN\"\u001B[33m,\u001B[0m", "    \u001B[35m\"address\"\u001B[33m: \u001B[33m{\u001B[35m\"street\"\u001B[33m: \u001B[32m\"generated-street\"\u001B[33m, \u001B[35m\"city\"\u001B[33m: \u001B[32m\"GenSity\"\u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[35m\"middleName\"\u001B[33m: \u001B[31m**\u001B[31m<missing>\u001B[31m**\u001B[0m", "  \u001B[33m}\u001B[0m" ],
         "anchorId" : "contain-console-output",
         "type" : "CliOutput"
       } ]
     } ],
-    "lastModifiedTime" : 1694377652673,
+    "lastModifiedTime" : 1704063222503,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Maps",

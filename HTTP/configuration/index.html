@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Base URL</h1></header>
-<p>Here we cover essential configuration for HTTP testing.To learn basics about configuration, head over to getting-started/configuration Configuration Getting Started. To learn about all configuration capabilities, head over to configuration/groovy-config-file Configuration page.Use url to set base url for your tests. Groovy url = &quot;http://localhost:8080&quot; Note: WebTau treats groovy config file as code Java When you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, WebTau expects file named webtau.properties to be present in test classpath, e.g. test resources: url = http://localhost:8080 To set base url using environment variables use export WEBTAU_URL=http://another-server</p>
+<p>Here we cover essential configuration for HTTP testing.To learn basics about configuration, head over to getting-started/configuration Configuration Getting Started. To learn about all configuration capabilities, head over to configuration/groovy-config-file Configuration page. Groovy url = &quot;http://localhost:8080&quot; Note: WebTau treats groovy config file as codeAlternatively pass url as a command line argument --url=http://... Java url = http://localhost:8080 When you use JUnit like runners, e.g. getting-started/installation#junit5 JUnit5, WebTau expects file named webtau.properties to be present in test classpath, e.g. test resources:Alternatively pass url as a system property -Durl=http://... To set base url using environment variables use export WEBTAU_URL=http://another-server</p>
 </article>
 
 <article>
@@ -167,25 +167,13 @@ ReactDOM.render(React.createElement(Documentation, {
       "title" : "Base URL",
       "type" : "Section",
       "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Use ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "url",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " to set base url for your tests.",
-          "type" : "SimpleText"
-        } ]
-      }, {
         "tabsContent" : [ {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
             "snippet" : "url = \"http://localhost:8080\"",
             "title" : "webtau.cfg.groovy",
-            "includeRegexp" : "localhost",
+            "include" : "localhost",
             "anchorId" : "base-url-webtau-cfg-groovy",
             "type" : "Snippet"
           }, {
@@ -194,10 +182,32 @@ ReactDOM.render(React.createElement(Documentation, {
               "text" : "Note: WebTau treats groovy config file as code",
               "type" : "SimpleText"
             } ]
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Alternatively pass ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "url",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " as a command line argument ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "--url=http://...",
+              "type" : "InlinedCode"
+            } ]
           } ]
         }, {
           "name" : "Java",
           "content" : [ {
+            "lang" : "properties",
+            "snippet" : "url = http://localhost:8080",
+            "title" : "src/test/resources/webtau.properties",
+            "include" : "localhost",
+            "anchorId" : "base-url-src-test-resources-webtau-properties",
+            "type" : "Snippet"
+          }, {
             "type" : "Paragraph",
             "content" : [ {
               "text" : "When you use JUnit like runners, e.g. ",
@@ -223,12 +233,20 @@ ReactDOM.render(React.createElement(Documentation, {
               "type" : "SimpleText"
             } ]
           }, {
-            "lang" : "properties",
-            "snippet" : "url = http://localhost:8080",
-            "title" : "src/test/resources/webtau.properties",
-            "includeRegexp" : "localhost",
-            "anchorId" : "base-url-src-test-resources-webtau-properties",
-            "type" : "Snippet"
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Alternatively pass ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "url",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " as a system property ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "-Durl=http://...",
+              "type" : "InlinedCode"
+            } ]
           } ]
         } ],
         "type" : "Tabs"
@@ -290,13 +308,14 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "httpProxy = my_proxy_server_to_use.com:3873\n",
             "lineNumber" : "",
             "title" : "src/test/resources/webtau.properties",
+            "anchorId" : "proxy-src-test-resources-webtau-properties",
             "type" : "Snippet"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1694377652669,
+    "lastModifiedTime" : 1704063222499,
     "tocItem" : {
       "chapterTitle" : "HTTP",
       "pageTitle" : "Configuration",

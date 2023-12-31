@@ -95,12 +95,12 @@
 
 <article>
 <header><h1>Rest API</h1></header>
-<p>WebTau http module lets you exercise and validate HTTP endpoints. It provides a simplified way to make HTTP calls and validate responsesNow with HTTP/data-coverage Data Coverage. Groovy private final def livePrice = http.resource(&quot;/prices/:ticker&quot;).price ... livePrice.of(&quot;IBM&quot;).waitToBe &gt; 115 Java private final HttpLazyResponseValue livePrice = http.resource(&quot;/prices/:ticker&quot;).get(&quot;price&quot;); ... livePrice.of(&quot;IBM&quot;).waitToBe(greaterThan(115))); &gt; waiting for value of /prices/IBM: price to be greater than 115 &gt; [1/3] executing HTTP GET http://localhost:35939/prices/IBM . header.statusCode equals 200 (0ms) response (application/json): { &quot;price&quot;: **100** } . [1/3] executed HTTP GET http://localhost:35939/prices/IBM (3ms) &gt; [3/3] executing HTTP GET http://localhost:35939/prices/IBM . header.statusCode equals 200 (0ms) response (application/json): { &quot;price&quot;: ~~120~~ } . [3/3] executed HTTP GET http://localhost:35939/prices/IBM (4ms) . value of /prices/IBM: price greater than 115 (218ms) Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } package com.example.tests.junit5 import org.junit.jupiter.api.Test import org.testingisdocumenting.webtau.junit5.WebTau import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @WebTau class WeatherGroovyTest { @Test void checkWeather() { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class WeatherJavaTest { @Test public void checkWeather() { http.get(&quot;/weather&quot;, (header, body) -&gt; { body.get(&quot;temperature&quot;).shouldBe(lessThan(100)); }); } } &gt; executing HTTP GET http://localhost:39813/weather . body.temperature less than 100 (2ms) . header.statusCode equals 200 (0ms) response (application/json): { &quot;temperature&quot;: ~~88~~ } . executed HTTP GET http://localhost:39813/weather (35ms) HTTP/CRUD-example Read More</p>
+<p>WebTau http module lets you exercise and validate HTTP endpoints. It provides a simplified way to make HTTP calls and validate responsesNow with HTTP/data-coverage Data Coverage. Groovy private final def livePrice = http.resource(&quot;/prices/:ticker&quot;).price ... livePrice.of(&quot;IBM&quot;).waitToBe &gt; 115 Java private final HttpLazyResponseValue livePrice = http.resource(&quot;/prices/:ticker&quot;).get(&quot;price&quot;); ... livePrice.of(&quot;IBM&quot;).waitToBe(greaterThan(115))); &gt; waiting for value of /prices/IBM: price to be greater than 115 &gt; [1/3] executing HTTP GET http://localhost:35275/prices/IBM . header.statusCode equals 200 (0ms) response (application/json): { &quot;price&quot;: **100** } . [1/3] executed HTTP GET http://localhost:35275/prices/IBM (4ms) &gt; [3/3] executing HTTP GET http://localhost:35275/prices/IBM . header.statusCode equals 200 (0ms) response (application/json): { &quot;price&quot;: ~~120~~ } . [3/3] executed HTTP GET http://localhost:35275/prices/IBM (3ms) . value of /prices/IBM: price greater than 115 (213ms) Groovy package scenarios.rest import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;check weather&quot;) { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } package com.example.tests.junit5 import org.junit.jupiter.api.Test import org.testingisdocumenting.webtau.junit5.WebTau import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* @WebTau class WeatherGroovyTest { @Test void checkWeather() { http.get(&quot;/weather&quot;) { temperature.shouldBe &lt; 100 } } } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class WeatherJavaTest { @Test public void checkWeather() { http.get(&quot;/weather&quot;, (header, body) -&gt; { body.get(&quot;temperature&quot;).shouldBe(lessThan(100)); }); } } &gt; executing HTTP GET http://localhost:42621/weather . body.temperature less than 100 (1ms) . header.statusCode equals 200 (0ms) response (application/json): { &quot;temperature&quot;: ~~88~~ } . executed HTTP GET http://localhost:42621/weather (26ms) HTTP/CRUD-example Read More</p>
 </article>
 
 <article>
 <header><h1>WebSocket</h1></header>
-<p>WebTau websocket module lets your send, receive and validate websocket messages in a convenient synchronous manner. Groovy def wsSession = websocket.connect(&quot;/prices&quot;) wsSession.send([symbol: &quot;IBM&quot;]) wsSession.received.waitTo == [ price: greaterThan(100), symbol: &quot;IBM&quot;] wsSession.close() Java var wsSession = websocket.connect(&quot;/prices&quot;); wsSession.send(map(&quot;symbol&quot;, &quot;IBM&quot;)); wsSession.received.waitTo(equal(map( &quot;price&quot;, greaterThan(100), &quot;symbol&quot;, &quot;IBM&quot;))); wsSession.close(); &gt; connecting to websocket /prices . connected to websocket ws://localhost:33409/prices (14ms) &gt; sending text message to ws://localhost:33409/prices {&quot;symbol&quot;: &quot;IBM&quot;} . sent text message to ws://localhost:33409/prices (0ms) &gt; waiting for received from ws://localhost:33409/prices to equal {&quot;price&quot;: &lt;greater than 100&gt;, &quot;symbol&quot;: &quot;IBM&quot;} &gt; [1/25] polling websocket message {&quot;symbol&quot;: &quot;IBM&quot;, &quot;price&quot;: 77} . [1/25] polled new message (1ms) &gt; [25/25] polling websocket message {&quot;symbol&quot;: &quot;IBM&quot;, &quot;price&quot;: 101} . [25/25] polled new message (0ms) . received from ws://localhost:33409/prices equals {&quot;price&quot;: &lt;greater than 100&gt;, &quot;symbol&quot;: &quot;IBM&quot;} (128ms) &gt; closing websocket ws://localhost:33409/prices . closed websocket ws://localhost:33409/prices (1ms) web-socket/received-messages Read More</p>
+<p>WebTau websocket module lets your send, receive and validate websocket messages in a convenient synchronous manner. Groovy def wsSession = websocket.connect(&quot;/prices&quot;) wsSession.send([symbol: &quot;IBM&quot;]) wsSession.received.waitTo == [ price: greaterThan(100), symbol: &quot;IBM&quot;] wsSession.close() Java var wsSession = websocket.connect(&quot;/prices&quot;); wsSession.send(map(&quot;symbol&quot;, &quot;IBM&quot;)); wsSession.received.waitTo(equal(map( &quot;price&quot;, greaterThan(100), &quot;symbol&quot;, &quot;IBM&quot;))); wsSession.close(); &gt; connecting to websocket /prices . connected to websocket ws://localhost:46359/prices (8ms) &gt; sending text message to ws://localhost:46359/prices {&quot;symbol&quot;: &quot;IBM&quot;} . sent text message to ws://localhost:46359/prices (1ms) &gt; waiting for received from ws://localhost:46359/prices to equal {&quot;price&quot;: &lt;greater than 100&gt;, &quot;symbol&quot;: &quot;IBM&quot;} &gt; [1/25] polling websocket message {&quot;symbol&quot;: &quot;IBM&quot;, &quot;price&quot;: 77} . [1/25] polled new message (0ms) &gt; [25/25] polling websocket message {&quot;symbol&quot;: &quot;IBM&quot;, &quot;price&quot;: 101} . [25/25] polled new message (0ms) . received from ws://localhost:46359/prices equals {&quot;price&quot;: &lt;greater than 100&gt;, &quot;symbol&quot;: &quot;IBM&quot;} (214ms) &gt; closing websocket ws://localhost:46359/prices . closed websocket ws://localhost:46359/prices (0ms) web-socket/received-messages Read More</p>
 </article>
 
 <article>
@@ -115,7 +115,7 @@
 
 <article>
 <header><h1>Browser</h1></header>
-<p>WebTau browser module lets you interact with a browser.High level abstractions streamline location, assertion and async logic.WebTau leverages https://www.selenium.dev Selenium WebDriver to do the heavy lifting. Groovy package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario(&quot;search by specific query&quot;) { search.submit(&quot;search this&quot;) search.numberOfResults.waitToBe &gt; 1 } package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class SearchPage { def header = $(&quot;#header&quot;) def welcomeMessage = $(&quot;#welcome&quot;) def searchMessage = $(&quot;#message&quot;) def box = $(&quot;#search-box&quot;) def resultsArea = $(&quot;#results&quot;) def results = $(&quot;#results .result&quot;) def numberOfResults = results.count def submit(query) { browser.open(&quot;/search&quot;) box.setValue(query) box.sendKeys(browser.keys.enter) } } package pages class Pages { static final def search = new SearchPage() } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static com.example.tests.junit5.pages.Pages.*; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class WebSearchJavaTest { @Test public void searchByQuery() { search.submit(&quot;search this&quot;); search.numberOfResults.waitToBe(greaterThan(1)); } } package com.example.tests.junit5.pages; import org.testingisdocumenting.webtau.browser.page.PageElement; import org.testingisdocumenting.webtau.browser.page.PageElementValue; import static org.testingisdocumenting.webtau.WebTauDsl.*; public class SearchPage { private final PageElement box = $(&quot;#search-box&quot;); private final PageElement results = $(&quot;#results .result&quot;); public final PageElementValue&lt;Integer&gt; numberOfResults = results.count; public void submit(String query) { browser.open(&quot;/search&quot;); box.setValue(query); box.sendKeys(browser.keys.enter); } } package com.example.tests.junit5.pages; public class Pages { public static SearchPage search = new SearchPage(); } &gt; initializing webdriver for chrome . initialized webdriver for chrome (535ms) &gt; opening http://localhost:39813/search . opened http://localhost:39813/search (82ms) &gt; setting value search this to by css #search-box &gt; clearing by css #search-box . cleared by css #search-box (56ms) &gt; sending keys search this to by css #search-box . sent keys search this to by css #search-box (74ms) . set value search this to by css #search-box (162ms) &gt; sending keys &lt;enter&gt; to by css #search-box . sent keys &lt;enter&gt; to by css #search-box (43ms) &gt; waiting for count of by css #results .result to be greater than 1 . count of by css #results .result greater than 1 (21ms) browser/basic-configuration Read More</p>
+<p>WebTau browser module lets you interact with a browser.High level abstractions streamline location, assertion and async logic.WebTau leverages https://www.selenium.dev Selenium WebDriver to do the heavy lifting. Groovy package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* import static pages.Pages.* scenario(&quot;search by specific query&quot;) { search.submit(&quot;search this&quot;) search.numberOfResults.waitToBe &gt; 1 } package pages import static org.testingisdocumenting.webtau.WebTauDsl.* class SearchPage { def header = $(&quot;#header&quot;) def welcomeMessage = $(&quot;#welcome&quot;) def searchMessage = $(&quot;#message&quot;) def box = $(&quot;#search-box&quot;) def resultsArea = $(&quot;#results&quot;) def results = $(&quot;#results .result&quot;) def numberOfResults = results.count def submit(query) { browser.open(&quot;/search&quot;) box.setValue(query) box.sendKeys(browser.keys.enter) } } package pages class Pages { static final def search = new SearchPage() } Java package com.example.tests.junit5; import org.junit.jupiter.api.Test; import org.testingisdocumenting.webtau.junit5.WebTau; import static com.example.tests.junit5.pages.Pages.*; import static org.testingisdocumenting.webtau.WebTauDsl.*; @WebTau public class WebSearchJavaTest { @Test public void searchByQuery() { search.submit(&quot;search this&quot;); search.numberOfResults.waitToBe(greaterThan(1)); } } package com.example.tests.junit5.pages; import org.testingisdocumenting.webtau.browser.page.PageElement; import org.testingisdocumenting.webtau.browser.page.PageElementValue; import static org.testingisdocumenting.webtau.WebTauDsl.*; public class SearchPage { private final PageElement box = $(&quot;#search-box&quot;); private final PageElement results = $(&quot;#results .result&quot;); public final PageElementValue&lt;Integer&gt; numberOfResults = results.count; public void submit(String query) { browser.open(&quot;/search&quot;); box.setValue(query); box.sendKeys(browser.keys.enter); } } package com.example.tests.junit5.pages; public class Pages { public static SearchPage search = new SearchPage(); } &gt; initializing webdriver for chrome . initialized webdriver for chrome (475ms) &gt; opening http://localhost:42621/search . opened http://localhost:42621/search (40ms) &gt; setting value search this to by css #search-box &gt; clearing by css #search-box . cleared by css #search-box (33ms) &gt; sending keys search this to by css #search-box . sent keys search this to by css #search-box (48ms) . set value search this to by css #search-box (102ms) &gt; sending keys &lt;enter&gt; to by css #search-box . sent keys &lt;enter&gt; to by css #search-box (25ms) &gt; waiting for count of by css #results .result to be greater than 1 . count of by css #results .result greater than 1 (11ms) browser/basic-configuration Read More</p>
 </article>
 
 <article>
@@ -221,7 +221,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "scale" : 0.5,
         "align" : "left",
         "imageSrc" : "/webtau/webtau-logo.png",
-        "timestamp" : 1694377652681,
+        "timestamp" : 1704063222515,
         "shapes" : [ ],
         "width" : 256.0,
         "height" : 256.0,
@@ -537,7 +537,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[36mvalue \u001B[33mof \u001B[35m/prices/\u001B[0m\u001B[1mIBM\u001B[35m\u001B[0m: \u001B[0m\u001B[1mprice \u001B[0m\u001B[0m\u001B[34mto be greater than \u001B[34m115\u001B[0m", "  \u001B[33m> \u001B[36m[1/3] \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttp://localhost:35939/prices/IBM\u001B[0m", "    \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "    \u001B[0m", "    \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "    \u001B[33m{\u001B[0m", "      \u001B[35m\"price\"\u001B[33m: \u001B[1m\u001B[31m**100**\u001B[0m", "    \u001B[33m}\u001B[0m", "  \u001B[32m. \u001B[36m[1/3] \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttp://localhost:35939/prices/IBM\u001B[33m (\u001B[32m3ms\u001B[33m)\u001B[0m", "  \u001B[33m> \u001B[36m[3/3] \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttp://localhost:35939/prices/IBM\u001B[0m", "    \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "    \u001B[0m", "    \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "    \u001B[33m{\u001B[0m", "      \u001B[35m\"price\"\u001B[33m: \u001B[1m\u001B[32m~~120~~\u001B[0m", "    \u001B[33m}\u001B[0m", "  \u001B[32m. \u001B[36m[3/3] \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttp://localhost:35939/prices/IBM\u001B[33m (\u001B[32m4ms\u001B[33m)\u001B[0m", "\u001B[32m. \u001B[36mvalue \u001B[33mof \u001B[35m/prices/\u001B[0m\u001B[1mIBM\u001B[35m\u001B[0m: \u001B[0m\u001B[1mprice \u001B[0m\u001B[0m\u001B[34mgreater than \u001B[34m115\u001B[33m (\u001B[32m218ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[36mvalue \u001B[33mof \u001B[35m/prices/\u001B[0m\u001B[1mIBM\u001B[35m\u001B[0m: \u001B[0m\u001B[1mprice \u001B[0m\u001B[0m\u001B[34mto be greater than \u001B[34m115\u001B[0m", "  \u001B[33m> \u001B[36m[1/3] \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttp://localhost:35275/prices/IBM\u001B[0m", "    \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "    \u001B[0m", "    \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "    \u001B[33m{\u001B[0m", "      \u001B[35m\"price\"\u001B[33m: \u001B[1m\u001B[31m**100**\u001B[0m", "    \u001B[33m}\u001B[0m", "  \u001B[32m. \u001B[36m[1/3] \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttp://localhost:35275/prices/IBM\u001B[33m (\u001B[32m4ms\u001B[33m)\u001B[0m", "  \u001B[33m> \u001B[36m[3/3] \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttp://localhost:35275/prices/IBM\u001B[0m", "    \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "    \u001B[0m", "    \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "    \u001B[33m{\u001B[0m", "      \u001B[35m\"price\"\u001B[33m: \u001B[1m\u001B[32m~~120~~\u001B[0m", "    \u001B[33m}\u001B[0m", "  \u001B[32m. \u001B[36m[3/3] \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttp://localhost:35275/prices/IBM\u001B[33m (\u001B[32m3ms\u001B[33m)\u001B[0m", "\u001B[32m. \u001B[36mvalue \u001B[33mof \u001B[35m/prices/\u001B[0m\u001B[1mIBM\u001B[35m\u001B[0m: \u001B[0m\u001B[1mprice \u001B[0m\u001B[0m\u001B[34mgreater than \u001B[34m115\u001B[33m (\u001B[32m213ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "rest-api-console-output",
         "type" : "CliOutput"
       }, {
@@ -564,7 +564,8 @@ ReactDOM.render(React.createElement(Documentation, {
                 "data" : {
                   "temperature" : 88
                 },
-                "paths" : [ ],
+                "highlightValues" : [ ],
+                "highlightKeys" : [ ],
                 "anchorId" : "rest-api-server-response",
                 "type" : "Json"
               } ]
@@ -589,7 +590,8 @@ ReactDOM.render(React.createElement(Documentation, {
                 "data" : {
                   "temperature" : 88
                 },
-                "paths" : [ ],
+                "highlightValues" : [ ],
+                "highlightKeys" : [ ],
                 "anchorId" : "rest-api-server-response-2",
                 "type" : "Json"
               } ]
@@ -603,7 +605,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "console output",
         "startLine" : "executing",
         "endLine" : "executed",
-        "lines" : [ "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttp://localhost:39813/weather\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mbody.temperature \u001B[0m\u001B[0m\u001B[34mless than \u001B[34m100\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"temperature\"\u001B[33m: \u001B[1m\u001B[32m~~88~~\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttp://localhost:39813/weather\u001B[33m (\u001B[32m35ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mexecuting HTTP \u001B[36mGET \u001B[35mhttp://localhost:42621/weather\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mbody.temperature \u001B[0m\u001B[0m\u001B[34mless than \u001B[34m100\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mheader.statusCode \u001B[0m\u001B[0m\u001B[34mequals \u001B[34m200\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33mresponse\u001B[36m (application/json):\u001B[0m", "  \u001B[33m{\u001B[0m", "    \u001B[35m\"temperature\"\u001B[33m: \u001B[1m\u001B[32m~~88~~\u001B[0m", "  \u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34mexecuted HTTP \u001B[36mGET \u001B[35mhttp://localhost:42621/weather\u001B[33m (\u001B[32m26ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "rest-api-console-output-2",
         "type" : "CliOutput"
       }, {
@@ -660,7 +662,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "console output",
         "surroundedBy" : "waitUntilReceiveMessageNoPath",
-        "lines" : [ "\u001B[33m> \u001B[34mconnecting \u001B[33mto \u001B[36mwebsocket \u001B[35m/prices\u001B[0m", "\u001B[32m. \u001B[34mconnected \u001B[33mto \u001B[36mwebsocket \u001B[35mws://localhost:33409/prices\u001B[33m (\u001B[32m14ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34msending \u001B[36mtext \u001B[34mmessage \u001B[33mto \u001B[35mws://localhost:33409/prices\u001B[0m", "  \u001B[33m{\u001B[35m\"symbol\"\u001B[33m: \u001B[32m\"IBM\"\u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34msent \u001B[36mtext \u001B[34mmessage \u001B[33mto \u001B[35mws://localhost:33409/prices\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[0m\u001B[1mreceived \u001B[0m\u001B[33mfrom \u001B[35mws://localhost:33409/prices \u001B[0m\u001B[34mto equal \u001B[33m{\u001B[35m\"price\"\u001B[33m: \u001B[33m<\u001B[36mgreater than \u001B[34m100\u001B[33m>\u001B[33m, \u001B[35m\"symbol\"\u001B[33m: \u001B[32m\"IBM\"\u001B[33m}\u001B[0m", "  \u001B[33m> \u001B[36m[1/25] \u001B[34mpolling \u001B[36mwebsocket message\u001B[0m", "    \u001B[33m{\u001B[35m\"symbol\"\u001B[33m: \u001B[32m\"IBM\"\u001B[33m, \u001B[35m\"price\"\u001B[33m: \u001B[34m77\u001B[33m}\u001B[0m", "  \u001B[32m. \u001B[36m[1/25] \u001B[34mpolled new message\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[33m> \u001B[36m[25/25] \u001B[34mpolling \u001B[36mwebsocket message\u001B[0m", "    \u001B[33m{\u001B[35m\"symbol\"\u001B[33m: \u001B[32m\"IBM\"\u001B[33m, \u001B[35m\"price\"\u001B[33m: \u001B[34m101\u001B[33m}\u001B[0m", "  \u001B[32m. \u001B[36m[25/25] \u001B[34mpolled new message\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "\u001B[32m. \u001B[0m\u001B[1mreceived \u001B[0m\u001B[33mfrom \u001B[35mws://localhost:33409/prices \u001B[0m\u001B[34mequals \u001B[33m{\u001B[35m\"price\"\u001B[33m: \u001B[33m<\u001B[36mgreater than \u001B[34m100\u001B[33m>\u001B[33m, \u001B[35m\"symbol\"\u001B[33m: \u001B[32m\"IBM\"\u001B[33m}\u001B[33m (\u001B[32m128ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mclosing \u001B[36mwebsocket \u001B[35mws://localhost:33409/prices\u001B[0m", "\u001B[32m. \u001B[34mclosed \u001B[36mwebsocket \u001B[35mws://localhost:33409/prices\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mconnecting \u001B[33mto \u001B[36mwebsocket \u001B[35m/prices\u001B[0m", "\u001B[32m. \u001B[34mconnected \u001B[33mto \u001B[36mwebsocket \u001B[35mws://localhost:46359/prices\u001B[33m (\u001B[32m8ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34msending \u001B[36mtext \u001B[34mmessage \u001B[33mto \u001B[35mws://localhost:46359/prices\u001B[0m", "  \u001B[33m{\u001B[35m\"symbol\"\u001B[33m: \u001B[32m\"IBM\"\u001B[33m}\u001B[0m", "\u001B[32m. \u001B[34msent \u001B[36mtext \u001B[34mmessage \u001B[33mto \u001B[35mws://localhost:46359/prices\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[0m\u001B[1mreceived \u001B[0m\u001B[33mfrom \u001B[35mws://localhost:46359/prices \u001B[0m\u001B[34mto equal \u001B[33m{\u001B[35m\"price\"\u001B[33m: \u001B[33m<\u001B[36mgreater than \u001B[34m100\u001B[33m>\u001B[33m, \u001B[35m\"symbol\"\u001B[33m: \u001B[32m\"IBM\"\u001B[33m}\u001B[0m", "  \u001B[33m> \u001B[36m[1/25] \u001B[34mpolling \u001B[36mwebsocket message\u001B[0m", "    \u001B[33m{\u001B[35m\"symbol\"\u001B[33m: \u001B[32m\"IBM\"\u001B[33m, \u001B[35m\"price\"\u001B[33m: \u001B[34m77\u001B[33m}\u001B[0m", "  \u001B[32m. \u001B[36m[1/25] \u001B[34mpolled new message\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[33m> \u001B[36m[25/25] \u001B[34mpolling \u001B[36mwebsocket message\u001B[0m", "    \u001B[33m{\u001B[35m\"symbol\"\u001B[33m: \u001B[32m\"IBM\"\u001B[33m, \u001B[35m\"price\"\u001B[33m: \u001B[34m101\u001B[33m}\u001B[0m", "  \u001B[32m. \u001B[36m[25/25] \u001B[34mpolled new message\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "\u001B[32m. \u001B[0m\u001B[1mreceived \u001B[0m\u001B[33mfrom \u001B[35mws://localhost:46359/prices \u001B[0m\u001B[34mequals \u001B[33m{\u001B[35m\"price\"\u001B[33m: \u001B[33m<\u001B[36mgreater than \u001B[34m100\u001B[33m>\u001B[33m, \u001B[35m\"symbol\"\u001B[33m: \u001B[32m\"IBM\"\u001B[33m}\u001B[33m (\u001B[32m214ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mclosing \u001B[36mwebsocket \u001B[35mws://localhost:46359/prices\u001B[0m", "\u001B[32m. \u001B[34mclosed \u001B[36mwebsocket \u001B[35mws://localhost:46359/prices\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "websocket-console-output",
         "type" : "CliOutput"
       }, {
@@ -724,7 +726,8 @@ ReactDOM.render(React.createElement(Documentation, {
                     }
                   }
                 },
-                "paths" : [ ],
+                "highlightValues" : [ ],
+                "highlightKeys" : [ ],
                 "anchorId" : "graphql-api-server-response",
                 "type" : "Json"
               } ]
@@ -753,7 +756,8 @@ ReactDOM.render(React.createElement(Documentation, {
                     }
                   }
                 },
-                "paths" : [ ],
+                "highlightValues" : [ ],
+                "highlightKeys" : [ ],
                 "anchorId" : "graphql-api-server-response-2",
                 "type" : "Json"
               } ]
@@ -811,7 +815,8 @@ ReactDOM.render(React.createElement(Documentation, {
             "data" : {
               "balance" : 150
             },
-            "paths" : [ ],
+            "highlightValues" : [ ],
+            "highlightKeys" : [ ],
             "anchorId" : "persona-alice-server-response",
             "type" : "Json"
           }, {
@@ -819,7 +824,8 @@ ReactDOM.render(React.createElement(Documentation, {
             "data" : {
               "balance" : 30
             },
-            "paths" : [ ],
+            "highlightValues" : [ ],
+            "highlightKeys" : [ ],
             "anchorId" : "persona-bob-server-response",
             "type" : "Json"
           } ]
@@ -837,7 +843,8 @@ ReactDOM.render(React.createElement(Documentation, {
             "data" : {
               "balance" : 150
             },
-            "paths" : [ ],
+            "highlightValues" : [ ],
+            "highlightKeys" : [ ],
             "anchorId" : "persona-alice-server-response-2",
             "type" : "Json"
           }, {
@@ -845,7 +852,8 @@ ReactDOM.render(React.createElement(Documentation, {
             "data" : {
               "balance" : 30
             },
-            "paths" : [ ],
+            "highlightValues" : [ ],
+            "highlightKeys" : [ ],
             "anchorId" : "persona-bob-server-response-2",
             "type" : "Json"
           } ]
@@ -939,7 +947,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "console output",
         "surroundedBy" : "searchByQuery",
-        "lines" : [ "\u001B[33m> \u001B[34minitializing \u001B[36mwebdriver \u001B[33mfor \u001B[0m\u001B[1mchrome\u001B[0m", "\u001B[32m. \u001B[34minitialized \u001B[36mwebdriver \u001B[33mfor \u001B[0m\u001B[1mchrome\u001B[33m (\u001B[32m535ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mopening \u001B[35mhttp://localhost:39813/search\u001B[0m", "\u001B[32m. \u001B[34mopened \u001B[35mhttp://localhost:39813/search\u001B[33m (\u001B[32m82ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34msetting value \u001B[32msearch this \u001B[33mto \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[0m", "  \u001B[33m> \u001B[34mclearing \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[0m", "  \u001B[32m. \u001B[34mcleared \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[33m (\u001B[32m56ms\u001B[33m)\u001B[0m", "  \u001B[33m> \u001B[34msending keys \u001B[32msearch this \u001B[33mto \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[0m", "  \u001B[32m. \u001B[34msent keys \u001B[32msearch this \u001B[33mto \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[33m (\u001B[32m74ms\u001B[33m)\u001B[0m", "\u001B[32m. \u001B[34mset value \u001B[32msearch this \u001B[33mto \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[33m (\u001B[32m162ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34msending keys \u001B[32m<enter> \u001B[33mto \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[0m", "\u001B[32m. \u001B[34msent keys \u001B[32m<enter> \u001B[33mto \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[33m (\u001B[32m43ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[36mcount \u001B[33mof \u001B[35mby css \u001B[1m\u001B[35m#results .result \u001B[0m\u001B[0m\u001B[34mto be greater than \u001B[34m1\u001B[0m", "\u001B[32m. \u001B[36mcount \u001B[33mof \u001B[35mby css \u001B[1m\u001B[35m#results .result \u001B[0m\u001B[0m\u001B[34mgreater than \u001B[34m1\u001B[33m (\u001B[32m21ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34minitializing \u001B[36mwebdriver \u001B[33mfor \u001B[0m\u001B[1mchrome\u001B[0m", "\u001B[32m. \u001B[34minitialized \u001B[36mwebdriver \u001B[33mfor \u001B[0m\u001B[1mchrome\u001B[33m (\u001B[32m475ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mopening \u001B[35mhttp://localhost:42621/search\u001B[0m", "\u001B[32m. \u001B[34mopened \u001B[35mhttp://localhost:42621/search\u001B[33m (\u001B[32m40ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34msetting value \u001B[32msearch this \u001B[33mto \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[0m", "  \u001B[33m> \u001B[34mclearing \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[0m", "  \u001B[32m. \u001B[34mcleared \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[33m (\u001B[32m33ms\u001B[33m)\u001B[0m", "  \u001B[33m> \u001B[34msending keys \u001B[32msearch this \u001B[33mto \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[0m", "  \u001B[32m. \u001B[34msent keys \u001B[32msearch this \u001B[33mto \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[33m (\u001B[32m48ms\u001B[33m)\u001B[0m", "\u001B[32m. \u001B[34mset value \u001B[32msearch this \u001B[33mto \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[33m (\u001B[32m102ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34msending keys \u001B[32m<enter> \u001B[33mto \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[0m", "\u001B[32m. \u001B[34msent keys \u001B[32m<enter> \u001B[33mto \u001B[35mby css \u001B[1m\u001B[35m#search-box\u001B[33m (\u001B[32m25ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[36mcount \u001B[33mof \u001B[35mby css \u001B[1m\u001B[35m#results .result \u001B[0m\u001B[0m\u001B[34mto be greater than \u001B[34m1\u001B[0m", "\u001B[32m. \u001B[36mcount \u001B[33mof \u001B[35mby css \u001B[1m\u001B[35m#results .result \u001B[0m\u001B[0m\u001B[34mgreater than \u001B[34m1\u001B[33m (\u001B[32m11ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "browser-console-output",
         "type" : "CliOutput"
       }, {
@@ -1242,10 +1250,10 @@ ReactDOM.render(React.createElement(Documentation, {
         "fit" : true,
         "border" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-crud-separated-http-calls.png",
-        "timestamp" : 1694378476242,
+        "timestamp" : 1704063907729,
         "shapes" : [ ],
         "width" : 1310.0,
-        "height" : 798.0,
+        "height" : 799.0,
         "type" : "AnnotatedImage"
       } ]
     }, {
@@ -1432,18 +1440,19 @@ ReactDOM.render(React.createElement(Documentation, {
               "firstName" : "FN",
               "lastName" : "LN"
             },
-            "paths" : [ ],
+            "highlightValues" : [ ],
+            "highlightKeys" : [ ],
             "anchorId" : "documentation-assistance-responses-201-request-payload",
             "type" : "Json"
           } ]
         }, {
           "content" : [ {
             "title" : "response payload",
-            "pathsFile" : "doc-artifacts/employee-post/paths.json",
             "data" : {
               "id" : "id-generated-2"
             },
-            "paths" : [ "root.id" ],
+            "highlightValues" : [ "root.id" ],
+            "highlightKeys" : [ ],
             "anchorId" : "documentation-assistance-responses-201-response-payload",
             "type" : "Json"
           } ]
@@ -1455,29 +1464,29 @@ ReactDOM.render(React.createElement(Documentation, {
         "annotate" : true,
         "title" : "auto created screenshot and annotations",
         "imageSrc" : "/webtau/doc-artifacts/search.png",
-        "timestamp" : 1694378233945,
+        "timestamp" : 1704063640125,
         "shapes" : [ {
           "type" : "badge",
           "text" : "1",
-          "x" : 104,
-          "y" : 76,
+          "x" : 111,
+          "y" : 78,
           "align" : "Center",
           "invertedColors" : false
         }, {
           "type" : "badge",
           "text" : "2",
-          "x" : 442,
-          "y" : 161,
+          "x" : 450,
+          "y" : 166,
           "align" : "Center",
           "invertedColors" : false
         } ],
         "width" : 900.0,
-        "height" : 318.0,
+        "height" : 355.0,
         "anchorId" : "documentation-assistance-responses-201-auto-created-screenshot-and-annotations",
         "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1694377652669,
+    "lastModifiedTime" : 1704063222503,
     "tocItem" : {
       "chapterTitle" : "Getting Started",
       "pageTitle" : "What Is This",

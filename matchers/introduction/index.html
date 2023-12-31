@@ -85,17 +85,22 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Should</h1></header>
-<p>WebTau provides two methods to assert values: should and waitTo . They work for business logic testing, HTTP, Browser, and other layers. Methods accept a matcher as a second parameter:WebTau provides console output of all the matches it does, regardless of whether it fails or passes.Use should to assert a value using a matcher. One of the most common matchers is equal . In WebTau equal is a universal matcher that you will learn about matchers/universal-compare later. Groovy def errorMessage = generateErrorMessage() errorMessage.should == &quot;insufficient disk space&quot; // string and string equality comparison Note: Groovy has a shortcut for equal matcher. Java String errorMessage = generateErrorMessage(); actual(errorMessage).should(equal(&quot;insufficient disk space&quot;)); // string and string equality comparison . [value] equals &quot;insufficient disk space&quot; (1ms) Use shouldBe alias to make a better flow with matchers like greaterThan : Groovy def numberAsText = &quot;200&quot; numberAsText.shouldBe &gt; 150 // text and number relative comparison Java String numberAsText = &quot;200&quot;; actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison</p>
+<p>WebTau provides two ways to assert values: should and waitTo . They work for business logic testing, HTTP, Browser, and other layers. Methods accept a matcher as a second parameter:WebTau provides console output for all the matching it does, regardless of whether it fails or passes.Use should to assert a value using a matcher. One of the most common matchers is equal . In WebTau equal is a universal matcher that you will learn about matchers/universal-compare later. Groovy def errorMessage = generateErrorMessage() errorMessage.should == &quot;insufficient disk space&quot; // string and string equality comparison Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java String errorMessage = generateErrorMessage(); actual(errorMessage).should(equal(&quot;insufficient disk space&quot;)); // string and string equality comparison Check matchers/import-and-dependencies Import And Dependencies for prerequisites. . [value] equals &quot;insufficient disk space&quot; (0ms) Use shouldBe alias to make a better flow with matchers like greaterThan : Groovy def numberAsText = &quot;200&quot; numberAsText.shouldBe &gt; 150 // text and number relative comparison Java String numberAsText = &quot;200&quot;; actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison</p>
 </article>
 
 <article>
 <header><h1>WaitTo</h1></header>
-<p>Use waitTo to wait for a value to eventually match a matcher. Groovy actual(liveValue(this.&amp;consumeMessage)).waitTo == &quot;message we wait for&quot; Java actual(liveValue(this::consumeMessage)).waitTo(equal(&quot;message we wait for&quot;)); &gt; waiting for [value] to equal &quot;message we wait for&quot; . [value] equals &quot;message we wait for&quot; (202ms) Use waitToBe alias to make a better flow with matchers like greaterThan : Groovy actual(liveValue(this.&amp;countRecords)).waitToBe &gt;= 5 Java actual(liveValue(this::countRecords)).waitToBe(greaterThanOrEqual(5));</p>
+<p>Use waitTo to wait for a value to eventually match a matcher. Groovy actual(liveValue(this::consumeMessage)).waitTo == &quot;message we wait for&quot; Java actual(liveValue(this::consumeMessage)).waitTo(equal(&quot;message we wait for&quot;)); &gt; waiting for [value] to equal &quot;message we wait for&quot; . [value] equals &quot;message we wait for&quot; (200ms) Use waitToBe alias to make a better flow with matchers like greaterThan : Groovy actual(liveValue(this::countRecords)).waitToBe &gt;= 5 Java actual(liveValue(this::countRecords)).waitToBe(greaterThanOrEqual(5));</p>
+</article>
+
+<article>
+<header><h1>Negative Matching</h1></header>
+<p>Both should and waitTo have negative forms: Groovy def errorMessage = generateErrorMessage() errorMessage.shouldNot == &quot;completed&quot; . [value] doesn't equal &quot;completed&quot; (0ms) Java String errorMessage = generateErrorMessage(); actual(errorMessage).shouldNot(equal(&quot;completed&quot;)); . [value] doesn't equal &quot;completed&quot; (0ms) Groovy actual(liveValue(this::consumeMessage)).waitToNot == &quot;duplicate&quot; &gt; waiting for [value] to not equal &quot;duplicate&quot; . [value] doesn't equal &quot;duplicate&quot; (0ms) Java actual(liveValue(this::consumeMessage)).waitToNot(equal(&quot;duplicate&quot;)); &gt; waiting for [value] to not equal &quot;duplicate&quot; . [value] doesn't equal &quot;duplicate&quot; (0ms)</p>
 </article>
 
 <article>
 <header><h1>Failure Output</h1></header>
-<p>Above you saw how WebTau outputs matched information. In case of failed assertion WebTau outputs additional information about the actual value. Groovy values.should == [ 1, &quot;teasing&quot;, [key1: &quot;hello&quot;, key2: &quot;work&quot;]] Java actual(values).should(equal(Arrays.asList( 1, &quot;teasing&quot;, map(&quot;key1&quot;, &quot;hello&quot;, &quot;key2&quot;, &quot;work&quot;)))); &gt; expecting code to throw exception java.lang.AssertionError X failed expecting [value] to equal [1, &quot;teasing&quot;, {&quot;key1&quot;: &quot;hello&quot;, &quot;key2&quot;: &quot;work&quot;}]: [value][1]: actual: &quot;testing&quot; &lt;java.lang.String&gt; expected: &quot;teasing&quot; &lt;java.lang.String&gt; ^ [value][2].key2: actual: &quot;world&quot; &lt;java.lang.String&gt; expected: &quot;work&quot; &lt;java.lang.String&gt; ^ (0ms) [1, **&quot;testing&quot;**, {&quot;key1&quot;: &quot;hello&quot;, &quot;key2&quot;: **&quot;world&quot;**}] . code thrown java.lang.AssertionError (1ms) Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
+<p>Above you saw how WebTau outputs matched information. In case of failed assertion WebTau outputs additional information about the actual value. Groovy values.should == [ 1, &quot;teasing&quot;, [key1: &quot;hello&quot;, key2: &quot;work&quot;]] &gt; expecting code to throw exception java.lang.AssertionError X failed expecting [value] to equal [1, &quot;teasing&quot;, {&quot;key1&quot;: &quot;hello&quot;, &quot;key2&quot;: &quot;work&quot;}]: [value][1]: actual: &quot;testing&quot; &lt;java.lang.String&gt; expected: &quot;teasing&quot; &lt;java.lang.String&gt; ^ [value][2].key2: actual: &quot;world&quot; &lt;java.lang.String&gt; expected: &quot;work&quot; &lt;java.lang.String&gt; ^ (1ms) [1, **&quot;testing&quot;**, {&quot;key1&quot;: &quot;hello&quot;, &quot;key2&quot;: **&quot;world&quot;**}] . code thrown java.lang.AssertionError (2ms) Java actual(values).should(equal(Arrays.asList( 1, &quot;teasing&quot;, map(&quot;key1&quot;, &quot;hello&quot;, &quot;key2&quot;, &quot;work&quot;)))); &gt; expecting code to throw exception java.lang.AssertionError X failed expecting [value] to equal [1, &quot;teasing&quot;, {&quot;key1&quot;: &quot;hello&quot;, &quot;key2&quot;: &quot;work&quot;}]: [value][1]: actual: &quot;testing&quot; &lt;java.lang.String&gt; expected: &quot;teasing&quot; &lt;java.lang.String&gt; ^ [value][2].key2: actual: &quot;world&quot; &lt;java.lang.String&gt; expected: &quot;work&quot; &lt;java.lang.String&gt; ^ (1ms) [1, **&quot;testing&quot;**, {&quot;key1&quot;: &quot;hello&quot;, &quot;key2&quot;: **&quot;world&quot;**}] . code thrown java.lang.AssertionError (2ms)</p>
 </article>
 </section>
 </div>
@@ -128,7 +133,7 @@ ReactDOM.render(React.createElement(Documentation, {
     "content" : [ {
       "type" : "Paragraph",
       "content" : [ {
-        "text" : "WebTau provides two methods to assert values: ",
+        "text" : "WebTau provides two ways to assert values: ",
         "type" : "SimpleText"
       }, {
         "code" : "should",
@@ -151,7 +156,7 @@ ReactDOM.render(React.createElement(Documentation, {
     }, {
       "type" : "Paragraph",
       "content" : [ {
-        "text" : "WebTau provides console output of all the matches it does, regardless of whether it fails or passes.",
+        "text" : "WebTau provides console output for all the matching it does, regardless of whether it fails or passes.",
         "type" : "SimpleText"
       } ]
     }, {
@@ -206,13 +211,18 @@ ReactDOM.render(React.createElement(Documentation, {
           }, {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "Note: Groovy has a shortcut for ",
+              "text" : "Check ",
               "type" : "SimpleText"
             }, {
-              "code" : "equal",
-              "type" : "InlinedCode"
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
             }, {
-              "text" : " matcher.",
+              "text" : " for prerequisites.",
               "type" : "SimpleText"
             } ]
           } ]
@@ -226,12 +236,29 @@ ReactDOM.render(React.createElement(Documentation, {
             "commentsType" : "remove",
             "anchorId" : "should-should-example-2",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         } ],
         "type" : "Tabs"
       }, {
         "title" : "should console output",
-        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[32m\"insufficient disk space\"\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[32m\"insufficient disk space\"\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "should-should-console-output",
         "type" : "CliOutput"
       }, {
@@ -299,7 +326,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "actual(liveValue(this.&consumeMessage)).waitTo == \"message we wait for\"",
+            "snippet" : "actual(liveValue(this::consumeMessage)).waitTo == \"message we wait for\"",
             "title" : "waitTo example",
             "surroundedBy" : "wait-consume-message",
             "anchorId" : "waitto-waitto-example",
@@ -319,7 +346,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "wait console output",
-        "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[32m\"message we wait for\"\u001B[0m", "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[32m\"message we wait for\"\u001B[33m (\u001B[32m202ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[32m\"message we wait for\"\u001B[0m", "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[32m\"message we wait for\"\u001B[33m (\u001B[32m200ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "waitto-wait-console-output",
         "type" : "CliOutput"
       }, {
@@ -345,7 +372,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Groovy",
           "content" : [ {
             "lang" : "groovy",
-            "snippet" : "actual(liveValue(this.&countRecords)).waitToBe >= 5",
+            "snippet" : "actual(liveValue(this::countRecords)).waitToBe >= 5",
             "title" : "waitToBe example",
             "surroundedBy" : "wait-number-records",
             "anchorId" : "waitto-waittobe-example",
@@ -360,6 +387,91 @@ ReactDOM.render(React.createElement(Documentation, {
             "surroundedBy" : "wait-number-records",
             "anchorId" : "waitto-waittobe-example-2",
             "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
+      "id" : "negative-matching",
+      "title" : "Negative Matching",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Both ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "should",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "waitTo",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " have negative forms:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "def errorMessage = generateErrorMessage()\nerrorMessage.shouldNot == \"completed\"",
+            "title" : "shouldNot example",
+            "surroundedBy" : "string-string-negative-example",
+            "noGap" : true,
+            "anchorId" : "negative-matching-shouldnot-example",
+            "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mdoesn't equal \u001B[32m\"completed\"\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "String errorMessage = generateErrorMessage();\nactual(errorMessage).shouldNot(equal(\"completed\"));",
+            "title" : "shouldNot example",
+            "surroundedBy" : "string-string-negative-example",
+            "noGap" : true,
+            "anchorId" : "negative-matching-shouldnot-example-2",
+            "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mdoesn't equal \u001B[32m\"completed\"\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "actual(liveValue(this::consumeMessage)).waitToNot == \"duplicate\"",
+            "title" : "waitToNot example",
+            "surroundedBy" : "wait-negative-consume-message",
+            "noGap" : true,
+            "anchorId" : "negative-matching-waittonot-example",
+            "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto not equal \u001B[32m\"duplicate\"\u001B[0m", "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mdoesn't equal \u001B[32m\"duplicate\"\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "actual(liveValue(this::consumeMessage)).waitToNot(equal(\"duplicate\"));",
+            "title" : "waitToNot example",
+            "surroundedBy" : "wait-negative-consume-message",
+            "noGap" : true,
+            "anchorId" : "negative-matching-waittonot-example-2",
+            "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto not equal \u001B[32m\"duplicate\"\u001B[0m", "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mdoesn't equal \u001B[32m\"duplicate\"\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
           } ]
         } ],
         "type" : "Tabs"
@@ -387,8 +499,12 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "values.should == [\n        1,\n        \"teasing\",\n        [key1: \"hello\", key2: \"work\"]]",
             "title" : "assertion",
             "surroundedBy" : "failed-list",
+            "noGap" : true,
             "anchorId" : "failure-output-assertion",
             "type" : "Snippet"
+          }, {
+            "lines" : [ "  \u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto throw exception \u001B[0mjava.lang.\u001B[34mAssertionError\u001B[0m", "    \u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[33m[\u001B[34m1\u001B[33m, \u001B[32m\"teasing\"\u001B[33m, \u001B[33m{\u001B[35m\"key1\"\u001B[33m: \u001B[32m\"hello\"\u001B[33m, \u001B[35m\"key2\"\u001B[33m: \u001B[32m\"work\"\u001B[33m}\u001B[33m]\u001B[0m:\u001B[0m", "\u001B[0m        \u001B[0m\u001B[1m[value][1]\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"testing\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m        \u001B[0m           \u001B[36mexpected\u001B[0m: \u001B[32m\"teasing\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m        \u001B[0m           \u001B[0m             ^\u001B[0m", "\u001B[0m        \u001B[0m\u001B[1m[value][2].key2\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m        \u001B[0m                \u001B[36mexpected\u001B[0m: \u001B[32m\"work\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m        \u001B[0m                \u001B[0m              ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "      \u001B[0m", "      \u001B[33m[\u001B[34m1\u001B[33m, \u001B[31m**\"testing\"**\u001B[33m, \u001B[33m{\u001B[35m\"key1\"\u001B[33m: \u001B[32m\"hello\"\u001B[33m, \u001B[35m\"key2\"\u001B[33m: \u001B[31m**\"world\"**\u001B[33m}\u001B[33m]\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mthrown \u001B[0mjava.lang.\u001B[34mAssertionError\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
           } ]
         }, {
           "name" : "Java",
@@ -397,46 +513,18 @@ ReactDOM.render(React.createElement(Documentation, {
             "snippet" : "actual(values).should(equal(Arrays.asList(\n        1,\n        \"teasing\",\n        map(\"key1\", \"hello\", \"key2\", \"work\"))));",
             "title" : "assertion",
             "surroundedBy" : "failed-list",
+            "noGap" : true,
             "anchorId" : "failure-output-assertion-2",
             "type" : "Snippet"
+          }, {
+            "lines" : [ "  \u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto throw exception \u001B[0mjava.lang.\u001B[34mAssertionError\u001B[0m", "    \u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[33m[\u001B[34m1\u001B[33m, \u001B[32m\"teasing\"\u001B[33m, \u001B[33m{\u001B[35m\"key1\"\u001B[33m: \u001B[32m\"hello\"\u001B[33m, \u001B[35m\"key2\"\u001B[33m: \u001B[32m\"work\"\u001B[33m}\u001B[33m]\u001B[0m:\u001B[0m", "\u001B[0m        \u001B[0m\u001B[1m[value][1]\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"testing\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m        \u001B[0m           \u001B[36mexpected\u001B[0m: \u001B[32m\"teasing\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m        \u001B[0m           \u001B[0m             ^\u001B[0m", "\u001B[0m        \u001B[0m\u001B[1m[value][2].key2\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m        \u001B[0m                \u001B[36mexpected\u001B[0m: \u001B[32m\"work\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m        \u001B[0m                \u001B[0m              ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "      \u001B[0m", "      \u001B[33m[\u001B[34m1\u001B[33m, \u001B[31m**\"testing\"**\u001B[33m, \u001B[33m{\u001B[35m\"key1\"\u001B[33m: \u001B[32m\"hello\"\u001B[33m, \u001B[35m\"key2\"\u001B[33m: \u001B[31m**\"world\"**\u001B[33m}\u001B[33m]\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mthrown \u001B[0mjava.lang.\u001B[34mAssertionError\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
           } ]
         } ],
         "type" : "Tabs"
-      }, {
-        "title" : "failed assertion console output",
-        "lines" : [ "  \u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto throw exception \u001B[0mjava.lang.\u001B[34mAssertionError\u001B[0m", "    \u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[33m[\u001B[34m1\u001B[33m, \u001B[32m\"teasing\"\u001B[33m, \u001B[33m{\u001B[35m\"key1\"\u001B[33m: \u001B[32m\"hello\"\u001B[33m, \u001B[35m\"key2\"\u001B[33m: \u001B[32m\"work\"\u001B[33m}\u001B[33m]\u001B[0m:\u001B[0m", "\u001B[0m        \u001B[0m\u001B[1m[value][1]\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"testing\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m        \u001B[0m           \u001B[36mexpected\u001B[0m: \u001B[32m\"teasing\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m        \u001B[0m           \u001B[0m             ^\u001B[0m", "\u001B[0m        \u001B[0m\u001B[1m[value][2].key2\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m        \u001B[0m                \u001B[36mexpected\u001B[0m: \u001B[32m\"work\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m        \u001B[0m                \u001B[0m              ^\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "      \u001B[0m", "      \u001B[33m[\u001B[34m1\u001B[33m, \u001B[31m**\"testing\"**\u001B[33m, \u001B[33m{\u001B[35m\"key1\"\u001B[33m: \u001B[32m\"hello\"\u001B[33m, \u001B[35m\"key2\"\u001B[33m: \u001B[31m**\"world\"**\u001B[33m}\u001B[33m]\u001B[0m", "  \u001B[32m. \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mthrown \u001B[0mjava.lang.\u001B[34mAssertionError\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
-        "anchorId" : "failure-output-failed-assertion-console-output",
-        "type" : "CliOutput"
-      } ]
-    }, {
-      "id" : "static-import",
-      "title" : "Static Import",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Examples assume ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "WebTauCore",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " static import.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "The class contains useful utility methods and matchers.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "java",
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
-        "include" : "WebTauCore.*",
-        "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1694377652673,
+    "lastModifiedTime" : 1704063222503,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Introduction",
@@ -451,11 +539,11 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "WaitTo",
         "id" : "waitto"
       }, {
+        "title" : "Negative Matching",
+        "id" : "negative-matching"
+      }, {
         "title" : "Failure Output",
         "id" : "failure-output"
-      }, {
-        "title" : "Static Import",
-        "id" : "static-import"
       } ]
     }
   }

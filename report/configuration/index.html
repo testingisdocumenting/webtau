@@ -217,6 +217,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "snippet" : "- name: Upload failed test reports\n  uses: actions/upload-artifact@v2\n  if: failure()\n  with:\n    name: failed suits \n    path: \"testing/src/test/groovy/*failed*.html\"\n    retention-days: 2\n",
         "lineNumber" : "",
         "title" : "GitHub actions upload only failed reports",
+        "anchorId" : "failed-report-path-github-actions-upload-only-failed-reports",
         "type" : "Snippet"
       } ]
     }, {
@@ -296,7 +297,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "xml",
             "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>2.2</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <reportName>my service</reportName>\n        <reportNameUrl>https://service-under-test</reportNameUrl>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
             "excludeRegexp" : [ "reportPath", "failedReportPath" ],
-            "highlight" : [ 14, 15, 15 ],
+            "highlight" : [ 14, 15 ],
             "type" : "Snippet"
           } ]
         } ],
@@ -305,7 +306,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "fit" : true,
         "annotate" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-name.png",
-        "timestamp" : 1694378482982,
+        "timestamp" : 1704063912649,
         "shapes" : [ {
           "type" : "badge",
           "text" : "1",
@@ -315,11 +316,11 @@ ReactDOM.render(React.createElement(Documentation, {
           "invertedColors" : false
         } ],
         "width" : 1310.0,
-        "height" : 798.0,
+        "height" : 799.0,
         "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1694377652681,
+    "lastModifiedTime" : 1704063222515,
     "tocItem" : {
       "chapterTitle" : "Report",
       "pageTitle" : "Configuration",

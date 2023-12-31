@@ -85,17 +85,17 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Cross Types Comparison</h1></header>
-<p>In WebTau you can compare strings, dates, arrays, strings and numbers, dates and strings, arrays and sets and other numerous combinations using the same set of matchers. Groovy def errorMessage = generateErrorMessage() errorMessage.should == &quot;insufficient disk space&quot; // string and string equality comparison def numberAsText = &quot;200&quot; numberAsText.shouldBe &gt; 150 // text and number relative comparison Java String errorMessage = generateErrorMessage(); actual(errorMessage).should(equal(&quot;insufficient disk space&quot;)); // string and string equality comparison String numberAsText = &quot;200&quot;; actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison</p>
+<p>In WebTau you can compare strings, dates, arrays, strings and numbers, dates and strings, arrays and sets and other numerous combinations using the same set of matchers. Groovy def errorMessage = generateErrorMessage() errorMessage.should == &quot;insufficient disk space&quot; // string and string equality comparison def numberAsText = &quot;200&quot; numberAsText.shouldBe &gt; 150 // text and number relative comparison Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java String errorMessage = generateErrorMessage(); actual(errorMessage).should(equal(&quot;insufficient disk space&quot;)); // string and string equality comparison String numberAsText = &quot;200&quot;; actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison Check matchers/import-and-dependencies Import And Dependencies for prerequisites.</p>
 </article>
 
 <article>
 <header><h1>Reporting</h1></header>
-<p>Every comparison failed and successful generates console output with comparison details. . [value] equals &quot;insufficient disk space&quot; (1ms) Values have predefined names when they come from HTTP response or Web UI, etc. But regular values default to value .Pass name as a second parameter to actual to set an explicit reporting name. Groovy double price = calculatePrice() actual(price, &quot;price&quot;).shouldBe &gt; 10 // explict name to use in reporting Java double price = calculatePrice(); actual(price, &quot;price&quot;).shouldBe(greaterThan(10)); // explict name to use in reporting . price greater than 10 (15ms)</p>
+<p>Every comparison failed and successful generates console output with comparison details. . [value] equals &quot;insufficient disk space&quot; (0ms) Values have predefined names when they come from HTTP response or Web UI, etc. But regular values default to value .Pass name as a second parameter to actual to set an explicit reporting name. Groovy double price = calculatePrice() actual(price, &quot;price&quot;).shouldBe &gt; 10 // explict name to use in reporting Java double price = calculatePrice(); actual(price, &quot;price&quot;).shouldBe(greaterThan(10)); // explict name to use in reporting . price greater than 10 (1ms)</p>
 </article>
 
 <article>
 <header><h1>Dates</h1></header>
-<p>Universal compare lets you compare dates, local dates, strings, and times with timezones against each other. Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.shouldBe &gt; LocalDate.of(2018, 6, 9) def timeAsText = &quot;2018-01-02T00:00:00Z&quot; timeAsText.shouldBe &gt; LocalDate.of(2018, 1, 1) // date/time will be converted to local timezone def withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4) def dateOnly = LocalDate.of(2022, 3, 16) withTime.should == dateOnly // comparison ignores time portion when not provided Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(greaterThan(LocalDate.of(2018, 6, 9))); String timeAsText = &quot;2018-01-02T00:00:00Z&quot;; actual(timeAsText).shouldBe(greaterThan(LocalDate.of(2018, 1, 1))); // date/time will be converted to local timezone LocalDateTime withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4); LocalDate withDate = LocalDate.of(2022, 3, 16); actual(withTime).should(equal(withDate)); // comparison ignores time portion when not provided Examples assume static import. The class contains useful utility methods and matchers. import static org.testingisdocumenting.webtau.WebTauCore.*;</p>
+<p>Universal compare lets you compare dates, local dates, strings, and times with timezones against each other. Groovy def dateAsText = &quot;2018-06-10&quot; dateAsText.shouldBe &gt; LocalDate.of(2018, 6, 9) def timeAsText = &quot;2018-01-02T00:00:00Z&quot; timeAsText.shouldBe &gt; LocalDate.of(2018, 1, 1) // date/time will be converted to local timezone def withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4) def dateOnly = LocalDate.of(2022, 3, 16) withTime.should == dateOnly // comparison ignores time portion when not provided Java String dateAsText = &quot;2018-06-10&quot;; actual(dateAsText).shouldBe(greaterThan(LocalDate.of(2018, 6, 9))); String timeAsText = &quot;2018-01-02T00:00:00Z&quot;; actual(timeAsText).shouldBe(greaterThan(LocalDate.of(2018, 1, 1))); // date/time will be converted to local timezone LocalDateTime withTime = LocalDateTime.of(2022, 3, 16, 10, 4, 4); LocalDate withDate = LocalDate.of(2022, 3, 16); actual(withTime).should(equal(withDate)); // comparison ignores time portion when not provided</p>
 </article>
 </section>
 </div>
@@ -150,6 +150,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "surroundedBySeparator" : "",
             "commentsType" : "inline",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         }, {
           "name" : "Java",
@@ -160,6 +177,23 @@ ReactDOM.render(React.createElement(Documentation, {
             "surroundedBySeparator" : "",
             "commentsType" : "inline",
             "type" : "Snippet"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
           } ]
         } ],
         "type" : "Tabs"
@@ -176,7 +210,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "report console output",
-        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[32m\"insufficient disk space\"\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[32m\"insufficient disk space\"\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "reporting-report-console-output",
         "type" : "CliOutput"
       }, {
@@ -232,7 +266,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       }, {
         "title" : "explicit name report console output",
-        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1mprice \u001B[0m\u001B[0m\u001B[34mgreater than \u001B[34m10\u001B[33m (\u001B[32m15ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1mprice \u001B[0m\u001B[0m\u001B[34mgreater than \u001B[34m10\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "reporting-explicit-name-report-console-output",
         "type" : "CliOutput"
       } ]
@@ -274,35 +308,8 @@ ReactDOM.render(React.createElement(Documentation, {
         } ],
         "type" : "Tabs"
       } ]
-    }, {
-      "id" : "static-import",
-      "title" : "Static Import",
-      "type" : "Section",
-      "content" : [ {
-        "type" : "Paragraph",
-        "content" : [ {
-          "text" : "Examples assume ",
-          "type" : "SimpleText"
-        }, {
-          "code" : "WebTauCore",
-          "type" : "InlinedCode"
-        }, {
-          "text" : " static import.",
-          "type" : "SimpleText"
-        }, {
-          "type" : "SoftLineBreak"
-        }, {
-          "text" : "The class contains useful utility methods and matchers.",
-          "type" : "SimpleText"
-        } ]
-      }, {
-        "lang" : "java",
-        "snippet" : "import static org.testingisdocumenting.webtau.WebTauCore.*;",
-        "include" : "WebTauCore.*",
-        "type" : "Snippet"
-      } ]
     } ],
-    "lastModifiedTime" : 1694377652673,
+    "lastModifiedTime" : 1704063222503,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Universal Compare",
@@ -319,9 +326,6 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Dates",
         "id" : "dates"
-      }, {
-        "title" : "Static Import",
-        "id" : "static-import"
       } ]
     }
   }

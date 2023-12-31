@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Contain Exactly</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<p>Use to match two collections of elements in any order. Groovy def list = [ new Person(&quot;id1&quot;, 3, 12), new Person(&quot;id1&quot;, 4, 10), new Person(&quot;id2&quot;, 4, 20) ] actual(list).should(containExactly( [id: &quot;id2&quot;, level: 4, monthsAtCompany: 20], [id: &quot;id1&quot;, level: 8, monthsAtCompany: 10], [id: &quot;id1&quot;, level: 7, monthsAtCompany: 12])) Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java List&lt;?&gt; list = list( new Person(&quot;id1&quot;, 3, 12), new Person(&quot;id1&quot;, 4, 10), new Person(&quot;id2&quot;, 4, 20)); actual(list).should(containExactly( map(&quot;id&quot;, &quot;id2&quot;, &quot;level&quot;, 4, &quot;monthsAtCompany&quot;, 20), map(&quot;id&quot;, &quot;id1&quot;, &quot;level&quot;, 8, &quot;monthsAtCompany&quot;, 10), map(&quot;id&quot;, &quot;id1&quot;, &quot;level&quot;, 7, &quot;monthsAtCompany&quot;, 12))); Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Console output displays potential mismatches to help with investigation: X failed expecting [value] to contain exactly [ {&quot;id&quot;: &quot;id2&quot;, &quot;level&quot;: 4, &quot;monthsAtCompany&quot;: 20}, {&quot;id&quot;: &quot;id1&quot;, &quot;level&quot;: 8, &quot;monthsAtCompany&quot;: 10}, {&quot;id&quot;: &quot;id1&quot;, &quot;level&quot;: 7, &quot;monthsAtCompany&quot;: 12} ]: no matches found for: [{&quot;id&quot;: &quot;id1&quot;, &quot;level&quot;: 8, &quot;monthsAtCompany&quot;: 10}, {&quot;id&quot;: &quot;id1&quot;, &quot;level&quot;: 7, &quot;monthsAtCompany&quot;: 12}] possible mismatches: [value][1].level: actual: 4 &lt;java.lang.Integer&gt; expected: 8 &lt;java.lang.Integer&gt; [value][0].level: actual: 3 &lt;java.lang.Integer&gt; expected: 7 &lt;java.lang.Integer&gt; (3ms) [ {&quot;id&quot;: &quot;id1&quot;, &quot;level&quot;: **3**, &quot;monthsAtCompany&quot;: 12}, {&quot;id&quot;: &quot;id1&quot;, &quot;level&quot;: **4**, &quot;monthsAtCompany&quot;: 10}, {&quot;id&quot;: &quot;id2&quot;, &quot;level&quot;: 4, &quot;monthsAtCompany&quot;: 20} ] Note: If you have a clear key column(s) defined, consider using TableData as matchers/java-beans-and-records#java-beans-equal-table-data expected values</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Use ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "containExactly",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " to match two collections of elements in any order.",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "tabsContent" : [ {
+        "name" : "Groovy",
+        "content" : [ {
+          "lang" : "groovy",
+          "snippet" : "def list = [\n        new Person(\"id1\", 3, 12),\n        new Person(\"id1\", 4, 10),\n        new Person(\"id2\", 4, 20)\n]\nactual(list).should(containExactly(\n        [id: \"id2\", level: 4, monthsAtCompany: 20],\n        [id: \"id1\", level: 8, monthsAtCompany: 10],\n        [id: \"id1\", level: 7, monthsAtCompany: 12]))",
+          "surroundedBy" : "possible-mismatches-example",
+          "type" : "Snippet"
+        }, {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "Check ",
+            "type" : "SimpleText"
+          }, {
+            "url" : "/webtau/matchers/import-and-dependencies",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "text" : "Import And Dependencies",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "text" : " for prerequisites.",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      }, {
+        "name" : "Java",
+        "content" : [ {
+          "lang" : "java",
+          "snippet" : "List<?> list = list(\n        new Person(\"id1\", 3, 12),\n        new Person(\"id1\", 4, 10),\n        new Person(\"id2\", 4, 20));\n\nactual(list).should(containExactly(\n        map(\"id\", \"id2\", \"level\", 4, \"monthsAtCompany\", 20),\n        map(\"id\", \"id1\", \"level\", 8, \"monthsAtCompany\", 10),\n        map(\"id\", \"id1\", \"level\", 7, \"monthsAtCompany\", 12)));",
+          "surroundedBy" : "possible-mismatches-example",
+          "type" : "Snippet"
+        }, {
+          "type" : "Paragraph",
+          "content" : [ {
+            "text" : "Check ",
+            "type" : "SimpleText"
+          }, {
+            "url" : "/webtau/matchers/import-and-dependencies",
+            "isFile" : false,
+            "type" : "Link",
+            "content" : [ {
+              "text" : "Import And Dependencies",
+              "type" : "SimpleText"
+            } ]
+          }, {
+            "text" : " for prerequisites.",
+            "type" : "SimpleText"
+          } ]
+        } ]
+      } ],
+      "type" : "Tabs"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Console output displays potential mismatches to help with investigation:",
+        "type" : "SimpleText"
+      } ]
+    }, {
+      "title" : "console output",
+      "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto contain exactly \u001B[33m[", "                                                \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[32m\"id2\"\u001B[33m, \u001B[35m\"level\"\u001B[33m: \u001B[34m4\u001B[33m, \u001B[35m\"monthsAtCompany\"\u001B[33m: \u001B[34m20\u001B[33m}\u001B[33m,", "                                                \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[32m\"id1\"\u001B[33m, \u001B[35m\"level\"\u001B[33m: \u001B[34m8\u001B[33m, \u001B[35m\"monthsAtCompany\"\u001B[33m: \u001B[34m10\u001B[33m}\u001B[33m,", "                                                \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[32m\"id1\"\u001B[33m, \u001B[35m\"level\"\u001B[33m: \u001B[34m7\u001B[33m, \u001B[35m\"monthsAtCompany\"\u001B[33m: \u001B[34m12\u001B[33m}", "                                              \u001B[33m]\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mno matches found for\u001B[0m: \u001B[33m[\u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[32m\"id1\"\u001B[33m, \u001B[35m\"level\"\u001B[33m: \u001B[34m8\u001B[33m, \u001B[35m\"monthsAtCompany\"\u001B[33m: \u001B[34m10\u001B[33m}\u001B[33m, \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[32m\"id1\"\u001B[33m, \u001B[35m\"level\"\u001B[33m: \u001B[34m7\u001B[33m, \u001B[35m\"monthsAtCompany\"\u001B[33m: \u001B[34m12\u001B[33m}\u001B[33m]\u001B[0m", "\u001B[0m    \u001B[31mpossible mismatches\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value][1].level\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m4\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m                 \u001B[36mexpected\u001B[0m: \u001B[34m8\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1m[value][0].level\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m                 \u001B[36mexpected\u001B[0m: \u001B[34m7\u001B[0m \u001B[33m<java.lang.Integer>\u001B[33m (\u001B[32m3ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[33m[\u001B[0m", "    \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[32m\"id1\"\u001B[33m, \u001B[35m\"level\"\u001B[33m: \u001B[31m**3**\u001B[33m, \u001B[35m\"monthsAtCompany\"\u001B[33m: \u001B[34m12\u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[32m\"id1\"\u001B[33m, \u001B[35m\"level\"\u001B[33m: \u001B[31m**4**\u001B[33m, \u001B[35m\"monthsAtCompany\"\u001B[33m: \u001B[34m10\u001B[33m}\u001B[33m,\u001B[0m", "    \u001B[33m{\u001B[35m\"id\"\u001B[33m: \u001B[32m\"id2\"\u001B[33m, \u001B[35m\"level\"\u001B[33m: \u001B[34m4\u001B[33m, \u001B[35m\"monthsAtCompany\"\u001B[33m: \u001B[34m20\u001B[33m}\u001B[0m", "  \u001B[33m]\u001B[0m" ],
+      "anchorId" : "console-output",
+      "type" : "CliOutput"
+    }, {
+      "type" : "Paragraph",
+      "content" : [ {
+        "text" : "Note: If you have a clear key column(s) defined, consider using ",
+        "type" : "SimpleText"
+      }, {
+        "code" : "TableData",
+        "type" : "InlinedCode"
+      }, {
+        "text" : " as ",
+        "type" : "SimpleText"
+      }, {
+        "url" : "/webtau/matchers/java-beans-and-records#java-beans-equal-table-data",
+        "isFile" : false,
+        "type" : "Link",
+        "content" : [ {
+          "text" : "expected values",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1704063222503,
+    "tocItem" : {
+      "chapterTitle" : "Matchers",
+      "pageTitle" : "Contain Exactly",
+      "pageMeta" : {
+        "identifier" : [ "{validationPath: \"org/testingisdocumenting/webtau/expectation/contain/ContainExactlyMatcherJavaTest.java\"}" ]
+      },
+      "dirName" : "matchers",
+      "fileName" : "contain-exactly",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

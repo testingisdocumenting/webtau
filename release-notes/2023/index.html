@@ -84,6 +84,11 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>2.3</h1></header>
+<p>Doc: Update matchers/introduction Matchers Introduction. Add shouldNot and waitToNot example Doc: matchers/introduction Matchers import info links next to examples Doc: browser/basic-configuration Browser Basic Config Java examples Add: matchers/value-change/ code should[Not] change matcher Add: auto generated servers/introduction Server id when none provided Add: matchers/same-instance sameInstance matcher Add: matchers/contain-exactly containExactly matcher Add: throwException code matcher accepts ValueMatchers in addition to String and Pattern Add: browser/finders-and-filters#filter-by-distance Nearby browser filter</p>
+</article>
+
+<article>
 <header><h1>2.2</h1></header>
 <p>Doc: servers/import-and-dependencies servers import Add: Limit matchers/introduction Matchers number of mismatch details printed by default via config matchersReportEntriesLimit Add: matchers/maps Equal Matcher adds asterisks around missing values in the actual output Add: matchers/java-beans-and-records#java-beans-contain-table-data Contain Matcher for iterable highlight the closest matches Add: matchers/java-beans-and-records#java-beans-contain-table-data Contain Matcher now prints potential mismatch details to look for Add: Map contains Map explicitly prints missing keys Add: list comparison prints missing and extra elements in a more compact way</p>
 </article>
@@ -146,6 +151,270 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
+      "id" : "2-3",
+      "title" : "2.3",
+      "type" : "Section",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: Update ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Matchers Introduction",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : ". Add ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "shouldNot",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "waitToNot",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " example",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Matchers",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " import info links next to examples",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/basic-configuration",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Browser Basic Config",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " Java examples",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/value-change",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "code" : "code should[Not] change",
+                "type" : "InlinedCode"
+              } ]
+            }, {
+              "text" : " matcher",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: auto generated ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/servers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Server",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "id",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " when none provided",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/same-instance",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "sameInstance",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " matcher",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/contain-exactly",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "containExactly",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " matcher",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "throwException",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "code",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " matcher accepts ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "ValueMatchers",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " in addition to ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "String",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " and ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "Pattern",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/finders-and-filters#filter-by-distance",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Nearby",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " browser filter",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
       "id" : "2-2",
       "title" : "2.2",
       "type" : "Section",
@@ -3737,7 +4006,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1694377652681,
+    "lastModifiedTime" : 1704063222515,
     "tocItem" : {
       "chapterTitle" : "Release Notes",
       "pageTitle" : "2023 Releases",
@@ -3748,6 +4017,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileName" : "2023",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "2.3",
+        "id" : "2-3"
+      }, {
         "title" : "2.2",
         "id" : "2-2"
       }, {

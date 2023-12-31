@@ -94,8 +94,13 @@
 </article>
 
 <article>
-<header><h1>Filters</h1></header>
-<p>You can use filters to narrow down elements selected by finders.Filter comes in a way of get method. Parameter is one of the followingElement number Element text Element regexp def ordersMenu = $(&quot;ul li a&quot;).get(2) ordersMenu.should == &quot;orders&quot; def ordersMenu = $(&quot;ul li a&quot;).get(&quot;orders&quot;) ordersMenu.should == &quot;orders&quot; def ordersMenu = $(&quot;ul li a&quot;).get(~/ord/) ordersMenu.should == &quot;orders&quot;</p>
+<header><h1>Basic Filters</h1></header>
+<p>You can use filters to narrow down elements selected by finders.Use get method to filter found elements byElement number Element text Element regexp def ordersMenu = $(&quot;ul li a&quot;).get(2) ordersMenu.should == &quot;orders&quot; def ordersMenu = $(&quot;ul li a&quot;).get(&quot;orders&quot;) ordersMenu.should == &quot;orders&quot; def ordersMenu = $(&quot;ul li a&quot;).get(~/ord/) ordersMenu.should == &quot;orders&quot;</p>
+</article>
+
+<article>
+<header><h1>Filter By Distance</h1></header>
+<p>def button = $(&quot;button&quot;) def helloMessage = $(&quot;#hello-message&quot;) button.nearby(helloMessage).should == &quot;World2&quot;</p>
 </article>
 
 <article>
@@ -357,8 +362,8 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Xml"
       } ]
     }, {
-      "id" : "filters",
-      "title" : "Filters",
+      "id" : "basic-filters",
+      "title" : "Basic Filters",
       "type" : "Section",
       "content" : [ {
         "type" : "Paragraph",
@@ -369,13 +374,13 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "type" : "Paragraph",
         "content" : [ {
-          "text" : "Filter comes in a way of ",
+          "text" : "Use ",
           "type" : "SimpleText"
         }, {
           "code" : "get",
           "type" : "InlinedCode"
         }, {
-          "text" : " method. Parameter is one of the following",
+          "text" : " method to filter found elements by",
           "type" : "SimpleText"
         } ]
       }, {
@@ -413,20 +418,20 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "lang" : "groovy",
         "snippet" : "def ordersMenu = $(\"ul li a\").get(2)\nordersMenu.should == \"orders\"",
-        "title" : "Number",
-        "anchorId" : "filters-number",
+        "title" : "number",
+        "anchorId" : "basic-filters-number",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def ordersMenu = $(\"ul li a\").get(\"orders\")\nordersMenu.should == \"orders\"",
-        "title" : "Text",
-        "anchorId" : "filters-text",
+        "title" : "text",
+        "anchorId" : "basic-filters-text",
         "type" : "Snippet"
       }, {
         "lang" : "groovy",
         "snippet" : "def ordersMenu = $(\"ul li a\").get(~/ord/)\nordersMenu.should == \"orders\"",
-        "title" : "Regexp",
-        "anchorId" : "filters-regexp",
+        "title" : "regexp",
+        "anchorId" : "basic-filters-regexp",
         "type" : "Snippet"
       }, {
         "paths" : [ "ul.li[1].a" ],
@@ -483,6 +488,70 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Xml"
       } ]
     }, {
+      "id" : "filter-by-distance",
+      "title" : "Filter By Distance",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def button = $(\"button\")\ndef helloMessage = $(\"#hello-message\")\n\nbutton.nearby(helloMessage).should == \"World2\"",
+        "title" : "nearby filter",
+        "surroundedBy" : "nearby-example",
+        "anchorId" : "filter-by-distance-nearby-filter",
+        "type" : "Snippet"
+      }, {
+        "paths" : [ "div.button[2]" ],
+        "meta" : {
+          "rightSide" : true
+        },
+        "xmlAsJson" : {
+          "tagName" : "div",
+          "attributes" : [ ],
+          "children" : [ {
+            "tagName" : "button",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "",
+              "text" : "button above"
+            } ]
+          }, {
+            "tagName" : "button",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "",
+              "text" : "World"
+            } ]
+          }, {
+            "tagName" : "div",
+            "attributes" : [ {
+              "name" : "style",
+              "value" : "\"height:200px; width:200px\""
+            } ],
+            "children" : [ {
+              "tagName" : "",
+              "text" : "block"
+            } ]
+          }, {
+            "tagName" : "p",
+            "attributes" : [ {
+              "name" : "id",
+              "value" : "\"hello-message\""
+            } ],
+            "children" : [ {
+              "tagName" : "",
+              "text" : "hello message"
+            } ]
+          }, {
+            "tagName" : "button",
+            "attributes" : [ ],
+            "children" : [ {
+              "tagName" : "",
+              "text" : "World2"
+            } ]
+          } ]
+        },
+        "type" : "Xml"
+      } ]
+    }, {
       "id" : "chaining",
       "title" : "Chaining",
       "type" : "Section",
@@ -495,7 +564,7 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "lang" : "groovy",
         "snippet" : "def ordersMenu = $(\"ul li\").get(2).find(\"a\")\nordersMenu.should == \"orders\"",
-        "title" : "Nested css selector",
+        "title" : "nested css selector",
         "anchorId" : "chaining-nested-css-selector",
         "type" : "Snippet"
       }, {
@@ -645,7 +714,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Xml"
       } ]
     } ],
-    "lastModifiedTime" : 1694377652669,
+    "lastModifiedTime" : 1704063222499,
     "tocItem" : {
       "chapterTitle" : "Browser",
       "pageTitle" : "Finders And Filters",
@@ -662,8 +731,11 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "CSS Finder",
         "id" : "css-finder"
       }, {
-        "title" : "Filters",
-        "id" : "filters"
+        "title" : "Basic Filters",
+        "id" : "basic-filters"
+      }, {
+        "title" : "Filter By Distance",
+        "id" : "filter-by-distance"
       }, {
         "title" : "Chaining",
         "id" : "chaining"
