@@ -21,7 +21,7 @@ import org.testingisdocumenting.webtau.data.DbEntity
 
 import static org.testingisdocumenting.webtau.Matchers.*
 
-class ChangeCodeMatcherGroovyTest {
+class ValueValueChangeCodeMatcherGroovyTest {
     @Test
     void "change java bean single property"() {
         def dbEntity = new DbEntity()

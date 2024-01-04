@@ -1,5 +1,5 @@
 ---
-identifier: {validationPath: "org/testingisdocumenting/webtau/expectation/code/ChangeCodeMatcherJavaTest.java"}
+identifier: {validationPath: "org/testingisdocumenting/webtau/expectation/code/ValueChangeCodeMatcherJavaTest.java"}
 ---
 
 # Code Change Matcher
@@ -8,7 +8,7 @@ Use `code` matchers to validate that a block of code changes a value:
 
 ```tabs
 Groovy:
-:include-file: org/testingisdocumenting/webtau/expectation/code/ChangeCodeMatcherGroovyTest.groovy {
+:include-file: org/testingisdocumenting/webtau/expectation/code/ValueChangeCodeMatcherGroovyTest.groovy {
   title: "single bean property example",
   surroundedBy: "change-single-property",
   noGap: true
@@ -17,7 +17,7 @@ Groovy:
 :include-markdown: import-ref.md
 
 Java:
-:include-file: org/testingisdocumenting/webtau/expectation/code/ChangeCodeMatcherJavaTest.java {
+:include-file: org/testingisdocumenting/webtau/expectation/code/ValueChangeCodeMatcherJavaTest.java {
   title: "single bean property example",
   surroundedBy: "change-single-property",
   noGap: true
@@ -30,7 +30,7 @@ Pass a java bean to `:identifier: change` to validate that at least one property
 
 ```tabs
 Groovy:
-:include-file: org/testingisdocumenting/webtau/expectation/code/ChangeCodeMatcherGroovyTest.groovy {
+:include-file: org/testingisdocumenting/webtau/expectation/code/ValueChangeCodeMatcherGroovyTest.groovy {
   title: "full bean property example",
   surroundedBy: "change-full-property",
   noGap: true
@@ -38,7 +38,7 @@ Groovy:
 :include-cli-output: doc-artifacts/javabean-full-change-fail-output.txt
 
 Java:
-:include-file: org/testingisdocumenting/webtau/expectation/code/ChangeCodeMatcherJavaTest.java {
+:include-file: org/testingisdocumenting/webtau/expectation/code/ValueChangeCodeMatcherJavaTest.java {
   title: "full bean property example",
   surroundedBy: "change-full-property",
   noGap: true
@@ -51,7 +51,7 @@ Use `shouldNot` to enforce that a value doesn't change
 
 ```tabs
 Groovy:
-:include-file: org/testingisdocumenting/webtau/expectation/code/ChangeCodeMatcherGroovyTest.groovy {
+:include-file: org/testingisdocumenting/webtau/expectation/code/ValueChangeCodeMatcherGroovyTest.groovy {
   title: "should not change bean properties",
   surroundedBy: "change-not-full-property",
   noGap: true
@@ -59,7 +59,7 @@ Groovy:
 :include-cli-output: doc-artifacts/javabean-fail-not-to-change-output.txt 
 
 Java:
-:include-file: org/testingisdocumenting/webtau/expectation/code/ChangeCodeMatcherJavaTest.java {
+:include-file: org/testingisdocumenting/webtau/expectation/code/ValueChangeCodeMatcherJavaTest.java {
   title: "should not change bean properties",
   surroundedBy: "change-not-full-property",
   noGap: true

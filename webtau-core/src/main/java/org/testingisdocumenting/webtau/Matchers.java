@@ -20,7 +20,7 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.converters.ObjectProperties;
 import org.testingisdocumenting.webtau.data.live.LiveValue;
 import org.testingisdocumenting.webtau.expectation.*;
-import org.testingisdocumenting.webtau.expectation.code.ChangeCodeMatcher;
+import org.testingisdocumenting.webtau.expectation.code.ValueChangeCodeMatcher;
 import org.testingisdocumenting.webtau.expectation.code.ThrowExceptionMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAllMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainExactlyMatcher;
@@ -45,6 +45,11 @@ public class Matchers {
     public static final ValueMatcher anyValue = new AnyValueMatcher();
 
     /**
+     * snapshot based value change matcher. Check/wait for value to change/remain the same
+     */
+    public static final ValueMatcher change = new SnapshotChangeValueMatcher();
+
+    /**
      * visible matcher to check if UI element is visible
      * @see #hidden
      */
@@ -62,7 +67,7 @@ public class Matchers {
      * actual(value).should(beGreaterThan(10));
      * actual(value).shouldNot(beGreaterThan(10));
      * </pre>
-     * Note: In Groovy you can do <code>value.should beGreaterThan(10)</code>
+     * Note: In Groovy you can do <code>value.shouldBe > 10</code>
      * @param actual value to assert against
      * @return Object to chain a matcher against
      */
@@ -76,7 +81,7 @@ public class Matchers {
      * actual(price, "price").should(beGreaterThan(10));
      * actual(price, "price").shouldNot(beGreaterThan(10));
      * </pre>
-     * Note: In Groovy you can do <code>price.should beGreaterThan(10)</code>
+     * Note: In Groovy you can do <code>price.shouldBe > 10</code>
      * @param actual value to assert against
      * @param path path to use in the reporting
      * @return Object to chain a matcher against
@@ -432,8 +437,8 @@ public class Matchers {
      * @param valueSupplier value supplier to get before/after values for comparison
      * @return code matcher instance
      */
-    public static ChangeCodeMatcher change(String label, Supplier<Object> valueSupplier) {
-        return new ChangeCodeMatcher(label, valueSupplier);
+    public static ValueChangeCodeMatcher change(String label, Supplier<Object> valueSupplier) {
+        return new ValueChangeCodeMatcher(label, valueSupplier);
     }
 
     /**
@@ -447,10 +452,10 @@ public class Matchers {
      * @param object object which properties will be extracted for before/after comparison
      * @return code matcher instance
      */
-    public static ChangeCodeMatcher change(String label, Object object) {
+    public static ValueChangeCodeMatcher change(String label, Object object) {
         // case for Groovy closures to avoid them being treated as Java Beans
         if (object instanceof Callable) {
-            return new ChangeCodeMatcher(label, () -> {
+            return new ValueChangeCodeMatcher(label, () -> {
                 try {
                     return ((Callable<?>) object).call();
                 } catch (Exception e) {
@@ -459,6 +464,6 @@ public class Matchers {
             });
         }
 
-        return new ChangeCodeMatcher(label, () -> new ObjectProperties(object));
+        return new ValueChangeCodeMatcher(label, () -> new ObjectProperties(object));
     }
 }
