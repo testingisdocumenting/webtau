@@ -59,11 +59,10 @@ public class DatabaseCompareToHandler implements CompareToHandler {
     }
 
     private Function<String, String> headerConverterBasedOnExpected(Object expected) {
-        if (!(expected instanceof TableData)) {
+        if (!(expected instanceof TableData tableData)) {
             return TableHeaderConverters::toUpperCase;
         }
 
-        TableData tableData = (TableData) expected;
         if (tableData.getHeader().getNamesStream().allMatch(StringUtils::isAllUpperCase)) {
             return TableHeaderConverters::unmodified;
         }

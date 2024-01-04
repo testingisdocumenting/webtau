@@ -19,7 +19,7 @@ Java:
 
 Console output displays potential mismatches to help with investigation:
 
-:include-cli-output: doc-artifacts/possible-mismatches-output.txt {
+:include-cli-output: doc-artifacts/contain-exactly-possible-mismatches-output.txt {
   title: "console output"
 }
 

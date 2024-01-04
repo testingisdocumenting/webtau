@@ -16,27 +16,39 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
-import org.testingisdocumenting.webtau.data.SnapshotValueAware;
+import org.testingisdocumenting.webtau.data.snapshot.SnapshotValueAware;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class SnapshotAwareDummyValue implements SnapshotValueAware {
     private Object snapshot;
-    private final Map<String, Object> data = new HashMap<>();
+    private final List<Map<String, Object>> data;
+    private boolean incrementValueIdx;
+    private int currentValueIdx; // for wait testing
 
-    public void init() {
-        data.put("id", "tid1");
-        data.put("name", "name1");
+    public SnapshotAwareDummyValue() {
+        data = list(
+                map("id", "tid1", "name", "name1"),
+                map("id", "tid1", "name", "name1-1"),
+                map("id", "tid1", "name", "name1-2")
+        );
     }
 
     public void doOperation() {
-        data.put("name", "name1-changed");
+        data.set(0, map("id", "tid1", "name", "name1-changed"));
+    }
+
+    public void enableAutoIncrement() {
+       incrementValueIdx = true;
     }
 
     @Override
     public void takeSnapshot() {
-        snapshot = new HashMap<>(data);
+        snapshot = new HashMap<>(data.get(currentValueIdx));
     }
 
     @Override
@@ -45,7 +57,7 @@ public class SnapshotAwareDummyValue implements SnapshotValueAware {
     }
 
     @Override
-    public Object actualValue() {
-        return data;
+    public Object currentValue() {
+        return data.get(incrementValueIdx ? currentValueIdx++ : currentValueIdx);
     }
 }

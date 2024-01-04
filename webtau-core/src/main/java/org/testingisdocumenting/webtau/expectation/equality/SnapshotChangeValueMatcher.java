@@ -16,7 +16,7 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
-import org.testingisdocumenting.webtau.data.SnapshotValueAware;
+import org.testingisdocumenting.webtau.data.snapshot.SnapshotValueAware;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -24,6 +24,7 @@ import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class SnapshotChangeValueMatcher implements ValueMatcher {
+    private static final String VALUE_MUST_IMPLEMENT = "actual value must implement SnapshotValueAware interface";
     private CompareToComparator comparator;
 
     @Override
@@ -46,33 +47,43 @@ public class SnapshotChangeValueMatcher implements ValueMatcher {
     public boolean matches(ValuePath actualPath, Object actual) {
         comparator.resetReportData();
 
-        if (!(actual instanceof SnapshotValueAware)) {
-            throw new IllegalArgumentException("actual value must implement SnapshotValueAware interface");
+        if (!(actual instanceof SnapshotValueAware snapshotAware)) {
+            throw new IllegalArgumentException(VALUE_MUST_IMPLEMENT);
         }
 
-        var before = ((SnapshotValueAware) actual).snapshotValue();
-        var after = ((SnapshotValueAware) actual).actualValue();
+        var before = snapshotAware.snapshotValue();
+        var after = snapshotAware.currentValue();
 
         return comparator.compareIsNotEqual(actualPath, after, before);
     }
 
     @Override
     public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
-        return null;
+        comparator = CompareToComparator.comparator(CompareToComparator.AssertionMode.NOT_EQUAL);
+        return tokenizedMessage().matcher("to not change");
     }
 
     @Override
     public TokenizedMessage negativeMatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return null;
+        return tokenizedMessage().matcher("didn't change");
     }
 
     @Override
     public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return null;
+        return comparator.generateNotEqualMatchReport();
     }
 
     @Override
     public boolean negativeMatches(ValuePath actualPath, Object actual) {
-        return false;
+        comparator.resetReportData();
+
+        if (!(actual instanceof SnapshotValueAware snapshotAware)) {
+            throw new IllegalArgumentException(VALUE_MUST_IMPLEMENT);
+        }
+
+        var before = snapshotAware.snapshotValue();
+        var after = snapshotAware.currentValue();
+
+        return comparator.compareIsEqual(actualPath, after, before);
     }
 }

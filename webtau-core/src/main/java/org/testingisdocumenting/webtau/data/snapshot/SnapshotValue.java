@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data;
+package org.testingisdocumenting.webtau.data.snapshot;
 
 /**
  * Snapshot value that maintains a state whether it was taken or not
@@ -33,6 +33,11 @@ public class SnapshotValue {
     private SnapshotValue(Object value, boolean isTaken) {
         this.value = value;
         this.isTaken = isTaken;
+    }
+
+    public void reset() {
+        isTaken = false;
+        value = null;
     }
 
     public Object required() {

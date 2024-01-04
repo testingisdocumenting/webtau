@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package org.testingisdocumenting.webtau.data;
+package org.testingisdocumenting.webtau.data.snapshot;
 
-import org.testingisdocumenting.webtau.expectation.ActualValueAware;
-
-public interface SnapshotValueAware extends ActualValueAware {
+public interface SnapshotValueAware {
     void takeSnapshot();
     Object snapshotValue();
+    Object currentValue();
 }

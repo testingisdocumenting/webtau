@@ -34,8 +34,8 @@ import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpPageElem
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextPageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.NearbyPageElementFilter;
 import org.testingisdocumenting.webtau.browser.page.path.finder.*;
-import org.testingisdocumenting.webtau.data.SnapshotValue;
-import org.testingisdocumenting.webtau.data.SnapshotValueAware;
+import org.testingisdocumenting.webtau.data.snapshot.SnapshotValue;
+import org.testingisdocumenting.webtau.data.snapshot.SnapshotValueAware;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
@@ -576,7 +576,7 @@ public class PageElement implements
 
     @Override
     public void takeSnapshot() {
-        snapshotValue.take(actualValue());
+        snapshotValue.take(extractActualValue());
     }
 
     @Override
@@ -585,7 +585,11 @@ public class PageElement implements
     }
 
     @Override
-    public Object actualValue() {
+    public Object currentValue() {
+        return extractActualValue();
+    }
+
+    private Object extractActualValue() {
         return isMarkedAsAll ?
                 valuesList.get() :
                 value.get();
