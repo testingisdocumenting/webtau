@@ -22,7 +22,7 @@ import org.testingisdocumenting.webtau.data.DbEntity;
 import static org.testingisdocumenting.webtau.Matchers.*;
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.*;
 
-public class ChangeCodeMatcherJavaTest {
+public class ValueChangeCodeMatcherJavaTest {
     @Test
     public void changeJavaBeanSingleProperty() {
         var dbEntity = new DbEntity();

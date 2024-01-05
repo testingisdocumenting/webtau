@@ -34,6 +34,8 @@ import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpPageElem
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextPageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.NearbyPageElementFilter;
 import org.testingisdocumenting.webtau.browser.page.path.finder.*;
+import org.testingisdocumenting.webtau.data.snapshot.SnapshotValue;
+import org.testingisdocumenting.webtau.data.snapshot.SnapshotValueAware;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
@@ -61,6 +63,7 @@ public class PageElement implements
         ActualValueExpectations,
         PrettyPrintable,
         ActualPathAndDescriptionAware,
+        SnapshotValueAware,
         VisibleStateAware {
     private final static TokenizedMessage HIDDEN_MESSAGE_STRING_VALUE = tokenizedMessage().string("*****");
 
@@ -83,6 +86,7 @@ public class PageElement implements
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
     private final PageElementPath path;
     private final TokenizedMessage pathDescription;
+    private final SnapshotValue snapshotValue;
 
     private final boolean isMarkedAsAll;
 
@@ -106,6 +110,7 @@ public class PageElement implements
         this.offsetWidth = new PageElementValue<>(this, "offsetWidth", fetchIntElementPropertyFunc("offsetWidth"));
         this.clientHeight = new PageElementValue<>(this, "clientHeight", fetchIntElementPropertyFunc("clientHeight"));
         this.clientWidth = new PageElementValue<>(this, "clientWidth", fetchIntElementPropertyFunc("clientWidth"));
+        this.snapshotValue = SnapshotValue.EMPTY;
     }
 
     public PageElementValue<String> attribute(String name) {
@@ -567,6 +572,27 @@ public class PageElement implements
         argsList.addAll(Arrays.asList(args));
 
         ((JavascriptExecutor) driver).executeScript(script, argsList.toArray(new Object[0]));
+    }
+
+    @Override
+    public void takeSnapshot() {
+        snapshotValue.take(extractActualValue());
+    }
+
+    @Override
+    public Object snapshotValue() {
+        return snapshotValue.required();
+    }
+
+    @Override
+    public Object currentValue() {
+        return extractActualValue();
+    }
+
+    private Object extractActualValue() {
+        return isMarkedAsAll ?
+                valuesList.get() :
+                value.get();
     }
 
     private interface ActionsProvider {

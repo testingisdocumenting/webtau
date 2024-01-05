@@ -26,12 +26,12 @@ import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
-public class ChangeCodeMatcher implements CodeMatcher {
+public class ValueChangeCodeMatcher implements CodeMatcher {
     private CompareToComparator comparator;
     private final Supplier<Object> valueSupplier;
     private final String label;
 
-    public ChangeCodeMatcher(String label, Supplier<Object> valueSupplier) {
+    public ValueChangeCodeMatcher(String label, Supplier<Object> valueSupplier) {
         this.label = label;
         this.valueSupplier = valueSupplier;
     }

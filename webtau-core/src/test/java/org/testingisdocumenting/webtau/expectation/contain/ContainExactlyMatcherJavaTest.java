@@ -81,7 +81,7 @@ public class ContainExactlyMatcherJavaTest {
 
     @Test
     public void suspectCandidateValueRecordsAndMaps() {
-        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "possible-mismatches-output", """
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "contain-exactly-possible-mismatches-output", """
                 X failed expecting [value] to contain exactly [
                                                                 {"id": "id2", "level": 4, "monthsAtCompany": 20},
                                                                 {"id": "id1", "level": 8, "monthsAtCompany": 10},
