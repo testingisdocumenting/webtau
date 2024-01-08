@@ -76,4 +76,13 @@ class MapsCompareToHandlerTest {
             actual([[k1: 'v1']], 'map').shouldNot(equal([k1: 'v1']))
         }
     }
+
+    @Test
+    void "empty map should not equal empty map"() {
+        runExpectExceptionAndValidateOutput(AssertionError.class, 'X failed expecting [value] to not equal {}: both maps are empty (Xms)\n' +
+                '  \n' +
+                '  {}') {
+            actual([:]).shouldNot(equal([:]))
+        }
+    }
 }

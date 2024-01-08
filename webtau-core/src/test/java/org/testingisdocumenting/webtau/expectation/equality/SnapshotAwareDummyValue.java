@@ -18,15 +18,13 @@ package org.testingisdocumenting.webtau.expectation.equality;
 
 import org.testingisdocumenting.webtau.data.snapshot.SnapshotValueAware;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class SnapshotAwareDummyValue implements SnapshotValueAware {
     private Object snapshot;
-    private final List<Map<String, Object>> data;
+    private List<Map<String, Object>> data;
     private boolean incrementValueIdx;
     private int currentValueIdx; // for wait testing
 
@@ -40,6 +38,11 @@ public class SnapshotAwareDummyValue implements SnapshotValueAware {
 
     public void doOperation() {
         data.set(0, map("id", "tid1", "name", "name1-changed"));
+    }
+
+    public void makeEmpty() {
+        data = new ArrayList<>();
+        data.add(new HashMap<>());
     }
 
     public void enableAutoIncrement() {

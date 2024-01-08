@@ -1,0 +1,1 @@
+* Add: Extra message in case of two empty maps and `shouldNot` `equal`

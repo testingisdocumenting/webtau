@@ -38,6 +38,18 @@ public class SnapshotChangeValueMatcherJavaTest {
     }
 
     @Test
+    public void changeEmptyMap() {
+        var value = new SnapshotAwareDummyValue();
+        value.makeEmpty();
+        value.takeSnapshot();
+
+        TestConsoleOutput.runExpectExceptionAndValidateOutput(AssertionError.class, """
+                X failed expecting [value] to change: both maps are empty (Xms)""", () -> {
+            actual(value).should(change);
+        });
+    }
+
+    @Test
     public void waitChange() {
         var value = new SnapshotAwareDummyValue();
         value.takeSnapshot();
