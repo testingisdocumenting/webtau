@@ -72,3 +72,13 @@ scenario("visible state") {
     feedback.shouldBe hidden
     feedback.shouldNotBe visible
 }
+
+scenario("change matcher") {
+    def number = $("#number-to-change")
+    def trigger = $("#change-number")
+
+    number.takeSnapshot()
+    trigger.click()
+
+    number.waitTo change
+}

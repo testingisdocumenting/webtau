@@ -42,10 +42,7 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.expectation.state.VisibleStateAware;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.testingisdocumenting.webtau.reporter.WebTauStepInput;
-import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
+import org.testingisdocumenting.webtau.reporter.*;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -367,6 +364,23 @@ public class PageElement implements
         new PageElementPrettyPrinter(this, 10).prettyPrint(printer);
     }
 
+    @Override
+    public void takeSnapshot() {
+        execute(tokenizedMessage().action("taking value snapshot").add(pathDescription),
+                () -> tokenizedMessage().action("value snapshot is taken").forP().add(pathDescription),
+                () -> snapshotValue.take(extractActualValue()));
+    }
+
+    @Override
+    public Object snapshotValue() {
+        return snapshotValue.required();
+    }
+
+    @Override
+    public Object currentValue() {
+        return extractActualValue();
+    }
+
     List<HtmlNode> extractHtmlNodes() {
         return extractHtmlNodes(findElements());
     }
@@ -572,21 +586,6 @@ public class PageElement implements
         argsList.addAll(Arrays.asList(args));
 
         ((JavascriptExecutor) driver).executeScript(script, argsList.toArray(new Object[0]));
-    }
-
-    @Override
-    public void takeSnapshot() {
-        snapshotValue.take(extractActualValue());
-    }
-
-    @Override
-    public Object snapshotValue() {
-        return snapshotValue.required();
-    }
-
-    @Override
-    public Object currentValue() {
-        return extractActualValue();
     }
 
     private Object extractActualValue() {
