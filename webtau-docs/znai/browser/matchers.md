@@ -1,8 +1,6 @@
----
-type: two-sides
----
-
 # Text
+
+:include-xml: doc-artifacts/snippets/matchers/texts.html 
 
 :include-file: doc-artifacts/snippets/matchers/equalText.groovy {title: "exact text"}
 
@@ -19,9 +17,9 @@ It is not required when you do an explicit comparison with the list on the right
 
 :include-file: doc-artifacts/snippets/matchers/equalListOfTextAndRegexp.groovy {title: "list of text and regexp"}
 
-:include-xml: doc-artifacts/snippets/matchers/texts.html {rightSide: true}
-
 # Numbers
+
+:include-xml: doc-artifacts/snippets/matchers/numbers.html
 
 :include-file: doc-artifacts/snippets/matchers/equalNumber.groovy {title: "exact number"}
 
@@ -33,13 +31,17 @@ It is not required when you do an explicit comparison with the list on the right
 
 :include-file: doc-artifacts/snippets/matchers/lessEqualListMixOfNumbers.groovy {title: "list of exact and greater/less"}
 
-:include-xml: doc-artifacts/snippets/matchers/numbers.html {rightSide: true}
-
 # State
+
+:include-file: doc-artifacts/snippets/matchers/state.html 
 
 :include-file: doc-artifacts/snippets/matchers/enabledDisabled.groovy {title: "enabled/disabled"}
 
 :include-file: doc-artifacts/snippets/matchers/visibleHidden.groovy {title: "visible/hidden"}
 
-:include-file: doc-artifacts/snippets/matchers/state.html {rightSide: true}
+# Snapshot And Change
+
+:include-file: doc-artifacts/snippets/matchers/snapshotAndChange.groovy {title: "wait for change", noGap: true, noGapSeparator: true}
+:include-cli-output: doc-artifacts/matchers.groovy-console-output.txt {startLine: "change matcher", endLine: "change matcher", excludeStartEnd: true}
+
 

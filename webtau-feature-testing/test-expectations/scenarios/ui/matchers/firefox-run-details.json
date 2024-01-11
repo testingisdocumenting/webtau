@@ -89,6 +89,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 2
     }
+  }, {
+    "scenario" : "change matcher",
+    "shortContainerId" : "matchers.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 3
+    }
   } ],
   "exitCode" : 0
 }

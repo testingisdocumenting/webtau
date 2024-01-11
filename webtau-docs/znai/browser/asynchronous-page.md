@@ -28,6 +28,13 @@ If presence/absence of an element is not important, you can directly to wait for
 
 Note: any matcher that you can use with `should` and `shouldNot` can be used with `waitTo` and `waitToNot`
 
+# Wait to change
+
+Use `change` matcher when you want to wait for any change of a value without knowing the specifics.
+
+:include-file: doc-artifacts/snippets/matchers/snapshotAndChange.groovy {title: "wait for change", noGap: true, noGapSeparator: true}
+:include-cli-output: doc-artifacts/matchers.groovy-console-output.txt {startLine: "change matcher", endLine: "change matcher", excludeStartEnd: true}
+
 # Wait on url
 
 Another cue to use could be a url change after an action.

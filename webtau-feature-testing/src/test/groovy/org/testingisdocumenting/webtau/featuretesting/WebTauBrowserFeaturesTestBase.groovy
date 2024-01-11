@@ -220,6 +220,7 @@ class WebTauBrowserFeaturesTestBase {
                 "lessEqualListMixOfNumbers.groovy": "less equal list mix of numbers",
                 "enabledDisabled.groovy": "enable state",
                 "visibleHidden.groovy": "visible state",
+                "snapshotAndChange.groovy": "change matcher",
         ])
 
         extractHtmlSnippets(root, "matchers.html", [
