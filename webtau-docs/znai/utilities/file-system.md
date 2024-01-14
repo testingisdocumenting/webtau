@@ -45,6 +45,14 @@ left: :include-file: doc-artifacts/fs-content-to-replace.txt {title: "file to re
 right: :include-file: doc-artifacts/fs-content-after-replace-text.txt {title: "result of replace"}
 ```
 
+# Wait For Content Change
+
+:include-file: doc-artifacts/snippets/fsFileContent/waitForChange.groovy {
+  title: "wait for file content change",
+  surroundedBy: ["file-take-snapshot", "file-wait-to-change"],
+  surroundedBySeparator: "..."
+}
+
 # Copy
 
 :include-file: doc-artifacts/snippets/fsCopy/copyFileToDir.groovy {

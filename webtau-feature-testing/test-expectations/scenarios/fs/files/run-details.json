@@ -1,5 +1,11 @@
 {
   "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
+  }, {
     "scenario" : "create and delete file",
     "shortContainerId" : "files.groovy",
     "stepsSummary" : {
@@ -22,6 +28,12 @@
     "shortContainerId" : "files.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 8
+    }
+  }, {
+    "scenario" : "snapshot and change",
+    "shortContainerId" : "files.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 5
     }
   } ],
   "exitCode" : 0

@@ -68,3 +68,18 @@ scenario('replace file content using regexp') {
 
     fs.delete(path)
 }
+
+scenario('snapshot and change') {
+    def path = fs.tempFile('snapshot', 'change')
+    fs.writeText(path, 'hello')
+
+    // file-take-snapshot
+    def textContent = fs.textContent(path)
+    textContent.takeSnapshot()
+    // file-take-snapshot
+
+    fs.writeText(path, 'hello world')
+    // file-wait-to-change
+    textContent.waitTo change
+    // file-wait-to-change
+}

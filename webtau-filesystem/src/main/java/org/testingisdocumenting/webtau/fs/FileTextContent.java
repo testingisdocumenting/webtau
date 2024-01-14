@@ -17,6 +17,8 @@
 package org.testingisdocumenting.webtau.fs;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.snapshot.SnapshotValue;
+import org.testingisdocumenting.webtau.data.snapshot.SnapshotValueAware;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.reporter.StepReportOptions;
@@ -30,12 +32,14 @@ import java.util.regex.Pattern;
 
 import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage;
 
-public class FileTextContent implements ActualValueExpectations, ActualPathAndDescriptionAware {
+public class FileTextContent implements ActualValueExpectations, ActualPathAndDescriptionAware, SnapshotValueAware {
     private final ValuePath actualPath;
     private final Path path;
+    private final SnapshotValue snapshotValue;
 
     public FileTextContent(Path path) {
         this.actualPath = new ValuePath("file <" + path.getFileName().toString() + ">");
+        this.snapshotValue = SnapshotValue.empty();
         this.path = path;
     }
 
@@ -103,5 +107,22 @@ public class FileTextContent implements ActualValueExpectations, ActualPathAndDe
         }
 
         return extracted;
+    }
+
+    @Override
+    public void takeSnapshot() {
+        snapshotValue.take(tokenizedMessage().action("taking snapshot").from().url(path),
+                () -> tokenizedMessage().action("snapshot is taken").forP().url(path),
+                this::getData);
+    }
+
+    @Override
+    public Object snapshotValue() {
+        return snapshotValue.required();
+    }
+
+    @Override
+    public Object currentValue() {
+        return getData();
     }
 }

@@ -107,7 +107,7 @@ public class PageElement implements
         this.offsetWidth = new PageElementValue<>(this, "offsetWidth", fetchIntElementPropertyFunc("offsetWidth"));
         this.clientHeight = new PageElementValue<>(this, "clientHeight", fetchIntElementPropertyFunc("clientHeight"));
         this.clientWidth = new PageElementValue<>(this, "clientWidth", fetchIntElementPropertyFunc("clientWidth"));
-        this.snapshotValue = SnapshotValue.EMPTY;
+        this.snapshotValue = SnapshotValue.empty();
     }
 
     public PageElementValue<String> attribute(String name) {
@@ -366,9 +366,9 @@ public class PageElement implements
 
     @Override
     public void takeSnapshot() {
-        execute(tokenizedMessage().action("taking value snapshot").add(pathDescription),
+        snapshotValue.take(tokenizedMessage().action("taking value snapshot").add(pathDescription),
                 () -> tokenizedMessage().action("value snapshot is taken").forP().add(pathDescription),
-                () -> snapshotValue.take(extractActualValue()));
+                this::extractActualValue);
     }
 
     @Override

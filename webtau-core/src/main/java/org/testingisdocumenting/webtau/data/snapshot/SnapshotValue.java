@@ -16,6 +16,11 @@
 
 package org.testingisdocumenting.webtau.data.snapshot;
 
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
+import org.testingisdocumenting.webtau.reporter.WebTauStep;
+
+import java.util.function.Supplier;
+
 /**
  * Snapshot value that maintains a state whether it was taken or not
  */
@@ -23,11 +28,15 @@ public class SnapshotValue {
     private Object value;
     private boolean isTaken;
 
-    public static final SnapshotValue EMPTY = new SnapshotValue(null, false);
+    public static SnapshotValue empty() {
+        return new SnapshotValue(null, false);
+    }
 
-    public void take(Object value) {
-        this.isTaken = true;
-        this.value = value;
+    public void take(TokenizedMessage inProgressMessage, Supplier<TokenizedMessage> completionMessage, Supplier<Object> value) {
+        WebTauStep.createAndExecuteStep(inProgressMessage, completionMessage, () -> {
+            this.isTaken = true;
+            this.value = value.get();
+        });
     }
 
     private SnapshotValue(Object value, boolean isTaken) {
