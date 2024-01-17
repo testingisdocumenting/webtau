@@ -79,17 +79,21 @@ Use `contain` with `TableData` to partially compare list of java beans.
 Groovy: 
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
     surroundedBy: "beans-table-contain-example",
-    commentsType: "inline"
+    commentsType: "inline",
+    noGap: true,
+    noGapSeparator: true
 }
+:include-cli-output: doc-artifacts/beans-table-contain-output.txt 
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     surroundedBy: "beans-table-contain-example",
-    commentsType: "inline"
+    commentsType: "inline",
+    noGap: true,
+    noGapSeparator: true
 } 
+:include-cli-output: doc-artifacts/beans-table-contain-output.txt 
 ``` 
-
-:include-cli-output: doc-artifacts/beans-table-contain-output.txt {title: "contain handler output"}
 
 # Java Records 
 

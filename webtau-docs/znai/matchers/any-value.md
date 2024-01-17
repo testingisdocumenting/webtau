@@ -6,17 +6,21 @@ provide a value but your focus is on different data.
 ```tabs
 Groovy: 
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
-  surroundedBy: "any-value-table-example"
+  surroundedBy: "any-value-table-example",
+  noGap: true,
+  noGapSeparator: true
 } 
+:include-cli-output: doc-artifacts/any-value-table-output.txt 
+
 :include-markdown: import-ref.md
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
-  surroundedBy: "any-value-table-example"
+  surroundedBy: "any-value-table-example",
+  noGap: true,
+  noGapSeparator: true
 } 
+:include-cli-output: doc-artifacts/any-value-table-output.txt 
+
 :include-markdown: import-ref.md
 ```
-
-:include-cli-output: doc-artifacts/any-value-table-output.txt {
-  title: "console output"
-}
