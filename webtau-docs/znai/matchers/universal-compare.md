@@ -43,7 +43,7 @@ Java:
 } 
 ``` 
 
-:include-cli-output: doc-artifacts/number-number-comparison.txt {title: "explicit name report console output"}
+:include-cli-output: doc-artifacts/number-number-comparison-output.txt {title: "explicit name report console output"}
 
 # Dates
 
