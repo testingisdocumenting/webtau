@@ -44,7 +44,7 @@ public class MatchersTest {
 
     @Test
     public void stringComparisonExample() {
-        doc.console.capture("string-string-comparison", () -> {
+        doc.console.capture("string-string-comparison-output", () -> {
             // string-string-example
             String errorMessage = generateErrorMessage();
             actual(errorMessage).should(equal("insufficient disk space")); // string and string equality comparison
@@ -54,7 +54,7 @@ public class MatchersTest {
 
     @Test
     public void stringNegativeComparisonExample() {
-        doc.console.capture("string-string-negative-comparison", () -> {
+        doc.console.capture("string-string-negative-comparison-output", () -> {
             // string-string-negative-example
             String errorMessage = generateErrorMessage();
             actual(errorMessage).shouldNot(equal("completed"));
@@ -64,7 +64,7 @@ public class MatchersTest {
 
     @Test
     public void stringWaitExample() {
-        doc.console.capture("wait-message", () -> {
+        doc.console.capture("wait-message-output", () -> {
             // wait-consume-message
             actual(liveValue(this::consumeMessage)).waitTo(equal("message we wait for"));
             // wait-consume-message
@@ -73,7 +73,7 @@ public class MatchersTest {
 
     @Test
     public void stringWaitNegativeExample() {
-        doc.console.capture("wait-negative-message", () -> {
+        doc.console.capture("wait-negative-message-output", () -> {
             // wait-negative-consume-message
             actual(liveValue(this::consumeMessage)).waitToNot(equal("duplicate"));
             // wait-negative-consume-message
@@ -82,9 +82,11 @@ public class MatchersTest {
 
     @Test
     public void numberWaitExample() {
-        // wait-number-records
-        actual(liveValue(this::countRecords)).waitToBe(greaterThanOrEqual(5));
-        // wait-number-records
+        doc.console.capture("wait-tobe-output", () -> {
+            // wait-number-records
+            actual(liveValue(this::countRecords)).waitToBe(greaterThanOrEqual(5));
+            // wait-number-records
+        });
     }
 
     private String consumeMessage() {
@@ -98,7 +100,7 @@ public class MatchersTest {
 
     @Test
     public void numberComparisonExample() {
-        doc.console.capture("number-number-comparison", () -> {
+        doc.console.capture("number-number-comparison-output", () -> {
             // number-number-example
             double price = calculatePrice();
             actual(price, "price").shouldBe(greaterThan(10)); // explict name to use in reporting
@@ -108,10 +110,12 @@ public class MatchersTest {
 
     @Test
     public void numberAndStringExample() {
-        // string-number-example
-        String numberAsText = "200";
-        actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison
-        // string-number-example
+        doc.console.capture("string-number-comparison-output", () -> {
+            // string-number-example
+            String numberAsText = "200";
+            actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison
+            // string-number-example
+        });
     }
 
     @Test

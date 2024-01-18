@@ -1,7 +1,9 @@
 WebTau provides two ways to assert values: `should` and `waitTo`. They work for business logic testing, HTTP, Browser, and other layers.
 Methods accept a matcher as a second parameter:
 
+```attention-note
 WebTau provides console output for all the matching it does, regardless of whether it fails or passes.
+```
 
 # Should 
 
@@ -13,8 +15,12 @@ Groovy:
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
     title: "should example",
     surroundedBy: "string-string-example",
-    commentsType: "remove"
+    commentsType: "remove",
+    noGap: true,
+    noGapSeparator: true
 }
+:include-cli-output: doc-artifacts/string-string-comparison-output.txt 
+
  Note: Groovy has a shortcut for `equal` matcher.
 
 :include-markdown: import-ref.md
@@ -23,12 +29,15 @@ Java:
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     title: "should example",
     surroundedBy: "string-string-example",
-    commentsType: "remove"
+    commentsType: "remove",
+    noGap: true,
+    noGapSeparator: true
 } 
+:include-cli-output: doc-artifacts/string-string-comparison-output.txt 
+
 :include-markdown: import-ref.md
 ``` 
 
-:include-cli-output: doc-artifacts/string-string-comparison.txt {title: "should console output"}
 
 Use `shouldBe` alias to make a better flow with matchers like `greaterThan`:
 
@@ -37,15 +46,21 @@ Groovy:
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
     title: "shouldBe example",
     surroundedBy: "string-number-example",
-    commentsType: "remove"
+    commentsType: "remove",
+    noGap: true,
+    noGapSeparator: true
 }
+:include-cli-output: doc-artifacts/string-number-comparison-output.txt 
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     title: "shouldBe example",
     surroundedBy: "string-number-example",
-    commentsType: "remove"
+    commentsType: "remove",
+    noGap: true,
+    noGapSeparator: true
 } 
+:include-cli-output: doc-artifacts/string-number-comparison-output.txt 
 ``` 
 
 # WaitTo
@@ -56,17 +71,22 @@ Use `waitTo` to wait for a value to eventually match a matcher.
 Groovy: 
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
     title: "waitTo example",
-    surroundedBy: "wait-consume-message"
+    surroundedBy: "wait-consume-message",
+    noGap: true,
+    noGapSeparator: true
 }
+:include-cli-output: doc-artifacts/wait-message-output.txt 
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     title: "waitTo example",
-    surroundedBy: "wait-consume-message"
+    surroundedBy: "wait-consume-message",
+    noGap: true,
+    noGapSeparator: true
 } 
+:include-cli-output: doc-artifacts/wait-message-output.txt 
 ``` 
 
-:include-cli-output: doc-artifacts/wait-message.txt {title: "wait console output"}
 
 Use `waitToBe` alias to make a better flow with matchers like `greaterThan`:
 
@@ -74,14 +94,20 @@ Use `waitToBe` alias to make a better flow with matchers like `greaterThan`:
 Groovy: 
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
     title: "waitToBe example",
-    surroundedBy: "wait-number-records"
+    surroundedBy: "wait-number-records",
+    noGap: true,
+    noGapSeparator: true
 }
+:include-cli-output: doc-artifacts/wait-tobe-output.txt 
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     title: "waitToBe example",
-    surroundedBy: "wait-number-records"
+    surroundedBy: "wait-number-records",
+    noGap: true,
+    noGapSeparator: true
 } 
+:include-cli-output: doc-artifacts/wait-tobe-output.txt 
 ``` 
 
 # Negative Matching
@@ -93,17 +119,19 @@ Groovy:
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
     title: "shouldNot example",
     surroundedBy: "string-string-negative-example",
-    noGap: true
+    noGap: true,
+    noGapSeparator: true
 }
-:include-cli-output: doc-artifacts/string-string-negative-comparison.txt 
+:include-cli-output: doc-artifacts/string-string-negative-comparison-output.txt 
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     title: "shouldNot example",
     surroundedBy: "string-string-negative-example",
-    noGap: true
+    noGap: true,
+    noGapSeparator: true
 } 
-:include-cli-output: doc-artifacts/string-string-negative-comparison.txt 
+:include-cli-output: doc-artifacts/string-string-negative-comparison-output.txt 
 ``` 
 
 ```tabs
@@ -111,17 +139,19 @@ Groovy:
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
     title: "waitToNot example",
     surroundedBy: "wait-negative-consume-message",
-    noGap: true
+    noGap: true,
+    noGapSeparator: true
 }
-:include-cli-output: doc-artifacts/wait-negative-message.txt 
+:include-cli-output: doc-artifacts/wait-negative-message-output.txt 
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     title: "waitToNot example",
     surroundedBy: "wait-negative-consume-message",
-    noGap: true
+    noGap: true,
+    noGapSeparator: true
 } 
-:include-cli-output: doc-artifacts/wait-negative-message.txt 
+:include-cli-output: doc-artifacts/wait-negative-message-output.txt 
 ``` 
 
 # Failure Output
@@ -135,7 +165,8 @@ Groovy:
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
     title: "assertion",
     surroundedBy: "failed-list",
-    noGap: true
+    noGap: true,
+    noGapSeparator: true
 }
 :include-cli-output: doc-artifacts/list-failure.txt 
 
@@ -143,7 +174,8 @@ Java:
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     title: "assertion",
     surroundedBy: "failed-list",
-    noGap: true
+    noGap: true,
+    noGapSeparator: true
 } 
 :include-cli-output: doc-artifacts/list-failure.txt 
 ``` 
