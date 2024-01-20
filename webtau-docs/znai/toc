@@ -60,6 +60,19 @@ cli
     introduction
     foreground-command
     background-command
+file-system
+    introduction
+    file-content
+    copy
+    archive
+    temporary-files-dirs
+data
+    introduction
+    json
+    csv
+    pdf
+    base64
+    import-and-dependencies
 persona
     introduction
     HTTP-persona
@@ -81,16 +94,8 @@ report
 REPL
     experiments
     test-runs
-data
-    introduction
-    json
-    csv
-    pdf
-    base64
-    import-and-dependencies
 utilities
     introduction
-    file-system
     cache
 matchers
     introduction

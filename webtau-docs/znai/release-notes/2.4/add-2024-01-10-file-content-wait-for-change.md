@@ -1,1 +1,1 @@
-* Add: File Content [wait to change](utilities/file-system#wait-for-content-change)
+* Add: File Content [wait to change](file-system/file-content#wait-for-content)

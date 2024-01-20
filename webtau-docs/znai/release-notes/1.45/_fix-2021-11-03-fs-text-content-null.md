@@ -1,1 +1,1 @@
-* Fix: [waiting](utilities/file-system) for non-existing file content is **not** throwing error anymore
+* Fix: [waiting](file-system/file-content) for non-existing file content is **not** throwing error anymore
