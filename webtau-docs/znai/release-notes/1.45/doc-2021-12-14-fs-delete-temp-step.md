@@ -1,1 +1,1 @@
-* Wrap deletion of all [temp files](utilities/file-system) in a parent step
+* Wrap deletion of all [temp files](file-system/introduction) in a parent step

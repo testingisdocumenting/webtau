@@ -31,7 +31,7 @@ Use get value with expiration time for scenarios like auth token
 
 # FS Path type
 
-[File System module](utilities/file-system) return values of type `Path`. WebTau stores them as `String`.  
+[File System module](file-system/introduction) return values of type `Path`. WebTau stores them as `String`.  
 To retrieve as `Path` use `:identifier: getAsPath() {validationPath: "scenarios/cache/cachedPathValue.groovy"}`
 
 :include-file: scenarios/cache/cachedPathValue.groovy {

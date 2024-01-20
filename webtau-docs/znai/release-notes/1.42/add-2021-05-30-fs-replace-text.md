@@ -1,1 +1,1 @@
-* [replace text content by regexp](utilities/file-system#file-content)
+* [replace text content by regexp](file-system/file-content)
