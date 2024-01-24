@@ -79,7 +79,7 @@ public class MapContainHandler implements ContainHandler {
                 comparator.getMissingMessages().forEach(m -> containAnalyzer.reportMissing(this, m));
                 comparator.getNotEqualMessages().forEach(m -> containAnalyzer.reportMismatch(this, m));
             } else {
-                containAnalyzer.reportMatch(this, propertyPath, comparator.generateEqualMatchReport());
+                containAnalyzer.reportMatch(this, propertyPath, comparator::generateEqualMatchReport);
             }
         }
     }

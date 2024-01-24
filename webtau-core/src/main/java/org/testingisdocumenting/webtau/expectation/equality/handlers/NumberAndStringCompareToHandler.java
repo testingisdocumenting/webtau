@@ -44,7 +44,8 @@ public class NumberAndStringCompareToHandler implements CompareToHandler {
         Number actualNumber = convertToNumber(actual);
 
         if (actualNumber == null) {
-            comparator.reportEqualOrNotEqual(this, false, actualPath, renderActualExpected(comparator.getAssertionMode(), Double.NaN, expected));
+            comparator.reportEqualOrNotEqual(this, false, actualPath,
+                    () -> renderActualExpected(comparator.getAssertionMode(), Double.NaN, expected));
         } else {
             comparator.compareUsingEqualOnly(actualPath, actualNumber, expected);
         }
@@ -56,26 +57,19 @@ public class NumberAndStringCompareToHandler implements CompareToHandler {
 
         if (actualNumber == null) {
             comparator.reportCompareToValue(this, compareToValueToFail(comparator), actualPath,
-                    renderActualExpected(comparator.getAssertionMode(), Double.NaN, expected));
+                    () -> renderActualExpected(comparator.getAssertionMode(), Double.NaN, expected));
         } else {
             comparator.compareUsingCompareTo(actualPath, actualNumber, expected);
         }
     }
 
     private int compareToValueToFail(CompareToComparator comparator) {
-        switch (comparator.getAssertionMode()) {
-            case GREATER_THAN:
-            case GREATER_THAN_OR_EQUAL:
-                return -1;
-            case LESS_THAN:
-            case LESS_THAN_OR_EQUAL:
-            case EQUAL:
-                return 1;
-            case NOT_EQUAL:
-                return 0;
-        }
+        return switch (comparator.getAssertionMode()) {
+            case GREATER_THAN, GREATER_THAN_OR_EQUAL -> -1;
+            case LESS_THAN, LESS_THAN_OR_EQUAL, EQUAL -> 1;
+            case NOT_EQUAL -> 0;
+        };
 
-        return 0;
     }
 
     private Number convertToNumber(Object actual) {

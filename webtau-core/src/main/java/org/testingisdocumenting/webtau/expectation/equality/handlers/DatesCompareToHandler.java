@@ -31,6 +31,7 @@ import java.time.temporal.TemporalAccessor;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.BiFunction;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
@@ -110,32 +111,32 @@ public class DatesCompareToHandler implements CompareToHandler {
         }
 
         private void compareLocalDateTimeAndLocalDate(LocalDateTime actual, LocalDate expected) {
-            report(actual.toLocalDate().compareTo(expected), renderActualExpected(actual, expected));
+            report(actual.toLocalDate().compareTo(expected), () -> renderActualExpected(actual, expected));
         }
 
         private void compareZonedDateTimes(ZonedDateTime actual, ZonedDateTime expected) {
             ZonedDateTime normalizedActual = actual.withZoneSameInstant(UTC);
             ZonedDateTime normalizedExpected = expected.withZoneSameInstant(UTC);
 
-            report(normalizedActual.compareTo(normalizedExpected), renderActualExpectedWithNormalized(actual, expected,
-                    normalizedActual, normalizedExpected));
+            report(normalizedActual.compareTo(normalizedExpected),
+                    () -> renderActualExpectedWithNormalized(actual, expected, normalizedActual, normalizedExpected));
         }
 
         private void compareZonedDateTimeAndLocalDate(ZonedDateTime actual, LocalDate expected) {
-            report(actual.toLocalDate().compareTo(expected), renderActualExpected(actual, expected));
+            report(actual.toLocalDate().compareTo(expected), () -> renderActualExpected(actual, expected));
         }
 
         private void compareLocalDates(LocalDate actual, LocalDate expected) {
-            report(actual.compareTo(expected), renderActualExpected(actual, expected));
+            report(actual.compareTo(expected), () -> renderActualExpected(actual, expected));
         }
 
         private void compareZonedDateTimeAndInstant(ZonedDateTime actual, Instant expected) {
             Instant actualInstant = actual.toInstant();
-            report(actualInstant.compareTo(expected), renderActualExpectedWithNormalized(actual, expected,
+            report(actualInstant.compareTo(expected), () -> renderActualExpectedWithNormalized(actual, expected,
                     actualInstant, expected));
         }
 
-        private void report(int compareTo, TokenizedMessage message) {
+        private void report(int compareTo, Supplier<TokenizedMessage> message) {
             if (isEqualOnly) {
                 compareToComparator.reportEqualOrNotEqual(DatesCompareToHandler.this,
                         compareTo == 0, actualPath, message);

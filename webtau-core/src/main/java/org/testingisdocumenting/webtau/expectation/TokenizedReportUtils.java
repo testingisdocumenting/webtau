@@ -104,8 +104,8 @@ public class TokenizedReportUtils {
                 return;
             }
 
-            boolean useFullMessage = !message.getActualPath().equals(topLevelActualPath);
-            report.add(useFullMessage ? message.getFullMessage() : message.getMessage());
+            boolean useFullMessage = !message.actualPath().equals(topLevelActualPath);
+            report.add(useFullMessage ? message.buildFullMessage() : message.buildMessage());
 
             boolean isLast = messageIdx == messages.size() - 1;
             if (!isLast) {

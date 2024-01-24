@@ -77,7 +77,7 @@ public class DataNodeListAndValueContainHandler implements ContainHandler {
                 ValuePath indexedPath = actualPath.index(indexedValue.idx());
 
                 containAnalyzer.reportMatch(this, indexedPath,
-                        tokenizedMessage().error("equals").valueFirstLinesOnly(indexedValue.value()));
+                        () -> tokenizedMessage().error("equals").valueFirstLinesOnly(indexedValue.value()));
                 comparator.compareUsingEqualOnly(indexedPath, dataNodes.get(indexedValue.idx()), expected);
             });
         }
