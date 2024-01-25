@@ -75,7 +75,7 @@ public class StringCompareToHandler implements CompareToHandler {
 
             boolean isEqual = mismatchDetails.isEmpty();
             compareToComparator.reportEqualOrNotEqual(StringCompareToHandler.this, isEqual, actualPath,
-                    isEqual ? matchFullMessage() : mismatchFullMessage());
+                    isEqual ? this::matchFullMessage : this::mismatchFullMessage);
         }
 
         private void compareContent() {

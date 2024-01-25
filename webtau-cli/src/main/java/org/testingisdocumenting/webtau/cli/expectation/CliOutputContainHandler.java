@@ -59,12 +59,12 @@ public class CliOutputContainHandler implements ContainHandler {
 
         indexedValues.forEach(indexedValue ->
                 containAnalyzer.reportMatch(this, actualPath.index(indexedValue.idx()),
-                        tokenizedMessage().matcher("equals").value(indexedValue.value())
+                        () -> tokenizedMessage().matcher("equals").value(indexedValue.value())
                 ));
     }
 
     /*
-    for output we want to be able to mark matched lines, and so want to treat output as a list of lines.
+    for output, we want to be able to mark matched lines, and so want to treat output as a list of lines.
     at the same time we want a substring match within a line.
     so we will automatically convert expected text to a quoted regexp and pass it down to contain analyzer.
      */

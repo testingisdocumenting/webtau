@@ -31,11 +31,11 @@ public class NullContainHandler implements ContainHandler {
 
     @Override
     public void analyzeContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
-        containAnalyzer.reportMismatch(this, actualPath, tokenizedMessage().valueFirstLinesOnly(actual).error("doesn't contain").valueFirstLinesOnly(expected));
+        containAnalyzer.reportMismatch(this, actualPath, () -> tokenizedMessage().valueFirstLinesOnly(actual).error("doesn't contain").valueFirstLinesOnly(expected));
     }
 
     @Override
     public void analyzeNotContain(ContainAnalyzer containAnalyzer, ValuePath actualPath, Object actual, Object expected) {
-        containAnalyzer.reportMismatch(this, actualPath, tokenizedMessage().valueFirstLinesOnly(actual).error("doesn't contain").valueFirstLinesOnly(expected));
+        containAnalyzer.reportMismatch(this, actualPath, () -> tokenizedMessage().valueFirstLinesOnly(actual).error("doesn't contain").valueFirstLinesOnly(expected));
     }
 }

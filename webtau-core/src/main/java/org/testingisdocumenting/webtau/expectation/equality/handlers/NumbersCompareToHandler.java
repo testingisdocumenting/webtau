@@ -42,7 +42,7 @@ public class NumbersCompareToHandler implements CompareToHandler {
 
         boolean isEqual = convertedAndOriginal.compareTo() == 0;
         comparator.reportEqualOrNotEqual(this, isEqual,
-                actualPath, convertedAndOriginal.renderActualExpected());
+                actualPath, convertedAndOriginal::renderActualExpected);
     }
 
     @Override
@@ -50,7 +50,7 @@ public class NumbersCompareToHandler implements CompareToHandler {
         ConvertedAndOriginal convertedAndOriginal = new ConvertedAndOriginal(comparator.getAssertionMode(), actual, expected);
 
         comparator.reportCompareToValue(this, convertedAndOriginal.compareTo(),
-                actualPath, convertedAndOriginal.renderActualExpected());
+                actualPath, convertedAndOriginal::renderActualExpected);
     }
 
     private boolean areNumbersOfDiffType(Object actual, Object expected) {

@@ -63,9 +63,9 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
 
     @Override
     public Set<ValuePath> mismatchedPaths() {
-        Set<ValuePath> potentialPaths = Stream.concat(missingMessages.stream().map(ValuePathMessage::getActualPath),
-                        Stream.concat(extraMessages.stream().map(ValuePathMessage::getActualPath),
-                                notEqualCandidateMessages.stream().map(ValuePathMessage::getActualPath)))
+        Set<ValuePath> potentialPaths = Stream.concat(missingMessages.stream().map(ValuePathMessage::actualPath),
+                        Stream.concat(extraMessages.stream().map(ValuePathMessage::actualPath),
+                                notEqualCandidateMessages.stream().map(ValuePathMessage::actualPath)))
                 .collect(Collectors.toSet());
         return potentialPaths.isEmpty() ?
                 actualCopy.stream().map(ValuePathWithValue::getPath).collect(Collectors.toSet()) :
@@ -208,7 +208,7 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
                         }
 
                         ValuePathMessage firstMessage = batch.get(0);
-                        return actualPaths.stream().anyMatch(path -> firstMessage.getActualPath().startsWith(path));
+                        return actualPaths.stream().anyMatch(path -> firstMessage.actualPath().startsWith(path));
                     })
                     .toList();
 

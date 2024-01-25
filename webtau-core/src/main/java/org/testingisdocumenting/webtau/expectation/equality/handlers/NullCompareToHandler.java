@@ -24,6 +24,8 @@ import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 import org.testingisdocumenting.webtau.reporter.MessageToken;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
+import java.util.function.Supplier;
+
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.expectation.equality.handlers.HandlerMessages.*;
 
@@ -53,16 +55,16 @@ public class NullCompareToHandler implements CompareToHandler {
     public void compareEqualOnly(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         if (actual == null && expected == null) {
             comparator.reportEqual(this, actualPath,
-                    tokenizedMessage().add(ACTUAL_NULL_PREFIX).newLine()
+                    () -> tokenizedMessage().add(ACTUAL_NULL_PREFIX).newLine()
                             .add(expectedPrefixAndAssertionMode(comparator.getAssertionMode()))
                             .add(NULL));
         } else if (actual == null) {
             comparator.reportNotEqual(this, actualPath,
-                    tokenizedMessage().add(ACTUAL_NULL_RED_PREFIX).newLine()
+                    () -> tokenizedMessage().add(ACTUAL_NULL_RED_PREFIX).newLine()
                             .add(expectedPrefixAndAssertionMode(comparator.getAssertionMode())).add(valueAndType(expected)));
         } else {
             comparator.reportNotEqual(this, actualPath,
-                    tokenizedMessage().add(HandlerMessages.ACTUAL_PREFIX).add(valueAndType(actual)).newLine()
+                    () -> tokenizedMessage().add(HandlerMessages.ACTUAL_PREFIX).add(valueAndType(actual)).newLine()
                             .add(expectedPrefixAndAssertionMode(comparator.getAssertionMode()).add(NULL_RED)));
         }
     }
@@ -71,21 +73,21 @@ public class NullCompareToHandler implements CompareToHandler {
     public void compareGreaterLessEqual(CompareToComparator comparator, ValuePath actualPath, Object actual, Object expected) {
         if (actual == null && expected == null && checksEquality(comparator)) {
             comparator.reportEqual(this, actualPath,
-                    tokenizedMessage().add(ACTUAL_NULL_PREFIX).newLine()
+                    () -> tokenizedMessage().add(ACTUAL_NULL_PREFIX).newLine()
                             .add(expectedPrefixAndAssertionMode(comparator.getAssertionMode())).add(NULL));
         } else if (actual == null) {
-            TokenizedMessage message = tokenizedMessage().add(ACTUAL_NULL_RED_PREFIX).newLine()
+            Supplier<TokenizedMessage> message = () -> tokenizedMessage().add(ACTUAL_NULL_RED_PREFIX).newLine()
                     .add(expectedPrefixAndAssertionMode(comparator.getAssertionMode()).add(valueAndType(expected)));
             generateOppositeReport(comparator, actualPath, message);
         } else {
-            TokenizedMessage message = tokenizedMessage().add(HandlerMessages.ACTUAL_PREFIX).add(valueAndType(actual)).newLine()
+            Supplier<TokenizedMessage> message = () -> tokenizedMessage().add(HandlerMessages.ACTUAL_PREFIX).add(valueAndType(actual)).newLine()
                     .add(expectedPrefixAndAssertionMode(comparator.getAssertionMode())).add(NULL_RED);
 
             generateOppositeReport(comparator, actualPath, message);
         }
     }
 
-    private void generateOppositeReport(CompareToComparator comparator, ValuePath actualPath, TokenizedMessage message) {
+    private void generateOppositeReport(CompareToComparator comparator, ValuePath actualPath, Supplier<TokenizedMessage> message) {
         switch (comparator.getAssertionMode()) {
             case GREATER_THAN:
             case GREATER_THAN_OR_EQUAL:

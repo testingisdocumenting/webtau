@@ -69,7 +69,7 @@ public class MapsCompareToHandler implements CompareToHandler {
             if (compareToComparator.getAssertionMode() == CompareToComparator.AssertionMode.NOT_EQUAL) {
                 if (actualMap.isEmpty() && expectedMap.isEmpty()) {
                     compareToComparator.reportEqual(MapsCompareToHandler.this, actualPath,
-                            tokenizedMessage().error("both maps are empty"));
+                            () -> tokenizedMessage().error("both maps are empty"));
                 }
             }
 

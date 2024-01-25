@@ -28,9 +28,9 @@ class TokenizedReportUtilsTest {
     @Test
     void "should limit number of details when specified"() {
         def messages = [
-                new ValuePathMessage(new ValuePath("p1"), tokenizedMessage().error("message 1")),
-                new ValuePathMessage(new ValuePath("p2"), tokenizedMessage().error("message 2")),
-                new ValuePathMessage(new ValuePath("p3"), tokenizedMessage().error("message 3")),
+                new ValuePathMessage(new ValuePath("p1"), () -> tokenizedMessage().error("message 1")),
+                new ValuePathMessage(new ValuePath("p2"), () -> tokenizedMessage().error("message 2")),
+                new ValuePathMessage(new ValuePath("p3"), () -> tokenizedMessage().error("message 3")),
         ]
 
         def report = TokenizedReportUtils.generateReportPartWithoutLabel(new ValuePath("root"), Stream.of(messages), 2)
@@ -42,9 +42,9 @@ class TokenizedReportUtilsTest {
     @Test
     void "should not limit number of details when exact match in count"() {
         def messages = [
-                new ValuePathMessage(new ValuePath("p1"), tokenizedMessage().error("message 1")),
-                new ValuePathMessage(new ValuePath("p2"), tokenizedMessage().error("message 2")),
-                new ValuePathMessage(new ValuePath("p3"), tokenizedMessage().error("message 3")),
+                new ValuePathMessage(new ValuePath("p1"), () -> tokenizedMessage().error("message 1")),
+                new ValuePathMessage(new ValuePath("p2"), () -> tokenizedMessage().error("message 2")),
+                new ValuePathMessage(new ValuePath("p3"), () -> tokenizedMessage().error("message 3")),
         ]
 
         def report = TokenizedReportUtils.generateReportPartWithoutLabel(new ValuePath("root"), Stream.of(messages), 3)

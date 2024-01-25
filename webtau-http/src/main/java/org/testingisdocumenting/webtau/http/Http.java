@@ -1065,7 +1065,7 @@ public class Http {
         ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
             @Override
             public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
-                validationResult.addMismatch(new ValuePathMessage(actualPath, message).getFullMessage());
+                validationResult.addMismatch(new ValuePathMessage(actualPath, () -> message).buildFullMessage());
                 return ExpectationHandler.Flow.PassToNext;
             }
         };

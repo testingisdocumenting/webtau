@@ -43,7 +43,7 @@ public class ByteArrayCompareToHandler implements CompareToHandler {
 
         if (actualArray.length != expectedArray.length) {
             comparator.reportNotEqual(this, actualPath,
-                    tokenizedMessage().error("binary content has different size").colon().newLine()
+                    () -> tokenizedMessage().error("binary content has different size").colon().newLine()
                             .add(ACTUAL_PREFIX).value(actualArray.length).newLine()
                             .add(HandlerMessages.EXPECTED_PREFIX).value(expectedArray.length));
         }
@@ -51,11 +51,12 @@ public class ByteArrayCompareToHandler implements CompareToHandler {
         int diffIdx = indexOfFirstDifference(actualArray, expectedArray);
         boolean isEqual = diffIdx == -1;
         if (isEqual) {
-            comparator.reportEqual(this, actualPath, tokenizedMessage().value(actualArray).newLine()
+            comparator.reportEqual(this, actualPath,
+                    () -> tokenizedMessage().value(actualArray).newLine()
                     .add(renderActualExpected(actualArray, expectedArray, 0)));
         } else {
             comparator.reportNotEqual(this, actualPath,
-                    tokenizedMessage().error("binary content first difference idx").colon().number(diffIdx).newLine()
+                    () -> tokenizedMessage().error("binary content first difference idx").colon().number(diffIdx).newLine()
                             .add(renderActualExpected(actualArray, expectedArray, diffIdx)));
         }
     }

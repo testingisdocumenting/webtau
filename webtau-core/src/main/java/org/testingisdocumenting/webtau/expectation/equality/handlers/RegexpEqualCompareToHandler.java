@@ -40,7 +40,7 @@ public class RegexpEqualCompareToHandler implements CompareToHandler {
 
         boolean isEqual = expectedPattern.matcher(actual.toString()).find();
         comparator.reportEqualOrNotEqual(this, isEqual,
-                actualPath, renderActualExpected(comparator.getAssertionMode(), actual, expected));
+                actualPath, () -> renderActualExpected(comparator.getAssertionMode(), actual, expected));
     }
 
     private TokenizedMessage renderActualExpected(CompareToComparator.AssertionMode assertionMode, Object actual, Object expected) {

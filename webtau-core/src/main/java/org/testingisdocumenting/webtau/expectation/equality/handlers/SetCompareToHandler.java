@@ -84,7 +84,7 @@ public class SetCompareToHandler implements CompareToHandler {
                 CompareToResult result = localComparator.compareUsingEqualOnly(actualPath, actual, expected);
                 if (result.isEqual()) {
                     comparator.reportEqual(SetCompareToHandler.this, actualPath.index(idx),
-                            HandlerMessages.renderActualExpected(comparator.getAssertionMode(), actual, expected));
+                            () -> HandlerMessages.renderActualExpected(comparator.getAssertionMode(), actual, expected));
                     it.remove();
                     return true;
                 }

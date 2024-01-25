@@ -29,7 +29,7 @@ public record CombinedMismatchAndMissing(List<ValuePathMessage> mismatchMessages
 
     List<ValuePath> extractPaths() {
         return Stream.concat(
-                mismatchMessages.stream().map(ValuePathMessage::getActualPath),
-                missingMessage.stream().map(ValuePathMessage::getActualPath)).toList();
+                mismatchMessages.stream().map(ValuePathMessage::actualPath),
+                missingMessage.stream().map(ValuePathMessage::actualPath)).toList();
     }
 }

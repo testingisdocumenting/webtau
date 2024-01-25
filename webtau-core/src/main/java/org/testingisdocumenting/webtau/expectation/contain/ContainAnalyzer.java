@@ -29,6 +29,7 @@ import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.TraceUtils;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -85,12 +86,12 @@ public class ContainAnalyzer {
         mismatchMessages.addAll(valuePathMessages);
     }
 
-    public void reportMismatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch) {
+    public void reportMismatch(ContainHandler reporter, ValuePath actualPath, Supplier<TokenizedMessage> mismatch) {
         reportMismatch(reporter, new ValuePathMessage(actualPath, mismatch));
     }
 
     public void reportMissing(ContainHandler reporter, ValuePath actualPath, Object value) {
-        missingMessages.add(new ValuePathMessage(actualPath, tokenizedMessage().value(value)));
+        missingMessages.add(new ValuePathMessage(actualPath, () -> tokenizedMessage().value(value)));
     }
 
     public void reportMissing(ContainHandler reporter, ValuePathMessage valuePathMessage) {
@@ -105,7 +106,7 @@ public class ContainAnalyzer {
         mismatchedExpectedValues.add(oneOfExpectedValues);
     }
 
-    public void reportMatch(ContainHandler reporter, ValuePath actualPath, TokenizedMessage mismatch) {
+    public void reportMatch(ContainHandler reporter, ValuePath actualPath, Supplier<TokenizedMessage> mismatch) {
         matchMessages.add(new ValuePathMessage(actualPath, mismatch));
     }
 
@@ -123,9 +124,9 @@ public class ContainAnalyzer {
 
     public TokenizedMessage generateMatchReport() {
         return TokenizedMessage.join("\n", matchMessages.stream().map(message ->
-                message.getActualPath().equals(topLevelActualPath) ?
-                        message.getMessage() :
-                        message.getFullMessage()).collect(Collectors.toList()));
+                message.actualPath().equals(topLevelActualPath) ?
+                        message.buildMessage() :
+                        message.buildFullMessage()).collect(Collectors.toList()));
     }
 
     public TokenizedMessage generateMismatchReport() {
@@ -156,6 +157,14 @@ public class ContainAnalyzer {
 
     public boolean noMatches() {
         return matchMessages.isEmpty();
+    }
+
+    public int numberMatchMessages() {
+        return matchMessages.size();
+    }
+
+    public int numberOfMismatchMessages() {
+        return mismatchMessages.size() + missingMessages.size() + mismatchedExpectedValues.size();
     }
 
     public void registerConvertedActualByPath(Map<ValuePath, Object> convertedActualByPath) {
@@ -192,9 +201,9 @@ public class ContainAnalyzer {
 
         Object convertedExpected = handler.convertedExpected(actual, expected);
 
-        int before = isNegative ? matchMessages.size() : (mismatchMessages.size() + missingMessages.size() + mismatchedExpectedValues.size());
+        int before = isNegative ? numberMatchMessages() : numberOfMismatchMessages();
         containsLogic.execute(handler, convertedActual, convertedExpected);
-        int after = isNegative ? matchMessages.size() : (mismatchMessages.size() + missingMessages.size() + mismatchedExpectedValues.size());
+        int after = isNegative ? numberMatchMessages() : numberOfMismatchMessages();
 
         return after == before;
     }
@@ -202,7 +211,7 @@ public class ContainAnalyzer {
     private Set<ValuePath> extractActualPaths(List<ValuePathMessage> notEqualMessages) {
         return notEqualMessages
                 .stream()
-                .map(ValuePathMessage::getActualPath)
+                .map(ValuePathMessage::actualPath)
                 .collect(Collectors.toSet());
     }
 

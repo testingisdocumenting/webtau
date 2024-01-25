@@ -27,6 +27,7 @@ import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
 import org.testingisdocumenting.webtau.utils.TraceUtils;
 
 import java.util.*;
+import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -254,30 +255,30 @@ public class CompareToComparator {
     }
 
     public void reportMissing(CompareToHandler reporter, ValuePath actualPath, Object value) {
-        missingMessages.add(new ValuePathMessage(actualPath, tokenizedMessage().value(value)));
+        missingMessages.add(new ValuePathMessage(actualPath, () -> tokenizedMessage().value(value)));
     }
 
     public void reportExtra(CompareToHandler reporter, ValuePath actualPath, Object value) {
-        extraMessages.add(new ValuePathMessage(actualPath, tokenizedMessage().value(value)));
+        extraMessages.add(new ValuePathMessage(actualPath, () -> tokenizedMessage().value(value)));
     }
 
-    public void reportEqual(CompareToHandler reporter, ValuePath actualPath, TokenizedMessage message) {
+    public void reportEqual(CompareToHandler reporter, ValuePath actualPath, Supplier<TokenizedMessage> message) {
         equalMessages.add(new ValuePathMessage(actualPath, message));
     }
 
-    public void reportNotEqual(CompareToHandler reporter, ValuePath actualPath, TokenizedMessage message) {
+    public void reportNotEqual(CompareToHandler reporter, ValuePath actualPath, Supplier<TokenizedMessage> message) {
         notEqualMessages.add(new ValuePathMessage(actualPath, message));
     }
 
-    public void reportGreater(CompareToHandler reporter, ValuePath actualPath, TokenizedMessage message) {
+    public void reportGreater(CompareToHandler reporter, ValuePath actualPath, Supplier<TokenizedMessage> message) {
         greaterMessages.add(new ValuePathMessage(actualPath, message));
     }
 
-    public void reportLess(CompareToHandler reporter, ValuePath actualPath, TokenizedMessage message) {
+    public void reportLess(CompareToHandler reporter, ValuePath actualPath, Supplier<TokenizedMessage> message) {
         lessMessages.add(new ValuePathMessage(actualPath, message));
     }
 
-    public void reportEqualOrNotEqual(CompareToHandler reporter, boolean isEqual, ValuePath actualPath, TokenizedMessage message) {
+    public void reportEqualOrNotEqual(CompareToHandler reporter, boolean isEqual, ValuePath actualPath, Supplier<TokenizedMessage> message) {
         if (isEqual) {
             reportEqual(reporter, actualPath, message);
         } else {
@@ -285,7 +286,7 @@ public class CompareToComparator {
         }
     }
 
-    public void reportCompareToValue(CompareToHandler reporter, int compareTo, ValuePath actualPath, TokenizedMessage message) {
+    public void reportCompareToValue(CompareToHandler reporter, int compareTo, ValuePath actualPath, Supplier<TokenizedMessage> message) {
         if (compareTo == 0) {
             reportEqual(reporter, actualPath, message);
         } else if (compareTo < 0) {
@@ -426,7 +427,7 @@ public class CompareToComparator {
     private Set<ValuePath> extractActualPaths(List<ValuePathMessage> messages) {
         return messages
                 .stream()
-                .map(ValuePathMessage::getActualPath)
+                .map(ValuePathMessage::actualPath)
                 .collect(Collectors.toSet());
     }
 }
