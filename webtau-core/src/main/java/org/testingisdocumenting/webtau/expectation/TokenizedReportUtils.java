@@ -18,6 +18,7 @@ package org.testingisdocumenting.webtau.expectation;
 
 import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.expectation.equality.ValuePathLazyMessageList;
 import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
@@ -31,8 +32,8 @@ public class TokenizedReportUtils {
     private TokenizedReportUtils() {
     }
 
-    public static TokenizedMessage generateReportPart(ValuePath topLevelActualPath, TokenizedMessage label, List<List<ValuePathMessage>> messagesGroups) {
-        if (messagesGroups.stream().allMatch(List::isEmpty)) {
+    public static TokenizedMessage generateReportPart(ValuePath topLevelActualPath, TokenizedMessage label, List<ValuePathLazyMessageList> messagesGroups) {
+        if (messagesGroups.stream().allMatch(l -> l == null || l.isEmpty())) {
             return tokenizedMessage();
         }
 
@@ -63,21 +64,21 @@ public class TokenizedReportUtils {
     }
 
     public static TokenizedMessage generateReportPartWithoutLabel(ValuePath topLevelActualPath,
-                                                                  Stream<List<ValuePathMessage>> messagesGroupsStream) {
+                                                                  Stream<ValuePathLazyMessageList> messagesGroupsStream) {
         return generateReportPartWithoutLabel(topLevelActualPath, messagesGroupsStream, WebTauConfig.getCfg().getMatchersReportEntriesLimit());
     }
 
     public static TokenizedMessage generateReportPartWithoutLabel(ValuePath topLevelActualPath,
-                                                                  Stream<List<ValuePathMessage>> messagesGroupsStream,
+                                                                  Stream<ValuePathLazyMessageList> messagesGroupsStream,
                                                                   int maxNumberOfEntries) {
-        List<List<ValuePathMessage>> messagesGroups = messagesGroupsStream.filter(group -> !group.isEmpty()).toList();
+        List<ValuePathLazyMessageList> messagesGroups = messagesGroupsStream.filter(group -> group != null && !group.isEmpty()).toList();
         if (messagesGroups.isEmpty()) {
             return tokenizedMessage();
         }
 
         TokenizedMessage result = tokenizedMessage();
         int groupIdx = 0;
-        for (List<ValuePathMessage> group : messagesGroups) {
+        for (ValuePathLazyMessageList group : messagesGroups) {
             TokenizedReportUtils.appendToReport(result, topLevelActualPath, group, maxNumberOfEntries);
 
             boolean isLastGroup = groupIdx == messagesGroups.size() - 1;
@@ -93,7 +94,7 @@ public class TokenizedReportUtils {
 
     private static void appendToReport(TokenizedMessage report,
                                        ValuePath topLevelActualPath,
-                                       List<ValuePathMessage> messages,
+                                       ValuePathLazyMessageList messages,
                                        int maxNumberOfEntries) {
         boolean needToLimit = messages.size() > maxNumberOfEntries;
         int messageIdx = 0;

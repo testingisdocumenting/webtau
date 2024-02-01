@@ -25,6 +25,7 @@ import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
+import org.testingisdocumenting.webtau.expectation.equality.ValuePathLazyMessageList;
 import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
@@ -40,10 +41,10 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
     private List<ValuePathWithValue<Object>> actualCopy;
     private List<ValuePathWithValue<Object>> expectedCopy;
 
-    private final Map<ValuePath, List<List<ValuePathMessage>>> notEqualMessagesByExpectedPath = new HashMap<>();
-    private final List<ValuePathMessage> notEqualCandidateMessages = new ArrayList<>();
-    private final List<ValuePathMessage> missingMessages = new ArrayList<>();
-    private final List<ValuePathMessage> extraMessages = new ArrayList<>();
+    private final Map<ValuePath, List<ValuePathLazyMessageList>> notEqualMessagesByExpectedPath = new HashMap<>();
+    private final ValuePathLazyMessageList notEqualCandidateMessages = new ValuePathLazyMessageList();
+    private final ValuePathLazyMessageList missingMessages = new ValuePathLazyMessageList();
+    private final ValuePathLazyMessageList extraMessages = new ValuePathLazyMessageList();
 
     private CompareToComparator comparator;
 
@@ -191,11 +192,11 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
         return actualCopy.isEmpty() && expectedCopy.isEmpty();
     }
 
-    private List<ValuePathMessage> extractPotentialNotEqualMessages() {
+    private ValuePathLazyMessageList extractPotentialNotEqualMessages() {
         List<ValuePath> actualPaths = actualCopy.stream().map(ValuePathWithValue::getPath).toList();
-        List<ValuePathMessage> notEqualCandidateMessages = new ArrayList<>();
+        ValuePathLazyMessageList notEqualCandidateMessages = new ValuePathLazyMessageList();
         for (ValuePathWithValue<Object> expectedWithPath : expectedCopy) {
-            List<List<ValuePathMessage>> notEqualMessageBatches = notEqualMessagesByExpectedPath.get(expectedWithPath.getPath());
+            List<ValuePathLazyMessageList> notEqualMessageBatches = notEqualMessagesByExpectedPath.get(expectedWithPath.getPath());
             if (notEqualMessageBatches == null) {
                 continue;
             }
@@ -207,7 +208,7 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
                             return false;
                         }
 
-                        ValuePathMessage firstMessage = batch.get(0);
+                        ValuePathMessage firstMessage = batch.first();
                         return actualPaths.stream().anyMatch(path -> firstMessage.actualPath().startsWith(path));
                     })
                     .toList();
@@ -217,10 +218,10 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
             // it will be a potential mismatch detail to display,
             //
             int minNumberOMismatches = notEqualMessageBatches.stream()
-                    .map(List::size)
+                    .map(ValuePathLazyMessageList::size)
                     .min(Integer::compareTo).orElse(0);
 
-            List<List<ValuePathMessage>> messagesWithMinFailures = notEqualMessageBatches.stream()
+            List<ValuePathLazyMessageList> messagesWithMinFailures = notEqualMessageBatches.stream()
                     .filter(v -> v.size() == minNumberOMismatches).toList();
 
             if (notEqualMessageBatches.size() != messagesWithMinFailures.size()) {

@@ -49,7 +49,6 @@ public class IterableContainAnalyzer {
             Object actualValue = iterator.next();
             ValuePath indexedPath = actualPath.index(idx);
 
-            // shit is happening here for large numbers
             CompareToResult compareToResult = comparator.compareUsingEqualOnly(indexedPath, actualValue, expected);
             boolean isEqual = compareToResult.isEqual();
             if (isEqual) {

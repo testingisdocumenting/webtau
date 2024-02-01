@@ -53,7 +53,7 @@ public class IterableAndSingleValueContainHandler implements ContainHandler {
             suspects.forEach(list -> containAnalyzer.registerExtraMismatchPaths(list.extractPaths()));
             suspects.forEach(list -> {
                 containAnalyzer.reportMismatches(this, list.mismatchMessages());
-                containAnalyzer.reportMissing(this, list.missingMessage());
+                containAnalyzer.reportMissing(this, list.missingMessages());
             });
         }
 
