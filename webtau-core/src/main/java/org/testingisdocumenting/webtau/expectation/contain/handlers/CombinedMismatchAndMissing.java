@@ -17,19 +17,22 @@
 package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.expectation.equality.ValuePathLazyMessageList;
 import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
 
 import java.util.List;
 import java.util.stream.Stream;
 
-public record CombinedMismatchAndMissing(List<ValuePathMessage> mismatchMessages, List<ValuePathMessage> missingMessage) {
+public record CombinedMismatchAndMissing(ValuePathLazyMessageList mismatchMessages, ValuePathLazyMessageList missingMessages) {
     int size() {
-        return mismatchMessages.size() + missingMessage.size();
+        int mismatchMessagesSize = mismatchMessages == null ? 0 : mismatchMessages.size();
+        int missingMessagesSize = missingMessages == null ? 0 : missingMessages.size();
+        return mismatchMessagesSize + missingMessagesSize;
     }
 
     List<ValuePath> extractPaths() {
         return Stream.concat(
-                mismatchMessages.stream().map(ValuePathMessage::actualPath),
-                missingMessage.stream().map(ValuePathMessage::actualPath)).toList();
+                mismatchMessages == null ? Stream.empty() : mismatchMessages.stream().map(ValuePathMessage::actualPath),
+                missingMessages == null ? Stream.empty() : missingMessages.stream().map(ValuePathMessage::actualPath)).toList();
     }
 }

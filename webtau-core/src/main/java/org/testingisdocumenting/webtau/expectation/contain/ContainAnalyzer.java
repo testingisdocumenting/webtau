@@ -23,6 +23,7 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableAndTableContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.IterableAndSingleValueContainHandler;
 import org.testingisdocumenting.webtau.expectation.contain.handlers.NullContainHandler;
+import org.testingisdocumenting.webtau.expectation.equality.ValuePathLazyMessageList;
 import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.utils.ServiceLoaderUtils;
@@ -39,9 +40,9 @@ import static org.testingisdocumenting.webtau.expectation.TokenizedReportUtils.*
 public class ContainAnalyzer {
     private static final List<ContainHandler> handlers = discoverHandlers();
 
-    private final List<ValuePathMessage> matchMessages;
-    private final List<ValuePathMessage> mismatchMessages;
-    private final List<ValuePathMessage> missingMessages;
+    private final ValuePathLazyMessageList matchMessages;
+    private final ValuePathLazyMessageList mismatchMessages;
+    private final ValuePathLazyMessageList missingMessages;
 
     private final Set<ValuePath> extraMismatchPaths;
 
@@ -82,7 +83,7 @@ public class ContainAnalyzer {
         mismatchMessages.add(valuePathMessage);
     }
 
-    public void reportMismatches(ContainHandler reporter, List<ValuePathMessage> valuePathMessages) {
+    public void reportMismatches(ContainHandler reporter, ValuePathLazyMessageList valuePathMessages) {
         mismatchMessages.addAll(valuePathMessages);
     }
 
@@ -98,7 +99,7 @@ public class ContainAnalyzer {
         missingMessages.add(valuePathMessage);
     }
 
-    public void reportMissing(ContainHandler reporter, List<ValuePathMessage> valuePathMessages) {
+    public void reportMissing(ContainHandler reporter, ValuePathLazyMessageList valuePathMessages) {
         missingMessages.addAll(valuePathMessages);
     }
 
@@ -111,13 +112,13 @@ public class ContainAnalyzer {
     }
 
     public Set<ValuePath> generateMatchPaths() {
-        return extractActualPaths(matchMessages);
+        return matchMessages.extractPaths();
     }
 
     public Set<ValuePath> generateMismatchPaths() {
         HashSet<ValuePath> result = new HashSet<>(extraMismatchPaths);
-        result.addAll(extractActualPaths(mismatchMessages));
-        result.addAll(extractActualPaths(missingMessages));
+        result.addAll(mismatchMessages.extractPaths());
+        result.addAll(missingMessages.extractPaths());
 
         return result;
     }
@@ -184,9 +185,9 @@ public class ContainAnalyzer {
     }
 
     private ContainAnalyzer() {
-        this.matchMessages = new ArrayList<>();
-        this.mismatchMessages = new ArrayList<>();
-        this.missingMessages = new ArrayList<>();
+        this.matchMessages = new ValuePathLazyMessageList();
+        this.mismatchMessages = new ValuePathLazyMessageList();
+        this.missingMessages = new ValuePathLazyMessageList();
         this.mismatchedExpectedValues = new ArrayList<>();
         this.extraMismatchPaths = new HashSet<>();
     }
@@ -206,13 +207,6 @@ public class ContainAnalyzer {
         int after = isNegative ? numberMatchMessages() : numberOfMismatchMessages();
 
         return after == before;
-    }
-
-    private Set<ValuePath> extractActualPaths(List<ValuePathMessage> notEqualMessages) {
-        return notEqualMessages
-                .stream()
-                .map(ValuePathMessage::actualPath)
-                .collect(Collectors.toSet());
     }
 
     private void updateTopLevelActualPath(ValuePath actualPath) {
