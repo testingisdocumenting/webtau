@@ -23,21 +23,19 @@ import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
-import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
-import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
-import org.testingisdocumenting.webtau.expectation.equality.ValuePathLazyMessageList;
-import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
+import org.testingisdocumenting.webtau.expectation.equality.*;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.expectation.TokenizedReportUtils.*;
 
 public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware, PrettyPrintable {
-    private final Collection<Object> expectedList;
+    private final Iterable<Object> expectedList;
     private List<ValuePathWithValue<Object>> actualCopy;
     private List<ValuePathWithValue<Object>> expectedCopy;
 
@@ -48,7 +46,7 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
 
     private CompareToComparator comparator;
 
-    public ContainExactlyMatcher(Collection<Object> expected) {
+    public ContainExactlyMatcher(Iterable<Object> expected) {
         expectedList = expected;
     }
 
@@ -59,7 +57,7 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
 
     @Override
     public Stream<Object> expectedValues() {
-        return expectedList.stream();
+        return StreamSupport.stream(expectedList.spliterator(), false);
     }
 
     @Override
@@ -157,6 +155,9 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
         actualCopy = ValuePathWithValue.listFromIterable(actualPath, ((Iterable<Object>) actualIterable));
         expectedCopy = ValuePathWithValue.listFromIterable(actualPath, expectedList);
 
+        CompareToHandler compareToHandlerPrevious = null;
+        CompareToHandler compareToHandlerToUse = null;
+
         Iterator<ValuePathWithValue<Object>> expectedIt = expectedCopy.iterator();
         while (expectedIt.hasNext()) {
             ValuePathWithValue<Object> expected = expectedIt.next();
@@ -169,7 +170,20 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
             boolean found = false;
             while (actualIt.hasNext()) {
                 ValuePathWithValue<Object> actual = actualIt.next();
-                CompareToResult compareToResult = comparator.compareUsingEqualOnly(actual.getPath(), actual.getValue(), expected.getValue());
+
+                // cache compare to handler to use
+                if (actual.getValue() != null && expected.getValue() != null) {
+                    if (compareToHandlerPrevious == null) {
+                        compareToHandlerPrevious = CompareToComparator.findCompareToEqualHandler(actual.getValue(), expected.getValue());
+                    }
+
+                    compareToHandlerToUse = compareToHandlerPrevious;
+                }
+
+                CompareToResult compareToResult = compareToHandlerToUse != null ?
+                        comparator.compareUsingEqualOnly(compareToHandlerToUse, actual.getPath(), actual.getValue(), expected.getValue()):
+                        comparator.compareUsingEqualOnly(actual.getPath(), actual.getValue(), expected.getValue());
+
                 if (compareToResult.isEqual()) {
                     actualIt.remove();
                     expectedIt.remove();

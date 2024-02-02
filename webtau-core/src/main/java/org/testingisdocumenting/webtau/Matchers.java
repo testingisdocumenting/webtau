@@ -215,15 +215,27 @@ public class Matchers {
     }
 
     /**
-     * Contain exact matcher
+     * Contain exactly matcher
+     * <pre>
+     * actual(collection).should(containExact(el1, el2, el3));
+     * </pre>
+     * @param expected vararg list of values to check
+     * @return matcher instance
+     */
+    public static ContainExactlyMatcher containExactly(Object... expected) {
+        return new ContainExactlyMatcher(Arrays.asList(expected));
+    }
+
+    /**
+     * Contain exactly matcher
      * <pre>
      * actual(collection).should(containExact(el1, el2, el3));
      * </pre>
      * @param expected list of values to check
      * @return matcher instance
      */
-    public static ContainExactlyMatcher containExactly(Object... expected) {
-        return new ContainExactlyMatcher(Arrays.asList(expected));
+    public static ContainExactlyMatcher containExactly(Iterable<Object> expected) {
+        return new ContainExactlyMatcher(expected);
     }
 
     /**

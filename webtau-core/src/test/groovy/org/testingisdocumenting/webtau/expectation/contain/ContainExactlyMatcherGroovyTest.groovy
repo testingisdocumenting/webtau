@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.expectation.contain
 import org.junit.Test
 import org.testingisdocumenting.webtau.data.Person
 
+import java.util.stream.IntStream
+
 import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class ContainExactlyMatcherGroovyTest {
@@ -37,5 +39,19 @@ class ContainExactlyMatcherGroovyTest {
                     [id: "id1", level: 7, monthsAtCompany: 12]))
             // possible-mismatches-example
         } should throwException(AssertionError)
+    }
+
+    @Test
+    void "large number of items all matched"() {
+        // TODO printing a large collection in the report
+        // it prints it twice
+        // to figure out layout
+        // when numbers are large we can predict the layout
+        // heap out of memory issues
+        //
+        def source = IntStream.rangeClosed(1, 1000).boxed().toList()
+        def target = IntStream.rangeClosed(1, 1000).boxed().toList().reverse()
+
+        actual(source).should(containExactly(target))
     }
 }
