@@ -27,6 +27,8 @@ import java.util.stream.Stream;
  * Is NOT thread safe
  */
 public class ValuePathLazyMessageList implements Iterable<ValuePathMessage> {
+    private static final int SIZE_LIMIT = 100;
+
     private List<ValuePathMessage> messages;
     private ValuePathMessage singleMessage;
     private int size;
@@ -43,7 +45,7 @@ public class ValuePathLazyMessageList implements Iterable<ValuePathMessage> {
                 messages.add(message);
                 singleMessage = null;
             }
-        } else {
+        } else if (size < SIZE_LIMIT) {
             messages.add(message);
         }
     }
