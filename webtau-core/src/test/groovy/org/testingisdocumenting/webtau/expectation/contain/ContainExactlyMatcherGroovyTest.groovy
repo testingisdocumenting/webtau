@@ -19,6 +19,8 @@ package org.testingisdocumenting.webtau.expectation.contain
 import org.junit.Test
 import org.testingisdocumenting.webtau.data.Person
 
+import java.util.stream.IntStream
+
 import static org.testingisdocumenting.webtau.WebTauCore.*
 
 class ContainExactlyMatcherGroovyTest {
