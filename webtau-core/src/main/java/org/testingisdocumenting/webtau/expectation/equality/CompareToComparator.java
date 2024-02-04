@@ -61,7 +61,7 @@ public class CompareToComparator {
     private final CompareToResult compareToResult = new CompareToResult();
 
     // when actual value was converted for comparison, e.g. bean to Map, it will go into this map
-    private final Map<ValuePath, Object> convertedActualByPath = new HashMap<>();
+    private Map<ValuePath, Object> convertedActualByPath;
     private Object topLevelExpected;
     private Object convertedTopLevelExpected;
 
@@ -86,12 +86,14 @@ public class CompareToComparator {
                 return convertedTopLevelExpected;
             }
 
-            return convertedActualByPath.getOrDefault(path, original);
+            return convertedActualByPath == null ? original :
+                    convertedActualByPath.getOrDefault(path, original);
         };
     }
 
     public Map<ValuePath, Object> getConvertedActualByPath() {
-        return Collections.unmodifiableMap(convertedActualByPath);
+        return convertedActualByPath == null ? Collections.emptyMap() :
+                Collections.unmodifiableMap(convertedActualByPath);
     }
 
     public boolean compareIsEqual(ValuePath actualPath, Object actual, Object expected) {
@@ -339,6 +341,10 @@ public class CompareToComparator {
             return;
         }
 
+        if (convertedActualByPath == null) {
+            convertedActualByPath = new HashMap<>();
+        }
+
         convertedActualByPath.put(actualPath, convertedActual);
     }
 
@@ -369,7 +375,13 @@ public class CompareToComparator {
 
     private void mergeResults(CompareToComparator comparator) {
         compareToResult.merge(comparator.compareToResult);
-        convertedActualByPath.putAll(comparator.convertedActualByPath);
+        if (comparator.convertedActualByPath != null) {
+            if (convertedActualByPath == null) {
+                convertedActualByPath = new HashMap<>();
+            }
+
+            convertedActualByPath.putAll(comparator.convertedActualByPath);
+        }
     }
 
     private static CompareToHandler findCompareToGreaterLessHandler(Object actual, Object expected) {
