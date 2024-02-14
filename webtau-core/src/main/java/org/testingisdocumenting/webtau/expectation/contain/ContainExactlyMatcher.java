@@ -159,7 +159,8 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
         CompareToHandler compareToHandlerToUse = null;
 
         Iterator<ValuePathWithValue<Object>> expectedIt = expectedCopy.iterator();
-        while (expectedIt.hasNext()) {
+        int notFoundCount = 0;
+        while (expectedIt.hasNext() && notFoundCount < 10) {
             ValuePathWithValue<Object> expected = expectedIt.next();
             Iterator<ValuePathWithValue<Object>> actualIt = actualCopy.iterator();
 
@@ -195,6 +196,7 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
             }
 
             if (!found && collectSuspects) {
+                notFoundCount++;
                 notEqualMessagesByExpectedPath.put(expected.getPath(),
                         compareToResults.stream().map(CompareToResult::getNotEqualMessages).toList());
 
@@ -209,7 +211,13 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
     private ValuePathLazyMessageList extractPotentialNotEqualMessages() {
         List<ValuePath> actualPaths = actualCopy.stream().map(ValuePathWithValue::getPath).toList();
         ValuePathLazyMessageList notEqualCandidateMessages = new ValuePathLazyMessageList();
+        int idx = 0;
         for (ValuePathWithValue<Object> expectedWithPath : expectedCopy) {
+            idx++;
+            if (idx > 10) {
+                break;
+            }
+
             List<ValuePathLazyMessageList> notEqualMessageBatches = notEqualMessagesByExpectedPath.get(expectedWithPath.getPath());
             if (notEqualMessageBatches == null) {
                 continue;
