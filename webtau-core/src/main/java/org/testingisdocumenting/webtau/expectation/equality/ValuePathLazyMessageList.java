@@ -61,6 +61,10 @@ public class ValuePathLazyMessageList implements Iterable<ValuePathMessage> {
     }
 
     public void addAll(Iterable<ValuePathMessage> messages) {
+        if (size >= SIZE_LIMIT) {
+            return;
+        }
+
         if (messages == null) {
             return;
         }
@@ -71,7 +75,7 @@ public class ValuePathLazyMessageList implements Iterable<ValuePathMessage> {
     public void merge(ValuePathLazyMessageList list) {
         if (list.size == 1) {
             add(list.first());
-        } else {
+        } else if (size < SIZE_LIMIT) {
             for (ValuePathMessage message : list) {
                 add(message);
             }
