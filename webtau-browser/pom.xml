@@ -29,7 +29,7 @@
     <version>2.4-SNAPSHOT</version>
 
     <properties>
-        <selenium.version>4.8.0</selenium.version>
+        <selenium.version>4.18.0</selenium.version>
     </properties>
 
     <dependencies>
