@@ -618,8 +618,13 @@ public class WebTauStep {
         if (t instanceof AssertionTokenizedError) {
             exceptionTokenizedMessage = ((AssertionTokenizedError) t).getTokenizedMessage();
         } else {
-            exceptionTokenizedMessage = tokenizedMessage().error(t.getMessage());
+            exceptionTokenizedMessage = tokenizedMessage().error(exceptionMessage(t));
         }
+    }
+
+    private String exceptionMessage(Throwable t) {
+        String message = t.getMessage();
+        return "<" + t.getClass().getSimpleName() + ">" + (message != null ? " " + message : "");
     }
 
     private TokenizedMessage replaceValuesFirstLinesOnlyWithFull(TokenizedMessage message) {
