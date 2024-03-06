@@ -154,7 +154,7 @@ class WebTauStepTest {
             }.execute(REPORT_ALL)
         }
 
-        runAndValidateOutput(contain("failed repeat #8: unknown failure")) {
+        runAndValidateOutput(contain("failed repeat #8: <RuntimeException> unknown failure")) {
             repeatStep.execute(REPORT_ALL)
         }
 

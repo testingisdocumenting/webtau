@@ -59,7 +59,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
         expectReport(Integer.MAX_VALUE, '> top level action\n' +
                 '  X failed validation:\n' +
-                '      line1\n' +
+                '      <AssertionError> line1\n' +
                 '      line2 (0ms)\n' +
                 'X failed top level action (0ms)') {
             topLevelStep.execute(StepReportOptions.REPORT_ALL)
@@ -72,7 +72,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
         expectReport(Integer.MAX_VALUE, '> top level action\n' +
                 '  X failed validation:\n' +
-                '      line1\n' +
+                '      <RuntimeException> line1\n' +
                 '      line2 (0ms)\n' +
                 'X failed top level action (0ms)') {
             topLevelStep.execute(StepReportOptions.REPORT_ALL)
@@ -84,7 +84,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
         def topLevelStep = createStepWithNestedException(new RuntimeException('single line error'))
 
         expectReport(Integer.MAX_VALUE, '> top level action\n' +
-                '  X failed validation: single line error (0ms)\n' +
+                '  X failed validation: <RuntimeException> single line error (0ms)\n' +
                 'X failed top level action (0ms)') {
             topLevelStep.execute(StepReportOptions.REPORT_ALL)
         }
@@ -112,7 +112,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
         }
 
         expectReport(Integer.MAX_VALUE, '> action\n' +
-                'X failed action: error (250ms)') {
+                'X failed action: <RuntimeException> error (250ms)') {
             action.execute(StepReportOptions.REPORT_ALL)
         }
     }
@@ -218,7 +218,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
                 '    . completed repeat (0ms)\n' +
                 '  . completed repeat #1 (0ms)\n' +
                 '  > 2/5\n' +
-                '  X failed repeat #2: no file found (0ms)\n' +
+                '  X failed repeat #2: <RuntimeException> no file found (0ms)\n' +
                 '  > 3/5\n' +
                 '  . 3/5 (0ms)\n' +
                 '  > 4/5\n' +
@@ -240,7 +240,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
         expectReport(1,
                 '> top level action\n' +
-                'X failed top level action: dummy out of memory (0ms)') {
+                'X failed top level action: <RuntimeException> dummy out of memory (0ms)') {
             executeNestedSteps()
         }
 
@@ -249,7 +249,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
                         '  > second level action\n' +
                         '  . second level action completed (0ms)\n' +
                         '  > second level action with error\n' +
-                        '  X failed second level action with error: dummy out of memory (0ms)\n' +
+                        '  X failed second level action with error: <RuntimeException> dummy out of memory (0ms)\n' +
                         'X failed top level action (0ms)') {
             executeNestedSteps()
         }
@@ -259,7 +259,7 @@ class ConsoleStepReporterTest implements ConsoleOutput {
                 '  . second level action completed (0ms)\n' +
                 '  > second level action with error\n' +
                 '    > third level action\n' +
-                '    X failed third level action: dummy out of memory (0ms)\n' +
+                '    X failed third level action: <RuntimeException> dummy out of memory (0ms)\n' +
                 '  X failed second level action with error (0ms)\n' +
                 'X failed top level action (0ms)') {
             executeNestedSteps()
