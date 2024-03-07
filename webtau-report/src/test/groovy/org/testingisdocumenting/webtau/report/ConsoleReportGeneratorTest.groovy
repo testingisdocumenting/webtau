@@ -112,14 +112,14 @@ class ConsoleReportGeneratorTest implements ConsoleOutput {
         output.should == '> do x\n' +
                 '  > nested do x\n' +
                 '      nestedKey: "value1"\n' +
-                '  X failed nested do x: nested failed step (Xms)\n' +
+                '  X failed nested do x: <RuntimeException> nested failed step (Xms)\n' +
                 '    outerKey: "value1"\n' +
                 'X failed do x (Xms)\n' +
                 '\n' +
                 'you have 1 errored test(s):\n' +
                 '[x] with nested (dummy)\n' +
                 'X failed do x (Xms)\n' +
-                '  X failed nested do x: nested failed step (Xms)\n' +
+                '  X failed nested do x: <RuntimeException> nested failed step (Xms)\n' +
                 '      nestedKey: "value1"\n' +
                 '    outerKey: "value1"\n' +
                 'java.lang.RuntimeException: nested failed step\n' +
