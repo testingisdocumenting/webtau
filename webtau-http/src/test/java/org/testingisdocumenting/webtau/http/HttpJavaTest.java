@@ -290,6 +290,15 @@ public class HttpJavaTest extends HttpTestBase {
     }
 
     @Test
+    public void containExactlyMatcher() {
+        http.get("/end-point-list", (header, body) -> {
+            body.get(1).get("k2").should(containExactly(30, 10, 20));
+        });
+
+        http.doc.capture("end-point-list-contain-exactly-matchers");
+    }
+
+    @Test
     public void containContainingAllMatcher() {
         http.get("/prices", (header, body) -> {
             body.get("prices").should(contain(containingAll(10, 30)));

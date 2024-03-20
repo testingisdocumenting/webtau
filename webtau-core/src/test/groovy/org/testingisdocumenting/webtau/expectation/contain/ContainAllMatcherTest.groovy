@@ -41,6 +41,11 @@ class ContainAllMatcherTest {
     }
 
     @Test
+    void "passes when all values are present as list"() {
+        actual(['a', 'b', 'd']).should(containAll(['b', 'a']))
+    }
+
+    @Test
     void "negative matcher fails only when all the values are present "() {
         runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain all ["b", "a"]:\n' +
                 '    [value][1]:  actual:     "b" <java.lang.String>\n' +
