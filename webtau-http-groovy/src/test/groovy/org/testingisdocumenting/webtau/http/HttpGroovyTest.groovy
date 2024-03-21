@@ -1039,6 +1039,15 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "contain exactly matcher"() {
+        http.get("/end-point-list") {
+            body[1].k2.should containExactly(30, 10, 20)
+        }
+
+        http.doc.capture("end-point-list-contain-exactly-matchers")
+    }
+
+    @Test
     void "contain containing all matcher"() {
         http.get("/prices") {
             body.prices.should contain(containingAll(10, 30))

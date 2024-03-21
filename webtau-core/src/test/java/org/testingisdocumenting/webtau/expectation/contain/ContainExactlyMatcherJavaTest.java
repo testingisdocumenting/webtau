@@ -33,6 +33,12 @@ public class ContainExactlyMatcherJavaTest {
     }
 
     @Test
+    public void matchListAsExpected() {
+        List<String> list = list("hello", "world", "of", "of", "testing");
+        actual(list).should(containExactly(list("of", "world", "of", "hello", "testing")));
+    }
+
+    @Test
     public void matchRecordsAndMaps() {
         // records-and-maps-example
         List<?> list = list(new Person("id1", 3, 10),
