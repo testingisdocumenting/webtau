@@ -311,7 +311,8 @@ class ConsoleStepReporterTest implements ConsoleOutput {
 
     private void expectReport(int verbosityLevel, String expectedReport, Closure code) {
         lines = new ArrayList<>()
-        def stepReporter = new ConsoleStepReporter(TokenizedMessageToAnsiConverter.DEFAULT, () -> verbosityLevel)
+        def stepReporter = new ConsoleStepReporter(ConsoleOutputs.asCombinedConsoleOutput(),
+                TokenizedMessageToAnsiConverter.DEFAULT, () -> verbosityLevel)
 
         try {
             StepReporters.add(stepReporter)

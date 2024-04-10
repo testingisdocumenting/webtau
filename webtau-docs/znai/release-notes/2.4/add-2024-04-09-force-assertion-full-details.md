@@ -1,0 +1,1 @@
+* Add: `fullAssertionError` to force `AssertionError` to include the full step information. Convenient when using CI and depend on its reporting.

@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.runner.standalone
 import org.junit.After
 import org.junit.Before
 import org.testingisdocumenting.webtau.TestFile
+import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.reporter.ConsoleStepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporter
 import org.testingisdocumenting.webtau.reporter.StepReporters
@@ -35,7 +36,8 @@ import java.nio.file.Paths
 import static org.testingisdocumenting.webtau.WebTauCore.contain
 
 class StandaloneTestRunnerTest {
-    final StepReporter stepReporter = new ConsoleStepReporter(TokenizedMessageToAnsiConverter.DEFAULT,
+    final StepReporter stepReporter = new ConsoleStepReporter(ConsoleOutputs.asCombinedConsoleOutput(),
+            TokenizedMessageToAnsiConverter.DEFAULT,
             () -> Integer.MAX_VALUE)
 
     @Before
