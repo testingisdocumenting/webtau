@@ -223,9 +223,30 @@ class WebTauStepTest {
 
             code {
                 step1.execute(SKIP_START)
-            } should(throwException("error\ndetails"))
+            } should(throwException(contain("X failed c1 action:\n" +
+                    "    error\n" +
+                    "    details")))
         } finally {
             WebTauConfig.getCfg().setVerbosityLevel(Integer.MAX_VALUE)
+        }
+    }
+
+    @Test
+    void "should throw full exception details if explicitly forced via config"() {
+        WebTauConfig.getCfg().setFullAssertionError(true)
+
+        try {
+            def step1 = createStep("c1 action") {
+                throw new AssertionTokenizedError(tokenizedMessage().error("error").newLine().action("details"))
+            }
+
+            code {
+                step1.execute(SKIP_START)
+            } should(throwException(contain("X failed c1 action:\n" +
+                    "    error\n" +
+                    "    details")))
+        } finally {
+            WebTauConfig.getCfg().setFullAssertionError(false)
         }
     }
 
@@ -240,7 +261,9 @@ class WebTauStepTest {
 
             code {
                 step1.execute(SKIP_START)
-            } should(throwException("error\ndetails"))
+            } should(throwException(contain("X failed c1 action:\n" +
+                    "    error\n" +
+                    "    details")))
         } finally {
             ConsoleOutputs.remove(output)
         }

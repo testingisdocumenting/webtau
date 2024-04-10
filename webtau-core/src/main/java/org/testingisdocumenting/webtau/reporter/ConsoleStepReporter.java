@@ -17,7 +17,7 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
-import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.ConsoleOutput;
 import org.testingisdocumenting.webtau.console.ansi.AnsiConsoleUtils;
 import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.console.ansi.FontStyle;
@@ -33,10 +33,12 @@ import java.util.stream.Stream;
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ConsoleStepReporter implements StepReporter {
+    private final ConsoleOutput output;
     private final TokenizedMessageToAnsiConverter toAnsiConverter;
     private final Supplier<Integer> verboseLevelSupplier;
 
-    public ConsoleStepReporter(TokenizedMessageToAnsiConverter toAnsiConverter, Supplier<Integer> verboseLevelSupplier) {
+    public ConsoleStepReporter(ConsoleOutput output, TokenizedMessageToAnsiConverter toAnsiConverter, Supplier<Integer> verboseLevelSupplier) {
+        this.output = output;
         this.toAnsiConverter = toAnsiConverter;
         this.verboseLevelSupplier = verboseLevelSupplier;
     }
@@ -54,6 +56,15 @@ public class ConsoleStepReporter implements StepReporter {
     @Override
     public void onStepFailure(WebTauStep step) {
         executeIfWithinVerboseLevel(step, () -> printStepFailure(step, false));
+    }
+
+    public void printStepFailure(WebTauStep step, boolean forceFailureDisplay) {
+        if (step.getClassifier().equals(WebTauStepClassifiers.MATCHER)) {
+            printStepFailureFailedStepMessageFirst(step, forceFailureDisplay);
+        } else {
+            printStepOutputs(step);
+            printStepFailureWithoutOutput(step, forceFailureDisplay);
+        }
     }
 
     @Override
@@ -86,7 +97,7 @@ public class ConsoleStepReporter implements StepReporter {
         List<Object> prefix = Stream.concat(stepFailureBeginningStream(step), personaStream(step))
                 .collect(Collectors.toList());
 
-        ConsoleOutputs.out(Stream.concat(Stream.concat(prefix.stream(),
+        output.out(Stream.concat(Stream.concat(prefix.stream(),
                         toAnsiConverter.convert(step.getValueConverter(), completionMessageToUse, AnsiConsoleUtils.calcEffectiveWidth(prefix)).stream()),
                 timeTakenTokenStream(step)).toArray());
     }
@@ -98,14 +109,14 @@ public class ConsoleStepReporter implements StepReporter {
 
         PrettyPrinter printer = createInputOutputPrettyPrinter(step);
         step.getOutputsStream().forEach(output -> output.prettyPrint(printer));
-        printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput());
+        printer.renderToConsole(output);
     }
 
     private void printStepStart(WebTauStep step) {
         List<Object> prefix = Stream.concat(stepStartBeginningStream(step), personaStream(step))
                 .collect(Collectors.toList());
 
-        ConsoleOutputs.out(
+        output.out(
                 Stream.concat(
                         prefix.stream(),
                         toAnsiConverter.convert(step.getValueConverter(), step.getInProgressMessage(), AnsiConsoleUtils.calcEffectiveWidth(prefix)).stream()
@@ -131,29 +142,20 @@ public class ConsoleStepReporter implements StepReporter {
         List<Object> messagePrefix = Stream.concat(stepSuccessBeginningStream(step), personaStream(step))
                 .collect(Collectors.toList());
 
-        ConsoleOutputs.out(Stream.concat(
+        output.out(Stream.concat(
                 Stream.concat(
                         messagePrefix.stream(),
                         toAnsiConverter.convert(step.getValueConverter(), completionMessageToUse, AnsiConsoleUtils.calcEffectiveWidth(messagePrefix)).stream()),
                 timeTakenTokenStream(step)).toArray());
     }
 
-    private void printStepFailure(WebTauStep step, boolean forceFailureDisplay) {
-        if (step.getClassifier().equals(WebTauStepClassifiers.MATCHER)) {
-            printStepFailureFailedStepMessageFirst(step, forceFailureDisplay);
-        } else {
-            printStepOutputs(step);
-            printStepFailureWithoutOutput(step, forceFailureDisplay);
-        }
-    }
-
     private void printStepRepeatStart(WebTauStep step, int currentIdx, int total) {
-        ConsoleOutputs.out(Stream.concat(stepStartBeginningStream(step),
+        output.out(Stream.concat(stepStartBeginningStream(step),
                 stepCurrentIdxOfTotalStream(currentIdx, total)).toArray());
     }
 
     private void printStepRepeatSuccess(WebTauStep step, int currentIdx, int total) {
-        ConsoleOutputs.out(Stream.concat(stepSuccessBeginningStream(step),
+        output.out(Stream.concat(stepSuccessBeginningStream(step),
                 Stream.concat(
                         stepCurrentIdxOfTotalStream(currentIdx, total),
                         timeTakenTokenStream(step))).toArray());
@@ -202,7 +204,7 @@ public class ConsoleStepReporter implements StepReporter {
 
         PrettyPrinter printer = createInputOutputPrettyPrinter(step);
         step.getInput().prettyPrint(printer);
-        printer.renderToConsole(ConsoleOutputs.asCombinedConsoleOutput());
+        printer.renderToConsole(output);
     }
 
     private PrettyPrinter createInputOutputPrettyPrinter(WebTauStep step) {
