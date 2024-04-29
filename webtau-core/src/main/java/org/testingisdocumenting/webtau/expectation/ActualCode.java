@@ -17,10 +17,14 @@
 
 package org.testingisdocumenting.webtau.expectation;
 
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.testingisdocumenting.webtau.reporter.WebTauStep;
-import org.testingisdocumenting.webtau.reporter.WebTauStepClassifiers;
+import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
+import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
+import org.testingisdocumenting.webtau.expectation.stepoutput.ValueMatcherStepOutput;
+import org.testingisdocumenting.webtau.reporter.*;
+
+import java.util.Set;
+import java.util.function.Supplier;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 import static org.testingisdocumenting.webtau.reporter.WebTauStep.*;
@@ -48,7 +52,7 @@ public class ActualCode implements ActualCodeExpectations {
                 () -> shouldNotStep(codeMatcher), StepReportOptions.REPORT_ALL);
     }
 
-    private void shouldStep(CodeMatcher codeMatcher) {
+    private boolean shouldStep(CodeMatcher codeMatcher) {
         boolean matches = codeMatcher.matches(actual);
 
         if (matches) {
@@ -56,9 +60,11 @@ public class ActualCode implements ActualCodeExpectations {
         } else {
             handleMismatch(codeMatcher, codeMatcher.mismatchedTokenizedMessage(actual));
         }
+
+        return matches;
     }
 
-    private void shouldNotStep(CodeMatcher codeMatcher) {
+    private boolean shouldNotStep(CodeMatcher codeMatcher) {
         boolean matches = codeMatcher.negativeMatches(actual);
 
         if (matches) {
@@ -66,6 +72,8 @@ public class ActualCode implements ActualCodeExpectations {
         } else {
             handleMismatch(codeMatcher, codeMatcher.negativeMismatchedTokenizedMessage(actual));
         }
+
+        return matches;
     }
 
     private void handleMatch(CodeMatcher codeMatcher) {
@@ -83,7 +91,7 @@ public class ActualCode implements ActualCodeExpectations {
     private void executeStep(CodeMatcher codeMatcher,
                              boolean isNegative,
                              TokenizedMessage messageStart,
-                             Runnable expectationValidation,
+                             Supplier<Object> expectationValidation,
                              StepReportOptions stepReportOptions) {
         TokenizedMessage codeDescription = tokenizedMessage().id("code");
         WebTauStep step = createStep(
@@ -93,7 +101,28 @@ public class ActualCode implements ActualCodeExpectations {
                         .add(isNegative ? codeMatcher.negativeMatchedTokenizedMessage(actual) : codeMatcher.matchedTokenizedMessage(actual)),
                 expectationValidation);
         step.setClassifier(WebTauStepClassifiers.MATCHER);
+        step.setStepOutputFunc((matched) -> {
+            Set<ValuePath> pathsToDecorate = isNegative ? codeMatcher.matchedPaths() : codeMatcher.mismatchedPaths();
+            return createStepOutput(codeMatcher.prettyPrintValueRootPath(), codeMatcher.stepOutputValueToPrettyPrint(),
+                    matched,
+                    pathsToDecorate);
+        });
 
         step.execute(stepReportOptions);
+    }
+
+    private WebTauStepOutput createStepOutput(ValuePath valueRootPath,
+                                              Object valueToPrettyPrint,
+                                              Object isMatched,
+                                              Set<ValuePath> pathsToDecorate) {
+
+        if (Boolean.TRUE.equals(isMatched) || !PrettyPrinter.isPrettyPrintable(valueToPrettyPrint) || valueToPrettyPrint == null) {
+            return WebTauStepOutput.EMPTY;
+        }
+
+        return new ValueMatcherStepOutput(valueRootPath,
+                valueToPrettyPrint,
+                ValueConverter.EMPTY,
+                pathsToDecorate);
     }
 }
