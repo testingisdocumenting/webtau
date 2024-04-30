@@ -19,7 +19,22 @@ package org.testingisdocumenting.webtau.expectation;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
+import java.util.Collections;
+import java.util.Set;
+
 public interface CodeMatcher {
+    default Object stepOutputValueToPrettyPrint() { return null; }
+
+    default ValuePath prettyPrintValueRootPath() { return ValuePath.UNDEFINED; }
+
+    /**
+     * match paths for optional matcher step output
+     * @return paths that matched
+     */
+    default Set<ValuePath> matchedPaths() {
+        return Collections.emptySet();
+    }
+
     /**
      * @return about to start matching message
      */
@@ -30,6 +45,14 @@ public interface CodeMatcher {
      * @return match message
      */
     TokenizedMessage matchedTokenizedMessage(CodeBlock codeBlock);
+
+    /**
+     * mismatch paths for optional matcher step output
+     * @return paths that matched
+     */
+    default Set<ValuePath> mismatchedPaths() {
+        return Collections.emptySet();
+    }
 
     /**
      * @param codeBlock matching code block

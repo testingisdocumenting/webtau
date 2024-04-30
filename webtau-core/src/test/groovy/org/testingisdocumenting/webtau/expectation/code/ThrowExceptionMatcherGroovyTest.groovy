@@ -39,6 +39,15 @@ class ThrowExceptionMatcherGroovyTest {
     }
 
     @Test
+    void "multiline exception mismatch should contain additional details about specific line"() {
+        runExpectExceptionAndValidateOutput(AssertionError, contain("**line two**")) {
+            code {
+                throw new RuntimeException('line one\nline two\n')
+            } should throwException('line one\nline Two')
+        }
+    }
+
+    @Test
     void "should validate exception message using regexp"() {
         runExpectExceptionAndValidateOutput(AssertionError, contain('exception.message:    actual string: error message\n' +
                 '                       expected pattern: ~/error \\d+/')) {
@@ -119,8 +128,10 @@ class ThrowExceptionMatcherGroovyTest {
 
     @Test
     void "should add exception stack trace when mismatched"() {
-        runExpectExceptionAndValidateOutput(AssertionError.class, contain("stack trace:\n" +
-                "    java.lang.RuntimeException: java.lang.IllegalArgumentException: negative not allowed")) {
+        runExpectExceptionAndValidateOutput(AssertionError.class,
+                containAll(
+                        "stack trace",
+                         "java.lang.RuntimeException: java.lang.IllegalArgumentException: negative not allowed")) {
             code {
                 businessLogicStart()
             } should throwException(NullPointerException, 'error message1')

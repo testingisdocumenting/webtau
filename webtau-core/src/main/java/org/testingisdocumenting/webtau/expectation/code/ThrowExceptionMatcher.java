@@ -17,6 +17,8 @@
 
 package org.testingisdocumenting.webtau.expectation.code;
 
+import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.expectation.*;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -24,13 +26,19 @@ import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, ActualValueAware {
+    private static final ValuePath comparisonActualPath = createActualPath("exception");
+    private static final String MESSAGE_KEY = "message";
+    private static final String CLASS_KEY = "class";
+
     private Object expectedMessageMatcherOrValue;
     private Class<?> expectedClass;
     private String thrownMessage;
@@ -70,6 +78,32 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
     }
 
     @Override
+    public Object stepOutputValueToPrettyPrint() {
+        ValueConverter valueConverter = comparator.createValueConverter();
+        Map<String, Object> result = new LinkedHashMap<>();
+        if (thrownMessage != null) {
+            result.put(MESSAGE_KEY, valueConverter.convertValue(
+                    prettyPrintValueRootPath().property(MESSAGE_KEY), thrownMessage));
+        }
+
+        if (thrownClass != null) {
+            result.put(CLASS_KEY, valueConverter.convertValue(
+                    prettyPrintValueRootPath().property(CLASS_KEY), thrownClass));
+        }
+
+        if (thrownExceptionStackTrace != null) {
+            result.put("stack trace", thrownExceptionStackTrace);
+        }
+
+        return result.isEmpty() ? null : result;
+    }
+
+    @Override
+    public ValuePath prettyPrintValueRootPath() {
+        return comparisonActualPath;
+    }
+
+    @Override
     public TokenizedMessage matchingTokenizedMessage() {
         return tokenizedMessage().matcher("to throw exception").value(buildExpectedValueForMessage());
     }
@@ -85,12 +119,7 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
             return tokenizedMessage().error("no exception was thrown");
         }
 
-        TokenizedMessage message = comparator.generateEqualMismatchReport();
-        if (thrownExceptionStackTrace != null) {
-            message.newLine().none("stack trace").colon().newLine().error(thrownExceptionStackTrace);
-        }
-
-        return message;
+        return comparator.generateEqualMismatchReport();
     }
 
     @Override
@@ -124,7 +153,17 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
         Map<String, Object> actualThrownAsMap = buildThrownToUseForCompare();
         Map<String, Object> expectedAsMap = buildExpectedMapToUseForCompare();
 
-        return comparator.compareIsEqual(createActualPath("exception"), actualThrownAsMap, expectedAsMap);
+        return comparator.compareIsEqual(comparisonActualPath, actualThrownAsMap, expectedAsMap);
+    }
+
+    @Override
+    public Set<ValuePath> matchedPaths() {
+        return comparator.generateEqualMatchPaths();
+    }
+
+    @Override
+    public Set<ValuePath> mismatchedPaths() {
+        return comparator.generateEqualMismatchPaths();
     }
 
     @Override
@@ -158,11 +197,11 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
     private Map<String, Object> createMap(Object message, Class<?> aClass) {
         Map<String, Object> result = new HashMap<>();
         if (expectedMessageMatcherOrValue != null) {
-            result.put("message", message);
+            result.put(MESSAGE_KEY, message);
         }
 
         if (expectedClass != null) {
-            result.put("class", aClass);
+            result.put(CLASS_KEY, aClass);
         }
 
         return result;
