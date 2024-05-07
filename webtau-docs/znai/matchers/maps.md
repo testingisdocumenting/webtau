@@ -7,7 +7,7 @@ Groovy:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/MapMatchersGroovyExamplesTest.groovy {
   surroundedBy: "maps-equal-mismatch",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/maps-equal-console-output.txt 
 :include-markdown: import-ref.md
@@ -16,7 +16,7 @@ Java:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/MapMatchersJavaExamplesTest.java {
   surroundedBy: "maps-equal-mismatch",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/maps-equal-console-output.txt 
 :include-markdown: import-ref.md
@@ -32,7 +32,7 @@ Groovy:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/MapMatchersGroovyExamplesTest.groovy {
   surroundedBy: "maps-contain-mismatch",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/maps-contain-console-output.txt 
 
@@ -40,7 +40,7 @@ Java:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/MapMatchersJavaExamplesTest.java {
   surroundedBy: "maps-contain-mismatch",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/maps-contain-console-output.txt 
 ```

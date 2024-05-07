@@ -118,7 +118,7 @@ Use `:identifier: toCsv {validationPath: "org/testingisdocumenting/webtau/data/t
 
 # Serialization To File
 
-Use [data.csv.write](data/csv#write-table) and [data.json.write](data/json#write-table-data) to serialize Table Data to a file
+Use [data.json.write](data/json#write-table-data) to serialize Table Data to a file
 
 # Permutations
 

@@ -8,7 +8,7 @@ Groovy:
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
   surroundedBy: "any-value-table-example",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 } 
 :include-cli-output: doc-artifacts/any-value-table-output.txt 
 
@@ -18,7 +18,7 @@ Java:
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
   surroundedBy: "any-value-table-example",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 } 
 :include-cli-output: doc-artifacts/any-value-table-output.txt 
 
