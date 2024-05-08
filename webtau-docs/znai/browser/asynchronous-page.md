@@ -32,7 +32,7 @@ Note: any matcher that you can use with `should` and `shouldNot` can be used wit
 
 Use `change` matcher when you want to wait for any change of a value without knowing the specifics.
 
-:include-file: doc-artifacts/snippets/matchers/snapshotAndChange.groovy {title: "wait for change", noGap: true, noGapSeparator: true}
+:include-file: doc-artifacts/snippets/matchers/snapshotAndChange.groovy {title: "wait for change", noGap: true, noGapBorder: true}
 :include-cli-output: doc-artifacts/matchers.groovy-console-output.txt {startLine: "change matcher", endLine: "change matcher", excludeStartEnd: true}
 
 # Wait on url

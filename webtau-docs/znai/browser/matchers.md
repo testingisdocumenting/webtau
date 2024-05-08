@@ -41,7 +41,7 @@ It is not required when you do an explicit comparison with the list on the right
 
 # Snapshot And Change
 
-:include-file: doc-artifacts/snippets/matchers/snapshotAndChange.groovy {title: "wait for change", noGap: true, noGapSeparator: true}
+:include-file: doc-artifacts/snippets/matchers/snapshotAndChange.groovy {title: "wait for change", noGap: true, noGapBorder: true}
 :include-cli-output: doc-artifacts/matchers.groovy-console-output.txt {startLine: "change matcher", endLine: "change matcher", excludeStartEnd: true}
 
 

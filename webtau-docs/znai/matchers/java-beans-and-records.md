@@ -81,7 +81,7 @@ Groovy:
     surroundedBy: "beans-table-contain-example",
     commentsType: "inline",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 }
 :include-cli-output: doc-artifacts/beans-table-contain-output.txt 
 
@@ -90,7 +90,7 @@ Java:
     surroundedBy: "beans-table-contain-example",
     commentsType: "inline",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 } 
 :include-cli-output: doc-artifacts/beans-table-contain-output.txt 
 ``` 

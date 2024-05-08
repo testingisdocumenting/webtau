@@ -346,19 +346,26 @@ public class MatchersTest {
 
     @Test
     public void listFailureExample() {
-        doc.console.capture("list-failure", () -> {
-            code(() -> {
-                List<?> values = Arrays.asList(
-                        1,
-                        "testing",
-                        map("key1", "hello", "key2", "world"));
-                // failed-list
-                actual(values).should(equal(Arrays.asList(
-                        1,
-                        "teasing",
-                        map("key1", "hello", "key2", "work"))));
-                // failed-list
-            }).should(throwException(AssertionError.class));
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "list-failure", """
+                X failed expecting [value] to equal [1, "teasing", {"key1": "hello", "key2": "work"}]:
+                    [value][1]:  actual: "testing" <java.lang.String>
+                               expected: "teasing" <java.lang.String>
+                                            ^
+                    [value][2].key2:  actual: "world" <java.lang.String>
+                                    expected: "work" <java.lang.String>
+                                                  ^ (Xms)
+                 \s
+                  [1, **"testing"**, {"key1": "hello", "key2": **"world"**}]""", () -> {
+            List<?> values = Arrays.asList(
+                    1,
+                    "testing",
+                    map("key1", "hello", "key2", "world"));
+            // failed-list
+            actual(values).should(equal(Arrays.asList(
+                    1,
+                    "teasing",
+                    map("key1", "hello", "key2", "work"))));
+            // failed-list
         });
     }
 

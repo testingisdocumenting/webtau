@@ -17,7 +17,7 @@ Groovy:
     surroundedBy: "string-string-example",
     commentsType: "remove",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 }
 :include-cli-output: doc-artifacts/string-string-comparison-output.txt 
 
@@ -31,7 +31,7 @@ Java:
     surroundedBy: "string-string-example",
     commentsType: "remove",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 } 
 :include-cli-output: doc-artifacts/string-string-comparison-output.txt 
 
@@ -48,7 +48,7 @@ Groovy:
     surroundedBy: "string-number-example",
     commentsType: "remove",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 }
 :include-cli-output: doc-artifacts/string-number-comparison-output.txt 
 
@@ -58,7 +58,7 @@ Java:
     surroundedBy: "string-number-example",
     commentsType: "remove",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 } 
 :include-cli-output: doc-artifacts/string-number-comparison-output.txt 
 ``` 
@@ -73,7 +73,7 @@ Groovy:
     title: "waitTo example",
     surroundedBy: "wait-consume-message",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 }
 :include-cli-output: doc-artifacts/wait-message-output.txt 
 
@@ -82,7 +82,7 @@ Java:
     title: "waitTo example",
     surroundedBy: "wait-consume-message",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 } 
 :include-cli-output: doc-artifacts/wait-message-output.txt 
 ``` 
@@ -96,7 +96,7 @@ Groovy:
     title: "waitToBe example",
     surroundedBy: "wait-number-records",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 }
 :include-cli-output: doc-artifacts/wait-tobe-output.txt 
 
@@ -105,7 +105,7 @@ Java:
     title: "waitToBe example",
     surroundedBy: "wait-number-records",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 } 
 :include-cli-output: doc-artifacts/wait-tobe-output.txt 
 ``` 
@@ -120,7 +120,7 @@ Groovy:
     title: "shouldNot example",
     surroundedBy: "string-string-negative-example",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 }
 :include-cli-output: doc-artifacts/string-string-negative-comparison-output.txt 
 
@@ -129,7 +129,7 @@ Java:
     title: "shouldNot example",
     surroundedBy: "string-string-negative-example",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 } 
 :include-cli-output: doc-artifacts/string-string-negative-comparison-output.txt 
 ``` 
@@ -140,7 +140,7 @@ Groovy:
     title: "waitToNot example",
     surroundedBy: "wait-negative-consume-message",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 }
 :include-cli-output: doc-artifacts/wait-negative-message-output.txt 
 
@@ -149,7 +149,7 @@ Java:
     title: "waitToNot example",
     surroundedBy: "wait-negative-consume-message",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 } 
 :include-cli-output: doc-artifacts/wait-negative-message-output.txt 
 ``` 
@@ -166,7 +166,7 @@ Groovy:
     title: "assertion",
     surroundedBy: "failed-list",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 }
 :include-cli-output: doc-artifacts/list-failure.txt 
 
@@ -175,7 +175,7 @@ Java:
     title: "assertion",
     surroundedBy: "failed-list",
     noGap: true,
-    noGapSeparator: true
+    noGapBorder: true
 } 
 :include-cli-output: doc-artifacts/list-failure.txt 
 ``` 

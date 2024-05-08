@@ -12,7 +12,7 @@ Groovy:
   title: "value should change",
   surroundedBy: "value-should-change",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/snapshot-should-change-output.txt 
 :include-markdown: import-ref.md
@@ -22,7 +22,7 @@ Java:
   title: "value should change",
   surroundedBy: "value-should-change",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/snapshot-should-change-output.txt 
 :include-markdown: import-ref.md
@@ -34,7 +34,7 @@ Groovy:
   title: "value wait to change",
   surroundedBy: "value-wait-to-change",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/snapshot-wait-to-change-output.txt 
 
@@ -43,7 +43,7 @@ Java:
   title: "value wait to change",
   surroundedBy: "value-wait-to-change",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/snapshot-wait-to-change-output.txt 
 ```
@@ -61,7 +61,7 @@ Groovy:
   title: "single bean property example",
   surroundedBy: "change-single-property",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/javabean-id-change-fail-output.txt 
 
@@ -70,7 +70,7 @@ Java:
   title: "single bean property example",
   surroundedBy: "change-single-property",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/javabean-id-change-fail-output.txt 
 ```
@@ -83,7 +83,7 @@ Groovy:
   title: "full bean property example",
   surroundedBy: "change-full-property",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/javabean-full-change-fail-output.txt
 
@@ -92,7 +92,7 @@ Java:
   title: "full bean property example",
   surroundedBy: "change-full-property",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/javabean-full-change-fail-output.txt
 ```
@@ -106,7 +106,7 @@ Groovy:
   title: "should not change bean properties",
   surroundedBy: "change-not-full-property",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/javabean-fail-not-to-change-output.txt 
 
@@ -115,7 +115,7 @@ Java:
   title: "should not change bean properties",
   surroundedBy: "change-not-full-property",
   noGap: true,
-  noGapSeparator: true
+  noGapBorder: true
 }
 :include-cli-output: doc-artifacts/javabean-fail-not-to-change-output.txt 
 ```
