@@ -113,6 +113,11 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
     }
 
     @Override
+    public Set<ValuePath> matchedPaths() {
+        return comparator.generateEqualMatchPaths();
+    }
+
+    @Override
     public TokenizedMessage negativeMatchingTokenizedMessage(ValuePath actualPath, Object actual) {
         comparator = CompareToComparator.comparator(CompareToComparator.AssertionMode.NOT_EQUAL);
         return tokenizedMessage().matcher("to not contain exactly").valueFirstLinesOnly(expectedList);
@@ -246,7 +251,7 @@ public class ContainExactlyMatcher implements ValueMatcher, ExpectedValuesAware,
             List<ValuePathLazyMessageList> messagesWithMinFailures = notEqualMessageBatches.stream()
                     .filter(v -> v.size() == minNumberOMismatches).toList();
 
-            if (notEqualMessageBatches.size() != messagesWithMinFailures.size()) {
+            if (messagesWithMinFailures.size() == 1 || notEqualMessageBatches.size() != messagesWithMinFailures.size()) {
                 messagesWithMinFailures.forEach(notEqualCandidateMessages::addAll);
             }
         }

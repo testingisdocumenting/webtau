@@ -130,13 +130,17 @@ public class ContainExactlyMatcherJavaTest {
                                                                 {"id": "id2", "level": 4, "monthsAtCompany": 20}
                                                               ]:
                     no matches found for: [{"id": "id1", "level": 8, "monthsAtCompany": 10}]
-                    unexpected elements: [{"id": "id1", "level": 5}]
+                    possible mismatches:
+                   \s
+                    [value][0].level:  actual: 5 <java.lang.Integer>
+                                     expected: 8 <java.lang.Integer>
+                   \s
                     missing values:
                    \s
                     [value][0].monthsAtCompany: 10 (Xms)
                  \s
                   [
-                    {"id": "id1", "level": 5, "monthsAtCompany": **<missing>**},
+                    {"id": "id1", "level": **5**, "monthsAtCompany": **<missing>**},
                     {"id": "id1", "level": 7, "monthsAtCompany": 12},
                     {"id": "id2", "level": 4, "monthsAtCompany": 20}
                   ]""", () -> {
@@ -161,13 +165,19 @@ public class ContainExactlyMatcherJavaTest {
                                                                 {"id": "id2", "level": 4, "monthsAtCompany": 20}
                                                               ]:
                     no matches found for: [{"id": "id1", "level": 8, "monthsAtCompany": 10}]
-                    unexpected elements: [{"id": "id1", "level": 5, "monthsAtCompany": 14, "salary": "yes"}]
+                    possible mismatches:
+                   \s
+                    [value][0].level:  actual: 5 <java.lang.Integer>
+                                     expected: 8 <java.lang.Integer>
+                    [value][0].monthsAtCompany:  actual: 14 <java.lang.Integer>
+                                               expected: 10 <java.lang.Integer>
+                   \s
                     extra values:
                    \s
                     [value][0].salary: "yes" (Xms)
                  \s
                   [
-                    {"id": "id1", "level": 5, "monthsAtCompany": 14, "salary": **"yes"**},
+                    {"id": "id1", "level": **5**, "monthsAtCompany": **14**, "salary": **"yes"**},
                     {"id": "id1", "level": 7, "monthsAtCompany": 12},
                     {"id": "id2", "level": 4, "monthsAtCompany": 20}
                   ]""", () -> {
@@ -210,7 +220,7 @@ public class ContainExactlyMatcherJavaTest {
                 X failed expecting [value] to not contain exactly ["of", "world", "of", "hello", "testing"]:
                     contains exactly ["of", "world", "of", "hello", "testing"] (Xms)
                  \s
-                  ["hello", "world", "of", "of", "testing"]""", () -> {
+                  [**"hello"**, **"world"**, **"of"**, **"of"**, **"testing"**]""", () -> {
             List<String> list = List.of("hello", "world", "of", "of", "testing");
             actual(list).shouldNot(containExactly("of", "world", "of", "hello", "testing"));
         });
