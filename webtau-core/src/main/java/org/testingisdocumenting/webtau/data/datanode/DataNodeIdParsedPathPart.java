@@ -16,31 +16,11 @@
 
 package org.testingisdocumenting.webtau.data.datanode;
 
-public class DataNodeIdParsedPathPart {
+public record DataNodeIdParsedPathPart(
+        DataNodeIdParsedPathPart.PartType type, Integer idx,
+        String childName) {
     public enum PartType {
         PEER,
         CHILD
-    }
-
-    private final PartType type;
-    private final Integer idx;
-    private final String childName;
-
-    public DataNodeIdParsedPathPart(PartType type, Integer idx, String childName) {
-        this.type = type;
-        this.idx = idx;
-        this.childName = childName;
-    }
-
-    public PartType getType() {
-        return type;
-    }
-
-    public Integer getIdx() {
-        return idx;
-    }
-
-    public String getChildName() {
-        return childName;
     }
 }

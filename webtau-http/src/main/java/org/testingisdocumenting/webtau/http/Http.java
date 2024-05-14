@@ -1066,7 +1066,16 @@ public class Http {
             @Override
             public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
                 validationResult.addMismatch(new ValuePathMessage(actualPath, () -> message).buildFullMessage());
+
+                // some matchers would try multiple times to match values, and they may be incorrectly marked as failed
+                // we force override all the matched paths from the final matcher result
+                reApplyValuePassBasedOnMatcherPaths(body, valueMatcher.matchedPaths());
                 return ExpectationHandler.Flow.PassToNext;
+            }
+
+            @Override
+            public void onValueMatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue) {
+                reApplyValuePassBasedOnMatcherPaths(body, valueMatcher.matchedPaths());
             }
         };
 
@@ -1178,6 +1187,14 @@ public class Http {
             case "PUT", "DELETE", "PATCH" -> validationResult.hasResponseContent() ? 200 : 204;
             default -> 200;
         };
+    }
+
+    private static void reApplyValuePassBasedOnMatcherPaths(DataNode node, Set<ValuePath> matchedPaths) {
+        for (ValuePath matchedPath : matchedPaths) {
+            String matchedPathWithoutBodyPrefix = matchedPath.getPath().substring("body".length());
+            DataNode dataNode = ValueExtractorByPath.extractFromDataNode(node, matchedPathWithoutBodyPrefix);
+            dataNode.getTraceableValue().forceCheckLevel(CheckLevel.ExplicitPassed);
+        }
     }
 
     private HttpResponse request(String method, String fullUrl,
