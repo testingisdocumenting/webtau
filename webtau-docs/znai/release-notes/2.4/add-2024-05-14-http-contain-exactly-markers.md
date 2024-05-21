@@ -1,1 +1,1 @@
-* Fix: [containExactly](matchers/contain-exactly) in [HTTP](http/introduction) correctly marks passed and failed nodes in the output
+* Fix: [containExactly](matchers/contain-exactly) in [HTTP](HTTP/introduction) correctly marks passed and failed nodes in the output
