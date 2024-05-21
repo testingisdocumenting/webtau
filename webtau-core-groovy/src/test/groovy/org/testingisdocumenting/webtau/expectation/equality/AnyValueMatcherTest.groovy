@@ -36,3 +36,4 @@ class AnyValueMatcherTest {
         } should throwException("anyValue matches every value")
     }
 }
+
