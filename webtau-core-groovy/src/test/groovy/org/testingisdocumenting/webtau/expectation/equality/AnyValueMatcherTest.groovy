@@ -33,6 +33,6 @@ class AnyValueMatcherTest {
 
         code {
             value.shouldNotBe anyValue
-        } should throwException("anyValue matches every value")
+        } should throwException(contain("anyValue matches every value"))
     }
 }

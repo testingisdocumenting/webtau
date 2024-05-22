@@ -63,6 +63,10 @@ public class TraceableValue implements PrettyPrintable {
         }
     }
 
+    public void forceCheckLevel(CheckLevel newCheckLevel) {
+        checkLevel = newCheckLevel;
+    }
+
     public CheckLevel getCheckLevel() {
         return checkLevel;
     }
@@ -122,30 +126,20 @@ public class TraceableValue implements PrettyPrintable {
     }
 
     private String printSurroundWith() {
-        switch (getCheckLevel()) {
-            case FuzzyFailed:
-            case ExplicitFailed:
-                return "**";
-            case ExplicitPassed:
-                return "__";
-            case FuzzyPassed:
-                return "~~";
-            default:
-                return "";
-        }
+        return switch (getCheckLevel()) {
+            case FuzzyFailed, ExplicitFailed -> "**";
+            case ExplicitPassed -> "__";
+            case FuzzyPassed -> "~~";
+            default -> "";
+        };
     }
     private Object[] valuePrintStyle() {
-        switch (getCheckLevel()) {
-            case FuzzyFailed:
-            case ExplicitFailed:
-                return FAIL_STYLE;
-            case FuzzyPassed:
-            case ExplicitPassed:
-                return PASS_STYLE;
-            default:
-                return new Color[]{value == null ?
-                        UNKNOWN_COLOR :
-                        TypeUtils.isString(value) ? STRING_COLOR : NUMBER_COLOR};
-        }
+        return switch (getCheckLevel()) {
+            case FuzzyFailed, ExplicitFailed -> FAIL_STYLE;
+            case FuzzyPassed, ExplicitPassed -> PASS_STYLE;
+            default -> new Color[]{value == null ?
+                    UNKNOWN_COLOR :
+                    TypeUtils.isString(value) ? STRING_COLOR : NUMBER_COLOR};
+        };
     }
 }
