@@ -371,6 +371,11 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
+    void "global send keys"() {
+        runCli("globalSendKeys.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
     void "ag grid multi select"() {
         runCli("agGridMultiSelect.groovy", "webtau.cfg.groovy")
     }
