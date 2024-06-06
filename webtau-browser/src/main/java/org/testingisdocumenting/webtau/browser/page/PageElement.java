@@ -402,7 +402,6 @@ public class PageElement implements
                         .perform());
     }
 
-
     private Object extractSingleValue() {
         List<WebElement> elements = path.find(driver);
         if (elements.isEmpty()) {
