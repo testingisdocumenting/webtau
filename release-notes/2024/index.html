@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: 2024 Releases</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>2.4</h1></header>
+<p>Fix: matchers/contain-exactly containExactly in HTTP/introduction HTTP correctly marks passed and failed nodes in the output Doc: matchers/introduction#failure-output Matchers Introduction failure example output fix Doc: http HTTP/matchers#contain-exactly containExactly matcher example Doc: file-system/introduction File System is a separate chapter now Doc: matchers/introduction Matchers examples better way to display console output Add: browser/introduction browser .sendKeys to send keys to the window instead of a specific element Add: More details when matchers/contain-exactly containExactly mismatching a single element Add: additional details on failed messages for throwException matcher Add: fullAssertionError to force AssertionError to include the full step information. Convenient when using CI and depend on its reporting. Add: report/steps WebTau steps include exception name to help with cases when no exception message is present Add: Browser support using new headless mode Add: Browser support upgrade Selenium to 4.18 Add: speedup matchers/contain-exactly containExactly by pre-caching compare to handler Add: Reduce unnecessary CompareToComparator results lists creation Add: Optimize matchers/introduction matchers message generation to improve large set of data comparison Add: File Content file-system/file-content#wait-for-content wait to change Add: Browser page element browser/asynchronous-page#wait-to-change wait to change Add: Extra message in case of two empty maps and shouldNot equal Add: matchers/value-change#value-matcher change value matcher</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "2-4",
+      "title" : "2.4",
+      "type" : "Section",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Fix: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/contain-exactly",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "containExactly",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " in ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "HTTP",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " correctly marks passed and failed nodes in the output",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction#failure-output",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Matchers Introduction",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " failure example output fix",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "http",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/HTTP/matchers#contain-exactly",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "containExactly",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " matcher example",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/file-system/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "File System",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " is a separate chapter now",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Doc: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Matchers",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " examples better way to display console output",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "browser",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "code" : ".sendKeys",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to send keys to the window instead of a specific element",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: More details when ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/contain-exactly",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "containExactly",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " mismatching a single element",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: additional details on failed messages for ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "throwException",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " matcher",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "fullAssertionError",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to force ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "AssertionError",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " to include the full step information. Convenient when using CI and depend on its reporting.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/report/steps",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "WebTau steps",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " include exception name to help with cases when no exception message is present",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Browser support using new headless mode",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Browser support upgrade Selenium to 4.18",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: speedup ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/contain-exactly",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "containExactly",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " by pre-caching compare to handler",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Reduce unnecessary ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "CompareToComparator",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " results lists creation",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Optimize ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/introduction",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "matchers",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " message generation to improve large set of data comparison",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: File Content ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/file-system/file-content#wait-for-content",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "wait to change",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Browser page element ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/asynchronous-page#wait-to-change",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "wait to change",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Extra message in case of two empty maps and ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "shouldNot",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "equal",
+              "type" : "InlinedCode"
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/value-change#value-matcher",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "change",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " value matcher",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ]
+      } ]
+    } ],
+    "lastModifiedTime" : 1718106797059,
+    "tocItem" : {
+      "chapterTitle" : "Release Notes",
+      "pageTitle" : "2024 Releases",
+      "pageMeta" : {
+        "title" : [ "2024 Releases" ]
+      },
+      "dirName" : "release-notes",
+      "fileName" : "2024",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "2.4",
+        "id" : "2-4"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

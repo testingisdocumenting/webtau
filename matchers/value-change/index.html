@@ -84,8 +84,13 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>Value Matcher</h1></header>
+<p>Use change matcher and takeSnapshot to assert that a value is change/not-changed or wait for the change: Groovy value.should change . [value] changed (0ms) Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java actual(value).should(change); . [value] changed (0ms) Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Groovy value.waitTo change &gt; waiting for [value] to change . [value] changed (100ms) Java actual(value).waitTo(change); &gt; waiting for [value] to change . [value] changed (100ms) Note: Value must implement SnapshotValueAware interface to work with change matcher. Common WebTau abstractions like web page element and file content already implement them. Use code matcher below as an alternative if you can't have interface implemented.</p>
+</article>
+
+<article>
 <header><h1>Code Change Matcher</h1></header>
-<p>Use code matchers to validate that a block of code changes a value: Groovy code { updateDbEntity(dbEntity) } should change(&quot;dbEntity.id&quot;, dbEntity::getId) &gt; expecting code to change value of dbEntity.id X failed expecting code to change value of dbEntity.id: actual: &quot;id1&quot; &lt;java.lang.String&gt; expected: not &quot;id1&quot; &lt;java.lang.String&gt; (0ms) Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java code(() -&gt; { updateDbEntity(dbEntity); }).should(change(&quot;dbEntity.id&quot;, dbEntity::getId)); &gt; expecting code to change value of dbEntity.id X failed expecting code to change value of dbEntity.id: actual: &quot;id1&quot; &lt;java.lang.String&gt; expected: not &quot;id1&quot; &lt;java.lang.String&gt; (0ms) Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Pass a java bean to to validate that at least one property is changed Groovy code { buggyOperation(dbEntity) } should change(&quot;dbEntity&quot;, dbEntity) &gt; expecting code to change value of dbEntity X failed expecting code to change value of dbEntity: dbEntity.description: actual: &quot;description1&quot; &lt;java.lang.String&gt; expected: not &quot;description1&quot; &lt;java.lang.String&gt; dbEntity.id: actual: &quot;id1&quot; &lt;java.lang.String&gt; expected: not &quot;id1&quot; &lt;java.lang.String&gt; dbEntity.value: actual: 100 &lt;java.lang.Integer&gt; expected: not 100 &lt;java.lang.Integer&gt; (1ms) Java code(() -&gt; { buggyOperation(dbEntity); }).should(change(&quot;dbEntity&quot;, dbEntity)); &gt; expecting code to change value of dbEntity X failed expecting code to change value of dbEntity: dbEntity.description: actual: &quot;description1&quot; &lt;java.lang.String&gt; expected: not &quot;description1&quot; &lt;java.lang.String&gt; dbEntity.id: actual: &quot;id1&quot; &lt;java.lang.String&gt; expected: not &quot;id1&quot; &lt;java.lang.String&gt; dbEntity.value: actual: 100 &lt;java.lang.Integer&gt; expected: not 100 &lt;java.lang.Integer&gt; (1ms) Use shouldNot to enforce that a value doesn't change Groovy code { calculatePrice(dbEntity) } shouldNot change(&quot;dbEntity&quot;, dbEntity) &gt; expecting code to not change value of dbEntity X failed expecting code to not change value of dbEntity: dbEntity.description: actual: &quot;description-changed&quot; &lt;java.lang.String&gt; expected: &quot;description1&quot; &lt;java.lang.String&gt; ^ dbEntity.value: actual: 110 &lt;java.lang.Integer&gt; expected: 100 &lt;java.lang.Integer&gt; (1ms) Java code(() -&gt; { calculatePrice(dbEntity); }).shouldNot(change(&quot;dbEntity&quot;, dbEntity)); &gt; expecting code to not change value of dbEntity X failed expecting code to not change value of dbEntity: dbEntity.description: actual: &quot;description-changed&quot; &lt;java.lang.String&gt; expected: &quot;description1&quot; &lt;java.lang.String&gt; ^ dbEntity.value: actual: 110 &lt;java.lang.Integer&gt; expected: 100 &lt;java.lang.Integer&gt; (1ms)</p>
+<p>Use code matchers to validate that a block of code changes a value: Groovy code { updateDbEntity(dbEntity) } should change(&quot;dbEntity.id&quot;, dbEntity::getId) &gt; expecting code to change value of dbEntity.id X failed expecting code to change value of dbEntity.id: actual: &quot;id1&quot; &lt;java.lang.String&gt; expected: not &quot;id1&quot; &lt;java.lang.String&gt; (0ms) Java code(() -&gt; { updateDbEntity(dbEntity); }).should(change(&quot;dbEntity.id&quot;, dbEntity::getId)); &gt; expecting code to change value of dbEntity.id X failed expecting code to change value of dbEntity.id: actual: &quot;id1&quot; &lt;java.lang.String&gt; expected: not &quot;id1&quot; &lt;java.lang.String&gt; (0ms) Pass a java bean to to validate that at least one property is changed Groovy code { buggyOperation(dbEntity) } should change(&quot;dbEntity&quot;, dbEntity) &gt; expecting code to change value of dbEntity X failed expecting code to change value of dbEntity: dbEntity.description: actual: &quot;description1&quot; &lt;java.lang.String&gt; expected: not &quot;description1&quot; &lt;java.lang.String&gt; dbEntity.id: actual: &quot;id1&quot; &lt;java.lang.String&gt; expected: not &quot;id1&quot; &lt;java.lang.String&gt; dbEntity.value: actual: 100 &lt;java.lang.Integer&gt; expected: not 100 &lt;java.lang.Integer&gt; (0ms) Java code(() -&gt; { buggyOperation(dbEntity); }).should(change(&quot;dbEntity&quot;, dbEntity)); &gt; expecting code to change value of dbEntity X failed expecting code to change value of dbEntity: dbEntity.description: actual: &quot;description1&quot; &lt;java.lang.String&gt; expected: not &quot;description1&quot; &lt;java.lang.String&gt; dbEntity.id: actual: &quot;id1&quot; &lt;java.lang.String&gt; expected: not &quot;id1&quot; &lt;java.lang.String&gt; dbEntity.value: actual: 100 &lt;java.lang.Integer&gt; expected: not 100 &lt;java.lang.Integer&gt; (0ms) Use shouldNot to enforce that a value doesn't change Groovy code { calculatePrice(dbEntity) } shouldNot change(&quot;dbEntity&quot;, dbEntity) &gt; expecting code to not change value of dbEntity X failed expecting code to not change value of dbEntity: dbEntity.description: actual: &quot;description-changed&quot; &lt;java.lang.String&gt; expected: &quot;description1&quot; &lt;java.lang.String&gt; ^ dbEntity.value: actual: 110 &lt;java.lang.Integer&gt; expected: 100 &lt;java.lang.Integer&gt; (0ms) Java code(() -&gt; { calculatePrice(dbEntity); }).shouldNot(change(&quot;dbEntity&quot;, dbEntity)); &gt; expecting code to not change value of dbEntity X failed expecting code to not change value of dbEntity: dbEntity.description: actual: &quot;description-changed&quot; &lt;java.lang.String&gt; expected: &quot;description1&quot; &lt;java.lang.String&gt; ^ dbEntity.value: actual: 110 &lt;java.lang.Integer&gt; expected: 100 &lt;java.lang.Integer&gt; (0ms)</p>
 </article>
 </section>
 </div>
@@ -116,6 +121,158 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
+      "id" : "value-matcher",
+      "title" : "Value Matcher",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "change",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " matcher and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "takeSnapshot",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to assert that a value is change/not-changed or wait for the change:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "value.should change",
+            "title" : "value should change",
+            "surroundedBy" : "value-should-change",
+            "noGap" : true,
+            "noGapBorder" : true,
+            "anchorId" : "value-matcher-value-should-change",
+            "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mchanged\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "actual(value).should(change);",
+            "title" : "value should change",
+            "surroundedBy" : "value-should-change",
+            "noGap" : true,
+            "noGapBorder" : true,
+            "anchorId" : "value-matcher-value-should-change-2",
+            "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mchanged\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
+          }, {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Check ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/import-and-dependencies",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Import And Dependencies",
+                "type" : "SimpleText"
+              } ]
+            }, {
+              "text" : " for prerequisites.",
+              "type" : "SimpleText"
+            } ]
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "value.waitTo change",
+            "title" : "value wait to change",
+            "surroundedBy" : "value-wait-to-change",
+            "noGap" : true,
+            "noGapBorder" : true,
+            "anchorId" : "value-matcher-value-wait-to-change",
+            "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto change\u001B[0m", "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mchanged\u001B[33m (\u001B[32m100ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "actual(value).waitTo(change);",
+            "title" : "value wait to change",
+            "surroundedBy" : "value-wait-to-change",
+            "noGap" : true,
+            "noGapBorder" : true,
+            "anchorId" : "value-matcher-value-wait-to-change-2",
+            "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto change\u001B[0m", "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mchanged\u001B[33m (\u001B[32m100ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
+          } ]
+        } ],
+        "type" : "Tabs"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Note: Value must implement ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "SnapshotValueAware",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " interface to work with ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "change",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " matcher. Common WebTau abstractions like web page element and file content",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "already implement them. Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "code",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " matcher below as an alternative if you can't have interface implemented.",
+          "type" : "SimpleText"
+        } ]
+      } ]
+    }, {
       "id" : "code-change-matcher",
       "title" : "Code Change Matcher",
       "type" : "Section",
@@ -140,28 +297,12 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "single bean property example",
             "surroundedBy" : "change-single-property",
             "noGap" : true,
+            "noGapBorder" : true,
             "anchorId" : "code-change-matcher-single-bean-property-example",
             "type" : "Snippet"
           }, {
             "lines" : [ "\u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto change value \u001B[33mof \u001B[0m\u001B[1mdbEntity.id\u001B[0m", "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto change value \u001B[33mof \u001B[0m\u001B[1mdbEntity.id\u001B[0m\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m     \u001B[32m\"id1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[32m\"id1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
             "type" : "CliOutput"
-          }, {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "Check ",
-              "type" : "SimpleText"
-            }, {
-              "url" : "/webtau/matchers/import-and-dependencies",
-              "isFile" : false,
-              "type" : "Link",
-              "content" : [ {
-                "text" : "Import And Dependencies",
-                "type" : "SimpleText"
-              } ]
-            }, {
-              "text" : " for prerequisites.",
-              "type" : "SimpleText"
-            } ]
           } ]
         }, {
           "name" : "Java",
@@ -171,28 +312,12 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "single bean property example",
             "surroundedBy" : "change-single-property",
             "noGap" : true,
+            "noGapBorder" : true,
             "anchorId" : "code-change-matcher-single-bean-property-example-2",
             "type" : "Snippet"
           }, {
             "lines" : [ "\u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto change value \u001B[33mof \u001B[0m\u001B[1mdbEntity.id\u001B[0m", "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto change value \u001B[33mof \u001B[0m\u001B[1mdbEntity.id\u001B[0m\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m     \u001B[32m\"id1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[32m\"id1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
             "type" : "CliOutput"
-          }, {
-            "type" : "Paragraph",
-            "content" : [ {
-              "text" : "Check ",
-              "type" : "SimpleText"
-            }, {
-              "url" : "/webtau/matchers/import-and-dependencies",
-              "isFile" : false,
-              "type" : "Link",
-              "content" : [ {
-                "text" : "Import And Dependencies",
-                "type" : "SimpleText"
-              } ]
-            }, {
-              "text" : " for prerequisites.",
-              "type" : "SimpleText"
-            } ]
           } ]
         } ],
         "type" : "Tabs"
@@ -217,10 +342,11 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "full bean property example",
             "surroundedBy" : "change-full-property",
             "noGap" : true,
+            "noGapBorder" : true,
             "anchorId" : "code-change-matcher-full-bean-property-example",
             "type" : "Snippet"
           }, {
-            "lines" : [ "\u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m", "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.description\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m     \u001B[32m\"description1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[32m\"description1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.id\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m     \u001B[32m\"id1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m            \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[32m\"id1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.value\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m100\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m               \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[34m100\u001B[0m \u001B[33m<java.lang.Integer>\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+            "lines" : [ "\u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m", "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.description\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m     \u001B[32m\"description1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[32m\"description1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.id\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m     \u001B[32m\"id1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m            \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[32m\"id1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.value\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m100\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m               \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[34m100\u001B[0m \u001B[33m<java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
             "type" : "CliOutput"
           } ]
         }, {
@@ -231,10 +357,11 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "full bean property example",
             "surroundedBy" : "change-full-property",
             "noGap" : true,
+            "noGapBorder" : true,
             "anchorId" : "code-change-matcher-full-bean-property-example-2",
             "type" : "Snippet"
           }, {
-            "lines" : [ "\u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m", "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.description\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m     \u001B[32m\"description1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[32m\"description1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.id\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m     \u001B[32m\"id1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m            \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[32m\"id1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.value\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m100\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m               \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[34m100\u001B[0m \u001B[33m<java.lang.Integer>\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+            "lines" : [ "\u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m", "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.description\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m     \u001B[32m\"description1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[32m\"description1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.id\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m     \u001B[32m\"id1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m            \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[32m\"id1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.value\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m100\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m               \u001B[36mexpected\u001B[0m: \u001B[36mnot \u001B[34m100\u001B[0m \u001B[33m<java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
             "type" : "CliOutput"
           } ]
         } ],
@@ -260,10 +387,11 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "should not change bean properties",
             "surroundedBy" : "change-not-full-property",
             "noGap" : true,
+            "noGapBorder" : true,
             "anchorId" : "code-change-matcher-should-not-change-bean-properties",
             "type" : "Snippet"
           }, {
-            "lines" : [ "\u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto not change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m", "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto not change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.description\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"description-changed\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[36mexpected\u001B[0m: \u001B[32m\"description1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[0m                      ^\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.value\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m110\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m               \u001B[36mexpected\u001B[0m: \u001B[34m100\u001B[0m \u001B[33m<java.lang.Integer>\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+            "lines" : [ "\u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto not change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m", "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto not change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.description\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"description-changed\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[36mexpected\u001B[0m: \u001B[32m\"description1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[0m                      ^\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.value\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m110\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m               \u001B[36mexpected\u001B[0m: \u001B[34m100\u001B[0m \u001B[33m<java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
             "type" : "CliOutput"
           } ]
         }, {
@@ -274,27 +402,32 @@ ReactDOM.render(React.createElement(Documentation, {
             "title" : "should not change bean properties",
             "surroundedBy" : "change-not-full-property",
             "noGap" : true,
+            "noGapBorder" : true,
             "anchorId" : "code-change-matcher-should-not-change-bean-properties-2",
             "type" : "Snippet"
           }, {
-            "lines" : [ "\u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto not change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m", "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto not change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.description\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"description-changed\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[36mexpected\u001B[0m: \u001B[32m\"description1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[0m                      ^\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.value\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m110\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m               \u001B[36mexpected\u001B[0m: \u001B[34m100\u001B[0m \u001B[33m<java.lang.Integer>\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+            "lines" : [ "\u001B[33m> \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto not change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m", "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1mcode \u001B[0m\u001B[0m\u001B[34mto not change value \u001B[33mof \u001B[0m\u001B[1mdbEntity\u001B[0m\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.description\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"description-changed\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[36mexpected\u001B[0m: \u001B[32m\"description1\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m                     \u001B[0m                      ^\u001B[0m", "\u001B[0m    \u001B[0m\u001B[1mdbEntity.value\u001B[0m\u001B[0m:\u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m110\u001B[0m \u001B[33m<java.lang.Integer>\u001B[0m", "\u001B[0m    \u001B[0m               \u001B[36mexpected\u001B[0m: \u001B[34m100\u001B[0m \u001B[33m<java.lang.Integer>\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
             "type" : "CliOutput"
           } ]
         } ],
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1704063222503,
+    "lastModifiedTime" : 1718106797047,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Value Change",
       "pageMeta" : {
-        "identifier" : [ "{validationPath: \"org/testingisdocumenting/webtau/expectation/code/ChangeCodeMatcherJavaTest.java\"}" ]
+        "identifier" : [ "{validationPath: \"org/testingisdocumenting/webtau/expectation/code/ValueChangeCodeMatcherJavaTest.java\"}" ]
       },
       "dirName" : "matchers",
       "fileName" : "value-change",
+      "fileExtension" : "md",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "Value Matcher",
+        "id" : "value-matcher"
+      }, {
         "title" : "Code Change Matcher",
         "id" : "code-change-matcher"
       } ]

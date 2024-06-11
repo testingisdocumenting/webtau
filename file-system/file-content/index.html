@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: File Content</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Validation</h1></header>
+<p>fs.textContent('my-test-file.txt').should == 'hello world\nid=15'</p>
+</article>
+
+<article>
+<header><h1>Content Extraction</h1></header>
+<p>Use .data to access actual file content for further processing def actualFileContent = fileTextContent.data Use extractByRegexp to extract content from a file by regular expression def id = fileTextContent.extractByRegexp(&quot;id=(\\d+)&quot;) http.get(&quot;/customers/${id}&quot;) { // ... }</p>
+</article>
+
+<article>
+<header><h1>Write To File</h1></header>
+<p>def path = fs.writeText('my-test-file.txt', 'hello world')</p>
+</article>
+
+<article>
+<header><h1>Replace File Content</h1></header>
+<p>Use replaceText to replace text in place fs.replaceText(path, ~/(\d+)/, '&quot;$1&quot;') a=1 b=2 a=&quot;1&quot; b=&quot;2&quot;</p>
+</article>
+
+<article>
+<header><h1>Wait For Content</h1></header>
+<p>fs.textContent declares file content, but doesn't access it right away. WebTau reads file content when validation happens. Here is an example of waiting on file content: def fileTextContent = fs.textContent('my-test-file.txt') fileTextContent.waitTo contain('id=15') Use takeSnapshot and waitTo change to wait for any file change: def textContent = fs.textContent(path) textContent.takeSnapshot() ... textContent.waitTo change</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "validation",
+      "title" : "Validation",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "fs.textContent('my-test-file.txt').should == 'hello world\\nid=15'",
+        "title" : "validate file content",
+        "surroundedBy" : "assert-file",
+        "anchorId" : "validation-validate-file-content",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "content-extraction",
+      "title" : "Content Extraction",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : ".data",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to access actual file content for further processing",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def actualFileContent = fileTextContent.data",
+        "title" : "access file content",
+        "surroundedBy" : "actual-file-content",
+        "anchorId" : "content-extraction-access-file-content",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "extractByRegexp",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to extract content from a file by regular expression",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def id = fileTextContent.extractByRegexp(\"id=(\\\\d+)\")\nhttp.get(\"/customers/${id}\") {\n    // ...\n}",
+        "title" : "extract file content",
+        "surroundedBy" : "extract-id",
+        "excludeRegexp" : "statusCode",
+        "anchorId" : "content-extraction-extract-file-content",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "write-to-file",
+      "title" : "Write To File",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def path = fs.writeText('my-test-file.txt', 'hello world')",
+        "title" : "write content to a file",
+        "includeRegexp" : [ "fs\\.writeText" ],
+        "anchorId" : "write-to-file-write-content-to-a-file",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "replace-file-content",
+      "title" : "Replace File Content",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "replaceText",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to replace text in place",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "fs.replaceText(path, ~/(\\d+)/, '\"$1\"')",
+        "title" : "replace file content",
+        "surroundedBy" : "replace-text",
+        "anchorId" : "replace-file-content-replace-file-content",
+        "type" : "Snippet"
+      }, {
+        "columns" : [ {
+          "content" : [ {
+            "lang" : "txt",
+            "snippet" : "a=1\nb=2",
+            "title" : "file to replace",
+            "anchorId" : "replace-file-content-file-to-replace",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "content" : [ {
+            "lang" : "txt",
+            "snippet" : "a=\"1\"\nb=\"2\"",
+            "title" : "result of replace",
+            "anchorId" : "replace-file-content-result-of-replace",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "config" : { },
+        "type" : "Columns"
+      } ]
+    }, {
+      "id" : "wait-for-content",
+      "title" : "Wait For Content",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "code" : "fs.textContent",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " declares file content, but doesn't access it right away.",
+          "type" : "SimpleText"
+        }, {
+          "type" : "SoftLineBreak"
+        }, {
+          "text" : "WebTau reads file content when validation happens. Here is an example of waiting on file content:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def fileTextContent = fs.textContent('my-test-file.txt')\nfileTextContent.waitTo contain('id=15')",
+        "title" : "wait for a specific file content",
+        "surroundedBy" : "wait-for-id",
+        "anchorId" : "wait-for-content-wait-for-a-specific-file-content",
+        "type" : "Snippet"
+      }, {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "takeSnapshot",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " and ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "waitTo change",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " to wait for any file change:",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def textContent = fs.textContent(path)\ntextContent.takeSnapshot()\n...\ntextContent.waitTo change",
+        "title" : "wait for any content change",
+        "surroundedBy" : [ "file-take-snapshot", "file-wait-to-change" ],
+        "surroundedBySeparator" : "...",
+        "anchorId" : "wait-for-content-wait-for-any-content-change",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1718106797043,
+    "tocItem" : {
+      "chapterTitle" : "File System",
+      "pageTitle" : "File Content",
+      "pageMeta" : { },
+      "dirName" : "file-system",
+      "fileName" : "file-content",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Validation",
+        "id" : "validation"
+      }, {
+        "title" : "Content Extraction",
+        "id" : "content-extraction"
+      }, {
+        "title" : "Write To File",
+        "id" : "write-to-file"
+      }, {
+        "title" : "Replace File Content",
+        "id" : "replace-file-content"
+      }, {
+        "title" : "Wait For Content",
+        "id" : "wait-for-content"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

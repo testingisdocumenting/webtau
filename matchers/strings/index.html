@@ -85,12 +85,12 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Mismatch Pinpoint Single Line Text</h1></header>
-<p>When comparing strings, WebTau highlights a specific point of failure: Groovy def output = &quot;hallo world&quot; output.should == &quot;hello world&quot; Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java String output = &quot;hallo world&quot;; actual(output).should(equal(&quot;hello world&quot;)); Check matchers/import-and-dependencies Import And Dependencies for prerequisites. X failed expecting [value] to equal &quot;hello world&quot;: actual: &quot;hallo world&quot; &lt;java.lang.String&gt; expected: &quot;hello world&quot; &lt;java.lang.String&gt; ^ (1ms)</p>
+<p>When comparing strings, WebTau highlights a specific point of failure: Groovy def output = &quot;hallo world&quot; output.should == &quot;hello world&quot; X failed expecting [value] to equal &quot;hello world&quot;: actual: &quot;hallo world&quot; &lt;java.lang.String&gt; expected: &quot;hello world&quot; &lt;java.lang.String&gt; ^ (0ms) Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java String output = &quot;hallo world&quot;; actual(output).should(equal(&quot;hello world&quot;)); X failed expecting [value] to equal &quot;hello world&quot;: actual: &quot;hallo world&quot; &lt;java.lang.String&gt; expected: &quot;hello world&quot; &lt;java.lang.String&gt; ^ (0ms) Check matchers/import-and-dependencies Import And Dependencies for prerequisites.</p>
 </article>
 
 <article>
 <header><h1>Mismatch Pinpoint Multi Line Text</h1></header>
-<p>In case of a multiline text, WebTau highlights a first mismatched line: Groovy String output = buildOutput() output.should == &quot;line one\nline 2&quot; Java String output = buildOutput(); actual(output).should(equal(&quot;line one\nline 2&quot;)); X failed expecting [value] to equal ________ line one line 2 ________: different number of lines: actual: 3 expected: 2 first mismatch at line idx 1: actual: &quot;line two&quot; expected: &quot;line 2&quot; ^ (1ms) __________ line one **line two** line three __________</p>
+<p>In case of a multiline text, WebTau highlights a first mismatched line: Groovy String output = buildOutput() output.should == &quot;line one\nline 2&quot; X failed expecting [value] to equal ________ line one line 2 ________: different number of lines: actual: 3 expected: 2 first mismatch at line idx 1: actual: &quot;line two&quot; expected: &quot;line 2&quot; ^ (1ms) __________ line one **line two** line three __________ Java String output = buildOutput(); actual(output).should(equal(&quot;line one\nline 2&quot;)); X failed expecting [value] to equal ________ line one line 2 ________: different number of lines: actual: 3 expected: 2 first mismatch at line idx 1: actual: &quot;line two&quot; expected: &quot;line 2&quot; ^ (1ms) __________ line one **line two** line three __________</p>
 </article>
 
 <article>
@@ -100,17 +100,17 @@
 
 <article>
 <header><h1>Different Number Of Empty Lines</h1></header>
-<p>WebTau separately checks extra empty lines to help with missing/extra \n : Groovy String output = buildOutput() output.should == &quot;line one\nline two\nline three\n&quot; Java String output = buildOutput(); actual(output).should(equal(&quot;line one\nline two\nline three\n&quot;)); X failed expecting [value] to equal __________ line one line two line three __________: different number of lines: actual: 3 expected: 4 different number of empty lines at the end actual: 0 expected: 1 (1ms) **__________** line one line two line three **__________**</p>
+<p>WebTau separately checks extra empty lines to help with missing/extra \n : Groovy String output = buildOutput() output.should == &quot;line one\nline two\nline three\n&quot; X failed expecting [value] to equal __________ line one line two line three __________: different number of lines: actual: 3 expected: 4 different number of empty lines at the end actual: 0 expected: 1 (0ms) **__________** line one line two line three **__________** Java String output = buildOutput(); actual(output).should(equal(&quot;line one\nline two\nline three\n&quot;)); X failed expecting [value] to equal __________ line one line two line three __________: different number of lines: actual: 3 expected: 4 different number of empty lines at the end actual: 0 expected: 1 (0ms) **__________** line one line two line three **__________**</p>
 </article>
 
 <article>
 <header><h1>Contains</h1></header>
-<p>Use contains matcher to check a presence of a substring: Groovy String output = buildOutput() output.should contain(&quot;four&quot;) Java String output = buildOutput(); actual(output).should(contain(&quot;four&quot;)); X failed expecting [value] to contain &quot;four&quot;: no match found (0ms) **__________** line one line two line three **__________**</p>
+<p>Use contains matcher to check a presence of a substring: Groovy String output = buildOutput() output.should contain(&quot;four&quot;) X failed expecting [value] to contain &quot;four&quot;: no match found (0ms) **__________** line one line two line three **__________** Java String output = buildOutput(); actual(output).should(contain(&quot;four&quot;)); X failed expecting [value] to contain &quot;four&quot;: no match found (0ms) **__________** line one line two line three **__________**</p>
 </article>
 
 <article>
 <header><h1>Regexp</h1></header>
-<p>Use equal matcher to match against a regular expression: Groovy String output = 'final price: $8998' output.should == ~/final price: \$\d+/ Java String output = &quot;final price: $8998&quot;; actual(output).should(equal(Pattern.compile(&quot;final price: \\$\\d+&quot;))); . [value] equals ~/final price: \$\d+/ (0ms)</p>
+<p>Use equal matcher to match against a regular expression: Groovy String output = 'final price: $8998' output.should == ~/final price: \$\d+/ . [value] equals ~/final price: \$\d+/ (0ms) Java String output = &quot;final price: $8998&quot;; actual(output).should(equal(Pattern.compile(&quot;final price: \\$\\d+&quot;))); . [value] equals ~/final price: \$\d+/ (0ms)</p>
 </article>
 </section>
 </div>
@@ -157,7 +157,12 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "groovy",
             "snippet" : "def output = \"hallo world\"\noutput.should == \"hello world\"",
             "surroundedBy" : "single-line-compare",
+            "noGap" : true,
+            "noGapBorder" : true,
             "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[32m\"hello world\"\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"hallo world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"hello world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m            ^\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -182,7 +187,12 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "java",
             "snippet" : "String output = \"hallo world\";\nactual(output).should(equal(\"hello world\"));",
             "surroundedBy" : "single-line-compare",
+            "noGap" : true,
+            "noGapBorder" : true,
             "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[32m\"hello world\"\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"hallo world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"hello world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m            ^\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -203,11 +213,6 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         } ],
         "type" : "Tabs"
-      }, {
-        "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[32m\"hello world\"\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m:\u001B[0m \u001B[32m\"hallo world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"hello world\"\u001B[0m \u001B[33m<java.lang.String>\u001B[0m", "\u001B[0m    \u001B[0m            ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
-        "anchorId" : "mismatch-pinpoint-single-line-text-console-output",
-        "type" : "CliOutput"
       } ]
     }, {
       "id" : "mismatch-pinpoint-multi-line-text",
@@ -226,7 +231,12 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "groovy",
             "snippet" : "String output = buildOutput()\noutput.should == \"line one\\nline 2\"",
             "surroundedBy" : "multi-line-compare",
+            "noGap" : true,
+            "noGapBorder" : true,
             "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m________", "                                    \u001B[32mline one", "                                    \u001B[32mline 2", "                                    \u001B[0m________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m2\u001B[0m", "\u001B[0m    \u001B[31mfirst mismatch at line idx \u001B[34m1\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[32m\"line two\"\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"line 2\"\u001B[0m", "\u001B[0m    \u001B[0m                ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[0m  __________\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[31m**line two**\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[0m  __________\u001B[0m" ],
+            "type" : "CliOutput"
           } ]
         }, {
           "name" : "Java",
@@ -234,15 +244,15 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "java",
             "snippet" : "String output = buildOutput();\nactual(output).should(equal(\"line one\\nline 2\"));",
             "surroundedBy" : "multi-line-compare",
+            "noGap" : true,
+            "noGapBorder" : true,
             "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m________", "                                    \u001B[32mline one", "                                    \u001B[32mline 2", "                                    \u001B[0m________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m2\u001B[0m", "\u001B[0m    \u001B[31mfirst mismatch at line idx \u001B[34m1\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[32m\"line two\"\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"line 2\"\u001B[0m", "\u001B[0m    \u001B[0m                ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[0m  __________\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[31m**line two**\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[0m  __________\u001B[0m" ],
+            "type" : "CliOutput"
           } ]
         } ],
         "type" : "Tabs"
-      }, {
-        "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m________", "                                    \u001B[32mline one", "                                    \u001B[32mline 2", "                                    \u001B[0m________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m2\u001B[0m", "\u001B[0m    \u001B[31mfirst mismatch at line idx \u001B[34m1\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[32m\"line two\"\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"line 2\"\u001B[0m", "\u001B[0m    \u001B[0m                ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[0m  __________\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[31m**line two**\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[0m  __________\u001B[0m" ],
-        "anchorId" : "mismatch-pinpoint-multi-line-text-console-output",
-        "type" : "CliOutput"
       } ]
     }, {
       "id" : "line-ending-detection",
@@ -289,7 +299,12 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "groovy",
             "snippet" : "String output = buildOutput()\noutput.should == \"line one\\nline two\\nline three\\n\"",
             "surroundedBy" : "extra-empty-line-compare",
+            "noGap" : true,
+            "noGapBorder" : true,
             "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m__________", "                                    \u001B[32mline one", "                                    \u001B[32mline two", "                                    \u001B[32mline three", "                                    \u001B[32m", "                                    \u001B[0m__________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m4\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mempty lines \u001B[33mat \u001B[36mthe end\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m0\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m1\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**__________**\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[32m  line two\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[31m**__________**\u001B[0m" ],
+            "type" : "CliOutput"
           } ]
         }, {
           "name" : "Java",
@@ -297,15 +312,15 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "java",
             "snippet" : "String output = buildOutput();\nactual(output).should(equal(\"line one\\nline two\\nline three\\n\"));",
             "surroundedBy" : "extra-empty-line-compare",
+            "noGap" : true,
+            "noGapBorder" : true,
             "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m__________", "                                    \u001B[32mline one", "                                    \u001B[32mline two", "                                    \u001B[32mline three", "                                    \u001B[32m", "                                    \u001B[0m__________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m4\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mempty lines \u001B[33mat \u001B[36mthe end\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m0\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m1\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**__________**\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[32m  line two\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[31m**__________**\u001B[0m" ],
+            "type" : "CliOutput"
           } ]
         } ],
         "type" : "Tabs"
-      }, {
-        "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m__________", "                                    \u001B[32mline one", "                                    \u001B[32mline two", "                                    \u001B[32mline three", "                                    \u001B[32m", "                                    \u001B[0m__________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m4\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mempty lines \u001B[33mat \u001B[36mthe end\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m0\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m1\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**__________**\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[32m  line two\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[31m**__________**\u001B[0m" ],
-        "anchorId" : "different-number-of-empty-lines-console-output",
-        "type" : "CliOutput"
       } ]
     }, {
       "id" : "contains",
@@ -330,7 +345,12 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "groovy",
             "snippet" : "String output = buildOutput()\noutput.should contain(\"four\")",
             "surroundedBy" : "multi-line-contains",
+            "noGap" : true,
+            "noGapBorder" : true,
             "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto contain \u001B[32m\"four\"\u001B[0m: \u001B[31mno match found\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**__________**\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[32m  line two\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[31m**__________**\u001B[0m" ],
+            "type" : "CliOutput"
           } ]
         }, {
           "name" : "Java",
@@ -338,15 +358,15 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "java",
             "snippet" : "String output = buildOutput();\nactual(output).should(contain(\"four\"));",
             "surroundedBy" : "multi-line-contains",
+            "noGap" : true,
+            "noGapBorder" : true,
             "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto contain \u001B[32m\"four\"\u001B[0m: \u001B[31mno match found\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**__________**\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[32m  line two\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[31m**__________**\u001B[0m" ],
+            "type" : "CliOutput"
           } ]
         } ],
         "type" : "Tabs"
-      }, {
-        "title" : "console output",
-        "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto contain \u001B[32m\"four\"\u001B[0m: \u001B[31mno match found\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[31m**__________**\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[32m  line two\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[31m**__________**\u001B[0m" ],
-        "anchorId" : "contains-console-output",
-        "type" : "CliOutput"
       } ]
     }, {
       "id" : "regexp",
@@ -371,7 +391,12 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "groovy",
             "snippet" : "String output = 'final price: $8998'\noutput.should == ~/final price: \\$\\d+/",
             "surroundedBy" : "single-line-regexp",
+            "noGap" : true,
+            "noGapBorder" : true,
             "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[33m~/\u001B[32mfinal price: \\$\\d+\u001B[33m/\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
           } ]
         }, {
           "name" : "Java",
@@ -379,24 +404,25 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "java",
             "snippet" : "String output = \"final price: $8998\";\nactual(output).should(equal(Pattern.compile(\"final price: \\\\$\\\\d+\")));",
             "surroundedBy" : "single-line-regexp",
+            "noGap" : true,
+            "noGapBorder" : true,
             "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[33m~/\u001B[32mfinal price: \\$\\d+\u001B[33m/\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
           } ]
         } ],
         "type" : "Tabs"
-      }, {
-        "title" : "console output",
-        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[33m~/\u001B[32mfinal price: \\$\\d+\u001B[33m/\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
-        "anchorId" : "regexp-console-output",
-        "type" : "CliOutput"
       } ]
     } ],
-    "lastModifiedTime" : 1704063222503,
+    "lastModifiedTime" : 1718106797047,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Strings",
       "pageMeta" : { },
       "dirName" : "matchers",
       "fileName" : "strings",
+      "fileExtension" : "md",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
         "title" : "Mismatch Pinpoint Single Line Text",

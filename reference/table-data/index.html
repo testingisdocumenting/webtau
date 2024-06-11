@@ -110,7 +110,7 @@
 
 <article>
 <header><h1>Serialization To File</h1></header>
-<p>Use data/csv#write-table data.csv.write and data/json#write-table-data data.json.write to serialize Table Data to a file</p>
+<p>Use data/json#write-table-data data.json.write to serialize Table Data to a file</p>
 </article>
 
 <article>
@@ -120,7 +120,7 @@
 
 <article>
 <header><h1>GUID</h1></header>
-<p>Use cell.guid to automatically generate unique ids. Groovy [&quot;ID&quot; | &quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________________________________________________ cell.guid | permute(true, false) | &quot;v1b&quot; | permute('a', 'b') cell.guid | &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C d4af892a-8ebb-48cf-83f8-d163de199a71 true v1b a 8af21d35-94c4-4e83-ae71-092d70f326ee false v1b a 00dafdfc-78e1-4642-906e-f239afb66182 true v1b b f17451ba-2d15-4512-b876-08783522c4f4 false v1b b c50210c1-4000-4e8f-8dca-74ac53887138 v2a 10 v2c 1bd73640-7ab2-42f7-b466-91921904f877 v2a 20 v2c</p>
+<p>Use cell.guid to automatically generate unique ids. Groovy [&quot;ID&quot; | &quot;Col A&quot; | &quot;Col B&quot; | &quot;Col C&quot;] { ________________________________________________________________________ cell.guid | permute(true, false) | &quot;v1b&quot; | permute('a', 'b') cell.guid | &quot;v2a&quot; | permute(10, 20) | &quot;v2c&quot; } Java table(&quot;ID&quot; , &quot;Col A&quot; , &quot;Col B&quot; , &quot;Col C&quot;, ______________________________________________________________________, cell.guid, permute(true, false), &quot;v1b&quot; , permute('a', 'b'), cell.guid, &quot;v2a&quot; , permute(10, 20) , &quot;v2c&quot;) ID Col A Col B Col C f09d2bbe-7a92-4b13-949e-6fbbce03c175 true v1b a ae217e64-bf38-42b3-ade9-8b85f83b705b false v1b a 64b41702-6a54-446f-a30e-71eac6d8d2ab true v1b b a2682e5b-cd0e-4100-a3f5-77bdb5a85f7d false v1b b db0287c6-6ea7-4875-b497-41fa32fe23a0 v2a 10 v2c d0e87c04-f539-4968-9f2a-54692125091a v2a 20 v2c</p>
 </article>
 
 <article>
@@ -578,17 +578,6 @@ ReactDOM.render(React.createElement(Documentation, {
           "text" : "Use ",
           "type" : "SimpleText"
         }, {
-          "url" : "/webtau/data/csv#write-table",
-          "isFile" : false,
-          "type" : "Link",
-          "content" : [ {
-            "text" : "data.csv.write",
-            "type" : "SimpleText"
-          } ]
-        }, {
-          "text" : " and ",
-          "type" : "SimpleText"
-        }, {
           "url" : "/webtau/data/json#write-table-data",
           "isFile" : false,
           "type" : "Link",
@@ -814,7 +803,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "d4af892a-8ebb-48cf-83f8-d163de199a71",
+              "text" : "f09d2bbe-7a92-4b13-949e-6fbbce03c175",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -838,7 +827,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "8af21d35-94c4-4e83-ae71-092d70f326ee",
+              "text" : "ae217e64-bf38-42b3-ade9-8b85f83b705b",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -862,7 +851,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "00dafdfc-78e1-4642-906e-f239afb66182",
+              "text" : "64b41702-6a54-446f-a30e-71eac6d8d2ab",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -886,7 +875,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "f17451ba-2d15-4512-b876-08783522c4f4",
+              "text" : "a2682e5b-cd0e-4100-a3f5-77bdb5a85f7d",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -910,7 +899,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "c50210c1-4000-4e8f-8dca-74ac53887138",
+              "text" : "db0287c6-6ea7-4875-b497-41fa32fe23a0",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -934,7 +923,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "1bd73640-7ab2-42f7-b466-91921904f877",
+              "text" : "d0e87c04-f539-4968-9f2a-54692125091a",
               "type" : "SimpleText"
             } ]
           } ], [ {
@@ -1364,13 +1353,14 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1704063222503,
+    "lastModifiedTime" : 1718106797047,
     "tocItem" : {
       "chapterTitle" : "Reference",
       "pageTitle" : "Table Data",
       "pageMeta" : { },
       "dirName" : "reference",
       "fileName" : "table-data",
+      "fileExtension" : "md",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
         "title" : "Create",

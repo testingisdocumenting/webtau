@@ -104,6 +104,11 @@
 </article>
 
 <article>
+<header><h1>Wait to change</h1></header>
+<p>Use change matcher when you want to wait for any change of a value without knowing the specifics. def number = $(&quot;#number-to-change&quot;) def trigger = $(&quot;#change-number&quot;) number.takeSnapshot() trigger.click() number.waitTo change &gt; taking value snapshot by css #number-to-change . value snapshot is taken for by css #number-to-change (25ms) &gt; clicking by css #change-number . clicked by css #change-number (232ms) &gt; waiting for by css #number-to-change to change . by css #number-to-change changed (23ms)</p>
+</article>
+
+<article>
 <header><h1>Wait on url</h1></header>
 <p>Another cue to use could be a url change after an action. browser.open('/resource-creation') $('#new').click() browser.url.ref.waitTo == 'created-id' Note: url exposes other parts that you can browser/navigation#assert-url read more about here</p>
 </article>
@@ -247,6 +252,37 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     }, {
+      "id" : "wait-to-change",
+      "title" : "Wait to change",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "change",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " matcher when you want to wait for any change of a value without knowing the specifics.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def number = $(\"#number-to-change\")\ndef trigger = $(\"#change-number\")\n\nnumber.takeSnapshot()\ntrigger.click()\n\nnumber.waitTo change",
+        "title" : "wait for change",
+        "noGap" : true,
+        "noGapBorder" : true,
+        "anchorId" : "wait-to-change-wait-for-change",
+        "type" : "Snippet"
+      }, {
+        "startLine" : "change matcher",
+        "endLine" : "change matcher",
+        "excludeStartEnd" : true,
+        "lines" : [ "\u001B[33m> \u001B[34mtaking value snapshot \u001B[35mby css \u001B[1m\u001B[35m#number-to-change\u001B[0m", "\u001B[32m. \u001B[34mvalue snapshot is taken \u001B[33mfor \u001B[35mby css \u001B[1m\u001B[35m#number-to-change\u001B[33m (\u001B[32m25ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mclicking \u001B[35mby css \u001B[1m\u001B[35m#change-number\u001B[0m", "\u001B[32m. \u001B[34mclicked \u001B[35mby css \u001B[1m\u001B[35m#change-number\u001B[33m (\u001B[32m232ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[35mby css \u001B[1m\u001B[35m#number-to-change \u001B[0m\u001B[0m\u001B[34mto change\u001B[0m", "\u001B[32m. \u001B[35mby css \u001B[1m\u001B[35m#number-to-change \u001B[0m\u001B[0m\u001B[34mchanged\u001B[33m (\u001B[32m23ms\u001B[33m)\u001B[0m" ],
+        "type" : "CliOutput"
+      } ]
+    }, {
       "id" : "wait-on-url",
       "title" : "Wait on url",
       "type" : "Section",
@@ -273,16 +309,20 @@ ReactDOM.render(React.createElement(Documentation, {
             "text" : "read more about here",
             "type" : "SimpleText"
           } ]
+        }, {
+          "text" : "",
+          "type" : "SimpleText"
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1704063222499,
+    "lastModifiedTime" : 1718106797043,
     "tocItem" : {
       "chapterTitle" : "Browser",
       "pageTitle" : "Asynchronous Page",
       "pageMeta" : { },
       "dirName" : "browser",
       "fileName" : "asynchronous-page",
+      "fileExtension" : "md",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
         "title" : "Synchronization",
@@ -296,6 +336,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Wait to match",
         "id" : "wait-to-match"
+      }, {
+        "title" : "Wait to change",
+        "id" : "wait-to-change"
       }, {
         "title" : "Wait on url",
         "id" : "wait-on-url"

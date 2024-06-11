@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Semi-Auto Generated TableData</h1></header>
-<p>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;available&quot; | &quot;type&quot; | &quot;price&quot; ] { _____________________________________________________________________________________________ cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | 1000 // cell.guid generates random guid that can be used for ids cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | &quot;another set&quot; | permute(true, false) | permute(&quot;rts&quot;, &quot;fps&quot;) | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID EXTERNAL_ID DESCRIPTION AVAILABLE TYPE PRICE e24f2132-6eff-4636-ba10-cceae1003d4c nice set true card 1000 d12b2bc0-8d3d-40ad-a8c0-83791cf31d4c nice set true card 1010 f211a4d6-82b2-4528-b994-f8961008ec9a another set true rts 1030 36204292-d438-4023-ad18-9bd145673940 another set false rts 1050 75654ea7-c586-4b06-8b53-81bb8ac2f4a5 another set true fps 1070 f38de156-8d39-4cb1-8f02-13bed0a7d2a4 another set false fps 1090</p>
+<p>reference/table-data TableData has features like reference/table-data#permutations permute and reference/table-data#guid cell.guid among others. Using them can reduce the effort required to maintain data setup. def PRICES = db.table(&quot;PRICES&quot;) PRICES &lt;&lt; [ &quot;id&quot; | &quot;description&quot; | &quot;available&quot; | &quot;type&quot; | &quot;price&quot; ] { _____________________________________________________________________________________________ cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | 1000 // cell.guid generates random guid that can be used for ids cell.guid | &quot;nice set&quot; | true | &quot;card&quot; | cell.above + 10 // cell.above refers values above and can be modified with simple math operations cell.guid | &quot;another set&quot; | permute(true, false) | permute(&quot;rts&quot;, &quot;fps&quot;) | cell.above + 20 } // permute generates additional rows generating new rows with all the permutations Note: code above assumes WebTauCore.* static import or WebTauGroovyDsl.* static import import static org.testingisdocumenting.webtau.WebTauCore.* ID EXTERNAL_ID DESCRIPTION AVAILABLE TYPE PRICE 7d0ce0b8-47a5-4c4c-81b3-054fce1eb9f8 nice set true card 1000 358daaa7-f167-48c0-a8b4-22d89088cf7f nice set true card 1010 f16c6f53-ea39-4ca7-9ab2-2835df705f5e another set true rts 1030 8cea4d70-63f3-4d0f-8737-d2f60f302b88 another set false rts 1050 07016318-ab8c-4b54-9c3b-a2ee3d771d06 another set true fps 1070 e7628d82-5626-41f4-8a30-9a78ff7ba9fa another set false fps 1090</p>
 </article>
 
 <article>
@@ -297,7 +297,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "data" : [ [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "e24f2132-6eff-4636-ba10-cceae1003d4c",
+              "text" : "7d0ce0b8-47a5-4c4c-81b3-054fce1eb9f8",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -327,7 +327,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "d12b2bc0-8d3d-40ad-a8c0-83791cf31d4c",
+              "text" : "358daaa7-f167-48c0-a8b4-22d89088cf7f",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -357,7 +357,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "f211a4d6-82b2-4528-b994-f8961008ec9a",
+              "text" : "f16c6f53-ea39-4ca7-9ab2-2835df705f5e",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -387,7 +387,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "36204292-d438-4023-ad18-9bd145673940",
+              "text" : "8cea4d70-63f3-4d0f-8737-d2f60f302b88",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -417,7 +417,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "75654ea7-c586-4b06-8b53-81bb8ac2f4a5",
+              "text" : "07016318-ab8c-4b54-9c3b-a2ee3d771d06",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -447,7 +447,7 @@ ReactDOM.render(React.createElement(Documentation, {
           } ] ], [ [ {
             "type" : "Paragraph",
             "content" : [ {
-              "text" : "f38de156-8d39-4cb1-8f02-13bed0a7d2a4",
+              "text" : "e7628d82-5626-41f4-8a30-9a78ff7ba9fa",
               "type" : "SimpleText"
             } ]
           } ], [ ], [ {
@@ -739,13 +739,14 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Table"
       } ]
     } ],
-    "lastModifiedTime" : 1704063222499,
+    "lastModifiedTime" : 1718106797043,
     "tocItem" : {
       "chapterTitle" : "Database",
       "pageTitle" : "Data Setup",
       "pageMeta" : { },
       "dirName" : "database",
       "fileName" : "data-setup",
+      "fileExtension" : "md",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
         "title" : "Handcrafted Data",

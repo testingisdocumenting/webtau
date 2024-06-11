@@ -95,7 +95,7 @@
 
 <article>
 <header><h1>FS Path type</h1></header>
-<p>utilities/file-system File System module return values of type Path . WebTau stores them as String . To retrieve as Path use import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def deployDirCache = cache.value(&quot;deploy-dir&quot;) scenario(&quot;caching of path value&quot;) { def path = fs.tempDir(&quot;my-dir&quot;) deployDirCache.set(path) } scenario(&quot;accessing path value&quot;) { def deployDir = deployDirCache.getAsPath() fs.writeText(deployDir.resolve(&quot;file.txt&quot;), &quot;hello&quot;) }</p>
+<p>file-system/introduction File System module return values of type Path . WebTau stores them as String . To retrieve as Path use import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def deployDirCache = cache.value(&quot;deploy-dir&quot;) scenario(&quot;caching of path value&quot;) { def path = fs.tempDir(&quot;my-dir&quot;) deployDirCache.set(path) } scenario(&quot;accessing path value&quot;) { def deployDir = deployDirCache.getAsPath() fs.writeText(deployDir.resolve(&quot;file.txt&quot;), &quot;hello&quot;) }</p>
 </article>
 
 <article>
@@ -242,7 +242,7 @@ ReactDOM.render(React.createElement(Documentation, {
       "content" : [ {
         "type" : "Paragraph",
         "content" : [ {
-          "url" : "/webtau/utilities/file-system",
+          "url" : "/webtau/file-system/introduction",
           "isFile" : false,
           "type" : "Link",
           "content" : [ {
@@ -324,13 +324,14 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1704063222515,
+    "lastModifiedTime" : 1718106797059,
     "tocItem" : {
       "chapterTitle" : "Utilities",
       "pageTitle" : "Cache",
       "pageMeta" : { },
       "dirName" : "utilities",
       "fileName" : "cache",
+      "fileExtension" : "md",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
         "title" : "Cached Value",

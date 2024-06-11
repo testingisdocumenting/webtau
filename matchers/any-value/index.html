@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Match Every Value</h1></header>
-<p>Use anyValue matcher to match every expected value. Use it in places of complex data expectations where you need to provide a value but your focus is on different data. Groovy TableData summaryTable = loadFromCsv(&quot;summary.csv&quot;) summaryTable.should == [&quot;ColumnA&quot; | &quot;ColumnB&quot; ] { _________________________ 10| anyValue 30| 40 } Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java TableData summaryTable = loadFromCsv(&quot;summary.csv&quot;); actual(summaryTable).should(equal(table(&quot;ColumnA&quot;, &quot;ColumnB&quot;, ____________________, 10, anyValue, 30, 40))); Check matchers/import-and-dependencies Import And Dependencies for prerequisites. . [value] equals ColumnA │ ColumnB 10 │ &lt;any value&gt; 30 │ 40 (1ms)</p>
+<p>Use anyValue matcher to match every expected value. Use it in places of complex data expectations where you need to provide a value but your focus is on different data. Groovy TableData summaryTable = loadFromCsv(&quot;summary.csv&quot;) summaryTable.should == [&quot;ColumnA&quot; | &quot;ColumnB&quot; ] { _________________________ 10| anyValue 30| 40 } . [value] equals ColumnA │ ColumnB 10 │ &lt;any value&gt; 30 │ 40 (1ms) Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java TableData summaryTable = loadFromCsv(&quot;summary.csv&quot;); actual(summaryTable).should(equal(table(&quot;ColumnA&quot;, &quot;ColumnB&quot;, ____________________, 10, anyValue, 30, 40))); . [value] equals ColumnA │ ColumnB 10 │ &lt;any value&gt; 30 │ 40 (1ms) Check matchers/import-and-dependencies Import And Dependencies for prerequisites.</p>
 </article>
 </section>
 </div>
@@ -143,7 +143,12 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "groovy",
             "snippet" : "TableData summaryTable = loadFromCsv(\"summary.csv\")\nsummaryTable.should == [\"ColumnA\" | \"ColumnB\" ] {\n                        _________________________\n                                10| anyValue\n                                30| 40 }",
             "surroundedBy" : "any-value-table-example",
+            "noGap" : true,
+            "noGapBorder" : true,
             "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB    ", "                      \u001B[34m10\u001B[33m │ \u001B[33m<\u001B[36many value\u001B[33m>", "                      \u001B[34m30\u001B[33m │          \u001B[34m40\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -168,7 +173,12 @@ ReactDOM.render(React.createElement(Documentation, {
             "lang" : "java",
             "snippet" : "TableData summaryTable = loadFromCsv(\"summary.csv\");\nactual(summaryTable).should(equal(table(\"ColumnA\", \"ColumnB\",\n                                       ____________________,\n                                               10, anyValue,\n                                               30, 40)));",
             "surroundedBy" : "any-value-table-example",
+            "noGap" : true,
+            "noGapBorder" : true,
             "type" : "Snippet"
+          }, {
+            "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB    ", "                      \u001B[34m10\u001B[33m │ \u001B[33m<\u001B[36many value\u001B[33m>", "                      \u001B[34m30\u001B[33m │          \u001B[34m40\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+            "type" : "CliOutput"
           }, {
             "type" : "Paragraph",
             "content" : [ {
@@ -189,20 +199,16 @@ ReactDOM.render(React.createElement(Documentation, {
           } ]
         } ],
         "type" : "Tabs"
-      }, {
-        "title" : "console output",
-        "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB    ", "                      \u001B[34m10\u001B[33m │ \u001B[33m<\u001B[36many value\u001B[33m>", "                      \u001B[34m30\u001B[33m │          \u001B[34m40\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
-        "anchorId" : "match-every-value-console-output",
-        "type" : "CliOutput"
       } ]
     } ],
-    "lastModifiedTime" : 1704063222503,
+    "lastModifiedTime" : 1718106797047,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Any Value",
       "pageMeta" : { },
       "dirName" : "matchers",
       "fileName" : "any-value",
+      "fileExtension" : "md",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
         "title" : "Match Every Value",

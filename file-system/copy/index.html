@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" /> 
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
+<title>WebTau: Copy</title>
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
+<link rel="stylesheet" type="text/css" href="/webtau/logo.css">
+<link rel="stylesheet" type="text/css" href="/webtau/static/css/global-overrides.css">
+</head>
+<link rel="shortcut icon" href="/webtau/favicon.png"type="image/ico"/>
+<body class="theme-znai-dark">
+<script>(function() {
+    var themeNameKey = 'znaiTheme';
+    var darkThemeName = 'znai-dark';
+    var lightThemeName = 'default';
+
+    var znaiTheme = {
+        changeHandlers: [],
+        addChangeHandler(handler) {
+            this.changeHandlers.push(handler);
+        },
+        removeChangeHandler(handler) {
+            var idx = this.changeHandlers.indexOf(handler);
+            this.changeHandlers.splice(idx, 1);
+        },
+        set(name) {
+            this.name = name;
+            document.body.className = 'theme-' + name;
+
+            var idx = 0;
+            var len = this.changeHandlers.length;
+            for (; idx < len; idx++) {
+                this.changeHandlers[idx](name);
+            }
+        },
+        setExplicitly(name) {
+            storeThemeName(name);
+            this.set(name);
+        },
+        setExplicitlyIfNotSetAlready(name) {
+            const themeName = getStoredThemeName();
+            if (themeName) {
+                return
+            }
+
+            this.setExplicitly(name)
+        },
+        toggle() {
+            this.setExplicitly(this.name === lightThemeName ? darkThemeName : lightThemeName)
+        }
+    };
+
+    var mediaThemeName = setLightMatchMediaListenerAndGetThemeName()
+    var themeName = getStoredThemeName() || mediaThemeName;
+    znaiTheme.set(themeName);
+
+    window.znaiTheme = znaiTheme;
+
+    function getStoredThemeName() {
+        return localStorage.getItem(themeNameKey);
+    }
+
+    function storeThemeName(name) {
+        return localStorage.setItem(themeNameKey, name);
+    }
+
+    function setLightMatchMediaListenerAndGetThemeName() {
+        if (!window.matchMedia) {
+            return darkThemeName;
+        }
+
+        var lightQuery = window.matchMedia('(prefers-color-scheme: light)');
+        lightQuery.addListener(function (e) {
+            const newThemeName = e.matches ? lightThemeName : darkThemeName;
+            znaiTheme.setExplicitly(newThemeName);
+        });
+
+        return lightQuery.matches ? lightThemeName : darkThemeName;
+    }
+})()</script>
+<div id="znai"><div id="znai-initial-page-loading" style="margin: -20px 0 0 -20px; padding: 0 40px 40px 0; width: 100vw; height: 100vh; display: flex; justify-content: center; align-items: center">
+    <div></div>
+</div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
+<article>
+<header><h1>Copy To A Directory</h1></header>
+<p>def dir = fs.createDir(&quot;my-dir&quot;) fs.copy(&quot;data/message.txt&quot;, dir) def dir = fs.tempDir(&quot;fs-copy&quot;) fs.copy(&quot;data/message.txt&quot;, dir)</p>
+</article>
+
+<article>
+<header><h1>Replace File</h1></header>
+<p>fs.copy(&quot;data/message.txt&quot;, &quot;data/new-message.txt&quot;)</p>
+</article>
+</section>
+</div>
+<script type="text/javascript" src="/webtau/footer.js"></script>
+<script type="text/javascript" src="/webtau/toc.js"></script>
+<script type="text/javascript" src="/webtau/documentation-references.js"></script>
+<script type="text/javascript" src="/webtau/assets.js"></script>
+<script type="text/javascript" src="/webtau/static/main.js"></script>
+<script type="text/javascript" src="/webtau/search-index.js"></script>
+<script>
+document.getElementById('znai').innerHTML = '';
+/*<!--*/
+ReactDOM.render(React.createElement(Documentation, {
+  "docMeta" : {
+    "viewOn" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/tree/master/webtau-docs/znai",
+      "title" : "View Markdown"
+    },
+    "id" : "webtau",
+    "title" : "WebTau",
+    "type" : "Guide",
+    "previewEnabled" : false,
+    "support" : {
+      "link" : "https://github.com/testingisdocumenting/webtau/discussions",
+      "title" : "GitHub"
+    }
+  },
+  "page" : {
+    "type" : "Page",
+    "content" : [ {
+      "id" : "copy-to-a-directory",
+      "title" : "Copy To A Directory",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def dir = fs.createDir(\"my-dir\")\nfs.copy(\"data/message.txt\", dir)",
+        "title" : "copy single file to a directory",
+        "includeRegexp" : [ "fs\\.copy", "createDir" ],
+        "anchorId" : "copy-to-a-directory-copy-single-file-to-a-directory",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def dir = fs.tempDir(\"fs-copy\")\nfs.copy(\"data/message.txt\", dir)",
+        "title" : "copy single file to a temp directory",
+        "includeRegexp" : [ "fs\\.copy", "tempDir" ],
+        "anchorId" : "copy-to-a-directory-copy-single-file-to-a-temp-directory",
+        "type" : "Snippet"
+      } ]
+    }, {
+      "id" : "replace-file",
+      "title" : "Replace File",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "fs.copy(\"data/message.txt\", \"data/new-message.txt\")",
+        "title" : "copy single file to a file",
+        "includeRegexp" : [ "fs\\.copy" ],
+        "anchorId" : "replace-file-copy-single-file-to-a-file",
+        "type" : "Snippet"
+      } ]
+    } ],
+    "lastModifiedTime" : 1718106797043,
+    "tocItem" : {
+      "chapterTitle" : "File System",
+      "pageTitle" : "Copy",
+      "pageMeta" : { },
+      "dirName" : "file-system",
+      "fileName" : "copy",
+      "fileExtension" : "md",
+      "viewOnRelativePath" : null,
+      "pageSectionIdTitles" : [ {
+        "title" : "Copy To A Directory",
+        "id" : "copy-to-a-directory"
+      }, {
+        "title" : "Replace File",
+        "id" : "replace-file"
+      } ]
+    }
+  }
+}), document.getElementById("znai"));
+/*-->*/
+
+</script>
+
+</body>
+</html>

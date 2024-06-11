@@ -124,6 +124,11 @@
 </article>
 
 <article>
+<header><h1>Contain Exactly</h1></header>
+<p>Use containExactly when you cannot rely on order of values in a response and want to make sure that there are no extra values. Groovy http.get(&quot;/end-point-list&quot;) { body[1].k2.should containExactly(30, 10, 20) } Java http.get(&quot;/end-point-list&quot;, (header, body) -&gt; { body.get(1).get(&quot;k2&quot;).should(containExactly(30, 10, 20)); });</p>
+</article>
+
+<article>
 <header><h1>Date and Time</h1></header>
 <p>You can assert actual string against LocalDate and ZonedDateTime . String will be automatically converted using ISO formatter. Groovy http.get(&quot;/end-point-dates&quot;) { def expectedDate = LocalDate.of(2018, 6, 12) def expectedTime = ZonedDateTime.of(expectedDate, LocalTime.of(9, 0, 0), ZoneId.of(&quot;UTC&quot;)) tradeDate.should == expectedDate transactionTime.should == expectedTime transactionTime.shouldBe &gt;= expectedDate paymentSchedule.should contain(expectedDate) } Java http.get(&quot;/end-point-dates&quot;, (header, body) -&gt; { LocalDate expectedDate = LocalDate.of(2018, 6, 12); ZonedDateTime expectedTime = ZonedDateTime.of(expectedDate, LocalTime.of(9, 0, 0), ZoneId.of(&quot;UTC&quot;)); body.get(&quot;tradeDate&quot;).should(equal(expectedDate)); body.get(&quot;transactionTime&quot;).should(equal(expectedTime)); body.get(&quot;transactionTime&quot;).shouldBe(greaterThanOrEqual(expectedDate)); body.get(&quot;paymentSchedule&quot;).should(contain(expectedDate)); });</p>
 </article>
@@ -845,6 +850,69 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     }, {
+      "id" : "contain-exactly",
+      "title" : "Contain Exactly",
+      "type" : "Section",
+      "content" : [ {
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Use ",
+          "type" : "SimpleText"
+        }, {
+          "code" : "containExactly",
+          "type" : "InlinedCode"
+        }, {
+          "text" : " when you cannot rely on order of values in a response and want to make sure that there are no extra values.",
+          "type" : "SimpleText"
+        } ]
+      }, {
+        "meta" : {
+          "rightSide" : true
+        },
+        "type" : "EmptyBlock"
+      }, {
+        "title" : "response",
+        "data" : [ {
+          "id" : "id1",
+          "k1" : "v1",
+          "k2" : "v2"
+        }, {
+          "id" : "id2",
+          "k1" : "v11",
+          "k2" : [ 10, 20, 30 ]
+        } ],
+        "highlightValues" : [ ],
+        "highlightKeys" : [ ],
+        "anchorId" : "contain-exactly-response",
+        "type" : "Json"
+      }, {
+        "meta" : {
+          "rightSide" : true
+        },
+        "tabsContent" : [ {
+          "name" : "Groovy",
+          "content" : [ {
+            "lang" : "groovy",
+            "snippet" : "http.get(\"/end-point-list\") {\n    body[1].k2.should containExactly(30, 10, 20)\n}",
+            "entry" : "contain exactly matcher",
+            "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
+            "type" : "Snippet"
+          } ]
+        }, {
+          "name" : "Java",
+          "content" : [ {
+            "lang" : "java",
+            "snippet" : "http.get(\"/end-point-list\", (header, body) -> {\n    body.get(1).get(\"k2\").should(containExactly(30, 10, 20));\n});",
+            "entry" : "containExactlyMatcher",
+            "bodyOnly" : true,
+            "excludeRegexp" : "doc.capture",
+            "type" : "Snippet"
+          } ]
+        } ],
+        "type" : "Tabs"
+      } ]
+    }, {
       "id" : "date-and-time",
       "title" : "Date and Time",
       "type" : "Section",
@@ -989,7 +1057,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1704063222499,
+    "lastModifiedTime" : 1718106797043,
     "tocItem" : {
       "chapterTitle" : "HTTP",
       "pageTitle" : "Matchers",
@@ -998,6 +1066,7 @@ ReactDOM.render(React.createElement(Documentation, {
       },
       "dirName" : "HTTP",
       "fileName" : "matchers",
+      "fileExtension" : "md",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
         "title" : "Response Mapping",
@@ -1023,6 +1092,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "Nested Contain All",
         "id" : "nested-contain-all"
+      }, {
+        "title" : "Contain Exactly",
+        "id" : "contain-exactly"
       }, {
         "title" : "Date and Time",
         "id" : "date-and-time"

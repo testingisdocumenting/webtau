@@ -95,7 +95,12 @@
 
 <article>
 <header><h1>State</h1></header>
-<p>def button = $(&quot;#action&quot;) button.shouldBe disabled button.shouldNotBe enabled def feedback = $(&quot;#feedback&quot;) feedback.shouldBe hidden feedback.shouldNotBe visible &lt;div&gt;&lt;button id=&quot;action&quot; disabled&gt;Click me&lt;/button&gt; &lt;div id=&quot;feedback&quot; style=&quot;display: none;&quot;&gt;&lt;/div&gt; &lt;/div&gt;</p>
+<p>&lt;div&gt;&lt;button id=&quot;action&quot; disabled&gt;Click me&lt;/button&gt; &lt;div id=&quot;feedback&quot; style=&quot;display: none;&quot;&gt;&lt;/div&gt; &lt;/div&gt; def button = $(&quot;#action&quot;) button.shouldBe disabled button.shouldNotBe enabled def feedback = $(&quot;#feedback&quot;) feedback.shouldBe hidden feedback.shouldNotBe visible</p>
+</article>
+
+<article>
+<header><h1>Snapshot And Change</h1></header>
+<p>def number = $(&quot;#number-to-change&quot;) def trigger = $(&quot;#change-number&quot;) number.takeSnapshot() trigger.click() number.waitTo change &gt; taking value snapshot by css #number-to-change . value snapshot is taken for by css #number-to-change (25ms) &gt; clicking by css #change-number . clicked by css #change-number (232ms) &gt; waiting for by css #number-to-change to change . by css #number-to-change changed (23ms)</p>
 </article>
 </section>
 </div>
@@ -130,6 +135,56 @@ ReactDOM.render(React.createElement(Documentation, {
       "title" : "Text",
       "type" : "Section",
       "content" : [ {
+        "xmlAsJson" : {
+          "tagName" : "div",
+          "attributes" : [ ],
+          "children" : [ {
+            "tagName" : "div",
+            "attributes" : [ {
+              "name" : "id",
+              "value" : "\"message\""
+            } ],
+            "children" : [ {
+              "tagName" : "",
+              "text" : "Select option"
+            } ]
+          }, {
+            "tagName" : "div",
+            "attributes" : [ {
+              "name" : "id",
+              "value" : "\"menu\""
+            } ],
+            "children" : [ {
+              "tagName" : "ul",
+              "attributes" : [ ],
+              "children" : [ {
+                "tagName" : "li",
+                "attributes" : [ ],
+                "children" : [ {
+                  "tagName" : "",
+                  "text" : "Hello"
+                } ]
+              }, {
+                "tagName" : "li",
+                "attributes" : [ ],
+                "children" : [ {
+                  "tagName" : "",
+                  "text" : "Text"
+                } ]
+              }, {
+                "tagName" : "li",
+                "attributes" : [ ],
+                "children" : [ {
+                  "tagName" : "",
+                  "text" : "World"
+                } ]
+              } ]
+            } ]
+          } ]
+        },
+        "paths" : [ ],
+        "type" : "Xml"
+      }, {
         "lang" : "groovy",
         "snippet" : "def message = $(\"#message\")\nmessage.should == \"Select option\"",
         "title" : "exact text",
@@ -182,98 +237,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "list of text and regexp",
         "anchorId" : "text-list-of-text-and-regexp",
         "type" : "Snippet"
-      }, {
-        "meta" : {
-          "rightSide" : true
-        },
-        "xmlAsJson" : {
-          "tagName" : "div",
-          "attributes" : [ ],
-          "children" : [ {
-            "tagName" : "div",
-            "attributes" : [ {
-              "name" : "id",
-              "value" : "\"message\""
-            } ],
-            "children" : [ {
-              "tagName" : "",
-              "text" : "Select option"
-            } ]
-          }, {
-            "tagName" : "div",
-            "attributes" : [ {
-              "name" : "id",
-              "value" : "\"menu\""
-            } ],
-            "children" : [ {
-              "tagName" : "ul",
-              "attributes" : [ ],
-              "children" : [ {
-                "tagName" : "li",
-                "attributes" : [ ],
-                "children" : [ {
-                  "tagName" : "",
-                  "text" : "Hello"
-                } ]
-              }, {
-                "tagName" : "li",
-                "attributes" : [ ],
-                "children" : [ {
-                  "tagName" : "",
-                  "text" : "Text"
-                } ]
-              }, {
-                "tagName" : "li",
-                "attributes" : [ ],
-                "children" : [ {
-                  "tagName" : "",
-                  "text" : "World"
-                } ]
-              } ]
-            } ]
-          } ]
-        },
-        "paths" : [ ],
-        "type" : "Xml"
       } ]
     }, {
       "id" : "numbers",
       "title" : "Numbers",
       "type" : "Section",
       "content" : [ {
-        "lang" : "groovy",
-        "snippet" : "def total = $(\"#total\")\ntotal.should == 300.6",
-        "title" : "exact number",
-        "anchorId" : "numbers-exact-number",
-        "type" : "Snippet"
-      }, {
-        "lang" : "groovy",
-        "snippet" : "def total = $(\"#total\")\ntotal.shouldBe > 200",
-        "title" : "greater than",
-        "anchorId" : "numbers-greater-than",
-        "type" : "Snippet"
-      }, {
-        "lang" : "groovy",
-        "snippet" : "def total = $(\"#total\")\ntotal.shouldBe >= 300",
-        "title" : "greater than or equal",
-        "anchorId" : "numbers-greater-than-or-equal",
-        "type" : "Snippet"
-      }, {
-        "lang" : "groovy",
-        "snippet" : "def split = $(\"#split ul li\")\nsplit.should == [100, 28, 172.6]",
-        "title" : "list of numbers",
-        "anchorId" : "numbers-list-of-numbers",
-        "type" : "Snippet"
-      }, {
-        "lang" : "groovy",
-        "snippet" : "def split = $(\"#split ul li\")\nsplit.should == [100, lessThan(100), greaterThanOrEqual(150)]",
-        "title" : "list of exact and greater/less",
-        "anchorId" : "numbers-list-of-exact-and-greater-less",
-        "type" : "Snippet"
-      }, {
-        "meta" : {
-          "rightSide" : true
-        },
         "xmlAsJson" : {
           "tagName" : "div",
           "attributes" : [ ],
@@ -323,12 +292,46 @@ ReactDOM.render(React.createElement(Documentation, {
         },
         "paths" : [ ],
         "type" : "Xml"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def total = $(\"#total\")\ntotal.should == 300.6",
+        "title" : "exact number",
+        "anchorId" : "numbers-exact-number",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def total = $(\"#total\")\ntotal.shouldBe > 200",
+        "title" : "greater than",
+        "anchorId" : "numbers-greater-than",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def total = $(\"#total\")\ntotal.shouldBe >= 300",
+        "title" : "greater than or equal",
+        "anchorId" : "numbers-greater-than-or-equal",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def split = $(\"#split ul li\")\nsplit.should == [100, 28, 172.6]",
+        "title" : "list of numbers",
+        "anchorId" : "numbers-list-of-numbers",
+        "type" : "Snippet"
+      }, {
+        "lang" : "groovy",
+        "snippet" : "def split = $(\"#split ul li\")\nsplit.should == [100, lessThan(100), greaterThanOrEqual(150)]",
+        "title" : "list of exact and greater/less",
+        "anchorId" : "numbers-list-of-exact-and-greater-less",
+        "type" : "Snippet"
       } ]
     }, {
       "id" : "state",
       "title" : "State",
       "type" : "Section",
       "content" : [ {
+        "lang" : "html",
+        "snippet" : "<div><button id=\"action\" disabled>Click me</button>\n <div id=\"feedback\" style=\"display: none;\"></div>\n</div>",
+        "type" : "Snippet"
+      }, {
         "lang" : "groovy",
         "snippet" : "def button = $(\"#action\")\nbutton.shouldBe disabled\nbutton.shouldNotBe enabled",
         "title" : "enabled/disabled",
@@ -340,24 +343,35 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "visible/hidden",
         "anchorId" : "state-visible-hidden",
         "type" : "Snippet"
-      }, {
-        "lang" : "html",
-        "snippet" : "<div><button id=\"action\" disabled>Click me</button>\n <div id=\"feedback\" style=\"display: none;\"></div>\n</div>",
-        "meta" : {
-          "rightSide" : true
-        },
+      } ]
+    }, {
+      "id" : "snapshot-and-change",
+      "title" : "Snapshot And Change",
+      "type" : "Section",
+      "content" : [ {
+        "lang" : "groovy",
+        "snippet" : "def number = $(\"#number-to-change\")\ndef trigger = $(\"#change-number\")\n\nnumber.takeSnapshot()\ntrigger.click()\n\nnumber.waitTo change",
+        "title" : "wait for change",
+        "noGap" : true,
+        "noGapBorder" : true,
+        "anchorId" : "snapshot-and-change-wait-for-change",
         "type" : "Snippet"
+      }, {
+        "startLine" : "change matcher",
+        "endLine" : "change matcher",
+        "excludeStartEnd" : true,
+        "lines" : [ "\u001B[33m> \u001B[34mtaking value snapshot \u001B[35mby css \u001B[1m\u001B[35m#number-to-change\u001B[0m", "\u001B[32m. \u001B[34mvalue snapshot is taken \u001B[33mfor \u001B[35mby css \u001B[1m\u001B[35m#number-to-change\u001B[33m (\u001B[32m25ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mclicking \u001B[35mby css \u001B[1m\u001B[35m#change-number\u001B[0m", "\u001B[32m. \u001B[34mclicked \u001B[35mby css \u001B[1m\u001B[35m#change-number\u001B[33m (\u001B[32m232ms\u001B[33m)\u001B[0m", "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[35mby css \u001B[1m\u001B[35m#number-to-change \u001B[0m\u001B[0m\u001B[34mto change\u001B[0m", "\u001B[32m. \u001B[35mby css \u001B[1m\u001B[35m#number-to-change \u001B[0m\u001B[0m\u001B[34mchanged\u001B[33m (\u001B[32m23ms\u001B[33m)\u001B[0m" ],
+        "type" : "CliOutput"
       } ]
     } ],
-    "lastModifiedTime" : 1704063222499,
+    "lastModifiedTime" : 1718106797043,
     "tocItem" : {
       "chapterTitle" : "Browser",
       "pageTitle" : "Matchers",
-      "pageMeta" : {
-        "type" : [ "two-sides" ]
-      },
+      "pageMeta" : { },
       "dirName" : "browser",
       "fileName" : "matchers",
+      "fileExtension" : "md",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
         "title" : "Text",
@@ -368,6 +382,9 @@ ReactDOM.render(React.createElement(Documentation, {
       }, {
         "title" : "State",
         "id" : "state"
+      }, {
+        "title" : "Snapshot And Change",
+        "id" : "snapshot-and-change"
       } ]
     }
   }
