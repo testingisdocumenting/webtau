@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Mismatch Pinpoint Multi Line Text</h1></header>
-<p>In case of a multiline text, WebTau highlights a first mismatched line: Groovy String output = buildOutput() output.should == &quot;line one\nline 2&quot; X failed expecting [value] to equal ________ line one line 2 ________: different number of lines: actual: 3 expected: 2 first mismatch at line idx 1: actual: &quot;line two&quot; expected: &quot;line 2&quot; ^ (1ms) __________ line one **line two** line three __________ Java String output = buildOutput(); actual(output).should(equal(&quot;line one\nline 2&quot;)); X failed expecting [value] to equal ________ line one line 2 ________: different number of lines: actual: 3 expected: 2 first mismatch at line idx 1: actual: &quot;line two&quot; expected: &quot;line 2&quot; ^ (1ms) __________ line one **line two** line three __________</p>
+<p>In case of a multiline text, WebTau highlights a first mismatched line: Groovy String output = buildOutput() output.should == &quot;line one\nline 2&quot; X failed expecting [value] to equal ________ line one line 2 ________: different number of lines: actual: 3 expected: 2 first mismatch at line idx 1: actual: &quot;line two&quot; expected: &quot;line 2&quot; ^ (0ms) __________ line one **line two** line three __________ Java String output = buildOutput(); actual(output).should(equal(&quot;line one\nline 2&quot;)); X failed expecting [value] to equal ________ line one line 2 ________: different number of lines: actual: 3 expected: 2 first mismatch at line idx 1: actual: &quot;line two&quot; expected: &quot;line 2&quot; ^ (0ms) __________ line one **line two** line three __________</p>
 </article>
 
 <article>
@@ -235,7 +235,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "noGapBorder" : true,
             "type" : "Snippet"
           }, {
-            "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m________", "                                    \u001B[32mline one", "                                    \u001B[32mline 2", "                                    \u001B[0m________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m2\u001B[0m", "\u001B[0m    \u001B[31mfirst mismatch at line idx \u001B[34m1\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[32m\"line two\"\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"line 2\"\u001B[0m", "\u001B[0m    \u001B[0m                ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[0m  __________\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[31m**line two**\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[0m  __________\u001B[0m" ],
+            "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m________", "                                    \u001B[32mline one", "                                    \u001B[32mline 2", "                                    \u001B[0m________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m2\u001B[0m", "\u001B[0m    \u001B[31mfirst mismatch at line idx \u001B[34m1\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[32m\"line two\"\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"line 2\"\u001B[0m", "\u001B[0m    \u001B[0m                ^\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[0m  __________\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[31m**line two**\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[0m  __________\u001B[0m" ],
             "type" : "CliOutput"
           } ]
         }, {
@@ -248,7 +248,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "noGapBorder" : true,
             "type" : "Snippet"
           }, {
-            "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m________", "                                    \u001B[32mline one", "                                    \u001B[32mline 2", "                                    \u001B[0m________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m2\u001B[0m", "\u001B[0m    \u001B[31mfirst mismatch at line idx \u001B[34m1\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[32m\"line two\"\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"line 2\"\u001B[0m", "\u001B[0m    \u001B[0m                ^\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[0m  __________\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[31m**line two**\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[0m  __________\u001B[0m" ],
+            "lines" : [ "\u001B[31mX \u001B[31mfailed \u001B[34mexpecting \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m________", "                                    \u001B[32mline one", "                                    \u001B[32mline 2", "                                    \u001B[0m________\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[31mdifferent number of \u001B[36mlines\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[34m3\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[34m2\u001B[0m", "\u001B[0m    \u001B[31mfirst mismatch at line idx \u001B[34m1\u001B[0m:\u001B[0m", "\u001B[0m    \u001B[0m  \u001B[36mactual\u001B[0m: \u001B[32m\"line two\"\u001B[0m", "\u001B[0m    \u001B[36mexpected\u001B[0m: \u001B[32m\"line 2\"\u001B[0m", "\u001B[0m    \u001B[0m                ^\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m", "  \u001B[0m", "  \u001B[0m  __________\u001B[0m", "  \u001B[32m  line one\u001B[0m", "  \u001B[31m**line two**\u001B[0m", "  \u001B[32m  line three\u001B[0m", "  \u001B[0m  __________\u001B[0m" ],
             "type" : "CliOutput"
           } ]
         } ],
@@ -415,7 +415,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1718106797047,
+    "lastModifiedTime" : 1718187079354,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Strings",

@@ -85,17 +85,17 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Report Path</h1></header>
-<p>Use to change path of a produced self-contained rich HTML report CLI webtau scenarios/*.groovy --reportPath my-report-name.html Maven &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;2.3&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;reportPath&gt;my-report-name.html&lt;/reportPath&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt;</p>
+<p>Use to change path of a produced self-contained rich HTML report CLI webtau scenarios/*.groovy --reportPath my-report-name.html Maven &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;2.4&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;reportPath&gt;my-report-name.html&lt;/reportPath&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt;</p>
 </article>
 
 <article>
 <header><h1>Failed Report Path</h1></header>
-<p>Use to use different path for failed cases. CLI webtau scenarios/*.groovy --failedReportPath my-failed-report-name.html Maven &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;2.3&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;failedReportPath&gt;my-failed-report-name.html&lt;/failedReportPath&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt; One of the use-cases is to configure CI upload only failed test reports, especially if you run multiple independent test suits yaml - name: Upload failed test reports uses: actions/upload-artifact@v2 if: failure() with: name: failed suits path: &quot;testing/src/test/groovy/*failed*.html&quot; retention-days: 2</p>
+<p>Use to use different path for failed cases. CLI webtau scenarios/*.groovy --failedReportPath my-failed-report-name.html Maven &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;2.4&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;failedReportPath&gt;my-failed-report-name.html&lt;/failedReportPath&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt; One of the use-cases is to configure CI upload only failed test reports, especially if you run multiple independent test suits yaml - name: Upload failed test reports uses: actions/upload-artifact@v2 if: failure() with: name: failed suits path: &quot;testing/src/test/groovy/*failed*.html&quot; retention-days: 2</p>
 </article>
 
 <article>
 <header><h1>Report Name And URL</h1></header>
-<p>Use and to change default report name.By default, when you click a report name, browser opens https://github.com/testingisdocumenting/webtau WebTau.Specify to override a page that opens when you click a report name. CLI webtau scenarios/*.groovy --reportName &quot;my service&quot; --reportNameUrl &quot;https://service-under-test&quot; Maven &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;2.3&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;reportName&gt;my service&lt;/reportName&gt; &lt;reportNameUrl&gt;https://service-under-test&lt;/reportNameUrl&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt;</p>
+<p>Use and to change default report name.By default, when you click a report name, browser opens https://github.com/testingisdocumenting/webtau WebTau.Specify to override a page that opens when you click a report name. CLI webtau scenarios/*.groovy --reportName &quot;my service&quot; --reportNameUrl &quot;https://service-under-test&quot; Maven &lt;plugin&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-maven-plugin&lt;/artifactId&gt; &lt;version&gt;2.4&lt;/version&gt; &lt;executions&gt; &lt;execution&gt; &lt;phase&gt;test&lt;/phase&gt; &lt;goals&gt; &lt;goal&gt;run&lt;/goal&gt; &lt;/goals&gt; &lt;/execution&gt; &lt;/executions&gt; &lt;configuration&gt; &lt;workingDir&gt;${project.basedir}/src/main/groovy&lt;/workingDir&gt; &lt;reportName&gt;my service&lt;/reportName&gt; &lt;reportNameUrl&gt;https://service-under-test&lt;/reportNameUrl&gt; &lt;tests&gt; &lt;directory&gt;${project.basedir}/src/main/groovy&lt;/directory&gt; &lt;includes&gt; &lt;include&gt;scenarios/*.groovy&lt;/include&gt; &lt;/includes&gt; &lt;/tests&gt; &lt;/configuration&gt; &lt;/plugin&gt;</p>
 </article>
 </section>
 </div>
@@ -158,7 +158,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Maven",
           "content" : [ {
             "lang" : "xml",
-            "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>2.3</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <reportPath>my-report-name.html</reportPath>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
+            "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>2.4</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <reportPath>my-report-name.html</reportPath>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
             "excludeRegexp" : [ "failedReportPath", "reportName", "reportNameUrl" ],
             "highlight" : [ 14 ],
             "type" : "Snippet"
@@ -199,7 +199,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Maven",
           "content" : [ {
             "lang" : "xml",
-            "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>2.3</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <failedReportPath>my-failed-report-name.html</failedReportPath>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
+            "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>2.4</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <failedReportPath>my-failed-report-name.html</failedReportPath>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
             "excludeRegexp" : [ "reportPath", "reportName", "reportNameUrl" ],
             "highlight" : [ 14 ],
             "type" : "Snippet"
@@ -295,7 +295,7 @@ ReactDOM.render(React.createElement(Documentation, {
           "name" : "Maven",
           "content" : [ {
             "lang" : "xml",
-            "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>2.3</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <reportName>my service</reportName>\n        <reportNameUrl>https://service-under-test</reportNameUrl>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
+            "snippet" : "<plugin>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-maven-plugin</artifactId>\n    <version>2.4</version>\n    <executions>\n        <execution>\n            <phase>test</phase>\n            <goals>\n                <goal>run</goal>\n            </goals>\n        </execution>\n    </executions>\n    <configuration>\n        <workingDir>${project.basedir}/src/main/groovy</workingDir>\n        <reportName>my service</reportName>\n        <reportNameUrl>https://service-under-test</reportNameUrl>\n        <tests>\n            <directory>${project.basedir}/src/main/groovy</directory>\n            <includes>\n                <include>scenarios/*.groovy</include>\n            </includes>\n        </tests>\n    </configuration>\n</plugin>",
             "excludeRegexp" : [ "reportPath", "failedReportPath" ],
             "highlight" : [ 14, 15 ],
             "type" : "Snippet"
@@ -306,7 +306,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "fit" : true,
         "annotate" : true,
         "imageSrc" : "/webtau/doc-artifacts/reports/report-name.png",
-        "timestamp" : 1718107538746,
+        "timestamp" : 1718187783711,
         "shapes" : [ {
           "type" : "badge",
           "text" : "1",
@@ -320,7 +320,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1718106797059,
+    "lastModifiedTime" : 1718187079366,
     "tocItem" : {
       "chapterTitle" : "Report",
       "pageTitle" : "Configuration",

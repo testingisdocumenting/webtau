@@ -90,7 +90,7 @@
 
 <article>
 <header><h1>Grouping With Key Value</h1></header>
-<p>Pass key values to step to combine step and `trace Groovy step(&quot;group of actions&quot;, [url: baseUrl, port: myPort]) { actionThree(myPort, baseUrl) } Java step(&quot;important actions&quot;, map(&quot;myPort&quot;, myPort, &quot;baseUrl&quot;, baseUrl), () -&gt; { actionThree(myPort, baseUrl); }); &gt; important actions myPort: 8080 baseUrl: &quot;http://baseurl&quot; [tracing] action three . completed important actions (1ms)</p>
+<p>Pass key values to step to combine step and `trace Groovy step(&quot;group of actions&quot;, [url: baseUrl, port: myPort]) { actionThree(myPort, baseUrl) } Java step(&quot;important actions&quot;, map(&quot;myPort&quot;, myPort, &quot;baseUrl&quot;, baseUrl), () -&gt; { actionThree(myPort, baseUrl); }); &gt; important actions myPort: 8080 baseUrl: &quot;http://baseurl&quot; [tracing] action three . completed important actions (0ms)</p>
 </article>
 </section>
 </div>
@@ -233,7 +233,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "title" : "console output",
         "startLine" : "important actions",
         "endLine" : "important actions",
-        "lines" : [ "\u001B[33m> \u001B[34mimportant actions\u001B[0m", "    \u001B[35mmyPort\u001B[33m: \u001B[34m8080\u001B[0m", "    \u001B[35mbaseUrl\u001B[33m: \u001B[32m\"http://baseurl\"\u001B[0m", "  \u001B[1m[tracing]\u001B[0m \u001B[34maction three\u001B[0m", "\u001B[32m. \u001B[0mcompleted \u001B[34mimportant actions\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mimportant actions\u001B[0m", "    \u001B[35mmyPort\u001B[33m: \u001B[34m8080\u001B[0m", "    \u001B[35mbaseUrl\u001B[33m: \u001B[32m\"http://baseurl\"\u001B[0m", "  \u001B[1m[tracing]\u001B[0m \u001B[34maction three\u001B[0m", "\u001B[32m. \u001B[0mcompleted \u001B[34mimportant actions\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "grouping-with-key-value-console-output",
         "type" : "CliOutput"
       }, {
@@ -241,7 +241,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "fit" : true,
         "title" : "web report",
         "imageSrc" : "/webtau/doc-artifacts/reports/report-step-key-value.png",
-        "timestamp" : 1718107555906,
+        "timestamp" : 1718187799079,
         "shapes" : [ ],
         "width" : 1310.0,
         "height" : 781.0,
@@ -249,7 +249,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "AnnotatedImage"
       } ]
     } ],
-    "lastModifiedTime" : 1718106797059,
+    "lastModifiedTime" : 1718187079366,
     "tocItem" : {
       "chapterTitle" : "Report",
       "pageTitle" : "Steps",

@@ -85,17 +85,17 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Dismiss Alert</h1></header>
-<p>Use browser.alert to manipulate browser alerts.To dismiss alert use: browser.alert.dismiss() &gt; dismissing alert dismissed alert text: _____ hello alert _____ . dismissed alert (24ms)</p>
+<p>Use browser.alert to manipulate browser alerts.To dismiss alert use: browser.alert.dismiss() &gt; dismissing alert dismissed alert text: _____ hello alert _____ . dismissed alert (19ms)</p>
 </article>
 
 <article>
 <header><h1>Accept Alert</h1></header>
-<p>To accept alert use: browser.alert.accept() &gt; accepting alert accepted alert text: _______ hello confirm _______ . accepted alert (22ms)</p>
+<p>To accept alert use: browser.alert.accept() &gt; accepting alert accepted alert text: _______ hello confirm _______ . accepted alert (18ms)</p>
 </article>
 
 <article>
 <header><h1>Alert Text</h1></header>
-<p>To wait on or validate alert text use: browser.alert.text.waitTo == &quot;hello delayed\nalert&quot; browser.alert.accept() &gt; waiting for text of browser alert to equal _____________ hello delayed alert _____________ . text of browser alert equals _____________ hello delayed alert _____________ (129ms)</p>
+<p>To wait on or validate alert text use: browser.alert.text.waitTo == &quot;hello delayed\nalert&quot; browser.alert.accept() &gt; waiting for text of browser alert to equal _____________ hello delayed alert _____________ . text of browser alert equals _____________ hello delayed alert _____________ (108ms)</p>
 </article>
 </section>
 </div>
@@ -157,7 +157,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "surroundedBy" : "dismiss alert",
         "startLine" : "dismissing",
         "endLine" : ".",
-        "lines" : [ "\u001B[33m> \u001B[34mdismissing \u001B[36malert\u001B[0m", "    \u001B[35mdismissed alert text\u001B[33m: \u001B[0m_____\u001B[0m", "                          \u001B[32mhello\u001B[0m", "                          \u001B[32malert\u001B[0m", "                          \u001B[0m_____\u001B[0m", "\u001B[32m. \u001B[34mdismissed \u001B[36malert\u001B[33m (\u001B[32m24ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mdismissing \u001B[36malert\u001B[0m", "    \u001B[35mdismissed alert text\u001B[33m: \u001B[0m_____\u001B[0m", "                          \u001B[32mhello\u001B[0m", "                          \u001B[32malert\u001B[0m", "                          \u001B[0m_____\u001B[0m", "\u001B[32m. \u001B[34mdismissed \u001B[36malert\u001B[33m (\u001B[32m19ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "dismiss-alert-console-output",
         "type" : "CliOutput"
       } ]
@@ -181,7 +181,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "surroundedBy" : "accept alert",
         "startLine" : "accepting",
         "endLine" : ".",
-        "lines" : [ "\u001B[33m> \u001B[34maccepting \u001B[36malert\u001B[0m", "    \u001B[35maccepted alert text\u001B[33m: \u001B[0m_______\u001B[0m", "                         \u001B[32mhello\u001B[0m", "                         \u001B[32mconfirm\u001B[0m", "                         \u001B[0m_______\u001B[0m", "\u001B[32m. \u001B[34maccepted \u001B[36malert\u001B[33m (\u001B[32m22ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34maccepting \u001B[36malert\u001B[0m", "    \u001B[35maccepted alert text\u001B[33m: \u001B[0m_______\u001B[0m", "                         \u001B[32mhello\u001B[0m", "                         \u001B[32mconfirm\u001B[0m", "                         \u001B[0m_______\u001B[0m", "\u001B[32m. \u001B[34maccepted \u001B[36malert\u001B[33m (\u001B[32m18ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "accept-alert-console-output",
         "type" : "CliOutput"
       } ]
@@ -206,12 +206,12 @@ ReactDOM.render(React.createElement(Documentation, {
         "startLine" : "waiting",
         "endLine" : "accepting",
         "excludeEnd" : true,
-        "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[36mtext \u001B[33mof \u001B[0m\u001B[1mbrowser alert \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m_____________", "                                             \u001B[32mhello delayed", "                                             \u001B[32malert", "                                             \u001B[0m_____________\u001B[0m", "\u001B[32m. \u001B[36mtext \u001B[33mof \u001B[0m\u001B[1mbrowser alert \u001B[0m\u001B[0m\u001B[34mequals \u001B[0m_____________", "                               \u001B[32mhello delayed", "                               \u001B[32malert", "                               \u001B[0m_____________\u001B[33m (\u001B[32m129ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mwaiting \u001B[33mfor \u001B[36mtext \u001B[33mof \u001B[0m\u001B[1mbrowser alert \u001B[0m\u001B[0m\u001B[34mto equal \u001B[0m_____________", "                                             \u001B[32mhello delayed", "                                             \u001B[32malert", "                                             \u001B[0m_____________\u001B[0m", "\u001B[32m. \u001B[36mtext \u001B[33mof \u001B[0m\u001B[1mbrowser alert \u001B[0m\u001B[0m\u001B[34mequals \u001B[0m_____________", "                               \u001B[32mhello delayed", "                               \u001B[32malert", "                               \u001B[0m_____________\u001B[33m (\u001B[32m108ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "alert-text-console-output",
         "type" : "CliOutput"
       } ]
     } ],
-    "lastModifiedTime" : 1718106797043,
+    "lastModifiedTime" : 1718187079350,
     "tocItem" : {
       "chapterTitle" : "Browser",
       "pageTitle" : "Alerts",

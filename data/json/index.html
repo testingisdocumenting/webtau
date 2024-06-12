@@ -135,7 +135,7 @@
 
 <article>
 <header><h1>Write Table Data</h1></header>
-<p>Groovy TableData table = [&quot;id&quot; | &quot;value&quot;] { ________________ &quot;id1&quot; | &quot;value1&quot; &quot;id2&quot; | &quot;value2&quot; } def path = data.json.write(&quot;generated/from-table-data.json&quot;, table) Java TableData csvTable = table(&quot;id&quot; , &quot;value&quot;, ________________, &quot;id1&quot; , &quot;value1&quot;, &quot;id2&quot; , &quot;value2&quot;); Path path = data.json.write(&quot;generated/from-table-data.json&quot;, csvTable); write methods produce additional information that helps with tests investigation &gt; writing json to file generated/from-table-data.json . wrote 7 lines to json /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.json (0ms) [ { &quot;id&quot; : &quot;id1&quot;, &quot;value&quot; : &quot;value1&quot; }, { &quot;id&quot; : &quot;id2&quot;, &quot;value&quot; : &quot;value2&quot; } ]</p>
+<p>Groovy TableData table = [&quot;id&quot; | &quot;value&quot;] { ________________ &quot;id1&quot; | &quot;value1&quot; &quot;id2&quot; | &quot;value2&quot; } def path = data.json.write(&quot;generated/from-table-data.json&quot;, table) Java TableData csvTable = table(&quot;id&quot; , &quot;value&quot;, ________________, &quot;id1&quot; , &quot;value1&quot;, &quot;id2&quot; , &quot;value2&quot;); Path path = data.json.write(&quot;generated/from-table-data.json&quot;, csvTable); write methods produce additional information that helps with tests investigation &gt; writing json to file generated/from-table-data.json . wrote 7 lines to json /home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.json (1ms) [ { &quot;id&quot; : &quot;id1&quot;, &quot;value&quot; : &quot;value1&quot; }, { &quot;id&quot; : &quot;id2&quot;, &quot;value&quot; : &quot;value2&quot; } ]</p>
 </article>
 </section>
 </div>
@@ -851,7 +851,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "title" : "console output",
-        "lines" : [ "\u001B[33m> \u001B[34mwriting \u001B[36mjson \u001B[33mto \u001B[36mfile \u001B[35mgenerated/from-table-data.json\u001B[0m", "\u001B[32m. \u001B[34mwrote \u001B[34m7 \u001B[36mlines \u001B[33mto \u001B[36mjson \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.json\u001B[33m (\u001B[32m0ms\u001B[33m)\u001B[0m" ],
+        "lines" : [ "\u001B[33m> \u001B[34mwriting \u001B[36mjson \u001B[33mto \u001B[36mfile \u001B[35mgenerated/from-table-data.json\u001B[0m", "\u001B[32m. \u001B[34mwrote \u001B[34m7 \u001B[36mlines \u001B[33mto \u001B[36mjson \u001B[35m/home/runner/work/webtau/webtau/webtau-feature-testing/examples/generated/from-table-data.json\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
         "anchorId" : "write-table-data-console-output",
         "type" : "CliOutput"
       }, {
@@ -863,7 +863,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1718106797043,
+    "lastModifiedTime" : 1718187079354,
     "tocItem" : {
       "chapterTitle" : "Data",
       "pageTitle" : "Json",
