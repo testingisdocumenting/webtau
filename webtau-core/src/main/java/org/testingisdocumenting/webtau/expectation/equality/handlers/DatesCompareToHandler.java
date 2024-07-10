@@ -94,16 +94,18 @@ public class DatesCompareToHandler implements CompareToHandler {
         }
 
         void compare() {
-            if (actual instanceof LocalDateTime && expected instanceof LocalDate) {
-                compareLocalDateTimeAndLocalDate((LocalDateTime) actual, (LocalDate) expected);
-            } else if (actual instanceof LocalDate && expected instanceof LocalDate) {
-                compareLocalDates((LocalDate) actual, (LocalDate) expected);
-            } else if (actual instanceof ZonedDateTime && expected instanceof Instant) {
-                compareZonedDateTimeAndInstant((ZonedDateTime) actual, (Instant) expected);
-            } else if (actual instanceof ZonedDateTime && expected instanceof LocalDate) {
-                compareZonedDateTimeAndLocalDate((ZonedDateTime) actual, (LocalDate) expected);
-            } else if (actual instanceof ZonedDateTime && expected instanceof ZonedDateTime) {
-                compareZonedDateTimes((ZonedDateTime) actual, (ZonedDateTime) expected);
+            if (actual instanceof LocalDateTime a && expected instanceof LocalDate b) {
+                compareLocalDateTimeAndLocalDate(a, b);
+            } else if (actual instanceof LocalDate a && expected instanceof LocalDate b) {
+                compareLocalDates(a, b);
+            } else if (actual instanceof ZonedDateTime a && expected instanceof Instant b) {
+                compareZonedDateTimeAndInstant(a, b);
+            } else if (actual instanceof ZonedDateTime a && expected instanceof LocalDate b) {
+                compareZonedDateTimeAndLocalDate(a, b);
+            } else if (actual instanceof ZonedDateTime a && expected instanceof ZonedDateTime b) {
+                compareZonedDateTimes(a, b);
+            } else if (actual instanceof Instant a && expected instanceof Instant b) {
+                compareInstants(a, b);
             } else {
                 throw new UnsupportedOperationException("combination is not supported:\n" +
                         renderActualExpected(actual, expected));
@@ -134,6 +136,10 @@ public class DatesCompareToHandler implements CompareToHandler {
             Instant actualInstant = actual.toInstant();
             report(actualInstant.compareTo(expected), () -> renderActualExpectedWithNormalized(actual, expected,
                     actualInstant, expected));
+        }
+
+        private void compareInstants(Instant actual, Instant expected) {
+            report(actual.compareTo(expected), () -> renderActualExpected(actual, expected));
         }
 
         private void report(int compareTo, Supplier<TokenizedMessage> message) {
