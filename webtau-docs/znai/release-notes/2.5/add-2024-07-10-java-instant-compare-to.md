@@ -1,0 +1,1 @@
+* Add: Handle `time.Instant` on both sides when using [Universal Compare](matchers/universal-compare#dates)
