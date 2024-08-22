@@ -20,6 +20,7 @@ package org.testingisdocumenting.webtau.expectation.equality.handlers
 import org.junit.Test
 import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 
+import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.ZoneId
@@ -35,6 +36,12 @@ class DatesCompareToHandlerTest {
         assert handler.handleEquality("2018-06-10", LocalDate.of(1, 1, 1))
         assert handler.handleEquality("2018-06-10", ZonedDateTime.of(2018, 10, 3,
             1, 1, 1, 1, ZoneId.of("UTC")))
+    }
+
+    @Test
+    void "handles two java time instants"() {
+        def handler = new DatesCompareToHandler()
+        assert handler.handleEquality(Instant.now(), Instant.now())
     }
 
     @Test
@@ -121,6 +128,18 @@ class DatesCompareToHandlerTest {
                 "  **\"2018-01-02T10:00:00+02:00:00\"**") {
             def expectedInstance = ZonedDateTime.of(2018, 1, 2, 9, 0, 0, 0, ZoneId.of("UTC")).toInstant()
             actual("2018-01-02T10:00:00+02:00:00").should(equal(expectedInstance))
+        }
+    }
+
+    @Test
+    void "actual instant and expected instant"() {
+        def a = Instant.ofEpochMilli(100000)
+        def b = Instant.ofEpochMilli(101000)
+
+        runExpectExceptionAndValidateOutput(AssertionError, "X failed expecting [value] to equal 1970-01-01T00:01:41Z:\n" +
+                "      actual: 1970-01-01T00:01:40Z <java.time.Instant>\n" +
+                "    expected: 1970-01-01T00:01:41Z <java.time.Instant> (Xms)") {
+            actual(a).should(equal(b))
         }
     }
 
