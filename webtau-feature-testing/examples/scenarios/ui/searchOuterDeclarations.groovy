@@ -3,7 +3,7 @@ package scenarios.ui
 import static org.testingisdocumenting.webtau.WebTauGroovyDsl.*
 
 def searchBox = $("#search-box")
-def numberOfResults = searchBox.count
+def numberOfResults = $("#results .result").count
 
 scenario("search by specific query") {
     browser.open("/search")

@@ -168,6 +168,10 @@ public class Browser {
         return new PageElement(driver, additionalBrowserInteractions, PageElementPath.css(css), false);
     }
 
+    public PageElement focusedElement() {
+        return element(":focus");
+    }
+
     public PageElement $(String css) {
         return element(css);
     }
