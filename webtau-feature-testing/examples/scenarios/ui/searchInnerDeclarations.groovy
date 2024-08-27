@@ -6,7 +6,7 @@ scenario("search by specific query") {
     browser.open("/search")
 
     $("#search-box").setValue("search this")
-    $("#search-box").sendKeys("\n")
+    $("#search-box").sendKeys(browser.keys.enter)
 
     $("#results .result").count.shouldBe > 1
 }
