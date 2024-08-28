@@ -9,7 +9,7 @@
     "scenario" : "send text to focused element",
     "shortContainerId" : "focusedElement.groovy",
     "stepsSummary" : {
-      "numberOfSuccessful" : 5
+      "numberOfSuccessful" : 8
     }
   }, {
     "scenario" : "send text when no focused element",
