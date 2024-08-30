@@ -366,6 +366,21 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
+    void "search with page elements in place"() {
+        runCli("searchInnerDeclarations.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
+    void "search with page elements outside"() {
+        runCli("searchOuterDeclarations.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
+    void "focused element"() {
+        runCli("focusedElement.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
     void "personas searching"() {
         runCli("searchWithPersonas.groovy", "webtau.cfg.groovy")
     }

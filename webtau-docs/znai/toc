@@ -34,8 +34,6 @@ browser
     basic-configuration
     page-element-and-value
     page-object
-    element-actions-reference
-    element-values-reference
     forms
     tables
     asynchronous-page
@@ -47,6 +45,9 @@ browser
     navigation
     alerts
     page-open-handlers
+    element-states
+    element-actions-reference
+    element-values-reference
     finders-and-filters
     matchers
 servers
