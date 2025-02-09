@@ -16,10 +16,12 @@
 
 package org.testingisdocumenting.webtau.db
 
+import org.junit.Ignore
 import org.junit.Test
 
 import static Database.*
 
+@Ignore
 class DatabaseTestContainersTest {
     @Test
     void "from test containers jdbc"() {

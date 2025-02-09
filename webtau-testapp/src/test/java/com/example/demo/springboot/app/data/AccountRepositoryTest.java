@@ -36,7 +36,7 @@ import static org.testingisdocumenting.webtau.db.Database.db;
 
 // repository-test-config
 @DataJpaTest
-@ActiveProfiles("tc") // test profile with Test Containers
+@ActiveProfiles("hsql")
 public class AccountRepositoryTest {
     private final AccountRepository accountRepository;
     private final Database mainDb;
