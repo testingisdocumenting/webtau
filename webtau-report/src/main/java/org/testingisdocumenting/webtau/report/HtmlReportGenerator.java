@@ -26,11 +26,13 @@ import org.testingisdocumenting.webtau.console.ansi.Color;
 import org.testingisdocumenting.webtau.reporter.WebTauReportCustomData;
 import org.testingisdocumenting.webtau.reporter.WebTauReport;
 import org.testingisdocumenting.webtau.reporter.WebTauTest;
+import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 import org.testingisdocumenting.webtau.utils.FileUtils;
 import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
 import org.testingisdocumenting.webtau.version.WebTauVersion;
 
+import java.io.UncheckedIOException;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -48,10 +50,17 @@ public class HtmlReportGenerator implements ReportGenerator {
     public void generate(WebTauReport report) {
         Path reportPath = reportPath(report);
 
-        FileUtils.writeTextContent(reportPath, generateHtml(report));
+        try {
+            FileUtils.writeTextContent(reportPath, generateHtml(report));
 
-        if (!getCfg().isConsoleOverallReportDisabled()) {
-            ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, reportPath);
+            if (!getCfg().isConsoleOverallReportDisabled()) {
+                ConsoleOutputs.out(Color.BLUE, "report is generated: ", Color.PURPLE, reportPath);
+            }
+        } catch (UncheckedIOException e) {
+            if (!getCfg().isConsoleOverallReportDisabled()) {
+                ConsoleOutputs.err(Color.RED, "can't generate report with path:", Color.PURPLE, reportPath);
+                ConsoleOutputs.err(StackTraceUtils.renderStackTrace(e));
+            }
         }
     }
 

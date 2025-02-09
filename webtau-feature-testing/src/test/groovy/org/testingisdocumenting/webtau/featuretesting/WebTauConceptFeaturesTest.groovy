@@ -33,7 +33,7 @@ class WebTauConceptFeaturesTest {
 
     @BeforeClass
     static void init() {
-        testRunner = new WebTauEndToEndTestRunner()
+        testRunner = new WebTauEndToEndTestRunner(null)
     }
 
     @Before
