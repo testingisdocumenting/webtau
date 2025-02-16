@@ -68,11 +68,15 @@ public class ContainMatcher implements ValueMatcher, ExpectedValuesAware, Pretty
     @Override
     public TokenizedMessage mismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
         List<Object> mismatchedExpected = containAnalyzer.getMismatchedExpectedValues();
+        TokenizedMessage mismatchReport = containAnalyzer.generateMismatchReport();
         if (mismatchedExpected.isEmpty() || (mismatchedExpected.size() == 1 && mismatchedExpected.get(0) == expected)) {
-            return tokenizedMessage().error("no match found");
+            return mismatchReport.isEmpty() ? tokenizedMessage().error("no match found") : mismatchReport;
         }
 
-        return tokenizedMessage().error("no matches found for").colon().value(containAnalyzer.getMismatchedExpectedValues());
+        TokenizedMessage report = tokenizedMessage().error("no matches found for").colon().value(containAnalyzer.getMismatchedExpectedValues());
+        return mismatchReport.isEmpty() ?
+                report :
+                report.newLine().add(mismatchReport);
     }
 
     @Override

@@ -17,9 +17,9 @@
 package org.testingisdocumenting.webtau.browser.page.path.finder;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 import org.testingisdocumenting.webtau.browser.page.path.PageElementFinder;
+import org.testingisdocumenting.webtau.browser.page.path.PageElementPathSearchContext;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.List;
@@ -28,8 +28,8 @@ import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ParentPageElementFinder implements PageElementFinder {
     @Override
-    public List<WebElement> find(SearchContext parent) {
-        return parent.findElements(By.xpath(".."));
+    public List<WebElement> find(PageElementPathSearchContext parent) {
+        return parent.searchContext().findElements(By.xpath(".."));
     }
 
     @Override

@@ -22,6 +22,7 @@ import org.testingisdocumenting.webtau.server.route.WebTauRouter;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.UUID;
 
 import static org.testingisdocumenting.webtau.server.WebTauServerResponseBuilder.*;
 
@@ -99,6 +100,24 @@ public class WebTauServerFacade {
     }
 
     /**
+     * creates static content server with an auto generated serverId and starts it on a random part
+     * @param path static content path
+     * @return server instance
+     */
+    public WebTauServer serve(String path) {
+        return serve(generateUniqueServerId(), path, 0);
+    }
+
+    /**
+     * creates static content server with an auto generated serverId and starts it on a random part
+     * @param path static content path
+     * @return server instance
+     */
+    public WebTauServer serve(Path path) {
+        return serve(generateUniqueServerId(), path, 0);
+    }
+
+    /**
      * creates static content server and starts it on the specified part
      * @param serverId unique server id
      * @param path static content path
@@ -148,6 +167,15 @@ public class WebTauServerFacade {
     }
 
     /**
+     * creates proxy server with an auto generated server id and starts it on a random part
+     * @param urlToProxy url to proxy to
+     * @return server instance
+     */
+    public WebTauProxyServer proxy(String urlToProxy) {
+        return proxy(generateUniqueServerId(), urlToProxy, 0);
+    }
+
+    /**
      * creates a fake server and starts it on the specified port
      * @param serverId unique server id
      * @param port server port
@@ -169,6 +197,15 @@ public class WebTauServerFacade {
      */
     public WebTauServer fake(String serverId) {
         return fake(serverId, 0);
+    }
+
+    /**
+     * creates a fake server with auto genrated server id and starts it on a random port
+     * @return server instance
+     * @see WebTauRouter
+     */
+    public WebTauServer fake() {
+        return fake(generateUniqueServerId(), 0);
     }
 
     /**
@@ -198,6 +235,16 @@ public class WebTauServerFacade {
     }
 
     /**
+     * creates a fake server with auto generated server id and starts it on a random port using provided router to defined responses
+     * @param router responses definition
+     * @return server instance
+     * @see WebTauRouter
+     */
+    public WebTauServer fake(WebTauRouter router) {
+        return fake(generateUniqueServerId(), 0, router);
+    }
+
+    /**
      * creates an instance of router to define or override responses
      * @param id unique router id
      * @return router instance
@@ -214,5 +261,9 @@ public class WebTauServerFacade {
      */
     public WebTauRouter router() {
         return new WebTauRouter("main-router");
+    }
+
+    private String generateUniqueServerId() {
+        return UUID.randomUUID().toString();
     }
 }

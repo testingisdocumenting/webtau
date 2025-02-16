@@ -77,6 +77,12 @@
     "stepsSummary" : {
       "numberOfSuccessful" : 1
     }
+  }, {
+    "scenario" : "filter by geometry",
+    "shortContainerId" : "findersFilters.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 2
+    }
   } ],
   "exitCode" : 0
 }

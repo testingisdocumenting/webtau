@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,94 +17,150 @@
 
 package org.testingisdocumenting.webtau.expectation.equality;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CompareToResult {
-    private List<ActualPathMessage> equalMessages = new ArrayList<>();
-    private List<ActualPathMessage> notEqualMessages = new ArrayList<>();
-    private List<ActualPathMessage> greaterMessages = new ArrayList<>();
-    private List<ActualPathMessage> lessMessages = new ArrayList<>();
-    private List<ActualPathMessage> missingMessages = new ArrayList<>();
-    private List<ActualPathMessage> extraMessages = new ArrayList<>();
+    // lists are null by default to avoid unnecessary lists instantiation
+    private ValuePathLazyMessageList equalMessages;
+    private ValuePathLazyMessageList notEqualMessages;
+    private ValuePathLazyMessageList greaterMessages;
+    private ValuePathLazyMessageList lessMessages;
+    private ValuePathLazyMessageList missingMessages;
+    private ValuePathLazyMessageList extraMessages;
+
+    public int numberOfMismatches() {
+        return size(notEqualMessages) +
+                size(greaterMessages) + size(lessMessages) +
+                size(missingMessages) + size(extraMessages);
+    }
 
     public boolean isEqual() {
-        return notEqualMessages.isEmpty() && hasNoExtraAndNoMissing();
+        return isEmpty(notEqualMessages) && hasNoExtraAndNoMissing();
     }
 
     public boolean isNotEqual() {
-        return equalMessages.isEmpty() || hasExtraOrMissing();
+        return !isEmpty(notEqualMessages) || hasExtraOrMissing();
     }
 
     public boolean isGreater() {
-        return lessMessages.isEmpty() && equalMessages.isEmpty() && hasNoExtraAndNoMissing();
+        return isEmpty(lessMessages) && isEmpty(equalMessages) && hasNoExtraAndNoMissing();
     }
 
     public boolean isGreaterOrEqual() {
-        return lessMessages.isEmpty() && hasNoExtraAndNoMissing();
+        return isEmpty(lessMessages) && hasNoExtraAndNoMissing();
     }
 
     public boolean isLess() {
-        return greaterMessages.isEmpty() && equalMessages.isEmpty() && hasNoExtraAndNoMissing();
+        return isEmpty(greaterMessages) && isEmpty(equalMessages) && hasNoExtraAndNoMissing();
     }
 
     public boolean isLessOrEqual() {
-        return greaterMessages.isEmpty() && hasNoExtraAndNoMissing();
+        return isEmpty(greaterMessages) && hasNoExtraAndNoMissing();
     }
 
-    public List<ActualPathMessage> getEqualMessages() {
+    public void clear() {
+        equalMessages = null;
+        notEqualMessages = null;
+        greaterMessages = null;
+        lessMessages = null;
+        missingMessages = null;
+        extraMessages = null;
+    }
+
+    public void addEqualMessage(ValuePathMessage message) {
+        equalMessages = add(equalMessages, message);
+    }
+
+    public void addNotEqualMessage(ValuePathMessage message) {
+        notEqualMessages = add(notEqualMessages, message);
+    }
+
+    public void addGreaterMessage(ValuePathMessage message) {
+        greaterMessages = add(greaterMessages, message);
+    }
+
+    public void addLessMessage(ValuePathMessage message) {
+        lessMessages = add(lessMessages, message);
+    }
+
+    public void addMissingMessage(ValuePathMessage message) {
+        missingMessages = add(missingMessages, message);
+    }
+
+    public void addExtraMessage(ValuePathMessage message) {
+        extraMessages = add(extraMessages, message);
+    }
+
+    public ValuePathLazyMessageList getEqualMessages() {
         return equalMessages;
     }
 
-    void setEqualMessages(List<ActualPathMessage> equalMessages) {
-        this.equalMessages = equalMessages;
-    }
-
-    public List<ActualPathMessage> getNotEqualMessages() {
+    public ValuePathLazyMessageList getNotEqualMessages() {
         return notEqualMessages;
     }
 
-    void setNotEqualMessages(List<ActualPathMessage> notEqualMessages) {
-        this.notEqualMessages = notEqualMessages;
-    }
-
-    public List<ActualPathMessage> getGreaterMessages() {
+    public ValuePathLazyMessageList getGreaterMessages() {
         return greaterMessages;
     }
 
-    void setGreaterMessages(List<ActualPathMessage> greaterMessages) {
-        this.greaterMessages = greaterMessages;
-    }
-
-    public List<ActualPathMessage> getLessMessages() {
+    public ValuePathLazyMessageList getLessMessages() {
         return lessMessages;
     }
 
-    void setLessMessages(List<ActualPathMessage> lessMessages) {
-        this.lessMessages = lessMessages;
-    }
-
-    public List<ActualPathMessage> getMissingMessages() {
+    public ValuePathLazyMessageList getMissingMessages() {
         return missingMessages;
     }
 
-    public boolean hasNoExtraAndNoMissing() {
-        return extraMessages.isEmpty() && missingMessages.isEmpty();
-    }
-
-    public boolean hasExtraOrMissing() {
-        return !extraMessages.isEmpty() || !missingMessages.isEmpty();
-    }
-
-    void setMissingMessages(List<ActualPathMessage> missingMessages) {
-        this.missingMessages = missingMessages;
-    }
-
-    public List<ActualPathMessage> getExtraMessages() {
+    public ValuePathLazyMessageList getExtraMessages() {
         return extraMessages;
     }
 
-    void setExtraMessages(List<ActualPathMessage> extraMessages) {
-        this.extraMessages = extraMessages;
+    public boolean hasNoExtraAndNoMissing() {
+        return isEmpty(extraMessages) && isEmpty(missingMessages);
+    }
+
+    public boolean hasExtraOrMissing() {
+        return !isEmpty(extraMessages) || !isEmpty(missingMessages);
+    }
+
+    public void merge(CompareToResult compareToResult) {
+        equalMessages = merge(equalMessages, compareToResult.equalMessages);
+        notEqualMessages = merge(notEqualMessages, compareToResult.notEqualMessages);
+        greaterMessages = merge(greaterMessages, compareToResult.greaterMessages);
+        lessMessages = merge(lessMessages, compareToResult.lessMessages);
+        missingMessages = merge(missingMessages, compareToResult.missingMessages);
+        extraMessages = merge(extraMessages, compareToResult.extraMessages);
+    }
+
+    private ValuePathLazyMessageList merge(ValuePathLazyMessageList parent, ValuePathLazyMessageList child) {
+        if (parent == null && child == null) {
+            return null;
+        }
+
+        if (child == null) {
+            return parent;
+        }
+
+        if (parent == null) {
+            parent = new ValuePathLazyMessageList();
+        }
+
+        parent.merge(child);
+
+        return parent;
+    }
+
+    private ValuePathLazyMessageList add(ValuePathLazyMessageList list, ValuePathMessage message) {
+        if (list == null) {
+            list = new ValuePathLazyMessageList();
+        }
+        list.add(message);
+        return list;
+    }
+
+    private boolean isEmpty(ValuePathLazyMessageList list) {
+        return size(list) == 0;
+    }
+
+    private int size(ValuePathLazyMessageList list) {
+        return list == null ? 0 : list.size();
     }
 }

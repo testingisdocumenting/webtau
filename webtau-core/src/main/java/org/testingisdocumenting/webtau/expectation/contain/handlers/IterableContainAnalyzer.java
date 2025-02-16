@@ -21,20 +21,20 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToResult;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class IterableContainAnalyzer {
     private final ValuePath actualPath;
     private final Object actual;
     private final Object expected;
     private final CompareToComparator comparator;
+    private final List<CombinedMismatchAndMissing> mismatchAndMissing;
 
     public IterableContainAnalyzer(ValuePath actualPath, Object actual, Object expected, boolean isNegative) {
         this.actualPath = actualPath;
         this.actual = actual;
         this.expected = expected;
+        this.mismatchAndMissing = new ArrayList<>();
         this.comparator = CompareToComparator.comparator(isNegative ? CompareToComparator.AssertionMode.NOT_EQUAL : CompareToComparator.AssertionMode.EQUAL);
     }
 
@@ -53,12 +53,18 @@ public class IterableContainAnalyzer {
             boolean isEqual = compareToResult.isEqual();
             if (isEqual) {
                 matchedIndexes.add(new IndexedValue(idx, actualValue));
+            } else {
+                mismatchAndMissing.add(new CombinedMismatchAndMissing(compareToResult.getNotEqualMessages(), compareToResult.getMissingMessages()));
             }
 
             idx++;
         }
 
         return matchedIndexes;
+    }
+
+    public List<CombinedMismatchAndMissing> getMismatchAndMissing() {
+        return mismatchAndMissing;
     }
 
     public CompareToComparator getComparator() {

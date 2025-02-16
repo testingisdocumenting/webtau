@@ -1039,6 +1039,54 @@ class HttpGroovyTest extends HttpTestBase {
     }
 
     @Test
+    void "contain exactly matcher"() {
+        http.get("/end-point-list") {
+            body[1].k2.should containExactly(30, 10, 20)
+        }
+
+        http.doc.capture("end-point-list-contain-exactly-matchers")
+    }
+
+    @Test
+    void "contain exactly objects with single failed"() {
+        code {
+            http.get("/end-point-large-list") {
+                body.should containExactly(
+                        [id: "id3", k1: "v31", k2: "v32"],
+                        [id: "id1", k1: "v11", k2: "v12"],
+                        [id: "id4", k1: "v41", k2: "v42_"],
+                        [id: "id2", k1: "v21", k2: "v22"],
+                )
+            }
+        } should throwException(AssertionError)
+
+        http.doc.capture("end-point-large-list-contain-exactly-matchers-single-failed")
+
+        def body = http.lastValidationResult.bodyNode
+
+        def isPassed = {idx, key ->
+            body.get(idx).get(key).traceableValue.checkLevel.should == CheckLevel.ExplicitPassed
+        }
+
+        def isFailed = {idx, key ->
+            body.get(idx).get(key).traceableValue.checkLevel.should == CheckLevel.ExplicitFailed
+        }
+
+        isPassed(0, "id")
+        isPassed(0, "k1")
+        isPassed(0, "k2")
+        isPassed(1, "id")
+        isPassed(1, "k1")
+        isPassed(1, "k2")
+        isPassed(2, "id")
+        isPassed(2, "k1")
+        isPassed(2, "k2")
+        isPassed(3, "id")
+        isPassed(3, "k1")
+        isFailed(3, "k2")
+    }
+
+    @Test
     void "contain containing all matcher"() {
         http.get("/prices") {
             body.prices.should contain(containingAll(10, 30))

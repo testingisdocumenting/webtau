@@ -50,12 +50,11 @@ public class DataNodeListAndValueContainHandler implements ContainHandler {
         CompareToComparator comparator = comparator(AssertionMode.EQUAL);
 
         if (indexedValues.isEmpty()) {
-            containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
-                    .generateEqualMismatchReport(), expected);
+            containAnalyzer.reportMismatchedValue(expected);
 
             dataNodes.forEach(n -> comparator.compareUsingEqualOnly(actualPath, n, expected));
         } else {
-            indexedValues.forEach(iv -> comparator.compareUsingEqualOnly(actualPath, dataNodes.get(iv.getIdx()), expected));
+            indexedValues.forEach(iv -> comparator.compareUsingEqualOnly(actualPath, dataNodes.get(iv.idx()), expected));
         }
     }
 
@@ -75,11 +74,11 @@ public class DataNodeListAndValueContainHandler implements ContainHandler {
             CompareToComparator comparator = comparator(AssertionMode.NOT_EQUAL);
 
             indexedValues.forEach(indexedValue -> {
-                ValuePath indexedPath = actualPath.index(indexedValue.getIdx());
+                ValuePath indexedPath = actualPath.index(indexedValue.idx());
 
                 containAnalyzer.reportMatch(this, indexedPath,
-                        tokenizedMessage().error("equals").valueFirstLinesOnly(indexedValue.getValue()));
-                comparator.compareUsingEqualOnly(indexedPath, dataNodes.get(indexedValue.getIdx()), expected);
+                        () -> tokenizedMessage().error("equals").valueFirstLinesOnly(indexedValue.value()));
+                comparator.compareUsingEqualOnly(indexedPath, dataNodes.get(indexedValue.idx()), expected);
             });
         }
     }

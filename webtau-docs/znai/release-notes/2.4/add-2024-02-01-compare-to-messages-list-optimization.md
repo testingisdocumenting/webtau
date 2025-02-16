@@ -1,0 +1,1 @@
+* Add: Reduce unnecessary `CompareToComparator` results lists creation

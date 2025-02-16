@@ -1,0 +1,1 @@
+* Add: auto generated [Server](servers/introduction) `id` when none provided

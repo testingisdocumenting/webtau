@@ -1,0 +1,16 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "send keys to browser",
+    "shortContainerId" : "globalSendKeys.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 6
+    }
+  } ],
+  "exitCode" : 0
+}

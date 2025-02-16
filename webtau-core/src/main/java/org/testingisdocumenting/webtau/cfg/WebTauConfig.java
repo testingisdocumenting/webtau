@@ -53,12 +53,16 @@ public class WebTauConfig implements PrettyPrintable {
 
     private final ConfigValue verbosityLevel = declare("verbosityLevel", "output verbosity level. " +
             "0 - no output; 1 - test names; 2 - first level steps; etc", () -> Integer.MAX_VALUE);
+    private final ConfigValue fullAssertionError = declare("fullAssertionError",
+            "Always include detailed message in assertion error (even when console output is present)", () -> false);
     private final ConfigValue fullStackTrace = declare("fullStackTrace", "print full stack trace to console",
             () -> false);
     private final ConfigValue disableConsoleOverallReport = declare("disableConsoleOverallReport", "do not print failed tests, overall summary and path to the generated report at the end", () -> false);
 
     private final ConfigValue tableVerticalSeparator = declare("tableVerticalSeparator", "string to use as a vertical separator when print TableData", () -> " \u2502 ");
 
+    private final ConfigValue matchersReportEntriesLimit = declare("matchersReportEntriesLimit",
+            "max number of entries for <mismatches>/<missing> to display when matcher fails", () -> 10);
     private final ConfigValue consolePayloadOutputLimit = declare("consolePayloadOutputLimit",
             "max number of lines to display in console for outputs (e.g. http response)", () -> 500);
 
@@ -159,8 +163,20 @@ public class WebTauConfig implements PrettyPrintable {
         verbosityLevel.setAndReport("manual", level);
     }
 
+    public boolean isFullAssertionError() {
+        return fullAssertionError.getAsBoolean();
+    }
+
+    public void setFullAssertionError(boolean isFullAssertionError) {
+        fullAssertionError.setAndReport("manual", isFullAssertionError);
+    }
+
     public boolean getFullStackTrace() {
         return fullStackTrace.getAsBoolean();
+    }
+
+    public int getMatchersReportEntriesLimit() {
+        return matchersReportEntriesLimit.getAsInt();
     }
 
     public int getConsolePayloadOutputLimit() {
@@ -465,6 +481,7 @@ public class WebTauConfig implements PrettyPrintable {
                 url,
                 httpProxy,
                 verbosityLevel,
+                fullAssertionError,
                 fullStackTrace,
                 disableConsoleOverallReport,
                 tableVerticalSeparator,

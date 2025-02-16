@@ -18,4 +18,5 @@ package org.testingisdocumenting.webtau.expectation;
 
 public interface ActualCodeExpectations {
     void should(CodeMatcher codeMatcher);
+    void shouldNot(CodeMatcher codeMatcher);
 }

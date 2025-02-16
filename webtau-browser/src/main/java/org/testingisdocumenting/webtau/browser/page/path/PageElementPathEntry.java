@@ -18,7 +18,6 @@
 package org.testingisdocumenting.webtau.browser.page.path;
 
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import java.util.ArrayList;
@@ -44,8 +43,8 @@ class PageElementPathEntry {
         return copy;
     }
 
-    List<WebElement> find(SearchContext parent) {
-        List<WebElement> elements = finder.find(parent);
+    List<WebElement> find(PageElementPathSearchContext searchContext) {
+        List<WebElement> elements = finder.find(searchContext);
         if (elements.isEmpty()) {
             return elements;
         }

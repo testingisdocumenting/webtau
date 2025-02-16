@@ -1,0 +1,1 @@
+* Add: [browser](browser/introduction)`.sendKeys` to send keys to the window instead of a specific element

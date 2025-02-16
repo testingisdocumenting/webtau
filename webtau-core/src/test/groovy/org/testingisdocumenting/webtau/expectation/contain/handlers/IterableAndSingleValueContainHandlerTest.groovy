@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -63,18 +64,51 @@ class IterableAndSingleValueContainHandlerTest {
 
     @Test
     void "displays complex type when no match found"() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"firstName": "FN31", "lastName": "LN3"}: no match found (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"firstName": "FN31", "lastName": "LN3"}:\n' +
+                '    [value][2].firstName:  actual: "FN3" <java.lang.String>\n' +
+                '                         expected: "FN31" <java.lang.String>\n' +
+                '                                       ^ (Xms)\n' +
                 '  \n' +
                 '  [\n' +
                 '    {"firstName": "FN1", "lastName": "LN1"},\n' +
                 '    {"firstName": "FN2", "lastName": "LN2"},\n' +
-                '    {"firstName": "FN3", "lastName": "LN3"}\n' +
+                '    {"firstName": **"FN3"**, "lastName": "LN3"}\n' +
                 '  ]') {
             actual([
                     [firstName: 'FN1', lastName: 'LN1'],
                     [firstName: 'FN2', lastName: 'LN2'],
                     [firstName: 'FN3', lastName: 'LN3'],
             ]).should(contain([firstName: 'FN31', lastName: 'LN3']))
+        }
+    }
+
+    @Test
+    void "displays missing and mismatched of the suspect"() {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain {"firstName": "FN2", "lastName": "LN3", "game": "on"}:\n' +
+                '    possible mismatches:\n' +
+                '    \n' +
+                '    [value][1].lastName:  actual: "LN2" <java.lang.String>\n' +
+                '                        expected: "LN3" <java.lang.String>\n' +
+                '                                     ^\n' +
+                '    [value][2].firstName:  actual: "FN3" <java.lang.String>\n' +
+                '                         expected: "FN2" <java.lang.String>\n' +
+                '                                      ^\n' +
+                '    \n' +
+                '    possible missing values:\n' +
+                '    \n' +
+                '    [value][1].game: "on"\n' +
+                '    [value][2].game: "on" (Xms)\n' +
+                '  \n' +
+                '  [\n' +
+                '    {"firstName": "FN1", "lastName": "LN1", "extra": "T", "game": <missing>},\n' +
+                '    {"firstName": "FN2", "lastName": **"LN2"**, "extra": "B", "game": **<missing>**},\n' +
+                '    {"firstName": **"FN3"**, "lastName": "LN3", "wrong": "C", "game": **<missing>**}\n' +
+                '  ]') {
+            actual([
+                    [firstName: 'FN1', lastName: 'LN1', extra: "T"],
+                    [firstName: 'FN2', lastName: 'LN2', extra: "B"],
+                    [firstName: 'FN3', lastName: 'LN3', wrong: "C"],
+            ]).should(contain([firstName: 'FN2', lastName: 'LN3', game: "on"]))
         }
     }
 
@@ -110,8 +144,10 @@ class IterableAndSingleValueContainHandlerTest {
 
     @Test
     void "contain matcher throws when doesn't match"() {
-        code {
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to contain "wod": no match found (Xms)\n' +
+                '  \n' +
+                '  ["hello", "world", "of", "testing"]') {
             actual(['hello', 'world', 'of', 'testing']).should(contain('wod'))
-        } should throwException("no match found")
+        }
     }
 }

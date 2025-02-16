@@ -1,0 +1,1 @@
+* Add: `throwException` `code` matcher accepts `ValueMatchers` in addition to `String` and `Pattern`

@@ -17,7 +17,9 @@
 
 package org.testingisdocumenting.webtau.reporter;
 
+import org.testingisdocumenting.webtau.cfg.WebTauConfig;
 import org.testingisdocumenting.webtau.console.ConsoleOutputs;
+import org.testingisdocumenting.webtau.console.StringNoAnsiConsoleOutput;
 import org.testingisdocumenting.webtau.data.converters.ValueConverter;
 import org.testingisdocumenting.webtau.expectation.AssertionTokenizedError;
 import org.testingisdocumenting.webtau.persona.Persona;
@@ -447,7 +449,7 @@ public class WebTauStep {
 
             // to avoid full mismatch reports printing twice
             if (e instanceof AssertionTokenizedError) {
-                throw new AssertionError(reduceMismatchedMessage(e.getMessage()));
+                throw new AssertionError(reduceOrEnhanceAssertionMessage(e.getMessage()));
             } else {
                 throw e;
             }
@@ -459,16 +461,14 @@ public class WebTauStep {
         }
     }
 
-    private String reduceMismatchedMessage(String message) {
+    private String reduceOrEnhanceAssertionMessage(String message) {
         // we throw the full message if the details are not rendered to the console
+        // or config explicitly asks for full messages at all times
         if (!StepReporters.isConsoleStepReporterActive() ||
                 !ConsoleOutputs.isTerminalConsoleOutputActive() ||
-                !StepReporters.defaultStepReporter.isWithinVerboseLevel(this)) {
-            return message;
-        }
-
-        if (StringUtils.numberOfLines(message) == 1) {
-            return message;
+                !StepReporters.defaultStepReporter.isWithinVerboseLevel(this) ||
+                WebTauConfig.getCfg().isFullAssertionError()) {
+            return renderStep(this);
         }
 
         String seeMoreLabel = "see the failed assertion details above";
@@ -476,7 +476,20 @@ public class WebTauStep {
             return message;
         }
 
+        if (StringUtils.numberOfLines(message) == 1) {
+            return message;
+        }
+
         return seeMoreLabel;
+    }
+
+    private String renderStep(WebTauStep step) {
+        StringNoAnsiConsoleOutput output = new StringNoAnsiConsoleOutput();
+        ConsoleStepReporter reporter = new ConsoleStepReporter(output,
+                TokenizedMessageToAnsiConverter.DEFAULT,
+                () -> Integer.MAX_VALUE);
+        reporter.printStepFailure(step, true);
+        return output.getOut();
     }
 
     private <R> R executeMultipleRuns(StepReportOptions stepReportOptions) {
@@ -618,8 +631,13 @@ public class WebTauStep {
         if (t instanceof AssertionTokenizedError) {
             exceptionTokenizedMessage = ((AssertionTokenizedError) t).getTokenizedMessage();
         } else {
-            exceptionTokenizedMessage = tokenizedMessage().error(t.getMessage());
+            exceptionTokenizedMessage = tokenizedMessage().error(exceptionMessage(t));
         }
+    }
+
+    private String exceptionMessage(Throwable t) {
+        String message = t.getMessage();
+        return "<" + t.getClass().getSimpleName() + ">" + (message != null ? " " + message : "");
     }
 
     private TokenizedMessage replaceValuesFirstLinesOnlyWithFull(TokenizedMessage message) {

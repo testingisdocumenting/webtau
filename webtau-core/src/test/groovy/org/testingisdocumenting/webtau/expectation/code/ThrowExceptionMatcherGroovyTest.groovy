@@ -39,12 +39,42 @@ class ThrowExceptionMatcherGroovyTest {
     }
 
     @Test
+    void "multiline exception mismatch should contain additional details about specific line"() {
+        runExpectExceptionAndValidateOutput(AssertionError, contain("**line two**")) {
+            code {
+                throw new RuntimeException('line one\nline two\n')
+            } should throwException('line one\nline Two')
+        }
+    }
+
+    @Test
     void "should validate exception message using regexp"() {
         runExpectExceptionAndValidateOutput(AssertionError, contain('exception.message:    actual string: error message\n' +
                 '                       expected pattern: ~/error \\d+/')) {
             code {
                 throw new RuntimeException('error message')
             } should throwException(~/error \d+/)
+        }
+    }
+
+    @Test
+    void "should validate exception using contain matcher mismatch case"() {
+        runExpectExceptionAndValidateOutput(AssertionError, contain('> expecting code to throw exception <contain "message1">\n' +
+                'X failed expecting code to throw exception <contain "message1">:\n' +
+                '    exception.message: no match found')) {
+            code {
+                throw new RuntimeException('error message')
+            } should throwException(contain('message1'))
+        }
+    }
+
+    @Test
+    void "should validate exception using contain matcher match case"() {
+        runAndValidateOutput('> expecting code to throw exception <contain "message">\n' +
+                '. code thrown <contain "message"> (Xms)') {
+            code {
+                throw new RuntimeException('error message')
+            } should throwException(contain('message'))
         }
     }
 
@@ -87,9 +117,21 @@ class ThrowExceptionMatcherGroovyTest {
     }
 
     @Test
+    void "should validate exception using class and contain matcher mismatch case"() {
+        runAndValidateOutput("> expecting code to throw exception {\"message\": <contain \"message\">, \"class\": java.lang.IllegalArgumentException}\n" +
+                ". code thrown {\"message\": <contain \"message\">, \"class\": java.lang.IllegalArgumentException} (Xms)") {
+            code {
+                throw new IllegalArgumentException('error message')
+            } should throwException(IllegalArgumentException.class, contain('message'))
+        }
+    }
+
+    @Test
     void "should add exception stack trace when mismatched"() {
-        runExpectExceptionAndValidateOutput(AssertionError.class, contain("stack trace:\n" +
-                "    java.lang.RuntimeException: java.lang.IllegalArgumentException: negative not allowed")) {
+        runExpectExceptionAndValidateOutput(AssertionError.class,
+                containAll(
+                        "stack trace",
+                         "java.lang.RuntimeException: java.lang.IllegalArgumentException: negative not allowed")) {
             code {
                 businessLogicStart()
             } should throwException(NullPointerException, 'error message1')

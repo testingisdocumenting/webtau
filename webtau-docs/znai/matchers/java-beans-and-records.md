@@ -10,12 +10,14 @@ Groovy:
     surroundedBy: "bean-map-example",
     commentsType: "inline"
 }
+:include-markdown: import-ref.md
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     surroundedBy: "bean-map-example",
     commentsType: "inline"
 } 
+:include-markdown: import-ref.md
 ``` 
 
 ```columns
@@ -77,19 +79,21 @@ Use `contain` with `TableData` to partially compare list of java beans.
 Groovy: 
 :include-file: org/testingisdocumenting/webtau/MatchersGroovyTest.groovy {
     surroundedBy: "beans-table-contain-example",
-    commentsType: "inline"
+    commentsType: "inline",
+    noGap: true,
+    noGapBorder: true
 }
+:include-cli-output: doc-artifacts/beans-table-contain-output.txt 
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     surroundedBy: "beans-table-contain-example",
-    commentsType: "inline"
+    commentsType: "inline",
+    noGap: true,
+    noGapBorder: true
 } 
+:include-cli-output: doc-artifacts/beans-table-contain-output.txt 
 ``` 
-
-:include-cli-output: doc-artifacts/beans-table-contain-output.txt {title: "contain handler output"}
-
-:include-markdown: static-import.md
 
 # Java Records 
 

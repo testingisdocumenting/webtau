@@ -35,8 +35,26 @@ public class IterableAndSingleValueContainHandler implements ContainHandler {
         List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         if (indexedValues.isEmpty()) {
-            containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
-                    .generateEqualMismatchReport(), expected);
+            containAnalyzer.reportMismatchedValue(expected);
+        }
+
+        // we want to highlight the closest matches in actual output. So among all the iterable values we pick the ones with the least mismatches
+        // and assume they are the closest match
+        List<CombinedMismatchAndMissing> failureMessagesPerIdx = analyzer.getMismatchAndMissing();
+        int minFailures = failureMessagesPerIdx.stream().map(CombinedMismatchAndMissing::size).min(Integer::compareTo).orElse(0);
+
+        long numberOfEntriesWithMinMismatches = failureMessagesPerIdx.stream()
+                .filter(v -> v.size() == minFailures).count();
+
+        if (numberOfEntriesWithMinMismatches != failureMessagesPerIdx.size()) {
+            List<CombinedMismatchAndMissing> suspects = failureMessagesPerIdx.stream()
+                    .filter(v -> v.size() == minFailures)
+                    .toList();
+            suspects.forEach(list -> containAnalyzer.registerExtraMismatchPaths(list.extractPaths()));
+            suspects.forEach(list -> {
+                containAnalyzer.reportMismatches(this, list.mismatchMessages());
+                containAnalyzer.reportMissing(this, list.missingMessages());
+            });
         }
 
         containAnalyzer.registerConvertedActualByPath(analyzer.getComparator().getConvertedActualByPath());
@@ -48,7 +66,8 @@ public class IterableAndSingleValueContainHandler implements ContainHandler {
         List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         if (!indexedValues.isEmpty()) {
-            analyzer.getComparator().getEqualMessages().forEach(message -> containAnalyzer.reportMatch(this, message.getActualPath(), message.getMessage()));
+            analyzer.getComparator().getEqualMessages().forEach(message ->
+                    containAnalyzer.reportMatch(this, message.actualPath(), message.messageFunc()));
         }
 
         containAnalyzer.registerConvertedActualByPath(analyzer.getComparator().getConvertedActualByPath());

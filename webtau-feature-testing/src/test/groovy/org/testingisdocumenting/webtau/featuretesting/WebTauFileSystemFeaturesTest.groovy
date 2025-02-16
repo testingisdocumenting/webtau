@@ -67,7 +67,8 @@ class WebTauFileSystemFeaturesTest {
                 'fsFileContent', 'examples/scenarios/fs/files.groovy', [
                 'createFile.groovy': 'create file using string path',
                 'readFile.groovy': 'read file using string path',
-                'replaceFile.groovy': 'replace file content using regexp'
+                'replaceFile.groovy': 'replace file content using regexp',
+                'waitForChange.groovy': 'snapshot and change'
         ])
     }
 

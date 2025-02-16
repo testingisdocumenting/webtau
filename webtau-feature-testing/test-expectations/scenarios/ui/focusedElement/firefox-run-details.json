@@ -1,0 +1,23 @@
+{
+  "scenarioDetails" : [ {
+    "scenario" : "after all tests",
+    "shortContainerId" : "Teardown",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1
+    }
+  }, {
+    "scenario" : "send text to focused element",
+    "shortContainerId" : "focusedElement.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 8
+    }
+  }, {
+    "scenario" : "send text when no focused element",
+    "shortContainerId" : "focusedElement.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 1,
+      "numberOfFailed" : 1
+    }
+  } ],
+  "exitCode" : 1
+}

@@ -19,7 +19,6 @@ package org.testingisdocumenting.webtau.reporter
 
 import org.junit.BeforeClass
 import org.junit.Test
-import org.testingisdocumenting.webtau.WebTauCore
 import org.testingisdocumenting.webtau.cfg.WebTauConfig
 import org.testingisdocumenting.webtau.console.ConsoleOutputs
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter
@@ -29,11 +28,10 @@ import org.testingisdocumenting.webtau.testutils.TestConsoleOutput
 import java.util.function.Supplier
 
 import static java.util.stream.Collectors.*
-import static org.testingisdocumenting.webtau.Matchers.code
-import static org.testingisdocumenting.webtau.Matchers.throwException
-import static org.testingisdocumenting.webtau.WebTauCore.tokenizedMessage
+import static org.testingisdocumenting.webtau.WebTauCore.*
 import static org.testingisdocumenting.webtau.reporter.StepReportOptions.*
 import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runAndValidateOutput
+import static org.testingisdocumenting.webtau.testutils.TestConsoleOutput.runExpectExceptionAndValidateOutput
 
 class WebTauStepTest {
     static WebTauStep rootStep
@@ -156,7 +154,7 @@ class WebTauStepTest {
             }.execute(REPORT_ALL)
         }
 
-        runAndValidateOutput(WebTauCore.contain("failed repeat #8: unknown failure")) {
+        runAndValidateOutput(contain("failed repeat #8: <RuntimeException> unknown failure")) {
             repeatStep.execute(REPORT_ALL)
         }
 
@@ -171,6 +169,30 @@ class WebTauStepTest {
 
         assert steps[0].completionMessage.toString() == "done step action"
         assert steps[1].completionMessage.toString() == "done c1 action"
+    }
+
+    @Test
+    void "should include exception name"() {
+        def step = createStep("exception step action") {
+            throw new NullPointerException()
+        }
+
+        runExpectExceptionAndValidateOutput(NullPointerException, "> exception step action\n" +
+                "X failed exception step action: <NullPointerException> (Xms)") {
+            step.execute(REPORT_ALL)
+        }
+    }
+
+    @Test
+    void "should include exception name and message when present"() {
+        def step = createStep("exception step action") {
+            throw new ArrayIndexOutOfBoundsException("range")
+        }
+
+        runExpectExceptionAndValidateOutput(ArrayIndexOutOfBoundsException, "> exception step action\n" +
+                "X failed exception step action: <ArrayIndexOutOfBoundsException> range (Xms)") {
+            step.execute(REPORT_ALL)
+        }
     }
 
     @Test
@@ -201,9 +223,30 @@ class WebTauStepTest {
 
             code {
                 step1.execute(SKIP_START)
-            } should(throwException("error\ndetails"))
+            } should(throwException(contain("X failed c1 action:\n" +
+                    "    error\n" +
+                    "    details")))
         } finally {
             WebTauConfig.getCfg().setVerbosityLevel(Integer.MAX_VALUE)
+        }
+    }
+
+    @Test
+    void "should throw full exception details if explicitly forced via config"() {
+        WebTauConfig.getCfg().setFullAssertionError(true)
+
+        try {
+            def step1 = createStep("c1 action") {
+                throw new AssertionTokenizedError(tokenizedMessage().error("error").newLine().action("details"))
+            }
+
+            code {
+                step1.execute(SKIP_START)
+            } should(throwException(contain("X failed c1 action:\n" +
+                    "    error\n" +
+                    "    details")))
+        } finally {
+            WebTauConfig.getCfg().setFullAssertionError(false)
         }
     }
 
@@ -218,7 +261,9 @@ class WebTauStepTest {
 
             code {
                 step1.execute(SKIP_START)
-            } should(throwException("error\ndetails"))
+            } should(throwException(contain("X failed c1 action:\n" +
+                    "    error\n" +
+                    "    details")))
         } finally {
             ConsoleOutputs.remove(output)
         }

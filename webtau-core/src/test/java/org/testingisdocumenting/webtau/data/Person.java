@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,26 +17,5 @@
 
 package org.testingisdocumenting.webtau.data;
 
-public class Person {
-    private String id;
-    private int level;
-    private int monthsAtCompany;
-
-    public Person(String id, int level, int monthsAtCompany) {
-        this.id = id;
-        this.level = level;
-        this.monthsAtCompany = monthsAtCompany;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public int getLevel() {
-        return level;
-    }
-
-    public int getMonthsAtCompany() {
-        return monthsAtCompany;
-    }
+public record Person(String id, int level, int monthsAtCompany) {
 }

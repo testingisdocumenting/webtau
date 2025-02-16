@@ -43,6 +43,22 @@ class ExpectationExtension {
         throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }
 
+    static void waitTo(actual, ValueMatcher valueMatcher) {
+        new ActualValue(actual).waitTo(valueMatcher)
+    }
+
+    static void waitToBe(actual, ValueMatcher valueMatcher) {
+        wait(actual, valueMatcher)
+    }
+
+    static void waitToNot(actual, ValueMatcher valueMatcher) {
+        new ActualValue(actual).waitToNot(valueMatcher)
+    }
+
+    static void waitToNotBe(actual, ValueMatcher valueMatcher) {
+        waitToNot(actual, valueMatcher)
+    }
+
     static Object getWaitTo(actual) {
         throw new IllegalStateException(SHOULD_BE_REPLACED_MESSAGE)
     }

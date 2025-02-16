@@ -1,0 +1,1 @@
+* Add: Browser page element [wait to change](browser/asynchronous-page#wait-to-change)

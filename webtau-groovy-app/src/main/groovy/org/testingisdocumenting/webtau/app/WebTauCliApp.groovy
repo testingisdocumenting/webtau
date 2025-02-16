@@ -236,6 +236,7 @@ class WebTauCliApp implements TestListener, ReportGenerator {
     }
 
     private static StepReporter createConsoleStepReporter() {
-        return new ConsoleStepReporter(TokenizedMessageToAnsiConverter.DEFAULT, () -> cfg.getVerbosityLevel())
+        return new ConsoleStepReporter(ConsoleOutputs.asCombinedConsoleOutput(),
+                TokenizedMessageToAnsiConverter.DEFAULT, () -> cfg.getVerbosityLevel())
     }
 }

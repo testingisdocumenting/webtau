@@ -43,11 +43,10 @@ public class CliOutputContainHandler implements ContainHandler {
         List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         if (indexedValues.isEmpty()) {
-            containAnalyzer.reportMismatch(this, actualPath, analyzer.getComparator()
-                    .generateEqualMismatchReport(), expected);
+            containAnalyzer.reportMismatchedValue(expected);
         }
 
-        indexedValues.forEach(iv -> cliOutput.registerMatchedLine(iv.getIdx()));
+        indexedValues.forEach(iv -> cliOutput.registerMatchedLine(iv.idx()));
     }
 
     @Override
@@ -59,13 +58,13 @@ public class CliOutputContainHandler implements ContainHandler {
         List<IndexedValue> indexedValues = analyzer.findContainingIndexedValues();
 
         indexedValues.forEach(indexedValue ->
-                containAnalyzer.reportMatch(this, actualPath.index(indexedValue.getIdx()),
-                        tokenizedMessage().matcher("equals").value(indexedValue.getValue())
+                containAnalyzer.reportMatch(this, actualPath.index(indexedValue.idx()),
+                        () -> tokenizedMessage().matcher("equals").value(indexedValue.value())
                 ));
     }
 
     /*
-    for output we want to be able to mark matched lines, and so want to treat output as a list of lines.
+    for output, we want to be able to mark matched lines, and so want to treat output as a list of lines.
     at the same time we want a substring match within a line.
     so we will automatically convert expected text to a quoted regexp and pass it down to contain analyzer.
      */

@@ -1,0 +1,1 @@
+* Add: Limit [Matchers](matchers/introduction) number of mismatch details printed by default via config `matchersReportEntriesLimit `

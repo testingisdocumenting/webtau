@@ -17,6 +17,7 @@
 
 package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
+import org.testingisdocumenting.webtau.WebTauCore;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAnalyzer;
 import org.testingisdocumenting.webtau.expectation.contain.ContainHandler;
@@ -45,9 +46,9 @@ public class StringContainHandler implements ContainHandler {
 
         int matchIdx = actualText.toString().indexOf(expectedText.toString());
         if (matchIdx != -1) {
-            containAnalyzer.reportMatch(this, actualPath, tokenizedMessage().matcher("contains at idx").number(matchIdx));
+            containAnalyzer.reportMatch(this, actualPath, () -> tokenizedMessage().matcher("contains at idx").number(matchIdx));
         } else {
-            containAnalyzer.reportMismatch(this, actualPath, tokenizedMessage());
+            containAnalyzer.reportMismatch(this, actualPath, WebTauCore::tokenizedMessage);
         }
     }
 }

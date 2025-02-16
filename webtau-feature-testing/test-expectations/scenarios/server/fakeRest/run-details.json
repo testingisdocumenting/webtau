@@ -3,13 +3,19 @@
     "scenario" : "after all tests",
     "shortContainerId" : "Teardown",
     "stepsSummary" : {
-      "numberOfSuccessful" : 4
+      "numberOfSuccessful" : 5
     }
   }, {
     "scenario" : "fake rest server",
     "shortContainerId" : "fakeRest.groovy",
     "stepsSummary" : {
       "numberOfSuccessful" : 7
+    }
+  }, {
+    "scenario" : "auto generated server id",
+    "shortContainerId" : "fakeRest.groovy",
+    "stepsSummary" : {
+      "numberOfSuccessful" : 4
     }
   }, {
     "scenario" : "slow down",

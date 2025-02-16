@@ -32,19 +32,17 @@ import org.testingisdocumenting.webtau.browser.page.path.PageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByNumberPageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByRegexpPageElementsFilter;
 import org.testingisdocumenting.webtau.browser.page.path.filter.ByTextPageElementsFilter;
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssPageElementFinder;
-import org.testingisdocumenting.webtau.browser.page.path.finder.ParentByCssPageElementFinder;
-import org.testingisdocumenting.webtau.browser.page.path.finder.ParentPageElementFinder;
+import org.testingisdocumenting.webtau.browser.page.path.filter.NearbyPageElementFilter;
+import org.testingisdocumenting.webtau.browser.page.path.finder.*;
+import org.testingisdocumenting.webtau.data.snapshot.SnapshotValue;
+import org.testingisdocumenting.webtau.data.snapshot.SnapshotValueAware;
 import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.data.render.PrettyPrintable;
 import org.testingisdocumenting.webtau.data.render.PrettyPrinter;
 import org.testingisdocumenting.webtau.expectation.ActualPathAndDescriptionAware;
 import org.testingisdocumenting.webtau.expectation.ActualValueExpectations;
 import org.testingisdocumenting.webtau.expectation.state.VisibleStateAware;
-import org.testingisdocumenting.webtau.reporter.StepReportOptions;
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.testingisdocumenting.webtau.reporter.WebTauStepInput;
-import org.testingisdocumenting.webtau.reporter.WebTauStepInputKeyValue;
+import org.testingisdocumenting.webtau.reporter.*;
 
 import java.util.*;
 import java.util.function.Consumer;
@@ -62,6 +60,7 @@ public class PageElement implements
         ActualValueExpectations,
         PrettyPrintable,
         ActualPathAndDescriptionAware,
+        SnapshotValueAware,
         VisibleStateAware {
     private final static TokenizedMessage HIDDEN_MESSAGE_STRING_VALUE = tokenizedMessage().string("*****");
 
@@ -84,6 +83,7 @@ public class PageElement implements
     private final AdditionalBrowserInteractions additionalBrowserInteractions;
     private final PageElementPath path;
     private final TokenizedMessage pathDescription;
+    private final SnapshotValue snapshotValue;
 
     private final boolean isMarkedAsAll;
 
@@ -107,6 +107,7 @@ public class PageElement implements
         this.offsetWidth = new PageElementValue<>(this, "offsetWidth", fetchIntElementPropertyFunc("offsetWidth"));
         this.clientHeight = new PageElementValue<>(this, "clientHeight", fetchIntElementPropertyFunc("clientHeight"));
         this.clientWidth = new PageElementValue<>(this, "clientWidth", fetchIntElementPropertyFunc("clientWidth"));
+        this.snapshotValue = SnapshotValue.empty();
     }
 
     public PageElementValue<String> attribute(String name) {
@@ -265,6 +266,10 @@ public class PageElement implements
         return withFinder(new ParentByCssPageElementFinder(additionalBrowserInteractions, css));
     }
 
+    public PageElement nearby(PageElement target) {
+        return withFilter(new NearbyPageElementFilter(additionalBrowserInteractions, target));
+    }
+
     public PageElement get(String text) {
         return withFilter(new ByTextPageElementsFilter(additionalBrowserInteractions, text));
     }
@@ -359,6 +364,23 @@ public class PageElement implements
         new PageElementPrettyPrinter(this, 10).prettyPrint(printer);
     }
 
+    @Override
+    public void takeSnapshot() {
+        snapshotValue.take(tokenizedMessage().action("taking value snapshot").add(pathDescription),
+                () -> tokenizedMessage().action("value snapshot is taken").forP().add(pathDescription),
+                this::extractActualValue);
+    }
+
+    @Override
+    public Object snapshotValue() {
+        return snapshotValue.required();
+    }
+
+    @Override
+    public Object currentValue() {
+        return extractActualValue();
+    }
+
     List<HtmlNode> extractHtmlNodes() {
         return extractHtmlNodes(findElements());
     }
@@ -379,7 +401,6 @@ public class PageElement implements
                         .build()
                         .perform());
     }
-
 
     private Object extractSingleValue() {
         List<WebElement> elements = path.find(driver);
@@ -564,6 +585,12 @@ public class PageElement implements
         argsList.addAll(Arrays.asList(args));
 
         ((JavascriptExecutor) driver).executeScript(script, argsList.toArray(new Object[0]));
+    }
+
+    private Object extractActualValue() {
+        return isMarkedAsAll ?
+                valuesList.get() :
+                value.get();
     }
 
     private interface ActionsProvider {

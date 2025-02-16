@@ -41,8 +41,17 @@ class ContainAllMatcherTest {
     }
 
     @Test
+    void "passes when all values are present as list"() {
+        actual(['a', 'b', 'd']).should(containAll(['b', 'a']))
+    }
+
+    @Test
     void "negative matcher fails only when all the values are present "() {
-        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain all ["b", "a"] (Xms)\n' +
+        runExpectExceptionAndValidateOutput(AssertionError, 'X failed expecting [value] to not contain all ["b", "a"]:\n' +
+                '    [value][1]:  actual:     "b" <java.lang.String>\n' +
+                '               expected: not "b" <java.lang.String>\n' +
+                '    [value][0]:  actual:     "a" <java.lang.String>\n' +
+                '               expected: not "a" <java.lang.String> (Xms)\n' +
                 '  \n' +
                 '  [**"a"**, **"b"**, "d"]') {
             actual(['a', 'b', 'd']).shouldNot(containAll('b', 'a'))
@@ -80,12 +89,12 @@ class ContainAllMatcherTest {
                 '      "address": org.testingisdocumenting.webtau.Address@<ref>,\n' +
                 '      "description": "d1",\n' +
                 '      "id": "id1",\n' +
-                '      "name": "name1"\n' +
+                '      "name": **"name1"**\n' +
                 '    },\n' +
                 '    {\n' +
                 '      "address": org.testingisdocumenting.webtau.Address@<ref>,\n' +
                 '      "description": "d2",\n' +
-                '      "id": "id2",\n' +
+                '      "id": **"id2"**,\n' +
                 '      "name": "name2"\n' +
                 '    },\n' +
                 '    {\n' +

@@ -17,10 +17,13 @@
 package org.testingisdocumenting.webtau;
 
 import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ObjectProperties;
 import org.testingisdocumenting.webtau.data.live.LiveValue;
 import org.testingisdocumenting.webtau.expectation.*;
+import org.testingisdocumenting.webtau.expectation.code.ValueChangeCodeMatcher;
 import org.testingisdocumenting.webtau.expectation.code.ThrowExceptionMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainAllMatcher;
+import org.testingisdocumenting.webtau.expectation.contain.ContainExactlyMatcher;
 import org.testingisdocumenting.webtau.expectation.contain.ContainMatcher;
 import org.testingisdocumenting.webtau.expectation.equality.*;
 import org.testingisdocumenting.webtau.expectation.state.HiddenValueMatcher;
@@ -28,6 +31,7 @@ import org.testingisdocumenting.webtau.expectation.state.VisibleValueMatcher;
 
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.concurrent.Callable;
 import java.util.function.Supplier;
 import java.util.regex.Pattern;
 
@@ -35,6 +39,16 @@ import java.util.regex.Pattern;
  * Convenient place to discover all the available matchers
  */
 public class Matchers {
+    /**
+     * any value matcher. use it in places like table or complex structures where you want to ignore a value
+     */
+    public static final ValueMatcher anyValue = new AnyValueMatcher();
+
+    /**
+     * snapshot based value change matcher. Check/wait for value to change/remain the same
+     */
+    public static final ValueMatcher change = new SnapshotChangeValueMatcher();
+
     /**
      * visible matcher to check if UI element is visible
      * @see #hidden
@@ -53,7 +67,7 @@ public class Matchers {
      * actual(value).should(beGreaterThan(10));
      * actual(value).shouldNot(beGreaterThan(10));
      * </pre>
-     * Note: In Groovy you can do <code>value.should beGreaterThan(10)</code>
+     * Note: In Groovy you can do <code>value.shouldBe > 10</code>
      * @param actual value to assert against
      * @return Object to chain a matcher against
      */
@@ -67,7 +81,7 @@ public class Matchers {
      * actual(price, "price").should(beGreaterThan(10));
      * actual(price, "price").shouldNot(beGreaterThan(10));
      * </pre>
-     * Note: In Groovy you can do <code>price.should beGreaterThan(10)</code>
+     * Note: In Groovy you can do <code>price.shouldBe > 10</code>
      * @param actual value to assert against
      * @param path path to use in the reporting
      * @return Object to chain a matcher against
@@ -201,6 +215,30 @@ public class Matchers {
     }
 
     /**
+     * Contain exactly matcher
+     * <pre>
+     * actual(collection).should(containExactly(el1, el2, el3));
+     * </pre>
+     * @param expected vararg list of values to check
+     * @return matcher instance
+     */
+    public static ContainExactlyMatcher containExactly(Object... expected) {
+        return new ContainExactlyMatcher(Arrays.asList(expected));
+    }
+
+    /**
+     * Contain exactly matcher
+     * <pre>
+     * actual(collection).should(containExactly(el1, el2, el3));
+     * </pre>
+     * @param expected list of values to check
+     * @return matcher instance
+     */
+    public static ContainExactlyMatcher containExactly(Iterable<Object> expected) {
+        return new ContainExactlyMatcher(expected);
+    }
+
+    /**
      * Greater than matcher
      * <pre>
      * actual(value).shouldBe(greaterThan(10));
@@ -273,6 +311,18 @@ public class Matchers {
     }
 
     /**
+     * Same instance
+     * <pre>
+     * actual(value).shouldBe(sameInstance(anotherValue));
+     * </pre>
+     * @param expected expected instance
+     * @return matcher instance
+     */
+    public static SameInstanceMatcher sameInstance(Object expected) {
+        return new SameInstanceMatcher(expected);
+    }
+
+    /**
      * Throw exception <code>code</code> matcher.
      * <pre>
      * code(() -&gt; {
@@ -282,10 +332,26 @@ public class Matchers {
      * @see #code(CodeBlock)
      *
      * @param expectedMessage expected exception message
-     * @return matcher instance
+     * @return code matcher instance
      */
     public static ThrowExceptionMatcher throwException(String expectedMessage) {
         return new ThrowExceptionMatcher(expectedMessage);
+    }
+
+    /**
+     * Throw exception <code>code</code> matcher.
+     * <pre>
+     * code(() -&gt; {
+     *     businessLogic(-10);
+     * }).should(throwException(contain("negatives are not")));
+     * </pre>
+     * @see #code(CodeBlock)
+     *
+     * @param expectedMessageMatcher expected exception message ValueMatcher
+     * @return code matcher instance
+     */
+    public static ThrowExceptionMatcher throwException(ValueMatcher expectedMessageMatcher) {
+        return new ThrowExceptionMatcher(expectedMessageMatcher);
     }
 
     /**
@@ -298,7 +364,7 @@ public class Matchers {
      * @see #code(CodeBlock)
      *
      * @param expectedMessageRegexp regular pattern to match expected exception message
-     * @return matcher instance
+     * @return code matcher instance
      */
     public static ThrowExceptionMatcher throwException(Pattern expectedMessageRegexp) {
         return new ThrowExceptionMatcher(expectedMessageRegexp);
@@ -314,7 +380,7 @@ public class Matchers {
      * @see #code(CodeBlock)
      *
      * @param expectedClass expected exception class
-     * @return matcher instance
+     * @return code matcher instance
      */
     public static ThrowExceptionMatcher throwException(Class<?> expectedClass) {
         return new ThrowExceptionMatcher(expectedClass);
@@ -331,7 +397,7 @@ public class Matchers {
      *
      * @param expectedClass expected exception class
      * @param expectedMessageRegexp regular pattern to match expected exception message
-     * @return matcher instance
+     * @return code matcher instance
      */
     public static ThrowExceptionMatcher throwException(Class<?> expectedClass, Pattern expectedMessageRegexp) {
         return new ThrowExceptionMatcher(expectedClass, expectedMessageRegexp);
@@ -348,9 +414,68 @@ public class Matchers {
      *
      * @param expectedClass expected exception class
      * @param expectedMessage expected exception message
-     * @return matcher instance
+     * @return code matcher instance
      */
     public static ThrowExceptionMatcher throwException(Class<?> expectedClass, String expectedMessage) {
         return new ThrowExceptionMatcher(expectedClass, expectedMessage);
+    }
+
+
+    /**
+     * Throw exception <code>code</code> matcher.
+     * <pre>
+     * code(() -&gt; {
+     *     businessLogic(-10);
+     * }).should(throwException(IllegalArgumentException.class, contain("negatives are not")));
+     * </pre>
+     * @see #code(CodeBlock)
+     *
+     * @param expectedClass expected exception class
+     * @param expectedMessageMatcher expected exception message ValueMatcher
+     * @return matcher instance
+     */
+    public static ThrowExceptionMatcher throwException(Class<?> expectedClass, ValueMatcher expectedMessageMatcher) {
+        return new ThrowExceptionMatcher(expectedClass, expectedMessageMatcher);
+    }
+  
+    /**
+     * Value change <code>code</code> matcher
+     * <pre>
+     * code(() -> {
+     *     updateDbEntity(dbEntity);
+     * }).should(change("dbEntity.id", dbEntity::getId));
+     * </pre>
+     * @param label expression label to use in reporting
+     * @param valueSupplier value supplier to get before/after values for comparison
+     * @return code matcher instance
+     */
+    public static ValueChangeCodeMatcher change(String label, Supplier<Object> valueSupplier) {
+        return new ValueChangeCodeMatcher(label, valueSupplier);
+    }
+
+    /**
+     * Object properties change <code>code</code> matcher
+     * <pre>
+     * code(() -> {
+     *     buggyOperation(dbEntity);
+     * }).should(changeSomeProperties("dbEntity", dbEntity));
+     * </pre>
+     * @param label expression label to use in reporting
+     * @param object object which properties will be extracted for before/after comparison
+     * @return code matcher instance
+     */
+    public static ValueChangeCodeMatcher change(String label, Object object) {
+        // case for Groovy closures to avoid them being treated as Java Beans
+        if (object instanceof Callable) {
+            return new ValueChangeCodeMatcher(label, () -> {
+                try {
+                    return ((Callable<?>) object).call();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            });
+        }
+
+        return new ValueChangeCodeMatcher(label, () -> new ObjectProperties(object));
     }
 }

@@ -17,17 +17,16 @@
 
 package org.testingisdocumenting.webtau.browser.page.path;
 
-import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssPageElementFinder;
-import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.testingisdocumenting.webtau.browser.page.path.finder.ByCssPageElementFinder;
+import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.*;
 
 public class PageElementPath {
     private List<PageElementPathEntry> entries;
@@ -64,16 +63,16 @@ public class PageElementPath {
     }
 
     public List<WebElement> find(WebDriver driver) {
-        SearchContext root = driver;
+        var context = new PageElementPathSearchContext(driver, null);
 
         List<WebElement> webElements = Collections.emptyList();
         for (PageElementPathEntry entry : entries) {
-            webElements = entry.find(root);
+            webElements = entry.find(context);
             if (webElements.isEmpty()) {
                 return webElements;
             }
 
-            root = webElements.get(0);
+            context = PageElementPathSearchContext.fromElement(webElements.get(0));
         }
 
         return webElements;

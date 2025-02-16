@@ -44,7 +44,7 @@ public class MatchersTest {
 
     @Test
     public void stringComparisonExample() {
-        doc.console.capture("string-string-comparison", () -> {
+        doc.console.capture("string-string-comparison-output", () -> {
             // string-string-example
             String errorMessage = generateErrorMessage();
             actual(errorMessage).should(equal("insufficient disk space")); // string and string equality comparison
@@ -53,8 +53,18 @@ public class MatchersTest {
     }
 
     @Test
+    public void stringNegativeComparisonExample() {
+        doc.console.capture("string-string-negative-comparison-output", () -> {
+            // string-string-negative-example
+            String errorMessage = generateErrorMessage();
+            actual(errorMessage).shouldNot(equal("completed"));
+            // string-string-negative-example
+        });
+    }
+
+    @Test
     public void stringWaitExample() {
-        doc.console.capture("wait-message", () -> {
+        doc.console.capture("wait-message-output", () -> {
             // wait-consume-message
             actual(liveValue(this::consumeMessage)).waitTo(equal("message we wait for"));
             // wait-consume-message
@@ -62,10 +72,21 @@ public class MatchersTest {
     }
 
     @Test
+    public void stringWaitNegativeExample() {
+        doc.console.capture("wait-negative-message-output", () -> {
+            // wait-negative-consume-message
+            actual(liveValue(this::consumeMessage)).waitToNot(equal("duplicate"));
+            // wait-negative-consume-message
+        });
+    }
+
+    @Test
     public void numberWaitExample() {
-        // wait-number-records
-        actual(liveValue(this::countRecords)).waitToBe(greaterThanOrEqual(5));
-        // wait-number-records
+        doc.console.capture("wait-tobe-output", () -> {
+            // wait-number-records
+            actual(liveValue(this::countRecords)).waitToBe(greaterThanOrEqual(5));
+            // wait-number-records
+        });
     }
 
     private String consumeMessage() {
@@ -79,7 +100,7 @@ public class MatchersTest {
 
     @Test
     public void numberComparisonExample() {
-        doc.console.capture("number-number-comparison", () -> {
+        doc.console.capture("number-number-comparison-output", () -> {
             // number-number-example
             double price = calculatePrice();
             actual(price, "price").shouldBe(greaterThan(10)); // explict name to use in reporting
@@ -89,10 +110,12 @@ public class MatchersTest {
 
     @Test
     public void numberAndStringExample() {
-        // string-number-example
-        String numberAsText = "200";
-        actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison
-        // string-number-example
+        doc.console.capture("string-number-comparison-output", () -> {
+            // string-number-example
+            String numberAsText = "200";
+            actual(numberAsText).shouldBe(greaterThan(150)); // text and number relative comparison
+            // string-number-example
+        });
     }
 
     @Test
@@ -232,10 +255,13 @@ public class MatchersTest {
     @Test
     public void listOfBeansAndTableContainExample() {
         runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "beans-table-contain-output", """
-                X failed expecting [value] to contain id    │ name    │ address           \s
-                                                      "ac2" │ "Works" │ {"zipCode": "zip2"}
-                                                      "ac1" │ "Home"  │ {"zipCode": "zip1"}:
-                    no matches found for: [{"id": "ac2", "name": "Works", "address": {"zipCode": "zip2"}}] (Xms)
+                X failed expecting accounts to contain id    │ name    │ address           \s
+                                                       "ac2" │ "Works" │ {"zipCode": "zip2"}
+                                                       "ac1" │ "Home"  │ {"zipCode": "zip1"}:
+                    no matches found for: [{"id": "ac2", "name": "Works", "address": {"zipCode": "zip2"}}]
+                    accounts[1].name:  actual: "Work" <java.lang.String>
+                                     expected: "Works" <java.lang.String>
+                                                    ^ (Xms)
                  \s
                   [
                     {
@@ -248,7 +274,7 @@ public class MatchersTest {
                       "address": {"city": "TC2", "zipCode": "zip2"},
                       "description": "test account",
                       "id": "ac2",
-                      "name": "Work"
+                      "name": **"Work"**
                     },
                     {
                       "address": {"city": "TC3", "zipCode": "zip3"},
@@ -258,13 +284,17 @@ public class MatchersTest {
                     }
                   ]""", () -> {
             // beans-table-contain-example
+
+
             List<Account> accounts = fetchAccounts();
             TableData expected = table("id",  "name", "address",
                                        _______________________________________,
                                        "ac2", "Works", map("zipCode", "zip2"),
                                        "ac1",  "Home", map("zipCode", "zip1"));
 
-            actual(accounts).should(contain(expected));
+            actual(accounts, "accounts").should(contain(expected));
+
+
             // beans-table-contain-example
         });
     }
@@ -292,20 +322,50 @@ public class MatchersTest {
     }
 
     @Test
+    public void anyValueTableMatcherExample() {
+        runCaptureAndValidateOutput("any-value-table-output", """
+                . [value] equals ColumnA │ ColumnB   \s
+                                      10 │ <any value>
+                                      30 │          40 (Xms)""", () -> {
+            // any-value-table-example
+            TableData summaryTable = loadFromCsv("summary.csv");
+            actual(summaryTable).should(equal(table("ColumnA", "ColumnB",
+                                                   ____________________,
+                                                           10, anyValue,
+                                                           30, 40)));
+            // any-value-table-example
+        });
+    }
+
+    private static TableData loadFromCsv(String fileName) {
+        return table("ColumnA", "ColumnB",
+                     ____________________,
+                            10, 20,
+                            30, 40);
+    }
+
+    @Test
     public void listFailureExample() {
-        doc.console.capture("list-failure", () -> {
-            code(() -> {
-                List<?> values = Arrays.asList(
-                        1,
-                        "testing",
-                        map("key1", "hello", "key2", "world"));
-                // failed-list
-                actual(values).should(equal(Arrays.asList(
-                        1,
-                        "teasing",
-                        map("key1", "hello", "key2", "work"))));
-                // failed-list
-            }).should(throwException(AssertionError.class));
+        runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "list-failure", """
+                X failed expecting [value] to equal [1, "teasing", {"key1": "hello", "key2": "work"}]:
+                    [value][1]:  actual: "testing" <java.lang.String>
+                               expected: "teasing" <java.lang.String>
+                                            ^
+                    [value][2].key2:  actual: "world" <java.lang.String>
+                                    expected: "work" <java.lang.String>
+                                                  ^ (Xms)
+                 \s
+                  [1, **"testing"**, {"key1": "hello", "key2": **"world"**}]""", () -> {
+            List<?> values = Arrays.asList(
+                    1,
+                    "testing",
+                    map("key1", "hello", "key2", "world"));
+            // failed-list
+            actual(values).should(equal(Arrays.asList(
+                    1,
+                    "teasing",
+                    map("key1", "hello", "key2", "work"))));
+            // failed-list
         });
     }
 

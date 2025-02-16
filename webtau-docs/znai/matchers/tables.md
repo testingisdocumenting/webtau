@@ -5,17 +5,22 @@ When two tables are not equal, WebTau generates all the required info to investi
 ```tabs
 Groovy:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/TableDataMatchersGroovyExamplesTest.groovy {
-  surroundedBy: "table-equal-mismatch"
+  surroundedBy: "table-equal-mismatch",
+  noGap: true,
+  noGapBorder: true
 }
+:include-cli-output: doc-artifacts/table-equal-console-output.txt 
+:include-markdown: import-ref.md
+
 Java:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/TableDataMatchersJavaExamplesTest.java {
-  surroundedBy: "table-equal-mismatch"
+  surroundedBy: "table-equal-mismatch",
+  noGap: true,
+  noGapBorder: true
 }
+:include-cli-output: doc-artifacts/table-equal-console-output.txt 
+:include-markdown: import-ref.md
 ```
-
-:include-cli-output: doc-artifacts/table-equal-console-output.txt {
-  title: "console output"
-}
 
 # Contain
 
@@ -24,14 +29,18 @@ Use `contain` matcher to check if one map is a subset of another:
 ```tabs
 Groovy:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/TableDataMatchersGroovyExamplesTest.groovy {
-  surroundedBy: "table-contain-mismatch"
+  surroundedBy: "table-contain-mismatch",
+  noGap: true,
+  noGapBorder: true
 }
+:include-cli-output: doc-artifacts/table-contain-console-output.txt 
+
 Java:
 :include-file: org/testingisdocumenting/webtau/expectation/equality/handlers/TableDataMatchersJavaExamplesTest.java {
-  surroundedBy: "table-contain-mismatch"
+  surroundedBy: "table-contain-mismatch",
+  noGap: true,
+  noGapBorder: true
 }
+:include-cli-output: doc-artifacts/table-contain-console-output.txt 
 ```
 
-:include-cli-output: doc-artifacts/table-contain-console-output.txt {
-  title: "console output"
-}

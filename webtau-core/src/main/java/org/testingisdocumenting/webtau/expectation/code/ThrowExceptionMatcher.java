@@ -17,25 +17,29 @@
 
 package org.testingisdocumenting.webtau.expectation.code;
 
-import org.testingisdocumenting.webtau.expectation.ActualValueAware;
-import org.testingisdocumenting.webtau.expectation.CodeBlock;
-import org.testingisdocumenting.webtau.expectation.CodeMatcher;
-import org.testingisdocumenting.webtau.expectation.ExpectedValuesAware;
+import org.testingisdocumenting.webtau.data.ValuePath;
+import org.testingisdocumenting.webtau.data.converters.ValueConverter;
+import org.testingisdocumenting.webtau.expectation.*;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
 import org.testingisdocumenting.webtau.reporter.stacktrace.StackTraceUtils;
 
 import java.lang.reflect.UndeclaredThrowableException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 import static org.testingisdocumenting.webtau.WebTauCore.*;
 
 public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, ActualValueAware {
-    private String expectedMessage;
-    private Pattern expectedMessageRegexp;
+    private static final ValuePath comparisonActualPath = createActualPath("exception");
+    private static final String MESSAGE_KEY = "message";
+    private static final String CLASS_KEY = "class";
+
+    private Object expectedMessageMatcherOrValue;
     private Class<?> expectedClass;
     private String thrownMessage;
     private Class<?> thrownClass;
@@ -43,11 +47,15 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
     private String thrownExceptionStackTrace;
 
     public ThrowExceptionMatcher(String expectedMessage) {
-        this.expectedMessage = expectedMessage;
+        this.expectedMessageMatcherOrValue = expectedMessage;
+    }
+
+    public ThrowExceptionMatcher(ValueMatcher expectedMessageMatcher) {
+        this.expectedMessageMatcherOrValue = expectedMessageMatcher;
     }
 
     public ThrowExceptionMatcher(Pattern expectedMessageRegexp) {
-        this.expectedMessageRegexp = expectedMessageRegexp;
+        this.expectedMessageMatcherOrValue = expectedMessageRegexp;
     }
 
     public ThrowExceptionMatcher(Class<?> expectedClass) {
@@ -56,12 +64,43 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
 
     public ThrowExceptionMatcher(Class<?> expectedClass, Pattern expectedMessageRegexp) {
         this.expectedClass = expectedClass;
-        this.expectedMessageRegexp = expectedMessageRegexp;
+        this.expectedMessageMatcherOrValue = expectedMessageRegexp;
     }
 
     public ThrowExceptionMatcher(Class<?> expectedClass, String expectedMessage) {
         this.expectedClass = expectedClass;
-        this.expectedMessage = expectedMessage;
+        this.expectedMessageMatcherOrValue = expectedMessage;
+    }
+
+    public ThrowExceptionMatcher(Class<?> expectedClass, ValueMatcher expectedMessageMatcher) {
+        this.expectedClass = expectedClass;
+        this.expectedMessageMatcherOrValue = expectedMessageMatcher;
+    }
+
+    @Override
+    public Object stepOutputValueToPrettyPrint() {
+        ValueConverter valueConverter = comparator.createValueConverter();
+        Map<String, Object> result = new LinkedHashMap<>();
+        if (thrownMessage != null) {
+            result.put(MESSAGE_KEY, valueConverter.convertValue(
+                    prettyPrintValueRootPath().property(MESSAGE_KEY), thrownMessage));
+        }
+
+        if (thrownClass != null) {
+            result.put(CLASS_KEY, valueConverter.convertValue(
+                    prettyPrintValueRootPath().property(CLASS_KEY), thrownClass));
+        }
+
+        if (thrownExceptionStackTrace != null) {
+            result.put("stack trace", thrownExceptionStackTrace);
+        }
+
+        return result.isEmpty() ? null : result;
+    }
+
+    @Override
+    public ValuePath prettyPrintValueRootPath() {
+        return comparisonActualPath;
     }
 
     @Override
@@ -80,29 +119,20 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
             return tokenizedMessage().error("no exception was thrown");
         }
 
-        TokenizedMessage message = comparator.generateEqualMismatchReport();
-        if (thrownExceptionStackTrace != null) {
-            message.newLine().none("stack trace").colon().newLine().error(thrownExceptionStackTrace);
-        }
-
-        return message;
+        return comparator.generateEqualMismatchReport();
     }
 
     @Override
     public Stream<Object> expectedValues() {
-        if (expectedMessage != null && expectedClass != null) {
-            return Stream.of(expectedClass, expectedMessage);
+        if (expectedMessageMatcherOrValue != null && expectedClass != null) {
+            return Stream.of(expectedClass, expectedMessageMatcherOrValue);
         }
 
         if (expectedClass != null) {
             return Stream.of(expectedClass);
         }
 
-        if (expectedMessage != null) {
-            return Stream.of(expectedMessage);
-        }
-
-        return Stream.empty();
+        return Stream.ofNullable(expectedMessageMatcherOrValue);
     }
 
     @Override
@@ -123,34 +153,55 @@ public class ThrowExceptionMatcher implements CodeMatcher, ExpectedValuesAware, 
         Map<String, Object> actualThrownAsMap = buildThrownToUseForCompare();
         Map<String, Object> expectedAsMap = buildExpectedMapToUseForCompare();
 
-        return comparator.compareIsEqual(createActualPath("exception"), actualThrownAsMap, expectedAsMap);
+        return comparator.compareIsEqual(comparisonActualPath, actualThrownAsMap, expectedAsMap);
+    }
+
+    @Override
+    public Set<ValuePath> matchedPaths() {
+        return comparator.generateEqualMatchPaths();
+    }
+
+    @Override
+    public Set<ValuePath> mismatchedPaths() {
+        return comparator.generateEqualMismatchPaths();
+    }
+
+    @Override
+    public TokenizedMessage negativeMatchingTokenizedMessage() {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public TokenizedMessage negativeMatchedTokenizedMessage(CodeBlock codeBlock) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public TokenizedMessage negativeMismatchedTokenizedMessage(CodeBlock codeBlock) {
+        throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public boolean negativeMatches(CodeBlock codeBlock) {
+        throw new UnsupportedOperationException();
     }
 
     private Map<String, Object> buildThrownToUseForCompare() {
-        Map<String, Object> result = new HashMap<>();
-        if (expectedMessage != null || expectedMessageRegexp != null) {
-            result.put("message", thrownMessage);
-        }
-
-        if (expectedClass != null) {
-            result.put("class", thrownClass);
-        }
-
-        return result;
+        return createMap(thrownMessage, thrownClass);
     }
 
     private Map<String, Object> buildExpectedMapToUseForCompare() {
-        Map<String, Object> result = new HashMap<>();
-        if (expectedMessage != null) {
-            result.put("message", expectedMessage);
-        }
+        return createMap(expectedMessageMatcherOrValue, expectedClass);
+    }
 
-        if (expectedMessageRegexp != null) {
-            result.put("message", expectedMessageRegexp);
+    private Map<String, Object> createMap(Object message, Class<?> aClass) {
+        Map<String, Object> result = new HashMap<>();
+        if (expectedMessageMatcherOrValue != null) {
+            result.put(MESSAGE_KEY, message);
         }
 
         if (expectedClass != null) {
-            result.put("class", expectedClass);
+            result.put(CLASS_KEY, aClass);
         }
 
         return result;

@@ -42,18 +42,18 @@ public class TableDataCompareToHandler implements CompareToHandler {
         TableDataComparisonReport comparisonReportGenerator = new TableDataComparisonReport(result);
 
         if (actualTableData.isEmpty() && !expectedTableData.isEmpty()) {
-            comparator.reportNotEqual(this, actualPath, tokenizedMessage().error("table is empty"));
+            comparator.reportNotEqual(this, actualPath, () -> tokenizedMessage().error("table is empty"));
         } else {
             if (result.hasMissingColumns()) {
-                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingColumnsReport());
+                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator::missingColumnsReport);
             }
 
             if (result.hasMissingRows()) {
-                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.missingRowsReport());
+                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator::missingRowsReport);
             }
 
             if (result.hasExtraRows()) {
-                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator.extraRowsReport());
+                comparator.reportNotEqual(this, actualPath, comparisonReportGenerator::extraRowsReport);
             }
         }
     }

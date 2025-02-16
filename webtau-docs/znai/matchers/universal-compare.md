@@ -9,19 +9,21 @@ Groovy:
     surroundedBy: ["string-string-example", "string-number-example"], surroundedBySeparator: "",
     commentsType: "inline"
 }
+:include-markdown: import-ref.md
 
 Java: 
 :include-file: org/testingisdocumenting/webtau/MatchersTest.java {
     surroundedBy: ["string-string-example", "string-number-example"], surroundedBySeparator: "",
     commentsType: "inline"
 } 
+:include-markdown: import-ref.md
 ``` 
 
 # Reporting
 
 Every comparison failed and successful generates console output with comparison details.
 
-:include-cli-output: doc-artifacts/string-string-comparison.txt {title: "report console output"} 
+:include-cli-output: doc-artifacts/string-string-comparison-output.txt {title: "report console output"} 
 
 Values have predefined names when they come from HTTP response or Web UI, etc. But regular values default to `value`.
 
@@ -41,7 +43,7 @@ Java:
 } 
 ``` 
 
-:include-cli-output: doc-artifacts/number-number-comparison.txt {title: "explicit name report console output"}
+:include-cli-output: doc-artifacts/number-number-comparison-output.txt {title: "explicit name report console output"}
 
 # Dates
 
@@ -72,6 +74,4 @@ Java:
     commentsType: "inline"
 }
  ``` 
-
-:include-markdown: static-import.md
 

@@ -64,7 +64,7 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware, Pre
 
     @Override
     public TokenizedMessage matchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return tokenizedMessage().matcher("contains all").value(expectedList);
+        return tokenizedMessage().matcher("contains all").valueFirstLinesOnly(expectedList);
     }
 
     @Override
@@ -100,7 +100,7 @@ public class ContainAllMatcher implements ValueMatcher, ExpectedValuesAware, Pre
 
     @Override
     public TokenizedMessage negativeMismatchedTokenizedMessage(ValuePath actualPath, Object actual) {
-        return containAnalyzer.generateMismatchReport();
+        return containAnalyzer.generateMatchReport();
     }
 
     @Override

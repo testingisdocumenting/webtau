@@ -104,7 +104,7 @@ public class WebDriverDefaultCreatorHandler implements WebDriverCreatorHandler {
         options.addArguments("--remote-allow-origins=*");
 
         if (BrowserConfig.isHeadless()) {
-            options.addArguments("--headless");
+            options.addArguments("--headless=new");
             options.addArguments("--disable-gpu");
         }
 
@@ -143,7 +143,7 @@ public class WebDriverDefaultCreatorHandler implements WebDriverCreatorHandler {
         FirefoxOptions options = new FirefoxOptions();
 
         if (BrowserConfig.isHeadless()) {
-            options.setHeadless(true);
+            options.addArguments("--headless=new");
         }
 
         if (BrowserConfig.useFakeMedia()) {

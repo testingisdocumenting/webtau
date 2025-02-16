@@ -29,15 +29,13 @@ public class ValueExtractorByPath {
 
         List<DataNodeIdParsedPathPart> parts = DataNodeIdPathParser.parse(path);
         for (DataNodeIdParsedPathPart part : parts) {
-            switch (part.getType()) {
+            switch (part.type()) {
                 case PEER:
-                    if (!(result instanceof List)) {
+                    if (!(result instanceof List<?> list)) {
                         return null;
                     }
 
-                    List<?> list = (List<?>) result;
-
-                    int idx = part.getIdx();
+                    int idx = part.idx();
                     if (idx < 0) {
                         idx = list.size() + idx;
                     }
@@ -53,7 +51,7 @@ public class ValueExtractorByPath {
                         return null;
                     }
 
-                    result = ((Map<String, ?>) result).get(part.getChildName());
+                    result = ((Map<String, ?>) result).get(part.childName());
                     break;
             }
         }
@@ -66,14 +64,10 @@ public class ValueExtractorByPath {
 
         List<DataNodeIdParsedPathPart> parts = DataNodeIdPathParser.parse(path);
         for (DataNodeIdParsedPathPart part : parts) {
-            switch (part.getType()) {
-                case PEER:
-                    result = result.get(part.getIdx());
-                    break;
-                case CHILD:
-                    result = result.get(part.getChildName());
-                    break;
-            }
+            result = switch (part.type()) {
+                case PEER -> result.get(part.idx());
+                case CHILD -> result.get(part.childName());
+            };
         }
 
         return result;

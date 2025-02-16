@@ -12,12 +12,14 @@ Groovy:
   title: "router creation example",
   surroundedBy: "router-example"
 }
+:include-markdown: import-ref.md
 
 Java:
 :include-file: com/example/tests/junit5/FakeServerJavaTest.java {
   title: "router creation example",
   surroundedBy: "router-example"
 }
+:include-markdown: import-ref.md
 ```
 
 # Request Properties {style: "api"}

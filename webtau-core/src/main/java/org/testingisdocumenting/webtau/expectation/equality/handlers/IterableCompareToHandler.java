@@ -21,7 +21,9 @@ import org.testingisdocumenting.webtau.data.ValuePath;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToComparator;
 import org.testingisdocumenting.webtau.expectation.equality.CompareToHandler;
 
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 public class IterableCompareToHandler implements CompareToHandler {
     @Override
@@ -43,16 +45,24 @@ public class IterableCompareToHandler implements CompareToHandler {
             idx++;
         }
 
+        List<Object> extraValues = new ArrayList<>();
         while (actualIt.hasNext()) {
             Object actualElement = actualIt.next();
-            comparator.reportExtra(this, actualPath.index(idx), actualElement);
-            idx++;
+            extraValues.add(actualElement);
         }
 
+        if (!extraValues.isEmpty()) {
+            comparator.reportExtra(this, actualPath, extraValues);
+        }
+
+        List<Object> missingValues = new ArrayList<>();
         while (expectedIt.hasNext()) {
             Object expectedElement = expectedIt.next();
-            comparator.reportMissing(this, actualPath.index(idx), expectedElement);
-            idx++;
+            missingValues.add(expectedElement);
+        }
+
+        if (!missingValues.isEmpty()) {
+            comparator.reportMissing(this, actualPath, missingValues);
         }
     }
 }

@@ -1,1 +1,1 @@
-* Add [fs.tempFile](utilities/file-system#temporary-dirs-and-files)
+* Add `fs.tempFile`

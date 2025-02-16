@@ -147,6 +147,7 @@ class WebTauBrowserFeaturesTestBase {
                 "byCssAndFilterByText.groovy": "by css and filter by text",
                 "byCssAndFilterByRegexp.groovy": "by css and filter by regexp",
                 "byCssAndFilterByNumberNestedFind.groovy": "by css and filter by number and nested css",
+                "byGeometry.groovy": "filter by geometry",
                 "byParent.groovy": "immediate parent",
                 "byParentCss.groovy": "parent by css",
         ])
@@ -154,6 +155,7 @@ class WebTauBrowserFeaturesTestBase {
         extractHtmlSnippets(root, "finders-and-filters.html", [
                 "welcome.html": "#welcome-wrapper",
                 "welcome-wrapper.html": "#welcome-top-wrapper",
+                "relative-selections.html": "#relative-selections",
                 "welcome-wrapper-wrapper.html": "#welcome-top-wrapper-wrapper",
                 "flat-menu.html": "#menu"
         ])
@@ -218,6 +220,7 @@ class WebTauBrowserFeaturesTestBase {
                 "lessEqualListMixOfNumbers.groovy": "less equal list mix of numbers",
                 "enabledDisabled.groovy": "enable state",
                 "visibleHidden.groovy": "visible state",
+                "snapshotAndChange.groovy": "change matcher",
         ])
 
         extractHtmlSnippets(root, "matchers.html", [
@@ -363,8 +366,28 @@ class WebTauBrowserFeaturesTestBase {
     }
 
     @Test
+    void "search with page elements in place"() {
+        runCli("searchInnerDeclarations.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
+    void "search with page elements outside"() {
+        runCli("searchOuterDeclarations.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
+    void "focused element"() {
+        runCli("focusedElement.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
     void "personas searching"() {
         runCli("searchWithPersonas.groovy", "webtau.cfg.groovy")
+    }
+
+    @Test
+    void "global send keys"() {
+        runCli("globalSendKeys.groovy", "webtau.cfg.groovy")
     }
 
     @Test

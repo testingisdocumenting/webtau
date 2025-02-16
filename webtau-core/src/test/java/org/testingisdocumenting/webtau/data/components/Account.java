@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,26 +17,5 @@
 
 package org.testingisdocumenting.webtau.data.components;
 
-public class Account {
-    private String id;
-    private String walletId;
-    private String address;
-
-    public Account(String id, String walletId, String address) {
-        this.id = id;
-        this.walletId = walletId;
-        this.address = address;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public String getWalletId() {
-        return walletId;
-    }
-
-    public String getAddress() {
-        return address;
-    }
+public record Account(String id, String walletId, String address) {
 }

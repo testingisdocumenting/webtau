@@ -17,6 +17,7 @@
 package org.testingisdocumenting.webtau.data.datanode
 
 import org.junit.Test
+import org.testingisdocumenting.webtau.data.ValuePath
 
 class ValueExtractorByPathTest {
     @Test
@@ -44,5 +45,13 @@ class ValueExtractorByPathTest {
 
         ValueExtractorByPath.extractFromMapOrList([parent: [[child: 100], [another: 200]]], "parent[1].another.value")
                 .should == null
+    }
+
+    @Test
+    void "starts with"() {
+        new ValuePath("myActual[0].x").startsWith(new ValuePath("myActual[0]")).should == true
+        new ValuePath("myActual[0][1]").startsWith(new ValuePath("myActual[0]")).should == true
+        new ValuePath("myActual[0]x").startsWith(new ValuePath("myActual[0]")).should == false
+        new ValuePath("myActual[0]").startsWith(new ValuePath("myActual[0]")).should == false
     }
 }

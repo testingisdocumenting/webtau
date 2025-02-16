@@ -34,8 +34,6 @@ browser
     basic-configuration
     page-element-and-value
     page-object
-    element-actions-reference
-    element-values-reference
     forms
     tables
     asynchronous-page
@@ -47,6 +45,9 @@ browser
     navigation
     alerts
     page-open-handlers
+    element-states
+    element-actions-reference
+    element-values-reference
     finders-and-filters
     matchers
 servers
@@ -55,10 +56,24 @@ servers
     proxy-server
     fake-server
     server-router
+    import-and-dependencies
 cli
     introduction
     foreground-command
     background-command
+file-system
+    introduction
+    file-content
+    copy
+    archive
+    temporary-files-dirs
+data
+    introduction
+    json
+    csv
+    pdf
+    base64
+    import-and-dependencies
 persona
     introduction
     HTTP-persona
@@ -80,16 +95,8 @@ report
 REPL
     experiments
     test-runs
-data
-    introduction
-    json
-    csv
-    pdf
-    base64
-    import-and-dependencies
 utilities
     introduction
-    file-system
     cache
 matchers
     introduction
@@ -99,7 +106,12 @@ matchers
     maps
     tables
     any-of
+    contain-exactly
+    any-value
+    same-instance
+    value-change
     custom-compare-to-handler
+    import-and-dependencies
 groovy-standalone-runner
     introduction
     data-driven-scenarios
@@ -126,6 +138,7 @@ continuous-integration
 reference
     table-data
 release-notes
+    2024
     2023
     2022
     2021

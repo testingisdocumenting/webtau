@@ -1,4 +1,5 @@
 /*
+ * Copyright 2023 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,20 +17,6 @@
 
 package org.testingisdocumenting.webtau.expectation.contain.handlers;
 
-public class IndexedValue {
-    private int idx;
-    private Object value;
-
-    public IndexedValue(int idx, Object value) {
-        this.idx = idx;
-        this.value = value;
-    }
-
-    public int getIdx() {
-        return idx;
-    }
-
-    public Object getValue() {
-        return value;
-    }
+public record IndexedValue(int idx, Object value) {
 }
+

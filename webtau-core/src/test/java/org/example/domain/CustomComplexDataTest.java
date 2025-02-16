@@ -67,15 +67,16 @@ public class CustomComplexDataTest {
         expected.addRow(3, 5);
 
         runExpectExceptionCaptureAndValidateOutput(AssertionError.class, "custom-complex-data-webtau-fail-output",
-                "X failed expecting [value] to equal cA │ cB\n" +
-                        "                                     1 │  2\n" +
-                        "                                     3 │  5:\n" +
-                        "    [value][1].cB:  actual: 4 <java.lang.Integer>\n" +
-                        "                  expected: 5 <java.lang.Integer> (Xms)\n" +
-                        "  \n" +
-                        "  cA │ cB   \n" +
-                        "   1 │     2\n" +
-                        "   3 │ **4**", () -> {
+                """
+                        X failed expecting [value] to equal cA │ cB
+                                                             1 │  2
+                                                             3 │  5:
+                            [value][1].cB:  actual: 4 <java.lang.Integer>
+                                          expected: 5 <java.lang.Integer> (Xms)
+                         \s
+                          cA │ cB  \s
+                           1 │     2
+                           3 │ **4**""", () -> {
                     // webtau-assertion
                     actual(calculated).should(equal(expected));
                     // webtau-assertion

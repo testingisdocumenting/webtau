@@ -26,7 +26,7 @@ import org.testingisdocumenting.webtau.expectation.AssertionTokenizedError;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandler;
 import org.testingisdocumenting.webtau.expectation.ExpectationHandlers;
 import org.testingisdocumenting.webtau.expectation.ValueMatcher;
-import org.testingisdocumenting.webtau.expectation.equality.ActualPathMessage;
+import org.testingisdocumenting.webtau.expectation.equality.ValuePathMessage;
 import org.testingisdocumenting.webtau.http.binary.BinaryRequestBody;
 import org.testingisdocumenting.webtau.http.config.WebTauHttpConfigurations;
 import org.testingisdocumenting.webtau.http.formdata.FormUrlEncodedRequestBody;
@@ -1065,8 +1065,17 @@ public class Http {
         ExpectationHandler recordAndThrowHandler = new ExpectationHandler() {
             @Override
             public Flow onValueMismatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue, TokenizedMessage message) {
-                validationResult.addMismatch(new ActualPathMessage(actualPath, message).getFullMessage());
+                validationResult.addMismatch(new ValuePathMessage(actualPath, () -> message).buildFullMessage());
+
+                // some matchers would try multiple times to match values, and they may be incorrectly marked as failed
+                // we force override all the matched paths from the final matcher result
+                reApplyValuePassBasedOnMatcherPaths(body, valueMatcher.matchedPaths());
                 return ExpectationHandler.Flow.PassToNext;
+            }
+
+            @Override
+            public void onValueMatch(ValueMatcher valueMatcher, ValuePath actualPath, Object actualValue) {
+                reApplyValuePassBasedOnMatcherPaths(body, valueMatcher.matchedPaths());
             }
         };
 
@@ -1173,16 +1182,18 @@ public class Http {
     }
 
     private Integer defaultExpectedStatusCodeByRequest(HttpValidationResult validationResult) {
-        switch (validationResult.getRequestMethod()) {
-            case "POST":
-                return 201;
-            case "PUT":
-            case "DELETE":
-            case "PATCH":
-                return validationResult.hasResponseContent() ? 200 : 204;
-            case "GET":
-            default:
-                return 200;
+        return switch (validationResult.getRequestMethod()) {
+            case "POST" -> 201;
+            case "PUT", "DELETE", "PATCH" -> validationResult.hasResponseContent() ? 200 : 204;
+            default -> 200;
+        };
+    }
+
+    private static void reApplyValuePassBasedOnMatcherPaths(DataNode node, Set<ValuePath> matchedPaths) {
+        for (ValuePath matchedPath : matchedPaths) {
+            String matchedPathWithoutBodyPrefix = matchedPath.getPath().substring("body".length());
+            DataNode dataNode = ValueExtractorByPath.extractFromDataNode(node, matchedPathWithoutBodyPrefix);
+            dataNode.getTraceableValue().forceCheckLevel(CheckLevel.ExplicitPassed);
         }
     }
 
@@ -1232,20 +1243,14 @@ public class Http {
     }
 
     private HttpRequest.Builder setRequestMethod(HttpRequest.Builder builder, String method, HttpRequestBody requestBody) {
-        switch (method) {
-            case "POST":
-                 return builder.POST(bodyPublisherFromRequestBody(requestBody));
-            case "PUT":
-                return builder.PUT(bodyPublisherFromRequestBody(requestBody));
-            case "GET":
-                return builder.GET();
-            case "DELETE":
-                return builder.DELETE();
-            case "PATCH":
-                return builder.method("PATCH",bodyPublisherFromRequestBody(requestBody));
-            default:
-                throw new IllegalArgumentException("unrecognized request method <" + method + ">");
-        }
+        return switch (method) {
+            case "POST" -> builder.POST(bodyPublisherFromRequestBody(requestBody));
+            case "PUT" -> builder.PUT(bodyPublisherFromRequestBody(requestBody));
+            case "GET" -> builder.GET();
+            case "DELETE" -> builder.DELETE();
+            case "PATCH" -> builder.method("PATCH", bodyPublisherFromRequestBody(requestBody));
+            default -> throw new IllegalArgumentException("unrecognized request method <" + method + ">");
+        };
     }
 
     private HttpRequest.BodyPublisher bodyPublisherFromRequestBody(HttpRequestBody requestBody) {

@@ -123,6 +123,18 @@ Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.gro
 Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "containContainingAllMatcher", bodyOnly: true, excludeRegexp: "doc.capture"}
 ```
 
+# Contain Exactly 
+
+Use `containExactly` when you cannot rely on order of values in a response and want to make sure that there are no extra values.
+:include-empty-block: {rightSide: true}
+
+:include-json: listTestResponse.json {title: "response"}
+
+```tabs {rightSide: true}
+Groovy: :include-groovy: org/testingisdocumenting/webtau/http/HttpGroovyTest.groovy {entry: "contain exactly matcher", bodyOnly: true, excludeRegexp: "doc.capture"}
+Java: :include-java: org/testingisdocumenting/webtau/http/HttpJavaTest.java {entry: "containExactlyMatcher", bodyOnly: true, excludeRegexp: "doc.capture"}
+```
+
 # Date and Time
 
 You can assert `actual` string against `LocalDate` and `ZonedDateTime`. String will be automatically converted 

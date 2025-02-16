@@ -1,4 +1,5 @@
 <!--
+  ~ Copyright 2024 webtau maintainers
   ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,6 +16,17 @@
   -->
 
 <html>
+<head>
+    <script>
+        function changeNumber() {
+            var htmlElement = document.getElementById('number-to-change');
+            var number = Number(htmlElement.innerText);
+            number++;
+            htmlElement.innerText = "" + number;
+        }
+    </script>
+    <title>webtau matchers test</title>
+</head>
 <body>
 <div id="numbers">
     <div>
@@ -44,6 +56,12 @@
     <div>
         <button id="action" disabled>Click me</button>
         <div id="feedback" style="display: none;"></div>
+    </div>
+</div>
+<div id="change">
+    <div>
+        <button id="change-number" onclick='changeNumber()'>Click to change number</button>
+        <div id="number-to-change">300</div>
     </div>
 </div>
 </body>

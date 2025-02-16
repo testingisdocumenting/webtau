@@ -1,0 +1,1 @@
+* Add: speedup [containExactly](matchers/contain-exactly) by pre-caching compare to handler

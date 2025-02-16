@@ -18,13 +18,12 @@
 package org.testingisdocumenting.webtau.browser.page.path;
 
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
-import org.openqa.selenium.SearchContext;
 import org.openqa.selenium.WebElement;
 
 import java.util.List;
 
 public interface PageElementFinder {
-    List<WebElement> find(SearchContext parent);
+    List<WebElement> find(PageElementPathSearchContext parent);
 
     /**
      * @param isFirst isFirst is this the first entry in the path

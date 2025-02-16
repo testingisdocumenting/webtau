@@ -32,5 +32,7 @@ public interface AdditionalBrowserInteractions {
 
     List<WebElement> filterByRegexp(List<WebElement> webElements, String regexp);
 
+    List<WebElement> filterByNearby(List<WebElement> webElements, WebElement target);
+
     WebElement parentByCss(SearchContext element, String css);
 }

@@ -19,14 +19,12 @@ package org.testingisdocumenting.webtau.browser;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.interactions.Actions;
 import org.testingisdocumenting.webtau.browser.documentation.BrowserDocumentation;
 import org.testingisdocumenting.webtau.browser.driver.CurrentWebDriver;
 import org.testingisdocumenting.webtau.browser.driver.WebDriverCreator;
 import org.testingisdocumenting.webtau.browser.navigation.BrowserPageNavigation;
-import org.testingisdocumenting.webtau.browser.page.TablePageElement;
-import org.testingisdocumenting.webtau.browser.page.PageElement;
-import org.testingisdocumenting.webtau.browser.page.PageElementValue;
-import org.testingisdocumenting.webtau.browser.page.PageUrl;
+import org.testingisdocumenting.webtau.browser.page.*;
 import org.testingisdocumenting.webtau.browser.page.path.PageElementPath;
 import org.testingisdocumenting.webtau.cache.Cache;
 import org.testingisdocumenting.webtau.reporter.TokenizedMessage;
@@ -170,6 +168,10 @@ public class Browser {
         return new PageElement(driver, additionalBrowserInteractions, PageElementPath.css(css), false);
     }
 
+    public PageElement focusedElement() {
+        return element(":focus");
+    }
+
     public PageElement $(String css) {
         return element(css);
     }
@@ -180,6 +182,14 @@ public class Browser {
 
     public TablePageElement table(PageElement pageElement) {
         return new TablePageElement(pageElement);
+    }
+
+    public void sendKeys(CharSequence keys) {
+        String renderedKeys = BrowserKeysRenderer.renderKeys(keys);
+
+        createAndExecuteStep(tokenizedMessage().action("sending keys").string(renderedKeys).to().id("browser"),
+                () -> tokenizedMessage().action("sent keys").string(renderedKeys).to().id("browser"),
+                () -> new Actions(driver).sendKeys(keys).perform());
     }
 
     public boolean hasActiveBrowsers() {

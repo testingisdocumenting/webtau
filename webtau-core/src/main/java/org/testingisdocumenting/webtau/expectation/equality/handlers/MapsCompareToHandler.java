@@ -26,6 +26,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import static org.testingisdocumenting.webtau.WebTauCore.*;
+
 public class MapsCompareToHandler implements CompareToHandler {
     @Override
     public boolean handleEquality(Object actual, Object expected) {
@@ -64,6 +66,13 @@ public class MapsCompareToHandler implements CompareToHandler {
         }
 
         void compare() {
+            if (compareToComparator.getAssertionMode() == CompareToComparator.AssertionMode.NOT_EQUAL) {
+                if (actualMap.isEmpty() && expectedMap.isEmpty()) {
+                    compareToComparator.reportEqual(MapsCompareToHandler.this, actualPath,
+                            () -> tokenizedMessage().error("both maps are empty"));
+                }
+            }
+
             allKeys.forEach(this::handleKey);
         }
 
