@@ -31,7 +31,7 @@ jobs:
           run: mvn -B verify
 
       - name: Upload failed test reports
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: failed-webtau-reports
@@ -39,7 +39,7 @@ jobs:
           retention-days: 2
 
       - name: Upload all reports
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: all-webtau-reports
@@ -47,7 +47,7 @@ jobs:
           retention-days: 1
 
       - name: Upload CLI sanity test reports
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: failed-cli-sanity-test
@@ -55,7 +55,7 @@ jobs:
           retention-days: 2
 
       - name: Upload reports testing reports
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         if: failure()
         with:
           name: failed-reports-testing-tests
