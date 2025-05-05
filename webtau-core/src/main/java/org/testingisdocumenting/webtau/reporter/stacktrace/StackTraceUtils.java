@@ -35,7 +35,7 @@ public class StackTraceUtils {
             "com.sun.",
             "org.testingisdocumenting.webtau",
             "org.apache.maven",
-            "org.codehaus.groovy",
+            "org.apache.groovy",
             "org.junit",
             "com.intellij",
             "org.codehaus.plexus",
