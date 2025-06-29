@@ -51,7 +51,7 @@ jobs:
         if: failure()
         with:
           name: failed-cli-sanity-test
-          path: "webtau-cli-testing/src/test/groovy/*failed*.html"
+          path: "webtau-cli-testing/src/test/groovy/*report.html"
           retention-days: 2
 
       - name: Upload reports testing reports
