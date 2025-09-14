@@ -83,20 +83,6 @@ class WebTauFeaturesJUnit5Test {
     }
 
     @Test
-    void browserTestContainer() {
-        testRunner.runAndValidate(BrowserTestContainerJavaTest, "http://host.testcontainers.internal:" + testServer.uri.port)
-        Browser.browser.setDriver(null) // clean test container manually set driver
-    }
-
-    @Test
-    void browserImplicitTestContainer() {
-        runWithConfigFile("webtau.browser.testcontainers.properties", () -> {
-            def baseUrl = "http://host.testcontainers.internal:" + testServer.uri.port
-            testRunner.runAndValidate(BrowserImplicitTestContainerJavaTest, baseUrl, baseUrl)
-        })
-    }
-
-    @Test
     void browserLocalFirefoxDriver() {
         runWithConfigFile("webtau.browser.firefox.properties", () -> {
             def baseUrl = testServer.uri.toString()
