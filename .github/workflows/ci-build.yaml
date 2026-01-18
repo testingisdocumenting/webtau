@@ -12,7 +12,7 @@ jobs:
     timeout-minutes: 25
     strategy:
       matrix:
-        java: [17]
+        java: [17, 25]
 
     steps:
       - uses: actions/checkout@v2
