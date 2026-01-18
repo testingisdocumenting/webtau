@@ -273,17 +273,22 @@ class WebTauStepTest {
     void "recursion methods should not cause stack overflow on deep trees"() {
         def root = createStep("root")
         def current = root
+        def stepsToExecute = []
 
         int depth = 2000
         depth.times { idx ->
             def child = WebTauStep.createStepWithExplicitParent(current, 0,
                     tokenizedMessage().action("child #" + idx),
-                    { -> tokenizedMessage().action("done child #" + idx) },
-                    { -> })
+                    { Object ignored -> tokenizedMessage().action("done child #" + idx) },
+              { WebTauStepContext context -> return null })
             child.setClassifier("test")
             child.addOutput(new OutputA(id: "out" + idx))
+            stepsToExecute.add(child)
             current = child
         }
+
+        stepsToExecute.reverseEach { it.execute(SKIP_ALL) }
+        root.execute(SKIP_ALL)
 
         def steps = root.stepsWithClassifier("test").collect(toList())
         assert steps.size() == depth
