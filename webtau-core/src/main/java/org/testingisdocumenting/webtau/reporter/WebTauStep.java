@@ -306,7 +306,20 @@ public class WebTauStep {
     }
 
     public Stream<WebTauStepOutput> collectOutputs() {
-        return Stream.concat(outputs.stream(), children.stream().flatMap(WebTauStep::collectOutputs));
+        List<WebTauStepOutput> result = new ArrayList<>();
+        Deque<WebTauStep> stack = new ArrayDeque<>();
+        stack.push(this);
+
+        while (!stack.isEmpty()) {
+            WebTauStep step = stack.pop();
+            result.addAll(step.outputs);
+
+            for (int i = step.children.size() - 1; i >= 0; i--) {
+                stack.push(step.children.get(i));
+            }
+        }
+
+        return result.stream();
     }
 
     @SuppressWarnings("unchecked")
@@ -321,10 +334,22 @@ public class WebTauStep {
     }
 
     public Stream<WebTauStep> stepsWithClassifier(String classifier) {
-        Stream<WebTauStep> self = this.classifier.equals(classifier) ? Stream.of(this) : Stream.empty();
-        Stream<WebTauStep> children = children().flatMap(childStep -> childStep.stepsWithClassifier(classifier));
+        List<WebTauStep> result = new ArrayList<>();
+        Deque<WebTauStep> stack = new ArrayDeque<>();
+        stack.push(this);
 
-        return Stream.concat(self, children);
+        while (!stack.isEmpty()) {
+            WebTauStep step = stack.pop();
+            if (step.classifier.equals(classifier)) {
+                result.add(step);
+            }
+
+            for (int i = step.children.size() - 1; i >= 0; i--) {
+                stack.push(step.children.get(i));
+            }
+        }
+
+        return result.stream();
     }
 
     public boolean hasFailedChildrenSteps() {

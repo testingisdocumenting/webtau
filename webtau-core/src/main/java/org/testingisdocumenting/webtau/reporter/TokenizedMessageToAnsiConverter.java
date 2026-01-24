@@ -103,7 +103,7 @@ public class TokenizedMessageToAnsiConverter {
         printer.printObject(value);
         printer.flushCurrentLine();
 
-        Stream<Object> result = Stream.empty();
+        Stream.Builder<Object> result = Stream.builder();
 
         String indentation = StringUtils.createIndentation(currentLine.hasNewLine() ?
                 currentLine.findWidthOfTheLastEffectiveLine():
@@ -118,24 +118,24 @@ public class TokenizedMessageToAnsiConverter {
             boolean isLastLine = idx == printer.getNumberOfLines() - 1;
             PrettyPrinterLine line = printer.getLine(idx);
 
-            if (isFirstLine) {
-                result = Stream.concat(result, line.getStyleAndValues().stream());
-            } else {
-                result = Stream.concat(result, Stream.concat(
-                        Stream.of(indentation),
-                        line.getStyleAndValues().stream()));
+            if (!isFirstLine) {
+                result.add(indentation);
             }
 
+            line.getStyleAndValues().forEach(result::add);
+
             if (!isLastLine) {
-                result = Stream.concat(result, Stream.of("\n"));
+                result.add("\n");
             }
         }
 
         if (numberOfLinesToPrint > 1 && numberOfLinesToPrint != printer.getNumberOfLines()) {
-            result = Stream.concat(result, Stream.of(PrettyPrinter.DELIMITER_COLOR, indentation, "..."));
+            result.add(PrettyPrinter.DELIMITER_COLOR);
+            result.add(indentation);
+            result.add("...");
         }
 
-        return result;
+        return result.build();
     }
 
     private void associateDefaultTokens() {

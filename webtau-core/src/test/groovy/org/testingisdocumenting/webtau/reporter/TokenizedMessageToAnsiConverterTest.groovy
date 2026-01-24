@@ -41,4 +41,18 @@ class TokenizedMessageToAnsiConverterTest {
         def ansiSequence = new AutoResetAnsiString(valuesAndStyles.stream()).toString()
         actual(ansiSequence).should(equal("\u001B[1m\u001B[36mhello \u001B[0m\u001B[34mworld \u001B[1m\u001B[33mworld\u001B[0m"))
     }
+
+    @Test
+    void "should handle large pretty printed value without stack overflow"() {
+        def converter = TokenizedMessageToAnsiConverter.DEFAULT
+        def largeList = (1..6000).collect { it }
+        def message = new TokenizedMessage().value(largeList)
+
+        def valuesAndStyles = converter.convert(ValueConverter.EMPTY, message, 0)
+        
+        def ansiString = new AutoResetAnsiString(valuesAndStyles.stream()).toString()
+        def plainString = ansiString.replaceAll(/\u001B\[[;0-9]*m/, "")
+        def expected = "[\n  " + largeList.join(",\n  ") + "\n]"
+        actual(plainString).should(equal(expected))
+    }
 }
