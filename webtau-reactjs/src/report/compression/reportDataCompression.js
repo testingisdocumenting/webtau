@@ -1,4 +1,5 @@
 /*
+ * Copyright 2026 webtau maintainers
  * Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,11 +15,17 @@
  * limitations under the License.
  */
 
-const gzip = require('gzip-js')
+import * as gzip from 'gzip-js';
 
 export function decompressAndDecodeReportData(base64input) {
-    const input = Buffer.from(base64input, 'base64')
+  const binaryString = atob(base64input);
 
-    const uncompressed = gzip.unzip(input)
-    return Buffer.from(uncompressed).toString()
+  const bytes = new Uint8Array(binaryString.length);
+  for (let i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i);
+  }
+
+  const uncompressed = gzip.unzip(bytes);
+
+  return new TextDecoder().decode(new Uint8Array(uncompressed));
 }
