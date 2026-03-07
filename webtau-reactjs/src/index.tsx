@@ -23,15 +23,23 @@ import Report from './report/Report';
 
 import { decompressAndDecodeReportData } from './report/compression/reportDataCompression';
 
-if (process.env.NODE_ENV === 'production') {
+declare global {
+  interface Window {
+    testReport: any;
+    compressedTestReport: string;
+  }
+}
+
+if (import.meta.env.PROD) {
   const root = document.getElementById('root');
   ReactDOM.render(<Loading />, root);
 
   setTimeout(() => {
-    global.testReport = JSON.parse(decompressAndDecodeReportData(global.compressedTestReport));
-    ReactDOM.render(<WebTauReport report={new Report(global.testReport)} />, root);
+    window.testReport = JSON.parse(decompressAndDecodeReportData(window.compressedTestReport));
+    ReactDOM.render(<WebTauReport report={new Report(window.testReport)} />, root);
   }, 50);
 } else {
-  const { ReportComponentViewer } = require('./report/ReportComponentViewer');
-  ReactDOM.render(<ReportComponentViewer />, document.getElementById('root'));
+  import('./report/ReportComponentViewer').then(({ ReportComponentViewer }) => {
+    ReactDOM.render(<ReportComponentViewer />, document.getElementById('root'));
+  });
 }

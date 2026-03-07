@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
+  ~ Copyright 2026 webtau maintainers
   ~ Copyright 2019 TWO SIGMA OPEN SOURCE, LLC
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -52,19 +53,11 @@
                             <include name="css/*.*" />
                         </fileset>
 
-                        <fileset id="assets" dir="build/">
-                            <include name="asset-manifest.json" />
-                        </fileset>
-
                         <copy verbose="true" todir="${project.build.outputDirectory}/static">
                             <fileset refid="bundle" />
                         </copy>
 
-                        <copy verbose="true" todir="${project.build.outputDirectory}/">
-                            <fileset refid="assets" />
-                        </copy>
-
-                        <copy file="${project.basedir}/public/webtau-theme.js" toFile="${project.build.outputDirectory}/webtau-theme.js" />
+                        <copy file="${project.basedir}/build/webtau-theme.js" toFile="${project.build.outputDirectory}/webtau-theme.js" />
                     </target>
                 </configuration>
             </plugin>

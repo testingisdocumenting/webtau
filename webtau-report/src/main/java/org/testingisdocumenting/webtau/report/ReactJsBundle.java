@@ -16,22 +16,18 @@
 
 package org.testingisdocumenting.webtau.report;
 
-import org.testingisdocumenting.webtau.utils.JsonUtils;
 import org.testingisdocumenting.webtau.utils.ResourceUtils;
 
-import java.util.List;
-import java.util.Map;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-
 class ReactJsBundle {
+    private static final String JS_BUNDLE_PATH = "static/js/webtau-report.js";
+    private static final String CSS_BUNDLE_PATH = "static/css/webtau-report.css";
+
     private final String javaScript;
     private final String css;
 
     public ReactJsBundle() {
-        Manifest manifest = Manifest.load();
-        this.javaScript = manifest.combineJavaScripts();
-        this.css = manifest.combineCss();
+        this.javaScript = ResourceUtils.textContent(JS_BUNDLE_PATH);
+        this.css = ResourceUtils.textContent(CSS_BUNDLE_PATH);
     }
 
     public String getJavaScript() {
@@ -40,46 +36,5 @@ class ReactJsBundle {
 
     public String getCss() {
         return css;
-    }
-
-    public static class Manifest {
-        private Map<String, String> files;
-        private List<String> entrypoints;
-
-        public Map<String, String> getFiles() {
-            return files;
-        }
-
-        public void setFiles(Map<String, String> files) {
-            this.files = files;
-        }
-
-        public List<String> getEntrypoints() {
-            return entrypoints;
-        }
-
-        public void setEntrypoints(List<String> entrypoints) {
-            this.entrypoints = entrypoints;
-        }
-
-        public static Manifest load() {
-            String assetManifest = ResourceUtils.textContent("asset-manifest.json");
-            return JsonUtils.deserializeAs(assetManifest, Manifest.class);
-        }
-
-        public String combineJavaScripts() {
-            return combineBasedOnFilter(p -> p.endsWith(".js"));
-        }
-
-        public String combineCss() {
-            return combineBasedOnFilter(p -> p.endsWith(".css"));
-        }
-
-        private String combineBasedOnFilter(Predicate<String> predicate) {
-            return entrypoints.stream()
-                    .filter(predicate)
-                    .map(ResourceUtils::textContent)
-                    .collect(Collectors.joining("\n"));
-        }
     }
 }

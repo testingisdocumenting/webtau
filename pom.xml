@@ -749,7 +749,7 @@
                         </execution>
                     </executions>
                     <configuration>
-                        <nodeVersion>v12.16.3</nodeVersion>
+                        <nodeVersion>v22.21.1</nodeVersion>
                         <installDirectory>.mvn</installDirectory>
                         <workingDirectory>src</workingDirectory>
                     </configuration>
