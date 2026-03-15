@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-maven-plugin-test</artifactId>
+    <name>WebTau Maven Plugin Test</name>
 
     <dependencies>
         <dependency>

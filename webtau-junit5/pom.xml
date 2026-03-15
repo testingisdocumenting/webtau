@@ -25,6 +25,7 @@
     </parent>
 
     <artifactId>webtau-junit5</artifactId>
+    <name>WebTau JUnit5</name>
 
     <dependencies>
         <dependency>

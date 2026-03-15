@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-junit5-examples</artifactId>
+    <name>WebTau JUnit5 Examples</name>
 
     <properties>
         <enforcer.skip>true</enforcer.skip>

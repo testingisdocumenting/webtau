@@ -29,6 +29,7 @@
     </properties>
 
     <artifactId>webtau-docs</artifactId>
+    <name>WebTau Docs</name>
 
     <dependencies>
         <dependency>

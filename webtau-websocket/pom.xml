@@ -25,6 +25,7 @@
     </parent>
 
     <artifactId>webtau-websocket</artifactId>
+    <name>WebTau WebSocket</name>
 
     <dependencies>
         <dependency>

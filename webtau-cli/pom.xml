@@ -25,6 +25,7 @@
     </parent>
 
     <artifactId>webtau-cli</artifactId>
+    <name>WebTau CLI</name>
 
     <dependencies>
         <dependency>

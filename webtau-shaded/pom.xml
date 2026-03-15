@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-shaded</artifactId>
+    <name>WebTau Shaded</name>
 
     <dependencies>
         <dependency>

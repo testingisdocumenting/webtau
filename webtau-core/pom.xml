@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-core</artifactId>
+    <name>WebTau Core</name>
 
     <properties>
         <build.timestamp>${maven.build.timestamp}</build.timestamp>

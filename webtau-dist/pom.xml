@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-dist</artifactId>
+    <name>WebTau Dist</name>
     <packaging>pom</packaging>
 
     <dependencies>

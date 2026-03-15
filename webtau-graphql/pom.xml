@@ -24,6 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>webtau-graphql</artifactId>
+    <name>WebTau GraphQL</name>
 
     <dependencies>
         <dependency>

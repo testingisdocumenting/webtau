@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-junit5-groovy</artifactId>
+    <name>WebTau JUnit5 Groovy</name>
     <version>2.7-SNAPSHOT</version>
 
     <dependencies>

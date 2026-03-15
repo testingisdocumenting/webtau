@@ -25,6 +25,7 @@
     </parent>
 
     <artifactId>webtau-repl</artifactId>
+    <name>WebTau REPL</name>
 
     <properties>
         <jline.version>3.19.0</jline.version>

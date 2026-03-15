@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-standalone-runner-groovy</artifactId>
+    <name>WebTau Standalone Runner Groovy</name>
 
     <dependencies>
         <dependency>

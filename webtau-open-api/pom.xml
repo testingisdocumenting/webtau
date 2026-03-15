@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-open-api</artifactId>
+    <name>WebTau Open API</name>
 
     <properties>
         <swagger.validator.version>2.15.1</swagger.validator.version>

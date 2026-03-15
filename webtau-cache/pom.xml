@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-cache</artifactId>
+    <name>WebTau Cache</name>
 
     <dependencies>
         <dependency>

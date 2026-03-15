@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-core-groovy</artifactId>
+    <name>WebTau Core Groovy</name>
     <version>2.7-SNAPSHOT</version>
 
     <dependencies>

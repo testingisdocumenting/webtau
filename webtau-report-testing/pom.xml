@@ -10,6 +10,7 @@
 
     <packaging>pom</packaging>
     <artifactId>webtau-report-testing</artifactId>
+    <name>WebTau Report Testing</name>
 
     <description>UI e2e tests of webtau generated reports</description>
 
