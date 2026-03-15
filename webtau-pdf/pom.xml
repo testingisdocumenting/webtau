@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-pdf</artifactId>
+    <name>WebTau PDF</name>
 
     <dependencies>
         <dependency>

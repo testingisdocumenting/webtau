@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-browser</artifactId>
+    <name>WebTau Browser</name>
     <version>2.7-SNAPSHOT</version>
 
     <properties>

@@ -25,6 +25,7 @@
     </parent>
 
     <artifactId>webtau-junit4</artifactId>
+    <name>WebTau JUnit4</name>
     <version>2.7-SNAPSHOT</version>
 
     <dependencies>

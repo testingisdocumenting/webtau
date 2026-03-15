@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-http</artifactId>
+    <name>WebTau HTTP</name>
 
     <dependencies>
         <dependency>

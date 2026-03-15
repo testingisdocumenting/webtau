@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-reactjs</artifactId>
+    <name>WebTau ReactJS</name>
 
     <build>
         <plugins>

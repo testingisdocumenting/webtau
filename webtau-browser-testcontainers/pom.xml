@@ -25,6 +25,7 @@
     </parent>
 
     <artifactId>webtau-browser-testcontainers</artifactId>
+    <name>WebTau Browser TestContainers</name>
 
     <dependencies>
         <dependency>

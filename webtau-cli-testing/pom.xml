@@ -25,6 +25,7 @@
     </parent>
 
     <artifactId>webtau-cli-testing</artifactId>
+    <name>WebTau CLI Testing</name>
 
     <description>
         End to end tests of webtau CLI

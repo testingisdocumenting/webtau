@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-groovy</artifactId>
+    <name>WebTau Groovy</name>
 
     <dependencies>
         <dependency>

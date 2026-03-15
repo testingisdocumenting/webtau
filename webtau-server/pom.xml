@@ -25,6 +25,7 @@
     </parent>
 
     <artifactId>webtau-server</artifactId>
+    <name>WebTau Server</name>
 
     <dependencies>
         <dependency>

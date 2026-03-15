@@ -24,6 +24,7 @@
     </parent>
 
     <artifactId>webtau-cli-groovy</artifactId>
+    <name>WebTau CLI Groovy</name>
 
     <dependencies>
         <dependency>

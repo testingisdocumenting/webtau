@@ -25,4 +25,5 @@
     </parent>
 
     <artifactId>webtau-utils-testing-data</artifactId>
+    <name>WebTau Utils Testing Data</name>
 </project>

@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-feature-testing</artifactId>
+    <name>WebTau Feature Testing</name>
 
     <properties>
         <enforcer.skip>true</enforcer.skip>

@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-data</artifactId>
+    <name>WebTau Data</name>
 
     <dependencies>
         <dependency>

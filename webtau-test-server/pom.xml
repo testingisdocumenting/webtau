@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-test-server</artifactId>
+    <name>WebTau Test Server</name>
 
     <dependencies>
         <dependency>

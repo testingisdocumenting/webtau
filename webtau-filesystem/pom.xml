@@ -25,6 +25,7 @@
     </parent>
 
     <artifactId>webtau-filesystem</artifactId>
+    <name>WebTau Filesystem</name>
 
     <dependencies>
         <dependency>

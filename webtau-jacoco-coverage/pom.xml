@@ -24,6 +24,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>webtau-jacoco-coverage</artifactId>
+    <name>WebTau JaCoCo Coverage</name>
 
     <properties>
         <enforcer.skip>true</enforcer.skip>

@@ -26,6 +26,7 @@
     </parent>
 
     <artifactId>webtau-report</artifactId>
+    <name>WebTau Report</name>
 
     <dependencies>
         <dependency>

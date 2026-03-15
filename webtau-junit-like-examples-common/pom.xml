@@ -25,6 +25,7 @@
     </parent>
 
     <artifactId>webtau-junit-like-examples-common</artifactId>
+    <name>WebTau JUnit Like Examples Common</name>
 
     <dependencies>
         <dependency>
