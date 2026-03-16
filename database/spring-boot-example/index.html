@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Database Setup</h1></header>
-<p>WebTau db. module can operate on JVM DataSource without providing JDBC URLs. In the following sections, we will cover https://spring.io/projects/spring-boot Spring Boot Repository Test.We need to configure WebTau db. module as well as Spring test one @DataJpaTest @ActiveProfiles(&quot;tc&quot;) // test profile with Test Containers public class AccountRepositoryTest { private final AccountRepository accountRepository; private final Database mainDb; private final DatabaseTable ACCOUNT; @Autowired public AccountRepositoryTest(DataSource dataSource, AccountRepository accountRepository) { this.accountRepository = accountRepository; mainDb = db.labeled(&quot;main-db&quot;).fromDataSource(dataSource); // define WebTau database instance to insert/read ACCOUNT = mainDb.table(&quot;ACCOUNT&quot;); // define ACCOUNT table instance to insert/read } Here is how we define tc profile using https://www.testcontainers.org/modules/databases/jdbc/ Test Containers JDBC support: # test containers special JDBC url spring.datasource.url=jdbc:tc:postgresql:9.6.8:///my-db spring.datasource.driverClassName=org.testcontainers.jdbc.ContainerDatabaseDriver spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL95Dialect spring.jpa.hibernate.ddl-auto=create-drop # disable default in memory DB provided by @DataJpaTest spring.test.database.replace=none</p>
+<p>WebTau db. module can operate on JVM DataSource without providing JDBC URLs. In the following sections, we will cover https://spring.io/projects/spring-boot Spring Boot Repository Test.We need to configure WebTau db. module as well as Spring test one @DataJpaTest @ActiveProfiles(&quot;hsql&quot;) public class AccountRepositoryTest { private final AccountRepository accountRepository; private final Database mainDb; private final DatabaseTable ACCOUNT; @Autowired public AccountRepositoryTest(DataSource dataSource, AccountRepository accountRepository) { this.accountRepository = accountRepository; mainDb = db.labeled(&quot;main-db&quot;).fromDataSource(dataSource); // define WebTau database instance to insert/read ACCOUNT = mainDb.table(&quot;ACCOUNT&quot;); // define ACCOUNT table instance to insert/read } Here is how we define tc profile using https://www.testcontainers.org/modules/databases/jdbc/ Test Containers JDBC support: # test containers special JDBC url spring.datasource.url=jdbc:tc:postgresql:9.6.8:///my-db spring.datasource.driverClassName=org.testcontainers.jdbc.ContainerDatabaseDriver spring.jpa.database-platform=org.hibernate.dialect.PostgreSQL95Dialect spring.jpa.hibernate.ddl-auto=create-drop # disable default in memory DB provided by @DataJpaTest spring.test.database.replace=none</p>
 </article>
 
 <article>
@@ -110,7 +110,7 @@
 
 <article>
 <header><h1>Import And Dependency</h1></header>
-<p>import static org.testingisdocumenting.webtau.db.Database.db; To include only Database module as your dependency use &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-data&lt;/artifactId&gt; &lt;version&gt;2.4&lt;/version&gt; &lt;/dependency&gt;</p>
+<p>import static org.testingisdocumenting.webtau.db.Database.db; To include only Database module as your dependency use &lt;dependency&gt; &lt;groupId&gt;org.testingisdocumenting.webtau&lt;/groupId&gt; &lt;artifactId&gt;webtau-data&lt;/artifactId&gt; &lt;version&gt;2.6.3&lt;/version&gt; &lt;/dependency&gt;</p>
 </article>
 </section>
 </div>
@@ -186,7 +186,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "java",
-        "snippet" : "@DataJpaTest\n@ActiveProfiles(\"tc\") // test profile with Test Containers\npublic class AccountRepositoryTest {\n    private final AccountRepository accountRepository;\n    private final Database mainDb;\n    private final DatabaseTable ACCOUNT;\n\n    @Autowired\n    public AccountRepositoryTest(DataSource dataSource, AccountRepository accountRepository) {\n        this.accountRepository = accountRepository;\n\n        mainDb = db.labeled(\"main-db\").fromDataSource(dataSource); // define WebTau database instance to insert/read\n        ACCOUNT = mainDb.table(\"ACCOUNT\"); // define ACCOUNT table instance to insert/read\n    }",
+        "snippet" : "@DataJpaTest\n@ActiveProfiles(\"hsql\")\npublic class AccountRepositoryTest {\n    private final AccountRepository accountRepository;\n    private final Database mainDb;\n    private final DatabaseTable ACCOUNT;\n\n    @Autowired\n    public AccountRepositoryTest(DataSource dataSource, AccountRepository accountRepository) {\n        this.accountRepository = accountRepository;\n\n        mainDb = db.labeled(\"main-db\").fromDataSource(dataSource); // define WebTau database instance to insert/read\n        ACCOUNT = mainDb.table(\"ACCOUNT\"); // define ACCOUNT table instance to insert/read\n    }",
         "title" : "datasource injection and db module setup",
         "surroundedBy" : "repository-test-config",
         "commentsType" : "inline",
@@ -368,13 +368,13 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "xml",
-        "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-data</artifactId>\n    <version>2.4</version>\n</dependency>",
+        "snippet" : "<dependency>\n    <groupId>org.testingisdocumenting.webtau</groupId>\n    <artifactId>webtau-data</artifactId>\n    <version>2.6.3</version>\n</dependency>",
         "title" : "maven dependency",
         "anchorId" : "import-and-dependency-maven-dependency",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1718187079354,
+    "lastModifiedTime" : 1773625118986,
     "tocItem" : {
       "chapterTitle" : "Database",
       "pageTitle" : "Spring Boot Example",

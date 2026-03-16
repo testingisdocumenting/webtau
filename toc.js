@@ -717,51 +717,6 @@ toc = [ {
     } ]
   }, {
     "chapterTitle" : "Browser",
-    "pageTitle" : "Element Actions Reference",
-    "pageMeta" : { },
-    "dirName" : "browser",
-    "fileName" : "element-actions-reference",
-    "fileExtension" : "md",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "Clicks",
-      "id" : "clicks"
-    }, {
-      "title" : "Modifications",
-      "id" : "modifications"
-    }, {
-      "title" : "Modifications No Log",
-      "id" : "modifications-no-log"
-    }, {
-      "title" : "Move over",
-      "id" : "move-over"
-    }, {
-      "title" : "Drag And Drop",
-      "id" : "drag-and-drop"
-    }, {
-      "title" : "Scrolling",
-      "id" : "scrolling"
-    } ]
-  }, {
-    "chapterTitle" : "Browser",
-    "pageTitle" : "Element Values Reference",
-    "pageMeta" : { },
-    "dirName" : "browser",
-    "fileName" : "element-values-reference",
-    "fileExtension" : "md",
-    "viewOnRelativePath" : null,
-    "pageSectionIdTitles" : [ {
-      "title" : "Wait And Should",
-      "id" : "wait-and-should"
-    }, {
-      "title" : "Text Value",
-      "id" : "text-value"
-    }, {
-      "title" : "Attribute Value",
-      "id" : "attribute-value"
-    } ]
-  }, {
-    "chapterTitle" : "Browser",
     "pageTitle" : "Forms",
     "pageMeta" : { },
     "dirName" : "browser",
@@ -1001,6 +956,63 @@ toc = [ {
     }, {
       "title" : "Auto Login",
       "id" : "auto-login"
+    } ]
+  }, {
+    "chapterTitle" : "Browser",
+    "pageTitle" : "Element States",
+    "pageMeta" : { },
+    "dirName" : "browser",
+    "fileName" : "element-states",
+    "fileExtension" : "md",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Focused Element",
+      "id" : "focused-element"
+    } ]
+  }, {
+    "chapterTitle" : "Browser",
+    "pageTitle" : "Element Actions Reference",
+    "pageMeta" : { },
+    "dirName" : "browser",
+    "fileName" : "element-actions-reference",
+    "fileExtension" : "md",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Clicks",
+      "id" : "clicks"
+    }, {
+      "title" : "Modifications",
+      "id" : "modifications"
+    }, {
+      "title" : "Modifications No Log",
+      "id" : "modifications-no-log"
+    }, {
+      "title" : "Move over",
+      "id" : "move-over"
+    }, {
+      "title" : "Drag And Drop",
+      "id" : "drag-and-drop"
+    }, {
+      "title" : "Scrolling",
+      "id" : "scrolling"
+    } ]
+  }, {
+    "chapterTitle" : "Browser",
+    "pageTitle" : "Element Values Reference",
+    "pageMeta" : { },
+    "dirName" : "browser",
+    "fileName" : "element-values-reference",
+    "fileExtension" : "md",
+    "viewOnRelativePath" : null,
+    "pageSectionIdTitles" : [ {
+      "title" : "Wait And Should",
+      "id" : "wait-and-should"
+    }, {
+      "title" : "Text Value",
+      "id" : "text-value"
+    }, {
+      "title" : "Attribute Value",
+      "id" : "attribute-value"
     } ]
   }, {
     "chapterTitle" : "Browser",
@@ -2475,6 +2487,9 @@ toc = [ {
     "fileExtension" : "md",
     "viewOnRelativePath" : null,
     "pageSectionIdTitles" : [ {
+      "title" : "2.5",
+      "id" : "2-5"
+    }, {
       "title" : "2.4",
       "id" : "2-4"
     } ]

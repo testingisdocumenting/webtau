@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"> 
-<title>WebTau: Archive</title>
+<title>WebTau: Element States</title>
 <link rel="stylesheet" type="text/css" href="/webtau/static/css/katex.min.css">
 <link rel="stylesheet" type="text/css" href="/webtau/static/main.css">
 <link rel="stylesheet" type="text/css" href="/webtau/logo.css">
@@ -84,13 +84,8 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
-<header><h1>Archive</h1></header>
-<p>def dest = fs.tempDir(&quot;for-zip&quot;).resolve(&quot;content.zip&quot;) fs.zip('data/staticcontent', dest)</p>
-</article>
-
-<article>
-<header><h1>Un-archive</h1></header>
-<p>def dir = fs.tempDir('for-unzip') fs.unzip('data/data.zip', dir) def dir = fs.tempDir('for-untar') fs.untar('data/data.tar', dir)</p>
+<header><h1>Focused Element</h1></header>
+<p>Acting on currently focused element: browser.focusedElement().setValue(&quot;search this&quot;)</p>
 </article>
 </section>
 </div>
@@ -121,52 +116,34 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
-      "id" : "archive",
-      "title" : "Archive",
+      "id" : "focused-element",
+      "title" : "Focused Element",
       "type" : "Section",
       "content" : [ {
-        "lang" : "groovy",
-        "snippet" : "def dest = fs.tempDir(\"for-zip\").resolve(\"content.zip\")\nfs.zip('data/staticcontent', dest)",
-        "title" : "zip a directory",
-        "surroundedBy" : "// zip",
-        "anchorId" : "archive-zip-a-directory",
-        "type" : "Snippet"
-      } ]
-    }, {
-      "id" : "un-archive",
-      "title" : "Un-archive",
-      "type" : "Section",
-      "content" : [ {
-        "lang" : "groovy",
-        "snippet" : "def dir = fs.tempDir('for-unzip')\nfs.unzip('data/data.zip', dir)",
-        "title" : "unzip a file",
-        "surroundedBy" : "// unzip",
-        "anchorId" : "un-archive-unzip-a-file",
-        "type" : "Snippet"
+        "type" : "Paragraph",
+        "content" : [ {
+          "text" : "Acting on currently focused element:",
+          "type" : "SimpleText"
+        } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "def dir = fs.tempDir('for-untar')\nfs.untar('data/data.tar', dir)",
-        "title" : "untar a file",
-        "surroundedBy" : "// untar",
-        "anchorId" : "un-archive-untar-a-file",
+        "snippet" : "browser.focusedElement().setValue(\"search this\")",
+        "surroundedBy" : "focused-element-send-keys",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1773625118986,
+    "lastModifiedTime" : 1773625118985,
     "tocItem" : {
-      "chapterTitle" : "File System",
-      "pageTitle" : "Archive",
+      "chapterTitle" : "Browser",
+      "pageTitle" : "Element States",
       "pageMeta" : { },
-      "dirName" : "file-system",
-      "fileName" : "archive",
+      "dirName" : "browser",
+      "fileName" : "element-states",
       "fileExtension" : "md",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
-        "title" : "Archive",
-        "id" : "archive"
-      }, {
-        "title" : "Un-archive",
-        "id" : "un-archive"
+        "title" : "Focused Element",
+        "id" : "focused-element"
       } ]
     }
   }

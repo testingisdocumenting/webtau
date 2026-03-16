@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Match Every Value</h1></header>
-<p>Use anyValue matcher to match every expected value. Use it in places of complex data expectations where you need to provide a value but your focus is on different data. Groovy TableData summaryTable = loadFromCsv(&quot;summary.csv&quot;) summaryTable.should == [&quot;ColumnA&quot; | &quot;ColumnB&quot; ] { _________________________ 10| anyValue 30| 40 } . [value] equals ColumnA │ ColumnB 10 │ &lt;any value&gt; 30 │ 40 (1ms) Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java TableData summaryTable = loadFromCsv(&quot;summary.csv&quot;); actual(summaryTable).should(equal(table(&quot;ColumnA&quot;, &quot;ColumnB&quot;, ____________________, 10, anyValue, 30, 40))); . [value] equals ColumnA │ ColumnB 10 │ &lt;any value&gt; 30 │ 40 (1ms) Check matchers/import-and-dependencies Import And Dependencies for prerequisites.</p>
+<p>Use anyValue matcher to match every expected value. Use it in places of complex data expectations where you need to provide a value but your focus is on different data. Groovy TableData summaryTable = loadFromCsv(&quot;summary.csv&quot;) summaryTable.should == [&quot;ColumnA&quot; | &quot;ColumnB&quot; ] { _________________________ 10| anyValue 30| 40 } . [value] equals ColumnA │ ColumnB 10 │ &lt;any value&gt; 30 │ 40 (2ms) Check matchers/import-and-dependencies Import And Dependencies for prerequisites. Java TableData summaryTable = loadFromCsv(&quot;summary.csv&quot;); actual(summaryTable).should(equal(table(&quot;ColumnA&quot;, &quot;ColumnB&quot;, ____________________, 10, anyValue, 30, 40))); . [value] equals ColumnA │ ColumnB 10 │ &lt;any value&gt; 30 │ 40 (2ms) Check matchers/import-and-dependencies Import And Dependencies for prerequisites.</p>
 </article>
 </section>
 </div>
@@ -147,7 +147,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "noGapBorder" : true,
             "type" : "Snippet"
           }, {
-            "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB    ", "                      \u001B[34m10\u001B[33m │ \u001B[33m<\u001B[36many value\u001B[33m>", "                      \u001B[34m30\u001B[33m │          \u001B[34m40\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+            "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB    ", "                      \u001B[34m10\u001B[33m │ \u001B[33m<\u001B[36many value\u001B[33m>", "                      \u001B[34m30\u001B[33m │          \u001B[34m40\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m" ],
             "type" : "CliOutput"
           }, {
             "type" : "Paragraph",
@@ -177,7 +177,7 @@ ReactDOM.render(React.createElement(Documentation, {
             "noGapBorder" : true,
             "type" : "Snippet"
           }, {
-            "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB    ", "                      \u001B[34m10\u001B[33m │ \u001B[33m<\u001B[36many value\u001B[33m>", "                      \u001B[34m30\u001B[33m │          \u001B[34m40\u001B[33m (\u001B[32m1ms\u001B[33m)\u001B[0m" ],
+            "lines" : [ "\u001B[32m. \u001B[0m\u001B[1m[value] \u001B[0m\u001B[0m\u001B[34mequals \u001B[35mColumnA\u001B[33m │ \u001B[35mColumnB    ", "                      \u001B[34m10\u001B[33m │ \u001B[33m<\u001B[36many value\u001B[33m>", "                      \u001B[34m30\u001B[33m │          \u001B[34m40\u001B[33m (\u001B[32m2ms\u001B[33m)\u001B[0m" ],
             "type" : "CliOutput"
           }, {
             "type" : "Paragraph",
@@ -201,7 +201,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Tabs"
       } ]
     } ],
-    "lastModifiedTime" : 1718187079354,
+    "lastModifiedTime" : 1773625118989,
     "tocItem" : {
       "chapterTitle" : "Matchers",
       "pageTitle" : "Any Value",

@@ -95,7 +95,7 @@
 
 <article>
 <header><h1>Lazy Value</h1></header>
-<p>Consider a simple search page. Enter value, hit enter, see results: package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario('search by specific query') { browser.open('/search') $('#search-box').setValue('search this') $('#search-box').sendKeys(&quot;\n&quot;) $('#results .result').count.shouldBe &gt; 1 } In the example $(&quot;#results .result&quot;).count represents the number of elements matching the css selector. Let's extract it. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def searchBox = $(&quot;#search-box&quot;) def numberOfResults = searchBox.count scenario(&quot;search by specific query&quot;) { browser.open(&quot;/search&quot;) searchBox.setValue(&quot;search this&quot;) searchBox.sendKeys(&quot;\n&quot;) numberOfResults.shouldBe &gt; 1 }</p>
+<p>Consider a simple search page. Enter value, hit enter, see results: package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* scenario(&quot;search by specific query&quot;) { browser.open(&quot;/search&quot;) $(&quot;#search-box&quot;).setValue(&quot;search this&quot;) $(&quot;#search-box&quot;).sendKeys(browser.keys.enter) $(&quot;#results .result&quot;).count.shouldBe &gt; 1 } In the example $(&quot;#results .result&quot;).count represents the number of elements matching the css selector. Let's extract it. package scenarios.ui import static org.testingisdocumenting.webtau.WebTauGroovyDsl.* def searchBox = $(&quot;#search-box&quot;) def numberOfResults = $(&quot;#results .result&quot;).count scenario(&quot;search by specific query&quot;) { browser.open(&quot;/search&quot;) searchBox.setValue(&quot;search this&quot;) searchBox.sendKeys(browser.keys.enter) numberOfResults.shouldBe &gt; 1 }</p>
 </article>
 </section>
 </div>
@@ -262,7 +262,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario('search by specific query') {\n    browser.open('/search')\n\n    $('#search-box').setValue('search this')\n    $('#search-box').sendKeys(\"\\n\")\n\n    $('#results .result').count.shouldBe > 1\n}",
+        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\nscenario(\"search by specific query\") {\n    browser.open(\"/search\")\n\n    $(\"#search-box\").setValue(\"search this\")\n    $(\"#search-box\").sendKeys(browser.keys.enter)\n\n    $(\"#results .result\").count.shouldBe > 1\n}",
         "type" : "Snippet"
       }, {
         "type" : "Paragraph",
@@ -283,11 +283,11 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "groovy",
-        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef searchBox = $(\"#search-box\")\ndef numberOfResults = searchBox.count\n\nscenario(\"search by specific query\") {\n    browser.open(\"/search\")\n\n    searchBox.setValue(\"search this\")\n    searchBox.sendKeys(\"\\n\")\n\n    numberOfResults.shouldBe > 1\n}",
+        "snippet" : "package scenarios.ui\n\nimport static org.testingisdocumenting.webtau.WebTauGroovyDsl.*\n\ndef searchBox = $(\"#search-box\")\ndef numberOfResults = $(\"#results .result\").count\n\nscenario(\"search by specific query\") {\n    browser.open(\"/search\")\n\n    searchBox.setValue(\"search this\")\n    searchBox.sendKeys(browser.keys.enter)\n\n    numberOfResults.shouldBe > 1\n}",
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1718187079350,
+    "lastModifiedTime" : 1773625118985,
     "tocItem" : {
       "chapterTitle" : "Browser",
       "pageTitle" : "Page Element And Value",

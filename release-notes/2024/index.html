@@ -84,6 +84,11 @@
     <div></div>
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
+<header><h1>2.5</h1></header>
+<p>Add: browser/element-states browser.focusedElement Add: Handle time.Instant on both sides when using matchers/universal-compare#dates Universal Compare</p>
+</article>
+
+<article>
 <header><h1>2.4</h1></header>
 <p>Fix: matchers/contain-exactly containExactly in HTTP/introduction HTTP correctly marks passed and failed nodes in the output Doc: matchers/introduction#failure-output Matchers Introduction failure example output fix Doc: http HTTP/matchers#contain-exactly containExactly matcher example Doc: file-system/introduction File System is a separate chapter now Doc: matchers/introduction Matchers examples better way to display console output Add: browser/introduction browser .sendKeys to send keys to the window instead of a specific element Add: More details when matchers/contain-exactly containExactly mismatching a single element Add: additional details on failed messages for throwException matcher Add: fullAssertionError to force AssertionError to include the full step information. Convenient when using CI and depend on its reporting. Add: report/steps WebTau steps include exception name to help with cases when no exception message is present Add: Browser support using new headless mode Add: Browser support upgrade Selenium to 4.18 Add: speedup matchers/contain-exactly containExactly by pre-caching compare to handler Add: Reduce unnecessary CompareToComparator results lists creation Add: Optimize matchers/introduction matchers message generation to improve large set of data comparison Add: File Content file-system/file-content#wait-for-content wait to change Add: Browser page element browser/asynchronous-page#wait-to-change wait to change Add: Extra message in case of two empty maps and shouldNot equal Add: matchers/value-change#value-matcher change value matcher</p>
 </article>
@@ -116,6 +121,61 @@ ReactDOM.render(React.createElement(Documentation, {
   "page" : {
     "type" : "Page",
     "content" : [ {
+      "id" : "2-5",
+      "title" : "2.5",
+      "type" : "Section",
+      "content" : [ {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/browser/element-states",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "browser.focusedElement",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      }, {
+        "bulletMarker" : "*",
+        "tight" : true,
+        "type" : "BulletList",
+        "content" : [ {
+          "type" : "ListItem",
+          "content" : [ {
+            "type" : "Paragraph",
+            "content" : [ {
+              "text" : "Add: Handle ",
+              "type" : "SimpleText"
+            }, {
+              "code" : "time.Instant",
+              "type" : "InlinedCode"
+            }, {
+              "text" : " on both sides when using ",
+              "type" : "SimpleText"
+            }, {
+              "url" : "/webtau/matchers/universal-compare#dates",
+              "isFile" : false,
+              "type" : "Link",
+              "content" : [ {
+                "text" : "Universal Compare",
+                "type" : "SimpleText"
+              } ]
+            } ]
+          } ]
+        } ]
+      } ]
+    }, {
       "id" : "2-4",
       "title" : "2.4",
       "type" : "Section",
@@ -572,7 +632,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       } ]
     } ],
-    "lastModifiedTime" : 1718187079366,
+    "lastModifiedTime" : 1773625119002,
     "tocItem" : {
       "chapterTitle" : "Release Notes",
       "pageTitle" : "2024 Releases",
@@ -584,6 +644,9 @@ ReactDOM.render(React.createElement(Documentation, {
       "fileExtension" : "md",
       "viewOnRelativePath" : null,
       "pageSectionIdTitles" : [ {
+        "title" : "2.5",
+        "id" : "2-5"
+      }, {
         "title" : "2.4",
         "id" : "2-4"
       } ]

@@ -85,7 +85,7 @@
 </div><section style="max-width: 640px; margin-left: auto; margin-right: auto;">
 <article>
 <header><h1>Uploading Reports</h1></header>
-<p>WebTau generates report/introduction HTML Reports. To make reports accessible after your build run, use this step: - name: Upload all reports uses: actions/upload-artifact@v2 if: failure() with: name: all-webtau-reports path: &quot;*/**/webtau.report.html&quot; retention-days: 1 To only upload failed reports, configure report/configuration#failed-report-path failed report name and update the step: - name: Upload failed test reports uses: actions/upload-artifact@v2 if: failure() with: name: failed-webtau-reports path: &quot;*/**/*-failed*.html&quot; retention-days: 2</p>
+<p>WebTau generates report/introduction HTML Reports. To make reports accessible after your build run, use this step: - name: Upload all reports uses: actions/upload-artifact@v4 if: failure() with: name: all-webtau-reports path: &quot;*/**/webtau.report.html&quot; retention-days: 1 To only upload failed reports, configure report/configuration#failed-report-path failed report name and update the step: - name: Upload failed test reports uses: actions/upload-artifact@v4 if: failure() with: name: failed-webtau-reports path: &quot;*/**/*-failed*.html&quot; retention-days: 2</p>
 </article>
 </section>
 </div>
@@ -143,7 +143,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "yaml",
-        "snippet" : "- name: Upload all reports\n  uses: actions/upload-artifact@v2\n  if: failure()\n  with:\n    name: all-webtau-reports\n    path: \"*/**/webtau.report.html\"\n    retention-days: 1",
+        "snippet" : "- name: Upload all reports\n  uses: actions/upload-artifact@v4\n  if: failure()\n  with:\n    name: all-webtau-reports\n    path: \"*/**/webtau.report.html\"\n    retention-days: 1",
         "title" : "step to upload all reports",
         "startLine" : "Upload all reports",
         "endLine" : "retention-days",
@@ -169,7 +169,7 @@ ReactDOM.render(React.createElement(Documentation, {
         } ]
       }, {
         "lang" : "yaml",
-        "snippet" : "- name: Upload failed test reports\n  uses: actions/upload-artifact@v2\n  if: failure()\n  with:\n    name: failed-webtau-reports\n    path: \"*/**/*-failed*.html\"\n    retention-days: 2",
+        "snippet" : "- name: Upload failed test reports\n  uses: actions/upload-artifact@v4\n  if: failure()\n  with:\n    name: failed-webtau-reports\n    path: \"*/**/*-failed*.html\"\n    retention-days: 2",
         "title" : "step to upload only failed test reports",
         "startLine" : "Upload failed test reports",
         "endLine" : "retention-days",
@@ -177,7 +177,7 @@ ReactDOM.render(React.createElement(Documentation, {
         "type" : "Snippet"
       } ]
     } ],
-    "lastModifiedTime" : 1718187079354,
+    "lastModifiedTime" : 1773625118986,
     "tocItem" : {
       "chapterTitle" : "Continuous Integration",
       "pageTitle" : "GitHub",
